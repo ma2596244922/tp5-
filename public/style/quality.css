@@ -1,0 +1,29 @@
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+
+
+
+.r_pro .qc{ width: 687px; overflow: hidden;  text-align: left; margin: 0 auto;margin-top: 10px; }
+.r_pro .qc strong{ width: 687px; text-indent: 10px; font-size: 13px;font-family:"Trebuchet MS", Helvetica, Arial, sans-serif; display: block; height: 25px; line-height: 25px; background: #dddddd;}
+.r_pro .qc .con{ width: 685px; border: #dddddd solid 1px;  line-height: 16px; *width: 687px; padding-bottom: 10px;}
+.r_pro .qc .con b{ display: block; margin-top: 10px; text-align: left;}
+.r_pro .qc .con span { padding:0 10px ; display: block}
+.r_pro .qc .con span div{width: 180px; height: 200px; float: right; display: inline; margin:10px; text-align: center}
+
+.r_pro .ctf{ width: 687px; text-align: left;  margin:  0 auto;margin-top: 8px; }
+.r_pro .ctf strong{ width: 687px; text-indent: 10px;font-family:"Trebuchet MS", Helvetica, Arial, sans-serif; font-size: 13px; display: block; height: 25px; line-height: 25px; background: #dddddd;}
+.ctf div{ width: 330px; text-align: left;line-height: 22px; margin-top: 15px;}
+.ctf div img{ float: left; display: inline; border: #dcdcdc solid 1px; margin-right: 10px;}
+.ctf div b{ margin-right: 10px; }
+
+.r_pro .vm{width: 687px;  text-align: left; margin: 0 auto;margin-top: 10px;}
+.r_pro .vm a { margin-right: 10px;}
+
+
+
+
+
+
+

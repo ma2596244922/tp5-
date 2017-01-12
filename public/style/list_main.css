@@ -1,0 +1,19 @@
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+
+.r_pro .sog .sear{ float:right; display:inline; margin-right:5px; width:380px; margin-top:4px;}
+.r_pro .sog .sear .te{ float:left; display:inline;width:285px; height:21px; border:#AEAEAE solid 1px;}
+.r_pro .sog .sear a{float:left; display:inline;width:86px; height:21px; background:url(../images/index_53.gif) no-repeat; line-height:21px; margin-left:4px; text-align:center; font-weight:bold;}
+
+.r_pro .content{ float: left; font-size: 12px; display: inline; width: 707px; text-align: left; height: 35px;  padding:5px 10px 5px 12px; line-height: 16px; color: #000;  margin-top: 1px; }
+.r_pro dl{  width: 154px;height: 152px;overflow: hidden; margin: 8px 3px 0 15px;float: left; display: inline;}
+.r_pro dl dd{ width: 140px;height: 100px; float: left; display: inline; margin-left: 6px; margin-top: 6px;  }
+.r_pro dl dt{ width: 140px; height: 45px; margin-top: 4px; text-align: left; line-height: 16px;; float: left; display: inline;margin-left: 4px; }
+.r_pro dl dt h2{ font-family:"Trebuchet MS", Helvetica, Arial, sans-serif;font-size: 13px;}
+
+
+.r_pro dl dd{  width: 140px;height: 100px; padding:2px; border:#dcdcdc solid 1px; text-align: center;}
+.r_pro dl dd a{ width:140px; height:100px; display:table-cell;vertical-align:middle;text-align:center;*font-size:94px;*display:block}
+.r_pro dl dd img{vertical-align:middle;}

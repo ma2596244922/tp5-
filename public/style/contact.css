@@ -1,0 +1,13 @@
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+
+.r_pro .con{ width: 687px; overflow: hidden;  text-align: left; margin: 0 auto;margin-top: 10px; line-height: 17px; margin-top: 10px; border-bottom: #dcdcdc solid 1px; padding-bottom: 10px; }
+.r_pro .con strong{ font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 11px; }
+.r_pro .con_list{ color: #333; float: left; display: inline; margin-left: 20px; width: 677px; overflow: hidden;  text-align: left; margin: 0 auto;margin-left: 18px; line-height: 17px; margin-top: 10px;  padding-bottom: 2px; }
+.r_pro .con_list p{padding-left: 10px;}
+.r_pro .con_list strong{padding-left: 10px;background:url(../images/bg_not.gif) no-repeat -494px -125px;font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 11px; line-height: 17px; }
+
+
+

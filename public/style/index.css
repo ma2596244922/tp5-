@@ -1,0 +1,50 @@
+.r_flash{ width: 700px; height: 306px; margin: 0 auto;margin-bottom: 4px;margin-top: 4px;  position: relative; }
+.r_f_i{ width:454px; height: 298px; position: absolute; overflow: hidden; left:7px; top:5px; z-index: 1; }
+/*.r_f_i img{ position: absolute; left:0px; top:0; z-index: 3; }*/
+
+.r_f_i div{position: absolute;  left:0px; top:254px; text-align: center; z-index: 4;  width: 454px; height: 65px; background: #000;  opacity:0.6; filter:alpha(opacity=60);}
+.r_f_i div b,.r_f_i div span{ color: #fff;opacity:1; display: block; width: 90%;}
+.r_f_i div b{ font-size: 14px; height: 25px; line-height: 25px; font-family: Arial,Verdana,sans-serif !important; }
+.r_f_i div span{ height: 40px; overflow: hidden;}
+
+
+.r_f_l{ width: 263px; height:296px; position: absolute;right:6px; top:5px; z-index: 2;  background: url(../images/bg_nav_edito.gif) no-repeat right top;}
+.r_f_l li{  overflow: hidden;  height:58px;   width:233px;  float: right; display: inline; z-index:20;clear:both; margin:0px; padding-top:1px; text-align:left; border:1px solid #B8B8B8; border-top: 0;}
+.r_f_l li a{float: left;width:140px; display: inline;text-align:right; overflow: hidden; font-weight: bold;  height:47px; margin-left: 5px; margin-top: 5px;}
+.r_f_l li img{ float: right; display: inline; margin:5px; border: #CDCDCD solid 1px; width: 70px; height: 45px;}
+.r_f_l li.cur{ display:block; width:262px; color: #fff;border: 0;border-right:1px solid #B8B8B8; padding:0; background: url(../images/bg_nav_edito_sel2.png) no-repeat right top;}
+.r_f_l li.cur a{ border:0;float: left;width:140px; display: inline; text-align:right; overflow: hidden; height:47px; margin-left: 35px; margin-top: 5px; }
+.r_f_l li.cur img{ float: right; display: inline; margin:5px; border: #fff solid 1px; width: 70px; height: 45px;}
+
+
+.r_pro{ width: 707px;  padding-bottom: 10px; border-top:#dcdcdc solid 2px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+.r_pro .sog .sear{ float:right; display:inline; width:380px; margin-top:4px;}
+.r_pro .sog .sear .te{ float:left;width:283px; height:20px; border:#AEAEAE solid 1px; background:url(../images/bg_not.gif) no-repeat 0 -174px;}
+
+.r_pro dl{ width: 148px; height: 187px; overflow: hidden; margin: 8px 6px 0 18px;float: left; display: inline;}
+.r_pro dl dd{ width: 148px;height: 100px; text-align: left; overflow: hidden; }
+.r_pro dl dd{ width: 148px;height: 108px; border:#dcdcdc solid 1px; text-align: center; float: left; display: inline;}
+.r_pro dl dd img{ margin-top: 3px;}
+.r_pro dl dt{ width: 148px; height: 80px; overflow: hidden; margin-top: 4px; text-align: left; color: #666; line-height: 15px;}
+.r_pro dl dt h2{ height:33px; overflow: hidden;font-family:"Trebuchet MS", Helvetica, Arial, sans-serif;font-size: 13px; }
+.r_pro dl dt a.pho{ background: url(../images/bg_not.gif) no-repeat -491px -370px; padding-left: 14px;}
+
+.r_com{ width: 707px; border-top:#DBDBDB solid 3px; height: 216px;}
+.r_com .flpho{ width: 249px; height: 163px; border: #E5E5E5 solid 3px; float: left; display: inline; margin-left: 15px; margin-top: 13px;}
+.r_com strong{ float: left; display: inline; margin-top:11px;font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 12px; width: 414px; height: 20px; line-height: 20px; overflow: hidden; text-align: left;margin-left: 10px;}
+.r_com .con{width: 414px; height: 83px; text-align: left; line-height: 17px; overflow: hidden; color: #444; margin-left: 10px; float: left; display: inline; }
+.r_com .con a{ background: url(../images/po.gif) no-repeat left center; padding-left: 10px; }
+.r_com .but{height:24px; font-size:13px;  float:left; display:inline; margin: 10px;line-height:24px; text-align:center;}
+.r_com .qu{ float: left; display: inline; width: 414px;text-align: left;  }
+.r_com .qu a{ background: url(../images/po.gif) no-repeat left center; padding-left:10px; margin-right: 15px; margin-left: 10px;}
+
+
+.r_flash .r_f_i a{ width:454px; height:298px; display:table-cell;vertical-align:middle;text-align:center;*font-size:94px;*display:block}
+.r_flash .r_f_i img{vertical-align:middle;}
+
+.r_pro dl dd{  width: 140px;height: 100px; padding:2px; border:#dcdcdc solid 1px; text-align: center;}
+.r_pro dl dd a{ width:140px; height: 100px; display:table-cell;vertical-align:middle;text-align:center;*font-size:94px;*display:block}
+.r_pro dl dd img{vertical-align:middle;}

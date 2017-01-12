@@ -1,0 +1,27 @@
+input,select,textarea{ font-size: 12px; font-family: Arial, Helvetica, sans-serif;}
+
+.r_flash{ width: 699px; height: 300px; margin: 0 auto; margin-top: 4px;}
+.r_pro{ width: 707px; padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; display: block; line-height: 30px; text-align: left; overflow: hidden;background: url(../images/index_06.gif) repeat-x;}
+.r_pro .sog strong{font-family:Verdana, Arial, Helvetica, sans-serif; margin-left: 5px; padding-left: 12px; background: url(../images/index_08.gif) no-repeat left center;font-size: 13px; float:left; display:inline;}
+.r_pro .sog strong b{ font-size: 10px; color: #666;}
+
+
+.r_pro .to{ width: 687px; overflow: hidden;  text-align: left; margin: 0 auto;margin-top: 10px; }
+.inquiry-table th {text-align:right;padding:5px 8px;vertical-align:top;font-weight:bold; font-weight: bold;line-height: 18px; font-size: 12px;}
+.inquiry-table td {padding:5px 6px;text-align:left; font-size: 12px; line-height: 18px; }
+.inquiry-table td b{ font-weight: bold; color: #800000; margin-right: 5px;}
+.required{ background: url(../images/ff.gif) no-repeat left 5px; padding-left: 8px; font-size: 11px;}
+.r_pro strong{ font-size: 13px;}
+input.hint,textarea.hint{color:#333; margin-right: 5px;}
+.count{display:inline;float:right;height:16px;line-height:16px;font-size:.85em; color:#aaa; zfont-family:verdana; margin-bottom:0px;}
+.count span{color:red;}
+.count strong,.count font{ font-size:10px;}
+.inquiry-table fieldset{ font-size:12px; border:#99AABD solid 1px;}
+.inquiry-table  legend{ color:black; font-size:12px; font-weight:bold; padding:0 5px;}
+.inquiry-table fieldset p.new{ margin:10px 0 0 60px;}
+
+.inquiry-table .but{ text-align:center;  }
+
+
+

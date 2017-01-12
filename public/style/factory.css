@@ -1,0 +1,24 @@
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+
+.isho{ width:687px; margin:0 auto; overflow:hidden; margin-top:18px;}
+.isho .but{ height:30px; display:block; text-align:left;  line-height:30px; background:url(../images/index_92.gif) repeat-x left bottom;}
+.isho .but span{ background:url(../images/index_90.gif) left top; float: left ;display: inline;height:30px; margin-right: 5px; text-align:center;font-weight:bold;}
+.isho .but span a{ background:url(../images/index_90.gif) right top; padding: 0 10px;margin-left:3px;float: left ;display: inline; }
+.isho .but span.cur { background:url(../images/index_91.gif) left top;float: left ;display: inline;height:30px; text-align:center;}
+.isho .but span.cur a{ background:url(../images/index_91.gif) right top; padding: 0 10px;margin-left:3px;float: left ;display: inline;}
+.isho .confac {width:685px; border:#dddddd solid 1px; text-align:left; line-height:16px; border-top:none; padding:5px 0px; *width:687px;}
+
+.isho .confac .le{ width:420px; height:290px; margin-left:8px; margin-top:10px; overflow:hidden;}
+.isho .confac .le div.pg{width:410px;  display:block; line-height:22px; text-align:left; font-size:12px; }
+.isho .confac .le div.pg font{ color:red}
+.isho .confac .ri{ width:250px; line-height:18px; margin-right: 5px; margin-top: 5px; }
+.isho .confac .ri strong{ display:block; font-family:Verdana, Arial, Helvetica, sans-serif;  font-size:11px;  font-weight:bold;}
+.isho .confac .ri font{ font-size: 11px; color: #aaa;}
+
+.r_pro dl{ width:687px; margin:0 auto; overflow:hidden; margin-top:8px; text-align:left;}
+.r_pro dl dt span{ font-family:Verdana, Arial, Helvetica, sans-serif;  font-size:11px; display:block; font-weight:bold; }
+.r_pro dl dt{ border-bottom:#dcdcdc dotted 1px; margin-bottom:10px; line-height:18px; padding-bottom:10px;}
+

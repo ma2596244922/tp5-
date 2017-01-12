@@ -1,0 +1,47 @@
+.r_flash{ width: 700px; height: 306px; margin: 0 auto;margin-bottom: 4px;margin-top: 4px;  position: relative; }
+.r_f_i{ width:454px; height: 298px; position: absolute; overflow: hidden; left:7px; top:5px; z-index: 1; }
+
+.r_f_i div{position: absolute;  left:0px; top:254px; text-align: center; z-index: 4;  width: 454px; height: 65px; background: #000;  opacity:0.6; filter:alpha(opacity=60);}
+.r_f_i div b,.r_f_i div span{ color: #fff;opacity:1; display: block; width: 90%;}
+.r_f_i div b{ font-size: 14px; height: 25px; line-height: 25px; font-family: Arial,Verdana,sans-serif !important; }
+.r_f_i div span{ height: 40px; overflow: hidden;}
+
+
+.r_f_l{ width: 263px; height:296px; position: absolute;right:6px; top:5px; z-index: 2;  background: url(../images/bg_nav_edito.gif) no-repeat right top;}
+.r_f_l li{ display:block; overflow: hidden; width:233px;*width:234px;  float: right; display: inline; z-index:20; height:58px; *height:59px; clear:both; margin:0px; padding-top:1px; text-align:left; border:1px solid #B8B8B8; border-top: 0;}
+.r_f_l li a{float: left;width:140px; display: inline;text-align:right; overflow: hidden; font-weight: bold;  height:47px; margin-left: 5px; margin-top: 5px;}
+.r_f_l li img{ float: right; display: inline; margin:5px; border: #CDCDCD solid 1px; width: 70px; height: 45px;}
+.r_f_l li.cur{ display:block; width:262px; color: #fff;border: 0;border-right:1px solid #B8B8B8; padding:0; background: url(../images/bg_nav_edito_sel2.png) no-repeat right top;*background: url(../images/bg_nav_edito_sel2.gif) no-repeat right top;}
+.r_f_l li.cur a{ border:0;float: left;width:140px; display: inline; text-align:right; overflow: hidden; height:47px; margin-left: 35px; margin-top: 5px; }
+.r_f_l li.cur img{ float: right; display: inline; margin:5px; border: #fff solid 1px; width: 70px; height: 45px;}
+
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+.r_pro .sog strong b{ font-size: 10px; color: #666;}
+.r_pro .sog .sear{ float:right; display:inline; width:380px; margin-top:4px;}
+.r_pro .sog .sear .te{ float:left; display:inline;width:283px; height:21px; border:#AEAEAE solid 1px;background:url(../images/bg_not.gif) no-repeat 0 -174px;}
+.r_pro .sog .sear a{float:left; display:inline;width:86px; height:21px; background:url(../images/index_53.gif) no-repeat; line-height:21px; margin-left:4px; text-align:center; font-weight:bold;}
+
+.r_pro .content{ float: left; font-size: 11px; display: inline;  width: 707px; text-align: left; height: 35px;  padding:5px 10px 5px 10px; line-height: 16px; color: #444; background: #F6F7F7; margin-top: 1px; }
+.r_pro .pro{ width: 685px; height: 130px; overflow: hidden;float: left; display: inline; margin-top: 10px; border-bottom:#dcdcdc dotted 1px; margin-left: 10px;}
+.pro div.pho{ width: 148px;height: 108px; border:#dcdcdc solid 1px; text-align: center; float: left; display: inline;}
+.pro div.pho img{ margin-top: 3px;}
+.r_pro span{ color: #999; margin-left: 10px;line-height: 20px; }
+.pro h2{ font-family:"Trebuchet MS", Helvetica, Arial, sans-serif;font-size: 13px;  float: left; display: inline; height: 20px; line-height: 20px;  margin-left: 10px; text-align: left;}
+.pro div.sub {  float:right; display:inline; }
+
+.pro div.con{width: 525px; height: 63px; margin-top: 4px; text-align: left; line-height: 17px; float: left; display: inline; color: #666; margin-left: 10px;}
+.pro div.con a{ background: url(../images/po.gif) no-repeat left center; padding-left: 10px;}
+
+.r_flash .r_f_i a{width:454px; height:298px; display:table-cell;vertical-align:middle;text-align:center;*font-size:94px;*display:block}
+.r_flash .r_f_i img{vertical-align:middle;}
+
+
+.pro div.pho{ width: 140px; background:#fff; height: 100px; padding:2px; border:#dcdcdc solid 1px; text-align: center; float: left; display: inline;}
+.pro div.pho a{ width:140px; height:100px; display:table-cell;vertical-align:middle;text-align:center;*font-size:94px;*display:block}
+.pro div.pho img{vertical-align:middle;} 
+
+
+

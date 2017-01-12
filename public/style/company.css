@@ -1,0 +1,43 @@
+.r_pro{ width: 707px;  padding-bottom: 10px; overflow: hidden;}
+.r_pro .sog{ height: 30px; width: 707px; margin-top:5px; background: url(../images/bg_x.gif) repeat-x 0 -93px; display: block; font-size:13px; color:#555; line-height: 30px; padding-left:5px; text-align: left; overflow: hidden;}
+.r_pro .sog strong{margin-left: 5px; padding-left: 12px; background:url(../images/bg_not.gif) no-repeat -494px -273px; float:left; display:inline;}
+
+
+
+.r_pro .photo{  width:687px; overflow:hidden; margin:0 auto;  margin-top:16px;}
+.photo .le{ width:429px; float:left ;display:inline;background:#f1f1f1;  }
+.photo .le dd p{  width:400px; height:30px; overflow:hidden; display:block; font-size: 11px; text-align:left; background:url(../images/bg_not.gif) no-repeat -491px -472px; text-indent:10px; margin:0 auto; margin-bottom:9px;}
+.photo .le dd p b{ font-size:13px; display:block;}
+.photo .le dd img {  margin-top:10px; }
+.photo .le dt{ height: 70px;  text-align:  center;}
+.photo .le dt .pro{ height: 61px; width:400px; background:url(../images/bg_x.gif) repeat-x 0 -157px; }
+.photo .le dt .pro p a{ float:left; display:inline;  margin-top:8px; margin-left:10px; border:#999999 solid 1px;}
+.photo .le dt .pro p img{ width:55px; height:39px;}
+.photo .le dt .pro p a.cur{border:none; border:#82ACD5 solid 2px;}
+.photo .le dt .pro .leb,.photo .le dt .pro .rib{ width:21px;height: 61px;background:url(../images/bg_x.gif) repeat-x 0  -218px}
+.photo .le dt .pro .leb img,.photo .le dt .pro .rib img{margin-top:25px;}
+.leb a,.rib a{margin:25px auto 0 auto;width:7px;height:11px;display:block;background:url(../images/bg_not.gif) no-repeat;}
+.leb a{background-position:0 -233px;}
+.rib a{background-position:-7px -233px;}
+
+
+
+
+
+
+.photo .ri{width:234px;overflow:hidden; float:left ;display:inline;margin-left:10px; height:378px; border:#dcdcdc solid 1px; padding:0 5px; }
+.photo .ri h3{font:bold 12px arial;padding-left:4px;color:#686868; text-align: left; display: block; height: 25px; line-height: 25px;}
+.photo .ri .tables th{ width:90px; padding:4px;font:normal 11px/1em arial!important;border-bottom:dotted 1px #afafaf!important; text-align: left;}
+.photo .ri .tables td{padding:4px;font:bold 11px/1em arial!important;border-bottom:dotted 1px #afafaf!important;/*word-break:break-all;*/}
+
+.isho{ width:687px; margin:0 auto; overflow:hidden; margin-top:18px;}
+.isho .but{ height:30px; display:block; text-align:left;  line-height:30px; background:url(../images/bg_x.gif) repeat-x left -123px;}
+.isho .but span{ background:url(../images/bg_not.gif) no-repeat -251px -405px; float: left ;display: inline;height:30px; margin-right: 5px; text-align:center;font-weight:bold;}
+.isho .but span a{ background:url(../images/bg_not.gif) no-repeat right -405px; padding: 0 10px;margin-left:3px;float: left ;display: inline; }
+.isho .but span.cur { background:url(../images/bg_not.gif) no-repeat -251px -435px;float: left ;display: inline;height:30px; text-align:center;}
+.isho .but span.cur a{ background:url(../images/bg_not.gif) no-repeat right -435px; padding: 0 10px;margin-left:3px;float: left ;display: inline;}
+.isho .con {width:685px; border:#dddddd solid 1px; text-align:left; line-height:16px; border-top:none; padding:5px 0px; }
+
+
+
+
