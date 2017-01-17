@@ -8,6 +8,11 @@
 require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
 
+function enterprise_generate_guid()
+{
+    return md5(uniqid(mt_rand(), true), true);
+}
+
 // TODO:
 $siteId = 1;
 $originalDomainSuffix = 'snackmakingmachine.com';
@@ -49,6 +54,29 @@ foreach ($daos as $dao) {
         echo $image['content'];
         exit(0);
     }
+}
+
+// 其次匹配特殊页面
+if ($requestPath == '/contactsave.html') {
+    // Upload filess
+    $attachmentDAO = new \enterprise\daos\Attachment();
+    foreach ($_FILES as $meta) {
+        if ($meta['error'])
+            continue;
+        $body = file_get_contents($meta['tmp_name']);
+        $contentType = $meta['type'];
+        $guid = enterprise_generate_guid();
+        $values = array(
+                'guid' => $guid,
+                'body' => $body,
+                'content_type' => $contentType,
+                'created' => date('Y-m-d H:i:s'),
+            );
+        $id = $attachmentDAO->insert($values);
+    }
+    var_dump($_POST);
+    var_dump($_FILES);
+    exit(0);
 }
 
 http_response_code(404);
