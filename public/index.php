@@ -5,12 +5,45 @@
  * @package timandes\enterprise
  */
 
+// default timezone
+date_default_timezone_set("Asia/Shanghai");
+
 require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
 
 function enterprise_generate_guid()
 {
     return md5(uniqid(mt_rand(), true), true);
+}
+
+/**
+ * 过滤参数值
+ *
+ * @param mixed $mValue 参数值
+ * @param string $sFilters 过滤函数清单
+ * @return mixed
+ */
+function enterprise_filter($mValue, $sFilters = 'trim, strip_tags')
+{
+    if (!is_string($mValue))
+        return $mValue; // skip non-string
+
+    // 使用过滤函数
+    if(!empty($sFilters)) {
+        $aFilters = explode(',', $sFilters);
+        if(is_array($aFilters)) foreach($aFilters as $f) {
+            $f = trim($f);
+            eval("\$mValue = {$f}(\$mValue);");
+        }
+    }
+
+    return $mValue;
+}
+
+function enterprise_get_post_data($key, $filters = 'trim, strip_tags')
+{
+    $v = (isset($_POST[$key])?$_POST[$key]:'');
+    return enterprise_filter($v, $filters);
 }
 
 // TODO:
@@ -57,9 +90,14 @@ foreach ($daos as $dao) {
 }
 
 // 其次匹配特殊页面
+$smarty = new Smarty();
+$smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
+$smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
+
 if ($requestPath == '/contactsave.html') {
     // Upload filess
     $attachmentDAO = new \enterprise\daos\Attachment();
+    $attachments = array();
     foreach ($_FILES as $meta) {
         if ($meta['error'])
             continue;
@@ -73,9 +111,38 @@ if ($requestPath == '/contactsave.html') {
                 'created' => date('Y-m-d H:i:s'),
             );
         $id = $attachmentDAO->insert($values);
+        $attachments[] = bin2hex($guid);
     }
-    var_dump($_POST);
-    var_dump($_FILES);
+    // Create inquiry
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $guid = enterprise_generate_guid();
+    $values = array(
+            'guid' => $guid,
+            'subject' => enterprise_get_post_data('subject'),
+            'message' => enterprise_get_post_data('message', 'trim'),
+            'courtesy_title' => enterprise_get_post_data('gender'),
+            'company' => enterprise_get_post_data('company'),
+            'tel' => enterprise_get_post_data('tel'),
+            'fax' => enterprise_get_post_data('fax'),
+            'website' => enterprise_get_post_data('senderwebsite'),
+            'country' => enterprise_get_post_data('country'),
+            'contact' => enterprise_get_post_data('name'),
+            'email' => enterprise_get_post_data('email'),
+            'price_n_terms' => enterprise_get_post_data('incoterm'),
+            'payment' => enterprise_get_post_data('payment'),
+            'initial_order' => enterprise_get_post_data('order'),
+            'sample_terms' => enterprise_get_post_data('sample'),
+            'request_specifications' => enterprise_get_post_data('othersc'),
+            'request_company_description' => enterprise_get_post_data('othercd'),
+            'request_deliver_time' => enterprise_get_post_data('otherscdt'),
+            'contact_within_24h' => enterprise_get_post_data('iscontact'),
+            'email_me_updates' => enterprise_get_post_data('newsletter'),
+            'site_id' => $siteId,
+            'attachments' => $attachments,
+            'created' => date('Y-m-d H:i:s'),
+        );
+    $inquiryDAO->insert($values);
+    $smarty->display('inquiry_sent.tpl');
     exit(0);
 }
 
