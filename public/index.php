@@ -58,6 +58,16 @@ $requestURL = 'http://' . $fakeRequestHost . $requestRelativeURI;
 $requestPath = parse_url($requestURL, PHP_URL_PATH);
 $urlSum = md5($requestURL, true);
 $pathSum = md5($requestPath, true);
+// + 无法收集且毫无用处的URL
+$pageBlackList = array(
+        '/stats.js' => 'application/x-javascript',
+        '/images/loadingAnimation.gif' => 'image/gif',
+    );
+if (isset($pageBlackList[$requestPath])) {
+    $contentType = $pageBlackList[$requestPath];
+    header('Content-Type: ' . $contentType);
+    exit(0);
+}
 // + Page
 $pageDAO = new \crawler\daos\Page();
 $page = $pageDAO->getByUrlSum($urlSum);
@@ -67,7 +77,10 @@ if ($page) {
         exit(1);
     }
 
-    echo str_replace($originalDomainSuffix, $currentDomainSuffix, $page['content']);
+    $content = $page['content'];
+    $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
+    $content = str_replace($originalDomainSuffix, $currentDomainSuffix, $content);
+    echo $content;
     exit(0);
 }
 // + Image N Resource
