@@ -51,6 +51,39 @@ $siteId = 1;
 $originalDomainSuffix = 'snackmakingmachine.com';
 $currentDomainSuffix = 'snackmakingmachineoff.com';
 
+// 根据当前请求的域名，找出对应的站点替换规则
+$domainInfo = array(
+        'snackmakingmachineoff.com' => 1,
+        'snackmakingmachinetest.com' => 1,
+        'snackmakingmachine.com' => 1,
+        'beauty-equipments.com' => 2,
+        'popost.com' => 2,
+        'laser-liposuction-equipment.com' => 2,
+        'best-laser.com' => 3,
+    );
+$siteInfo = array(
+        1 => 'snackmakingmachine.com',
+        2 => 'beauty-equipments.com',
+        3 => 'best-laser.com',
+    );
+$a = explode('.', $_SERVER['HTTP_HOST']);
+$n = count($a);
+if ($n < 2) {
+    http_response_code(403);
+    exit(1);
+}
+$currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
+if (!isset($domainInfo[$currentDomainSuffix])) {
+    http_response_code(404);
+    exit(1);
+}
+$siteId = $domainInfo[$currentDomainSuffix];
+if (!isset($siteInfo[$siteId])) {
+    http_response_code(404);
+    exit(1);
+}
+$originalDomainSuffix = $siteInfo[$siteId];
+
 // 优先使用本地存储的页面、图片和资源等
 $requestRelativeURI = $_SERVER['REQUEST_URI'];
 $fakeRequestHost = str_replace($currentDomainSuffix, $originalDomainSuffix, $_SERVER['HTTP_HOST']);
