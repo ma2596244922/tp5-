@@ -10,6 +10,7 @@ date_default_timezone_set("Asia/Shanghai");
 
 require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
+require_once realpath(__DIR__ . '/../') . '/enterprise.h.php';
 
 function enterprise_generate_guid()
 {
@@ -68,11 +69,12 @@ $siteInfo = array(
     );
 $a = explode('.', $_SERVER['HTTP_HOST']);
 $n = count($a);
-if ($n < 2) {
+if ($n < 3) {
     http_response_code(403);
     exit(1);
 }
 $currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
+$locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
 if (!isset($domainInfo[$currentDomainSuffix])) {
     http_response_code(404);
     exit(1);
@@ -100,6 +102,14 @@ if (isset($pageBlackList[$requestPath])) {
     $contentType = $pageBlackList[$requestPath];
     header('Content-Type: ' . $contentType);
     exit(0);
+}
+// + Custom actions
+if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
+    $sitemapLocale = $matches[1];
+    if ($sitemapLocale == 'index')
+        enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
+    else
+        enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
 }
 // + Page
 $pageDAO = new \crawler\daos\Page();
