@@ -47,6 +47,22 @@ function enterprise_get_post_data($key, $filters = 'trim, strip_tags')
     return enterprise_filter($v, $filters);
 }
 
+function enterprise_print_cnzz($meta)
+{
+    if (!isset($meta['id'])
+            || !$meta['id'])
+        return;
+
+    $paramShow = '';
+    if (isset($meta['pic'])
+            && $meta['pic'])
+        $paramShow = '%26show%3Dpic' . $meta['pic'];
+
+    echo <<<EOT
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_{$meta['id']}'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D{$meta['id']}{$paramShow}' type='text/javascript'%3E%3C/script%3E"));</script>
+EOT;
+}
+
 // TODO:
 $siteId = 1;
 $originalDomainSuffix = 'snackmakingmachine.com';
@@ -54,18 +70,45 @@ $currentDomainSuffix = 'snackmakingmachineoff.com';
 
 // 根据当前请求的域名，找出对应的站点替换规则
 $domainInfo = array(
-        'snackmakingmachineoff.com' => 1,
-        'snackmakingmachinetest.com' => 1,
-        'snackmakingmachine.com' => 1,
-        'beauty-equipments.com' => 2,
-        'popost.com' => 2,
-        'laser-liposuction-equipment.com' => 2,
-        'best-laser.com' => 3,
+        'snackmakingmachineoff.com' => array(
+                'site_id' => 1,
+            ),
+        'snackmakingmachinetest.com' => array(
+                'site_id' => 1,
+            ),
+        'snackmakingmachine.com' => array(
+                'site_id' => 1,
+            ),
+        'beauty-equipments.com' => array(
+                'site_id' => 2,
+            ),
+        'popost.com' => array(
+                'site_id' => 2,
+                'cnzz' => array(
+                        'id' => '1261169289',
+                    ),
+            ),
+        'laser-liposuction-equipment.com' => array(
+                'site_id' => 2,
+                'cnzz' => array(
+                        'id' => '1261171124',
+                        'pic' => 1,
+                    ),
+            ),
+        'best-laser.com' => array(
+                'site_id' => 3,
+            ),
     );
 $siteInfo = array(
-        1 => 'snackmakingmachine.com',
-        2 => 'beauty-equipments.com',
-        3 => 'best-laser.com',
+        1 => array(
+                'original_domain_prefix' => 'snackmakingmachine.com',
+            ),
+        2 => array(
+                'original_domain_prefix' => 'beauty-equipments.com',
+            ),
+        3 => array(
+                'original_domain_prefix' => 'best-laser.com',
+            ),
     );
 $a = explode('.', $_SERVER['HTTP_HOST']);
 $n = count($a);
@@ -75,16 +118,18 @@ if ($n < 3) {
 }
 $currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
 $locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
-if (!isset($domainInfo[$currentDomainSuffix])) {
+if (!isset($domainInfo[$currentDomainSuffix])
+        || !is_array($domainInfo[$currentDomainSuffix])) {
     http_response_code(404);
     exit(1);
 }
-$siteId = $domainInfo[$currentDomainSuffix];
-if (!isset($siteInfo[$siteId])) {
+$siteId = $domainInfo[$currentDomainSuffix]['site_id'];
+if (!isset($siteInfo[$siteId])
+        || !is_array($siteInfo[$siteId])) {
     http_response_code(404);
     exit(1);
 }
-$originalDomainSuffix = $siteInfo[$siteId];
+$originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
 
 // 优先使用本地存储的页面、图片和资源等
 $requestRelativeURI = $_SERVER['REQUEST_URI'];
@@ -124,6 +169,11 @@ if ($page) {
     $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
     $content = str_replace($originalDomainSuffix, $currentDomainSuffix, $content);
     echo $content;
+
+    // CNZZ
+    if (isset($domainInfo[$currentDomainSuffix]['cnzz'])
+            && is_array($domainInfo[$currentDomainSuffix]['cnzz']))
+        enterprise_print_cnzz($domainInfo[$currentDomainSuffix]['cnzz']);
     exit(0);
 }
 // + Image N Resource
