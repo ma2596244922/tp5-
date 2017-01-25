@@ -67,6 +67,10 @@ EOT;
 $domainInfo = array(
         'snackmakingmachineoff.com' => array(
                 'site_id' => 1,
+                'custom_pages' => array(
+                        '/foo' => 'bar',
+                        '/google7ffec184690a1389.html' => 'google-site-verification: google7ffec184690a1389.html',
+                    ),
             ),
         'snackmakingmachinetest.com' => array(
                 'site_id' => 1,
@@ -82,6 +86,9 @@ $domainInfo = array(
                 'cnzz' => array(
                         'id' => '1261169289',
                     ),
+                'custom_pages' => array(
+                        '/google7ffec184690a1389.html' => 'google-site-verification: google7ffec184690a1389.html',
+                    ),
             ),
         'laser-liposuction-equipment.com' => array(
                 'site_id' => 2,
@@ -93,6 +100,9 @@ $domainInfo = array(
         'best-laser.com' => array(
                 'site_id' => 3,
             ),
+        'elightipllaser.com' => array(
+                'site_id' => 4,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -103,6 +113,9 @@ $siteInfo = array(
             ),
         3 => array(
                 'original_domain_prefix' => 'best-laser.com',
+            ),
+        4 => array(
+                'original_domain_prefix' => 'elightipllaser.com',
             ),
     );
 $a = explode('.', $_SERVER['HTTP_HOST']);
@@ -144,12 +157,24 @@ if (isset($pageBlackList[$requestPath])) {
     exit(0);
 }
 // + Custom actions
+// ++ Sitemap
 if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     $sitemapLocale = $matches[1];
     if ($sitemapLocale == 'index')
         enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
+}
+// ++ Custom pages
+if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])
+        && is_array($domainInfo[$currentDomainSuffix]['custom_pages'])
+        && $domainInfo[$currentDomainSuffix]['custom_pages']) {
+    foreach ($domainInfo[$currentDomainSuffix]['custom_pages'] as $p => $c) {
+        if ($p == $requestPath) {
+            echo $c;
+            exit(0);
+        }
+    }
 }
 // + Page
 $pageDAO = new \crawler\daos\Page();
