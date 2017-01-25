@@ -163,6 +163,7 @@ if ($page) {
     $content = $page['content'];
     $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
     $content = str_replace($originalDomainSuffix, $currentDomainSuffix, $content);
+    $content = str_replace('//www.google-analytics.com/analytics.js', '', $content);
     echo $content;
 
     // CNZZ
