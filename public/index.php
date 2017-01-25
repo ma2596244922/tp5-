@@ -63,11 +63,6 @@ function enterprise_print_cnzz($meta)
 EOT;
 }
 
-// TODO:
-$siteId = 1;
-$originalDomainSuffix = 'snackmakingmachine.com';
-$currentDomainSuffix = 'snackmakingmachineoff.com';
-
 // 根据当前请求的域名，找出对应的站点替换规则
 $domainInfo = array(
         'snackmakingmachineoff.com' => array(
