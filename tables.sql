@@ -37,3 +37,15 @@ CREATE TABLE `enterprise_inquiries` (
   UNIQUE KEY `idx_mutex` (`guid`),
   KEY `idx_get_by_site` (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='询盘表';
+
+CREATE TABLE `enterprise_users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(30) NOT NULL COMMENT '登录名',
+  `password` char(32) NOT NULL COMMENT '密码（MD5）',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `last_log_in` datetime NOT NULL COMMENT '最近登录时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_log_in` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
