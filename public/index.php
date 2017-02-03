@@ -103,6 +103,12 @@ $domainInfo = array(
         'elightipllaser.com' => array(
                 'site_id' => 4,
             ),
+        'syrianeducation.org' => array(
+                'site_id' => 2,
+                'cnzz' => array(
+                        'id' => '1261181468',
+                    ),
+            ),
     );
 $siteInfo = array(
         1 => array(
