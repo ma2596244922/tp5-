@@ -108,6 +108,9 @@ $domainInfo = array(
                 'cnzz' => array(
                         'id' => '1261181468',
                     ),
+                'custom_pages' => array(
+                        '/googlea2a58c5137359ba2.html' => 'google-site-verification: googlea2a58c5137359ba2.html',
+                    ),
             ),
     );
 $siteInfo = array(
