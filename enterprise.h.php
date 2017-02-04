@@ -46,6 +46,12 @@ function enterprise_get_query_data($key, $filters = 'trim, strip_tags')
     return enterprise_filter($v, $filters);
 }
 
+function enterprise_get_session_data($key, $filters = 'trim, strip_tags')
+{
+    $v = (isset($_SESSION[$key])?$_SESSION[$key]:'');
+    return enterprise_filter($v, $filters);
+}
+
 /**
  * 展示Sitemap Index页面
  */
