@@ -28,6 +28,10 @@ function enterprise_admin_route($smarty)
             switch ($action) {
                 case 'password':
                     return enterprise_admin_action_password($smarty);
+                case 'inquiry':
+                    return enterprise_admin_action_inquiry($smarty);
+                case 'inquiry_detail':
+                    return enterprise_admin_action_inquiry_detail($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

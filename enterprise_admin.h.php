@@ -46,7 +46,7 @@ function enterprise_admin_action_login($smarty)
 
         // Add meta to session
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_site_id'] = $user['user_site_id'];
+        $_SESSION['user_site_id'] = $user['site_id'];
 
         // Update last-log-in
         $values = array(
@@ -109,4 +109,40 @@ function enterprise_admin_action_password($smarty)
     } else {
         $smarty->display('admin/password.tpl');
     }
+}
+
+/**
+ * Inquiries
+ */
+function enterprise_admin_action_inquiry($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $pageNo = (int)enterprise_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+
+    $max = 20;
+    $start = ($pageNo - 1) * $max;
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $condition = "`site_id`={$userSiteId}";
+    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
+    $smarty->assign('inquiries', $inquiries);
+
+    $smarty->display('admin/inquiry.tpl');
+}
+
+/**
+ * Inquiry Detail
+ */
+function enterprise_admin_action_inquiry_detail($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $inquiryId = (int)enterprise_get_query_data('inquiry_id');
+
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $condition = "`id`={$inquiryId}";
+    $inquiry = $inquiryDAO->getOneBy($condition);
+    $smarty->assign('inquiry', $inquiry);
+
+    $smarty->display('admin/inquiry_detail.tpl');
 }
