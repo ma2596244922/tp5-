@@ -30,35 +30,38 @@ function enterprise_admin_action_dashboard($smarty)
  */
 function enterprise_admin_action_login($smarty)
 {
+    $tplPath = 'admin/login.tpl';
+
     $submitButton = enterprise_get_post_data('submit');
-    if ($submitButton) {
-        $userName = enterprise_get_post_data('user');
-        $password = enterprise_get_post_data('password');
-        $passwordSum = md5($password);
+    if (!$submitButton) // No form data
+        return $smarty->display($tplPath);
 
-        $userDAO = new \enterprise\daos\User();
-        $condition = "`name`='" . $userDAO->escape($userName) . "'";
-        $user = $userDAO->getOneBy($condition);
-        if (!$user)
-            throw new \RuntimeException("用户名或密码错误");
-        if ($user['password'] != $passwordSum)
-            throw new \RuntimeException("用户名或密码错误");
+    $userName = enterprise_get_post_data('user');
+    $password = enterprise_get_post_data('password');
+    $passwordSum = md5($password);
 
-        // Add meta to session
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_site_id'] = $user['site_id'];
-
-        // Update last-log-in
-        $values = array(
-                'last_log_in' => date('Y-m-d H:i:s'),
-            );
-        $userDAO->update($user['id'], $values);
-
-        // Redirect
-        header('Location: /admin/');
-    } else {
-        $smarty->display('admin/login.tpl');
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`name`='" . $userDAO->escape($userName) . "'";
+    $user = $userDAO->getOneBy($condition);
+    if (!$userName
+            || !$user
+            || $user['password'] != $passwordSum) {
+        $smarty->assign('error_msg', "用户名或密码错误");
+        return $smarty->display($tplPath);
     }
+
+    // Add meta to session
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_site_id'] = $user['site_id'];
+
+    // Update last-log-in
+    $values = array(
+            'last_log_in' => date('Y-m-d H:i:s'),
+        );
+    $userDAO->update($user['id'], $values);
+
+    // Redirect
+    header('Location: /admin/');
 }
 
 /**

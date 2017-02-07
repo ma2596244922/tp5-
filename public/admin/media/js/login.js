@@ -30,7 +30,7 @@ var Login = function () {
 	            },
 
 	            invalidHandler: function (event, validator) { //display error alert on form submit   
-	                $('.alert-error', $('.login-form')).show();
+	                //$('.alert-error', $('.login-form')).show();
 	            },
 
 	            highlight: function (element) { // hightlight error inputs

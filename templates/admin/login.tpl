@@ -76,11 +76,11 @@
 
             <h3 class="form-title">后台登录</h3>
 
-            <div class="alert alert-error hide">
+            <div class="alert alert-error{if !$error_msg} hide{/if}">
 
                 <button class="close" data-dismiss="alert"></button>
 
-                <span>请输入用户名和密码。</span>
+                <span>{$error_msg}</span>
 
             </div>
 
