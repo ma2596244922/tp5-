@@ -24,10 +24,13 @@ function enterprise_admin_route($smarty)
         case 'login':
             return enterprise_admin_action_login($smarty);
         default:
-            enterprise_admin_grant_permission();
+            $userId = enterprise_admin_grant_permission();
+            enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
                 case 'password':
                     return enterprise_admin_action_password($smarty);
+                case 'profile':
+                    return enterprise_admin_action_profile($smarty);
                 case 'inquiry':
                     return enterprise_admin_action_inquiry($smarty);
                 case 'inquiry_detail':

@@ -146,7 +146,7 @@
 
     <div class="copyright">
 
-        2016 &copy; JB-Online
+        2016 &copy; JB-Online.
 
     </div>
 

@@ -15,6 +15,19 @@ function enterprise_admin_grant_permission()
         header('Location: /admin/?action=login');
         exit;
     }
+
+    return $userId;
+}
+
+/**
+ * Assign user info to template
+ */
+function enterprise_admin_assign_user_info($smarty, $var, $userId)
+{
+    $userDAO = new \enterprise\daos\User();
+    $user = $userDAO->get($userId);
+
+    $smarty->assign($var, $user);
 }
 
 /**
@@ -112,6 +125,14 @@ function enterprise_admin_action_password($smarty)
     } else {
         $smarty->display('admin/password.tpl');
     }
+}
+
+/**
+ * Profile
+ */
+function enterprise_admin_action_profile($smarty)
+{
+    $smarty->display('admin/profile.tpl');
 }
 
 /**
