@@ -43,7 +43,7 @@
 
     <!-- BEGIN PAGE LEVEL STYLES -->
 
-    <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
+    <link href="media/css/error.css" rel="stylesheet" type="text/css"/>
 
     <!-- END PAGE LEVEL STYLES -->
 
@@ -69,7 +69,15 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="inquiry"}
+        <div class="page-sidebar nav-collapse collapse">
+
+            <!-- BEGIN SIDEBAR MENU -->        
+
+{include file="admin/common/sidebar.tpl"}
+
+            <!-- END SIDEBAR MENU -->
+
+        </div>
 
         <!-- END SIDEBAR -->
 
@@ -85,7 +93,7 @@
 
                     <button data-dismiss="modal" class="close" type="button"></button>
 
-                    <h3>portlet Settings</h3>
+                    <h3>Widget Settings</h3>
 
                 </div>
 
@@ -99,8 +107,6 @@
 
             <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 
-            <!-- BEGIN PAGE CONTAINER-->        
-
             <div class="container-fluid">
 
                 <!-- BEGIN PAGE HEADER-->
@@ -113,7 +119,7 @@
 
                         <h3 class="page-title">
 
-                            我的询盘 <small>询盘汇总</small>
+                            信息提示 <small>信息提示</small>
 
                         </h3>
 
@@ -129,7 +135,8 @@
 
                             </li>
 
-                            <li><a href="?action=inquiry">我的询盘</a></li>
+
+                            <li>信息提示</li>
 
                         </ul>
 
@@ -145,101 +152,25 @@
 
                 <div class="row-fluid">
 
-                    <div class="span12">
+                    <div class="span12 page-500">
 
-                        <!-- BEGIN CONDENSED TABLE PORTLET-->
+                        <div class=" number">
 
-                        <div class="portlet box green">
-
-                            <div class="portlet-title">
-
-                                <div class="caption"><i class="icon-picture"></i>我的询盘</div>
-
-                                <div class="tools">
-
-                                    <a href="javascript:;" class="collapse"></a>
-
-                                </div>
-
-                            </div>
-
-                            <div class="portlet-body">
-
-                                <table class="table table-condensed table-hover">
-
-                                    <thead>
-
-                                        <tr>
-
-                                            <th>#</th>
-
-                                            <th>标题</th>
-
-                                            <th>国家</th>
-
-                                            <th>发布时间(+8)</th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-{section name=i loop=$inquiries}
-                                        <tr>
-
-                                            <td>{$inquiries[i].id}</td>
-
-                                            <td>
-
-                                                <a href="?action=inquiry_detail&inquiry_id={$inquiries[i].id}">{$inquiries[i].subject}</a>
-
-                                            </td>
-
-                                            <td>{$inquiries[i].country}</td>
-
-                                            <td>{$inquiries[i].created}</td>
-
-                                        </tr>
-{sectionelse}
-                                        <tr>
-
-                                            <td colspan="4">暂无任何询盘</td>
-
-                                        </tr>
-{/section}
-                                    </tbody>
-
-                                </table>
-{if $total_inquiries > $page_size}
-                                <div class="row-fluid">
-
-                                    <div class="span12">
-
-                                        <div class="dataTables_paginate pagination">
-
-                                            <ul>
-    {if $page_no > 1}
-                                                <li><a href="?action=inquiry&page={$page_no-1}">«</a></li>
-    {/if}
-    {for $i=1 to $total_pages}
-                                                <li><a href="?action=inquiry&page={$i}">{$i}</a></li>
-    {/for}
-    {if $page_no < $total_pages}
-                                                <li><a href="?action=inquiry&page={$page_no+1}">»</a></li>
-    {/if}
-                                            </ul>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-{/if}
-                            </div>
+                            错误
 
                         </div>
 
-                        <!-- END CONDENSED TABLE PORTLET-->
+                        <div class=" details">
+
+                            <h3>{$message}</h3>
+
+                            <p>
+
+                                <a href="javascript:void(0);" onclick="history.go(-1);">返回修改</a>
+
+                            </p>
+
+                        </div>
 
                     </div>
 
@@ -249,11 +180,11 @@
 
             </div>
 
-            <!-- END PAGE CONTAINER-->
+            <!-- END PAGE CONTAINER-->       
 
         </div>
 
-        <!-- END PAGE -->
+        <!-- BEGIN PAGE -->     
 
     </div>
 
@@ -277,7 +208,7 @@
 
     <script src="media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
 
-    <script src="media/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="media/js/bootstrap-rtl.min.js" type="text/javascript"></script>
 
     <!--[if lt IE 9]>
 
@@ -301,15 +232,15 @@
 
     <script>
 
-        jQuery(document).ready(function() {       
-
-           // initiate layout and plugins
+        jQuery(document).ready(function() {    
 
            App.init();
 
         });
 
     </script>
+
+    <!-- END JAVASCRIPTS -->
 
 </body>
 

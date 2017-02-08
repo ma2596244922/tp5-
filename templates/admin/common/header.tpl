@@ -46,7 +46,7 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a href="?action=profile"><i class="icon-user"></i>修改密码</a></li>
+                            <li><a href="?action=password"><i class="icon-user"></i>修改密码</a></li>
 
                             <li class="divider"></li>
 

@@ -29,8 +29,6 @@ function enterprise_admin_route($smarty)
             switch ($action) {
                 case 'password':
                     return enterprise_admin_action_password($smarty);
-                case 'profile':
-                    return enterprise_admin_action_profile($smarty);
                 case 'inquiry':
                     return enterprise_admin_action_inquiry($smarty);
                 case 'inquiry_detail':
@@ -51,5 +49,6 @@ session_start();
 try {
     enterprise_admin_route($smarty);
 } catch (\RuntimeException $e) {
-    echo $e->getMessage();
+    $smarty->assign('message', $e->getMessage());
+    $smarty->display('admin/message.tpl');
 }

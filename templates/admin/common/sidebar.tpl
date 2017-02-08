@@ -33,7 +33,7 @@
 
                     <i class="icon-home"></i> 
 
-                    <span class="title">询盘列表</span>
+                    <span class="title">我的询盘</span>
 
                     </a>
 

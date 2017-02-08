@@ -31,10 +31,26 @@ function enterprise_admin_assign_user_info($smarty, $var, $userId)
 }
 
 /**
+ * Assign inquiry list to template
+ */
+function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageNo = 1, $max = 10)
+{
+    $start = ($pageNo - 1) * $max;
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $condition = "`site_id`={$userSiteId}";
+    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
+    $smarty->assign($var, $inquiries);
+}
+
+/**
  * Dashboard
  */
 function enterprise_admin_action_dashboard($smarty)
 {
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    enterprise_admin_assign_inquiry_list($smarty, 'inquiries', $userSiteId);
+
     $smarty->display('admin/index.tpl');
 }
 
@@ -92,47 +108,40 @@ function enterprise_admin_action_logout($smarty)
  */
 function enterprise_admin_action_password($smarty)
 {
+    $tplPath = 'admin/password.tpl';
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) // No form data
+        return $smarty->display($tplPath);
+
     $userId = (int)enterprise_get_session_data('user_id');
 
-    $submitButton = enterprise_get_post_data('submit');
-    if ($submitButton) {
-        $oldPassword = enterprise_get_post_data('old_password');
-        $newPassword = enterprise_get_post_data('new_password');
-        $newPassword2 = enterprise_get_post_data('new_password_2');
-        $oldPasswordSum = md5($oldPassword);
-        $newPasswordSum = md5($newPassword);
+    $oldPassword = enterprise_get_post_data('old_password');
+    $newPassword = enterprise_get_post_data('new_password');
+    $newPassword2 = enterprise_get_post_data('new_password_2');
+    $oldPasswordSum = md5($oldPassword);
+    $newPasswordSum = md5($newPassword);
 
-        $userDAO = new \enterprise\daos\User();
-        $condition = "`id`={$userId}";
-        $user = $userDAO->getOneBy($condition);
-        if (!$user) {
-            header('Location: /admin/?action=login');
-            return;
-        }
-        if ($user['password'] != $oldPasswordSum)
-            throw new \RuntimeException("旧密码不正确");
-        if (!$newPassword)
-            throw new \RuntimeException("新密码不能为空");
-        if ($newPassword != $newPassword2)
-            throw new \RuntimeException("两次输入的密码不相同");
-
-        $values = array(
-                'password' => $newPasswordSum,
-                'updated' => date('Y-m-d H:i:s'),
-            );
-        $userDAO->update($userId, $values);
-        echo "密码修改成功";
-    } else {
-        $smarty->display('admin/password.tpl');
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`id`={$userId}";
+    $user = $userDAO->getOneBy($condition);
+    if (!$user) {
+        header('Location: /admin/?action=login');
+        return;
     }
-}
+    if ($user['password'] != $oldPasswordSum)
+        throw new \RuntimeException("旧密码不正确");
+    if (!$newPassword)
+        throw new \RuntimeException("新密码不能为空");
+    if ($newPassword != $newPassword2)
+        throw new \RuntimeException("两次输入的密码不相同");
 
-/**
- * Profile
- */
-function enterprise_admin_action_profile($smarty)
-{
-    $smarty->display('admin/profile.tpl');
+    $values = array(
+            'password' => $newPasswordSum,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $userDAO->update($userId, $values);
+    $smarty->assign('message', '密码修改成功');
+    $smarty->display($tplPath);
 }
 
 /**
@@ -144,14 +153,12 @@ function enterprise_admin_action_inquiry($smarty)
     $pageNo = (int)enterprise_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
+    $max = 20;
 
-    $max = 2;
-    $start = ($pageNo - 1) * $max;
+    enterprise_admin_assign_inquiry_list($smarty, 'inquiries', $userSiteId, $pageNo, $max);
+
     $inquiryDAO = new \enterprise\daos\Inquiry();
     $condition = "`site_id`={$userSiteId}";
-    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
-    $smarty->assign('inquiries', $inquiries);
-
     $totalInquiries = $inquiryDAO->countBy($condition);
     $totalPages = (int)($totalInquiries / $max) + (($totalInquiries % $max)?1:0);
     $smarty->assign('total_inquiries', $totalInquiries);
