@@ -27,6 +27,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='inquiry'} active{/if}">
+
+                    <a href="?action=inquiry">
+
+                    <i class="icon-home"></i> 
+
+                    <span class="title">询盘列表</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

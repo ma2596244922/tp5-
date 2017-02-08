@@ -145,12 +145,19 @@ function enterprise_admin_action_inquiry($smarty)
     if ($pageNo <= 0)
         $pageNo = 1;
 
-    $max = 20;
+    $max = 2;
     $start = ($pageNo - 1) * $max;
     $inquiryDAO = new \enterprise\daos\Inquiry();
     $condition = "`site_id`={$userSiteId}";
     $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
     $smarty->assign('inquiries', $inquiries);
+
+    $totalInquiries = $inquiryDAO->countBy($condition);
+    $totalPages = (int)($totalInquiries / $max) + (($totalInquiries % $max)?1:0);
+    $smarty->assign('total_inquiries', $totalInquiries);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
 
     $smarty->display('admin/inquiry.tpl');
 }
