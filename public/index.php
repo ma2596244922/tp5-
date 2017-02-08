@@ -80,6 +80,15 @@ $domainInfo = array(
                         '/googlea2a58c5137359ba2.html' => 'google-site-verification: googlea2a58c5137359ba2.html',
                     ),
             ),
+        'prefabmobilehomes.com' => array(
+                'site_id' => 8,
+                'cnzz' => array(
+                        'id' => '1261211660',
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -93,6 +102,9 @@ $siteInfo = array(
             ),
         4 => array(
                 'original_domain_prefix' => 'elightipllaser.com',
+            ),
+        8 => array(
+                'original_domain_prefix' => 'smarthousing.cn',
             ),
     );
 $a = explode('.', $_SERVER['HTTP_HOST']);
