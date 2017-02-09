@@ -5,6 +5,38 @@
  * @package timandes\enterprise
  */
 
+/**
+ * 获取站点基本信息
+ */
+function enterprise_extract_site_infos()
+{
+    global $domainInfo, $siteInfo;
+
+    $a = explode('.', $_SERVER['HTTP_HOST']);
+    $n = count($a);
+    if ($n < 3) 
+        throw new HttpException(403);
+
+    $currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
+    $locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
+    if (!isset($domainInfo[$currentDomainSuffix])
+            || !is_array($domainInfo[$currentDomainSuffix]))
+        throw new HttpException(404);
+
+    $siteId = $domainInfo[$currentDomainSuffix]['site_id'];
+    if (!isset($siteInfo[$siteId])
+            || !is_array($siteInfo[$siteId])) 
+        throw new HttpException(404);
+
+    $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
+    return array(
+            $siteId, $locale, $originalDomainSuffix, $currentDomainSuffix,
+        );
+}
+
+/**
+ * Generate GUID
+ */
 function enterprise_generate_guid()
 {
     return md5(uniqid(mt_rand(), true), true);

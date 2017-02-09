@@ -8,10 +8,12 @@
 /**
  * Grant permission
  */
-function enterprise_admin_grant_permission()
+function enterprise_admin_grant_permission($targetSiteId)
 {
-    $userId = enterprise_get_session_data('user_id');
-    if (!$userId) {
+    $userId = (int)enterprise_get_session_data('user_id');
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    if (!$userId
+            || $userSiteId != $targetSiteId) {
         header('Location: /admin/?action=login');
         exit;
     }
@@ -57,7 +59,7 @@ function enterprise_admin_action_dashboard($smarty)
 /**
  * Log-in
  */
-function enterprise_admin_action_login($smarty)
+function enterprise_admin_action_login($smarty, $targetSiteId)
 {
     $tplPath = 'admin/login.tpl';
 
@@ -74,7 +76,8 @@ function enterprise_admin_action_login($smarty)
     $user = $userDAO->getOneBy($condition);
     if (!$userName
             || !$user
-            || $user['password'] != $passwordSum) {
+            || $user['password'] != $passwordSum
+            || $user['site_id'] != $targetSiteId) {
         $smarty->assign('error_msg', "用户名或密码错误");
         return $smarty->display($tplPath);
     }
