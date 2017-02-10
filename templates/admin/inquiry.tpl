@@ -153,7 +153,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-picture"></i>我的询盘</div>
+                                <div class="caption"><i class="icon-envelope"></i>我的询盘</div>
 
                                 <div class="tools">
 
