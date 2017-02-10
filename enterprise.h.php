@@ -130,3 +130,71 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
     exit(0);
 }
+
+/**
+ * 保存询盘
+ */
+function enterprise_action_save_inquiry_proc($smarty, $siteId)
+{
+    $subject = enterprise_get_post_data('subject');
+    $message = enterprise_get_post_data('message', 'trim');
+    $email = enterprise_get_post_data('email');
+
+    // Validation
+    if (!$subject
+            || !$message
+            || !$email) {
+        header('Location: /contactnow.html');
+        exit(0);
+    }
+
+    // Upload filess
+    $attachmentDAO = new \enterprise\daos\Attachment();
+    $attachments = array();
+    foreach ($_FILES as $meta) {
+        if ($meta['error'])
+            continue;
+        $body = file_get_contents($meta['tmp_name']);
+        $contentType = $meta['type'];
+        $guid = enterprise_generate_guid();
+        $values = array(
+                'guid' => $guid,
+                'body' => $body,
+                'content_type' => $contentType,
+                'created' => date('Y-m-d H:i:s'),
+            );
+        $id = $attachmentDAO->insert($values);
+        $attachments[] = bin2hex($guid);
+    }
+    // Create inquiry
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $guid = enterprise_generate_guid();
+    $values = array(
+            'guid' => $guid,
+            'subject' => $subject,
+            'message' => $message,
+            'courtesy_title' => enterprise_get_post_data('gender'),
+            'company' => enterprise_get_post_data('company'),
+            'tel' => enterprise_get_post_data('tel'),
+            'fax' => enterprise_get_post_data('fax'),
+            'website' => enterprise_get_post_data('senderwebsite'),
+            'country' => enterprise_get_post_data('country'),
+            'contact' => enterprise_get_post_data('name'),
+            'email' => $email,
+            'price_n_terms' => enterprise_get_post_data('incoterm'),
+            'payment' => enterprise_get_post_data('payment'),
+            'initial_order' => enterprise_get_post_data('order'),
+            'sample_terms' => enterprise_get_post_data('sample'),
+            'request_specifications' => enterprise_get_post_data('othersc'),
+            'request_company_description' => enterprise_get_post_data('othercd'),
+            'request_deliver_time' => enterprise_get_post_data('otherscdt'),
+            'contact_within_24h' => enterprise_get_post_data('iscontact'),
+            'email_me_updates' => enterprise_get_post_data('newsletter'),
+            'site_id' => $siteId,
+            'attachments' => $attachments,
+            'created' => date('Y-m-d H:i:s'),
+        );
+    $inquiryDAO->insert($values);
+    $smarty->display('inquiry_sent.tpl');
+    exit(0);
+}
