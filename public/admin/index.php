@@ -35,6 +35,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_inquiry($smarty);
                 case 'inquiry_detail':
                     return enterprise_admin_action_inquiry_detail($smarty);
+                case 'group':
+                    return etnerprise_admin_action_group($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

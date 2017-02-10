@@ -187,3 +187,17 @@ function enterprise_admin_action_inquiry_detail($smarty)
 
     $smarty->display('admin/inquiry_detail.tpl');
 }
+
+/**
+ * Groups
+ */
+function etnerprise_admin_action_group($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $groupDAO = new \enterprise\daos\Group();
+    $condition = "`site_id`={$userSiteId}";
+    $groups = $groupDAO->getMultiInOrderBy($condition);
+    $smarty->assign('groups', $groups);
+
+    $smarty->display('admin/group.tpl');
+}

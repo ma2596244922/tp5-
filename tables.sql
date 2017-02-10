@@ -49,3 +49,14 @@ CREATE TABLE `enterprise_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_log_in` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+CREATE TABLE `enterprise_groups` (
+  `id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(255) NOT NULL COMMENT '分组名称',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建分组表';
