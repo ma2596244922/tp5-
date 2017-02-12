@@ -62,6 +62,12 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'hydraulic-gearpump.com' => array(
+                'site_id' => 15,
+            ),
+        'industrial-steelbuildings.com' => array(
+                'site_id' => 13,
+            ,)
     );
 $siteInfo = array(
         1 => array(
