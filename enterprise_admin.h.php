@@ -348,6 +348,12 @@ function enterprise_admin_assign_product_info($smarty, $var, $productId)
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->get($productId);
     $smarty->assign($var, $product);
+
+    if ($product) {
+        $specificationsJSON = $product['specifications'];
+        $specifications = json_decode($specificationsJSON, true);
+        $smarty->assign($var . '_specifications', $specifications);
+    }
 }
 
 /**
@@ -386,6 +392,9 @@ function enterprise_admin_action_edit_product($smarty)
     $supplyAbility = enterprise_get_post_data('supply_ability');
     $deliveryTime = enterprise_get_post_data('delivery_time');
     $packagingDetails = enterprise_get_post_data('packaging_details');
+    $specificationsQueryString = enterprise_get_post_data('specifications');
+
+    parse_str($specificationsQueryString, $specificationsArray);
 
     if (!$caption) {
         $smarty->assign('error_msg', '请输入产品名称');
@@ -415,6 +424,7 @@ function enterprise_admin_action_edit_product($smarty)
             'supply_ability' => $supplyAbility,
             'delivery_time' => $deliveryTime,
             'packaging_details' => $packagingDetails,
+            'specifications' => $specificationsArray,
         );
     if ($productId) {// Edit
         $productDAO->update($productId, $values);

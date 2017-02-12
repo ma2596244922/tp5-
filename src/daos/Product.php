@@ -32,6 +32,7 @@ class Product extends \crawler\daos\AbstractDAO
             'supply_ability' => 'text',
             'delivery_time' => 'text',
             'packaging_details' => 'text',
+            'specifications' => 'json',
         );
 
     public function getTableName()

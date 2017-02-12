@@ -185,7 +185,7 @@
 
                                 <!-- BEGIN FORM-->
 
-                                <form action="?action=edit_product&product_id={$product_id}" method="POST" class="form-horizontal">
+                                <form action="?action=edit_product&product_id={$product_id}" method="POST" class="form-horizontal" id="form-edit-product">
 
                                     <div class="control-group">
 
@@ -379,6 +379,65 @@
 
                                     </div>
 
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">自定义属性</label>
+
+                                        <div class="controls">
+
+                                            <input type="hidden" name="specifications">
+
+                                            <div class="btn-group">
+
+                                                <button id="sample_editable_1_new" class="btn green">
+
+                                                新增属性 <i class="icon-plus"></i>
+
+                                                </button>
+
+                                            </div>
+
+                                            <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+
+                                                <thead>
+
+                                                    <tr>
+
+                                                        <th>属性名</th>
+
+                                                        <th>属性值</th>
+
+                                                        <th>修改</th>
+
+                                                        <th>删除</th>
+
+                                                    </tr>
+
+                                                </thead>
+
+                                                <tbody>
+{if isset($product_specifications)}{foreach $product_specifications as $s}
+                                                    <tr class="">
+
+                                                        <td>{$s@key}</td>
+
+                                                        <td>{$s}</td>
+
+                                                        <td><a class="edit" href="javascript:;">修改</a></td>
+
+                                                        <td><a class="delete" href="javascript:;">删除</a></td>
+
+                                                    </tr>
+{/foreach}{/if}
+                                                </tbody>
+
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">
@@ -453,15 +512,25 @@
 
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+
     <script type="text/javascript" src="media/js/select2.min.js"></script>
+
+    <script type="text/javascript" src="media/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" src="media/js/DT_bootstrap.js"></script>
 
     <script src="ckeditor/ckeditor.js" type="text/javascript" ></script>
 
     <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
 
+    <!-- END PAGE LEVEL PLUGINS -->
+
     <!-- END CORE PLUGINS -->
 
     <script src="media/js/app.js"></script>      
+
+    <script src="media/js/table-editable.js"></script>    
 
     <script>
 
@@ -470,6 +539,22 @@
            // initiate layout and plugins
 
            App.init();
+
+            var dataTable = TableEditable.init();
+
+            $('#form-edit-product').on('submit', function(e) {
+                var specifications = [];
+                var nodes = dataTable.fnGetNodes();
+                for(var node in nodes) {
+                    var data = dataTable.fnGetData(node);
+                    if (data.length <= 0)
+                        continue;
+                    var pair = data[0] + '=' + encodeURIComponent(data[1]);
+                    specifications.push(pair);
+                }
+                var val = specifications.join('&');
+                $(this).find('[name="specifications"]').val(val);
+            });
 
             $('textarea.description').ckeditor();
 

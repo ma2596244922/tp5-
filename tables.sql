@@ -83,6 +83,7 @@ CREATE TABLE `enterprise_products` (
   `supply_ability` varchar(100) NOT NULL COMMENT '供货能力',
   `delivery_time` varchar(100) NOT NULL COMMENT '发货期限',
   `packaging_details` varchar(100) NOT NULL COMMENT '常规包装',
+  `specifications` text NOT NULL COMMENT '产品属性（JSON）',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';
