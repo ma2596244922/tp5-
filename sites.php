@@ -85,4 +85,10 @@ $siteInfo = array(
         8 => array(
                 'original_domain_prefix' => 'smarthousing.cn',
             ),
+        13 => array(
+                'original_domain_prefix' => 'structural-steelbuilding.com',
+            ),
+        15 => array(
+                'original_domain_prefix' => 'hydraulic-gearpumps.com',
+            ),
     );
