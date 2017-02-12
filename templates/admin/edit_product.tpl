@@ -27,8 +27,6 @@
 
     <link href="media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
 
-    <link rel="stylesheet" type="text/css" href="media/css/select2_metro.css" />
-
     <link href="media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 
     <link href="media/css/style-metro.css" rel="stylesheet" type="text/css"/>
@@ -44,6 +42,10 @@
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL STYLES -->
+
+    <link rel="stylesheet" type="text/css" href="media/css/select2_metro.css" />
+
+    <link rel="stylesheet" type="text/css" href="media/css/bootstrap-fileupload.css" />
 
     <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
 
@@ -185,7 +187,7 @@
 
                                 <!-- BEGIN FORM-->
 
-                                <form action="?action=edit_product&product_id={$product_id}" method="POST" class="form-horizontal" id="form-edit-product">
+                                <form action="?action=edit_product&product_id={$product_id}" method="POST" enctype="multipart/form-data" class="form-horizontal" id="form-edit-product">
 
                                     <div class="control-group">
 
@@ -225,6 +227,40 @@
 {/section}
                                             </select>
 
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">图片</label>
+
+                                        <div class="controls">
+{for $i=0 to 4}
+                                            <div class="fileupload fileupload-new span2" data-provides="fileupload">
+
+                                                <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+
+                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image'}" alt="" />
+
+                                                </div>
+
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+
+                                                <div>
+
+                                                    <span class="btn btn-file"><span class="fileupload-new">选择图片</span>
+
+                                                    <span class="fileupload-exists">更换</span>
+
+                                                    <input type="file" class="default" name="file{$i}" /></span>
+
+                                                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
+
+                                                </div>
+
+                                            </div>
+{/for}
                                         </div>
 
                                     </div>
@@ -513,6 +549,8 @@
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 
     <!-- BEGIN PAGE LEVEL PLUGINS -->
+
+    <script type="text/javascript" src="media/js/bootstrap-fileupload.js"></script>
 
     <script type="text/javascript" src="media/js/select2.min.js"></script>
 

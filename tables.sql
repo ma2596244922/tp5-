@@ -84,6 +84,16 @@ CREATE TABLE `enterprise_products` (
   `delivery_time` varchar(100) NOT NULL COMMENT '发货期限',
   `packaging_details` varchar(100) NOT NULL COMMENT '常规包装',
   `specifications` text NOT NULL COMMENT '产品属性（JSON）',
+  `head_image_id` int unsigned NOT NULL COMMENT '产品头图ID',
+  `images` text NOT NULL COMMENT '产品图片（JSON）',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';
+
+CREATE TABLE `enterprise_images` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `body` mediumblob NOT NULL COMMENT '图片内容',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片表';

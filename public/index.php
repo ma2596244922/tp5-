@@ -71,6 +71,9 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
         enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
+} elseif(preg_match('/^\/uploaded_images\/([0-9]+)\.jpg$/', $requestPath, $matches)) {
+    $imageId = $matches[1];
+    enterprise_action_uploaded_image_proc($imageId);// Terminated
 }
 // ++ Custom pages
 if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])

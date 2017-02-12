@@ -33,6 +33,8 @@ class Product extends \crawler\daos\AbstractDAO
             'delivery_time' => 'text',
             'packaging_details' => 'text',
             'specifications' => 'json',
+            'head_image_id' => 'int',
+            'images' => 'json',
         );
 
     public function getTableName()

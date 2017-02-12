@@ -57,6 +57,7 @@ function enterprise_admin_route($smarty)
 $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../../') . '/templates/');
 $smarty->setCompileDir(realpath(__DIR__ . '/../../') . '/templates_c/');
+$smarty->addPluginsDir(realpath(__DIR__ . '/../../') . '/plugins/');
 
 session_start();
 

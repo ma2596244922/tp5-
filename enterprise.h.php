@@ -135,6 +135,28 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 }
 
 /**
+ * 展示用户新发图片
+ */
+function enterprise_action_uploaded_image_proc($imageId)
+{
+    if (!$imageId) {
+        http_response_code(400);
+        exit;
+    }
+
+    $imageDAO = new \enterprise\daos\Image();
+    $image = $imageDAO->get($imageId);
+    if (!$image) {
+        http_response_code(404);
+        exit;
+    }
+
+    header('Content-Type: image/jpeg');
+    echo $image['body'];
+    exit;
+}
+
+/**
  * 保存询盘
  */
 function enterprise_action_save_inquiry_proc($smarty, $siteId)
@@ -151,7 +173,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId)
         exit(0);
     }
 
-    // Upload filess
+    // Upload files
     $attachmentDAO = new \enterprise\daos\Attachment();
     $attachments = array();
     foreach ($_FILES as $meta) {
@@ -200,4 +222,16 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId)
     $inquiryDAO->insert($values);
     $smarty->display('inquiry_sent.tpl');
     exit(0);
+}
+
+/**
+ * URL - Image
+ *
+ * @return string
+ */
+function enterprise_url_image($imageId)
+{
+    if (!$imageId)
+        return 'media/image/no_image.png';
+    return 'http://' . $_SERVER['HTTP_HOST'] . '/uploaded_images/' . $imageId . '.jpg';
 }

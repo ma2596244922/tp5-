@@ -350,9 +350,14 @@ function enterprise_admin_assign_product_info($smarty, $var, $productId)
     $smarty->assign($var, $product);
 
     if ($product) {
+        // Specifications
         $specificationsJSON = $product['specifications'];
         $specifications = json_decode($specificationsJSON, true);
         $smarty->assign($var . '_specifications', $specifications);
+        // Images
+        $imagesJSON = $product['images'];
+        $images = json_decode($imagesJSON, true);
+        $smarty->assign($var . '_images', $images);
     }
 }
 
@@ -405,6 +410,26 @@ function enterprise_admin_action_edit_product($smarty)
         return $smarty->display($tplPath);
     }
 
+    // Upload images
+    $imageDAO = new \enterprise\daos\Image();
+    $images = array();
+    $headImageId = 0;
+    foreach ($_FILES as $meta) {
+        if ($meta['error'])
+            continue;
+        $body = file_get_contents($meta['tmp_name']);
+        $values = array(
+                'site_id' => $userSiteId,
+                'body' => $body,
+                'created' => date('Y-m-d H:i:s'),
+            );
+        $id = $imageDAO->insert($values);
+        $images[] = $id;
+        if (!$headImageId)
+            $headImageId = $id;
+    }
+
+    // Save products
     $productDAO = new \enterprise\daos\Product();
     $values = array(
             'site_id' => $userSiteId,
@@ -425,6 +450,8 @@ function enterprise_admin_action_edit_product($smarty)
             'delivery_time' => $deliveryTime,
             'packaging_details' => $packagingDetails,
             'specifications' => $specificationsArray,
+            'head_image_id' => $headImageId,
+            'images' => $images,
         );
     if ($productId) {// Edit
         $productDAO->update($productId, $values);
