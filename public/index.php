@@ -40,6 +40,12 @@ try {
     exit(1);
 }
 
+// abc.com ==(301)=> www.abc.com
+if (!$locale) {
+    header('Location: http://www.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    exit(1);
+}
+
 // 优先使用本地存储的页面、图片和资源等
 $requestRelativeURI = $_SERVER['REQUEST_URI'];
 $fakeRequestHost = str_replace($currentDomainSuffix, $originalDomainSuffix, $_SERVER['HTTP_HOST']);

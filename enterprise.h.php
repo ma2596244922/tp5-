@@ -14,11 +14,14 @@ function enterprise_extract_site_infos()
 
     $a = explode('.', $_SERVER['HTTP_HOST']);
     $n = count($a);
-    if ($n < 3) 
+    if ($n < 2)
         throw new HttpException(403);
+    elseif ($n == 2)
+        $locale = '';
+    else
+        $locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
 
     $currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
-    $locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
     if (!isset($domainInfo[$currentDomainSuffix])
             || !is_array($domainInfo[$currentDomainSuffix]))
         throw new HttpException(404);
