@@ -69,7 +69,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="group"}
+{include file="admin/common/sidebar.tpl" page_name="product"}
 
         <!-- END SIDEBAR -->
 
@@ -113,7 +113,7 @@
 
                         <h3 class="page-title">
 
-                            编辑分组 <small>创建、修改分组信息</small>
+                            编辑产品 <small>发布、修改产品信息</small>
 
                         </h3>
 
@@ -129,7 +129,7 @@
 
                             </li>
 
-                            <li><a href="?action=group">我的分组</a></li>
+                            <li><a href="?action=product">我的产品</a></li>
 
                         </ul>
 
@@ -169,7 +169,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-reorder"></i>编辑分组</div>
+                                <div class="caption"><i class="icon-reorder"></i>编辑产品</div>
 
                                 <div class="tools">
 
@@ -187,13 +187,13 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">名称</label>
+                                        <label class="control-label">标题</label>
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="name" value="{$group.name|default:''}" />
+                                            <input type="text" class="span6 m-wrap" name="caption" value="{$product.caption|default:''}" />
 
-                                            <span class="help-inline">请输入英文分组名称</span>
+                                            <span class="help-inline">请输入英文产品标题</span>
 
                                         </div>
 
@@ -205,7 +205,7 @@
 
                                         <button type="submit" class="btn blue">保存</button>
 
-                                        <a href="?action=group" class="btn">取消</a>
+                                        <a href="?action=product" class="btn">取消</a>
 
                                     </div>
 

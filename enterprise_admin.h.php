@@ -56,6 +56,8 @@ function enterprise_admin_action_dashboard($smarty)
     $smarty->display('admin/index.tpl');
 }
 
+/* {{{ Log-in Log-out */
+
 /**
  * Log-in
  */
@@ -106,6 +108,10 @@ function enterprise_admin_action_logout($smarty)
     header('Location: /admin/?action=login');
 }
 
+/* }}} */
+
+/* {{{ Profile */
+
 /**
  * Change password
  */
@@ -146,6 +152,10 @@ function enterprise_admin_action_password($smarty)
     $smarty->assign('message', '密码修改成功');
     $smarty->display($tplPath);
 }
+
+/* }}} */
+
+/* {{{ Inquiries */
 
 /**
  * Inquiries
@@ -188,6 +198,10 @@ function enterprise_admin_action_inquiry_detail($smarty)
     $smarty->display('admin/inquiry_detail.tpl');
 }
 
+/* }}} */
+
+/* {{{ Group */
+
 /**
  * Groups
  */
@@ -226,8 +240,6 @@ function enterprise_admin_action_edit_group($smarty)
     if (!$submitButton) {// No form data
         if ($groupId) 
             enterprise_admin_assign_group_info($smarty, 'group', $groupId);
-        else
-            $smarty->assign('group', array('name' => ''));
         return $smarty->display($tplPath);
     }
 
@@ -252,7 +264,6 @@ function enterprise_admin_action_edit_group($smarty)
     } else {// Create
         $values['created'] = $values['updated'];
         $groupDAO->insert($values);
-        $smarty->assign('group', array('name' => ''));
     }
 
     $smarty->assign('success_msg', '保存成功');
@@ -281,3 +292,114 @@ function enterprise_admin_action_delete_group($smarty)
     $groupDAO->update($groupId, $values);
     header('Location: ?action=group&success_msg=' . urlencode('删除成功'));
 }
+
+/* }}} */
+
+/* {{{ Product */
+
+/**
+ * Products
+ */
+function enterprise_admin_action_product($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $pageNo = (int)enterprise_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $productDAO = new \enterprise\daos\Product();
+    $start = ($pageNo - 1) * $max;
+    $sql = "SELECT p.`caption`, p.`created`, p.`updated`, g.`name` AS `group_name`
+    FROM `enterprise_products` AS p
+    LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
+    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 LIMIT {$start}, {$max}";
+    $products = $productDAO->getMultiBySql($sql);
+    $smarty->assign('products', $products);
+
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
+    $totalProducts = $productDAO->countBy($condition);
+    $totalPages = (int)($totalProducts / $max) + (($totalProducts % $max)?1:0);
+    $smarty->assign('total_productss', $totalProducts);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    $smarty->display('admin/product.tpl');
+}
+
+/**
+ * Assign Product info
+ */
+function enterprise_admin_assign_product_info($smarty, $var, $productId)
+{
+    $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->get($productId);
+    $smarty->assign($var, $product);
+}
+
+/**
+ * Edit Product
+ */
+function enterprise_admin_action_edit_product($smarty)
+{
+    $tplPath = 'admin/edit_product.tpl';
+
+    $productId = (int)enterprise_get_query_data('product_id');
+    $smarty->assign('product_id', $productId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($productId) 
+            enterprise_admin_assign_product_info($smarty, 'product', $productId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $caption = enterprise_get_post_data('caption');
+    $description = enterprise_get_post_data('description');
+    $groupId = enterprise_get_post_data('group_id');
+
+    if (!$caption) {
+        $smarty->assign('error_msg', '请输入产品名称');
+        return $smarty->display($tplPath);
+    }
+
+    $productDAO = new \enterprise\daos\Product();
+    $values = array(
+            'site_id' => $userSiteId,
+            'caption' => $caption,
+            'description' => $description,
+            'group_id' => $groupId,
+            'locale' => 'english',
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($productId) {// Edit
+        $productDAO->update($productId, $values);
+        enterprise_admin_assign_product_info($smarty, 'product', $productId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $productDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Product
+ */
+function enterprise_admin_action_delete_product($smarty)
+{
+    $productId = (int)enterprise_get_query_data('product_id');
+
+    $productDAO = new \enterprise\daos\Product();
+    $values = array(
+            'deleted' => 1,
+        );
+    $productDAO->update($productId, $values);
+    header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

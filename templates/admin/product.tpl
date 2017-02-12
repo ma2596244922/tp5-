@@ -69,7 +69,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="group"}
+{include file="admin/common/sidebar.tpl" page_name="product"}
 
         <!-- END SIDEBAR -->
 
@@ -113,7 +113,7 @@
 
                         <h3 class="page-title">
 
-                            编辑分组 <small>创建、修改分组信息</small>
+                            我的产品 <small>产品汇总</small>
 
                         </h3>
 
@@ -129,7 +129,7 @@
 
                             </li>
 
-                            <li><a href="?action=group">我的分组</a></li>
+                            <li><a href="?action=product">我的产品</a></li>
 
                         </ul>
 
@@ -147,29 +147,29 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$error_msg} hide{/if}">
+                        <div class="alert alert-error{if !$smarty.get.error_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$error_msg}</span>
+                            <span>{$smarty.get.error_msg}</span>
 
                         </div>
 
-                        <div class="alert alert-success{if !$success_msg} hide{/if}">
+                        <div class="alert alert-success{if !$smarty.get.success_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$success_msg}</span>
+                            <span>{$smarty.get.success_msg}</span>
 
                         </div>
 
-                        <!-- BEGIN SAMPLE FORM PORTLET-->   
+                        <!-- BEGIN CONDENSED TABLE PORTLET-->
 
-                        <div class="portlet box blue">
+                        <div class="portlet box green">
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-reorder"></i>编辑分组</div>
+                                <div class="caption"><i class="icon-group"></i>我的产品</div>
 
                                 <div class="tools">
 
@@ -179,45 +179,83 @@
 
                             </div>
 
-                            <div class="portlet-body form">
+                            <div class="portlet-body">
 
-                                <!-- BEGIN FORM-->
+                                <div class="clearfix">
 
-                                <form action="?action=edit_group&group_id={$group_id}" method="POST" class="form-horizontal">
+                                    <div class="btn-group">
 
-                                    <div class="control-group">
+                                        <a href="?action=edit_product" class="btn red">
 
-                                        <label class="control-label">名称</label>
+                                        发布新产品 <i class="icon-plus"></i>
 
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="name" value="{$group.name|default:''}" />
-
-                                            <span class="help-inline">请输入英文分组名称</span>
-
-                                        </div>
+                                        </a>
 
                                     </div>
 
-                                    <div class="form-actions">
+                                </div>
 
-                                        <input type="hidden" name="submit" value="edit_group">
+                                <table class="table table-striped table-condensed table-hover">
 
-                                        <button type="submit" class="btn blue">保存</button>
+                                    <thead>
 
-                                        <a href="?action=group" class="btn">取消</a>
+                                        <tr>
 
-                                    </div>
+                                            <th>#</th>
 
-                                </form>
+                                            <th>标题</th>
 
-                                <!-- END FORM-->
+                                            <th>创建时间(+8)</th>
+
+                                            <th>最后修改时间(+8)</th>
+
+                                            <th>所属分组</th>
+
+                                            <th>&nbsp;</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+{section name=i loop=$products}
+                                        <tr>
+
+                                            <td>{$products[i].id}</td>
+
+                                            <td>{$products[i].caption}</td>
+
+                                            <td>{$products[i].created}</td>
+
+                                            <td>{$products[i].updated}</td>
+
+                                            <td>{$products[i].group_id}</td>
+
+                                            <td>
+
+                                                <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
+
+                                                <a href="?action=delete_product&product_id={$products[i].id}">删除</a>
+
+                                            </td>
+
+                                        </tr>
+{sectionelse}
+                                        <tr>
+
+                                            <td colspan="6">暂无任何产品</td>
+
+                                        </tr>
+{/section}
+                                    </tbody>
+
+                                </table>
 
                             </div>
 
                         </div>
 
-                        <!-- END SAMPLE FORM PORTLET-->
+                        <!-- END CONDENSED TABLE PORTLET-->
 
                     </div>
 

@@ -61,3 +61,17 @@ CREATE TABLE `enterprise_groups` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建分组表';
+
+CREATE TABLE `enterprise_products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '产品ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '产品标题',
+  `description` text NOT NULL COMMENT '产品描述',
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `locale` varchar(20) NOT NULL COMMENT '语种名称',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';
