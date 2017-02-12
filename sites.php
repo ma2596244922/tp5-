@@ -65,6 +65,9 @@ $domainInfo = array(
         'hydraulic-gearpump.com' => array(
                 'site_id' => 15,
             ),
+        'urldirectory.org' => array(
+                'site_id' => 15,
+            ),
         'industrial-steelbuildings.com' => array(
                 'site_id' => 13,
             ),
