@@ -191,13 +191,93 @@ function enterprise_admin_action_inquiry_detail($smarty)
 /**
  * Groups
  */
-function etnerprise_admin_action_group($smarty)
+function enterprise_admin_action_group($smarty)
 {
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $groupDAO = new \enterprise\daos\Group();
-    $condition = "`site_id`={$userSiteId}";
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
     $groups = $groupDAO->getMultiInOrderBy($condition);
     $smarty->assign('groups', $groups);
 
     $smarty->display('admin/group.tpl');
+}
+
+/**
+ * Assign group info
+ */
+function enterprise_admin_assign_group_info($smarty, $var, $groupId)
+{
+    $groupDAO = new \enterprise\daos\Group();
+    $group = $groupDAO->get($groupId);
+    $smarty->assign($var, $group);
+}
+
+/**
+ * Edit Group
+ */
+function enterprise_admin_action_edit_group($smarty)
+{
+    $tplPath = 'admin/edit_group.tpl';
+
+    $groupId = (int)enterprise_get_query_data('group_id');
+    $smarty->assign('group_id', $groupId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($groupId) 
+            enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+        else
+            $smarty->assign('group', array('name' => ''));
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $groupName = enterprise_get_post_data('name');
+
+    if (!$groupName) {
+        $smarty->assign('error_msg', '请输入分组名称');
+        return $smarty->display($tplPath);
+    }
+
+    $groupDAO = new \enterprise\daos\Group();
+    $values = array(
+            'site_id' => $userSiteId,
+            'name' => $groupName,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($groupId) {// Edit
+        $groupDAO->update($groupId, $values);
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $groupDAO->insert($values);
+        $smarty->assign('group', array('name' => ''));
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Group
+ */
+function enterprise_admin_action_delete_group($smarty)
+{
+    $groupId = (int)enterprise_get_query_data('group_id');
+
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`group_id`={$groupId}";
+    $product = $productDAO->getOneBy($condition);
+    if ($product) {
+        header('Location: ?action=group&error_msg=' . urlencode('该分组下存在产品，无法删除'));
+        return;
+    }
+
+    $groupDAO = new \enterprise\daos\Group();
+    $values = array(
+            'deleted' => 1,
+        );
+    $groupDAO->update($groupId, $values);
+    header('Location: ?action=group&success_msg=' . urlencode('删除成功'));
 }

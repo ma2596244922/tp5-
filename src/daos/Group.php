@@ -18,6 +18,7 @@ class Group extends \crawler\daos\AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'cnt' => 'int',
+            'deleted' => 'tinyint',
         );
 
     public function getTableName()

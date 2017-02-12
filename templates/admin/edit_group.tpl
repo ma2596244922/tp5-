@@ -113,7 +113,7 @@
 
                         <h3 class="page-title">
 
-                            我的分组 <small>产品分组汇总</small>
+                            编辑分组 <small>创建、修改分组信息</small>
 
                         </h3>
 
@@ -147,29 +147,29 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$smarty.get.error_msg} hide{/if}">
+                        <div class="alert alert-error{if !$error_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$smarty.get.error_msg}</span>
+                            <span>{$error_msg}</span>
 
                         </div>
 
-                        <div class="alert alert-success{if !$smarty.get.success_msg} hide{/if}">
+                        <div class="alert alert-success{if !$success_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$smarty.get.success_msg}</span>
+                            <span>{$success_msg}</span>
 
                         </div>
 
-                        <!-- BEGIN CONDENSED TABLE PORTLET-->
+                        <!-- BEGIN SAMPLE FORM PORTLET-->   
 
-                        <div class="portlet box green">
+                        <div class="portlet box blue">
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-group"></i>我的分组</div>
+                                <div class="caption"><i class="icon-reorder"></i>编辑分组</div>
 
                                 <div class="tools">
 
@@ -179,83 +179,45 @@
 
                             </div>
 
-                            <div class="portlet-body">
+                            <div class="portlet-body form">
 
-                                <div class="clearfix">
+                                <!-- BEGIN FORM-->
 
-                                    <div class="btn-group">
+                                <form action="?action=edit_group&group_id={$group_id}" method="POST" class="form-horizontal">
 
-                                        <a href="?action=edit_group" class="btn red">
+                                    <div class="control-group">
 
-                                        创建新分组 <i class="icon-plus"></i>
+                                        <label class="control-label">名称</label>
 
-                                        </a>
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="name" value="{$group.name}" />
+
+                                            <span class="help-inline">请输入英文分组名称</span>
+
+                                        </div>
 
                                     </div>
 
-                                </div>
+                                    <div class="form-actions">
 
-                                <table class="table table-striped table-condensed table-hover">
+                                        <input type="hidden" name="submit" value="edit_group">
 
-                                    <thead>
+                                        <button type="submit" class="btn blue">保存</button>
 
-                                        <tr>
+                                        <a href="?action=group" class="btn">取消</a>
 
-                                            <th>#</th>
+                                    </div>
 
-                                            <th>名称</th>
+                                </form>
 
-                                            <th>创建时间(+8)</th>
-
-                                            <th>最后修改时间(+8)</th>
-
-                                            <th>产品数量</th>
-
-                                            <th>&nbsp;</th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-{section name=i loop=$groups}
-                                        <tr>
-
-                                            <td>{$groups[i].id}</td>
-
-                                            <td>{$groups[i].name}</td>
-
-                                            <td>{$groups[i].created}</td>
-
-                                            <td>{$groups[i].updated}</td>
-
-                                            <td>{$groups[i].cnt}</td>
-
-                                            <td>
-
-                                                <a href="?action=edit_group&group_id={$groups[i].id}">修改</a>
-
-                                                <a href="?action=delete_group&group_id={$groups[i].id}">删除</a>
-
-                                            </td>
-
-                                        </tr>
-{sectionelse}
-                                        <tr>
-
-                                            <td colspan="6">暂无任何分组</td>
-
-                                        </tr>
-{/section}
-                                    </tbody>
-
-                                </table>
+                                <!-- END FORM-->
 
                             </div>
 
                         </div>
 
-                        <!-- END CONDENSED TABLE PORTLET-->
+                        <!-- END SAMPLE FORM PORTLET-->
 
                     </div>
 
