@@ -22,6 +22,16 @@ class Product extends \crawler\daos\AbstractDAO
             'updated' => 'text',
             'deleted' => 'tinyint',
             'tags' => 'text',
+            'brand_name' => 'text',
+            'model_number' => 'text',
+            'certification' => 'text',
+            'place_of_origin' => 'text',
+            'min_order_quantity' => 'text',
+            'price' => 'text',
+            'payment_terms' => 'text',
+            'supply_ability' => 'text',
+            'delivery_time' => 'text',
+            'packaging_details' => 'text',
         );
 
     public function getTableName()

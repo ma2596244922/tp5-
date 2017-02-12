@@ -376,6 +376,16 @@ function enterprise_admin_action_edit_product($smarty)
     $description = enterprise_get_post_data('description', 'trim');
     $groupId = enterprise_get_post_data('group_id');
     $tags = enterprise_get_post_data('tags');
+    $brandName = enterprise_get_post_data('brand_name');
+    $modelNumber = enterprise_get_post_data('model_number');
+    $certification = enterprise_get_post_data('certification');
+    $placeOfOrigin = enterprise_get_post_data('place_of_origin');
+    $minOrderQuantity = enterprise_get_post_data('min_order_quantity');
+    $price = enterprise_get_post_data('price');
+    $paymentTerms = enterprise_get_post_data('payment_terms');
+    $supplyAbility = enterprise_get_post_data('supply_ability');
+    $deliveryTime = enterprise_get_post_data('delivery_time');
+    $packagingDetails = enterprise_get_post_data('packaging_details');
 
     if (!$caption) {
         $smarty->assign('error_msg', '请输入产品名称');
@@ -395,6 +405,16 @@ function enterprise_admin_action_edit_product($smarty)
             'locale' => 'english',
             'updated' => date('Y-m-d H:i:s'),
             'tags' => $tags,
+            'brand_name' => $brandName,
+            'model_number' => $modelNumber,
+            'certification' => $certification,
+            'place_of_origin' => $placeOfOrigin,
+            'min_order_quantity' => $minOrderQuantity,
+            'price' => $price,
+            'payment_terms' => $paymentTerms,
+            'supply_ability' => $supplyAbility,
+            'delivery_time' => $deliveryTime,
+            'packaging_details' => $packagingDetails,
         );
     if ($productId) {// Edit
         $productDAO->update($productId, $values);

@@ -73,6 +73,16 @@ CREATE TABLE `enterprise_products` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
   `tags` varchar(255) NOT NULL COMMENT '关键词（逗号分隔）',
+  `brand_name` varchar(100) NOT NULL COMMENT '品牌',
+  `model_number` varchar(100) NOT NULL COMMENT '型号',
+  `certification` varchar(100) NOT NULL COMMENT '认证证书',
+  `place_of_origin` varchar(100) NOT NULL COMMENT '原产地',
+  `min_order_quantity` varchar(100) NOT NULL COMMENT '最小起订量',
+  `price` varchar(100) NOT NULL COMMENT '价格',
+  `payment_terms` varchar(100) NOT NULL COMMENT '付款方式',
+  `supply_ability` varchar(100) NOT NULL COMMENT '供货能力',
+  `delivery_time` varchar(100) NOT NULL COMMENT '发货期限',
+  `packaging_details` varchar(100) NOT NULL COMMENT '常规包装',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';

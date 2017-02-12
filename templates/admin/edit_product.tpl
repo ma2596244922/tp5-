@@ -241,6 +241,144 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">品牌</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="brand_name" value="{$product.brand_name|default:''}" />
+
+                                            <span class="help-inline"></span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">型号</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="model_number" value="{$product.model_number|default:''}" />
+
+                                            <span class="help-inline"></span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">认证证书</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="certification" value="{$product.certification|default:''}" />
+
+                                            <span class="help-inline"></span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">原产地</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="place_of_origin" value="{$product.place_of_origin|default:''}" />
+
+                                            <span class="help-inline"></span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">最小起订量</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="min_order_quantity" value="{$product.min_order_quantity|default:''}" />
+
+                                            <span class="help-inline">请同时填写数值和单位</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">价格</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="price" value="{$product.price|default:''}" placeholder="货币类型 + 价格区间 + 计量单位" />
+
+                                            <span class="help-inline">请同时填写数值和单位。建议填写方式为：货币类型 + 价格区间 + 计量单位</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">付款方式</label>
+
+                                        <div class="controls">
+
+                                            <input type="hidden" id="input-payment-terms" class="span6 select2" name="payment_terms" value="{$product.payment_terms|default:''}">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">供货能力</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="supply_ability" value="{$product.supply_ability|default:''}" placeholder="数量 + 计量单位 + per时间单位" />
+
+                                            <span class="help-inline">请同时填写数值和单位。建议填写方式为：数量 + 计量单位 + per时间单位</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">发货期限</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="delivery_time" value="{$product.delivery_time|default:''}" />
+
+                                            <span class="help-inline"></span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">常规包装</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="packaging_details" value="{$product.packaging_details|default:''}" />
+
+                                            <span class="help-inline">建议填写包装形式、尺寸，各类集装箱能装载的产品件数等信息，便于买家了解。</span>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">
@@ -337,6 +475,10 @@
 
             $("#select2_sample5").select2({
                 tags: []
+            });
+
+            $("#input-payment-terms").select2({
+                tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
             });
         });
 
