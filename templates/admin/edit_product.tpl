@@ -27,6 +27,8 @@
 
     <link href="media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
 
+    <link rel="stylesheet" type="text/css" href="media/css/select2_metro.css" />
+
     <link href="media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
 
     <link href="media/css/style-metro.css" rel="stylesheet" type="text/css"/>
@@ -183,7 +185,7 @@
 
                                 <!-- BEGIN FORM-->
 
-                                <form action="?action=edit_group&group_id={$group_id}" method="POST" class="form-horizontal">
+                                <form action="?action=edit_product&product_id={$product_id}" method="POST" class="form-horizontal">
 
                                     <div class="control-group">
 
@@ -194,6 +196,46 @@
                                             <input type="text" class="span6 m-wrap" name="caption" value="{$product.caption|default:''}" />
 
                                             <span class="help-inline">请输入英文产品标题</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">描述</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span12 ckeditor m-wrap" name="description" rows="6">{$product.description|default:''}</textarea>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">分组</label>
+
+                                        <div class="controls">
+
+                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+{section name=i loop=$groups}
+                                                <option value="{$groups[i].id}"{if isset($product.group_id) && $product.group_id==$groups[i].id} selected="selected"{/if}>{$groups[i].name}</option>
+{/section}
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">关键词</label>
+
+                                        <div class="controls">
+
+                                            <input type="hidden" id="select2_sample5" class="span6 select2" name="tags" value="{$product.tags|default:''}">
 
                                         </div>
 
@@ -273,6 +315,12 @@
 
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 
+    <script type="text/javascript" src="media/js/select2.min.js"></script>
+
+    <script src="ckeditor/ckeditor.js" type="text/javascript" ></script>
+
+    <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
+
     <!-- END CORE PLUGINS -->
 
     <script src="media/js/app.js"></script>      
@@ -285,6 +333,11 @@
 
            App.init();
 
+            $('textarea.description').ckeditor();
+
+            $("#select2_sample5").select2({
+                tags: []
+            });
         });
 
     </script>

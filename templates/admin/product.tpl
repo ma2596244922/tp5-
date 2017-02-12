@@ -229,7 +229,7 @@
 
                                             <td>{$products[i].updated}</td>
 
-                                            <td>{$products[i].group_id}</td>
+                                            <td>{$products[i].group_name}</td>
 
                                             <td>
 

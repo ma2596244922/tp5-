@@ -72,6 +72,7 @@ CREATE TABLE `enterprise_products` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `tags` varchar(255) NOT NULL COMMENT '关键词（逗号分隔）',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';

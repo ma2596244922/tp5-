@@ -32,6 +32,8 @@ function enterprise_admin_assign_user_info($smarty, $var, $userId)
     $smarty->assign($var, $user);
 }
 
+/* {{{ Common */
+
 /**
  * Assign inquiry list to template
  */
@@ -43,6 +45,19 @@ function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageN
     $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
     $smarty->assign($var, $inquiries);
 }
+
+/**
+ * Assign Group List
+ */
+function enterprise_admin_assign_group_list($smarty, $var, $siteId)
+{
+    $groupDAO = new \enterprise\daos\Group();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $groups = $groupDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $groups);
+}
+
+/* }}} */
 
 /**
  * Dashboard
@@ -208,10 +223,7 @@ function enterprise_admin_action_inquiry_detail($smarty)
 function enterprise_admin_action_group($smarty)
 {
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $groupDAO = new \enterprise\daos\Group();
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
-    $groups = $groupDAO->getMultiInOrderBy($condition);
-    $smarty->assign('groups', $groups);
+    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
     $smarty->display('admin/group.tpl');
 }
@@ -310,7 +322,7 @@ function enterprise_admin_action_product($smarty)
 
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`caption`, p.`created`, p.`updated`, g.`name` AS `group_name`
+    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
     WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 LIMIT {$start}, {$max}";
@@ -348,6 +360,9 @@ function enterprise_admin_action_edit_product($smarty)
     $productId = (int)enterprise_get_query_data('product_id');
     $smarty->assign('product_id', $productId);
 
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+
     $submitButton = enterprise_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($productId) 
@@ -358,11 +373,16 @@ function enterprise_admin_action_edit_product($smarty)
     // Save
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $caption = enterprise_get_post_data('caption');
-    $description = enterprise_get_post_data('description');
+    $description = enterprise_get_post_data('description', 'trim');
     $groupId = enterprise_get_post_data('group_id');
+    $tags = enterprise_get_post_data('tags');
 
     if (!$caption) {
         $smarty->assign('error_msg', '请输入产品名称');
+        return $smarty->display($tplPath);
+    }
+    if (!$groupId) {
+        $smarty->assign('error_msg', '请选择所属分组');
         return $smarty->display($tplPath);
     }
 
@@ -374,6 +394,7 @@ function enterprise_admin_action_edit_product($smarty)
             'group_id' => $groupId,
             'locale' => 'english',
             'updated' => date('Y-m-d H:i:s'),
+            'tags' => $tags,
         );
     if ($productId) {// Edit
         $productDAO->update($productId, $values);
