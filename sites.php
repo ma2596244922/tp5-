@@ -67,7 +67,7 @@ $domainInfo = array(
             ),
         'industrial-steelbuildings.com' => array(
                 'site_id' => 13,
-            ,)
+            ),
     );
 $siteInfo = array(
         1 => array(
