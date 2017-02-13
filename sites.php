@@ -65,11 +65,11 @@ $domainInfo = array(
         'hydraulic-gearpump.com' => array(
                 'site_id' => 15,
             ),
-        'urldirectory.org' => array(
-                'site_id' => 15,
-            ),
         'industrial-steelbuildings.com' => array(
                 'site_id' => 13,
+            ),
+        'urldirectory.org' => array(
+                'site_id' => 18,
             ),
     );
 $siteInfo = array(
@@ -93,5 +93,8 @@ $siteInfo = array(
             ),
         15 => array(
                 'original_domain_prefix' => 'hydraulic-gearpumps.com',
+            ),
+        18 => array(
+                'original_domain_prefix' => 'saar-hydraulic.com',
             ),
     );
