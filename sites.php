@@ -64,12 +64,21 @@ $domainInfo = array(
             ),
         'hydraulic-gearpump.com' => array(
                 'site_id' => 15,
+                'cnzz' => array(
+                        'id' => '1261247967',
+                    ),
             ),
         'industrial-steelbuildings.com' => array(
                 'site_id' => 13,
+                'cnzz' => array(
+                        'id' => '1261247993',
+                    ),
             ),
         'urldirectory.org' => array(
                 'site_id' => 18,
+                'cnzz' => array(
+                        'id' => '1261248009',
+                    ),
             ),
     );
 $siteInfo = array(
