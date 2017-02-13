@@ -67,17 +67,26 @@ $domainInfo = array(
                 'cnzz' => array(
                         'id' => '1261247967',
                     ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
         'industrial-steelbuildings.com' => array(
                 'site_id' => 13,
                 'cnzz' => array(
                         'id' => '1261247993',
                     ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
         'urldirectory.org' => array(
                 'site_id' => 18,
                 'cnzz' => array(
                         'id' => '1261248009',
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
     );
