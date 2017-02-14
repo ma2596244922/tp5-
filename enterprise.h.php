@@ -5,6 +5,8 @@
  * @package timandes\enterprise
  */
 
+/* {{{ Common */
+
 /**
  * 获取站点基本信息
  */
@@ -87,6 +89,41 @@ function enterprise_get_session_data($key, $filters = 'trim, strip_tags')
     return enterprise_filter($v, $filters);
 }
 
+function enterprise_filter_response($content, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
+    $content = str_replace($originalDomainSuffix, $currentDomainSuffix, $content);
+    $content = str_replace('//www.google-analytics.com/analytics.js', '', $content);
+    echo $content;
+}
+
+function enterprise_print_cnzz($meta)
+{
+    if (!isset($meta['id'])
+            || !$meta['id'])
+        return;
+
+    $paramShow = '';
+    if (isset($meta['pic'])
+            && $meta['pic'])
+        $paramShow = '%26show%3Dpic' . $meta['pic'];
+
+    echo <<<EOT
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_{$meta['id']}'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s95.cnzz.com/z_stat.php%3Fid%3D{$meta['id']}{$paramShow}' type='text/javascript'%3E%3C/script%3E"));</script>
+EOT;
+}
+
+function enterprise_output_cnzz($currentDomainSuffix)
+{
+    global $domainInfo;
+
+    if (isset($domainInfo[$currentDomainSuffix]['cnzz'])
+            && is_array($domainInfo[$currentDomainSuffix]['cnzz']))
+        enterprise_print_cnzz($domainInfo[$currentDomainSuffix]['cnzz']);
+}
+
+/* }}} */
+
 /**
  * 展示Sitemap Index页面
  */
@@ -156,6 +193,23 @@ function enterprise_action_uploaded_image_proc($imageId)
     exit;
 }
 
+function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+{
+    if (!$productId)
+        throw new HttpException(404);
+
+    $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->get($productId);
+    if (!$product) 
+        throw new HttpException(404);
+    $smarty->assign('product', $product);
+
+    $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
+    $response = $smarty->fetch($tplPath);
+    echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
+    enterprise_output_cnzz($currentDomainSuffix);
+}
+
 /**
  * 保存询盘
  */
@@ -222,6 +276,21 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId)
     $inquiryDAO->insert($values);
     $smarty->display('inquiry_sent.tpl');
     exit(0);
+}
+
+/**
+ * Router
+ */
+function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    if ($requestPath == '/contactsave.html') {
+        return enterprise_action_save_inquiry_proc($smarty, $siteId);
+    } elseif(preg_match('/^\/sale-new-([0-9]+)(-[a-z]+)+\.html$/', $requestPath, $matches)) {
+        $productId = $matches[1];
+        return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
+    }
+
+    throw new HttpException(404);
 }
 
 /**
