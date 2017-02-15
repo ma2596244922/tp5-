@@ -223,7 +223,11 @@
 
                                             <td>{$products[i].id}</td>
 
-                                            <td>{$products[i].caption}</td>
+                                            <td>
+
+                                                <a href="{$products[i]|url:'enterprise_url_product'}" target="_blank">{$products[i].caption}</a>
+
+                                            </td>
 
                                             <td>{$products[i].created}</td>
 

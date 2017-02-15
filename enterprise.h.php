@@ -122,6 +122,24 @@ function enterprise_output_cnzz($currentDomainSuffix)
         enterprise_print_cnzz($domainInfo[$currentDomainSuffix]['cnzz']);
 }
 
+/**
+ * 标准化处理可能出现在URL中的短语
+ *  源自：china.cn
+ */
+function enterprise_standardize_url_key($s)
+{
+    return strtolower(preg_replace('/[\s]+/',' ',str_replace(array('?','!',',',':',';','|','-','(',')','[',']','{','}','<','>','/','\\','@','#','$','%','^','&','*','+','`','"',"'",'~'),' ',$s)));
+}
+
+/**
+ * 处理url中的关键字
+ *  源自：china.cn
+ */
+function enterprise_generate_url_key($str)
+{
+    return preg_replace('/[\s]+/', '-', enterprise_standardize_url_key($str));
+}
+
 /* }}} */
 
 /**
@@ -204,6 +222,15 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
         throw new HttpException(404);
     $smarty->assign('product', $product);
 
+    $productTags = array();
+    if ($product['tags']) {
+        $a = explode(',', $product['tags']);
+        foreach ($a as $tag) {
+            $productTags[] = trim($tag);
+        }
+    }
+    $smarty->assign('product_tags', $productTags);
+
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
@@ -285,7 +312,7 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 {
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId);
-    } elseif(preg_match('/^\/sale-new-([0-9]+)(-[a-z]+)+\.html$/', $requestPath, $matches)) {
+    } elseif(preg_match('/^\/sale-new-([0-9]+)(-[0-9a-z]+)+\.html$/', $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     }
@@ -293,14 +320,38 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
     throw new HttpException(404);
 }
 
+/* {{{ URLs */
+
+function enterprise_url_prefix()
+{
+    return 'http://' . $_SERVER['HTTP_HOST'];
+}
+
 /**
  * URL - Image
  *
  * @return string
  */
-function enterprise_url_image($imageId)
+function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = 'n')
 {
     if (!$imageId)
         return 'media/image/no_image.png';
-    return 'http://' . $_SERVER['HTTP_HOST'] . '/uploaded_images/' . $imageId . '.jpg';
+
+    $suffix = '';
+    if ($productCaption)
+        $suffix = '-' . enterprise_generate_url_key($productCaption);
+
+    return enterprise_url_prefix() . '/uploaded_images/' . $imageSizeType . $imageId . $suffix . '.jpg';
 }
+
+/**
+ * URL - Product
+ *
+ * @return string
+ */
+function enterprise_url_product($product)
+{
+    return enterprise_url_prefix() . '/sale-new-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+}
+
+/* }}} */

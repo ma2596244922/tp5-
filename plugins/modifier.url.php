@@ -6,7 +6,7 @@
 /**
  * Modifier URL
  */
-function smarty_modifier_url($string, $function)
+function smarty_modifier_url($string, $function, ...$parameters)
 {
-    return call_user_func($function, $string);
+    return call_user_func($function, $string, ...$parameters);
 }

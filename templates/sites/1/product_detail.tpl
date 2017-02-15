@@ -351,13 +351,13 @@ var query_string = ["Products","Detail"];
                 <td class="product_wrap_flash">
                     <dl class="le r_flash">
                         <dt>
-                            <a id="largeimg" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="http://www.snackmakingmachine.com/photo/pl2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="http://www.snackmakingmachine.com/photo/pc2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg" alt="China {$product.caption} supplier" /></div></a>                        </dt>
+                            <a id="largeimg" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'l'}"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'s'}" alt="China {$product.caption} supplier" /></div></a>                        </dt>
                         <dd>
                             <div class="blk_18">
                                                             </div>
                                                                                         <p class="sear">
                                 <span class="fleft">Large Image :&nbsp;</span>
-                                <a id="large" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="http://www.snackmakingmachine.com/photo/pl2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg">{$product.caption}</a>                            </p>
+                                <a id="large" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'l'}">{$product.caption}</a>                            </p>
                                                             
                             <div class="clearfix"></div>
                         </dd>
@@ -370,19 +370,19 @@ var query_string = ["Products","Detail"];
                             <tbody>
                                                                                             <tr>
                                 <th width="35%">Place of Origin:</th>
-                                <td>Shandong, China (Mainland)</td>
+                                <td>{$product.place_of_origin|default:'Negotiation'}</td>
                             </tr>
                                                                                             <tr>
                                 <th width="35%">Brand Name:</th>
-                                <td>LD</td>
+                                <td>{$product.brand_name|default:'Negotiation'}</td>
                             </tr>
                                                                                             <tr>
                                 <th width="35%">Certification:</th>
-                                <td>CE, ISO9001</td>
+                                <td>{$product.certification|default:'Negotiation'}</td>
                             </tr>
                                                                                             <tr>
                                 <th width="35%">Model Number:</th>
-                                <td>LD65, LD70</td>
+                                <td>{$product.model_number|default:'Negotiation'}</td>
                             </tr>
                                                         
                             </tbody>
@@ -393,27 +393,27 @@ var query_string = ["Products","Detail"];
                                 <tbody>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Minimum Order Quantity:</th>
-                                        <td>1set</td>
+                                        <td>{$product.min_order_quantity|default:'Negotiation'}</td>
                                     </tr>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Price:</th>
-                                        <td>negotiation</td>
+                                        <td>{$product.price|default:'Negotiation'}</td>
                                     </tr>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Packaging Details:</th>
-                                        <td>Neutral package,Wooden package</td>
+                                        <td>{$product.packaging_details|default:'Negotiation'}</td>
                                     </tr>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Delivery Time:</th>
-                                        <td>30days</td>
+                                        <td>{$product.delivery_time|default:'Negotiation'}</td>
                                     </tr>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Payment Terms:</th>
-                                        <td>Negotiation</td>
+                                        <td>{$product.payment_terms|default:'Negotiation'}</td>
                                     </tr>
                                                                                                         <tr>
                                         <th width="35%" nowrap="nowrap">Supply Ability:</th>
-                                        <td>designed</td>
+                                        <td>{$product.supply_ability|default:'Negotiation'}</td>
                                     </tr>
                                                                                                 </tbody>
                             </table>
@@ -426,7 +426,7 @@ var query_string = ["Products","Detail"];
                                 <input type="submit" value="" class="btn contact_btn">
                             </form>
                         </div>
-                        <button chatnow style="display: none" pid=2054004 type="0" uid="3387" pname="{$product.caption}" purl="/index.php?r=Products/Detail&productId=2054004" picurl="http://www.snackmakingmachine.com/photo/pc2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg"><span></span>Chat Now</button><script type=text/javascript src="/webim/webim.js"></script>                </td>
+                        <button chatnow style="display: none" pid=2054004 type="0" uid="3387" pname="{$product.caption}" purl="/index.php?r=Products/Detail&productId=2054004" picurl="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'s'}"><span></span>Chat Now</button><script type=text/javascript src="/webim/webim.js"></script>                </td>
                             </tr>
             </tbody>
         </table>
@@ -437,170 +437,16 @@ var query_string = ["Products","Detail"];
 
 <div class="details_wrap">
     <div class="clearfix"></div>
-    <p><p align="left">
-    &nbsp;</p>
-<p align="left">
-    &nbsp;</p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif"><strong>Quick Details</strong></span></span></p>
-<p align="left">
-    &nbsp;</p>
-<ul>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Condition: New</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Application: Sala/Crispy Chips/Bugles Snacks ,shapes can be sticks etc.</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Voltage: 380V/220V</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Power(W): 75kw/82kw</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Dimension(L*W*H): 22000x1200x2200mm/24000x1500x2200mm</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Warranty: 1 year</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">After-sales Service Provided: Engineers available to service machinery overseas</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Raw materials: wheat powder as usual</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Flow chart: Mixing ---Extrusion ----Shaping ---frying ---Flavoring</span></span></li>
-    <li>
-        <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Machines Materials: All the machines are made by sus</span></span></li>
-</ul>
-<p>
-    &nbsp;</p>
-<p>
-    &nbsp;</p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif"><strong>Specifications:</strong></span></span></p>
-<p align="left">
-    &nbsp;</p>
-<p>
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">1 Double Screw Extruder<br />
-    2 raw material: corn powder<br />
-    3capacity: 120-150kg/h, 200-250kg/h</span></span></p>
-<p>
-    &nbsp;</p>
-<p>
-    <br />
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif"><strong>Sala/Crispy Chips/Bugles Snacks Processing Line/Machiner</strong></span></span></p>
-<p>
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif"><strong>1. Description&nbsp;</strong><br />
-    <br />
-    Sala/Crispy Chips/Bugles Snacks Processing Line/Machinery&nbsp; uses double screw extruding technique to replace the traditional steam boiling process. It includes mixing, cooking, extruding, and shaping process, no needing boiler, with simple process, high efficiency and little pollution. The raw materials can be rice powder, corn powder, wheat flour individually or their mixture. Only by changing the moulds, shaping or cutting machine, the shapes can be various: like sticks, square sheet rib chips, diamond chips, wavy chips, pillow shapes and bugles etc. The taste is good and also without greasiness.<br />
-    <br />
-    <strong>2. Raw materials: </strong></span></span></p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;wheat powder as usual<br />
-    <br />
-    <strong>3. Products: </strong></span></span></p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">shapes can be various: like sticks, square sheet rib chips, diamond chips, wavy chips, pillow shapes and bugles etc.<br />
-    <br />
-    <strong>4. Capacity: </strong>120-150kg/h, 200-250kg/h<br />
-    <br />
-    <strong>5. Flow chart: </strong>Mixing ---Extrusion ----Shaping ---frying ---Flavoring<br />
-    <br />
-    <strong>6. Voltage in China: </strong></span></span></p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;Three phases: 380V/50Hz, Single phase: 220V/50Hz, we can make it according to customers&#39; Local voltage&nbsp;according to different countries<br />
-    <br />
-    <strong>7. Machines Materials: </strong></span></span></p>
-<p align="left">
-    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;All the machines are made by&nbsp;ss<br />
-    <br />
-    <strong>8. Technical Parameters</strong></span></span></p>
-<p align="left">
-    &nbsp;</p>
-<table border="1" cellpadding="0" cellspacing="0" style="width: 550px" width="80%">
-    <tbody>
-        <tr>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Model</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">LD65</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">LD70</span></span></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Installed power</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">119kw</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">126kw</span></span></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Power Consumption</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">75kw</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;82kw</span></span></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Output</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">120--150kg/h</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;200kg/h</span></span></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">Size</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">22000x1200x2200mm</span></span></p>
-            </td>
-            <td>
-                <p align="left">
-                    <span style="font-size: 14px"><span style="font-family: arial, helvetica, sans-serif">&nbsp;24000x1500x2200mm</span></span></p>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<p>
-    <img alt="{$product.caption}" src="/photo/snackmakingmachine/editor/20140416170943_57059.gif" style="width: 600px; height: 600px;"></p>
-<p>
-    &nbsp;</p>
-</img></p>
+{$product.description}
     <div class="clearfix10"></div>
 </div>
 
     <div class="key_wrap">
         <b>Tag:</b>
-                    <h2 class="tag_words">
-                <a title="good quality food frying machine factory" href="/buy-food_frying_machine.html">food frying machine</a>,           </h2>
-                    <h2 class="tag_words">
-                <a title="good quality stick Making Machine factory" href="/buy-stick_making_machine.html">stick Making Machine</a>         </h2>
-                    </div>
+{section name=i loop=$product_tags}
+            {if $smarty.section.i.index!=0},{/if}<h2 class="tag_words">{$product_tags[i]}</h2>
+{/section}
+    </div>
 </div> <div class="no_contact_detail">
     <div class="main_title">
         <strong class="main_con">Contact Details</strong>
