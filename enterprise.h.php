@@ -306,6 +306,15 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
 }
 
 /**
+ * robots.txt
+ */
+function enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    header('Content-Type: text/plain');
+    $smarty->display('robots.tpl');
+}
+
+/**
  * Router
  */
 function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
@@ -315,6 +324,8 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
     } elseif(preg_match('/^\/sale-new-([0-9]+)(-[0-9a-z]+)+\.html$/', $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
+    } elseif ($requestPath == '/robots.txt') {
+        return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     throw new HttpException(404);
