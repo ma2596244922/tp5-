@@ -70,19 +70,24 @@ if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])
     }
 }
 // + Page
-$pageDAO = new \crawler\daos\Page();
-$page = $pageDAO->getByUrlSum($urlSum);
-if ($page) {
-    if ($page['status_code'] != 200) {
-        http_response_code($page['status_code']);
-        exit(1);
+$skippingPages = array(
+        '/contactsave.html',
+    );
+if (!in_array($requestPath, $skippingPages)) {
+    $pageDAO = new \crawler\daos\Page();
+    $page = $pageDAO->getByUrlSum($urlSum);
+    if ($page) {
+        if ($page['status_code'] != 200) {
+            http_response_code($page['status_code']);
+            exit(1);
+        }
+
+        echo enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
+
+        // CNZZ
+        enterprise_output_cnzz($currentDomainSuffix);
+        exit(0);
     }
-
-    echo enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
-
-    // CNZZ
-    enterprise_output_cnzz($currentDomainSuffix);
-    exit(0);
 }
 // + Image N Resource
 $daos = array(
