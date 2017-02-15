@@ -240,7 +240,7 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
 /**
  * 保存询盘
  */
-function enterprise_action_save_inquiry_proc($smarty, $siteId)
+function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
     $subject = enterprise_get_post_data('subject');
     $message = enterprise_get_post_data('message', 'trim');
@@ -302,7 +302,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId)
         );
     $inquiryDAO->insert($values);
     $smarty->display('inquiry_sent.tpl');
-    exit(0);
+    enterprise_output_cnzz($currentDomainSuffix);
 }
 
 /**
@@ -311,7 +311,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId)
 function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
     if ($requestPath == '/contactsave.html') {
-        return enterprise_action_save_inquiry_proc($smarty, $siteId);
+        return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match('/^\/sale-new-([0-9]+)(-[0-9a-z]+)+\.html$/', $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
