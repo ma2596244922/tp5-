@@ -69,6 +69,12 @@ if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])
         }
     }
 }
+
+$smarty = new Smarty();
+$smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
+$smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
+$smarty->addPluginsDir(realpath(__DIR__ . '/../') . '/plugins/');
+
 // + Page
 $skippingPages = array(
         '/contactsave.html',
@@ -85,7 +91,17 @@ if (!in_array($requestPath, $skippingPages)) {
         // Cache control
         header('Cache-Control: max-age=86400');
 
-        echo enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
+        $response = enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
+        // Replace group list
+        $originalGroupListTplPath = 'sites/' . $siteId . '/original_group_list.tpl';
+        if ($smarty->templateExists($originalGroupListTplPath)) {
+            $originalGroupListHtml = $smarty->fetch($originalGroupListTplPath);
+            enterprise_assign_group_list($smarty, 'groups', $siteId);
+            $newGroupListHtml = $smarty->fetch('sites/' . $siteId . '/new_group_list.tpl');
+            $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
+        }
+
+        echo $response;
 
         // CNZZ
         enterprise_output_cnzz($currentDomainSuffix);
@@ -120,10 +136,6 @@ foreach ($daos as $dao) {
 }
 
 // 其次匹配特殊页面
-$smarty = new Smarty();
-$smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
-$smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
-$smarty->addPluginsDir(realpath(__DIR__ . '/../') . '/plugins/');
 
 try {
     enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix);

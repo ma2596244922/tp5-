@@ -51,10 +51,7 @@ function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageN
  */
 function enterprise_admin_assign_group_list($smarty, $var, $siteId)
 {
-    $groupDAO = new \enterprise\daos\Group();
-    $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $groups = $groupDAO->getMultiInOrderBy($condition);
-    $smarty->assign($var, $groups);
+    enterprise_assign_group_list($smarty, $var, $siteId);
 }
 
 /* }}} */
