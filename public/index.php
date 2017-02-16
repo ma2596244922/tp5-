@@ -86,6 +86,11 @@ if (!in_array($requestPath, $skippingPages)) {
 
         // CNZZ
         enterprise_output_cnzz($currentDomainSuffix);
+
+        // float2006.tq.cn
+        if ($currentDomainSuffix == 'syrianeducation.org'
+                && $requestPath != '/contactnow.html')
+            echo '<SCRIPT LANGUAGE="JavaScript" src=http://float2006.tq.cn/floatcard?adminid=9772016&sort=0 ></SCRIPT>';
         exit(0);
     }
 }
