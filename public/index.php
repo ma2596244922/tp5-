@@ -82,6 +82,9 @@ if (!in_array($requestPath, $skippingPages)) {
             exit(1);
         }
 
+        // Cache control
+        header('Cache-Control: max-age=86400');
+
         echo enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
 
         // CNZZ
@@ -106,6 +109,9 @@ foreach ($daos as $dao) {
             http_response_code($image['status_code']);
             exit(1);
         }
+
+        // Cache control
+        header('Cache-Control: max-age=2592000');
 
         header('Content-Type: ' . $image['content_type']);
         echo $image['content'];
