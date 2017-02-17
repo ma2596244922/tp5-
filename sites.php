@@ -93,6 +93,11 @@ $domainInfo = array(
 $siteInfo = array(
         1 => array(
                 'original_domain_prefix' => 'snackmakingmachine.com',
+                'group_list_characteristic' => array(
+                        'tag_name' => 'div',
+                        'attr_name' => 'class',
+                        'attr_value' => 'n_menu_list',
+                    ),
             ),
         2 => array(
                 'original_domain_prefix' => 'beauty-equipments.com',

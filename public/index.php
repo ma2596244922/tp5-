@@ -93,13 +93,7 @@ if (!in_array($requestPath, $skippingPages)) {
 
         $response = enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
         // Replace group list
-        $originalGroupListTplPath = 'sites/' . $siteId . '/original_group_list.tpl';
-        if ($smarty->templateExists($originalGroupListTplPath)) {
-            $originalGroupListHtml = $smarty->fetch($originalGroupListTplPath);
-            enterprise_assign_group_list($smarty, 'groups', $siteId);
-            $newGroupListHtml = $smarty->fetch('sites/' . $siteId . '/new_group_list.tpl');
-            $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
-        }
+        $response = enterprise_response_replace_group_list($smarty, $siteId, $response);
 
         echo $response;
 

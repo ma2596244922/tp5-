@@ -387,3 +387,42 @@ function enterprise_assign_group_list($smarty, $var, $siteId)
     $groups = $groupDAO->getMultiInOrderBy($condition);
     $smarty->assign($var, $groups);
 }
+
+/**
+ * Response - Replace group list
+ */
+function enterprise_response_replace_group_list($smarty, $siteId, $response)
+{
+    $characteristic = enterprise_site_info_get_group_list_characteristic($siteId);
+    if (!$characteristic)
+        return $response;
+
+    $document = new \DOMDocument();
+    @$document->loadHTML($response);
+    $groupListElement = \analyzer\utils\DOMUtils::findFirstElementByTagNameNAttribute($document, $characteristic['tag_name'], $characteristic['attr_name'], $characteristic['attr_value']);
+    if ($groupListElement) {
+        $originalGroupListHtml = $document->saveHTML($groupListElement);
+        enterprise_assign_group_list($smarty, 'groups', $siteId);
+        $newGroupListHtmlFragment = $smarty->fetch('sites/' . $siteId . '/group_list_fragment.tpl');
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($newGroupListHtmlFragment);
+        $groupListElement->appendChild($fragment);
+        $newGroupListHtml = $document->saveHTML($groupListElement);
+        $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
+    }
+
+    return $response;
+}
+
+/**
+ * Site Info - Get characteristic of group list
+ */
+function enterprise_site_info_get_group_list_characteristic($siteId)
+{
+    global $siteInfo;
+
+    if (!isset($siteInfo[$siteId]['group_list_characteristic']))
+        return null;
+
+    return $siteInfo[$siteId]['group_list_characteristic'];
+}
