@@ -231,6 +231,8 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     }
     $smarty->assign('product_tags', $productTags);
 
+    enterprise_assign_group_list($smarty, 'groups', $siteId);
+
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);

@@ -238,7 +238,7 @@ var query_string = ["Products","Detail"];
             <a title="China Fried Wheat Flour Snacks Making Machine  on sales" href="/supplier-40726-fried-wheat-flour-snacks-making-machine">Fried Wheat Flour Snacks Making Machine</a>                       <span class="num">(12)</span>
                     </strong>
     </div>
-            <div class="item active">
+            <div class="item ">
         <strong>
             <a title="China Bugles Making Machine  on sales" href="/supplier-40727-bugles-making-machine">Bugles Making Machine</a>                     <span class="num">(9)</span>
                     </strong>
@@ -258,6 +258,7 @@ var query_string = ["Products","Detail"];
             <a title="China Peanut Processing Machine  on sales" href="/supplier-60956-peanut-processing-machine">Peanut Processing Machine</a>                     <span class="num">(45)</span>
                     </strong>
     </div>
+{include file="sites/1/group_list_fragment.tpl"}
     </div>
 <!-- n_menu_list-40727:2017-02-11 16:59:24 -->
 
