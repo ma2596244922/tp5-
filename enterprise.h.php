@@ -94,7 +94,7 @@ function enterprise_filter_response($content, $originalDomainSuffix, $currentDom
     $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
     $content = str_replace($originalDomainSuffix, $currentDomainSuffix, $content);
     $content = str_replace('//www.google-analytics.com/analytics.js', '', $content);
-    echo $content;
+    return $content;
 }
 
 function enterprise_print_cnzz($meta)
@@ -365,4 +365,64 @@ function enterprise_url_product($product)
     return enterprise_url_prefix() . '/sale-new-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
 }
 
+/**
+ * URL - Product List
+ *
+ * @return string
+ */
+function enterprise_url_product_list($group)
+{
+    return enterprise_url_prefix() . '/supplier-new-' . $group['id'] . '-' . enterprise_generate_url_key($group['name']) . '.html';
+}
+
 /* }}} */
+
+/**
+ * Assign Group List
+ */
+function enterprise_assign_group_list($smarty, $var, $siteId)
+{
+    $groupDAO = new \enterprise\daos\Group();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $groups = $groupDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $groups);
+}
+
+/**
+ * Response - Replace group list
+ */
+function enterprise_response_replace_group_list($smarty, $siteId, $response)
+{
+    $characteristic = enterprise_site_info_get_group_list_characteristic($siteId);
+    if (!$characteristic)
+        return $response;
+
+    $document = new \DOMDocument();
+    @$document->loadHTML($response);
+    $groupListElement = \analyzer\utils\DOMUtils::findFirstElementByTagNameNAttribute($document, $characteristic['tag_name'], $characteristic['attr_name'], $characteristic['attr_value']);
+    if ($groupListElement) {
+        $originalGroupListHtml = $document->saveHTML($groupListElement);
+        enterprise_assign_group_list($smarty, 'groups', $siteId);
+        $newGroupListHtmlFragment = $smarty->fetch('sites/' . $siteId . '/group_list_fragment.tpl');
+        $fragment = $document->createDocumentFragment();
+        $fragment->appendXML($newGroupListHtmlFragment);
+        $groupListElement->appendChild($fragment);
+        $newGroupListHtml = $document->saveHTML($groupListElement);
+        $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
+    }
+
+    return $response;
+}
+
+/**
+ * Site Info - Get characteristic of group list
+ */
+function enterprise_site_info_get_group_list_characteristic($siteId)
+{
+    global $siteInfo;
+
+    if (!isset($siteInfo[$siteId]['group_list_characteristic']))
+        return null;
+
+    return $siteInfo[$siteId]['group_list_characteristic'];
+}
