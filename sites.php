@@ -89,6 +89,9 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'seamless-steel-tubes.com' => array(
+                'site_id' => 19,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -119,5 +122,8 @@ $siteInfo = array(
             ),
         18 => array(
                 'original_domain_prefix' => 'saar-hydraulic.com',
+            ),
+        19 => array(
+                'original_domain_prefix' => 'seamless-steel-tubes.com',
             ),
     );
