@@ -223,7 +223,11 @@
 
                                             <td>{$groups[i].id}</td>
 
-                                            <td>{$groups[i].name}</td>
+                                            <td>
+
+                                                <a href="{$groups[i]|url:'enterprise_url_product_list'}" target="_blank">{$groups[i].name}</a>
+
+                                            </td>
 
                                             <td>{$groups[i].created}</td>
 

@@ -211,6 +211,9 @@ function enterprise_action_uploaded_image_proc($imageId)
     exit;
 }
 
+/**
+ * Product Detail
+ */
 function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
 {
     if (!$productId)
@@ -234,6 +237,49 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     enterprise_assign_group_list($smarty, 'groups', $siteId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
+    $response = $smarty->fetch($tplPath);
+    echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
+    enterprise_output_cnzz($currentDomainSuffix);
+}
+
+/**
+ * Product List
+ */
+function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo = 1)
+{
+    if (!$groupId)
+        throw new HttpException(404);
+
+    $groupId = (int)$groupId;
+    $pageSize = 10;
+    $start = ($pageNo - 1) * $pageSize;
+
+    // Product list
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$groupId}";
+    $products = $productDAO->getMultiInOrderBy($condition, '*', '`id` DESC', $pageSize, $start);
+    $smarty->assign('products', $products);
+
+    // Total products
+    $totalProducts = $productDAO->countBy($condition);
+    $totalPages = (int)($totalProducts / $pageSize) + (($totalProducts % $pageSize)?1:0);
+    $smarty->assign('total_products', $totalProducts);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    // Group info
+    $groupDAO = new \enterprise\daos\Group();
+    $group = $groupDAO->get($groupId);
+    if (!$group) 
+        throw new HttpException(404);
+    $smarty->assign('group', $group);
+
+    // All groups
+    enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    // Filter
+    $tplPath = 'sites/' . $siteId . '/product_list.tpl';
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
     enterprise_output_cnzz($currentDomainSuffix);
@@ -323,11 +369,18 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 {
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match('/^\/sale-new-([0-9]+)(-[0-9a-z]+)+\.html$/', $requestPath, $matches)) {
+    } elseif(preg_match('/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/', $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
         return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif(preg_match('/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/', $requestPath, $matches)) {
+        $groupId = $matches[1];
+        if ($matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        return enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     }
 
     throw new HttpException(404);
@@ -372,9 +425,12 @@ function enterprise_url_product($product)
  *
  * @return string
  */
-function enterprise_url_product_list($group)
+function enterprise_url_product_list($group, $pageNo = 1)
 {
-    return enterprise_url_prefix() . '/supplier-new-' . $group['id'] . '-' . enterprise_generate_url_key($group['name']) . '.html';
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = 'p' . $pageNo;
+    return enterprise_url_prefix() . '/supplier-new-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
 }
 
 /* }}} */
