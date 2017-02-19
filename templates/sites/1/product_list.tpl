@@ -169,7 +169,7 @@ var query_string = ["Products","Show",40444];
     </div>
             <div class="item active">
         <strong>
-            <a title="China {$group.name}  on sales" href="/supplier-40444-corn-flakes-making-machine">{$group.name}</a>                      <span class="num">(23)</span>
+            <a title="China Corn Flakes Making Machine  on sales" href="/supplier-40444-corn-flakes-making-machine">Corn Flakes Making Machine</a>                      <span class="num">(23)</span>
                     </strong>
     </div>
             <div class="item ">
@@ -408,7 +408,7 @@ var query_string = ["Products","Show",40444];
             <td class="r_f_l_wrap">
                 <ul class="r_f_l ">
 {section name=i loop=$products max=5}
-                                            <li class="textf cur" id="no_product_flashcate_li{$smarty.section.i.index}">
+                        <li{if $smarty.section.i.index==0} class="textf cur"{/if} id="no_product_flashcate_li{$smarty.section.i.index}">
                             <a id="no_product_flashcate_hidden{$smarty.section.i.index}" style="display:none" title="China {$products[i].caption} good quality" href="{$products[i]|url:'enterprise_url_product'}"><img style="display:none" alt="China {$products[i].caption} distributor" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'l'}" /></a>                            <table onmouseover="no_product_flashcate_change_img({$smarty.section.i.index},this.parentNode,1)" onmouseout="no_product_flashcate_start_change()">
                                 <tbody>
                                 <tr>
@@ -468,7 +468,7 @@ var query_string = ["Products","Show",40444];
                                         </form>
                                     </div>
                                 </h2>
-                                <div class="intr hidden_box" >{$products[i].caption} Quick Details: 1. Type: Grain Processing Equipment 2. Application: corn flakes, rice flakes, breakfast cereal, Other cereal snacks 3. ...                                    <a class="more" title="China {$products[i].caption} sales" href="{$products[i]|url:'enterprise_url_product'}">Read More</a>                                </div>
+                                <div class="intr hidden_box" >{$products[i].caption} {$products[i].description|strip_tags|truncate:150}                                    <a class="more" title="China {$products[i].caption} sales" href="{$products[i]|url:'enterprise_url_product'}">Read More</a>                                </div>
                                                                 <span class="time">{$products[i].created}</span>
                             </div>
                         </td>
