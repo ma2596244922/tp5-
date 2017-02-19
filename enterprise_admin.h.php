@@ -456,6 +456,10 @@ function enterprise_admin_action_edit_product($smarty)
     } else {// Create
         $values['created'] = $values['updated'];
         $productDAO->insert($values);
+
+        // Cnt of products
+        $groupDAO = new \enterprise\daos\Group();
+        $groupDAO->incrCnt($groupId);
     }
 
     $smarty->assign('success_msg', '保存成功');
@@ -474,6 +478,11 @@ function enterprise_admin_action_delete_product($smarty)
             'deleted' => 1,
         );
     $productDAO->update($productId, $values);
+
+    // Cnt of products
+    $groupDAO = new \enterprise\daos\Group();
+    $groupDAO->incrCnt($groupId, -1);
+
     header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
 }
 

@@ -224,9 +224,11 @@
                                             <td>{$groups[i].id}</td>
 
                                             <td>
-
+    {if $groups[i].cnt > 0}
                                                 <a href="{$groups[i]|url:'enterprise_url_product_list'}" target="_blank">{$groups[i].name}</a>
-
+    {else}
+                                                {$groups[i].name}
+    {/if}
                                             </td>
 
                                             <td>{$groups[i].created}</td>

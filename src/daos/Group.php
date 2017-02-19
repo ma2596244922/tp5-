@@ -65,4 +65,24 @@ class Group extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    public function incrCnt($id, $incr = 1)
+    {
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+
+        $db = \DbFactory::create($dbName);
+
+        $id = (int)$id;
+        $incr = (int)$incr;
+        if ($incr >= 0)
+            $setsString = '`cnt`=`cnt`+' . $incr;
+        else
+            $setsString = '`cnt`=`cnt`' . $incr;
+
+        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `id`={$id}";
+        $r = $db->query($sql);
+        if (!$r)
+            throw new \RuntimeException("Fail to query: {$sql}");
+    }
 }
