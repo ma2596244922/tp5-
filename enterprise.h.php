@@ -167,9 +167,11 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
  */
 function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $locale)
 {
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
+
+    // All crawled pages
     $pageDAO = new \crawler\daos\Page();
     $curId = 0;
-    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
     do {
         $pages = $pageDAO->getBySite($siteId, $locale, $curId);
         if (!$pages)
@@ -183,6 +185,44 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
             $urlSet->addUrl($url);
         }
     } while(true);
+
+    // New groups N products
+    if ($locale == 'english') {
+        $groupDAO = new \enterprise\daos\Group();
+        $curGroupId = 0;
+        $max = 100;
+        do {
+            $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$curGroupId}";
+            $groups = $groupDAO->getMultiBy($condition, $max);
+            if (!$groups)
+                break;
+
+            foreach ($groups as $group) {
+                $curGroupId = max($curGroupId, $group['id']);
+
+                $loc = enterprise_url_product_list($group);
+                $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+                $urlSet->addUrl($url);
+
+                $productDAO = new \enterprise\daos\Product();
+                $curProductId = 0;
+                do {
+                    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$group['id']} AND `id`>{$curProductId}";
+                    $products = $productDAO->getMultiBy($condition, $max);
+                    if (!$products)
+                        break;
+
+                    foreach ($products as $product) {
+                        $curProductId = max($curProductId, $product['id']);
+
+                        $loc = enterprise_url_product($product);
+                        $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+                        $urlSet->addUrl($url);
+                    }
+                } while(true);
+            }
+        } while(true);
+    }
 
     header('Content-Type: text/xml; utf-8');
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
