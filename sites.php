@@ -92,6 +92,9 @@ $domainInfo = array(
         'seamless-steel-tubes.com' => array(
                 'site_id' => 19,
             ),
+        'seamlesssteel-tube.com' => array(
+                'site_id' => 19,
+            ),
     );
 $siteInfo = array(
         1 => array(
