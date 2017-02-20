@@ -232,22 +232,45 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 /**
  * 展示用户新发图片
  */
-function enterprise_action_uploaded_image_proc($imageId)
+function enterprise_action_uploaded_image_proc($char, $imageId)
 {
+    global $thumbnailInfo;
+
     if (!$imageId) {
         http_response_code(400);
         exit;
     }
 
-    $imageDAO = new \enterprise\daos\Image();
-    $image = $imageDAO->get($imageId);
-    if (!$image) {
-        http_response_code(404);
-        exit;
-    }
+    if ($char) {
+        if (!array_key_exists($char, $thumbnailInfo)) {
+            http_response_code(404);
+            exit;
+        }
+        $size = $thumbnailInfo[$char];
+        list($w, $h) = $size;
+        $field = $w . 'x' . $h;
 
-    header('Content-Type: image/jpeg');
-    echo $image['body'];
+        $thumbnailDAO = new \enterprise\daos\Thumbnail();
+        $condition = "`image_id`=" . (int)$imageId;
+        $thumbnail = $thumbnailDAO->getOneBy($condition);
+        if (!$thumbnail) {
+            http_response_code(404);
+            exit;
+        }
+
+        header('Content-Type: image/jpeg');
+        echo $thumbnail[$field];
+    } else {
+        $imageDAO = new \enterprise\daos\Image();
+        $image = $imageDAO->get($imageId);
+        if (!$image) {
+            http_response_code(404);
+            exit;
+        }
+
+        header('Content-Type: image/jpeg');
+        echo $image['body'];
+    }
     exit;
 }
 

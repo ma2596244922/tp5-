@@ -241,7 +241,7 @@
 
                                                 <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
-                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image'}" alt="" />
+                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':$product.caption:'c'}" alt="" />
 
                                                 </div>
 

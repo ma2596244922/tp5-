@@ -15,6 +15,7 @@ require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 require_once realpath(__DIR__ . '/../../') . '/enterprise.h.php';
 require_once realpath(__DIR__ . '/../../') . '/enterprise_admin.h.php';
 require_once realpath(__DIR__ . '/../../') . '/sites.php';
+require_once realpath(__DIR__ . '/../../') . '/images.php';
 
 function enterprise_admin_route($smarty)
 {

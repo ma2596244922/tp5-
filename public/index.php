@@ -14,6 +14,7 @@ require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
 require_once realpath(__DIR__ . '/../') . '/enterprise.h.php';
 require_once realpath(__DIR__ . '/../') . '/sites.php';
+require_once realpath(__DIR__ . '/../') . '/images.php';
 
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
@@ -54,9 +55,10 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
         enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
-} elseif(preg_match('/^\/uploaded_images\/(s|n|l)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
+} elseif(preg_match('/^\/uploaded_images\/([a-z]?)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
+    $char = $matches[1];
     $imageId = $matches[2];
-    enterprise_action_uploaded_image_proc($imageId);// Terminated
+    enterprise_action_uploaded_image_proc($char, $imageId);// Terminated
 }
 // ++ Custom pages
 if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])

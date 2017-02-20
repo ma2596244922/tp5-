@@ -97,3 +97,13 @@ CREATE TABLE `enterprise_images` (
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片表';
+
+CREATE TABLE `enterprise_thumbnails` (
+  `image_id` int(10) unsigned NOT NULL COMMENT '图片ID',
+  `378x270` mediumblob NOT NULL COMMENT '378x270',
+  `54x39` mediumblob NOT NULL COMMENT '54x39',
+  `140x100` mediumblob NOT NULL COMMENT '140x100',
+  `329x235` mediumblob NOT NULL COMMENT '329x235',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`image_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片缩略图表';
