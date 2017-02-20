@@ -57,6 +57,22 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId)
 /* }}} */
 
 /**
+ * 生成缩略图
+ *
+ * @return string 缩略图数据
+ */
+function enterprise_admin_generate_thumbnail($path, $maxWidth = 800)
+{
+    $imageManager = new \Intervention\Image\ImageManager();
+    $image = $imageManager->make($path);
+    if ($image->width() < $maxWidth)
+        return $image->encode('jpg', 90);
+
+    $thumbnail = $image->widen($maxWidth);
+    return $thumbnail->encode('jpg', 90);
+}
+
+/**
  * Dashboard
  */
 function enterprise_admin_action_dashboard($smarty)
@@ -414,7 +430,7 @@ function enterprise_admin_action_edit_product($smarty)
     foreach ($_FILES as $meta) {
         if ($meta['error'])
             continue;
-        $body = file_get_contents($meta['tmp_name']);
+        $body = enterprise_admin_generate_thumbnail($meta['tmp_name'], 800);
         $values = array(
                 'site_id' => $userSiteId,
                 'body' => $body,
