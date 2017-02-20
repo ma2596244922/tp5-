@@ -56,21 +56,45 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId)
 
 /* }}} */
 
+/* {{{ Image Resizing */
+
 /**
  * 生成缩略图
  *
- * @return string 缩略图数据
+ * @return \Intervention\Image\Image 缩略图对象
  */
-function enterprise_admin_generate_thumbnail($path, $maxWidth = 800)
+function enterprise_admin_generate_thumbnail($image, $width, $height)
+{
+    $baseRatio = $width / $height;
+    $ratio = $image->width() / $image->height();
+    if ($ratio > $baseRatio) {
+        $newWidth = $image->width();
+        $newHeight = (int)($newWidth / $baseRatio);
+    } else {
+        $newHeight = $image->height();
+        $newWidth = (int)($newHeight * $baseRatio);
+    }
+    
+    return $image->resizeCanvas($newWidth, $newHeight, 'center', false, '#FFFFFF')->fit($width, $height);
+}
+
+/**
+ * 将图片规范为标准可存储尺寸
+ *
+ * @return \Intervention\Image\Image 标准化图片对象
+ */
+function enterprise_admin_standardize_image($path, $maxWidth = 800)
 {
     $imageManager = new \Intervention\Image\ImageManager();
     $image = $imageManager->make($path);
     if ($image->width() < $maxWidth)
-        return $image->encode('jpg', 90);
+        return $image;
 
-    $thumbnail = $image->widen($maxWidth);
-    return $thumbnail->encode('jpg', 90);
+    $image = $image->widen($maxWidth);
+    return $image;
 }
+
+/* }}} */
 
 /**
  * Dashboard
@@ -427,10 +451,14 @@ function enterprise_admin_action_edit_product($smarty)
     $imageDAO = new \enterprise\daos\Image();
     $images = array();
     $headImageId = 0;
+    $thumbnailSizes = array(
+            array(140, 100),
+        );
     foreach ($_FILES as $meta) {
         if ($meta['error'])
             continue;
-        $body = enterprise_admin_generate_thumbnail($meta['tmp_name'], 800);
+        $image = enterprise_admin_standardize_image($meta['tmp_name'], 800);
+        $body = $image->encode('jpg', 90);
         $values = array(
                 'site_id' => $userSiteId,
                 'body' => $body,
@@ -440,6 +468,12 @@ function enterprise_admin_action_edit_product($smarty)
         $images[] = $id;
         if (!$headImageId)
             $headImageId = $id;
+        // Thumbnails
+        foreach ($thumbnailSizes as $size) {
+            list($w, $h) = $size;
+            $thumbnail = enterprise_admin_generate_thumbnail($image, $w, $h);
+            echo $thumbnail->response('jpg', 75);
+        }
     }
 
     // Save products
