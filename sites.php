@@ -94,6 +94,21 @@ $domainInfo = array(
             ),
         'seamlesssteel-tube.com' => array(
                 'site_id' => 19,
+                'cnzz' => array(
+                        'id' => '1261306503',
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
+            ),
+        'serviceslisted.com' => array(
+                'site_id' => 4,
+                'cnzz' => array(
+                        'id' => '1261307454',
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
     );
 $siteInfo = array(
