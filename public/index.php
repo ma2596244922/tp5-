@@ -20,6 +20,7 @@ require_once realpath(__DIR__ . '/../') . '/images.php';
 try {
     list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 } catch(HttpException $he) {
+    header('Step: ESI');
     http_response_code($he->getCode());
     exit(1);
 }
