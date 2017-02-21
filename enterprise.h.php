@@ -232,22 +232,45 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 /**
  * 展示用户新发图片
  */
-function enterprise_action_uploaded_image_proc($imageId)
+function enterprise_action_uploaded_image_proc($char, $imageId)
 {
+    global $thumbnailInfo;
+
     if (!$imageId) {
         http_response_code(400);
         exit;
     }
 
-    $imageDAO = new \enterprise\daos\Image();
-    $image = $imageDAO->get($imageId);
-    if (!$image) {
-        http_response_code(404);
-        exit;
-    }
+    if ($char) {
+        if (!array_key_exists($char, $thumbnailInfo)) {
+            http_response_code(404);
+            exit;
+        }
+        $size = $thumbnailInfo[$char];
+        list($w, $h) = $size;
+        $field = $w . 'x' . $h;
 
-    header('Content-Type: image/jpeg');
-    echo $image['body'];
+        $thumbnailDAO = new \enterprise\daos\Thumbnail();
+        $condition = "`image_id`=" . (int)$imageId;
+        $thumbnail = $thumbnailDAO->getOneBy($condition);
+        if (!$thumbnail) {
+            http_response_code(404);
+            exit;
+        }
+
+        header('Content-Type: image/jpeg');
+        echo $thumbnail[$field];
+    } else {
+        $imageDAO = new \enterprise\daos\Image();
+        $image = $imageDAO->get($imageId);
+        if (!$image) {
+            http_response_code(404);
+            exit;
+        }
+
+        header('Content-Type: image/jpeg');
+        echo $image['body'];
+    }
     exit;
 }
 
@@ -265,6 +288,7 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
         throw new HttpException(404);
     $smarty->assign('product', $product);
 
+    // Tags
     $productTags = array();
     if ($product['tags']) {
         $a = explode(',', $product['tags']);
@@ -274,6 +298,14 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     }
     $smarty->assign('product_tags', $productTags);
 
+    // Images
+    $productImages = array();
+    if ($product['images']) {
+        $productImages = json_decode($product['images'], true);
+    }
+    $smarty->assign('product_images', $productImages);
+
+    // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
@@ -438,8 +470,16 @@ function enterprise_url_prefix()
  *
  * @return string
  */
-function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = 'n')
+function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '')
 {
+    if (is_array($imageId)) {
+        $retval = array();
+        foreach ($imageId as $id) {
+            $retval[] = enterprise_url_image($id, $productCaption, $imageSizeType);
+        }
+        return $retval;
+    }
+
     if (!$imageId)
         return 'media/image/no_image.png';
 

@@ -56,21 +56,46 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId)
 
 /* }}} */
 
+/* {{{ Image Resizing */
+
 /**
  * 生成缩略图
  *
- * @return string 缩略图数据
+ * @return \Intervention\Image\Image 缩略图对象
  */
-function enterprise_admin_generate_thumbnail($path, $maxWidth = 800)
+function enterprise_admin_generate_thumbnail($imageManager, $imageData, $width, $height)
 {
-    $imageManager = new \Intervention\Image\ImageManager();
+    $retval = $imageManager->make($imageData);
+
+    $baseRatio = $width / $height;
+    $ratio = $retval->width() / $retval->height();
+    if ($ratio > $baseRatio) {
+        $newWidth = $retval->width();
+        $newHeight = (int)($newWidth / $baseRatio);
+    } else {
+        $newHeight = $retval->height();
+        $newWidth = (int)($newHeight * $baseRatio);
+    }
+    
+    return $retval->resizeCanvas($newWidth, $newHeight, 'center', false, '#FFFFFF')->fit($width, $height);
+}
+
+/**
+ * 将图片规范为标准可存储尺寸
+ *
+ * @return \Intervention\Image\Image 标准化图片对象
+ */
+function enterprise_admin_standardize_image($imageManager, $path, $maxWidth = 800)
+{
     $image = $imageManager->make($path);
     if ($image->width() < $maxWidth)
-        return $image->encode('jpg', 90);
+        return $image;
 
-    $thumbnail = $image->widen($maxWidth);
-    return $thumbnail->encode('jpg', 90);
+    $image = $image->widen($maxWidth);
+    return $image;
 }
+
+/* }}} */
 
 /**
  * Dashboard
@@ -379,6 +404,8 @@ function enterprise_admin_assign_product_info($smarty, $var, $productId)
  */
 function enterprise_admin_action_edit_product($smarty)
 {
+    global $thumbnailInfo;
+
     $tplPath = 'admin/edit_product.tpl';
 
     $productId = (int)enterprise_get_query_data('product_id');
@@ -425,12 +452,16 @@ function enterprise_admin_action_edit_product($smarty)
 
     // Upload images
     $imageDAO = new \enterprise\daos\Image();
+    $thumbnailDAO = new \enterprise\daos\Thumbnail();
     $images = array();
     $headImageId = 0;
     foreach ($_FILES as $meta) {
         if ($meta['error'])
             continue;
-        $body = enterprise_admin_generate_thumbnail($meta['tmp_name'], 800);
+
+        $imageManager = new \Intervention\Image\ImageManager();
+        $image = enterprise_admin_standardize_image($imageManager, $meta['tmp_name'], 800);
+        $body = (string)$image->encode('jpg', 90);
         $values = array(
                 'site_id' => $userSiteId,
                 'body' => $body,
@@ -440,6 +471,18 @@ function enterprise_admin_action_edit_product($smarty)
         $images[] = $id;
         if (!$headImageId)
             $headImageId = $id;
+        // Thumbnail
+        $values = array(
+                'image_id' => $id,
+                'created' => date('Y-m-d H:i:s'),
+            );
+        foreach ($thumbnailInfo as $c => $size) {
+            list($w, $h) = $size;
+            $field = $w . 'x' . $h;
+            $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
+            $values[$field] = (string)$thumbnail->encode('jpg', 75);
+        }
+        $thumbnailDAO->insert($values);
     }
 
     // Save products

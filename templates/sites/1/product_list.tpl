@@ -380,12 +380,12 @@ var query_string = ["Products","Show",40444];
         <div class="cont_main_no">
             <div class="cont_main_no_inner">
                 <script>{literal}
-    var no_product_flashcate_peter = {"id": -1};
+    var no_product_flashcate_peter = {"id": -1};{/literal}
     var no_product_flashcate_max = 5;
 
     var no_product_flashcate_timeid = 0;
     window.onload = no_product_flashcate_autoChange;
-</script>{/literal}
+</script>
 
 <div class="no_product_flash">
     <table cellpadding="0" cellspacing="0" width="100%">
@@ -396,7 +396,7 @@ var query_string = ["Products","Show",40444];
                         <tbody>
                         <tr>
                             <td class="img_td">
-                                <a id="no_product_flashcate_indexhref" title="China {$products[0].caption} good quality" href="{$products[0]|url:'enterprise_url_product'}"><img id="no_product_flashcate_indexpic" alt="China {$products[0].caption} distributor" src="{$products[0].head_image_id|url:'enterprise_url_image':$products[0].caption:'l'}" /></a>                         </td>
+                                <a id="no_product_flashcate_indexhref" title="China {$products[0].caption} good quality" href="{$products[0]|url:'enterprise_url_product'}"><img id="no_product_flashcate_indexpic" alt="China {$products[0].caption} distributor" src="{$products[0].head_image_id|url:'enterprise_url_image':$products[0].caption:'t'}" /></a>                         </td>
                         </tr>
                         </tbody>
                     </table>
@@ -409,7 +409,7 @@ var query_string = ["Products","Show",40444];
                 <ul class="r_f_l ">
 {section name=i loop=$products max=5}
                         <li{if $smarty.section.i.index==0} class="textf cur"{/if} id="no_product_flashcate_li{$smarty.section.i.index}">
-                            <a id="no_product_flashcate_hidden{$smarty.section.i.index}" style="display:none" title="China {$products[i].caption} good quality" href="{$products[i]|url:'enterprise_url_product'}"><img style="display:none" alt="China {$products[i].caption} distributor" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'l'}" /></a>                            <table onmouseover="no_product_flashcate_change_img({$smarty.section.i.index},this.parentNode,1)" onmouseout="no_product_flashcate_start_change()">
+                            <a id="no_product_flashcate_hidden{$smarty.section.i.index}" style="display:none" title="China {$products[i].caption} good quality" href="{$products[i]|url:'enterprise_url_product'}"><img style="display:none" alt="China {$products[i].caption} distributor" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'t'}" /></a>                            <table onmouseover="no_product_flashcate_change_img({$smarty.section.i.index},this.parentNode,1)" onmouseout="no_product_flashcate_start_change()">
                                 <tbody>
                                 <tr>
                                     <td class="pro_name_wrap">
@@ -422,7 +422,7 @@ var query_string = ["Products","Show",40444];
                                                 <tbody>
                                                 <tr>
                                                     <td valign="middle" align="center">
-                                                        <img alt="China {$products[i].caption} exporter" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'s'}" />                                                   </td>
+                                                        <img alt="China {$products[i].caption} exporter" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'m'}" />                                                   </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -453,7 +453,7 @@ var query_string = ["Products","Show",40444];
                     <tbody>
                     <tr>
                         <td class="product_img_td">
-                <a title="China {$products[i].caption} factory" href="{$products[i]|url:'enterprise_url_product'}"><img alt="China {$products[i].caption} factory" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'s'}" /></a>            </td>
+                <a title="China {$products[i].caption} factory" href="{$products[i]|url:'enterprise_url_product'}"><img alt="China {$products[i].caption} factory" src="{$products[i].head_image_id|url:'enterprise_url_image':$products[i].caption:'d'}" /></a>            </td>
                         <td>
                             <div class="product_detail">
                                 <h2 class="product_name">
