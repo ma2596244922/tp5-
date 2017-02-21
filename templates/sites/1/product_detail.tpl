@@ -329,9 +329,10 @@ var query_string = ["Products","Detail"];
             <div class="cont_main_no_inner">
                 <script type="text/javascript" src="/js/lrroll.js"></script>
 <script type="text/javascript" src="/js/thickbox-compressed.js"></script>
-<script>{literal}
-        var data =["http:\/\/www.snackmakingmachine.com\/photo\/pc2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg"];
-    var datas =["http:\/\/www.snackmakingmachine.com\/photo\/pl2231695-double_screw_extruder_bugles_making_machine_frying_flavoring_sticks.jpg"];
+<script>
+        var data ={$product_images|url:'enterprise_url_image':$product.caption:'c'|json_encode};
+    var datas ={$product_images|url:'enterprise_url_image':$product.caption|json_encode};
+    {literal}
     function change_img(count) {
 
         document.getElementById("productImg").src = data[count % data.length];
@@ -352,13 +353,46 @@ var query_string = ["Products","Detail"];
                 <td class="product_wrap_flash">
                     <dl class="le r_flash">
                         <dt>
-                            <a id="largeimg" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'l'}"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'s'}" alt="China {$product.caption} supplier" /></div></a>                        </dt>
+                            <a id="largeimg" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="China {$product.caption} supplier" /></div></a>                        </dt>
                         <dd>
                             <div class="blk_18">
+{if count($product_images)>1}
+                                                                <div class="pro">
+                                    <div class="leb fleft">
+                                        <a rel="nofollow" href="javascript:void(0)"
+                                           onmousedown="ISL_GoUp_1({$product_images|count})"
+                                           onmouseup="ISL_StopUp_1()"
+                                           onmouseout="ISL_StopUp_1()"
+                                           target="_self">
+                                        </a>
+                                    </div>
+                                    <div class="pcont" id="ISL_Cont_1">
+                                        <div class="ScrCont">
+                                            <div id="List1_1">
+                                                <table cellspacing="5" class="fleft">
+                                                    <tbody>
+                                                    <tr>
+    {section name=i loop=$product_images}
+                                                                                                                    <td>
+                                                                <a rel="nofollow" title="{$product.caption} supplier"><img onclick="change_img({$smarty.section.i.index})" src="{$product_images[i]|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption} supplier" /></a>                                                          </td>
+    {/section}
+                                                                                                            </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div id="List2_1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="rib fright">
+
+                                        <a rel="nofollow" onmousedown="ISL_GoDown_1({$product_images|count})" onmouseup="ISL_StopDown_1()" onmouseout="ISL_StopDown_1()" target="_self" title="good quality {$product.caption} suppliers" href="javascript:void(0)"></a>                                   </div>
+                                </div>
+{/if}
                                                             </div>
                                                                                         <p class="sear">
                                 <span class="fleft">Large Image :&nbsp;</span>
-                                <a id="large" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'l'}">{$product.caption}</a>                            </p>
+                                <a id="large" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}">{$product.caption}</a>                            </p>
                                                             
                             <div class="clearfix"></div>
                         </dd>

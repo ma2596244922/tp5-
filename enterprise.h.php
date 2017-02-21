@@ -288,6 +288,7 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
         throw new HttpException(404);
     $smarty->assign('product', $product);
 
+    // Tags
     $productTags = array();
     if ($product['tags']) {
         $a = explode(',', $product['tags']);
@@ -297,6 +298,14 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     }
     $smarty->assign('product_tags', $productTags);
 
+    // Images
+    $productImages = array();
+    if ($product['images']) {
+        $productImages = json_decode($product['images'], true);
+    }
+    $smarty->assign('product_images', $productImages);
+
+    // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
@@ -461,8 +470,16 @@ function enterprise_url_prefix()
  *
  * @return string
  */
-function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = 'n')
+function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '')
 {
+    if (is_array($imageId)) {
+        $retval = array();
+        foreach ($imageId as $id) {
+            $retval[] = enterprise_url_image($id, $productCaption, $imageSizeType);
+        }
+        return $retval;
+    }
+
     if (!$imageId)
         return 'media/image/no_image.png';
 

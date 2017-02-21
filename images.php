@@ -7,7 +7,7 @@
 
 $thumbnailInfo = array(
         't' => array(378, 270),
-        'm' => array(54, 39),
-        'd' => array(140, 100),
         'c' => array(329, 235),
+        'd' => array(140, 100),
+        'm' => array(54, 39),
     );
