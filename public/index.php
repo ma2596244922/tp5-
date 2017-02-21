@@ -97,16 +97,30 @@ if (!in_array($requestPath, $skippingPages)) {
         $response = enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
         // Replace group list
         $response = enterprise_response_replace_group_list($smarty, $siteId, $response);
+        // Replace Corporation name
+        if ($currentDomainSuffix == 'syrianeducation.org') {
+            $response = str_ireplace('BEIJING MEDICAL BEAUTY COMMERCE CO.,LTD', 'Jinan Color Laser Beauty Co.,Ltd', $response);
+            $response = str_ireplace('annie@ipl-rf.com.cn', 'robertjean68@yahoo.com', $response);//Email
+            $response = str_ireplace('ipllaser@yahoo.cn', '', $response);//Yahoo
+            $response = str_ireplace('annie-beautyequipment', '694118602@qq.com', $response);//Skype
+            $response = str_ireplace('Yard 6,East Rd.,Nanchang 1st Village, Jiugong Town, Daxing District, Beijing, China', 'No.28, Nanquanfu Street, Licheng District, Jinan, Shandong, China', $response);//Address
+            $response = str_ireplace('86-10-67506021', '', $response);//Business Phone :  (Working time)
+            $response = str_ireplace('86--18801419856', '', $response);//Business Phone :  (Nonworking time)
+            $response = str_ireplace('86--67506021-888', '', $response);//Fax
+            $response = str_ireplace('Mrs. Annie Yu', '', $response);//Contact1
+            $response = str_ireplace('Sales manager', '', $response);//Contact1-Title
+            $response = str_ireplace('18801419856', '', $response);//Contact1-Business Phone
+            $response = str_ireplace('8613161280838', '', $response);//Contact1-WHATSAPP
+            $response = str_ireplace('Miss. Annie', '', $response);//Contact2
+            $response = str_ireplace('86-18801419856', '', $response);//Contact2-VIBER 
+            $response = str_ireplace('Beijingmedicalbeauty', '', $response);//Contact2-Skype
+        }
 
         echo $response;
 
         // CNZZ
         enterprise_output_cnzz($currentDomainSuffix);
 
-        // float2006.tq.cn
-        if ($currentDomainSuffix == 'syrianeducation.org'
-                && $requestPath != '/contactnow.html')
-            echo '<SCRIPT LANGUAGE="JavaScript" src=http://float2006.tq.cn/floatcard?adminid=9772016&sort=0 ></SCRIPT>';
         exit(0);
     }
 }
