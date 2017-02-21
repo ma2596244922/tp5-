@@ -111,7 +111,7 @@ $domainInfo = array(
                     ),
             ),
         'ltbtv.com.cn' => array(
-                'site_id' => 18,
+                'site_id' => 13,
             ),
     );
 $siteInfo = array(
