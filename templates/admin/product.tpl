@@ -169,7 +169,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-group"></i>我的产品</div>
+                                <div class="caption"><i class="icon-file"></i>我的产品</div>
 
                                 <div class="tools">
 

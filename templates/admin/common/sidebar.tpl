@@ -31,9 +31,33 @@
 
                     <a href="?action=inquiry">
 
-                    <i class="icon-home"></i> 
+                    <i class="icon-envelope"></i> 
 
                     <span class="title">我的询盘</span>
+
+                    </a>
+
+                </li>
+
+                <li class="start{if $page_name=='group'} active{/if}">
+
+                    <a href="?action=group">
+
+                    <i class="icon-group"></i> 
+
+                    <span class="title">我的分组</span>
+
+                    </a>
+
+                </li>
+
+                <li class="start{if $page_name=='product'} active{/if}">
+
+                    <a href="?action=product">
+
+                    <i class="icon-file"></i> 
+
+                    <span class="title">我的产品</span>
 
                     </a>
 
