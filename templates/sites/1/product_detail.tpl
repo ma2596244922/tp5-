@@ -24,7 +24,7 @@ var query_string = ["Products","Detail"];
     height:245px;       ">
         <form method="post"
               onSubmit="return changeAction(this,'/contactnow.html');">
-            <input type="hidden" name="pid" value="2054004"/>
+            <input type="hidden" name="pid" value="{$product.id}"/>
             <input onclick="this.blur()" type="image"
                    src="/images/floatimage_2.gif"/>
         </form>
@@ -134,7 +134,7 @@ var query_string = ["Products","Detail"];
             <a title="" href="/contactus.html">Contact Us</a>       </dt>
         <dt >
             <form id="f_header_nav_form" method="post" >
-                <input type="hidden" name="pid" value="2054004"/>
+                <input type="hidden" name="pid" value="{$product.id}"/>
                 <a rel="nofollow"><span onclick="document.getElementById('f_header_nav_form').action='/contactnow.html';document.getElementById('f_header_nav_form').submit();">Request A Quote</span></a>
             </form>
         </dt>
@@ -353,7 +353,7 @@ var query_string = ["Products","Detail"];
                 <td class="product_wrap_flash">
                     <dl class="le r_flash">
                         <dt>
-                            <a id="largeimg" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="China {$product.caption} supplier" /></div></a>                        </dt>
+                            <a id="largeimg" class="thickbox" pid="{$product.id}" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}"><div style='max-width:312px; max-height:222px;'><img id="productImg" src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="China {$product.caption} supplier" /></div></a>                        </dt>
                         <dd>
                             <div class="blk_18">
 {if count($product_images)>1}
@@ -392,7 +392,7 @@ var query_string = ["Products","Detail"];
                                                             </div>
                                                                                         <p class="sear">
                                 <span class="fleft">Large Image :&nbsp;</span>
-                                <a id="large" class="thickbox" pid="2054004" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}">{$product.caption}</a>                            </p>
+                                <a id="large" class="thickbox" pid="{$product.id}" title="China {$product.caption} supplier" href="{$product.head_image_id|url:'enterprise_url_image':$product.caption}">{$product.caption}</a>                            </p>
                                                             
                             <div class="clearfix"></div>
                         </dd>
@@ -401,67 +401,20 @@ var query_string = ["Products","Detail"];
                                 <td>
                     <div class="ri">
                         <h3>Product Details:</h3>
-                                                <table class="tables data" width="100%" border="0" cellpadding="0" cellspacing="0">
-                            <tbody>
-                                                                                            <tr>
-                                <th width="35%">Place of Origin:</th>
-                                <td>{$product.place_of_origin|default:'Negotiation'}</td>
-                            </tr>
-                                                                                            <tr>
-                                <th width="35%">Brand Name:</th>
-                                <td>{$product.brand_name|default:'Negotiation'}</td>
-                            </tr>
-                                                                                            <tr>
-                                <th width="35%">Certification:</th>
-                                <td>{$product.certification|default:'Negotiation'}</td>
-                            </tr>
-                                                                                            <tr>
-                                <th width="35%">Model Number:</th>
-                                <td>{$product.model_number|default:'Negotiation'}</td>
-                            </tr>
-                                                        
-                            </tbody>
-                        </table>
+{include file="sets/smm/product_detail/product_details.tpl"}
                         
                                                     <h3 class="title_s">Payment & Shipping Terms:</h3>
-                            <table class="tables data" width="100%" border="0" cellpadding="0" cellspacing="0">
-                                <tbody>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Minimum Order Quantity:</th>
-                                        <td>{$product.min_order_quantity|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Price:</th>
-                                        <td>{$product.price|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Packaging Details:</th>
-                                        <td>{$product.packaging_details|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Delivery Time:</th>
-                                        <td>{$product.delivery_time|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Payment Terms:</th>
-                                        <td>{$product.payment_terms|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                        <tr>
-                                        <th width="35%" nowrap="nowrap">Supply Ability:</th>
-                                        <td>{$product.supply_ability|default:'Negotiation'}</td>
-                                    </tr>
-                                                                                                </tbody>
-                            </table>
+{include file="sets/smm/product_detail/payment_shipping_terms.tpl"}
                                                 <div class="clearfix"></div>
 
                         <div class="sub">
                             <form action="/contactnow.html" method="POST" id="no_product_detailmain_pform">
-                                <input type="hidden" value="2054004" name="pid"/>
+                                <input type="hidden" value="{$product.id}" name="pid"/>
                                 <input type="hidden" value="1" name="from"/>
                                 <input type="submit" value="" class="btn contact_btn">
                             </form>
                         </div>
-                        <button chatnow style="display: none" pid=2054004 type="0" uid="3387" pname="{$product.caption}" purl="/index.php?r=Products/Detail&productId=2054004" picurl="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'s'}"><span></span>Chat Now</button><script type=text/javascript src="/webim/webim.js"></script>                </td>
+                        <button chatnow style="display: none" pid={$product.id} type="0" uid="3387" pname="{$product.caption}" purl="{$product|url:'enterprise_url_product'}" picurl="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'s'}"><span></span>Chat Now</button><script type=text/javascript src="/webim/webim.js"></script>                </td>
                             </tr>
             </tbody>
         </table>
@@ -469,6 +422,7 @@ var query_string = ["Products","Detail"];
 </div>
                 <div class="no_product_detaildesc" id="anchor_product_desc">
 <div class="title"> Detailed Product Description</div>
+{include file="sets/smm/product_detail/detailed_product_description.tpl"}
 
 <div class="details_wrap">
     <div class="clearfix"></div>
@@ -499,7 +453,7 @@ var query_string = ["Products","Detail"];
                   action="/contactnow.html"
                   onsubmit="return jsSubmit(this);">
                 <input type="hidden" name="from" value="1"/>
-                <input type="hidden" name="pid" value="2054004"/>
+                <input type="hidden" name="pid" value="{$product.id}"/>
                 <b>Send your inquiry directly to us</b>
                 <textarea name="message" maxlength="3000"
                           onkeyup="checknum(this,3000,'tno')"

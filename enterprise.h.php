@@ -313,6 +313,13 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     }
     $smarty->assign('product_images', $productImages);
 
+    // Specifications
+    $productSpecifications = array();
+    if ($product['specifications']) {
+        $productSpecifications = json_decode($product['specifications'], true);
+    }
+    $smarty->assign('product_specifications', $productSpecifications);
+
     // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
 

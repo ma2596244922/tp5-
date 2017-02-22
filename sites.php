@@ -53,6 +53,9 @@ $domainInfo = array(
                         '/googlea2a58c5137359ba2.html' => 'google-site-verification: googlea2a58c5137359ba2.html',
                     ),
             ),
+        'syrianeducationoff.org' => array(
+                'site_id' => 2,
+            ),
         'prefabmobilehomes.com' => array(
                 'site_id' => 8,
                 'cnzz' => array(
@@ -132,6 +135,11 @@ $siteInfo = array(
             ),
         2 => array(
                 'original_domain_prefix' => 'beauty-equipments.com',
+                'group_list_characteristic' => array(
+                        'tag_name' => 'div',
+                        'attr_name' => 'class',
+                        'attr_value' => 'n_menu_list',
+                    ),
             ),
         3 => array(
                 'original_domain_prefix' => 'best-laser.com',
