@@ -279,7 +279,7 @@ var query_string = ["Products","Show",106863];
     </div>
             <div class="item ">
         <strong>
-            <a title="China {$group.name}  on sales" href="/supplier-106863-hifu-machine">{$group.name}</a>                       <span class="num">(30)</span>
+            <a title="China HIFU Machine  on sales" href="/supplier-106863-hifu-machine">HIFU Machine</a>                       <span class="num">(30)</span>
                     </strong>
     </div>
 {include file="sites/2/group_list_fragment.tpl"}
