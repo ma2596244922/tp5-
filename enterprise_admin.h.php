@@ -460,7 +460,7 @@ function enterprise_admin_action_edit_product($smarty)
             continue;
 
         $imageManager = new \Intervention\Image\ImageManager();
-        $image = enterprise_admin_standardize_image($imageManager, $meta['tmp_name'], 800);
+        $image = enterprise_admin_standardize_image($imageManager, $meta['tmp_name'], IMAGE_MAX_WIDTH);
         $body = (string)$image->encode('jpg', 90);
         $values = array(
                 'site_id' => $userSiteId,

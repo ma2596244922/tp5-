@@ -5,6 +5,9 @@
  * @package timandes\enterprise
  */
 
+// 图片最大宽度
+define('IMAGE_MAX_WIDTH', 1120);
+
 // Autoload
 require_once __DIR__ . '/vendor/autoload.php';
 
