@@ -112,6 +112,13 @@ $domainInfo = array(
             ),
         'ltbtv.com.cn' => array(
                 'site_id' => 13,
+                'cnzz' => array(
+                        'id' => '1261312643',
+                        'pic' => 1,
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
     );
 $siteInfo = array(
