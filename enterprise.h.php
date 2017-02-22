@@ -8,22 +8,30 @@
 /* {{{ Common */
 
 /**
+ * 从Host中分离出语言类型和域名
+ */
+function enterprise_extract_locale_n_domain($host)
+{
+    $pslManager = new Pdp\PublicSuffixListManager();
+    $parser = new Pdp\Parser($pslManager->getList());
+    $hostObj = $parser->parseHost($host);
+
+    $currentDomainSuffix = $hostObj->registerableDomain;
+    $subdomain = $hostObj->subdomain;
+    $locale = ($subdomain=='www'||$subdomain=='m'?'english':$hostObj->subdomain);
+
+    return array($locale, $currentDomainSuffix);
+}
+
+/**
  * 获取站点基本信息
  */
 function enterprise_extract_site_infos()
 {
     global $domainInfo, $siteInfo;
 
-    $a = explode('.', $_SERVER['HTTP_HOST']);
-    $n = count($a);
-    if ($n < 2)
-        throw new HttpException(403);
-    elseif ($n == 2)
-        $locale = '';
-    else
-        $locale = ($a[$n-3]=='www'?'english':$a[$n-3]);
+    list($locale, $currentDomainSuffix) = enterprise_extract_locale_n_domain($_SERVER['HTTP_HOST']);
 
-    $currentDomainSuffix = $a[$n-2] . '.' . $a[$n-1];
     if (!isset($domainInfo[$currentDomainSuffix])
             || !is_array($domainInfo[$currentDomainSuffix]))
         throw new HttpException(404);

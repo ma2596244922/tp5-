@@ -10,11 +10,7 @@ date_default_timezone_set("Asia/Shanghai");
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-require_once realpath(__DIR__ . '/../') . '/vendor/autoload.php';
-require_once realpath(__DIR__ . '/../') . '/config.php';
-require_once realpath(__DIR__ . '/../') . '/enterprise.h.php';
-require_once realpath(__DIR__ . '/../') . '/sites.php';
-require_once realpath(__DIR__ . '/../') . '/images.php';
+require_once realpath(__DIR__ . '/../') . '/bootstrap.php';
 
 // 根据当前请求的域名，找出对应的站点替换规则
 try {

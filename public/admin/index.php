@@ -10,12 +10,7 @@ date_default_timezone_set("Asia/Shanghai");
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-require_once realpath(__DIR__ . '/../../') . '/vendor/autoload.php';
-require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
-require_once realpath(__DIR__ . '/../../') . '/enterprise.h.php';
-require_once realpath(__DIR__ . '/../../') . '/enterprise_admin.h.php';
-require_once realpath(__DIR__ . '/../../') . '/sites.php';
-require_once realpath(__DIR__ . '/../../') . '/images.php';
+require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 
 function enterprise_admin_route($smarty)
 {
