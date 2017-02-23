@@ -123,6 +123,9 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'peanutbuttermachinestest.com' => array(
+                'site_id' => 20,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -161,5 +164,8 @@ $siteInfo = array(
             ),
         19 => array(
                 'original_domain_prefix' => 'seamless-steel-tubes.com',
+            ),
+        20 => array(
+                'original_domain_prefix' => 'peanutbuttermachines.com',
             ),
     );
