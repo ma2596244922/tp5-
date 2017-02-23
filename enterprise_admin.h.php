@@ -455,34 +455,38 @@ function enterprise_admin_action_edit_product($smarty)
     $thumbnailDAO = new \enterprise\daos\Thumbnail();
     $images = array();
     $headImageId = 0;
-    foreach ($_FILES as $meta) {
-        if ($meta['error'])
-            continue;
+    foreach ($_FILES as $name => $meta) {
+        $id = enterprise_get_post_data($name);
+        if (!$id) {// Upload now!
+            if ($meta['error'])
+                continue;
 
-        $imageManager = new \Intervention\Image\ImageManager();
-        $image = enterprise_admin_standardize_image($imageManager, $meta['tmp_name'], IMAGE_MAX_WIDTH);
-        $body = (string)$image->encode('jpg', 90);
-        $values = array(
-                'site_id' => $userSiteId,
-                'body' => $body,
-                'created' => date('Y-m-d H:i:s'),
-            );
-        $id = $imageDAO->insert($values);
+            $imageManager = new \Intervention\Image\ImageManager();
+            $image = enterprise_admin_standardize_image($imageManager, $meta['tmp_name'], IMAGE_MAX_WIDTH);
+            $body = (string)$image->encode('jpg', 90);
+            $values = array(
+                    'site_id' => $userSiteId,
+                    'body' => $body,
+                    'created' => date('Y-m-d H:i:s'),
+                );
+            $id = $imageDAO->insert($values);
+            // Thumbnail
+            $values = array(
+                    'image_id' => $id,
+                    'created' => date('Y-m-d H:i:s'),
+                );
+            foreach ($thumbnailInfo as $c => $size) {
+                list($w, $h) = $size;
+                $field = $w . 'x' . $h;
+                $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
+                $values[$field] = (string)$thumbnail->encode('jpg', 75);
+            }
+            $thumbnailDAO->insert($values);
+        }
+        // Save to products
         $images[] = $id;
         if (!$headImageId)
             $headImageId = $id;
-        // Thumbnail
-        $values = array(
-                'image_id' => $id,
-                'created' => date('Y-m-d H:i:s'),
-            );
-        foreach ($thumbnailInfo as $c => $size) {
-            list($w, $h) = $size;
-            $field = $w . 'x' . $h;
-            $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
-            $values[$field] = (string)$thumbnail->encode('jpg', 75);
-        }
-        $thumbnailDAO->insert($values);
     }
 
     // Save products

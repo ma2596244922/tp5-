@@ -237,23 +237,31 @@
 
                                         <div class="controls">
 {for $i=0 to 4}
-                                            <div class="fileupload fileupload-new span2" data-provides="fileupload">
+                                            <div class="fileupload fileupload-{if isset($product_images[$i])}exists{else}new{/if} span2" data-provides="fileupload">
+
+                                                <input type="hidden" name="file{$i}" value="{$product_images[$i]|default:''}">
 
                                                 <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
-                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':$product.caption:'c'}" alt="" />
+                                                    <img src="media/image/no_image.png" alt="" />
 
                                                 </div>
 
-                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+
+                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':$product.caption:'c'}" alt="" style="max-height: 150px;" />
+
+                                                </div>
 
                                                 <div>
 
-                                                    <span class="btn btn-file"><span class="fileupload-new">选择图片</span>
+                                                    <span class="btn btn-file">
+                                                        <span class="fileupload-new">选择图片</span>
 
-                                                    <span class="fileupload-exists">更换</span>
+                                                        <span class="fileupload-exists">更换</span>
 
-                                                    <input type="file" class="default" name="file{$i}" /></span>
+                                                        <input type="file" class="default" name="file{$i}" />
+                                                    </span>
 
                                                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
 
