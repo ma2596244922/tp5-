@@ -150,6 +150,8 @@ function enterprise_generate_url_key($str)
 
 /* }}} */
 
+/* {{{ Sitemap */
+
 /**
  * 展示Sitemap Index页面
  */
@@ -178,6 +180,10 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
     // All crawled pages
+    $skippingPages = array(
+        '/contactnow.html',
+        '/contactsave.html',
+    );
     $pageDAO = new \crawler\daos\Page();
     $curId = 0;
     do {
@@ -187,6 +193,10 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 
         foreach ($pages as $page) {
             $curId = max($curId, $page['id']);
+
+            $urlPath = parse_url($page['url'], PHP_URL_PATH);
+            if (in_array($urlPath, $skippingPages))
+                continue;
 
             $loc = str_replace($originalDomainSuffix, $currentDomainSuffix, $page['url']);
             $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
@@ -236,6 +246,8 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
     exit(0);
 }
+
+/* }}} */
 
 /**
  * 展示用户新发图片
