@@ -450,6 +450,8 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'site_id' => $siteId,
             'attachments' => $attachments,
             'created' => date('Y-m-d H:i:s'),
+            'domain' => $currentDomainSuffix,
+            'ip' => $_SERVER['REMOTE_ADDR'],
         );
     $inquiryDAO->insert($values);
     $smarty->display('inquiry_sent.tpl');
