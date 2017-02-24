@@ -218,12 +218,9 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
             foreach ($groups as $group) {
                 $curGroupId = max($curGroupId, $group['id']);
 
-                $loc = enterprise_url_product_list($group);
-                $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
-                $urlSet->addUrl($url);
-
                 $productDAO = new \enterprise\daos\Product();
                 $curProductId = 0;
+                $totalProductsInGroup = 0;
                 do {
                     $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$group['id']} AND `id`>{$curProductId}";
                     $products = $productDAO->getMultiBy($condition, $max);
@@ -232,12 +229,19 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 
                     foreach ($products as $product) {
                         $curProductId = max($curProductId, $product['id']);
+                        ++$totalProductsInGroup;
 
                         $loc = enterprise_url_product($product);
                         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
                         $urlSet->addUrl($url);
                     }
                 } while(true);
+
+                if ($totalProductsInGroup > 0) {
+                    $loc = enterprise_url_product_list($group);
+                    $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+                    $urlSet->addUrl($url);
+                }
             }
         } while(true);
     }
