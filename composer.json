@@ -5,7 +5,8 @@
         "smarty/smarty": "~3.1",
         "thepixeldeveloper/sitemap": "^4.4",
         "intervention/image": "~2.3",
-        "jeremykendall/php-domain-parser": "~3.0"
+        "jeremykendall/php-domain-parser": "~3.0",
+        "guzzlehttp/guzzle": "~6.2"
     },
     "autoload": {
         "psr-4": {
