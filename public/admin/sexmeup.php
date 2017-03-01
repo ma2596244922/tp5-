@@ -30,7 +30,7 @@ function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
     $imageDAO = new \enterprise\daos\Image();
     $thumbnailDAO = new \enterprise\daos\Thumbnail();
     $body = null;
-    $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody(), $body);
+    $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody()->__toString(), $body);
     // Thumbnail
     enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
 
@@ -92,11 +92,12 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
             'images' => $images,
         );
     $values['created'] = $values['updated'];
-    $productDAO->insert($values);
+    $retval = $productDAO->insert($values);
 
     // Cnt of products
     $groupDAO = new \enterprise\daos\Group();
     $groupDAO->incrCnt($groupId);
+    return $retval;
 }
 
 function enterprise_sexmeup_route()
@@ -106,13 +107,18 @@ function enterprise_sexmeup_route()
         throw new \RuntimeException('Wrong password');
 
     $siteId = 2;
+    $groupId = 3;
     $images = enterprise_sexmeup_save_images($siteId);
-    enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    echo enterprise_sexmeup_save_product($siteId, $groupId, $images);
 }
 
 try {
     enterprise_sexmeup_route();
-    echo 'SUCCESS';
 } catch (\RuntimeException $e) {
-    echo $e->getMessage();
+    $response = array(
+            'code' => -1,
+            'message' => $e->getMessage(),
+        );
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
