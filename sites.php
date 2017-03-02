@@ -126,6 +126,15 @@ $domainInfo = array(
         'peanutbuttermachinestest.com' => array(
                 'site_id' => 20,
             ),
+        'mocfa.org' => array(
+                'site_id' => 8,
+            ),
+        'sonalog.com' => array(
+                'site_id' => 13,
+            ),
+        'peanut-buttermachines.com' => array(
+                'site_id' => 20,
+            ),
     );
 $siteInfo = array(
         1 => array(
