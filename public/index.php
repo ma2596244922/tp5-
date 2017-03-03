@@ -111,6 +111,16 @@ if (!in_array($requestPath, $skippingPages)) {
             $response = str_ireplace('Miss. Annie', '', $response);//Contact2
             $response = str_ireplace('86-18801419856', '', $response);//Contact2-VIBER 
             $response = str_ireplace('Beijingmedicalbeauty', '', $response);//Contact2-Skype
+        } elseif ($currentDomainSuffix == 'ltbtv.com.cn') {
+            $response = str_ireplace('Hangzhou FAMOUS Steel Engineering Co.,Ltd.', 'Hangzhou top Steel Engineering Co.,Ltd.', $response);
+            $response = str_ireplace('Shangsan village 288#, Xindeng town, Fuyan City, Hangzhou, China.', '', $response);
+            $response = str_ireplace('86-571-87688170', '', $response);//Business Phone :  (Working time)
+            $response = str_ireplace('86-571-56389287', '', $response);//Fax
+            $response = str_ireplace('86--18072735884', '', $response);//Business Phone :  (Nonworking time)
+            $response = str_ireplace('sales@hfsteelstructure.com', 'robertjean68@yahoo.com', $response);//Email
+            $response = str_ireplace('honesty.tomi@yahoo.com', '', $response);//Yahoo
+            $response = str_ireplace('bluesky4912', '694118602@qq.com', $response);//Skype
+            $response = str_ireplace('https://www.youtube.com/watch?v=g1SvKYhZibo&feature=youtu.be', '', $response);//ICQ
         }
 
         echo $response;
