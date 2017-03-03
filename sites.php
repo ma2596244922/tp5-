@@ -131,17 +131,26 @@ $domainInfo = array(
                 'cnzz' => array(
                         'id' => '1261399608',
                     ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
         'sonalog.com' => array(
                 'site_id' => 13,
                 'cnzz' => array(
                         'id' => '1261399648',
                     ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
             ),
         'peanut-buttermachines.com' => array(
                 'site_id' => 20,
                 'cnzz' => array(
                         'id' => '1261399707',
+                    ),
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
     );
