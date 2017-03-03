@@ -128,12 +128,21 @@ $domainInfo = array(
             ),
         'mocfa.org' => array(
                 'site_id' => 8,
+                'cnzz' => array(
+                        'id' => '1261399608',
+                    ),
             ),
         'sonalog.com' => array(
                 'site_id' => 13,
+                'cnzz' => array(
+                        'id' => '1261399648',
+                    ),
             ),
         'peanut-buttermachines.com' => array(
                 'site_id' => 20,
+                'cnzz' => array(
+                        'id' => '1261399707',
+                    ),
             ),
     );
 $siteInfo = array(
