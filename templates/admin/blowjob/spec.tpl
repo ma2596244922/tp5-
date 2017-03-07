@@ -116,6 +116,23 @@ paths:
           description: 通讯密码
           required: true
           type: string
+        - name: task_id
+          in: formData
+          description: 任务ID
+          required: true
+          type: integer
+          format: int32
+        - name: status
+          in: formData
+          description: 任务状态（0-待开始；10-进行中；100-已完成）
+          required: true
+          type: integer
+          format: int32
+        - name: progress
+          in: formData
+          description: 当前进度（0-100）
+          type: integer
+          format: int32
       tags:
         - 任务接口
       responses:
