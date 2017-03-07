@@ -153,6 +153,12 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'tridentmicro.com' => array(
+                'site_id' => 22,
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -194,5 +200,8 @@ $siteInfo = array(
             ),
         20 => array(
                 'original_domain_prefix' => 'peanutbuttermachines.com',
+            ),
+        22 => array(
+                'original_domain_prefix' => 'modularcontainerhouses.com',
             ),
     );
