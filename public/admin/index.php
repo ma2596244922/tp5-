@@ -5,11 +5,6 @@
  * @package timandes\enterprise
  */
 
-// default timezone
-date_default_timezone_set("Asia/Shanghai");
-
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 
