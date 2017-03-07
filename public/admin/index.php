@@ -26,6 +26,8 @@ function enterprise_admin_route($smarty)
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
+                case 'info':
+                    return enterprise_admin_action_info($smarty);
                 case 'password':
                     return enterprise_admin_action_password($smarty);
                 case 'inquiry':

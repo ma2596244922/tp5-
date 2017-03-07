@@ -109,3 +109,11 @@ CREATE TABLE `enterprise_thumbnails` (
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片缩略图表';
+
+CREATE TABLE `enterprise_sites` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `corporation_name` varchar(100) NOT NULL COMMENT '公司名称',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
+

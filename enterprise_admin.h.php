@@ -166,6 +166,33 @@ function enterprise_admin_action_logout($smarty)
 /* {{{ Profile */
 
 /**
+ * Change info
+ */
+function enterprise_admin_action_info($smarty)
+{
+    $tplPath = 'admin/info.tpl';
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) // No form data
+        return $smarty->display($tplPath);
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $corporationName = enterprise_get_post_data('corporation_name');
+
+    if (!$corporationName)
+        throw new \RuntimeException("公司名称不能为空");
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'corporation_name' => $corporationName,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+    $smarty->assign('message', '修改成功');
+    $smarty->display($tplPath);
+}
+
+/**
  * Change password
  */
 function enterprise_admin_action_password($smarty)

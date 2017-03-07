@@ -48,7 +48,7 @@ class Product extends \crawler\daos\AbstractDAO
     }
 
     /**
-     * @return int Group ID
+     * @return int Product ID
      */
     public function insert($values)
     {

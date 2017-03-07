@@ -179,7 +179,7 @@
 
                                             <div class="span3">
 
-{include file="admin/common/profile_l2menu.tpl" profile_page_name="password"}
+{include file="admin/common/profile_l2menu.tpl" profile_page_name="info"}
 
                                             </div>
 
@@ -187,23 +187,15 @@
 
                                                 <div class="tab-content">
 
-                                                    <div id="tab_3-3" class="tab-pane active">
+                                                    <div id="tab_1-1" class="tab-pane active">
 
-                                                        <div style="height: auto;" id="accordion3-3" class="accordion collapse">
+                                                        <div style="height: auto;" id="accordion1-1" class="accordion collapse">
 
-                                                            <form action="?action=password" method="POST">
+                                                            <form action="?action=info" method="POST">
 
-                                                                <label class="control-label">当前密码</label>
+                                                                <label class="control-label">公司名称</label>
 
-                                                                <input type="password" name="old_password" class="m-wrap span8" />
-
-                                                                <label class="control-label">新密码</label>
-
-                                                                <input type="password" name="new_password" class="m-wrap span8" />
-
-                                                                <label class="control-label">再次输入</label>
-
-                                                                <input type="password" name="new_password_2" class="m-wrap span8" />
+                                                                <input type="text" name="corporation_name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" />
 
                                                                 <div class="submit-btn">
 
@@ -223,7 +215,7 @@
 
                                             </div>
 
-                                            <!--end span9-->                                   
+                                            <!--end span9-->
 
                                         </div>
 
