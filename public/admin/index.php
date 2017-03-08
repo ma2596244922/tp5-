@@ -41,6 +41,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_product($smarty);
                 case 'delete_product':
                     return enterprise_admin_action_delete_product($smarty);
+                case 'contact':
+                    return enterprise_admin_action_contact($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

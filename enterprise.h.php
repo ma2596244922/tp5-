@@ -613,3 +613,14 @@ function enterprise_site_info_get_product_list_page_size($siteId)
     return $siteInfo[$siteId]['product_list_page_size'];
 }
 /* }}} */
+
+/**
+ * Assign Contact List
+ */
+function enterprise_assign_contact_list($smarty, $var, $siteId)
+{
+    $contactDAO = new \enterprise\daos\Contact();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $contacts = $contactDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $contacts);
+}

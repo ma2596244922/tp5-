@@ -588,3 +588,18 @@ function enterprise_admin_action_delete_product($smarty)
 }
 
 /* }}} */
+
+/* {{{ Contact */
+
+/**
+ * Contacts
+ */
+function enterprise_admin_action_contact($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_assign_contact_list($smarty, 'contacts', $userSiteId);
+
+    $smarty->display('admin/contact.tpl');
+}
+
+/* }}} */
