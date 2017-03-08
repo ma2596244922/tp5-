@@ -37,7 +37,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://www.syrianeducation.org/admin/doc/swagger.yaml";
+        url = "http://{$host}/admin/blowjob/spec.php";
       }
 
       hljs.configure({

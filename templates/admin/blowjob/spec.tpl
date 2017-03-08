@@ -6,7 +6,7 @@ info:
 host: {$host}
 schemes:
   - http
-basePath: /admin
+basePath: /admin/blowjob
 consumes:
   - application/x-www-form-urlencoded
 produces:
@@ -19,10 +19,16 @@ paths:
         发布产品（含图片）。
       parameters:
         - name: pw
-          in: query
+          in: formData
           description: 通讯密码
           required: true
           type: string
+        - name: group_id
+          in: formData
+          description: 分组ID
+          required: true
+          type: integer
+          format: int64
         - name: remotePic
           in: formData
           description: 用三竖线（|||）分割的图片URL
@@ -105,7 +111,7 @@ paths:
           description: 出现错误
           schema:
             $ref: '#/definitions/Error'
-  /blowjob/lick.php:
+  /lick.php:
     put:
       summary: 更新任务进度接口
       description: |
@@ -121,7 +127,7 @@ paths:
           description: 任务ID
           required: true
           type: integer
-          format: int32
+          format: int64
         - name: status
           in: formData
           description: 任务状态（0-待开始；10-进行中；100-已完成）

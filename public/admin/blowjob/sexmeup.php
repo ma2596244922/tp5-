@@ -1,14 +1,11 @@
 <?php
 /**
- * 对接火车采集器
+ * 对接采集器 - 发布产品
  *
  * @package timandes\enterprise
  */
 
-define('PASSWD', 'BCF9DC55CA6FFB89CA44DBC3BC2C04');
-
-require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
-require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
+require_once __DIR__ . '/bootstrap.php';
 
 function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
 {
@@ -97,12 +94,15 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 
 function enterprise_sexmeup_route()
 {
-    $passwd = enterprise_get_query_data('pw');
+    $passwd = enterprise_get_post_data('pw');
     if (PASSWD != $passwd)
         throw new \RuntimeException('Wrong password');
 
-    $siteId = 2;
-    $groupId = 3;
+    $groupId = enterprise_get_post_data('group_id');
+    if (!$groupId)
+        throw new \RuntimeException("Empty group");
+
+    list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $images = enterprise_sexmeup_save_images($siteId);
     echo enterprise_sexmeup_save_product($siteId, $groupId, $images);
 }
