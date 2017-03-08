@@ -138,3 +138,22 @@ CREATE TABLE `enterprise_sites` (
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
+CREATE TABLE `enterprise_contacts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(45) NOT NULL COMMENT '姓名',
+  `title` varchar(45) NOT NULL COMMENT '职务',
+  `tel` varchar(45) NOT NULL COMMENT '电话',
+  `skype` varchar(45) NOT NULL COMMENT 'Skype',
+  `email` varchar(45) NOT NULL COMMENT '电子邮件地址',
+  `yahoo` varchar(45) NOT NULL COMMENT 'Yahoo',
+  `icq` varchar(45) NOT NULL COMMENT 'ICQ',
+  `viber` varchar(45) NOT NULL COMMENT 'Viber',
+  `whatsapp` varchar(45) NOT NULL COMMENT 'WhatsApp',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建联系人表';
+

@@ -63,6 +63,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='contact'} active{/if}">
+
+                    <a href="?action=contact">
+
+                    <i class="icon-headphones"></i> 
+
+                    <span class="title">管理联系人</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

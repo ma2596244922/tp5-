@@ -22,7 +22,6 @@ class Contact extends \crawler\daos\AbstractDAO
             'yahoo' => 'text',
             'icq' => 'text',
             'viber' => 'text',
-            'ymsgr' => 'text',
             'whatsapp' => 'text',
             'created' => 'text',
             'updated' => 'text',

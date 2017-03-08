@@ -602,4 +602,79 @@ function enterprise_admin_action_contact($smarty)
     $smarty->display('admin/contact.tpl');
 }
 
+/**
+ * Edit Contact
+ */
+function enterprise_admin_action_edit_contact($smarty)
+{
+    $tplPath = 'admin/edit_contact.tpl';
+
+    $contactId = (int)enterprise_get_query_data('contact_id');
+    $smarty->assign('contact_id', $contactId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($contactId) 
+            enterprise_assign_contact_info($smarty, 'contact', $contactId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $name = enterprise_get_post_data('name');
+    $title = enterprise_get_post_data('title');
+    $tel = enterprise_get_post_data('tel');
+    $skype = enterprise_get_post_data('skype');
+    $email = enterprise_get_post_data('email');
+    $yahoo = enterprise_get_post_data('yahoo');
+    $icq = enterprise_get_post_data('icq');
+    $viber = enterprise_get_post_data('viber');
+    $whatsapp = enterprise_get_post_data('whatsapp');
+
+    if (!$name) {
+        $smarty->assign('error_msg', '请输入姓名');
+        return $smarty->display($tplPath);
+    }
+
+    $contactDAO = new \enterprise\daos\Contact();
+    $values = array(
+            'site_id' => $userSiteId,
+            'name' => $name,
+            'title' => $title,
+            'tel' => $tel,
+            'skype' => $skype,
+            'email' => $email,
+            'yahoo' => $yahoo,
+            'icq' => $icq,
+            'viber' => $viber,
+            'whatsapp' => $whatsapp,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($contactId) {// Edit
+        $contactDAO->update($contactId, $values);
+        enterprise_assign_contact_info($smarty, 'contact', $contactId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $contactDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Contact
+ */
+function enterprise_admin_action_delete_contact($smarty)
+{
+    $contactId = (int)enterprise_get_query_data('contact_id');
+
+    $contactDAO = new \enterprise\daos\Contact();
+    $values = array(
+            'deleted' => 1,
+        );
+    $contactDAO->update($contactId, $values);
+    header('Location: ?action=contact&success_msg=' . urlencode('删除成功'));
+}
+
 /* }}} */

@@ -614,6 +614,7 @@ function enterprise_site_info_get_product_list_page_size($siteId)
 }
 /* }}} */
 
+/* {{{ Contact */
 /**
  * Assign Contact List
  */
@@ -624,3 +625,15 @@ function enterprise_assign_contact_list($smarty, $var, $siteId)
     $contacts = $contactDAO->getMultiInOrderBy($condition);
     $smarty->assign($var, $contacts);
 }
+
+/**
+ * Assign contact info
+ */
+function enterprise_assign_contact_info($smarty, $var, $contactId)
+{
+    $contactDAO = new \enterprise\daos\Contact();
+    $contact = $contactDAO->get($contactId);
+    $smarty->assign($var, $contact);
+}
+
+/* }}} */
