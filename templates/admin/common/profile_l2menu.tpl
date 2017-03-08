@@ -4,9 +4,7 @@
 
                                                         <a href="?action=info">
 
-                                                        <i class="icon-cog"></i> 
-
-                                                        公司信息
+                                                            <i class="icon-cog"></i>公司信息
 
                                                         </a> 
 
