@@ -131,9 +131,18 @@ CREATE TABLE `enterprise_thumbnails` (
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片缩略图表';
 
-CREATE TABLE `enterprise_sites` (
+CREATE TABLE `enterprise_corporations` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
-  `corporation_name` varchar(100) NOT NULL COMMENT '公司名称',
+  `name` varchar(100) NOT NULL COMMENT '公司名称',
+  `address` varchar(100) NOT NULL COMMENT '地址',
+  `factory_address` varchar(100) NOT NULL COMMENT '厂址',
+  `worktime` varchar(100) NOT NULL COMMENT '工作时间',
+  `tel_wt` varchar(100) NOT NULL COMMENT '电话（工作时间内）',
+  `tel_nwt` varchar(100) NOT NULL COMMENT '电话（非工作时间内）',
+  `fax` varchar(100) NOT NULL COMMENT '传真',
+  `skype` varchar(45) NOT NULL COMMENT 'Skype',
+  `email` varchar(45) NOT NULL COMMENT '电子邮件地址',
+  `yahoo` varchar(45) NOT NULL COMMENT 'Yahoo',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';

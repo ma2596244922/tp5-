@@ -171,13 +171,25 @@ function enterprise_admin_action_logout($smarty)
 function enterprise_admin_action_info($smarty)
 {
     $tplPath = 'admin/info.tpl';
-    $submitButton = enterprise_get_post_data('submit');
-    if (!$submitButton) // No form data
-        return $smarty->display($tplPath);
 
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
 
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+        return $smarty->display($tplPath);
+    }
+
     $corporationName = enterprise_get_post_data('corporation_name');
+    $address = enterprise_get_post_data('address');
+    $factoryAddress = enterprise_get_post_data('factory_address');
+    $worktime = enterprise_get_post_data('worktime');
+    $telWt = enterprise_get_post_data('tel_wt');
+    $telNWt = enterprise_get_post_data('tel_nwt');
+    $fax = enterprise_get_post_data('fax');
+    $skype = enterprise_get_post_data('skype');
+    $email = enterprise_get_post_data('email');
+    $yahoo = enterprise_get_post_data('yahoo');
 
     if (!$corporationName)
         throw new \RuntimeException("公司名称不能为空");
@@ -185,6 +197,15 @@ function enterprise_admin_action_info($smarty)
     $siteDAO = new \enterprise\daos\Site();
     $values = array(
             'corporation_name' => $corporationName,
+            'address' => $address,
+            'factory_address' => $factoryAddress,
+            'worktime' => $worktime,
+            'tel_wt' => $telWt,
+            'tel_nwt' => $telNWt,
+            'fax' => $fax,
+            'skype' => $skype,
+            'email' => $email,
+            'yahoo' => $yahoo,
             'updated' => date('Y-m-d H:i:s'),
         );
     $siteDAO->update($userSiteId, $values);

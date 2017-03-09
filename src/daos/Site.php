@@ -14,12 +14,21 @@ class Site extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
             'corporation_name' => 'text',
+            'address' => 'text',
+            'factory_address' => 'text',
+            'worktime' => 'text',
+            'tel_wt' => 'text',
+            'tel_nwt' => 'text',
+            'fax' => 'text',
+            'skype' => 'text',
+            'email' => 'text',
+            'yahoo' => 'text',
             'updated' => 'text',
         );
 
     public function getTableName()
     {
-        return 'enterprise_sites';
+        return 'enterprise_corporations';
     }
 
     public function getDbName()

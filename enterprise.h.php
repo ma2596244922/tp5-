@@ -493,6 +493,20 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
     throw new HttpException(404);
 }
 
+/**
+ * Router V2
+ *
+ * @return string Response
+ */
+function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    if ($requestPath == '/contactus.html') {
+        return enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    }
+
+    return null;
+}
+
 /* {{{ URLs */
 
 function enterprise_url_prefix()
@@ -614,6 +628,17 @@ function enterprise_site_info_get_product_list_page_size($siteId)
 }
 /* }}} */
 
+/**
+ * Assign corporation info
+ */
+function enterprise_assign_corporation_info($smarty, $var, $siteId)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    $smarty->assign($var, $site);
+}
+
 /* {{{ Contact */
 /**
  * Assign Contact List
@@ -634,6 +659,29 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
     $contactDAO = new \enterprise\daos\Contact();
     $contact = $contactDAO->get($contactId);
     $smarty->assign($var, $contact);
+}
+
+/**
+ * /contactus.html
+ *
+ * @return string
+ */
+function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $tplPath = 'sites/' . $siteId . '/contactus.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Groups
+    enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    return $smarty->fetch($tplPath);
 }
 
 /* }}} */

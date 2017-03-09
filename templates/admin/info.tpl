@@ -195,7 +195,43 @@
 
                                                                 <label class="control-label">公司名称</label>
 
-                                                                <input type="text" name="corporation_name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" />
+                                                                <input type="text" name="corporation_name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$site.corporation_name}" value="{$site.corporation_name}" />
+
+                                                                <label class="control-label">地址</label>
+
+                                                                <input type="text" name="address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.address}" />
+
+                                                                <label class="control-label">厂址</label>
+
+                                                                <input type="text" name="factory_address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.factory_address}" />
+
+                                                                <label class="control-label">工作时间</label>
+
+                                                                <input type="text" name="worktime" placeholder="9:00-18:00(Beijing time)" class="m-wrap span8" value="{$site.worktime}" />
+
+                                                                <label class="control-label">电话（工作时间内）</label>
+
+                                                                <input type="text" name="tel_wt" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.tel_wt}" />
+
+                                                                <label class="control-label">电话（非工作时间内）</label>
+
+                                                                <input type="text" name="tel_nwt" placeholder="86-1xxxxxxxxxx" class="m-wrap span8" value="{$site.tel_nwt}" />
+
+                                                                <label class="control-label">传真</label>
+
+                                                                <input type="text" name="fax" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.fax}" />
+
+                                                                <label class="control-label">Skype</label>
+
+                                                                <input type="text" name="skype" class="m-wrap span8" value="{$site.skype}" />
+
+                                                                <label class="control-label">Email</label>
+
+                                                                <input type="text" name="email" class="m-wrap span8" value="{$site.email}" />
+
+                                                                <label class="control-label">Yahoo</label>
+
+                                                                <input type="text" name="yahoo" class="m-wrap span8" value="{$site.yahoo}" />
 
                                                                 <div class="submit-btn">
 
