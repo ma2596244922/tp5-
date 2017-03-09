@@ -331,19 +331,19 @@ var query_string = ["Company","ContactUs"];
             <tbody>
                             <tr>
                     <th>Address :</th>
-                    <td>Leader Industrial Park,Jinan,Shandong</td>
+                    <td>{$corporation.address}</td>
                 </tr>
                             <tr>
                     <th>Factory Address :</th>
-                    <td>Leader Industrial Park,Jinan,Shandong</td>
+                    <td>{$corporation.factory_address}</td>
                 </tr>
                             <tr>
                     <th>Worktime :</th>
-                    <td>9:00-17:00(Beijing time)</td>
+                    <td>{$corporation.worktime}</td>
                 </tr>
                             <tr>
                     <th>Business Phone :</th>
-                    <td>86-531-82633959(Working time)&nbsp;&nbsp;&nbsp;</td>
+                    <td>{if $corporation.tel_wt}{$corporation.tel_wt}(Working time){/if}{if $corporation.tel_wt && $corporation.tel_nwt}&nbsp;&nbsp;&nbsp;{/if}{if $corporation.tel_nwt}{$corporation.tel_nwt}(Nonworking time){/if}</td>
                 </tr>
                         <tr>
                 <th>Contact Us :</th>
@@ -371,83 +371,32 @@ var query_string = ["Company","ContactUs"];
             </tbody>
         </table>
     </div>
+{if count($contacts) > 0}
     <div class="main_title main_title_m"></div>
     <div class="conh">
         <table class="tables data" width="100%" cellpadding="0" cellspacing="0">
             <tbody>
-                                                                        <tr>
+    {foreach $contacts as $contact}
+        {foreach $contact as $f => $v}
+            {if isset($contact_desc.$f) && $contact.$f}
+                        <tr>
                             <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Contact Person :
+                                style="width: 120px;text-align: right;">{$contact_desc.$f} :
                             </th>
-                            <td style="text-align: left;" valign="top">Mr. Jayson</td>
+                            <td style="text-align: left;" valign="top">{$v}</td>
                         </tr>
-                                                                <tr>
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Job Title :
-                            </th>
-                            <td style="text-align: left;" valign="top">General Manager</td>
-                        </tr>
-                                                                <tr>
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Business Phone :
-                            </th>
-                            <td style="text-align: left;" valign="top"> 86-15315573781</td>
-                        </tr>
-                                                                                                                            <tr style="text-align: right;">
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px; text-align: right">Skype :
-                            </th>
-                            <td style="text-align: left;" valign="top">leaderfoodmachine</td>
-                        </tr>
-                                                                                                                            <tr style="text-align: right;">
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px; text-align: right">Email :
-                            </th>
-                            <td style="text-align: left;" valign="top">jayson@ldfoodmachine.com</td>
-                        </tr>
-                                                                <tr>
+            {/if}
+        {/foreach}
+                        <tr>
                             <td colspan="2">
                                 <div style="width: 100%; overflow: hidden;background: #E2E7ED; height: 1px;"></div>
                             </td>
                         </tr>
-                                                                                <tr>
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Contact Person :
-                            </th>
-                            <td style="text-align: left;" valign="top">Ms. Jessica Youn</td>
-                        </tr>
-                                                                <tr>
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Job Title :
-                            </th>
-                            <td style="text-align: left;" valign="top">Manager</td>
-                        </tr>
-                                                                <tr>
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px;text-align: right;">Business Phone :
-                            </th>
-                            <td style="text-align: left;" valign="top"> 86-15964025360</td>
-                        </tr>
-                                                                                                                            <tr style="text-align: right;">
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px; text-align: right">Skype :
-                            </th>
-                            <td style="text-align: left;" valign="top">leaderfoodmachine1</td>
-                        </tr>
-                                                                                                                            <tr style="text-align: right;">
-                            <th valign="Top" nowrap="nowrap"
-                                style="width: 120px; text-align: right">Email :
-                            </th>
-                            <td style="text-align: left;" valign="top">sales1@ldfoodmachine.com</td>
-                        </tr>
-                                                                <tr>
-                            <td colspan="2">
-                                <div style="width: 100%; overflow: hidden;background: #E2E7ED; height: 1px;"></div>
-                            </td>
-                        </tr>
-                                                </tbody>
+    {/foreach}
+            </tbody>
         </table>
     </div>
+{/if}
     </div>
 <script>{literal}
     $(document).ready(function () {
@@ -461,11 +410,24 @@ var query_string = ["Company","ContactUs"];
     <div class="content_box">
         <div class="le">
             <strong>{$corporation.name}</strong>
+{if isset($contacts[0])}
             <p>Contact Person:
-                <b>Mr. Jayson</b></p>            <p>Tel:
-                <b>86-531-82633959</b></p>                        <P class="i_m_g">
-                                <a class="i_m_g_2" href="skype:leaderfoodmachine?call"
-                                             onclick="return skypeCheck();"></a>                                <a class="i_m_g_3" href="mailto:jayson@ldfoodmachine.com"></a>                                            </P>
+                <b>{$contacts[0].name}</b></p>
+            <p>Tel:
+                <b>{$contacts[0].tel}</b></p>
+            <P class="i_m_g">
+    {if $contacts[0].skype}
+                <a class="i_m_g_2" href="skype:{$contacts[0].skype}?call"
+                                             onclick="return skypeCheck();"></a>
+    {/if}
+    {if $contacts[0].yahoo}
+                <a class="i_m_g_4" href="ymsgr:sendIM?{$contacts[0].yahoo}"></a>
+    {/if}
+    {if $contacts[0].email}
+                <a class="i_m_g_3" href="mailto:{$contacts[0].email}"></a>
+            </P>
+    {/if}
+{/if}
         </div>
         <div class="ri">
             <form method="post"

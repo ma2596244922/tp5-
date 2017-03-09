@@ -195,7 +195,7 @@
 
                                                                 <label class="control-label">公司名称</label>
 
-                                                                <input type="text" name="corporation_name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$site.corporation_name}" value="{$site.corporation_name}" />
+                                                                <input type="text" name="name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$site.name}" value="{$site.name}" />
 
                                                                 <label class="control-label">地址</label>
 
@@ -220,7 +220,7 @@
                                                                 <label class="control-label">传真</label>
 
                                                                 <input type="text" name="fax" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.fax}" />
-
+<!--
                                                                 <label class="control-label">Skype</label>
 
                                                                 <input type="text" name="skype" class="m-wrap span8" value="{$site.skype}" />
@@ -232,7 +232,7 @@
                                                                 <label class="control-label">Yahoo</label>
 
                                                                 <input type="text" name="yahoo" class="m-wrap span8" value="{$site.yahoo}" />
-
+-->
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">

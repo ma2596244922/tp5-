@@ -180,7 +180,7 @@ function enterprise_admin_action_info($smarty)
         return $smarty->display($tplPath);
     }
 
-    $corporationName = enterprise_get_post_data('corporation_name');
+    $name = enterprise_get_post_data('name');
     $address = enterprise_get_post_data('address');
     $factoryAddress = enterprise_get_post_data('factory_address');
     $worktime = enterprise_get_post_data('worktime');
@@ -191,12 +191,12 @@ function enterprise_admin_action_info($smarty)
     $email = enterprise_get_post_data('email');
     $yahoo = enterprise_get_post_data('yahoo');
 
-    if (!$corporationName)
+    if (!$name)
         throw new \RuntimeException("公司名称不能为空");
 
     $siteDAO = new \enterprise\daos\Site();
     $values = array(
-            'corporation_name' => $corporationName,
+            'name' => $name,
             'address' => $address,
             'factory_address' => $factoryAddress,
             'worktime' => $worktime,
@@ -209,6 +209,8 @@ function enterprise_admin_action_info($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     $siteDAO->update($userSiteId, $values);
+    enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+    
     $smarty->assign('message', '修改成功');
     $smarty->display($tplPath);
 }

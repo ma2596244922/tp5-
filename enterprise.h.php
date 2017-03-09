@@ -681,6 +681,20 @@ function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffi
     // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
 
+    // Contact Desc Mapping
+    $contactDescMapping = array(
+            'name' => 'Contact Person',
+            'title' => 'Job Title',
+            'tel' => 'Business Phone',
+            'skype' => 'Skype',
+            'email' => 'Email',
+            'yahoo' => 'Yahoo',
+            'icq' => 'ICQ',
+            'viber' => 'Viber',
+            'whatsapp' => 'WhatsApp',
+        );
+    $smarty->assign('contact_desc', $contactDescMapping);
+
     return $smarty->fetch($tplPath);
 }
 
