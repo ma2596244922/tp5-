@@ -699,3 +699,35 @@ function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffi
 }
 
 /* }}} */
+
+/* {{{ Photo */
+/**
+ * Assign Photo List
+ */
+function enterprise_assign_photo_list($smarty, $var, $siteId, $type = null)
+{
+    $siteId = (int)$siteId;
+
+    $typeCondition = '';
+    if (null !== $type) {
+        $type = (int)$type;
+        $typeCondition = ' AND `type`={$type}';
+    }
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $condition = "`site_id`={$siteId}{$typeCondition} AND `deleted`=0";
+    $photos = $photoDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $photos);
+}
+
+/**
+ * Assign photo info
+ */
+function enterprise_assign_photo_info($smarty, $var, $photoId)
+{
+    $photoDAO = new \enterprise\daos\Photo();
+    $photo = $photoDAO->get($photoId);
+    $smarty->assign($var, $photo);
+}
+
+/* }}} */

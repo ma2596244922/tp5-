@@ -63,6 +63,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='photo'} active{/if}">
+
+                    <a href="?action=photo">
+
+                    <i class="icon-picture"></i> 
+
+                    <span class="title">我的照片</span>
+
+                    </a>
+
+                </li>
+
                 <li class="start{if $page_name=='contact'} active{/if}">
 
                     <a href="?action=contact">

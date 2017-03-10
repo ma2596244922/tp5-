@@ -389,7 +389,7 @@
 
     <script src="media/js/app.js"></script>      
 
-    <script>
+    <script>{literal}
 
         jQuery(document).ready(function() {       
 
@@ -399,7 +399,7 @@
 
         });
 
-    </script>
+    </script>{/literal}
 
 </body>
 

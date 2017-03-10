@@ -701,3 +701,84 @@ function enterprise_admin_action_delete_contact($smarty)
 }
 
 /* }}} */
+
+
+/* {{{ Photo */
+
+/**
+ * Photos
+ */
+function enterprise_admin_action_photo($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_assign_photo_list($smarty, 'photos', $userSiteId);
+
+    $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
+
+    $smarty->display('admin/photo.tpl');
+}
+
+/**
+ * Edit Photo
+ */
+function enterprise_admin_action_edit_photo($smarty)
+{
+    $tplPath = 'admin/edit_photo.tpl';
+
+    $photoId = (int)enterprise_get_query_data('photo_id');
+    $smarty->assign('photo_id', $photoId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($photoId) 
+            enterprise_assign_photo_info($smarty, 'photo', $photoId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $uri = enterprise_get_post_data('uri');
+    $desc = enterprise_get_post_data('desc');
+    $type = (int)enterprise_get_post_data('type');
+
+    if (!$uri) {
+        $smarty->assign('error_msg', '请输入姓名');
+        return $smarty->display($tplPath);
+    }
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'desc' => $desc,
+            'type' => $type,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($photoId) {// Edit
+        $photoDAO->update($photoId, $values);
+        enterprise_assign_photo_info($smarty, 'photo', $photoId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $photoDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Photo
+ */
+function enterprise_admin_action_delete_photo($smarty)
+{
+    $photoId = (int)enterprise_get_query_data('photo_id');
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $values = array(
+            'deleted' => 1,
+        );
+    $photoDAO->update($photoId, $values);
+    header('Location: ?action=photo&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

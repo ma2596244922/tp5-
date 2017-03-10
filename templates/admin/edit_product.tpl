@@ -578,7 +578,7 @@
 
     <script src="media/js/table-editable.js"></script>    
 
-    <script>
+    <script>{literal}
 
         jQuery(document).ready(function() {       
 
@@ -613,7 +613,7 @@
             });
         });
 
-    </script>
+    </script>{/literal}
 
 </body>
 

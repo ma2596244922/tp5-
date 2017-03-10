@@ -47,6 +47,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_contact($smarty);
                 case 'delete_contact':
                     return enterprise_admin_action_delete_contact($smarty);
+                case 'photo':
+                    return enterprise_admin_action_photo($smarty);
+                case 'edit_photo':
+                    return enterprise_admin_action_edit_photo($smarty);
+                case 'delete_photo':
+                    return enterprise_admin_action_delete_photo($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }
