@@ -540,6 +540,20 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
 }
 
 /**
+ * URL - Image
+ *
+ * @return string
+ */
+function enterprise_url_photo($uri, $desc = '', $imageSizeType = '')
+{
+    if (strpos($uri, 'http://') === 0)
+        return $uri;
+
+    $imageId = (int)str_replace('image://', '', $uri);
+    return enterprise_url_image($imageId, $desc, $imageSizeType);
+}
+
+/**
  * URL - Product
  *
  * @return string
@@ -703,6 +717,8 @@ function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffi
 /* {{{ Photo */
 /**
  * Assign Photo List
+ *
+ * @return string Condition
  */
 function enterprise_assign_photo_list($smarty, $var, $siteId, $type = null)
 {
@@ -718,6 +734,8 @@ function enterprise_assign_photo_list($smarty, $var, $siteId, $type = null)
     $condition = "`site_id`={$siteId}{$typeCondition} AND `deleted`=0";
     $photos = $photoDAO->getMultiInOrderBy($condition);
     $smarty->assign($var, $photos);
+
+    return $condition;
 }
 
 /**

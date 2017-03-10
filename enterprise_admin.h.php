@@ -711,7 +711,23 @@ function enterprise_admin_action_delete_contact($smarty)
 function enterprise_admin_action_photo($smarty)
 {
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    enterprise_assign_photo_list($smarty, 'photos', $userSiteId);
+    $type = (int)enterprise_get_query_data('type');
+    if (!$type)
+        $type = null;
+    $pageNo = (int)enterprise_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $condition = enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type);
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $totalPhotos = $photoDAO->countBy($condition);
+    $totalPages = (int)($totalPhotos / $max) + (($totalPhotos % $max)?1:0);
+    $smarty->assign('total_photos', $totalPhotos);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
 
     $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
 
