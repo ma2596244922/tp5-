@@ -155,6 +155,9 @@ $domainInfo = array(
             ),
         'tridentmicro.com' => array(
                 'site_id' => 22,
+                'cnzz' => array(
+                        'id' => '1261431184',
+                    ),
                 'custom_pages' => array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
