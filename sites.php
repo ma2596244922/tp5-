@@ -162,6 +162,12 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'europetemporaryfence.com' => array(
+                'site_id' => 23,
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -206,5 +212,8 @@ $siteInfo = array(
             ),
         22 => array(
                 'original_domain_prefix' => 'modularcontainerhouses.com',
+            ),
+        23 => array(
+                'original_domain_prefix' => 'wiremeshfence.com',
             ),
     );
