@@ -178,3 +178,10 @@ CREATE TABLE `enterprise_photos` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `type`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建照片表';
+
+CREATE TABLE `enterprise_sites` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `template` varchar(45) NOT NULL COMMENT '模板名称',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';

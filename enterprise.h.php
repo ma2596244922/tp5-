@@ -502,6 +502,8 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
 {
     if ($requestPath == '/contactus.html') {
         return enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/aboutus.html') {
+        return enterprise_action_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     return null;
@@ -708,6 +710,42 @@ function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffi
             'whatsapp' => 'WhatsApp',
         );
     $smarty->assign('contact_desc', $contactDescMapping);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /aboutus.html
+ *
+ * @return string
+ */
+function enterprise_action_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/aboutus.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Groups
+    enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    // Photos - AboutUs
+    enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
 
     return $smarty->fetch($tplPath);
 }
