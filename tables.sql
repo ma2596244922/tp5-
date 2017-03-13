@@ -145,7 +145,7 @@ CREATE TABLE `enterprise_corporations` (
   `yahoo` varchar(45) NOT NULL COMMENT 'Yahoo',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司表';
 
 CREATE TABLE `enterprise_contacts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
