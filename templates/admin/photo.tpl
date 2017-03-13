@@ -190,7 +190,7 @@
 
                                     <div class="span4">
 
-                                        <h4>当前展示 全部照片</h4>
+                                        <h4>当前展示 {if !$photo_type|default:''}全部照片{else}分类：{$predefined_photo_types[$photo_type]}{/if}</h4>
 
                                     </div>
 
@@ -198,11 +198,11 @@
 
                                         <div class="pull-right">
 
-                                            <select data-placeholder="Select Category" class="chosen" tabindex="-1" id="inputCategory">
+                                            <select data-placeholder="查看分类下照片" class="chosen" tabindex="-1" id="inputCategory">
 
                                                 <option value="0"></option>
 {foreach $predefined_photo_types as $v => $text}
-                                                <option value="{$v}">{$text}</option>
+                                                <option value="{$v}"{if $photo_type|default:'0'==$v} selected{/if}>{$text}</option>
 {/foreach}
                                             </select>
 
@@ -228,11 +228,11 @@
 
                                         <div class="item">
 
-                                            <a class="fancybox-button" data-rel="fancybox-button" title="Photo" href="{$photo.uri|url:'enterprise_url_photo':'':'d'}">
+                                            <a class="fancybox-button" data-rel="fancybox-button" title="{$photo.desc}" href="{$photo.uri|url:'enterprise_url_photo':'':''}">
 
                                                 <div class="zoom">
 
-                                                    <img src="{$photo.uri|url:'enterprise_url_photo':'':'d'}" alt="Photo" />
+                                                    <img src="{$photo.uri|url:'enterprise_url_photo':'':'t'}" alt="{$photo.desc}" />
 
                                                     <div class="zoom-icon"></div>
 
@@ -377,6 +377,11 @@
            App.init();
 
            Gallery.init();
+
+           $('#inputCategory').change(function() {
+                var type = $(this).val();
+                location.href = '?action=photo&type=' + encodeURIComponent(type);
+           });
 
         });
 

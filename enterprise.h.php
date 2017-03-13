@@ -727,7 +727,7 @@ function enterprise_assign_photo_list($smarty, $var, $siteId, $type = null)
     $typeCondition = '';
     if (null !== $type) {
         $type = (int)$type;
-        $typeCondition = ' AND `type`={$type}';
+        $typeCondition = " AND `type`={$type}";
     }
 
     $photoDAO = new \enterprise\daos\Photo();

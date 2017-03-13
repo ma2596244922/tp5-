@@ -528,27 +528,12 @@ function enterprise_admin_action_edit_product($smarty)
     }
 
     // Upload images
-    $imageDAO = new \enterprise\daos\Image();
-    $thumbnailDAO = new \enterprise\daos\Thumbnail();
-    $imageManager = new \Intervention\Image\ImageManager();
-    $images = array();
-    $headImageId = 0;
-    foreach ($_FILES as $name => $meta) {
-        $id = enterprise_get_post_data($name);
-        if (!$id) {// Upload now!
-            if ($meta['error'])
-                continue;
-
-            $body = null;
-            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
-            // Thumbnail
-            enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
-        }
-        // Save to products
-        $images[] = $id;
-        if (!$headImageId)
-            $headImageId = $id;
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择至少一张图片');
+        return $smarty->display($tplPath);
     }
+    $headImageId = $images[0];
 
     // Save products
     $productDAO = new \enterprise\daos\Product();
@@ -720,6 +705,7 @@ function enterprise_admin_action_photo($smarty)
     $max = 20;
 
     $condition = enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type);
+    $smarty->assign('photo_type', $type);
 
     $photoDAO = new \enterprise\daos\Photo();
     $totalPhotos = $photoDAO->countBy($condition);
@@ -734,6 +720,31 @@ function enterprise_admin_action_photo($smarty)
     $smarty->display('admin/photo.tpl');
 }
 
+function enterprise_admin_upload_post_images()
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $imageDAO = new \enterprise\daos\Image();
+    $thumbnailDAO = new \enterprise\daos\Thumbnail();
+    $imageManager = new \Intervention\Image\ImageManager();
+    $images = array();
+    foreach ($_FILES as $name => $meta) {
+        $id = enterprise_get_post_data($name);
+        if (!$id) {// Upload now!
+            if ($meta['error'])
+                continue;
+
+            $body = null;
+            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
+            // Thumbnail
+            enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
+        }
+        // Save to array
+        $images[] = $id;
+    }
+
+    return $images;
+}
+
 /**
  * Edit Photo
  */
@@ -743,6 +754,8 @@ function enterprise_admin_action_edit_photo($smarty)
 
     $photoId = (int)enterprise_get_query_data('photo_id');
     $smarty->assign('photo_id', $photoId);
+
+    $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
 
     $submitButton = enterprise_get_post_data('submit');
     if (!$submitButton) {// No form data
@@ -757,10 +770,22 @@ function enterprise_admin_action_edit_photo($smarty)
     $desc = enterprise_get_post_data('desc');
     $type = (int)enterprise_get_post_data('type');
 
-    if (!$uri) {
-        $smarty->assign('error_msg', '请输入姓名');
+    if (!$desc) {
+        $smarty->assign('error_msg', '请输入描述');
         return $smarty->display($tplPath);
     }
+    if (!$type) {
+        $smarty->assign('error_msg', '请选择分类');
+        return $smarty->display($tplPath);
+    }
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择照片');
+        return $smarty->display($tplPath);
+    }
+    $uri = $images[0];
 
     $photoDAO = new \enterprise\daos\Photo();
     $values = array(

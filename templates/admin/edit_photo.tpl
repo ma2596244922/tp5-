@@ -151,19 +151,19 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$error_msg} hide{/if}">
+                        <div class="alert alert-error{if !$error_msg|default:''} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$error_msg}</span>
+                            <span>{$error_msg|default:''}</span>
 
                         </div>
 
-                        <div class="alert alert-success{if !$success_msg} hide{/if}">
+                        <div class="alert alert-success{if !$success_msg|default:''} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$success_msg}</span>
+                            <span>{$success_msg|default:''}</span>
 
                         </div>
 
@@ -191,25 +191,13 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">标题</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="caption" value="{$photo.caption|default:''}" />
-
-                                            <span class="help-inline">请输入英文产品标题</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
                                         <label class="control-label">描述</label>
 
                                         <div class="controls">
 
-                                            <textarea class="span12 ckeditor m-wrap" name="description" rows="6">{$product.description|default:''}</textarea>
+                                            <input type="text" class="span6 m-wrap" name="desc" value="{$photo.desc|default:''}" />
+
+                                            <span class="help-inline">请输入英文照片描述</span>
 
                                         </div>
 
@@ -217,29 +205,13 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">分组</label>
+                                        <label class="control-label">照片</label>
 
                                         <div class="controls">
 
-                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
-{section name=i loop=$groups}
-                                                <option value="{$groups[i].id}"{if isset($product.group_id) && $product.group_id==$groups[i].id} selected="selected"{/if}>{$groups[i].name}</option>
-{/section}
-                                            </select>
+                                            <div class="fileupload fileupload-{if $photo.uri|default:''}exists{else}new{/if} span2" data-provides="fileupload">
 
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">图片</label>
-
-                                        <div class="controls">
-{for $i=0 to 4}
-                                            <div class="fileupload fileupload-{if isset($product_images[$i])}exists{else}new{/if} span2" data-provides="fileupload">
-
-                                                <input type="hidden" name="file{$i}" value="{$product_images[$i]|default:''}">
+                                                <input type="hidden" name="uri" value="{$photo.uri|default:''}">
 
                                                 <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
@@ -249,7 +221,7 @@
 
                                                 <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
 
-                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':$product.caption:'c'}" alt="" style="max-height: 150px;" />
+                                                    <img src="{$photo.uri|default:''|url:'enterprise_url_photo':'':'c'}" alt="" style="max-height: 150px;" />
 
                                                 </div>
 
@@ -260,7 +232,7 @@
 
                                                         <span class="fileupload-exists">更换</span>
 
-                                                        <input type="file" class="default" name="file{$i}" />
+                                                        <input type="file" class="default" name="uri" />
                                                     </span>
 
                                                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
@@ -268,18 +240,6 @@
                                                 </div>
 
                                             </div>
-{/for}
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">关键词</label>
-
-                                        <div class="controls">
-
-                                            <input type="hidden" id="select2_sample5" class="span6 select2" name="tags" value="{$product.tags|default:''}">
 
                                         </div>
 
@@ -287,196 +247,15 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">品牌</label>
+                                        <label class="control-label">分类</label>
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="brand_name" value="{$product.brand_name|default:''}" />
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">型号</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="model_number" value="{$product.model_number|default:''}" />
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">认证证书</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="certification" value="{$product.certification|default:''}" />
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">原产地</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="place_of_origin" value="{$product.place_of_origin|default:''}" />
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">最小起订量</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="min_order_quantity" value="{$product.min_order_quantity|default:''}" />
-
-                                            <span class="help-inline">请同时填写数值和单位</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">价格</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="price" value="{$product.price|default:''}" placeholder="货币类型 + 价格区间 + 计量单位" />
-
-                                            <span class="help-inline">请同时填写数值和单位。建议填写方式为：货币类型 + 价格区间 + 计量单位</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">付款方式</label>
-
-                                        <div class="controls">
-
-                                            <input type="hidden" id="input-payment-terms" class="span6 select2" name="payment_terms" value="{$product.payment_terms|default:''}">
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">供货能力</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="supply_ability" value="{$product.supply_ability|default:''}" placeholder="数量 + 计量单位 + per时间单位" />
-
-                                            <span class="help-inline">请同时填写数值和单位。建议填写方式为：数量 + 计量单位 + per时间单位</span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">发货期限</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="delivery_time" value="{$product.delivery_time|default:''}" />
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">常规包装</label>
-
-                                        <div class="controls">
-
-                                            <input type="text" class="span6 m-wrap" name="packaging_details" value="{$product.packaging_details|default:''}" />
-
-                                            <span class="help-inline">建议填写包装形式、尺寸，各类集装箱能装载的产品件数等信息，便于买家了解。</span>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">自定义属性</label>
-
-                                        <div class="controls">
-
-                                            <input type="hidden" name="specifications">
-
-                                            <div class="btn-group">
-
-                                                <button id="sample_editable_1_new" class="btn green">
-
-                                                新增属性 <i class="icon-plus"></i>
-
-                                                </button>
-
-                                            </div>
-
-                                            <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
-
-                                                <thead>
-
-                                                    <tr>
-
-                                                        <th>属性名</th>
-
-                                                        <th>属性值</th>
-
-                                                        <th>修改</th>
-
-                                                        <th>删除</th>
-
-                                                    </tr>
-
-                                                </thead>
-
-                                                <tbody>
-{if isset($product_specifications)}{foreach $product_specifications as $s}
-                                                    <tr class="">
-
-                                                        <td>{$s@key}</td>
-
-                                                        <td>{$s}</td>
-
-                                                        <td><a class="edit" href="javascript:;">修改</a></td>
-
-                                                        <td><a class="delete" href="javascript:;">删除</a></td>
-
-                                                    </tr>
-{/foreach}{/if}
-                                                </tbody>
-
-                                            </table>
+                                            <select class="span6 m-wrap" multiple="multiple" data-placeholder="请选择照片分类" tabindex="1" name="type">
+{foreach $predefined_photo_types as $type => $text}
+                                                <option value="{$type}"{if $type==$photo.type|default:'0'} selected{/if}>{$text}</option>
+{/foreach}
+                                            </select>
 
                                         </div>
 
@@ -484,11 +263,11 @@
 
                                     <div class="form-actions">
 
-                                        <input type="hidden" name="submit" value="edit_group">
+                                        <input type="hidden" name="submit" value="edit_photo">
 
                                         <button type="submit" class="btn blue">保存</button>
 
-                                        <a href="?action=product" class="btn">取消</a>
+                                        <a href="?action=photo" class="btn">取消</a>
 
                                     </div>
 
@@ -586,31 +365,6 @@
 
            App.init();
 
-            var dataTable = TableEditable.init();
-
-            $('#form-edit-product').on('submit', function(e) {
-                var specifications = [];
-                var nodes = dataTable.fnGetNodes();
-                for(var node in nodes) {
-                    var data = dataTable.fnGetData(node);
-                    if (data.length <= 0)
-                        continue;
-                    var pair = data[0] + '=' + encodeURIComponent(data[1]);
-                    specifications.push(pair);
-                }
-                var val = specifications.join('&');
-                $(this).find('[name="specifications"]').val(val);
-            });
-
-            $('textarea.description').ckeditor();
-
-            $("#select2_sample5").select2({
-                tags: []
-            });
-
-            $("#input-payment-terms").select2({
-                tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
-            });
         });
 
     </script>{/literal}

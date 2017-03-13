@@ -484,7 +484,7 @@
 
                                     <div class="form-actions">
 
-                                        <input type="hidden" name="submit" value="edit_group">
+                                        <input type="hidden" name="submit" value="edit_product">
 
                                         <button type="submit" class="btn blue">保存</button>
 
