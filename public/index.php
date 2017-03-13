@@ -116,6 +116,10 @@ if (!in_array($requestPath, $skippingPages)) {
             $response = str_ireplace('honesty.tomi@yahoo.com', '', $response);//Yahoo
             $response = str_ireplace('bluesky4912', '694118602@qq.com', $response);//Skype
             $response = str_ireplace('https://www.youtube.com/watch?v=g1SvKYhZibo&feature=youtu.be', '', $response);//ICQ
+        } elseif ($currentDomainSuffix == 'mocfa.org') {
+            $response = str_ireplace('NINGBO DEEPBLUE SMARTHOUSE CO.,LTD', 'Leader Machinery Manufacture Co.,Ltd.', $response);
+            $response = str_ireplace('david@mocfa.org', 'robertjean68@yahoo.com', $response);//Email
+            $response = str_ireplace('chinhy', '694118602@qq.com', $response);//Skype
         }
 
         echo $response;
