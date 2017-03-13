@@ -647,9 +647,9 @@ function enterprise_site_info_get_product_list_page_size($siteId)
  */
 function enterprise_assign_corporation_info($smarty, $var, $siteId)
 {
-    $siteDAO = new \enterprise\daos\Site();
+    $corporationDAO = new \enterprise\daos\Corporation();
     $condition = "`site_id`=" . (int)$siteId;
-    $site = $siteDAO->getOneBy($condition);
+    $site = $corporationDAO->getOneBy($condition);
     $smarty->assign($var, $site);
 }
 

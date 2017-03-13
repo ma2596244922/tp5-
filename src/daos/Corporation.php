@@ -8,9 +8,9 @@
 namespace enterprise\daos;
 
 /**
- * Site DAO
+ * Corporation DAO
  */
-class Site extends \crawler\daos\AbstractDAO
+class Corporation extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
             'corporation_name' => 'text',

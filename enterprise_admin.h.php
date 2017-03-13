@@ -194,7 +194,7 @@ function enterprise_admin_action_info($smarty)
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
 
-    $siteDAO = new \enterprise\daos\Site();
+    $corporationDAO = new \enterprise\daos\Corporation();
     $values = array(
             'name' => $name,
             'address' => $address,
@@ -208,7 +208,7 @@ function enterprise_admin_action_info($smarty)
             'yahoo' => $yahoo,
             'updated' => date('Y-m-d H:i:s'),
         );
-    $siteDAO->update($userSiteId, $values);
+    $corporationDAO->update($userSiteId, $values);
     enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
     
     $smarty->assign('message', '修改成功');
