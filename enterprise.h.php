@@ -5,6 +5,11 @@
  * @package timandes\enterprise
  */
 
+/** @var string Pattern of Product List */
+define('PATTERN_PRODUCT_LIST', '/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
+/** @var string Pattern of Product Detail */
+define('PATTERN_PRODUCT_DETAIL', '/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+
 /* {{{ Common */
 
 /**
@@ -298,14 +303,8 @@ function enterprise_action_uploaded_image_proc($char, $imageId)
     exit;
 }
 
-/**
- * Product Detail
- */
-function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
 {
-    if (!$productId)
-        throw new HttpException(404);
-
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->get($productId);
     if (!$product) 
@@ -337,7 +336,26 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     $smarty->assign('product_specifications', $productSpecifications);
 
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
+    $groups = enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    // Product Group
+    foreach ($groups as $group) {
+        if ($group['id'] == $product['group_id']) {
+            $smarty->assign('product_group', $group);
+            break;
+        }
+    }
+}
+
+/**
+ * Product Detail
+ */
+function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+{
+    if (!$productId)
+        throw new HttpException(404);
+
+    enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
     $response = $smarty->fetch($tplPath);
@@ -476,12 +494,12 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 {
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match('/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/', $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
         return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match('/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/', $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if ($matches[3])
             $pageNo = (int)$matches[3];
@@ -501,9 +519,12 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
     if ($requestPath == '/contactus.html') {
-        return enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
-        return enterprise_action_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
+        $productId = $matches[1];
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     }
 
     return null;
@@ -582,6 +603,8 @@ function enterprise_url_product_list($group, $pageNo = 1)
 
 /**
  * Assign Group List
+ *
+ * @return array Group Array
  */
 function enterprise_assign_group_list($smarty, $var, $siteId)
 {
@@ -589,6 +612,8 @@ function enterprise_assign_group_list($smarty, $var, $siteId)
     $condition = "`site_id`={$siteId} AND `deleted`=0";
     $groups = $groupDAO->getMultiInOrderBy($condition);
     $smarty->assign($var, $groups);
+
+    return $groups;
 }
 
 /**
@@ -682,7 +707,7 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
  *
  * @return string
  */
-function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
     $tplPath = 'sites/' . $siteId . '/contactus.tpl';
     if (!$smarty->templateExists($tplPath))
@@ -719,7 +744,7 @@ function enterprise_action_contactus_proc($smarty, $siteId, $originalDomainSuffi
  *
  * @return string
  */
-function enterprise_action_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -749,6 +774,36 @@ function enterprise_action_aboutus_proc($smarty, $siteId, $originalDomainSuffix,
 
     return $smarty->fetch($tplPath);
 }
+
+/**
+ * /sale-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    enterprise_assign_action_product_detail($smarty, $siteId, $productId);
+
+    return $smarty->fetch($tplPath);
+}
+
 
 /* }}} */
 

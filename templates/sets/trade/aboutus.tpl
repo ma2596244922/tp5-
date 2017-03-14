@@ -3,45 +3,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{$corporation.name}</title>
-<link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
-<link type="text/css" rel="stylesheet" href="/media/sets/trade/shop.css" />
+{include file="sets/trade/common/styles.tpl"}
 </head>
 
 <body>
 
 <div class="content">
     <div class="container">
-        <div class="header fl-clr"> <a href="#" class="shop-logo" title=""><img src="/media/sets/trade/shop_logo.jpg" alt="" /></a>
-            <dl>
-                <dt>{$corporation.name}<span><img src="{$corporation.logo|url:'enterprise_url_photo'}" alt="" /></span></dt>
-                <dd>This is a verified supplier can provide quality products and have passed the Business License Check.</dd>
-            </dl>
-        </div>
+{include file="sets/trade/common/logobar.tpl"}
         <!--header-->
-        <div class="nav">
-            <ul>
-                <li><a href="#" title="">Home</a></li>
-                <li><a href="#" title="">Product Categories<i></i></a>
-                    <ul class="nav-list">
-{foreach $groups as $group}
-                        <li><a href="#" title="">{$group.name}</a></li>
-{/foreach}
-                    </ul>
-                </li>
-                <li><a href="#">Company Profile<i></i></a>
-                    <ul class="nav-list nav-list1">
-                        <li><a href="/aboutus.html" title="">Company Introduction</a></li>
-                        <li><a href="#" title="">Company News </a></li>
-                        <li><a href="#" title="">Photo Gallery</a></li>
-                    </ul>
-                </li>
-                <li><a href="#" title="">Quality Control</a></li>
-                <li><a href="#" title="">Contacts</a></li>
-            </ul>
-        </div>
+{include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="#">Home</a>&gt;<span>{$corporation.name}</span></p>
+            <p><a href="/">Home</a>&gt;<span>{$corporation.name}</span></p>
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">
