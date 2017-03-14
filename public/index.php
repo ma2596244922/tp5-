@@ -120,6 +120,7 @@ if (!in_array($requestPath, $skippingPages)) {
             $response = str_ireplace('NINGBO DEEPBLUE SMARTHOUSE CO.,LTD', 'Leader Machinery Manufacture Co.,Ltd.', $response);
             $response = str_ireplace('david@mocfa.org', 'robertjean68@yahoo.com', $response);//Email
             $response = str_ireplace('chinhy', '694118602@qq.com', $response);//Skype
+            $response = str_ireplace('/logo.gif', '/logo.gif?t=123', $response);
         }
 
         echo $response;
