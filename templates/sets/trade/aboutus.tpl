@@ -32,7 +32,7 @@
                     <ul>
                         <li><i>Address</i>{$corporation.address}</li>
                         <li><i>Factory Address</i>{$corporation.factory_address}</li>
-                        <li><i>Worktime</i>{$corporation.tel_wt}</li>
+                        <li><i>Worktime</i>{$corporation.worktime}</li>
                         <li><i>Business Phone(Working Time)</i>{$corporation.tel_wt}</li>
                         <li><i>Business Phone(Nonworking Time)</i>{$corporation.tel_nwt}</li>
                         <li><i>Fax</i>{$corporation.fax}</li>
@@ -127,46 +127,8 @@
     </div>
 </div>
 <!--service-box-->
-<div class="footer">
-    <div class="foot">
-        <ul>
-            <li><a href="#" rel="nofollow">About Us</a>|</li>
-            <li><a href="#" rel="nofollow">Contact Us</a>|</li>
-            <li><a href="#" rel="nofollow">Intellectual Property Policy</a>|</li>
-            <li><a href="#" rel="nofollow">Privacy Policy</a>|</li>
-            <li><a href="#" rel="nofollow">Terms of Use</a>|</li>
-            <li><a href="#" rel="nofollow">Advertise</a>|</li>
-            <li><a href="#" rel="nofollow">Partners</a></li>
-        </ul>
-        <p>China Good Quality {$corporation.xx} Supplier.            Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'} {$site.root_domain}. All Rights Reserved.</p>
-    </div>
-</div>
-<div class="nav nav-fixed">
-    <ul>
-        <li><a href="#" title="">Home</a></li>
-        <li><a href="#" title="">Product Categories<i></i></a>
-            <ul class="nav-list" style="width:228px;">
-                <li><a href="#" title="">Bean & Preparation</a></li>
-                <li><a href="#" title="">Cereal</a></li>
-                <li><a href="#" title="">Cigarette & Tobaccot shirtturkey 100% Cotton</a></li>
-                <li><a href="#" title="">Dried Fruit</a></li>
-                <li><a href="#" title="">Econ-valuable Vegetable</a></li>
-                <li><a href="#" title="">Edible Fungus & Algae</a></li>
-                <li><a href="#" title="">Flour & Preparation</a></li>
-                <li><a href="#" title="">Flower & Gardening Plant</a></li>
-            </ul>
-        </li>
-        <li><a href="#" title="">Company Profile<i></i></a>
-            <ul class="nav-list nav-list1">
-                <li><a href="#" title="">Company Introduction</a></li>
-                <li><a href="#" title="">Company News </a></li>
-                <li><a href="#" title="">Photo Gallery</a></li>
-            </ul>
-        </li>
-        <li><a href="#" title="">Quality Control</a></li>
-        <li><a href="#" title="">Contacts</a></li>
-    </ul>
-</div>
+{include file="sets/trade/common/footer.tpl"}
+{include file="sets/trade/common/navbar.tpl" position="fixed"}
 <!--nav--> 
 {include file="sets/trade/common/scripts.tpl"}
 </body>

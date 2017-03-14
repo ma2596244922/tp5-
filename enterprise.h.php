@@ -702,6 +702,10 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
     $smarty->assign($var, $contact);
 }
 
+/* }}} */
+
+/* {{{ Route V2 Actions */
+
 /**
  * /contactus.html
  *

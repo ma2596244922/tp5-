@@ -420,6 +420,8 @@ $(".send-btn").click(function() {
         $(this).css("border-color", "#d41313");
         return false;
     }
+    $('#form-inquiry').submit();
+    return false;
 })
 $(".search-product div:last-child").css("border", "none");
 $(".news-art div:last-child").css("border", "none");
@@ -563,40 +565,4 @@ function submit() {
         $("#area_error").text("Your inquiry content must be between 20 to 5000 characters.")
         return false;
     }
-}
-
-function valideEmail(objName) {
-    var i, strDomain, cChar;
-    var nDotCount = 0;
-    var bFindAlpha = false;
-    var bLastIsDot = false;
-    var strValid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-.";
-    var value = objName.val();
-
-    if (value == "") return true;
-    i = value.indexOf("@");
-    if (i == -1 || i == 0 || i == value.length - 1) return false;
-    strDomain = value.substring(i + 1, value.length);
-
-    if (strDomain.indexOf("@") != -1) return false;
-    if (strDomain.charAt(0) == ".") return false;
-    if (strDomain.charAt(strDomain.length - 1) == ".") return false;
-    for (i = 0; i < strDomain.length; i++) {
-        cChar = strDomain.charAt(i);
-        if (strValid.indexOf(cChar) == -1) return false;
-        if (cChar == ".") {
-            if (bLastIsDot) return false;
-            bLastIsDot = true;
-            nDotCount++;
-        } else bLastIsDot = false;
-        if ((("a" <= cChar) && (cChar <= "z")) || (("A" <= cChar) && (cChar <= "Z")))
-            bFindAlpha = true;
-    }
-    if (bFindAlpha && (0 == nDotCount)) return false;
-    var pa = /^[A-Za-z0-9]+([A-Za-z0-9-_.]+[A-Za-z0-9]+)*@([A-Za-z0-9]+[-.])+[A-Za-z0-9]{2,5}$/;
-    // /^(?:\w+\.?)*-?\w+@(?:-?\w+\.?)*\w+$/;
-    if (!pa.test(value)) {
-        return false;
-    }
-    return true;
 }
