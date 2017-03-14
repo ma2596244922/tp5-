@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+html { color: #333; overflow-y: scroll; background:#ffffff url(about:blank); font-family:Arial, Helvetica, sans-serif; }
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fieldset, lengend, button, input, textarea, form, th, td { margin: 0; padding: 0; }
+li,h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+address, cite, dfn, em, var { font-style: normal; }
+ul, ol { list-style: none; }
+a { color:#06C; text-decoration:none; }
+img{ border:none;}
+strong, th { font-weight:bold; }
+.ui-header .ui-title, .ui-footer .ui-title { margin: .6em auto .8em auto; }
+.fl-clr { zoom:1; }
+.fl-clr:after { display: block; content: ''; clear: both; visibility: hidden; }
+
+/*top-bar*/
+.top-bar{ width:100%; height:34px; background:#f5f5f5; border-bottom:solid 1px #dddddd;font-size:12px; color:#666666;line-height:34px;}
+.top-list{ width:1190px; margin:0 auto;}
+.top-list .left-list{ float:left;}
+.top-list .left-list li{ float:left;margin-right:20px;}
+.top-list .left-list li.li{ display:none}
+.top-list .left-list li a{ margin:0 7px; color:#333;}
+.top-list .right-list{ float:right; padding-right:25px;}
+.top-list .right-list li{ float:left; color:#666; margin-left:20px;}
+.top-list .right-list li a{ font-style:normal; color:#333; margin:0 3px;}
+.top-list .right-list li i{ width:18px; height:15px; display:block; float:left; margin:8px 7px 0 0; background:url('/media/sets/trade/icon-group.png') 0 0 no-repeat;}
+.top-list .left-list li a:hover,.top-list .right-list li a:hover{ font-weight:bold; text-decoration:underline;}
+.top-list .right-list li.my{ width:82px; text-align:right;}
+
+.service-box{ width:100%; background:#ececec; border-top:solid 1px #ddd; padding-bottom:50px;}
+.service-list{ width:1190px; margin:0 auto;}
+.service-list dl{ float:left; width:271px; border-right:solid 1px #ddd; margin-top:30px; padding-left:25px;min-height:130px;}
+.service-list dl:first-child{ padding:0; width:296px;}
+.service-list dl:last-child{ border:none;}
+.service-list dl dt{ font-size:18px; color:#666; font-weight:bold; line-height:24px; margin-bottom:10px;}
+.service-list dl dd{ font-size:14px; line-height:24px;}
+.service-list dl dd a{ color:#999;}
+.service-list dl dd a:hover{ text-decoration:underline; color:#666;}
+
+/*footer*/
+.footer{  width:100%; height:40px; background:#333; overflow:hidden;}
+.foot{ width:1190px; margin:0 auto;}
+.foot ul{ float:left;}
+.foot ul li{ float:left; line-height:40px; color:#999; margin-left:4px;}
+.foot ul li:first-child{ margin:0;}
+.foot ul li a{ color:#999; font-size:14px; margin-right:4px;}
+.foot ul li a:hover{ color:#fff;}
+.foot p{ float:right; color:#999; font-size:14px; line-height:40px;}
+
+.top-product{ height:50px; background:#fff; line-height:50px; border-bottom:solid 1px #dddddd;}
+.top-product a.logo{ width:120px; height:27px; margin-top:11px; float:left;}
+.top-product .search{ float:left; margin:12px 0 0 40px; height:26px;}
+.top-product .search li{ float:left; height:26px;}
+.top-product .search ul li.select{ position:relative;}
+.top-product .select-box{ width:90px; height:24px; display:block; background:#f5f5f5; border:solid 1px #ddd; text-align:left; line-height:24px; padding-left:6px; border-radius:3px 0 0 3px;cursor:pointer;}
+.top-product .select-box span{ color:#333; font-size:12px; float:left;}
+.top-product .select-box i{ width:10px; height:5px; display:block; background:url('/media/sets/trade/shop-icon.png') 0 -126px no-repeat; margin:10px 0 0 7px; position:absolute; right:7px;}
+.top-product .select-box i.current{ background-position:0 -148px;}
+.top-product .selectMenu{ position:absolute; top:24px; left:0; width:96px; border:solid 1px #ddd; background:#fff; border-radius:0 0 3px 3px;}
+.top-product .selectMenu a{ display:block; padding-left:12px; height:30px; line-height:30px; color:#747474; font-size:12px;}
+.top-product .selectMenu a:hover{ color:#333; background:#f5f5f5;}
+.top-product .search .txt{ width:217px; height:24px; background:#fff; border:solid 1px #ddd; margin-left:-1px; line-height:24px; float:left; padding-left:9px; font-size:12px; outline:none;}
+.top-product .search a.search-btn{ width:75px; height:24px; background:#ea4a4a; border:solid 1px #ea4a4a; display:block; float:left; line-height:24px; text-align:center; color:#fff; font-size:14px; border-radius:0 3px 3px 0; margin-left:-1px;}
+.top-product .search a.search-btn:hover{ background:#d34444; border:solid 1px #d34444;}
+.top-product .right-list{ float:right; padding-right:25px; font-size:12px;}
+.top-product .right-list li{ float:left; color:#666; margin-left:20px;}
+.top-product .right-list li.li{ display:none}
+.top-product .right-list li.basket{ /*width:145px;*/ margin-right:20px;}
+.top-product .right-list li a{ font-style:normal; color:#333; margin:0 3px;}
+.top-product .right-list li.login a{ display:inline-block; width:50px; text-align:center;}
+.top-product .right-list li.login a.join{ width:60px;}
+.top-product .right-list li i{ width:18px; height:15px; display:block; float:left; margin:16px 7px 0 0; background:url('/media/sets/trade/icon-group.png') 0 0 no-repeat;}
+.top-product .right-list li a:hover{ font-weight:bold; text-decoration:underline;}
+.top-product .right-list li.my{ width:82px; text-align:right;margin-left: -4px;}
+
+.service-box{ width:100%; background:#ececec; border-top:solid 1px #ddd; padding-bottom:50px;}
+.product-list{ width:980px; margin:0 auto;}
+.product-list dl{ float:left; width:236px; border-right:solid 1px #ddd; margin-top:30px; padding-left:25px;min-height:130px;}
+.product-list dl:first-child{ padding:0; width:236px;}
+.product-list dl:last-child{ border:none; width:190px;}
+

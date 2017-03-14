@@ -3,15 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{$corporation.name}</title>
-<link type="text/css" rel="stylesheet" href="http://himg.china.cn/css/env2/main/common.css" />
-<link type="text/css" rel="stylesheet" href="http://himg.china.cn/css/env2/main/shop.css" />
+<link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
+<link type="text/css" rel="stylesheet" href="/media/sets/trade/shop.css" />
 </head>
 
 <body>
 
 <div class="content">
     <div class="container">
-        <div class="header fl-clr"> <a href="#" class="shop-logo" title=""><img src="http://himg.china.cn/img/env2/main/shop/shop_logo.jpg" alt="" /></a>
+        <div class="header fl-clr"> <a href="#" class="shop-logo" title=""><img src="/media/sets/trade/shop_logo.jpg" alt="" /></a>
             <dl>
                 <dt>{$corporation.name}<span><img src="{$corporation.logo|url:'enterprise_url_photo'}" alt="" /></span></dt>
                 <dd>This is a verified supplier can provide quality products and have passed the Business License Check.</dd>
@@ -194,8 +194,6 @@
     </ul>
 </div>
 <!--nav--> 
-<script charset="utf-8" language="javascript" type="text/javascript" src="http://himg.china.cn/js/common/jquery/1.11.3/jquery.min.js"></script> 
-<script charset="utf-8" language="javascript" type="text/javascript" src="http://himg.china.cn/js/env2/main/product.js"></script>
-<script charset="utf-8" language="javascript" type="text/javascript" src="http://himg.china.cn/js/env2/common/floating_box.js"></script>
+{include file="sets/trade/common/scripts.tpl"}
 </body>
 </html>
