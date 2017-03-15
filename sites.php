@@ -168,6 +168,9 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'wiremeshfenceoff.com' => array(
+                'site_id' => 23,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -215,5 +218,10 @@ $siteInfo = array(
             ),
         23 => array(
                 'original_domain_prefix' => 'wiremeshfence.com',
+                'group_list_characteristic' => array(
+                        'tag_name' => 'div',
+                        'attr_name' => 'class',
+                        'attr_value' => 'n_menu_list',
+                    ),
             ),
     );
