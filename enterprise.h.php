@@ -345,6 +345,9 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
             break;
         }
     }
+
+    // New Products
+    enterprise_assign_product_list($smarty, 'new_products', $siteId, $product['group_id']);
 }
 
 /**
@@ -363,27 +366,13 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     enterprise_output_cnzz($currentDomainSuffix);
 }
 
-/**
- * Product List
- */
-function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo = 1)
+function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
 {
-    if (!$groupId)
-        throw new HttpException(404);
-
-    $groupId = (int)$groupId;
-    $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
-    if (!$pageSize)
-        $pageSize = 10;
-    $start = ($pageNo - 1) * $pageSize;
-
     // Product list
-    $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$groupId}";
-    $products = $productDAO->getMultiInOrderBy($condition, '*', '`id` DESC', $pageSize, $start);
-    $smarty->assign('products', $products);
+    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, $groupId, $pageNo, $pageSize);
 
     // Total products
+    $productDAO = new \enterprise\daos\Product();
     $totalProducts = $productDAO->countBy($condition);
     $totalPages = (int)($totalProducts / $pageSize) + (($totalProducts % $pageSize)?1:0);
     $smarty->assign('total_products', $totalProducts);
@@ -392,14 +381,31 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
     $smarty->assign('total_pages', $totalPages);
 
     // Group info
-    $groupDAO = new \enterprise\daos\Group();
-    $group = $groupDAO->get($groupId);
-    if (!$group) 
-        throw new HttpException(404);
-    $smarty->assign('group', $group);
+    if ($groupId) {
+        $groupDAO = new \enterprise\daos\Group();
+        $group = $groupDAO->get($groupId);
+        if (!$group) 
+            throw new HttpException(404);
+        $smarty->assign('group', $group);
+    }
 
     // All groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
+}
+
+/**
+ * Product List
+ */
+function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+{
+    if (!$groupId)
+        throw new HttpException(404);
+
+    $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
+    if (!$pageSize)
+        $pageSize = 10;
+
+    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo, $pageSize);
 
     // Filter
     $tplPath = 'sites/' . $siteId . '/product_list.tpl';
@@ -525,6 +531,15 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
     } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
+    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
+        $groupId = $matches[1];
+        if ($matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+    } elseif ($requestPath == '/products.html') {
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null);
     }
 
     return null;
@@ -808,6 +823,35 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
     return $smarty->fetch($tplPath);
 }
 
+/**
+ * /supplier-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/product_list.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
+
+    return $smarty->fetch($tplPath);
+}
+
 
 /* }}} */
 
@@ -845,4 +889,30 @@ function enterprise_assign_photo_info($smarty, $var, $photoId)
     $smarty->assign($var, $photo);
 }
 
+/* }}} */
+
+/* {{{ Product */
+/**
+ * Assign Product List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $groupIdCondition = '';
+    if (null !== $groupId) {
+        $groupId = (int)$groupId;
+        $groupIdCondition = " AND `group_id`={$groupId}";
+    }
+
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
+    $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $products);
+
+    return $condition;
+}
 /* }}} */

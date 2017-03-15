@@ -160,91 +160,36 @@
                     </ul>
                 </div>
                 <div class="tabs-list" id="tabs-list">
+{foreach $new_products as $product}
+    {if $product@index%5==0}
                     <ul class="fl-clr">
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting Guangzhou Lighting</i></a></li>
+    {/if}
+                        <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="" /><i>{$product.caption}</i></a></li>
+    {if $product@index%5==4}
                     </ul>
-                    <ul class="fl-clr">
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i> 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 46 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting Guangzhou Lighting</i></a></li>
-                    </ul>
-                    <ul class="fl-clr">
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C2324 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 674637 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting Guangzhou Lighting</i></a></li>
-                    </ul>
-                    <ul class="fl-clr">
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 400lm 560lm Guangzhou Lighting</i></a></li>
-                        <li><a href="#" title=""><img src="http://himg.china.cn/img/env2/main/shop/new-product.jpg" alt="" /><i>C37 240lm 679876 560lm Guangzhou Lighting Guangzhou Lighting</i></a></li>
-                    </ul>
+    {/if}
+    {if $product@iteration>=20}{break}{/if}
+{/foreach}
                 </div>
             </div>
         </div>
         <!--new-products-->
+{if count($product_tags)>0}
         <div class="search-product">
-        <div class="similar-product">
-            <dl>
-                <dt>Find Similar Products By Category</dt>
-                <dd><a href="#" title="">Auto, Motorcycle Parts & Accessories</a>&gt;<a href="#" title="">Auto Electrical System</a>&gt; <a href="#" title="">Car Battery (9314)</a></dd>
-                <dd><a href="#" title="">Sporting Goods & Recreation</a>&gt;<a href="#" title="">Sports Field Equipment & Facilities</a>&gt; <a href="#" title="">Artificial Grass (19481)</a></dd>
-            </dl>
-        </div>
         <div class="hot-search">
             <dl>
                 <dt>Hot Searches:</dt>
-                <dd><a href="#" title="">China Grass</a></dd>
-                <dd><a href="#" title="">China Soccer</a></dd>
-                <dd><a href="#" title="">Artificial Grass</a></dd>
+    {foreach $product_tags as $tag}
+                <dd>{$tag}</dd>
+    {/foreach}
             </dl>
         </div>
         </div>
+{/if}
     </div>
     <!--container-->
 </div>
 <!--content-->
-<div class="service-box">
-    <div class="service-list product-list fl-clr">
-        <dl>
-            <dt>Buy on china.cn</dt>
-            <dd><a href="#" rel="nofollow">How to buy</a></dd>
-            <dd><a href="#">Browse by catagories</a></dd>
-            <dd><a href="#">Browse by Hot regoins</a></dd>
-            <dd><a href="#" rel="nofollow">Private Sourcing Events</a></dd>
-        </dl>
-        <dl>
-            <dt>Selling on china.cn</dt>
-            <dd><a href="#" rel="nofollow">How to sell</a></dd>
-            <dd><a href="#" rel="nofollow">Premium Member</a></dd>
-            <dd><a href="#" rel="nofollow">Post Products</a></dd>
-            <dd><a href="#" rel="nofollow">Manage Products</a></dd>
-        </dl>
-        <dl>
-            <dt>Services</dt>
-            <dd><a href="#" rel="nofollow">Post buying lead</a></dd>
-            <dd><a href="#" rel="nofollow">Product Alert</a></dd>
-            <dd><a href="#" rel="nofollow">Dispute and Complaint Assistance</a></dd>
-        </dl>
-        <dl>
-            <dt>About</dt>
-            <dd><a href="#" rel="nofollow">About us</a></dd>
-            <dd><a href="#" rel="nofollow">Link to us</a></dd>
-            <dd><a href="#" rel="nofollow">Contact us</a></dd>
-            <dd><a href="#">Site map</a></dd>
-        </dl>
-    </div>
-</div>
-<!--service-box-->
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 {include file="sets/trade/common/scripts.tpl"}

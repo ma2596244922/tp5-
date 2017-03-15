@@ -28,17 +28,7 @@
                         <dd><a href="#" title="">Photo Gallery</a></dd>
                     </dl>
                 </div>
-                <div class="contact-msg"> <span class="title">{$corporation.name}</span>
-                    <ul>
-                        <li><i>Address</i>{$corporation.address}</li>
-                        <li><i>Factory Address</i>{$corporation.factory_address}</li>
-                        <li><i>Worktime</i>{$corporation.worktime}</li>
-                        <li><i>Business Phone(Working Time)</i>{$corporation.tel_wt}</li>
-                        <li><i>Business Phone(Nonworking Time)</i>{$corporation.tel_nwt}</li>
-                        <li><i>Fax</i>{$corporation.fax}</li>
-                    </ul>
-                    <div class="btn"><a href="/contactnow.html">Contact Now</a></div>
-                </div>
+{include file="sets/trade/common/contactpanel.tpl"}
             </div>
             <!--left-content-->
             <div class="right-content">
@@ -95,38 +85,6 @@
     <!--container--> 
 </div>
 <!--content-->
-<div class="service-box">
-    <div class="service-list product-list fl-clr">
-        <dl>
-            <dt>Buy on china.cn</dt>
-            <dd><a href="#" rel="nofollow">How to buy</a></dd>
-            <dd><a href="#">Browse by catagories</a></dd>
-            <dd><a href="#">Browse by Hot regoins</a></dd>
-            <dd><a href="#" rel="nofollow">Private Sourcing Events</a></dd>
-        </dl>
-        <dl>
-            <dt>Selling on china.cn</dt>
-            <dd><a href="#" rel="nofollow">How to sell</a></dd>
-            <dd><a href="#" rel="nofollow">Premium Member</a></dd>
-            <dd><a href="#" rel="nofollow">Post Products</a></dd>
-            <dd><a href="#" rel="nofollow">Manage Products</a></dd>
-        </dl>
-        <dl>
-            <dt>Services</dt>
-            <dd><a href="#" rel="nofollow">Post buying lead</a></dd>
-            <dd><a href="#" rel="nofollow">Product Alert</a></dd>
-            <dd><a href="#" rel="nofollow">Dispute and Complaint Assistance</a></dd>
-        </dl>
-        <dl>
-            <dt>About</dt>
-            <dd><a href="#" rel="nofollow">About us</a></dd>
-            <dd><a href="#" rel="nofollow">Link to us</a></dd>
-            <dd><a href="#" rel="nofollow">Contact us</a></dd>
-            <dd><a href="#">Site map</a></dd>
-        </dl>
-    </div>
-</div>
-<!--service-box-->
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 <!--nav--> 
