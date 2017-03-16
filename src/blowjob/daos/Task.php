@@ -71,4 +71,12 @@ class Task extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    public function testStatus($status)
+    {
+        $validStatus = array(
+                self::STATUS_PENDING, self::STATUS_IN_PROGRESS, self::STATUS_FINISHED,
+            );
+        return in_array($status, $validStatus);
+    }
 }
