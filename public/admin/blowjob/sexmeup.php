@@ -52,17 +52,36 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $caption = enterprise_get_post_data('title');
     $description = enterprise_get_post_data('content', 'trim');
     $brandName = enterprise_get_post_data('brand');
+    $modelNumber = enterprise_get_post_data('model_number');
+    $certification = enterprise_get_post_data('certification');
+    $placeOfOrigin = enterprise_get_post_data('place_of_origin');
     $minOrderQuantity = enterprise_get_post_data('minamount');
+    $paymentTerms = enterprise_get_post_data('payment_terms');
     $price = enterprise_get_post_data('price');
     $supplyAbility = enterprise_get_post_data('amount');
     $deliveryTime = enterprise_get_post_data('days');
+    $packagingDetails = enterprise_get_post_data('packaging_details');
+    $tagsString = enterprise_get_post_data('tags');
+    $specificationsString = enterprise_get_post_data('specifications');
 
-    $specificationsArray = array();
-    for ($i=1; $i<=3; ++$i) {
-        $k = enterprise_get_post_data('n' . $i);
-        $v = enterprise_get_post_data('v' . $i);
-        if ($k)
-            $specificationsArray[$k] = $v;
+    // Tags
+    $a = explode('|||', $tagsString);
+    $tags = array();
+    foreach ($a as $t) {
+        $tags[] = trim($t);
+    }
+    $tagsFieldValue = implode(',', $tags);
+
+    // Specifications
+    $a = explode('|||', $specificationsString);
+    $specifications = array();
+    foreach ($a as $pairString) {
+        $pair = explode(':', $pairString);
+        if (count($pair) < 2)
+            continue;
+        $k = trim($pair[0]);
+        $v = str_replace('~~~', ':', trim($pair[1]));
+        $specifications[$k] = $v;
     }
 
     $headImageId = ($images?$images[0]:0);
@@ -84,13 +103,19 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
             'locale' => 'english',
             'updated' => date('Y-m-d H:i:s'),
             'brand_name' => $brandName,
+            'model_number' => $modelNumber,
+            'certification' => $certification,
+            'place_of_origin' => $placeOfOrigin,
             'min_order_quantity' => $minOrderQuantity,
+            'payment_terms' => $paymentTerms,
             'price' => $price,
             'supply_ability' => $supplyAbility,
             'delivery_time' => $deliveryTime,
-            'specifications' => $specificationsArray,
+            'packaging_details' => $packagingDetails,
+            'specifications' => $specifications,
             'head_image_id' => $headImageId,
             'images' => $images,
+            'tags' => $tagsFieldValue,
         );
     $values['created'] = $values['updated'];
     $retval = $productDAO->insert($values);

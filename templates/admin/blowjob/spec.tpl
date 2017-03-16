@@ -54,9 +54,29 @@ paths:
           description: 品牌名称
           required: false
           type: string
+        - name: model_number
+          in: formData
+          description: 型号
+          required: false
+          type: string
+        - name: certification
+          in: formData
+          description: 认证证书
+          required: false
+          type: string
+        - name: place_of_origin
+          in: formData
+          description: 原产地
+          required: false
+          type: string
         - name: minamount
           in: formData
           description: 起订量
+          required: false
+          type: string
+        - name: payment_terms
+          in: formData
+          description: 付款方式
           required: false
           type: string
         - name: price
@@ -74,34 +94,19 @@ paths:
           description: 运输时间（供货周期）
           required: false
           type: string
-        - name: n1
+        - name: packaging_details
           in: formData
-          description: 属性1名称
+          description: 常规包装
           required: false
           type: string
-        - name: v1
+        - name: specifications
           in: formData
-          description: 属性1值
+          description: 用三竖线（|||）和冒号（:）分割的关键词
           required: false
           type: string
-        - name: n2
+        - name: tags
           in: formData
-          description: 属性2名称
-          required: false
-          type: string
-        - name: v2
-          in: formData
-          description: 属性2值
-          required: false
-          type: string
-        - name: n3
-          in: formData
-          description: 属性3名称
-          required: false
-          type: string
-        - name: v3
-          in: formData
-          description: 属性3值
+          description: 用三竖线（|||）分割的关键词
           required: false
           type: string
       tags:
