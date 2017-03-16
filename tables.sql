@@ -12,6 +12,13 @@ CREATE TABLE `blowjob_tasks` (
   KEY `idx_get_by_site` (`site_id`, `deleted`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';
 
+CREATE TABLE `blowjob_product_identities` (
+  `identity` varchar(12) NOT NULL COMMENT '唯一标识',
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  PRIMARY KEY (`identity`, `site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品唯一标识表';
+
 CREATE TABLE `enterprise_attachments` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `guid` binary(16) NOT NULL COMMENT '全局唯一ID',

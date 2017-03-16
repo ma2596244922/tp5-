@@ -29,6 +29,11 @@ paths:
           required: true
           type: integer
           format: int64
+        - name: identity
+          in: formData
+          description: 产品唯一标识
+          required: true
+          type: string
         - name: remotePic
           in: formData
           description: 用三竖线（|||）分割的图片URL

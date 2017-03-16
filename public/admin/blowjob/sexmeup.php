@@ -48,6 +48,7 @@ function enterprise_sexmeup_save_images($siteId)
 
 function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 {
+    $identity = enterprise_get_post_data('identity');
     $caption = enterprise_get_post_data('title');
     $description = enterprise_get_post_data('content', 'trim');
     $brandName = enterprise_get_post_data('brand');
@@ -66,6 +67,14 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 
     $headImageId = ($images?$images[0]:0);
 
+    // Exists?
+    $productIdentityDAO = new \blowjob\daos\ProductIdentity();
+    $condition = "`site_id`=" . (int)$siteId . " AND `identity`='" . $productIdentityDAO->escape($identity) . "'";
+    $productIdentity = $productIdentityDAO->getOneBy($condition);
+    if ($productIdentity)// Already exists
+        return $productIdentity['product_id'];
+
+    // Insert product
     $productDAO = new \enterprise\daos\Product();
     $values = array(
             'site_id' => $siteId,
@@ -85,6 +94,14 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
         );
     $values['created'] = $values['updated'];
     $retval = $productDAO->insert($values);
+
+    // Insert identity
+    $values = array(
+            'site_id' => $siteId,
+            'identity' => $identity,
+            'product_id' => $retval,
+        );
+    $productIdentityDAO->insert($values);
 
     // Cnt of products
     $groupDAO = new \enterprise\daos\Group();
