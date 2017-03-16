@@ -20,6 +20,7 @@ class Task extends \crawler\daos\AbstractDAO
             'site_id' => 'int',
             'group_id' => 'int',
             'target_url' => 'text',
+            'max_pages' => 'tinyint',
             'status' => 'tinyint',
             'deleted' => 'tinyint',
             'created' => 'text',

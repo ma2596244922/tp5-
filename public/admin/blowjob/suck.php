@@ -12,7 +12,7 @@ list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise
 $taskDAO = new blowjob\daos\Task();
 $statusRange = blowjob\daos\Task::STATUS_PENDING . ', ' . blowjob\daos\Task::STATUS_IN_PROGRESS;
 $condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0 AND `status` in (' . $statusRange . ')';
-$tasks = $taskDAO->getMultiInOrderBy($condition, '`id`, `group_id`, `target_url`, `status`', '`id` DESC');
+$tasks = $taskDAO->getMultiInOrderBy($condition, '`id`, `group_id`, `target_url`, `max_pages`, `status`', '`id` DESC');
 
 $response = array(
         "host"=> "www." . $currentDomainSuffix,
