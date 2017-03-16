@@ -24,6 +24,15 @@ function enterprise_admin_blowjob_lick_route()
     if (PASSWD != $params['pw'])
         throw new \RuntimeException("密码错误");
 
+    $taskDAO = new blowjob\daos\Task();
+    if (!$taskDAO->testStatus($params['status']))
+        throw new \RuntimeException("状态错误");
+
+    $values = array(
+            'status' => $params['status'],
+        );
+    $taskDAO->update($params['task_id'], $values);
+
     enterprise_admin_blowjob_lick_response(0, 'SUCCESS');
 }
 
