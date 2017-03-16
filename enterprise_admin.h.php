@@ -166,6 +166,56 @@ function enterprise_admin_action_logout($smarty)
 /* {{{ Profile */
 
 /**
+ * Change logo
+ */
+function enterprise_admin_action_logo($smarty)
+{/*
+    $tplPath = 'admin/logo.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+        return $smarty->display($tplPath);
+    }
+
+    $logo = enterprise_get_post_data('logo');
+    $address = enterprise_get_post_data('address');
+    $factoryAddress = enterprise_get_post_data('factory_address');
+    $worktime = enterprise_get_post_data('worktime');
+    $telWt = enterprise_get_post_data('tel_wt');
+    $telNWt = enterprise_get_post_data('tel_nwt');
+    $fax = enterprise_get_post_data('fax');
+    $skype = enterprise_get_post_data('skype');
+    $email = enterprise_get_post_data('email');
+    $yahoo = enterprise_get_post_data('yahoo');
+
+    if (!$name)
+        throw new \RuntimeException("公司名称不能为空");
+
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $values = array(
+            'name' => $name,
+            'address' => $address,
+            'factory_address' => $factoryAddress,
+            'worktime' => $worktime,
+            'tel_wt' => $telWt,
+            'tel_nwt' => $telNWt,
+            'fax' => $fax,
+            'skype' => $skype,
+            'email' => $email,
+            'yahoo' => $yahoo,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $corporationDAO->update($userSiteId, $values);
+    enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+    
+    $smarty->assign('message', '修改成功');
+    $smarty->display($tplPath);*/
+}
+
+/**
  * Change info
  */
 function enterprise_admin_action_info($smarty)
