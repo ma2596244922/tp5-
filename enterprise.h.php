@@ -722,6 +722,15 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /* {{{ Route V2 Actions */
 
 /**
+ * Common procedure
+ */
+function enterprise_action_sets_common_proc($smarty, $siteId)
+{
+    // Groups
+    enterprise_assign_group_list($smarty, 'groups', $siteId);
+}
+
+/**
  * /contactus.html
  *
  * @return string
@@ -738,9 +747,6 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
-    // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
-
     // Contact Desc Mapping
     $contactDescMapping = array(
             'name' => 'Contact Person',
@@ -754,6 +760,8 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
             'whatsapp' => 'WhatsApp',
         );
     $smarty->assign('contact_desc', $contactDescMapping);
+
+    enterprise_action_sets_common_proc($smarty, $siteId);
 
     return $smarty->fetch($tplPath);
 }
@@ -785,11 +793,10 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
-    // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
-
     // Photos - AboutUs
     enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
+
+    enterprise_action_sets_common_proc($smarty, $siteId);
 
     return $smarty->fetch($tplPath);
 }
@@ -820,6 +827,8 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
 
     enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
+    enterprise_action_sets_common_proc($smarty, $siteId);
+
     return $smarty->fetch($tplPath);
 }
 
@@ -848,6 +857,8 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
+
+    enterprise_action_sets_common_proc($smarty, $siteId);
 
     return $smarty->fetch($tplPath);
 }

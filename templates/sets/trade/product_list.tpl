@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{$group.name} on sales  - Quality {$corporation.xx} supplier</title>
+<title>{if $group|default:[]}{$group.name} on sales  - Quality {$group.name} supplier{else}{$groups[0].name|default:''} manufacturer{if $groups[1]|default:[]} - quality {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</title>
 {include file="sets/trade/common/styles.tpl"}
 </head>
 
@@ -40,7 +40,6 @@
                                 <a href="{$product|url:'enterprise_url_product'}" class="img-box">
                                     <img src="/media/sets/trade/new-product.jpg" />
                                 </a>
-                                <a href="javascript:void(0)" data-role="154606" class="add-basket" onclick="aclick(154606)"></a>
                             </div>
                             <div class="msg-detail">
                                 <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
