@@ -1,3 +1,16 @@
+CREATE TABLE `blowjob_tasks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `target_url` varchar(255) NOT NULL COMMENT '目标URL',
+  `status` tinyint(3) NOT NULL COMMENT '状态（0-待处理；10-进行中；100-已完成）',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';
+
 CREATE TABLE `enterprise_attachments` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `guid` binary(16) NOT NULL COMMENT '全局唯一ID',
