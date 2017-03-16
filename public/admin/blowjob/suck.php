@@ -15,7 +15,7 @@ $condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0 AND `status` in (' 
 $tasks = $taskDAO->getMultiInOrderBy($condition, '`id`, `group_id`, `target_url`, `status`', '`id` DESC');
 
 $response = array(
-        "host"=> "www.popost.com",
+        "host"=> "www." . $currentDomainSuffix,
         "site_id"=> $siteId,
         "update_task"=> array(
             "method"=> "PUT",
