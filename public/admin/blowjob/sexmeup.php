@@ -188,16 +188,25 @@ function enterprise_sexmeup_route()
 
     list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $images = enterprise_sexmeup_save_images($siteId);
-    echo enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    $productId = enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    enterprise_sexmeup_response(0, 'SUCCESS', $productId);
 }
+
+function enterprise_sexmeup_response($code, $message, $productId = 0)
+{
+    $response = array(
+            'code' => $code,
+            'message' => $message,
+        );
+    if (!$code)
+        $response['product_id'] = $productId;
+    header('Content-type: application/json');
+    echo json_encode($response);
+}
+
 
 try {
     enterprise_sexmeup_route();
 } catch (\RuntimeException $e) {
-    $response = array(
-            'code' => -1,
-            'message' => $e->getMessage(),
-        );
-    header('Content-Type: application/json');
-    echo json_encode($response);
+    enterprise_sexmeup_response(1, $e->getMessage());
 }
