@@ -7,7 +7,7 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
-function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
+function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl, $thumbnail = true)
 {
     // Fetch
     $httpClient = new chinacn\common\HttpClient();
@@ -24,7 +24,8 @@ function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
     $body = null;
     $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody()->__toString(), $body);
     // Thumbnail
-    enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
+    if ($thumbnail)
+        enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
 
     return $id;
 }
@@ -46,6 +47,44 @@ function enterprise_sexmeup_save_images($siteId)
     return $retval;
 }
 
+/**
+ * @return string
+ */
+function enterprise_sexmeup_save_images_in_description($siteId, $description)
+{
+    $document = new \DOMDocument();
+    @$document->loadHTML($description);
+    $imgElements = $document->getElementsByTagName('img');
+    foreach ($imgElements as $e) {
+        if (!$e->hasAttribute('data-src'))
+            continue;
+        $originalHtml = $document->saveHTML($e);
+        // src
+        $url = $e->getAttribute('data-src');
+        $imageId = enterprise_sexmeup_save_image_from_url($siteId, $url, false);
+        $newUrl = enterprise_url_image($imageId);
+        $e->setAttribute('src', $newUrl);
+        $e->removeAttribute('data-src');
+        // Regular attrs
+        $regularAttrs = array(
+                'alt', 'width', 'height',
+            );
+        foreach ($regularAttrs as $attr) {
+            $dataAttr = 'data-' . $attr;
+            if ($e->hasAttribute($dataAttr)) {
+                $value = $e->getAttribute($dataAttr);
+                $e->setAttribute($attr, $value);
+                $e->removeAttribute($dataAttr);
+            }
+        }
+        // Replace
+        $newHtml = $document->saveHTML($e);
+        $description = str_replace($originalHtml, $newHtml, $description);
+    }
+
+    return $description;
+}
+
 function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 {
     $identity = enterprise_get_post_data('identity');
@@ -63,6 +102,9 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $packagingDetails = enterprise_get_post_data('packaging_details');
     $tagsString = enterprise_get_post_data('tags');
     $specificationsString = enterprise_get_post_data('specifications');
+
+    // Images in description
+    $description = enterprise_sexmeup_save_images_in_description($siteId, $description);
 
     // Tags
     $a = explode('|||', $tagsString);
@@ -146,16 +188,25 @@ function enterprise_sexmeup_route()
 
     list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $images = enterprise_sexmeup_save_images($siteId);
-    echo enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    $productId = enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    enterprise_sexmeup_response(0, 'SUCCESS', $productId);
 }
+
+function enterprise_sexmeup_response($code, $message, $productId = 0)
+{
+    $response = array(
+            'code' => $code,
+            'message' => $message,
+        );
+    if (!$code)
+        $response['product_id'] = $productId;
+    header('Content-type: application/json');
+    echo json_encode($response);
+}
+
 
 try {
     enterprise_sexmeup_route();
 } catch (\RuntimeException $e) {
-    $response = array(
-            'code' => -1,
-            'message' => $e->getMessage(),
-        );
-    header('Content-Type: application/json');
-    echo json_encode($response);
+    enterprise_sexmeup_response(1, $e->getMessage());
 }

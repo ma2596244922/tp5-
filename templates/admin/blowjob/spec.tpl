@@ -113,10 +113,16 @@ paths:
         - 产品接口
       responses:
         200:
-          description: 产品ID
+          description: 发布成功
           schema:
-            type: integer
-            format: int64
+            allOf: 
+              - $ref: '#/definitions/Error'
+              - type: object
+                properties:
+                  product_id: 
+                    type: integer
+                    format: int64
+                    description: 产品ID
         default:
           description: 出现错误
           schema:
@@ -153,11 +159,7 @@ paths:
         - 任务接口
       responses:
         200:
-          description: 更新成功
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: 出现错误
+          description: 通讯成功
           schema:
             $ref: '#/definitions/Error'
 definitions:
@@ -166,5 +168,7 @@ definitions:
       code:
         type: integer
         format: int32
+        description: 错误代码（0代表无错误）
       message:
         type: string
+        description: 错误描述
