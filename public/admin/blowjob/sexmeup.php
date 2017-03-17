@@ -7,7 +7,7 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
-function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
+function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl, $thumbnail = true)
 {
     // Fetch
     $httpClient = new chinacn\common\HttpClient();
@@ -24,7 +24,8 @@ function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl)
     $body = null;
     $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody()->__toString(), $body);
     // Thumbnail
-    enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
+    if ($thumbnail)
+        enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
 
     return $id;
 }
@@ -46,6 +47,27 @@ function enterprise_sexmeup_save_images($siteId)
     return $retval;
 }
 
+/**
+ * @return string
+ */
+function enterprise_sexmeup_save_images_in_description($description)
+{
+    $document = new \DOMDocument();
+    @$document->loadHTML($description);
+    $imgElements = $document->getElementsByTagName('img');
+    foreach ($imgElements as $e) {
+        if (!$e->hasAttribute('data-src'))
+            continue;
+        $originalHtml = $document->saveHTML($e);
+        $url = $e->getAttribute('data-src');
+        $imageId = enterprise_sexmeup_save_image_from_url($siteId, $url, false);
+        $newUrl = enterprise_url_image($imageId);
+        $e->setAttribute
+    }
+
+    return $description;
+}
+
 function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 {
     $identity = enterprise_get_post_data('identity');
@@ -63,6 +85,9 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $packagingDetails = enterprise_get_post_data('packaging_details');
     $tagsString = enterprise_get_post_data('tags');
     $specificationsString = enterprise_get_post_data('specifications');
+
+    // Images in description
+    $description = enterprise_sexmeup_save_images_in_description($description);
 
     // Tags
     $a = explode('|||', $tagsString);
