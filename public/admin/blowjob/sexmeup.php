@@ -50,7 +50,7 @@ function enterprise_sexmeup_save_images($siteId)
 /**
  * @return string
  */
-function enterprise_sexmeup_save_images_in_description($description)
+function enterprise_sexmeup_save_images_in_description($siteId, $description)
 {
     $document = new \DOMDocument();
     @$document->loadHTML($description);
@@ -59,10 +59,27 @@ function enterprise_sexmeup_save_images_in_description($description)
         if (!$e->hasAttribute('data-src'))
             continue;
         $originalHtml = $document->saveHTML($e);
+        // src
         $url = $e->getAttribute('data-src');
         $imageId = enterprise_sexmeup_save_image_from_url($siteId, $url, false);
         $newUrl = enterprise_url_image($imageId);
-        $e->setAttribute
+        $e->setAttribute('src', $newUrl);
+        $e->removeAttribute('data-src');
+        // Regular attrs
+        $regularAttrs = array(
+                'alt', 'width', 'height',
+            );
+        foreach ($regularAttrs as $attr) {
+            $dataAttr = 'data-' . $attr;
+            if ($e->hasAttribute($dataAttr)) {
+                $value = $e->getAttribute($dataAttr);
+                $e->setAttribute($attr, $value);
+                $e->removeAttribute($dataAttr);
+            }
+        }
+        // Replace
+        $newHtml = $document->saveHTML($e);
+        $description = str_replace($originalHtml, $newHtml, $description);
     }
 
     return $description;
@@ -87,7 +104,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $specificationsString = enterprise_get_post_data('specifications');
 
     // Images in description
-    $description = enterprise_sexmeup_save_images_in_description($description);
+    $description = enterprise_sexmeup_save_images_in_description($siteId, $description);
 
     // Tags
     $a = explode('|||', $tagsString);
