@@ -691,8 +691,8 @@ function enterprise_assign_corporation_info($smarty, $var, $siteId)
 {
     $corporationDAO = new \enterprise\daos\Corporation();
     $condition = "`site_id`=" . (int)$siteId;
-    $site = $corporationDAO->getOneBy($condition);
-    $smarty->assign($var, $site);
+    $corporation = $corporationDAO->getOneBy($condition);
+    $smarty->assign($var, $corporation);
 }
 
 /* {{{ Contact */

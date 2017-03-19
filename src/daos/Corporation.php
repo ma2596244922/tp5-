@@ -13,7 +13,7 @@ namespace enterprise\daos;
 class Corporation extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
-            'corporation_name' => 'text',
+            'name' => 'text',
             'address' => 'text',
             'factory_address' => 'text',
             'worktime' => 'text',

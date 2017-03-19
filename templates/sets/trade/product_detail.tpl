@@ -93,7 +93,7 @@
             <div class="title"><i></i>Contact Us</div>
             <div class="contact-info fl-clr">
                 <div class="left-list">
-                    <img src="{$corporation.logo|url:'enterprise_url_photo'}" alt="" />
+                    <img src="{$corporation.logo|url:'enterprise_url_image'}" alt="" />
                     <dl>
                         <dt>{$corporation.name}</dt>
                         <dd><span>Address</span>{$corporation.address}</dd>
