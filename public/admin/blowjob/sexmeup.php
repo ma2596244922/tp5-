@@ -5,6 +5,9 @@
  * @package timandes\enterprise
  */
 
+/** @var int 产品最大图片数 */
+define('ENTERPRISE_ADMIN_BLOWJOB_SEXMEUP_MAX_IMAGES', 5);
+
 require_once __DIR__ . '/bootstrap.php';
 
 function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl, $thumbnail = true)
@@ -38,10 +41,15 @@ function enterprise_sexmeup_save_images($siteId)
 
     $remoteImageUrls = explode('|||', $remoteImageUrlsParam);
     $retval = array();
+    $totalImages = 0;
     foreach ($remoteImageUrls as $imageUrl) {
         $imageId = enterprise_sexmeup_save_image_from_url($siteId, $imageUrl);
-        if ($imageId)
+        if ($imageId) {
             $retval[] = $imageId;
+            ++$totalImages;
+        }
+        if ($totalImages >= ENTERPRISE_ADMIN_BLOWJOB_SEXMEUP_MAX_IMAGES)
+            break;
     }
 
     return $retval;
