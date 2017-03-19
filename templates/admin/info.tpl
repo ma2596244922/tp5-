@@ -278,6 +278,10 @@
 
                                                                 <textarea class="span8 ckeditor m-wrap" name="our_team" rows="6">{$site.our_team|default:''}</textarea>
 
+                                                                <label class="control-label">QC Profile</label>
+
+                                                                <textarea class="span8 ckeditor m-wrap" name="qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">
@@ -398,6 +402,7 @@
            $('textarea.history').ckeditor();
            $('textarea.service').ckeditor();
            $('textarea.our_team').ckeditor();
+           $('textarea.qc_profile').ckeditor();
 
         });
 
