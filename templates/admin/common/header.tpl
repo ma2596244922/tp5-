@@ -46,13 +46,15 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a href="?action=info"><i class="icon-cog"></i>公司信息</a></li>
+                            <li><a href="?action=info"><i class="icon-cog"></i> 公司信息</a></li>
 
-                            <li><a href="?action=password"><i class="icon-user"></i>修改密码</a></li>
+                            <li><a href="?action=logo"><i class="icon-picture"></i> 公司LOGO</a></li>
+
+                            <li><a href="?action=password"><i class="icon-user"></i> 修改密码</a></li>
 
                             <li class="divider"></li>
 
-                            <li><a href="?action=logout"><i class="icon-key"></i>退出</a></li>
+                            <li><a href="?action=logout"><i class="icon-key"></i> 退出</a></li>
 
                         </ul>
 

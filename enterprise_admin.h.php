@@ -169,50 +169,34 @@ function enterprise_admin_action_logout($smarty)
  * Change logo
  */
 function enterprise_admin_action_logo($smarty)
-{/*
+{
     $tplPath = 'admin/logo.tpl';
 
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
 
     $submitButton = enterprise_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
         return $smarty->display($tplPath);
     }
 
-    $logo = enterprise_get_post_data('logo');
-    $address = enterprise_get_post_data('address');
-    $factoryAddress = enterprise_get_post_data('factory_address');
-    $worktime = enterprise_get_post_data('worktime');
-    $telWt = enterprise_get_post_data('tel_wt');
-    $telNWt = enterprise_get_post_data('tel_nwt');
-    $fax = enterprise_get_post_data('fax');
-    $skype = enterprise_get_post_data('skype');
-    $email = enterprise_get_post_data('email');
-    $yahoo = enterprise_get_post_data('yahoo');
-
-    if (!$name)
-        throw new \RuntimeException("公司名称不能为空");
+    // Upload logo
+    $images = enterprise_admin_upload_post_images(false);
+    if ($images)
+        $logo = $images[0];
+    else
+        $logo = 0;
 
     $corporationDAO = new \enterprise\daos\Corporation();
     $values = array(
-            'name' => $name,
-            'address' => $address,
-            'factory_address' => $factoryAddress,
-            'worktime' => $worktime,
-            'tel_wt' => $telWt,
-            'tel_nwt' => $telNWt,
-            'fax' => $fax,
-            'skype' => $skype,
-            'email' => $email,
-            'yahoo' => $yahoo,
+            'logo' => $logo,
             'updated' => date('Y-m-d H:i:s'),
         );
     $corporationDAO->update($userSiteId, $values);
-    enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
     
     $smarty->assign('message', '修改成功');
-    $smarty->display($tplPath);*/
+    $smarty->display($tplPath);
 }
 
 /**
@@ -770,7 +754,7 @@ function enterprise_admin_action_photo($smarty)
     $smarty->display('admin/photo.tpl');
 }
 
-function enterprise_admin_upload_post_images()
+function enterprise_admin_upload_post_images($thumbnail = true)
 {
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $imageDAO = new \enterprise\daos\Image();
@@ -786,7 +770,8 @@ function enterprise_admin_upload_post_images()
             $body = null;
             $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
             // Thumbnail
-            enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
+            if ($thumbnail)
+                enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
         }
         // Save to array
         $images[] = $id;

@@ -143,6 +143,7 @@ CREATE TABLE `enterprise_corporations` (
   `skype` varchar(45) NOT NULL COMMENT 'Skype',
   `email` varchar(45) NOT NULL COMMENT '电子邮件地址',
   `yahoo` varchar(45) NOT NULL COMMENT 'Yahoo',
+  `logo` int(10) unsigned NOT NULL COMMENT 'LOGO图片ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司表';

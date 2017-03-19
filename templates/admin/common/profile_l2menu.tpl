@@ -12,7 +12,7 @@
 
                                                     </li>
 
-                                                    <li class="{if $profile_page_name=='logo'}active{/if}"><a href="?action=logo"><i class="icon-picture"></i> 修改LOGO</a></li>
+                                                    <li class="{if $profile_page_name=='logo'}active{/if}"><a href="?action=logo"><i class="icon-picture"></i> 公司LOGO</a></li>
 
                                                     <li class="{if $profile_page_name=='password'}active{/if}"><a href="?action=password"><i class="icon-lock"></i> 修改密码</a></li>
 

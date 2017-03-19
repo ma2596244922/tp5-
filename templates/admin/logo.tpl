@@ -150,6 +150,15 @@
                 <div class="row-fluid profile">
 
                     <div class="span12">
+{if isset($error_msg)}
+                        <div class="alert alert-error">
+
+                            <button class="close" data-dismiss="alert"></button>
+
+                            <strong>失败!</strong>{$error_msg}
+
+                        </div>
+{/if}
 {if isset($message)}
                         <div class="alert alert-success">
 
@@ -171,7 +180,7 @@
 
                             <div class="tab-content">
 
-                                <div class="tab-pane row-fluid profile-account" id="tab_1_3">
+                                <div class="tab-pane row-fluid profile-account active" id="tab_1_3">
 
                                     <div class="row-fluid">
 
@@ -191,17 +200,17 @@
 
                                                         <div style="height: auto;" id="accordion2-2" class="accordion collapse">
 
-                                                            <form action="#">
+                                                            <form action="?action=logo" method="POST" enctype="multipart/form-data">
 
-                                                                <p>Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.</p>
+                                                                <p>上传、修改公司LOGO。</p>
 
                                                                 <br />
 
                                                                 <div class="controls">
 
-                                                                    <div class="thumbnail" style="width: 291px; height: 170px;">
+                                                                    <div class="thumbnail" style="width: 200px; height: 150px;">
 
-                                                                        <img src="media/image/AAAAAA&amp;text=no+image" alt="" />
+                                                                        <img src="{$corporation.logo|default:''|url:'enterprise_url_image'}" alt="" />
 
                                                                     </div>
 
@@ -209,7 +218,9 @@
 
                                                                 <div class="space10"></div>
 
-                                                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                                <div class="fileupload fileupload-{if $corporation.logo|default:''}exists{else}new{/if}" data-provides="fileupload">
+
+                                                                    <input type="hidden" name="logo" value="{$corporation.logo|default:''}">
 
                                                                     <div class="input-append">
 
@@ -217,7 +228,7 @@
 
                                                                             <i class="icon-file fileupload-exists"></i> 
 
-                                                                            <span class="fileupload-preview"></span>
+                                                                            <span class="fileupload-preview">{if $corporation.logo|default:''}{$corporation.logo}.jpg{/if}</span>
 
                                                                         </div>
 
@@ -227,7 +238,7 @@
 
                                                                         <span class="fileupload-exists">Change</span>
 
-                                                                        <input type="file" class="default" />
+                                                                        <input type="file" class="default" name="logo" />
 
                                                                         </span>
 
@@ -241,9 +252,9 @@
 
                                                                 <div class="controls">
 
-                                                                    <span class="label label-important">NOTE!</span>
+                                                                    <span class="label label-important">注意!</span>
 
-                                                                    <span>You can write some information here..</span>
+                                                                    <span>推荐尺寸图片大小x。</span>
 
                                                                 </div>
 
@@ -251,9 +262,9 @@
 
                                                                 <div class="submit-btn">
 
-                                                                    <a href="#" class="btn green">Submit</a>
+                                                                    <input type="hidden" name="submit" value="logo">
 
-                                                                    <a href="#" class="btn">Cancel</a>
+                                                                    <button type="submit" class="btn green">保存</button>
 
                                                                 </div>
 

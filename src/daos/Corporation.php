@@ -23,6 +23,7 @@ class Corporation extends \crawler\daos\AbstractDAO
             'skype' => 'text',
             'email' => 'text',
             'yahoo' => 'text',
+            'logo' => 'int',
             'updated' => 'text',
         );
 
