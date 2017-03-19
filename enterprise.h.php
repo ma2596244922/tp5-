@@ -724,10 +724,13 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /**
  * Common procedure
  */
-function enterprise_action_sets_common_proc($smarty, $siteId)
+function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix)
 {
     // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    // Domain suffix
+    $smarty->assign('site_root_domain', $currentDomainSuffix);
 }
 
 /**
@@ -761,7 +764,7 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
         );
     $smarty->assign('contact_desc', $contactDescMapping);
 
-    enterprise_action_sets_common_proc($smarty, $siteId);
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
 }
@@ -796,7 +799,7 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
     // Photos - AboutUs
     enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
 
-    enterprise_action_sets_common_proc($smarty, $siteId);
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
 }
@@ -827,7 +830,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
 
     enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
-    enterprise_action_sets_common_proc($smarty, $siteId);
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
 }
@@ -858,7 +861,7 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
 
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
 
-    enterprise_action_sets_common_proc($smarty, $siteId);
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
 }
