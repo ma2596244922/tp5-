@@ -208,9 +208,9 @@
 
                                                                 <div class="controls">
 
-                                                                    <div class="thumbnail" style="width: 200px; height: 150px;">
+                                                                    <div class="thumbnail" style="width: 220px; height: 60px;">
 
-                                                                        <img src="{$corporation.logo|default:''|url:'enterprise_url_image'}" alt="" />
+                                                                        <img src="{$corporation.logo|default:''|url:'enterprise_url_image'}" alt="" width="220" height="60" style="width: 220px; height: 60px;" />
 
                                                                     </div>
 
@@ -254,7 +254,7 @@
 
                                                                     <span class="label label-important">注意!</span>
 
-                                                                    <span>推荐尺寸图片大小x。</span>
+                                                                    <span>推荐尺寸图片大小220x60。</span>
 
                                                                 </div>
 
