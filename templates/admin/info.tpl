@@ -233,6 +233,51 @@
 
                                                                 <input type="text" name="yahoo" class="m-wrap span8" value="{$site.yahoo}" />
 -->
+
+                                                                <label class="control-label">Business Type</label>
+
+                                                                <input type="text" name="business_type" class="m-wrap span8" value="{$site.business_type}" />
+
+                                                                <label class="control-label">Main Market</label>
+
+                                                                <input type="text" name="main_market" class="m-wrap span8" value="{$site.main_market}" />
+
+                                                                <label class="control-label">Brands</label>
+
+                                                                <input type="text" name="brands" class="m-wrap span8" value="{$site.brands}" />
+
+                                                                <label class="control-label">No. of Employees</label>
+
+                                                                <input type="text" name="no_of_employees" class="m-wrap span8" value="{$site.no_of_employees}" />
+
+                                                                <label class="control-label">Annual Sales</label>
+
+                                                                <input type="text" name="annual_sales" class="m-wrap span8" value="{$site.annual_sales}" />
+
+                                                                <label class="control-label">Year Established</label>
+
+                                                                <input type="text" name="year_established" class="m-wrap span8" value="{$site.year_established}" />
+
+                                                                <label class="control-label">Export p.c</label>
+
+                                                                <input type="text" name="export_p_c" class="m-wrap span8" value="{$site.export_p_c}" />
+
+                                                                <label class="control-label">Introduction</label>
+
+                                                                <textarea class="span8 ckeditor m-wrap" name="introduction" rows="6">{$site.introduction|default:''}</textarea>
+
+                                                                <label class="control-label">History</label>
+
+                                                                <textarea class="span8 ckeditor m-wrap" name="history" rows="6">{$site.history|default:''}</textarea>
+
+                                                                <label class="control-label">Service</label>
+
+                                                                <textarea class="span8 ckeditor m-wrap" name="service" rows="6">{$site.service|default:''}</textarea>
+
+                                                                <label class="control-label">Our Team</label>
+
+                                                                <textarea class="span8 ckeditor m-wrap" name="our_team" rows="6">{$site.our_team|default:''}</textarea>
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">
@@ -329,6 +374,10 @@
 
     <script type="text/javascript" src="media/js/chosen.jquery.min.js"></script>
 
+    <script src="ckeditor/ckeditor.js" type="text/javascript" ></script>
+
+    <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
+
     <!-- END PAGE LEVEL PLUGINS -->
 
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -344,6 +393,11 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('textarea.introduction').ckeditor();
+           $('textarea.history').ckeditor();
+           $('textarea.service').ckeditor();
+           $('textarea.our_team').ckeditor();
 
         });
 

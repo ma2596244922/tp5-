@@ -25,6 +25,17 @@ class Corporation extends \crawler\daos\AbstractDAO
             'yahoo' => 'text',
             'logo' => 'int',
             'updated' => 'text',
+            'business_type' => 'text',
+            'main_market' => 'text',
+            'brands' => 'text',
+            'no_of_employees' => 'text',
+            'annual_sales' => 'text',
+            'year_established' => 'text',
+            'export_p_c' => 'text',
+            'introduction' => 'text',
+            'history' => 'text',
+            'service' => 'text',
+            'our_team' => 'text',
         );
 
     public function getTableName()

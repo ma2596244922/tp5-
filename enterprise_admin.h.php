@@ -224,6 +224,17 @@ function enterprise_admin_action_info($smarty)
     $skype = enterprise_get_post_data('skype');
     $email = enterprise_get_post_data('email');
     $yahoo = enterprise_get_post_data('yahoo');
+    $businessType = enterprise_get_post_data('business_type');
+    $mainMarket = enterprise_get_post_data('main_market');
+    $brands = enterprise_get_post_data('brands');
+    $noOfEmployees = enterprise_get_post_data('no_of_employees');
+    $annualSales = enterprise_get_post_data('annual_sales');
+    $yearEstablished = enterprise_get_post_data('year_established');
+    $exportPC = enterprise_get_post_data('export_p_c');
+    $introduction = enterprise_get_post_data('introduction', 'trim');
+    $history = enterprise_get_post_data('history', 'trim');
+    $service = enterprise_get_post_data('service', 'trim');
+    $ourTeam = enterprise_get_post_data('our_team', 'trim');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -240,6 +251,17 @@ function enterprise_admin_action_info($smarty)
             'skype' => $skype,
             'email' => $email,
             'yahoo' => $yahoo,
+            'business_type' => $businessType,
+            'main_market' => $mainMarket,
+            'brands' => $brands,
+            'no_of_employees' => $noOfEmployees,
+            'annual_sales' => $annualSales,
+            'year_established' => $yearEstablished,
+            'export_p_c' => $exportPC,
+            'introduction' => $introduction,
+            'history' => $history,
+            'service' => $service,
+            'our_team' => $ourTeam,
             'updated' => date('Y-m-d H:i:s'),
         );
     $corporationDAO->update($userSiteId, $values);
