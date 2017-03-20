@@ -75,6 +75,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='certification'} active{/if}">
+
+                    <a href="?action=certification">
+
+                    <i class="icon-legal"></i> 
+
+                    <span class="title">我的证书</span>
+
+                    </a>
+
+                </li>
+
                 <li class="start{if $page_name=='contact'} active{/if}">
 
                     <a href="?action=contact">

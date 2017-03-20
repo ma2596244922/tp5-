@@ -70,7 +70,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="photo"}
+{include file="admin/common/sidebar.tpl" page_name="certification"}
 
         <!-- END SIDEBAR -->
 
@@ -114,7 +114,7 @@
 
                         <h3 class="page-title">
 
-                            我的照片 <small>照片汇总</small>
+                            我的证书 <small>上传、管理证书</small>
 
                         </h3>
 
@@ -130,7 +130,7 @@
 
                             </li>
 
-                            <li><a href="?action=photo">我的照片</a></li>
+                            <li><a href="?action=certification">我的证书</a></li>
 
                         </ul>
 
@@ -166,11 +166,11 @@
 
                         <!-- BEGIN GALLERY MANAGER PORTLET-->
 
-                        <div class="portlet box purple">
+                        <div class="portlet box green">
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-reorder"></i>我的照片</div>
+                                <div class="caption"><i class="icon-reorder"></i>我的证书</div>
 
                                 <div class="tools">
 
@@ -184,31 +184,15 @@
 
                                 <!-- BEGIN GALLERY MANAGER PANEL-->
 
-                                <div class="row-fluid">
+                                <div class="clearfix">
 
-                                    <div class="span4">
+                                    <div class="btn-group">
 
-                                        <h4>当前展示 {if !$photo_type|default:''}全部照片{else}分类：{$predefined_photo_types[$photo_type]}{/if}</h4>
+                                        <a href="?action=edit_certification" class="btn red">
 
-                                    </div>
+                                        上传证书 <i class="icon-plus"></i>
 
-                                    <div class="span8">
-
-                                        <div class="pull-right">
-
-                                            <select data-placeholder="查看分类下照片" class="chosen" tabindex="-1" id="inputCategory">
-
-                                                <option value="0"></option>
-{foreach $predefined_photo_types as $v => $text}
-                                                <option value="{$v}"{if $photo_type|default:'0'==$v} selected{/if}>{$text}</option>
-{/foreach}
-                                            </select>
-
-                                            <div class="clearfix space5"></div>
-
-                                            <a href="?action=edit_photo" class="btn pull-right green"><i class="icon-plus"></i> 上传</a>
-
-                                        </div>
+                                        </a>
 
                                     </div>
 
@@ -221,16 +205,16 @@
                                 <!-- BEGIN GALLERY MANAGER LISTING-->
 
                                 <div class="row-fluid">
-{foreach $photos as $photo}
+{foreach $certifications as $certification}
                                     <div class="span3">
 
                                         <div class="item">
 
-                                            <a class="fancybox-button" data-rel="fancybox-button" title="{$photo.desc}" href="{$photo.uri|url:'enterprise_url_photo':'':''}">
+                                            <a class="fancybox-button" data-rel="fancybox-button" title="{$certification.standard}" href="{$certification.uri|url:'enterprise_url_photo'}">
 
                                                 <div class="zoom">
 
-                                                    <img src="{$photo.uri|url:'enterprise_url_photo':'':'t'}" alt="{$photo.desc}" />
+                                                    <img src="{$certification.uri|url:'enterprise_url_photo':'':'m'}" alt="{$certification.standard}" />
 
                                                     <div class="zoom-icon"></div>
 
@@ -240,9 +224,9 @@
 
                                             <div class="details">
 
-                                                <a href="?action=edit_photo&photo_id={$photo.id}" class="icon"><i class="icon-pencil"></i></a>
+                                                <a href="?action=edit_certification&certification_id={$certification.id}" class="icon"><i class="icon-pencil"></i></a>
 
-                                                <a href="?action=delete_photo&photo_id={$photo.id}" class="icon"><i class="icon-remove"></i></a>
+                                                <a href="?action=delete_certification&certification_id={$certification.id}" class="icon"><i class="icon-remove"></i></a>
 
                                             </div>
 
@@ -252,41 +236,13 @@
 {foreachelse}
                                     <div class="span12">
 
-                                        <div>尚未上传照片</div>
+                                        <div>尚未上传证书</div>
 
                                     </div>
 {/foreach}
                                 </div>
 
                                 <!-- END GALLERY MANAGER LISTING-->
-
-                                <!-- BEGIN GALLERY MANAGER PAGINATION-->
-{if $total_photos > $page_size}
-                                <div class="row-fluid">
-
-                                    <div class="span12">
-
-                                        <div class="pagination pull-right">
-
-                                            <ul>
-    {if $page_no > 1}
-                                                <li><a href="?action=photo&page={$page_no-1}">«</a></li>
-    {/if}
-    {for $i=1 to $total_pages}
-                                                <li><a href="?action=photo&page={$i}">{$i}</a></li>
-    {/for}
-    {if $page_no < $total_pages}
-                                                <li><a href="?action=photo&page={$page_no+1}">»</a></li>
-    {/if}
-                                            </ul>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-{/if}
-                                <!-- END GALLERY MANAGER PAGINATION-->
 
                             </div>
 
@@ -375,11 +331,6 @@
            App.init();
 
            Gallery.init();
-
-           $('#inputCategory').change(function() {
-                var type = $(this).val();
-                location.href = '?action=photo&type=' + encodeURIComponent(type);
-           });
 
         });
 

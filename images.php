@@ -6,8 +6,13 @@
  */
 
 $thumbnailInfo = array(
-        't' => array(378, 270),
-        'c' => array(329, 235),
-        'd' => array(140, 100),
-        'm' => array(54, 39),
+        'product' => array(
+                't' => array(378, 270),
+                'c' => array(329, 235),
+                'd' => array(140, 100),
+                'm' => array(54, 39),
+            ),
+        'certification' => array(
+                'm' => array(74, 103),
+            ),
     );

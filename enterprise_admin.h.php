@@ -181,7 +181,7 @@ function enterprise_admin_action_logo($smarty)
     }
 
     // Upload logo
-    $images = enterprise_admin_upload_post_images(false);
+    $images = enterprise_admin_upload_post_images('');
     if ($images)
         $logo = $images[0];
     else
@@ -519,7 +519,7 @@ function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $sou
     return $imageDAO->insert($values);
 }
 
-function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body)
+function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $for = 'product')
 {
     global $thumbnailInfo;
 
@@ -527,7 +527,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body)
             'image_id' => $id,
             'created' => date('Y-m-d H:i:s'),
         );
-    foreach ($thumbnailInfo as $c => $size) {
+    foreach ($thumbnailInfo[$for] as $c => $size) {
         list($w, $h) = $size;
         $field = $w . 'x' . $h;
         $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
@@ -778,7 +778,7 @@ function enterprise_admin_action_photo($smarty)
     $smarty->display('admin/photo.tpl');
 }
 
-function enterprise_admin_upload_post_images($thumbnail = true)
+function enterprise_admin_upload_post_images($thumbnailFor = 'product')
 {
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $imageDAO = new \enterprise\daos\Image();
@@ -794,8 +794,8 @@ function enterprise_admin_upload_post_images($thumbnail = true)
             $body = null;
             $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
             // Thumbnail
-            if ($thumbnail)
-                enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
+            if ($thumbnailFor)
+                enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $thumbnailFor);
         }
         // Save to array
         $images[] = $id;
@@ -879,6 +879,97 @@ function enterprise_admin_action_delete_photo($smarty)
         );
     $photoDAO->update($photoId, $values);
     header('Location: ?action=photo&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+
+/* {{{ Certification */
+
+/**
+ * Certifications
+ */
+function enterprise_admin_action_certification($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $condition = enterprise_assign_certification_list($smarty, 'certifications', $userSiteId);
+
+    $smarty->display('admin/certification.tpl');
+}
+
+/**
+ * Edit Certification
+ */
+function enterprise_admin_action_edit_certification($smarty)
+{
+    $tplPath = 'admin/edit_certification.tpl';
+
+    $certificationId = (int)enterprise_get_query_data('certification_id');
+    $smarty->assign('certification_id', $certificationId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($certificationId) 
+            enterprise_assign_certification_info($smarty, 'certification', $certificationId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $uri = enterprise_get_post_data('uri');
+    $standard = enterprise_get_post_data('standard');
+    $number = enterprise_get_post_data('number');
+    $issueDate = enterprise_get_post_data('issue_date');
+    $expiryDate = enterprise_get_post_data('expiry_date');
+    $scopeNRange = enterprise_get_post_data('scope_n_range');
+    $issuedBy = enterprise_get_post_data('issued_by');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('certification');
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择照片');
+        return $smarty->display($tplPath);
+    }
+    $uri = 'image://' . $images[0];
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'standard' => $standard,
+            'number' => $number,
+            'issue_date' => $issueDate,
+            'expiry_date' => $expiryDate,
+            'scope_n_range' => $scopeNRange,
+            'issued_by' => $issuedBy,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($certificationId) {// Edit
+        $certificationDAO->update($certificationId, $values);
+        enterprise_assign_certification_info($smarty, 'certification', $certificationId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $certificationDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Certification
+ */
+function enterprise_admin_action_delete_certification($smarty)
+{
+    $certificationId = (int)enterprise_get_query_data('certification_id');
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $values = array(
+            'deleted' => 1,
+        );
+    $certificationDAO->update($certificationId, $values);
+    header('Location: ?action=certification&success_msg=' . urlencode('删除成功'));
 }
 
 /* }}} */

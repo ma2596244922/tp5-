@@ -55,6 +55,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_photo($smarty);
                 case 'delete_photo':
                     return enterprise_admin_action_delete_photo($smarty);
+                case 'certification':
+                    return enterprise_admin_action_certification($smarty);
+                case 'edit_certification':
+                    return enterprise_admin_action_edit_certification($smarty);
+                case 'delete_certification':
+                    return enterprise_admin_action_delete_certification($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

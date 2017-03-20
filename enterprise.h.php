@@ -930,3 +930,33 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null,
     return $condition;
 }
 /* }}} */
+
+/* {{{ Certification */
+/**
+ * Assign Certification List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_certification_list($smarty, $var, $siteId)
+{
+    $siteId = (int)$siteId;
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $certifications = $certificationDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $certifications);
+
+    return $condition;
+}
+
+/**
+ * Assign certification info
+ */
+function enterprise_assign_certification_info($smarty, $var, $certificationId)
+{
+    $certificationDAO = new \enterprise\daos\Certification();
+    $certification = $certificationDAO->get($certificationId);
+    $smarty->assign($var, $certification);
+}
+
+/* }}} */

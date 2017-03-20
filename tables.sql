@@ -199,3 +199,20 @@ CREATE TABLE `enterprise_sites` (
   `start_year` smallint unsigned NOT NULL COMMENT '起始年份',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
+
+CREATE TABLE `enterprise_certifications` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `uri` varchar(100) NOT NULL COMMENT 'URI',
+  `standard` varchar(45) NOT NULL COMMENT 'Standard',
+  `number` varchar(45) NOT NULL COMMENT 'Number',
+  `issue_date` varchar(45) NOT NULL COMMENT 'Issue Date',
+  `expiry_date` varchar(45) NOT NULL COMMENT 'Expiry Date',
+  `scope_n_range` varchar(45) NOT NULL COMMENT 'Scope/Range',
+  `issued_by` varchar(45) NOT NULL COMMENT 'Issued By',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建证书表';
