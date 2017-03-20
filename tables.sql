@@ -123,10 +123,10 @@ CREATE TABLE `enterprise_images` (
 
 CREATE TABLE `enterprise_thumbnails` (
   `image_id` int(10) unsigned NOT NULL COMMENT '图片ID',
-  `378x270` mediumblob NOT NULL COMMENT '378x270',
-  `54x39` mediumblob NOT NULL COMMENT '54x39',
-  `140x100` mediumblob NOT NULL COMMENT '140x100',
-  `329x235` mediumblob NOT NULL COMMENT '329x235',
+  `t` mediumblob NOT NULL COMMENT 't',
+  `m` mediumblob NOT NULL COMMENT 'm',
+  `d` mediumblob NOT NULL COMMENT 'd',
+  `c` mediumblob NOT NULL COMMENT 'c',
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`image_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片缩略图表';

@@ -529,7 +529,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
         );
     foreach ($thumbnailInfo[$for] as $c => $size) {
         list($w, $h) = $size;
-        $field = $w . 'x' . $h;
+        $field = $c;
         $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
         $values[$field] = (string)$thumbnail->encode('jpg', 75);
     }

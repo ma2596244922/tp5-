@@ -214,7 +214,7 @@
 
                                                 <div class="zoom">
 
-                                                    <img src="{$certification.uri|url:'enterprise_url_photo':'':'m'}" alt="{$certification.standard}" />
+                                                    <img src="{$certification.uri|url:'enterprise_url_photo':'':'t'}" alt="{$certification.standard}" />
 
                                                     <div class="zoom-icon"></div>
 

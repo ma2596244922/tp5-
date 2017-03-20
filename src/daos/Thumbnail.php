@@ -14,10 +14,10 @@ class Thumbnail extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
             'image_id' => 'int',
-            '378x270' => 'text',
-            '54x39' => 'text',
-            '140x100' => 'text',
-            '329x235' => 'text',
+            't' => 'text',
+            'm' => 'text',
+            'd' => 'text',
+            'c' => 'text',
             'created' => 'text',
         );
 

@@ -13,6 +13,7 @@ $thumbnailInfo = array(
                 'm' => array(54, 39),
             ),
         'certification' => array(
+                't' => array(370, 515),
                 'm' => array(74, 103),
             ),
     );

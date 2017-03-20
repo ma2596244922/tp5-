@@ -263,26 +263,19 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
  */
 function enterprise_action_uploaded_image_proc($char, $imageId)
 {
-    global $thumbnailInfo;
-
     if (!$imageId) {
         http_response_code(400);
         exit;
     }
 
     if ($char) {
-        if (!array_key_exists($char, $thumbnailInfo)) {
-            http_response_code(404);
-            exit;
-        }
-        $size = $thumbnailInfo[$char];
-        list($w, $h) = $size;
-        $field = $w . 'x' . $h;
+        $field = $char;
 
         $thumbnailDAO = new \enterprise\daos\Thumbnail();
         $condition = "`image_id`=" . (int)$imageId;
         $thumbnail = $thumbnailDAO->getOneBy($condition);
-        if (!$thumbnail) {
+        if (!$thumbnail
+                || !$thumbnail[$field]) {
             http_response_code(404);
             exit;
         }
