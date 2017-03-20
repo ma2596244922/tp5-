@@ -535,6 +535,8 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
         return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/') {
+        return enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     return null;
@@ -888,6 +890,35 @@ function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSu
 
     // Certifications
     enterprise_assign_certification_list($smarty, 'certifications', $siteId);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /
+ *
+ * @return string
+ */
+function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/home.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
