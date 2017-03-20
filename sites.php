@@ -126,15 +126,6 @@ $domainInfo = array(
         'peanutbuttermachinestest.com' => array(
                 'site_id' => 20,
             ),
-        'mocfa.org' => array(
-                'site_id' => 8,
-                'cnzz' => array(
-                        'id' => '1261399608',
-                    ),
-                'custom_pages' => array(
-                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
-                    ),
-            ),
         'sonalog.com' => array(
                 'site_id' => 13,
                 'cnzz' => array(
