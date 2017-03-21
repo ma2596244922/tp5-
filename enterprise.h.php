@@ -731,15 +731,41 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
 }
 
 /**
+ * @param array &$site Return site info
+ * @return string Path
+ */
+function enterprise_decide_template_path($smarty, $siteId, $relativePath, &$site = null)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if ($site) {
+        $templateName = $site['template'];
+
+        $tplPath = 'sets/' . $templateName . $relativePath;
+        if ($smarty->templateExists($tplPath))
+            return $tplPath;
+    }
+
+    $tplPath = 'sites/' . $siteId . $relativePath;
+    if ($smarty->templateExists($tplPath))
+        return $tplPath;
+
+    return null;
+}
+
+/**
  * /contactus.html
  *
  * @return string
  */
 function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
-    $tplPath = 'sites/' . $siteId . '/contactus.tpl';
-    if (!$smarty->templateExists($tplPath))
-        return null;
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactus.tpl', $site);
+
+    // Site
+    $smarty->assign('site', $site);
 
     // Corporation
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
@@ -927,7 +953,6 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
 
     return $smarty->fetch($tplPath);
 }
-
 
 /* }}} */
 
