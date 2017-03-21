@@ -7,90 +7,40 @@
 <meta name="description" content="Jinan leader machinery co.,ltd is best {$groups[0].name|default:''}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]} and {$groups[2].name} supplier,{/if}{/if} we has good quality products & service from China.">
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/shop-new.css" />
-</head><!-- 下面尚未处理。 -->
+</head>
 <body>
-<div class="top-product" data-name="topaBar">
-    <div class="top-list"> <a href="https://trade.china.cn" class="logo" data-scode="30001" title="China Suppliers"><img src="https://himg.china.cn/img/common/logo/120x27.png" alt="China Suppliers" /></a>
-        <div class="search">
-            <ul class="fl-clr" data-role="SearchControl" data-type="4">
-                <li class="select"> <a class="select-box" id="slt5" onclick="boxOut(5)" data-role="SearchControl.ShowParent" rel="nofollow"> <span class="selectTxt" id="selectTxt5" data-role="SearchControl.Show">On China.cn</span> <i></i> </a> <span class="selectMenu" id="selectMenu5" style="display:none;" data-role="SearchControl.ListType"> <a href="javascript:void(0)" data-config="{ placeholder:'Enter a keyword to search products', type:4 }" rel="nofollow">On China.cn</a> <a href="javascript:void(0)" data-config="{ placeholder:'Enter a keyword to search products', type:4 }" rel="nofollow">On Site</a> </span> </li>
-                <li>
-                    <input type="text" data-role="SearchControl.InputKeywords" class="txt" id="search_shop" placeholder="Enter a keyword to search products" />
-                </li>
-                <li><a href="javascript:void(0)" data-role="SearchControl.ButtonSearch" class="search-btn" id="shop_search" rel="nofollow">Search</a></li>
-            </ul>
-            <!--input �ṩsubdomain-->
-            <input type="hidden" name="subdomain" value="zhengyi8">
-        </div>
-        <ul class="right-list">
-            <li class="li" data-name="sign_in"><a href="https://user.china.cn/index.php?op=login" data-scode="30003" rel="nofollow">Sign in</a>|<a href="https://user.china.cn/index.php?op=register" target="_blank" data-scode="30004" rel="nofollow">Join Free</a></li>
-            <li class="li" data-name="sign_out"><a href="https://user.china.cn/index.php?op=logout&destUrl=http%3A%2F%2Ftrade.china.cn%2FPackaging-Forming-Machines%2Fzhengyi8%2F" rel="nofollow">Sign out</a></li>
-            <!--<li>Hi! Jason,<a href="#" rel="nofollow">Sign out</a></li>-->
-            <li class="basket"><a href="#" title="Inquiry Basket" rel="nofollow"><i></i>Inquiry Basket&nbsp;&nbsp;()</a></li>
-            <li class="my"><a href="https://trade.china.cn/product-directory/" data-scode="30006" title="">My china.cn</a></li>
-        </ul>
-    </div>
-</div>
 <div class="request-quote">
     <div class="inner-content">
-        <p><span><em></em>18810188993</span>|<a href="#">Request a quote</a></p>
+        <p><span><em></em>{$corporation.tel_wt}</span>|<a href="/contactnow.html">Request a quote</a></p>
     </div>
 </div>
 <!--request-quote-->
 <div class="header">
     <div class="head">
         <div class="logo">
-        <h1 title=""><img src="//himg.china.cn/img/env2/main/shop/shop_logo.jpg" alt="" /></h1>
-        <span>Beijing Douniwan Co.,Ltd </span>
-        </div>
-        <div class="search">
-        <span><input type="text" class="txt" placeholder="What are you looking for..." id="search-inner" /><a href="#" class="search-btn" onclick="searchInner()"></a></span>
+        <h1 title=""><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="" /></h1>
+        <span>{$corporation.name}</span>
         </div>
     </div>
     <!--head-->
 </div>
 <!--header-->
 <div class="content">
-    <div class="nav">
-        <ul>
-            <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/" class="current" data-scode="30008">Home</a></li>
-            <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html"  data-scode="30009">Product Categories<i></i></a>
-                <ul class="nav-list">
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572787" data-scode="30010" rel="nofollow">Automatic Rounding Machine</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572785" data-scode="30010" rel="nofollow">Coating Machine</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572779" data-scode="30010" rel="nofollow">Complete Production Line</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572783" data-scode="30010" rel="nofollow">Induction Oven</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572777" data-scode="30010" rel="nofollow">Sapre Parts</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572775" data-scode="30010" rel="nofollow">Spray Lacquer Curing</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572789" data-scode="30010" rel="nofollow">Water-Cooling Machine</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572781" data-scode="30010" rel="nofollow">Welding Machine</a></li>
-                </ul>
-            </li>
-            <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/about.html" rel="nofollow" data-scode="30011">Company Profile<i></i></a>
-                <ul class="nav-list nav-list1">
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/about.html" data-scode="30011" rel="nofollow">Company Introduction</a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/news.html" data-scode="30012" rel="nofollow">Company News </a></li>
-                    <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/images.html" data-scode="30013" rel="nofollow">Photo Gallery</a></li>
-                </ul>
-            </li>
-            <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/quality.html" data-scode="30014" rel="nofollow">Quality Control</a></li>
-            <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/contacts.html" data-scode="30015" rel="nofollow">Contacts</a></li>
-        </ul>
-    </div>
+{include file="sets/trade/common/navbar.tpl"}
     <!--nav-->
-    <div class="banner" id="banner"> 
-        <a href="#" class="d1" title="" target="_blank"><img src="//himg.china.cn/img/env2/main/shop/banner-shop.png" alt=""></a>
-        <a href="#" class="d1" title="" target="_blank"><img src="//himg.china.cn/img/env2/main/shop/shop_banner.jpg" alt=""></a>
-        <a href="#" class="d1" title="" target="_blank"><img src="//himg.china.cn/img/env2/main/shop/banner-shop.png" alt=""></a>
+    <div class="banner" id="banner">
+{foreach $banners as $banner}
+        <a href="{$banner.link}" class="d1" title="{$banner.desc}" target="_blank"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a>
+{/foreach}
         <ul class="number" id="banner_id">
-            <li class="current"></li>
-            <li></li>
-            <li></li>
+{foreach $banners as $banner}
+            <li{if $banner@index==0} class="current"{/if}></li>
+{/foreach}
         </ul>
     </div>
     <!--banner-->
     <div class="all-categories">
-        <div class="title"><em><h2>ALL CATEGORIES</h2></em><span><a href="#">View All&nbsp;&nbsp;&gt;</a></span></div>
+        <div class="title"><em><h2>ALL CATEGORIES</h2></em><span><a href="/products.html">View All&nbsp;&nbsp;&gt;</a></span></div>
         <ul>
             <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
             <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
@@ -194,40 +144,16 @@
 <!--service-box-->
 <div class="footer">
     <div class="foot">
-        <p>京ICP证 040089号 京公网安备11010802017131</p>
+        <p>China Good Quality {$groups[0].name|default:''} Supplier.            Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'} {$site_root_domain}. All Rights Reserved.</p>
     </div>
 </div>
 <!--footer-->
-<div class="nav nav-fixed">
-    <ul>
-        <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/" class="current" data-scode="30008">Home</a></li>
-        <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html"  data-scode="30009">Product Categories<i></i></a>
-            <ul class="nav-list" style="width:228px;">
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572787" data-scode="30010" rel="nofollow">Automatic Rounding Machine</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572785" data-scode="30010" rel="nofollow">Coating Machine</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572779" data-scode="30010" rel="nofollow">Complete Production Line</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572783" data-scode="30010" rel="nofollow">Induction Oven</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572777" data-scode="30010" rel="nofollow">Sapre Parts</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572775" data-scode="30010" rel="nofollow">Spray Lacquer Curing</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572789" data-scode="30010" rel="nofollow">Water-Cooling Machine</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/product.html?groupid=572781" data-scode="30010" rel="nofollow">Welding Machine</a></li>
-            </ul>
-        </li>
-        <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/about.html" rel="nofollow" data-scode="30011">Company Profile<i></i></a>
-            <ul class="nav-list nav-list1">
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/about.html" data-scode="30011" rel="nofollow">Company Introduction</a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/news.html" data-scode="30012" rel="nofollow">Company News </a></li>
-                <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/images.html" data-scode="30013" rel="nofollow">Photo Gallery</a></li>
-            </ul>
-        </li>
-        <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/quality.html" data-scode="30014" rel="nofollow">Quality Control</a></li>
-        <li><a href="https://trade.china.cn/Packaging-Forming-Machines/zhengyi8/contacts.html" data-scode="30015" rel="nofollow">Contacts</a></li>
-    </ul>
-</div>
+{include file="sets/trade/common/navbar.tpl" position="fixed"}
 <!--nav--> 
-<script charset="utf-8" language="javascript" type="text/javascript" src="https://himg.china.cn/js/env2/common/config.js"></script>
-<script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/jquery/1.11.3/jquery.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/main/product.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/jquery.base64/1.0/jquery.base64.min.js"></script></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/search/0.2/search.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/jquery.cookie/1.4.1/jquery.cookie.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/en/master/en.min.js"></script>
-<script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/main/shop-new.js"></script>
-<script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/main/ZoomPic.js"></script>
+{include file="sets/trade/common/scripts.tpl"}
+<script charset="utf-8" type="text/javascript" src="media/sets/trade/search.js"></script>
+<script charset="utf-8" type="text/javascript" src="media/sets/trade/en.js"></script>
+<script charset="utf-8" type="text/javascript" src="media/sets/trade/shop-new.js"></script>
+<script charset="utf-8" type="text/javascript" src="media/sets/trade/ZoomPic.js"></script>
 </body>
 </html>

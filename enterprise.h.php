@@ -920,6 +920,9 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     // Corporation
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
+    // Banners
+    enterprise_assign_banner_list($smarty, 'banners', $siteId);
+
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
@@ -1016,6 +1019,37 @@ function enterprise_assign_certification_info($smarty, $var, $certificationId)
     $certificationDAO = new \enterprise\daos\Certification();
     $certification = $certificationDAO->get($certificationId);
     $smarty->assign($var, $certification);
+}
+
+/* }}} */
+
+
+/* {{{ Banner */
+/**
+ * Assign Banner List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_banner_list($smarty, $var, $siteId)
+{
+    $siteId = (int)$siteId;
+
+    $bannerDAO = new \enterprise\daos\Banner();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $banners = $bannerDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $banners);
+
+    return $condition;
+}
+
+/**
+ * Assign banner info
+ */
+function enterprise_assign_banner_info($smarty, $var, $bannerId)
+{
+    $bannerDAO = new \enterprise\daos\Banner();
+    $banner = $bannerDAO->get($bannerId);
+    $smarty->assign($var, $banner);
 }
 
 /* }}} */

@@ -216,3 +216,16 @@ CREATE TABLE `enterprise_certifications` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建证书表';
+
+CREATE TABLE `enterprise_banners` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `uri` varchar(100) NOT NULL COMMENT 'URI',
+  `desc` varchar(45) NOT NULL COMMENT '描述',
+  `link` varchar(100) NOT NULL COMMENT '链接',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建横幅图片表';

@@ -15,7 +15,7 @@ color: #bcbcbc;
 }
 h1,h2{ display:inline;}
 i{ font-style:normal;}
-.banner .number li,.choose-us ul li span,.header .head .search span a.search-btn,.request-quote .inner-content p span em,#focus_Box .prev,#focus_Box .next{ background:url(//himg.china.cn/img/env2/main/shop/shop-new.png) 0 0 no-repeat;}
+.banner .number li,.choose-us ul li span,.header .head .search span a.search-btn,.request-quote .inner-content p span em,#focus_Box .prev,#focus_Box .next{ background:url(/media/sets/trade/shop-new.png) 0 0 no-repeat;}
 .content{ background:#fff; width:100%;}
 .container{ width:980px; margin:0 auto; padding-bottom:40px;}
 .container .header{ padding-bottom:25px;}
@@ -34,7 +34,7 @@ i{ font-style:normal;}
 .nav li:first-child{ margin-left:37px;}
 .nav li a{ color:#fff; display:block; padding:0 36px; }
 .nav li a.current,.nav li a:hover{ background:#99a5b6;}
-.nav li a i{ width:12px; height:6px; display:inline-block; background:url(//himg.china.cn/img/env2/main/shop/shop-icon.png) 0 -60px no-repeat; margin-left:7px;}
+.nav li a i{ width:12px; height:6px; display:inline-block; background:url(/media/sets/trade/shop-icon.png) 0 -60px no-repeat; margin-left:7px;}
 .nav li ul{ position:absolute; left:0; top:46px; background:#99a5b6; border-radius:0 0 3px 3px; padding:5px 0 10px 0; display:none; z-index:9999;}
 .nav li ul.nav-list{ width:228px;}
 .nav li ul.nav-list1{ width:209px;}
@@ -53,7 +53,7 @@ i{ font-style:normal;}
 .banner .number li{ float:left; width:10px; height:10px; background-position:-44px 0; margin:0 4px; cursor:pointer;}
 .banner .number li.current{ width:36px; height:10px; background-position:0 0;}
 
-.all-categories{ width:100%; height:357px; background:url(//himg.china.cn/img/env2/main/shop/all-cate.png) left center no-repeat; padding:55px 0 0 0;}
+.all-categories{ width:100%; height:357px; background:url(/media/sets/trade/all-cate.png) left center no-repeat; padding:55px 0 0 0;}
 .all-categories .title{ width:980px; height:34px; line-height:34px; margin:0 auto 35px auto; line-height:34px; font-size:30px; color:#414141; text-align:center;}
 .all-categories .title em{ margin-left:100px;}
 .all-categories .title span{ float:right;}
@@ -78,7 +78,7 @@ i{ font-style:normal;}
 .featured ul li:hover{ background:#fff;}
 .featured p{ width:600px; margin:-20px auto 30px auto; text-align:center; font-size:16px; color:#999; line-height:26px;}
 
-.choose-us{ width:100%; height:375px; background:url(//himg.china.cn/img/env2/main/shop/choose-bg.png) center top no-repeat; padding-top:45px;}
+.choose-us{ width:100%; height:375px; background:url(/media/sets/trade/choose-bg.png) center top no-repeat; padding-top:45px;}
 .choose-us .title{ width:980px; margin:0 auto; height:54px; line-height:54px; font-size:30px; color:#fff; text-align:center;}
 .choose-us ul{ width:980px; margin:72px auto 0 auto;}
 .choose-us ul li{ width:290px; float:left; margin:0 18px; font-size:14px; color:#d1d7e0;}
