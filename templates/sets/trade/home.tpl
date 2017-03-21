@@ -42,11 +42,13 @@
     <div class="all-categories">
         <div class="title"><em><h2>ALL CATEGORIES</h2></em><span><a href="/products.html">View All&nbsp;&nbsp;&gt;</a></span></div>
         <ul>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i><span><a href="#">See More</a><em>&gt;</em></span></li>
+{foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index>=5}{continue}{/if}
+            <li>
+                <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
+                    <img src="{$group.products[0].head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$group.products[0].caption}" />
+                </a>
+                <i><strong><a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">{$group.products[0].caption}</a></strong></i><span><a href="{$group|url:'enterprise_url_product_list'}">See More</a><em>&gt;</em></span></li>
+{/foreach}
         </ul>
     </div>
     <!--all-categories-->
@@ -54,16 +56,12 @@
         <div class="title"><em><h2>FEATURED PRODUCTS</h2></em></div>
         <p>China Manufacturer with main products:girls frocks ,children costume ,girls party dress ,children clothing ,girl's dress</p>
         <ul class="fl-clr">
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
-            <li><a href="#" title=""><img src="//himg.china.cn/img/env2/main/shop/pro-shop.png" alt="" /></a><i><strong><a href="#" title="">Hot Sale Promotional Customized Logo </a></strong></i></li>
+{foreach $products as $product}
+            <li>
+                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$product.caption}" /></a>
+                <i><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></strong></i>
+            </li>
+{/foreach}
         </ul>
     </div>
     <!--featured-->

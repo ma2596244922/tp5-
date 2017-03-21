@@ -9,6 +9,8 @@
 define('PATTERN_PRODUCT_LIST', '/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
 /** @var string Pattern of Product Detail */
 define('PATTERN_PRODUCT_DETAIL', '/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+/** @var string Fields of Product for List */
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`');
 
 /* {{{ Common */
 
@@ -565,7 +567,7 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
     }
 
     if (!$imageId)
-        return 'media/image/no_image.png';
+        return '/media/sets/trade/no_image.png';
 
     $suffix = '';
     if ($productCaption)
@@ -618,13 +620,26 @@ function enterprise_url_product_list($group, $pageNo = 1)
  *
  * @return array Group Array
  */
-function enterprise_assign_group_list($smarty, $var, $siteId)
+function enterprise_assign_group_list($smarty, $var, $siteId, $appendFirstProducts = false)
 {
     $groupDAO = new \enterprise\daos\Group();
     $condition = "`site_id`={$siteId} AND `deleted`=0";
     $groups = $groupDAO->getMultiInOrderBy($condition);
-    $smarty->assign($var, $groups);
 
+    if ($appendFirstProducts) {
+        $productDAO = new \enterprise\daos\Product();
+        $retval = array();
+        foreach ($groups as $group) {
+            $groupId = (int)$group['id'];
+            $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
+            $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', 1);
+            $group['products'] = $products;
+            $retval[] = $group;
+        }
+        $groups = $retval;
+    }
+
+    $smarty->assign($var, $groups);
     return $groups;
 }
 
@@ -721,10 +736,10 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /**
  * Common procedure
  */
-function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix)
+function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false)
 {
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
+    enterprise_assign_group_list($smarty, 'groups', $siteId, $appendFirstProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);
@@ -949,7 +964,10 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     // Banners
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    // Products
+    enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true);
 
     return $smarty->fetch($tplPath);
 }
@@ -1011,7 +1029,7 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null,
 
     $productDAO = new \enterprise\daos\Product();
     $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
-    $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`', '`id` DESC', $pageSize, $start);
+    $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $pageSize, $start);
     $smarty->assign($var, $products);
 
     return $condition;
