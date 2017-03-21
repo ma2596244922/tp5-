@@ -214,5 +214,6 @@ $siteInfo = array(
                         'attr_name' => 'class',
                         'attr_value' => 'n_menu_list',
                     ),
+                'product_list_page_size' => 9,
             ),
     );

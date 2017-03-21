@@ -354,7 +354,9 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
         throw new HttpException(404);
 
     $groupId = (int)$groupId;
-    $pageSize = 10;
+    $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
+    if (!$pageSize)
+        $pageSize = 10;
     $start = ($pageNo - 1) * $pageSize;
 
     // Product list
@@ -585,6 +587,7 @@ function enterprise_response_replace_group_list($smarty, $siteId, $response)
     return $response;
 }
 
+/* {{{ Site Info */
 /**
  * Site Info - Get characteristic of group list
  */
@@ -597,3 +600,16 @@ function enterprise_site_info_get_group_list_characteristic($siteId)
 
     return $siteInfo[$siteId]['group_list_characteristic'];
 }
+/**
+ * Site Info - Get page size of product list
+ */
+function enterprise_site_info_get_product_list_page_size($siteId)
+{
+    global $siteInfo;
+
+    if (!isset($siteInfo[$siteId]['product_list_page_size']))
+        return null;
+
+    return $siteInfo[$siteId]['product_list_page_size'];
+}
+/* }}} */
