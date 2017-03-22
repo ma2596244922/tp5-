@@ -162,6 +162,12 @@ $domainInfo = array(
         'wiremeshfenceoff.com' => array(
                 'site_id' => 23,
             ),
+        'pioneerledlight.com' => array(
+                'site_id' => 24,
+                'custom_pages' => array(
+                        '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
+                    ),
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -215,5 +221,8 @@ $siteInfo = array(
                         'attr_value' => 'n_menu_list',
                     ),
                 'product_list_page_size' => 9,
+            ),
+        24 => array(
+                'original_domain_prefix' => 'shinlight.com',
             ),
     );
