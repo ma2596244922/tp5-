@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{if $group|default:[]}{$group.name} on sales  - Quality {$group.name} supplier{else}{$groups[0].name|default:''} manufacturer{if $groups[1]|default:[]} - quality {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</title>
-{include file="sets/trade/common/styles.tpl"}
+{include file="sets/trade/common/shopstyles.tpl"}
 </head>
 
 <body>
@@ -71,6 +71,6 @@
 <!--content-->
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
-{include file="sets/trade/common/scripts.tpl"}
+{include file="sets/trade/common/shopscripts.tpl"}
 </body>
 </html>

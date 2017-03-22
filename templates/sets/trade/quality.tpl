@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Quality Control - {$corporation.name}</title>
-{include file="sets/trade/common/styles.tpl"}
+{include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="media/lightbox/2.8.1/css/lightbox.min.css" />
 </head>
 
@@ -78,7 +78,7 @@
 <!--content-->
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
-{include file="sets/trade/common/scripts.tpl"}
+{include file="sets/trade/common/shopscripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="media/lightbox/2.8.1/js/lightbox.js"></script>
 </body>
 </html>

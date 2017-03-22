@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>{$corporation.name}</title>
-{include file="sets/trade/common/styles.tpl"}
+{include file="sets/trade/common/shopstyles.tpl"}
 </head>
 
 <body>
@@ -59,6 +59,6 @@
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 <!--nav--> 
-{include file="sets/trade/common/scripts.tpl"}
+{include file="sets/trade/common/shopscripts.tpl"}
 </body>
 </html>

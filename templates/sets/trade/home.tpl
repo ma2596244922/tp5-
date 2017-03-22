@@ -148,7 +148,7 @@
 <!--footer-->
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 <!--nav--> 
-{include file="sets/trade/common/scripts.tpl"}
+{include file="sets/trade/common/shopscripts.tpl"}
 <script charset="utf-8" type="text/javascript" src="media/sets/trade/search.js"></script>
 <script charset="utf-8" type="text/javascript" src="media/sets/trade/en.js"></script>
 <script charset="utf-8" type="text/javascript" src="media/sets/trade/shop-new.js"></script>

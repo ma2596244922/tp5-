@@ -539,6 +539,8 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
         return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
         return enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/contactnow.html') {
+        return enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     return null;
@@ -968,6 +970,45 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true);
+
+    return $smarty->fetch($tplPath);
+}
+
+
+/**
+ * /contactnow.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactnow.tpl', $site);
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Contact Desc Mapping
+    $contactDescMapping = array(
+            'name' => 'Contact Person',
+            'title' => 'Job Title',
+            'tel' => 'Business Phone',
+            'skype' => 'Skype',
+            'email' => 'Email',
+            'yahoo' => 'Yahoo',
+            'icq' => 'ICQ',
+            'viber' => 'Viber',
+            'whatsapp' => 'WhatsApp',
+        );
+    $smarty->assign('contact_desc', $contactDescMapping);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     return $smarty->fetch($tplPath);
 }
