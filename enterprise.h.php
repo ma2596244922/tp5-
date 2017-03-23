@@ -755,10 +755,10 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /**
  * Common procedure
  */
-function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false)
+function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
 {
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups);
+    enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);
@@ -986,7 +986,7 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     // Products
     enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true);
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
 
     return $smarty->fetch($tplPath);
 }

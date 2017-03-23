@@ -54,7 +54,7 @@
     <!--all-categories-->
     <div class="all-categories featured">
         <div class="title"><em><h2>FEATURED PRODUCTS</h2></em></div>
-        <p>China Manufacturer with main products:girls frocks ,children costume ,girls party dress ,children clothing ,girl's dress</p>
+        <p>China Manufacturer with main products: {if $groups[0]|default:[]}{$groups[0].name}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</p>
         <ul class="fl-clr">
 {foreach $products as $product}
             <li>
@@ -68,9 +68,9 @@
     <div class="choose-us">
         <div class="title"><h2>WHY CHOOSE US</h2></div>
         <ul>
-            <li><span class="icon1"></span><i><a href="#" title="">All about us</a></i><em>Our aim is to provide you with the tour service of the top quality, and we'll d o our</em></li>
-            <li><span class="icon2"></span><i><a href="#" title="">Contact details</a></i><em>Our aim is to provide you with the tour service of the top quality</em></li>
-            <li><span class="icon3"></span><i><a href="#" title="">Quality control</a></i><em>cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts</em></li>
+            <li><span class="icon1"></span><i><a href="/aboutus.html" title="">All about us</a></i><em>Our aim is to provide you with the tour service of the top quality, and we'll d o our</em></li>
+            <li><span class="icon2"></span><i><a href="/contactus.html" title="">Contact details</a></i><em>Our aim is to provide you with the tour service of the top quality</em></li>
+            <li><span class="icon3"></span><i><a href="/quality.html" title="">Quality control</a></i><em>cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts</em></li>
         </ul>
     </div>
     <!--choose-us-->
@@ -81,27 +81,27 @@
             <span class="next"></span>
             <ul>
                 <li data-idx="1">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="//himg.china.cn/img/env2/main/shop/customer1.png"/></a>
+                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer1.png"/></a>
                 </li>
                 <li data-idx="2" class="gray">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="//himg.china.cn/img/env2/main/shop/customer2.png"/></a>
+                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer2.png"/></a>
                 </li>
                 <li data-idx="3" class="gray">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="//himg.china.cn/img/env2/main/shop/customer3.png"/></a>
+                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer3.png"/></a>
                 </li>
             </ul>
             <div class="focus-text">
                 <dl data-idx="1" style="display:block;">
-                    <dt>123</dt>
-                    <dd>1We, Shengkun Silk, covers an area of 10,000M2, is one of the earliest and leading manufa cturers of 100% handmade silk quilts in China. In ancient times</dd>
+                    <dt>Victor</dt>
+                    <dd>I want to say that your products very good. Thank you for all your suggestion, also good after sales service.</dd>
                 </dl>
                 <dl data-idx="2">
-                    <dt>Lisa</dt>
-                    <dd>2We, Shengkun Silk, covers an area of 10,000M2, is one of the earliest and leading manufa cturers of 100% handmade silk quilts in China. In ancient times</dd>
+                    <dt>Ms. Smith</dt>
+                    <dd>The company considerate after-sales service ,And try their best to meet the requirement of customers. We will be a long-term cooperation.</dd>
                 </dl>
                 <dl data-idx="3">
-                    <dt>456</dt>
-                    <dd>3We, Shengkun Silk, covers an area of 10,000M2, is one of the earliest and leading manufa cturers of 100% handmade silk quilts in China. In ancient times</dd>
+                    <dt>Mr. Johnifere</dt>
+                    <dd>We trust the quality of your products. It always the best. Keep this going, and we will establish a long-term trade relationship with you.</dd>
                 </dl>
             </div>
         </div>
@@ -111,31 +111,19 @@
 <!--content-->
 <div class="service-box">
     <div class="service-list fl-clr">
-        <dl class="dl1">
-            <dt>Buy on china.cn</dt>
-            <dd><a href="https://trade.china.cn/help/buy.html" data-scode="10015" rel="nofollow">How to buy</a></dd>
-            <dd><a href="https://trade.china.cn/product/" data-scode="10015">Browse by catagories</a></dd>
-            <dd><a href="https://trade.china.cn/suppliers/" data-scode="10015">Browse by Hot regoins</a></dd>
-            <dd><a href="https://trade.china.cn/selling-leads/" data-scode="10015" rel="nofollow">Private Sourcing Events</a></dd>
+{foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index>=3}{continue}{/if}
+        <dl class="dl{$group@iteration}">
+            <dt>{$group.name}</dt>
+    {foreach $group.products as $product}
+            <dd><a href="{$product|url:'enterprise_url_product'}" rel="nofollow">{$product.caption}</a></dd>
+    {/foreach}
         </dl>
-        <dl class="dl2">
-            <dt>Selling on</dt>
-            <dd><a href="https://trade.china.cn/help/sell.html" data-scode="10016" rel="nofollow">How to sell</a></dd>
-            <dd><a href="https://user.china.cn/index.php?op=sellgroup" target="_blank" data-scode="10016" rel="nofollow">Premium Member</a></dd>
-            <dd><a href="https://user.china.cn/index.php?op=releaseproduct" target="_blank" data-scode="10016" rel="nofollow">Post Products</a></dd>
-            <dd><a href="https://user.china.cn/index.php?op=sellinfolist" target="_blank" data-scode="10016" rel="nofollow">Manage Products</a></dd>
-        </dl>
-        <dl class="dl3">
-            <dt>Services</dt>
-            <dd><a href="https://trade.china.cn/inquiry-list/" rel="nofollow" data-scode="10017">Post buying lead</a></dd>
-            <dd><a href="https://trade.china.cn/help/Dispute_Complaint.html" rel="nofollow" data-scode="10017">Product Alert</a></dd>
-        </dl>
+{/foreach}
         <dl class="dl4">
             <dt>About</dt>
-            <dd><a href="https://trade.china.cn/about/about_us.html" rel="nofollow" data-scode="10018">About us</a></dd>
-            <dd><a href="https://trade.china.cn/about/link_us.html" rel="nofollow" data-scode="10018">Link to us</a></dd>
-            <dd><a href="https://trade.china.cn/about/contact_us.html" rel="nofollow" data-scode="10018">Contact us</a></dd>
-            <dd><a href="https://trade.china.cn/about/site_map.html" data-scode="10018">Site map</a></dd>
+            <dd><a href="/aboutus.html" rel="nofollow">Company Profile</a></dd>
+            <dd><a href="/contactus.html" rel="nofollow">Contact Info</a></dd>
+            <dd><a href="/contactnow.html" rel="nofollow">Request a Quote</a></dd>
         </dl>
     </div>
 </div>
