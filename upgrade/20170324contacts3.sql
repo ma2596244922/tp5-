@@ -1,8 +1,8 @@
 ALTER TABLE `enterprise_thumbnails`
-  MODIFY `378x270` `t` mediumblob NOT NULL COMMENT 't',
-  MODIFY `54x39` `m` mediumblob NOT NULL COMMENT 'm',
-  MODIFY `140x100` `d` mediumblob NOT NULL COMMENT 'd',
-  MODIFY `329x235` `c` mediumblob NOT NULL COMMENT 'c';
+  CHANGE `378x270` `t` mediumblob NOT NULL COMMENT 't',
+  CHANGE `54x39` `m` mediumblob NOT NULL COMMENT 'm',
+  CHANGE `140x100` `d` mediumblob NOT NULL COMMENT 'd',
+  CHANGE `329x235` `c` mediumblob NOT NULL COMMENT 'c';
 
 CREATE TABLE `enterprise_corporations` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
