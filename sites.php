@@ -168,6 +168,9 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
+        'mocfa.org' => array(
+                'site_id' => 25,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -224,5 +227,8 @@ $siteInfo = array(
             ),
         24 => array(
                 'original_domain_prefix' => 'shinlight.com',
+            ),
+        25 => array(// 此处不应该存在
+                'original_domain_prefix' => '',
             ),
     );
