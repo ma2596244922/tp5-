@@ -414,6 +414,23 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
  */
 function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactsave.tpl', $site);
+    if ($tplPath) {
+        // Site
+        $smarty->assign('site', $site);
+
+        // Corporation
+        enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+        // Groups
+        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, 5);
+
+        // Domain suffix
+        $smarty->assign('site_root_domain', $currentDomainSuffix);
+    } else
+        $tplPath = 'inquiry_sent.tpl';
+
     $subject = enterprise_get_post_data('subject');
     $message = enterprise_get_post_data('message', 'trim');
     $email = enterprise_get_post_data('email');
@@ -475,7 +492,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'ip' => $_SERVER['REMOTE_ADDR'],
         );
     $inquiryDAO->insert($values);
-    $smarty->display('inquiry_sent.tpl');
+    $smarty->display($tplPath);
     enterprise_output_cnzz($currentDomainSuffix);
 }
 
@@ -622,11 +639,11 @@ function enterprise_url_product_list($group, $pageNo = 1)
  *
  * @return array Group Array
  */
-function enterprise_assign_group_list($smarty, $var, $siteId, $appendFirstProducts = false)
+function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
     $groupDAO = new \enterprise\daos\Group();
     $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $groups = $groupDAO->getMultiInOrderBy($condition);
+    $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $max);
 
     if ($appendFirstProducts) {
         $productDAO = new \enterprise\daos\Product();
@@ -634,7 +651,7 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $appendFirstProduc
         foreach ($groups as $group) {
             $groupId = (int)$group['id'];
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
-            $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', 1);
+            $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);
             $group['products'] = $products;
             $retval[] = $group;
         }
@@ -741,7 +758,7 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false)
 {
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId, $appendFirstProductsToGroups);
+    enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);

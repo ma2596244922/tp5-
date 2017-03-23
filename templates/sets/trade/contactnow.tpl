@@ -16,10 +16,7 @@
         <li class="fl-clr sendTo"><label><i></i>To</label>
             <div class="company">
                 <dl class="edit default">
-                    <dt><i><a href="#">Major Electric Generating Sets and Rotary Converters Export Export</a></i><span class="delete" onclick="removeDl(this)"></span><input type="hidden" value="" name="" /></dt>
-                </dl>
-                <dl class="edit default">
-                    <dt><i><a href="#">Logo Emblem Industries Co., Ltd. </a></i><span class="delete" onclick="removeDl(this)"></span><input type="hidden" value="" name="" /></dt>
+                    <dt><i><a href="#">{$corporation.name}</a></i><span class="delete" onclick="removeDl(this)"></span><input type="hidden" value="" name="" /></dt>
                 </dl>
             </div>
         </li>
@@ -96,14 +93,8 @@
     <!--main-form -->    
 </div>
 <!--content-->
-<div class="footer1 footer2">
-    <div class="link">
-        <p class="p1">
-            <a href="/aboutus.html">About Us</a>|<a href="/contactus.html">Contact Us</a></p>
-{include file="sets/trade/common/copyright.tpl"}
-    </div>
-</div>
-{include file="sets/trade/common/shopscripts.tpl"}
+{include file="sets/trade/common/inquiryfooter.tpl"}
+{include file="sets/trade/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/send_inquiry.js"></script> 
 </body>
 </html>

@@ -80,12 +80,21 @@ function submit() {
         $("#area").css("border-color", "#d41313");
         return false;
     }
+    var subject_value = $("#subject").val();
+    if (subject_value == "") {
+        $("#subject_error").addClass("is-visible");
+        $("#subject").css("border-color", "#d41313");
+        return false;
+    }
     var username = $("#username");
     if (!valideEmail(username)) {
         $("#username_error").addClass("is-visible");
         $("#username_error").text("Please enter your valid email address.");
         $("#username").css("border-color", "#d41313");
+        return false;
     }
+
+    $('#form-inquiry').submit();
 }
 
 function valideEmail(objName) {
