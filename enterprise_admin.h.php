@@ -166,28 +166,109 @@ function enterprise_admin_action_logout($smarty)
 /* {{{ Profile */
 
 /**
+ * Change logo
+ */
+function enterprise_admin_action_logo($smarty)
+{
+    $tplPath = 'admin/logo.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+        return $smarty->display($tplPath);
+    }
+
+    // Upload logo
+    $images = enterprise_admin_upload_post_images('');
+    if ($images)
+        $logo = $images[0];
+    else
+        $logo = 0;
+
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $values = array(
+            'logo' => $logo,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $corporationDAO->update($userSiteId, $values);
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+    
+    $smarty->assign('message', '修改成功');
+    $smarty->display($tplPath);
+}
+
+/**
  * Change info
  */
 function enterprise_admin_action_info($smarty)
 {
     $tplPath = 'admin/info.tpl';
-    $submitButton = enterprise_get_post_data('submit');
-    if (!$submitButton) // No form data
-        return $smarty->display($tplPath);
 
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
 
-    $corporationName = enterprise_get_post_data('corporation_name');
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+        return $smarty->display($tplPath);
+    }
 
-    if (!$corporationName)
+    $name = enterprise_get_post_data('name');
+    $address = enterprise_get_post_data('address');
+    $factoryAddress = enterprise_get_post_data('factory_address');
+    $worktime = enterprise_get_post_data('worktime');
+    $telWt = enterprise_get_post_data('tel_wt');
+    $telNWt = enterprise_get_post_data('tel_nwt');
+    $fax = enterprise_get_post_data('fax');
+    $skype = enterprise_get_post_data('skype');
+    $email = enterprise_get_post_data('email');
+    $yahoo = enterprise_get_post_data('yahoo');
+    $businessType = enterprise_get_post_data('business_type');
+    $mainMarket = enterprise_get_post_data('main_market');
+    $brands = enterprise_get_post_data('brands');
+    $noOfEmployees = enterprise_get_post_data('no_of_employees');
+    $annualSales = enterprise_get_post_data('annual_sales');
+    $yearEstablished = enterprise_get_post_data('year_established');
+    $exportPC = enterprise_get_post_data('export_p_c');
+    $introduction = enterprise_get_post_data('introduction', 'trim');
+    $history = enterprise_get_post_data('history', 'trim');
+    $service = enterprise_get_post_data('service', 'trim');
+    $ourTeam = enterprise_get_post_data('our_team', 'trim');
+    $qcProfile = enterprise_get_post_data('qc_profile', 'trim');
+
+    if (!$name)
         throw new \RuntimeException("公司名称不能为空");
 
-    $siteDAO = new \enterprise\daos\Site();
+    $corporationDAO = new \enterprise\daos\Corporation();
     $values = array(
-            'corporation_name' => $corporationName,
+            'name' => $name,
+            'address' => $address,
+            'factory_address' => $factoryAddress,
+            'worktime' => $worktime,
+            'tel_wt' => $telWt,
+            'tel_nwt' => $telNWt,
+            'fax' => $fax,
+            'skype' => $skype,
+            'email' => $email,
+            'yahoo' => $yahoo,
+            'business_type' => $businessType,
+            'main_market' => $mainMarket,
+            'brands' => $brands,
+            'no_of_employees' => $noOfEmployees,
+            'annual_sales' => $annualSales,
+            'year_established' => $yearEstablished,
+            'export_p_c' => $exportPC,
+            'introduction' => $introduction,
+            'history' => $history,
+            'service' => $service,
+            'our_team' => $ourTeam,
+            'qc_profile' => $qcProfile,
             'updated' => date('Y-m-d H:i:s'),
         );
-    $siteDAO->update($userSiteId, $values);
+    $corporationDAO->update($userSiteId, $values);
+    enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+    
     $smarty->assign('message', '修改成功');
     $smarty->display($tplPath);
 }
@@ -438,7 +519,7 @@ function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $sou
     return $imageDAO->insert($values);
 }
 
-function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body)
+function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $for = 'product')
 {
     global $thumbnailInfo;
 
@@ -446,9 +527,9 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body)
             'image_id' => $id,
             'created' => date('Y-m-d H:i:s'),
         );
-    foreach ($thumbnailInfo as $c => $size) {
+    foreach ($thumbnailInfo[$for] as $c => $size) {
         list($w, $h) = $size;
-        $field = $w . 'x' . $h;
+        $field = $c;
         $thumbnail = enterprise_admin_generate_thumbnail($imageManager, $body, $w, $h);
         $values[$field] = (string)$thumbnail->encode('jpg', 75);
     }
@@ -505,27 +586,12 @@ function enterprise_admin_action_edit_product($smarty)
     }
 
     // Upload images
-    $imageDAO = new \enterprise\daos\Image();
-    $thumbnailDAO = new \enterprise\daos\Thumbnail();
-    $imageManager = new \Intervention\Image\ImageManager();
-    $images = array();
-    $headImageId = 0;
-    foreach ($_FILES as $name => $meta) {
-        $id = enterprise_get_post_data($name);
-        if (!$id) {// Upload now!
-            if ($meta['error'])
-                continue;
-
-            $body = null;
-            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
-            // Thumbnail
-            enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);
-        }
-        // Save to products
-        $images[] = $id;
-        if (!$headImageId)
-            $headImageId = $id;
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择至少一张图片');
+        return $smarty->display($tplPath);
     }
+    $headImageId = $images[0];
 
     // Save products
     $productDAO = new \enterprise\daos\Product();
@@ -585,6 +651,325 @@ function enterprise_admin_action_delete_product($smarty)
     $groupDAO->incrCnt($groupId, -1);
 
     header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+/* {{{ Contact */
+
+/**
+ * Contacts
+ */
+function enterprise_admin_action_contact($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_assign_contact_list($smarty, 'contacts', $userSiteId);
+
+    $smarty->display('admin/contact.tpl');
+}
+
+/**
+ * Edit Contact
+ */
+function enterprise_admin_action_edit_contact($smarty)
+{
+    $tplPath = 'admin/edit_contact.tpl';
+
+    $contactId = (int)enterprise_get_query_data('contact_id');
+    $smarty->assign('contact_id', $contactId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($contactId) 
+            enterprise_assign_contact_info($smarty, 'contact', $contactId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $name = enterprise_get_post_data('name');
+    $title = enterprise_get_post_data('title');
+    $tel = enterprise_get_post_data('tel');
+    $skype = enterprise_get_post_data('skype');
+    $email = enterprise_get_post_data('email');
+    $yahoo = enterprise_get_post_data('yahoo');
+    $icq = enterprise_get_post_data('icq');
+    $viber = enterprise_get_post_data('viber');
+    $whatsapp = enterprise_get_post_data('whatsapp');
+
+    if (!$name) {
+        $smarty->assign('error_msg', '请输入姓名');
+        return $smarty->display($tplPath);
+    }
+
+    $contactDAO = new \enterprise\daos\Contact();
+    $values = array(
+            'site_id' => $userSiteId,
+            'name' => $name,
+            'title' => $title,
+            'tel' => $tel,
+            'skype' => $skype,
+            'email' => $email,
+            'yahoo' => $yahoo,
+            'icq' => $icq,
+            'viber' => $viber,
+            'whatsapp' => $whatsapp,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($contactId) {// Edit
+        $contactDAO->update($contactId, $values);
+        enterprise_assign_contact_info($smarty, 'contact', $contactId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $contactDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Contact
+ */
+function enterprise_admin_action_delete_contact($smarty)
+{
+    $contactId = (int)enterprise_get_query_data('contact_id');
+
+    $contactDAO = new \enterprise\daos\Contact();
+    $values = array(
+            'deleted' => 1,
+        );
+    $contactDAO->update($contactId, $values);
+    header('Location: ?action=contact&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+
+/* {{{ Photo */
+
+/**
+ * Photos
+ */
+function enterprise_admin_action_photo($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $type = (int)enterprise_get_query_data('type');
+    if (!$type)
+        $type = null;
+    $pageNo = (int)enterprise_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $condition = enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type);
+    $smarty->assign('photo_type', $type);
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $totalPhotos = $photoDAO->countBy($condition);
+    $totalPages = (int)($totalPhotos / $max) + (($totalPhotos % $max)?1:0);
+    $smarty->assign('total_photos', $totalPhotos);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
+
+    $smarty->display('admin/photo.tpl');
+}
+
+function enterprise_admin_upload_post_images($thumbnailFor = 'product')
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $imageDAO = new \enterprise\daos\Image();
+    $thumbnailDAO = new \enterprise\daos\Thumbnail();
+    $imageManager = new \Intervention\Image\ImageManager();
+    $images = array();
+    foreach ($_FILES as $name => $meta) {
+        $id = enterprise_get_post_data($name);
+        if (!$id) {// Upload now!
+            if ($meta['error'])
+                continue;
+
+            $body = null;
+            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
+            // Thumbnail
+            if ($thumbnailFor)
+                enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $thumbnailFor);
+        }
+        // Save to array
+        $images[] = $id;
+    }
+
+    return $images;
+}
+
+/**
+ * Edit Photo
+ */
+function enterprise_admin_action_edit_photo($smarty)
+{
+    $tplPath = 'admin/edit_photo.tpl';
+
+    $photoId = (int)enterprise_get_query_data('photo_id');
+    $smarty->assign('photo_id', $photoId);
+
+    $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($photoId) 
+            enterprise_assign_photo_info($smarty, 'photo', $photoId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $uri = enterprise_get_post_data('uri');
+    $desc = enterprise_get_post_data('desc');
+    $type = (int)enterprise_get_post_data('type');
+
+    if (!$desc) {
+        $smarty->assign('error_msg', '请输入描述');
+        return $smarty->display($tplPath);
+    }
+    if (!$type) {
+        $smarty->assign('error_msg', '请选择分类');
+        return $smarty->display($tplPath);
+    }
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择照片');
+        return $smarty->display($tplPath);
+    }
+    $uri = $images[0];
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'desc' => $desc,
+            'type' => $type,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($photoId) {// Edit
+        $photoDAO->update($photoId, $values);
+        enterprise_assign_photo_info($smarty, 'photo', $photoId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $photoDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Photo
+ */
+function enterprise_admin_action_delete_photo($smarty)
+{
+    $photoId = (int)enterprise_get_query_data('photo_id');
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $values = array(
+            'deleted' => 1,
+        );
+    $photoDAO->update($photoId, $values);
+    header('Location: ?action=photo&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+
+/* {{{ Certification */
+
+/**
+ * Certifications
+ */
+function enterprise_admin_action_certification($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $condition = enterprise_assign_certification_list($smarty, 'certifications', $userSiteId);
+
+    $smarty->display('admin/certification.tpl');
+}
+
+/**
+ * Edit Certification
+ */
+function enterprise_admin_action_edit_certification($smarty)
+{
+    $tplPath = 'admin/edit_certification.tpl';
+
+    $certificationId = (int)enterprise_get_query_data('certification_id');
+    $smarty->assign('certification_id', $certificationId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($certificationId) 
+            enterprise_assign_certification_info($smarty, 'certification', $certificationId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $uri = enterprise_get_post_data('uri');
+    $standard = enterprise_get_post_data('standard');
+    $number = enterprise_get_post_data('number');
+    $issueDate = enterprise_get_post_data('issue_date');
+    $expiryDate = enterprise_get_post_data('expiry_date');
+    $scopeNRange = enterprise_get_post_data('scope_n_range');
+    $issuedBy = enterprise_get_post_data('issued_by');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('certification');
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择照片');
+        return $smarty->display($tplPath);
+    }
+    $uri = 'image://' . $images[0];
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'standard' => $standard,
+            'number' => $number,
+            'issue_date' => $issueDate,
+            'expiry_date' => $expiryDate,
+            'scope_n_range' => $scopeNRange,
+            'issued_by' => $issuedBy,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($certificationId) {// Edit
+        $certificationDAO->update($certificationId, $values);
+        enterprise_assign_certification_info($smarty, 'certification', $certificationId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $certificationDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Certification
+ */
+function enterprise_admin_action_delete_certification($smarty)
+{
+    $certificationId = (int)enterprise_get_query_data('certification_id');
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $values = array(
+            'deleted' => 1,
+        );
+    $certificationDAO->update($certificationId, $values);
+    header('Location: ?action=certification&success_msg=' . urlencode('删除成功'));
 }
 
 /* }}} */

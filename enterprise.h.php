@@ -5,6 +5,13 @@
  * @package timandes\enterprise
  */
 
+/** @var string Pattern of Product List */
+define('PATTERN_PRODUCT_LIST', '/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
+/** @var string Pattern of Product Detail */
+define('PATTERN_PRODUCT_DETAIL', '/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+/** @var string Fields of Product for List */
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`');
+
 /* {{{ Common */
 
 /**
@@ -258,26 +265,19 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
  */
 function enterprise_action_uploaded_image_proc($char, $imageId)
 {
-    global $thumbnailInfo;
-
     if (!$imageId) {
         http_response_code(400);
         exit;
     }
 
     if ($char) {
-        if (!array_key_exists($char, $thumbnailInfo)) {
-            http_response_code(404);
-            exit;
-        }
-        $size = $thumbnailInfo[$char];
-        list($w, $h) = $size;
-        $field = $w . 'x' . $h;
+        $field = $char;
 
         $thumbnailDAO = new \enterprise\daos\Thumbnail();
         $condition = "`image_id`=" . (int)$imageId;
         $thumbnail = $thumbnailDAO->getOneBy($condition);
-        if (!$thumbnail) {
+        if (!$thumbnail
+                || !$thumbnail[$field]) {
             http_response_code(404);
             exit;
         }
@@ -298,14 +298,8 @@ function enterprise_action_uploaded_image_proc($char, $imageId)
     exit;
 }
 
-/**
- * Product Detail
- */
-function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
 {
-    if (!$productId)
-        throw new HttpException(404);
-
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->get($productId);
     if (!$product) 
@@ -337,7 +331,29 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     $smarty->assign('product_specifications', $productSpecifications);
 
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
+    $groups = enterprise_assign_group_list($smarty, 'groups', $siteId);
+
+    // Product Group
+    foreach ($groups as $group) {
+        if ($group['id'] == $product['group_id']) {
+            $smarty->assign('product_group', $group);
+            break;
+        }
+    }
+
+    // New Products
+    enterprise_assign_product_list($smarty, 'new_products', $siteId, $product['group_id']);
+}
+
+/**
+ * Product Detail
+ */
+function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+{
+    if (!$productId)
+        throw new HttpException(404);
+
+    enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
     $response = $smarty->fetch($tplPath);
@@ -345,27 +361,13 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     enterprise_output_cnzz($currentDomainSuffix);
 }
 
-/**
- * Product List
- */
-function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo = 1)
+function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
 {
-    if (!$groupId)
-        throw new HttpException(404);
-
-    $groupId = (int)$groupId;
-    $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
-    if (!$pageSize)
-        $pageSize = 10;
-    $start = ($pageNo - 1) * $pageSize;
-
     // Product list
-    $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$groupId}";
-    $products = $productDAO->getMultiInOrderBy($condition, '*', '`id` DESC', $pageSize, $start);
-    $smarty->assign('products', $products);
+    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, $groupId, $pageNo, $pageSize);
 
     // Total products
+    $productDAO = new \enterprise\daos\Product();
     $totalProducts = $productDAO->countBy($condition);
     $totalPages = (int)($totalProducts / $pageSize) + (($totalProducts % $pageSize)?1:0);
     $smarty->assign('total_products', $totalProducts);
@@ -374,14 +376,31 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
     $smarty->assign('total_pages', $totalPages);
 
     // Group info
-    $groupDAO = new \enterprise\daos\Group();
-    $group = $groupDAO->get($groupId);
-    if (!$group) 
-        throw new HttpException(404);
-    $smarty->assign('group', $group);
+    if ($groupId) {
+        $groupDAO = new \enterprise\daos\Group();
+        $group = $groupDAO->get($groupId);
+        if (!$group) 
+            throw new HttpException(404);
+        $smarty->assign('group', $group);
+    }
 
     // All groups
     enterprise_assign_group_list($smarty, 'groups', $siteId);
+}
+
+/**
+ * Product List
+ */
+function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+{
+    if (!$groupId)
+        throw new HttpException(404);
+
+    $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
+    if (!$pageSize)
+        $pageSize = 10;
+
+    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo, $pageSize);
 
     // Filter
     $tplPath = 'sites/' . $siteId . '/product_list.tpl';
@@ -395,6 +414,23 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
  */
 function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactsave.tpl', $site);
+    if ($tplPath) {
+        // Site
+        $smarty->assign('site', $site);
+
+        // Corporation
+        enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+        // Groups
+        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, 5);
+
+        // Domain suffix
+        $smarty->assign('site_root_domain', $currentDomainSuffix);
+    } else
+        $tplPath = 'inquiry_sent.tpl';
+
     $subject = enterprise_get_post_data('subject');
     $message = enterprise_get_post_data('message', 'trim');
     $email = enterprise_get_post_data('email');
@@ -456,7 +492,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'ip' => $_SERVER['REMOTE_ADDR'],
         );
     $inquiryDAO->insert($values);
-    $smarty->display('inquiry_sent.tpl');
+    $smarty->display($tplPath);
     enterprise_output_cnzz($currentDomainSuffix);
 }
 
@@ -476,12 +512,12 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 {
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match('/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/', $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
         return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match('/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/', $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if ($matches[3])
             $pageNo = (int)$matches[3];
@@ -491,6 +527,40 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
     }
 
     throw new HttpException(404);
+}
+
+/**
+ * Router V2
+ *
+ * @return string Response
+ */
+function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    if ($requestPath == '/contactus.html') {
+        return enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/aboutus.html') {
+        return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
+        $productId = $matches[1];
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
+    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
+        $groupId = $matches[1];
+        if ($matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+    } elseif ($requestPath == '/products.html') {
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null);
+    } elseif ($requestPath == '/quality.html') {
+        return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/') {
+        return enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif ($requestPath == '/contactnow.html') {
+        return enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    }
+
+    return null;
 }
 
 /* {{{ URLs */
@@ -516,13 +586,27 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
     }
 
     if (!$imageId)
-        return 'media/image/no_image.png';
+        return '/media/sets/trade/no_image.png';
 
     $suffix = '';
     if ($productCaption)
         $suffix = '-' . enterprise_generate_url_key($productCaption);
 
     return enterprise_url_prefix() . '/uploaded_images/' . $imageSizeType . $imageId . $suffix . '.jpg';
+}
+
+/**
+ * URL - Image
+ *
+ * @return string
+ */
+function enterprise_url_photo($uri, $desc = '', $imageSizeType = '')
+{
+    if (strpos($uri, 'http://') === 0)
+        return $uri;
+
+    $imageId = (int)str_replace('image://', '', $uri);
+    return enterprise_url_image($imageId, $desc, $imageSizeType);
 }
 
 /**
@@ -552,13 +636,30 @@ function enterprise_url_product_list($group, $pageNo = 1)
 
 /**
  * Assign Group List
+ *
+ * @return array Group Array
  */
-function enterprise_assign_group_list($smarty, $var, $siteId)
+function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
     $groupDAO = new \enterprise\daos\Group();
     $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $groups = $groupDAO->getMultiInOrderBy($condition);
+    $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $max);
+
+    if ($appendFirstProducts) {
+        $productDAO = new \enterprise\daos\Product();
+        $retval = array();
+        foreach ($groups as $group) {
+            $groupId = (int)$group['id'];
+            $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
+            $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);
+            $group['products'] = $products;
+            $retval[] = $group;
+        }
+        $groups = $retval;
+    }
+
     $smarty->assign($var, $groups);
+    return $groups;
 }
 
 /**
@@ -612,4 +713,444 @@ function enterprise_site_info_get_product_list_page_size($siteId)
 
     return $siteInfo[$siteId]['product_list_page_size'];
 }
+/* }}} */
+
+/**
+ * Assign corporation info
+ */
+function enterprise_assign_corporation_info($smarty, $var, $siteId)
+{
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $condition = "`site_id`=" . (int)$siteId;
+    $corporation = $corporationDAO->getOneBy($condition);
+    $smarty->assign($var, $corporation);
+}
+
+/* {{{ Contact */
+/**
+ * Assign Contact List
+ */
+function enterprise_assign_contact_list($smarty, $var, $siteId)
+{
+    $contactDAO = new \enterprise\daos\Contact();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $contacts = $contactDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $contacts);
+}
+
+/**
+ * Assign contact info
+ */
+function enterprise_assign_contact_info($smarty, $var, $contactId)
+{
+    $contactDAO = new \enterprise\daos\Contact();
+    $contact = $contactDAO->get($contactId);
+    $smarty->assign($var, $contact);
+}
+
+/* }}} */
+
+/* {{{ Route V2 Actions */
+
+/**
+ * Common procedure
+ */
+function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
+{
+    // Groups
+    enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
+
+    // Domain suffix
+    $smarty->assign('site_root_domain', $currentDomainSuffix);
+}
+
+/**
+ * @param array &$site Return site info
+ * @return string Path
+ */
+function enterprise_decide_template_path($smarty, $siteId, $relativePath, &$site = null)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if ($site) {
+        $templateName = $site['template'];
+
+        $tplPath = 'sets/' . $templateName . $relativePath;
+        if ($smarty->templateExists($tplPath))
+            return $tplPath;
+    }
+
+    $tplPath = 'sites/' . $siteId . $relativePath;
+    if ($smarty->templateExists($tplPath))
+        return $tplPath;
+
+    return null;
+}
+
+/**
+ * /contactus.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactus.tpl', $site);
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Contact Desc Mapping
+    $contactDescMapping = array(
+            'name' => 'Contact Person',
+            'title' => 'Job Title',
+            'tel' => 'Business Phone',
+            'skype' => 'Skype',
+            'email' => 'Email',
+            'yahoo' => 'Yahoo',
+            'icq' => 'ICQ',
+            'viber' => 'Viber',
+            'whatsapp' => 'WhatsApp',
+        );
+    $smarty->assign('contact_desc', $contactDescMapping);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /aboutus.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/aboutus.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Photos - AboutUs
+    enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /sale-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    enterprise_assign_action_product_detail($smarty, $siteId, $productId);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /supplier-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/product_list.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+
+/**
+ * /quality.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/quality.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Certifications
+    enterprise_assign_certification_list($smarty, 'certifications', $siteId);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /
+ *
+ * @return string
+ */
+function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/home.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Banners
+    enterprise_assign_banner_list($smarty, 'banners', $siteId);
+
+    // Products
+    enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
+
+    return $smarty->fetch($tplPath);
+}
+
+
+/**
+ * /contactnow.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $site = null;
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactnow.tpl', $site);
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Contact Desc Mapping
+    $contactDescMapping = array(
+            'name' => 'Contact Person',
+            'title' => 'Job Title',
+            'tel' => 'Business Phone',
+            'skype' => 'Skype',
+            'email' => 'Email',
+            'yahoo' => 'Yahoo',
+            'icq' => 'ICQ',
+            'viber' => 'Viber',
+            'whatsapp' => 'WhatsApp',
+        );
+    $smarty->assign('contact_desc', $contactDescMapping);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    return $smarty->fetch($tplPath);
+}
+
+/* }}} */
+
+/* {{{ Photo */
+/**
+ * Assign Photo List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_photo_list($smarty, $var, $siteId, $type = null)
+{
+    $siteId = (int)$siteId;
+
+    $typeCondition = '';
+    if (null !== $type) {
+        $type = (int)$type;
+        $typeCondition = " AND `type`={$type}";
+    }
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $condition = "`site_id`={$siteId}{$typeCondition} AND `deleted`=0";
+    $photos = $photoDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $photos);
+
+    return $condition;
+}
+
+/**
+ * Assign photo info
+ */
+function enterprise_assign_photo_info($smarty, $var, $photoId)
+{
+    $photoDAO = new \enterprise\daos\Photo();
+    $photo = $photoDAO->get($photoId);
+    $smarty->assign($var, $photo);
+}
+
+/* }}} */
+
+/* {{{ Product */
+/**
+ * Assign Product List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $groupIdCondition = '';
+    if (null !== $groupId) {
+        $groupId = (int)$groupId;
+        $groupIdCondition = " AND `group_id`={$groupId}";
+    }
+
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
+    $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $products);
+
+    return $condition;
+}
+/* }}} */
+
+/* {{{ Certification */
+/**
+ * Assign Certification List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_certification_list($smarty, $var, $siteId)
+{
+    $siteId = (int)$siteId;
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $certifications = $certificationDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $certifications);
+
+    return $condition;
+}
+
+/**
+ * Assign certification info
+ */
+function enterprise_assign_certification_info($smarty, $var, $certificationId)
+{
+    $certificationDAO = new \enterprise\daos\Certification();
+    $certification = $certificationDAO->get($certificationId);
+    $smarty->assign($var, $certification);
+}
+
+/* }}} */
+
+
+/* {{{ Banner */
+/**
+ * Assign Banner List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_banner_list($smarty, $var, $siteId)
+{
+    $siteId = (int)$siteId;
+
+    $bannerDAO = new \enterprise\daos\Banner();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $banners = $bannerDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $banners);
+
+    return $condition;
+}
+
+/**
+ * Assign banner info
+ */
+function enterprise_assign_banner_info($smarty, $var, $bannerId)
+{
+    $bannerDAO = new \enterprise\daos\Banner();
+    $banner = $bannerDAO->get($bannerId);
+    $smarty->assign($var, $banner);
+}
+
 /* }}} */

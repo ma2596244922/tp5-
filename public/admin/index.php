@@ -21,6 +21,8 @@ function enterprise_admin_route($smarty)
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
+                case 'logo':
+                    return enterprise_admin_action_logo($smarty);
                 case 'info':
                     return enterprise_admin_action_info($smarty);
                 case 'password':
@@ -41,6 +43,24 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_product($smarty);
                 case 'delete_product':
                     return enterprise_admin_action_delete_product($smarty);
+                case 'contact':
+                    return enterprise_admin_action_contact($smarty);
+                case 'edit_contact':
+                    return enterprise_admin_action_edit_contact($smarty);
+                case 'delete_contact':
+                    return enterprise_admin_action_delete_contact($smarty);
+                case 'photo':
+                    return enterprise_admin_action_photo($smarty);
+                case 'edit_photo':
+                    return enterprise_admin_action_edit_photo($smarty);
+                case 'delete_photo':
+                    return enterprise_admin_action_delete_photo($smarty);
+                case 'certification':
+                    return enterprise_admin_action_certification($smarty);
+                case 'edit_certification':
+                    return enterprise_admin_action_edit_certification($smarty);
+                case 'delete_certification':
+                    return enterprise_admin_action_delete_certification($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

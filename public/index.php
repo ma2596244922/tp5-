@@ -70,6 +70,23 @@ $smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
 $smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../') . '/plugins/');
 
+// + 警告：这个新的Router是来截胡的
+do {
+    try {
+        $response = enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        if (null === $response)
+            break;// continue routing
+
+        echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
+        enterprise_output_cnzz($currentDomainSuffix);
+    } catch(HttpException $he) {
+        http_response_code($he->getCode());
+    } catch (\RuntimeException $e) {
+        $smarty->assign('message', $e->getMessage());
+        $smarty->display('message.tpl');
+    }
+} while(exit(1));
+
 // + Page
 $skippingPages = array(
         '/contactsave.html',

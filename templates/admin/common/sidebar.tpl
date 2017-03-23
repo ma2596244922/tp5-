@@ -63,6 +63,42 @@
 
                 </li>
 
+                <li class="start{if $page_name=='photo'} active{/if}">
+
+                    <a href="?action=photo">
+
+                    <i class="icon-picture"></i> 
+
+                    <span class="title">我的照片</span>
+
+                    </a>
+
+                </li>
+
+                <li class="start{if $page_name=='certification'} active{/if}">
+
+                    <a href="?action=certification">
+
+                    <i class="icon-legal"></i> 
+
+                    <span class="title">我的证书</span>
+
+                    </a>
+
+                </li>
+
+                <li class="start{if $page_name=='contact'} active{/if}">
+
+                    <a href="?action=contact">
+
+                    <i class="icon-headphones"></i> 
+
+                    <span class="title">管理联系人</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

@@ -198,7 +198,7 @@
 
     <!-- END PAGE LEVEL SCRIPTS --> 
 
-    <script>
+    <script>{literal}
 
         jQuery(document).ready(function() {     
 
@@ -208,7 +208,7 @@
 
         });
 
-    </script>
+    </script>{/literal}
 
     <!-- END JAVASCRIPTS -->
 

@@ -484,7 +484,7 @@
 
                                     <div class="form-actions">
 
-                                        <input type="hidden" name="submit" value="edit_group">
+                                        <input type="hidden" name="submit" value="edit_product">
 
                                         <button type="submit" class="btn blue">保存</button>
 
@@ -578,7 +578,7 @@
 
     <script src="media/js/table-editable.js"></script>    
 
-    <script>
+    <script>{literal}
 
         jQuery(document).ready(function() {       
 
@@ -613,7 +613,7 @@
             });
         });
 
-    </script>
+    </script>{/literal}
 
 </body>
 
