@@ -168,7 +168,7 @@ $domainInfo = array(
                         '/googlee80dfff02b07f84c.html' => 'google-site-verification: googlee80dfff02b07f84c.html',
                     ),
             ),
-        'mocfa.org' => array(
+        'mocfatest.org' => array(
                 'site_id' => 25,
             ),
     );
