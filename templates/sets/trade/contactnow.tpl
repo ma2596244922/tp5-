@@ -10,7 +10,7 @@
 <body>
 <div class="content">
     <div class="main-form fl-clr">
-    <form action="/contactsave.html" method="POST" enctype="multipart/form-data">
+    <form action="/contactsave.html" id="form-inquiry" method="POST" enctype="multipart/form-data">
     <ul class="form-main">
         <li><label><i>*</i>From</label><input type="text" class="txt" id="username" name="email" placeholder="Please Enter your Email Address" /><span class="erro_alert" id="username_error">Please Enter your Email Address</span></li>
         <li class="fl-clr sendTo"><label><i></i>To</label>
@@ -39,7 +39,7 @@
             </div>
             <span class="tips">No typing, "Quick question" Help you!</span>
         </li>
-        <li class="area"><label><i>*</i>Message</label><textarea class="area" id="area" placeholder="For the best results, we recommend including the following details:
+        <li class="area"><label><i>*</i>Message</label><textarea class="area" name="message" id="area" placeholder="For the best results, we recommend including the following details:
 -Self introduction\n
 -Required specifications\n
 -Inquire about price/MOQ
@@ -76,9 +76,12 @@
         <div class="title"><span></span><i>Each file sized 1M max. (Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt.)</i></div>
         <div class="slide-form">
             <ul>
-                <li><label>File 1</label><a href="#" class="file-btn">Attach Files</a><span class="error">The format doesn't support uploading</span></li>
-                <li><label>File 2</label><a href="#" class="file-btn">Attach Files</a></li>
-                <li><label>File 3</label><a href="#" class="file-btn">Attach Files</a></li>
+                <li><label>File 1</label>
+                    <input type="file" name="file1">
+                    <span class="error">The format doesn't support uploading</span>
+                </li>
+                <li><label>File 2</label><input type="file" name="file2"></li>
+                <li><label>File 3</label><input type="file" name="file3"></li>
             </ul>
         </div>
     </div>
@@ -87,7 +90,7 @@
     <li><input type="checkbox" checked="checked" class="check" name="iscontact" />Please reply me within 24 hours. </li>
     <li><input type="checkbox" class="check English" name="newsletter" />Yes! I would like your verified suppliers matching service! </li>
     </ul>
-    <div class="submit"><a href="#" onclick="submit()">Send Inquiry</a></div>
+    <div class="submit"><a href="javascript:void(0);" onclick="submit();">Send Inquiry</a></div>
     </form>
     </div>
     <!--main-form -->    
