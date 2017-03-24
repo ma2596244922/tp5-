@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Quality {$groups[0].name|default:''}{if $groups[1]|default:[]} & {$groups[1].name}{/if} Manufacturer</title>
-<meta name="keywords" content="Quality {$groups[0].name|default:''} manufacturer{if $groups[1]|default:[]}, {$groups[1].name} wholesaler,{/if} China {$groups[0].name|default:''} manufacturer{if $groups[1]|default:[]}, China {$groups[1].name} exporter{/if}">
-<meta name="description" content="Jinan leader machinery co.,ltd is best {$groups[0].name|default:''}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]} and {$groups[2].name} supplier,{/if}{/if} we has good quality products & service from China.">
+<title>{$title}</title>
+<meta name="keywords" content="{$keywords|escape}" />
+<meta name="description" content="{$description|escape}" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/shop-new.css" />
 </head>

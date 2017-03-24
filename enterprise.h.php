@@ -757,6 +757,9 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
  */
 function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
 {
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
     // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
@@ -801,9 +804,6 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
@@ -847,9 +847,6 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
@@ -857,6 +854,12 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
     enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+
+    // TDK
+    $smarty->assign('title', "Company Introduction - {$corporation['name']}");
+    $smarty->assign('keywords', "{$corporation['name']}, China {$corporation['name']}, Company Introduction");
+    $smarty->assign('description', "Supplier's profile of {$corporation['name']}, China quality supplier.");
 
     return $smarty->fetch($tplPath);
 }
@@ -882,12 +885,18 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+    $product = $smarty->getTemplateVars('product');
+    $productGroup = $smarty->getTemplateVars('product_group');
+
+    // TDK
+    $productGroupName = (isset($productGroup['name'])?$productGroup['name']:'');
+    $smarty->assign('title', "Buy {$product['caption']} - {$corporation['name']}");
+    $smarty->assign('keywords', "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale");
+    $smarty->assign('description', "Buy {$product['caption']} from quality {$productGroupName} manufacturers of {$corporation['name']}.");
 
     return $smarty->fetch($tplPath);
 }
@@ -912,9 +921,6 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
 
     // Site
     $smarty->assign('site', $site);
-
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
 
@@ -945,9 +951,6 @@ function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSu
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     // Certifications
     enterprise_assign_certification_list($smarty, 'certifications', $siteId);
 
@@ -977,9 +980,6 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     // Banners
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
@@ -987,6 +987,14 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
+    $corporation = $smarty->getTemplateVars('corporation');
+    $groups = $smarty->getTemplateVars('groups');
+
+    // TDK
+    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $smarty->assign('title', "Quality {$group1Name} - {$corporation['name']}");
+    $smarty->assign('keywords', "{$group1Name}, China Manufacturers, China {$group1Name}, cheap {$group1Name}");
+    $smarty->assign('description', "Quality {$group1Name} for sale of {$corporation['name']}, we provide {$group1Name} at lowest price.");
 
     return $smarty->fetch($tplPath);
 }
