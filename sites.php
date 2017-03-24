@@ -171,6 +171,9 @@ $domainInfo = array(
         'mocfatest.org' => array(
                 'site_id' => 25,
             ),
+        'jb-online.com' => array(
+                'site_id' => 26,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -229,6 +232,9 @@ $siteInfo = array(
                 'original_domain_prefix' => 'shinlight.com',
             ),
         25 => array(// 此处不应该存在
+                'original_domain_prefix' => '',
+            ),
+        26 => array(// 此处不应该存在
                 'original_domain_prefix' => '',
             ),
     );
