@@ -21,7 +21,7 @@
                 </dl>
             </div>
         </li>
-        <li><label><i>*</i>Subject</label><input type="text" class="txt" id="subject" name="subject" placeholder="" /><span class="erro_alert" id="subject_error">Please enter a subject for your inquiry</span></li>
+        <li><label><i>*</i>Subject</label><input type="text" class="txt" id="subject" name="subject" value="{$subject|escape}" /><span class="erro_alert" id="subject_error">Please enter a subject for your inquiry</span></li>
         <li class="fl-clr"><label><i></i>Quick question</label>
             <div class="select fl-clr">
                 <ul class="fl-clr">

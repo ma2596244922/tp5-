@@ -1087,9 +1087,6 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
     // Site
     $smarty->assign('site', $site);
 
-    // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
@@ -1108,6 +1105,23 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
     $smarty->assign('contact_desc', $contactDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+
+    // Inquiry subject
+    $referer = timandes_get_server_data('HTTP_REFERER');
+    $refererPath = parse_url($referer, PHP_URL_PATH);
+    if ($refererPath
+            && preg_match(PATTERN_PRODUCT_DETAIL, $refererPath, $matches)) {
+        $productId = $matches[1];
+        $productDAO = new \enterprise\daos\Product();
+        $product = $productDAO->get($productId);
+        if ($product)
+            $subject = 'Inquiry About ' . $product['caption'];
+        else
+            $subject= 'Inquiry About ' . $corporation['name'];
+    } else
+        $subject= 'Inquiry About ' . $corporation['name'];
+    $smarty->assign('subject', $subject);
 
     return $smarty->fetch($tplPath);
 }
