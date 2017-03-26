@@ -10,7 +10,7 @@ define('PATTERN_PRODUCT_LIST', '/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]
 /** @var string Pattern of Product Detail */
 define('PATTERN_PRODUCT_DETAIL', '/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Fields of Product for List */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
 
 /* {{{ Common */
 
@@ -930,6 +930,51 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
     $smarty->assign('site', $site);
 
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
+
+    // Product Desc Mapping
+    $productDescMapping = array(
+            'place_of_origin' => array(
+                    'label' => 'Place of Origin',
+                    'default' => '',
+                ),
+            'brand_name' => array(
+                    'label' => 'Brand Name',
+                    'default' => '',
+                ),
+            'certification' => array(
+                    'label' => 'Certification',
+                    'default' => '',
+                ),
+            'model_number' => array(
+                    'label' => 'Model Number',
+                    'default' => '',
+                ),
+            'min_order_quantity' => array(
+                    'label' => 'Min.Order Quantity',
+                    'default' => 'Unlimited',
+                ),
+            'price' => array(
+                    'label' => 'Price',
+                    'default' => 'Negotiation',
+                ),
+            'packaging_details' => array(
+                    'label' => 'Packaging Details',
+                    'default' => '',
+                ),
+            'delivery_time' => array(
+                    'label' => 'Delivery Time',
+                    'default' => '',
+                ),
+            'payment_terms' => array(
+                    'label' => 'Payment Terms',
+                    'default' => '',
+                ),
+            'supply_ability' => array(
+                    'label' => 'Supply Ability',
+                    'default' => '',
+                ),
+        );
+    $smarty->assign('product_desc', $productDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');

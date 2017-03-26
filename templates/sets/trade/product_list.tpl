@@ -27,7 +27,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box">
-                    <div class="title"><i></i>All Products<a href="/contactnow.html">Contact Now</a></div>
+                    <div class="title"><i></i>{if $group|default:[]}{$group.name}{else}All Products{/if}<a href="/contactnow.html">Contact Now</a></div>
                     <div class="product-all">
 {foreach $products as $product}
                         <div class="product-intro">
@@ -39,8 +39,14 @@
                             <div class="msg-detail">
                                 <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
                                 <ul>
-                                    <li><label>Min. Order</label>{$product.min_order_quantity|default:'Negotiation'}</li>
-                                    <li><label>FOB Price</label>{$product.price|default:'Negotiation'}</li>
+    {-assign var="total_items" value="0"}
+    {-foreach $product_desc as $k => $meta}
+        {-if $total_items>=2}{break}{/if}
+        {-if $product.$k|default:$meta.default}
+                                    <li><label>{$meta.label}</label>{$product.$k|default:$meta.default}</li>
+            {-assign var="total_items" value=$total_items+1}
+        {-/if}
+    {-/foreach}
                                 </ul>
                                 <div class="contact-btn"><a href="/contactnow.html">Contact Now</a></div>
                             </div>
