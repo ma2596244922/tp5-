@@ -6,6 +6,7 @@
 <meta name="keywords" content="{$keywords|escape}" />
 <meta name="description" content="{$description|escape}" />
 {include file="sets/trade/common/shopstyles.tpl"}
+{include file="sets/trade/common/contact_desc.tpl"}
 </head>
 
 <body>
@@ -23,11 +24,11 @@
         <div class="contact-communication fl-clr">
             <div class="left-intro">
                 <img src="/media/sets/trade/default_photo.jpg" />
-                <span>Mr. James</span>
+                <span>{$contact.name}</span>
             </div>
             <div class="right-intro">
                 <ul>
-    {foreach $contact as $f => $v}
+    {foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
         {if isset($contact_desc.$f) && $contact.$f}
                     <li><label>{$contact_desc.$f}</label>{$v}</li>
         {/if}
