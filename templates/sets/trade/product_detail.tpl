@@ -108,24 +108,12 @@
         <div class="new-products">
             <div class="title"><i></i><h2>New Products</h2></div>
             <div class="tab-content">
-                <div class="tabs-new" id="tabs-new">
-                        <a href="javascript:void(0)" class="current"></a>
-                        <a href="javascript:void(0)"></a>
-                        <a href="javascript:void(0)"></a>
-                        <a href="javascript:void(0)"></a>
-                    </ul>
-                </div>
                 <div class="tabs-list" id="tabs-list">
-{foreach $new_products as $product}
-    {if $product@index%5==0}
                     <ul class="fl-clr">
-    {/if}
+{foreach $new_products as $product}{if $product@index>=5}{break}{/if}
                         <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="" /><i>{$product.caption}</i></a></li>
-    {if $product@index%5==4}
-                    </ul>
-    {/if}
-    {if $product@iteration>=20}{break}{/if}
 {/foreach}
+                    </ul>
                 </div>
             </div>
         </div>
