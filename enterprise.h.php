@@ -1080,6 +1080,28 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
     return $smarty->fetch($tplPath);
 }
 
+function enterprise_generate_inquiry_subject_by_product_id($productId)
+{
+    if (!$productId)
+        return null;
+
+    $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->get($productId);
+    if (!$product)
+        return null;
+
+    return 'Inquiry About ' . $product['caption'];
+}
+
+function enterprise_get_query_by_server_request($key, $filters = 'trim, strip_tags')
+{
+    $serverRequest = GuzzleHttp\Psr7\ServerRequest::fromGlobals();
+    $uri = $serverRequest->getUri();
+    $query = $uri->getQuery();
+    parse_str($query, $params);
+    $v = (isset($params[$key])?$params[$key]:'');
+    return timandes_filter($v, $filters);
+}
 
 /**
  * /contactnow.html
@@ -1115,19 +1137,20 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
     $corporation = $smarty->getTemplateVars('corporation');
 
     // Inquiry subject
-    $referer = timandes_get_server_data('HTTP_REFERER');
-    $refererPath = parse_url($referer, PHP_URL_PATH);
-    if ($refererPath
-            && preg_match(PATTERN_PRODUCT_DETAIL, $refererPath, $matches)) {
-        $productId = $matches[1];
-        $productDAO = new \enterprise\daos\Product();
-        $product = $productDAO->get($productId);
-        if ($product)
-            $subject = 'Inquiry About ' . $product['caption'];
-        else
+    $aboutProductId = (int)enterprise_get_query_by_server_request('about_product');
+    $subject = enterprise_generate_inquiry_subject_by_product_id($aboutProductId);
+    if (!$subject) {
+        $referer = timandes_get_server_data('HTTP_REFERER');
+        $refererPath = parse_url($referer, PHP_URL_PATH);
+        if ($refererPath
+                && preg_match(PATTERN_PRODUCT_DETAIL, $refererPath, $matches)) {
+            $productId = $matches[1];
+            $subject = enterprise_generate_inquiry_subject_by_product_id($productId);
+        }
+
+        if (!$subject)
             $subject= 'Inquiry About ' . $corporation['name'];
-    } else
-        $subject= 'Inquiry About ' . $corporation['name'];
+    }
     $smarty->assign('subject', $subject);
 
     return $smarty->fetch($tplPath);

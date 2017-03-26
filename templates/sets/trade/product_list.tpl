@@ -48,7 +48,7 @@
         {-/if}
     {-/foreach}
                                 </ul>
-                                <div class="contact-btn"><a href="/contactnow.html">Contact Now</a></div>
+                                <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}">Contact Now</a></div>
                             </div>
                         </div>
 {/foreach}
