@@ -17,7 +17,7 @@
         <li class="fl-clr sendTo"><label><i></i>To</label>
             <div class="company">
                 <dl class="edit default">
-                    <dt><i><a href="#">{$corporation.name}</a></i><span class="delete" onclick="removeDl(this)"></span><input type="hidden" value="" name="" /></dt>
+                    <dt><i><a href="{$smarty.server.HTTP_REFERER|default:'/'}">{$corporation.name}</a></i><span class="delete" onclick="removeDl(this)"></span><input type="hidden" value="" name="" /></dt>
                 </dl>
             </div>
         </li>
