@@ -5,11 +5,11 @@
                     <img src="{$corporation.logo|url:'enterprise_url_image'}" alt="" />
                     <dl>
                         <dt>{$corporation.name}</dt>
+{if $contacts[0]|default:[]}
+                        <dd><span>Email</span>{$contacts[0].email}</dd>
+{/if}
                         <dd><span>Address</span>{$corporation.address}</dd>
-                        <dd><span>Factory Address</span>{$corporation.factory_address}</dd>
-                        <dd><span>Worktime</span>{$corporation.worktime}</dd>
                         <dd><span>Business Phone(Working Time)</span>{$corporation.tel_wt}</dd>
-                        <dd><span>Business Phone(Nonworking Time)</span>{$corporation.tel_nwt}</dd>
                         <dd><span>Fax</span>{$corporation.fax}</dd>
                     </dl>
                 </div>

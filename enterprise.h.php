@@ -776,6 +776,9 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
 
     // Quick questions
     $smarty->assign('quick_questions', enterprise_get_quick_questions_for_inquiry());
+
+    // Contacts
+    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 }
 
 /**
@@ -814,9 +817,6 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
 
     // Site
     $smarty->assign('site', $site);
-
-    // Contacts
-    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
     // Contact Desc Mapping
     $contactDescMapping = array(
@@ -863,9 +863,6 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
 
     // Site
     $smarty->assign('site', $site);
-
-    // Contacts
-    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
     // Photos - AboutUs
     enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
@@ -1128,9 +1125,6 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
 
     // Site
     $smarty->assign('site', $site);
-
-    // Contacts
-    enterprise_assign_contact_list($smarty, 'contacts', $siteId);
 
     // Contact Desc Mapping
     $contactDescMapping = array(
