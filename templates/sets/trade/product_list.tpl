@@ -38,16 +38,28 @@
                             </div>
                             <div class="msg-detail">
                                 <span><a href="{$product|url:'enterprise_url_product'}"><h3>{$product.caption}</h3></a></span>
-                                <ul>
+                                <table cellpadding="0" cellspacing="0">
+                                    <tbody>
     {-assign var="total_items" value="0"}
     {-foreach $product_desc as $k => $meta}
-        {-if $total_items>=2}{break}{/if}
+        {-if $total_items>=4}{break}{/if}
         {-if $product.$k|default:$meta.default}
-                                    <li><label>{$meta.label}</label>{$product.$k|default:$meta.default}</li>
+            {-if $total_items==0}
+                                        <tr>
+            {-/if}
+                                            <td><label>{$meta.label}</label><i>{$product.$k|default:$meta.default}</i></td>
             {-assign var="total_items" value=$total_items+1}
+            {-if $total_items==2}
+                                        </tr>
+                                        <tr>
+            {-/if}
+            {-if $total_items==4}
+                                        </tr>
+            {-/if}
         {-/if}
     {-/foreach}
-                                </ul>
+                                    </tbody>
+                                </table>
                                 <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}">Contact Now</a></div>
                             </div>
                         </div>
