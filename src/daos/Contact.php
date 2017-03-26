@@ -12,6 +12,11 @@ namespace enterprise\daos;
  */
 class Contact extends \crawler\daos\AbstractDAO
 {
+    const COURTESY_TITLE_MR = 0;
+    const COURTESY_TITLE_MRS = 1;
+    const COURTESY_TITLE_MISS = 2;
+    const COURTESY_TITLE_MS = 3;
+
     protected $_fields = array(
             'site_id' => 'int',
             'name' => 'text',
@@ -71,5 +76,19 @@ class Contact extends \crawler\daos\AbstractDAO
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
+    }
+
+    public static function courtesyTitle2Text($courtesyTitle)
+    {
+        switch ($courtesyTitle) {
+            case self::COURTESY_TITLE_MS:
+                return 'Ms.';
+            case self::COURTESY_TITLE_MISS:
+                return 'Miss.';
+            case self::COURTESY_TITLE_MRS:
+                return 'Mrs.';
+            default:
+                return 'Mr.';
+        }
     }
 }

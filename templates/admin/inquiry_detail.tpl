@@ -167,16 +167,25 @@
                                     <div class="span12 blog-tag-data-inner">
 
                                         <ul class="unstyled inline">
-
+{if $inquiry.country}
                                             <li><i class="icon-globe"></i> {$inquiry.country}</li>
-
+{/if}
                                             <li><i class="icon-calendar"></i> {$inquiry.created}</li>
 {if $inquiry.contact}
-                                            <li><i class="icon-user"></i> {$inquiry.contact}</li>
+                                            <li><i class="icon-user"></i> {$inquiry.courtesy_title|call:'\enterprise\daos\Contact::courtesyTitle2Text'}&nbsp;{$inquiry.contact}</li>
 {/if}
                                             <li><i class="icon-envelope"></i> <a href="mailto:{$inquiry.email}">{$inquiry.email}</a></li>
 {if $inquiry.tel}
                                             <li><i class="icon-headphones"></i> {$inquiry.tel}</li>
+{/if}
+{if $inquiry.fax}
+                                            <li><i class="icon-print"></i> {$inquiry.fax}</li>
+{/if}
+{if $inquiry.company}
+                                            <li><i class="icon-group"></i> {$inquiry.company}</li>
+{/if}
+{if $inquiry.website}
+                                            <li><i class="icon-external-link"></i> <a href="{$inquiry.website}" target="_blank">{$inquiry.website}</a></li>
 {/if}
                                         </ul>
 
