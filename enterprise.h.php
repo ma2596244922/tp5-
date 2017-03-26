@@ -168,7 +168,8 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
     $sitemapIndex = new \Thepixeldeveloper\Sitemap\SitemapIndex(); 
     $translations = $translationDAO->getBySite($siteId);
 
-    if (is_array($translations)) foreach ($translations as $translation) {
+    if (is_array($translations)
+            && $translations) foreach ($translations as $translation) {
         $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
         $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
         $sitemapIndex->addSitemap($sitemap);
