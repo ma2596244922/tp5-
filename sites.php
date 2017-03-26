@@ -177,6 +177,9 @@ $domainInfo = array(
         'crowd-controlbarriers.com' => array(
                 'site_id' => 27,
             ),
+        'mocfaoff.org' => array(
+                'site_id' => 999,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -233,14 +236,5 @@ $siteInfo = array(
             ),
         24 => array(
                 'original_domain_prefix' => 'shinlight.com',
-            ),
-        25 => array(// 此处不应该存在
-                'original_domain_prefix' => '',
-            ),
-        26 => array(// 此处不应该存在
-                'original_domain_prefix' => '',
-            ),
-        27 => array(// 此处不应该存在
-                'original_domain_prefix' => '',
             ),
     );

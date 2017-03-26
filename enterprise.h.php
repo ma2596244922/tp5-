@@ -44,11 +44,13 @@ function enterprise_extract_site_infos()
         throw new HttpException(404);
 
     $siteId = $domainInfo[$currentDomainSuffix]['site_id'];
-    if (!isset($siteInfo[$siteId])
-            || !is_array($siteInfo[$siteId])) 
-        throw new HttpException(404);
 
-    $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
+    if (!isset($siteInfo[$siteId])
+            || !is_array($siteInfo[$siteId]))
+        $originalDomainSuffix = '';
+    else
+        $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
+
     return array(
             $siteId, $locale, $originalDomainSuffix, $currentDomainSuffix,
         );
