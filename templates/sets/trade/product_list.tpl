@@ -2,7 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{if $group|default:[]}{$group.name} on sales  - Quality {$group.name} supplier{else}{$groups[0].name|default:''} manufacturer{if $groups[1]|default:[]} - quality {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</title>
+<title>{$title}</title>
+<meta name="keywords" content="{$keywords|escape}" />
+<meta name="description" content="{$description|escape}" />
 {include file="sets/trade/common/shopstyles.tpl"}
 </head>
 

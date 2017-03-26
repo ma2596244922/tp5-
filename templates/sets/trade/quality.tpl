@@ -2,7 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Quality Control - {$corporation.name}</title>
+<title>{$title}</title>
+<meta name="keywords" content="{$keywords|escape}" />
+<meta name="description" content="{$description|escape}" />
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="media/lightbox/2.8.1/css/lightbox.min.css" />
 </head>

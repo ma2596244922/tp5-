@@ -822,6 +822,12 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
     $smarty->assign('contact_desc', $contactDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+
+    // TDK
+    $smarty->assign('title', "{$corporation['tel_wt']} - {$corporation['name']}");
+    $smarty->assign('keywords', "{$corporation['name']}, Contact Us, {$corporation['tel_wt']}");
+    $smarty->assign('description', "Contact us by {$corporation['tel_wt']} - {$corporation['name']}.");
 
     return $smarty->fetch($tplPath);
 }
@@ -925,6 +931,20 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+
+    // TDK
+    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+    if (null === $groupId) {// /products.html
+        $smarty->assign('title', "Product Categories - {$corporation['name']}{$pageInfo}");
+        $smarty->assign('keywords', "Product Categories, Product for sale, {$corporation['name']}");
+        $smarty->assign('description', "Product Categories - buy quality products from {$corporation['name']}{$pageInfo}.");
+    } else {// supplier-*.html
+        $group = $smarty->getTemplateVars('group');
+        $smarty->assign('title', "{$group['name']} - {$group['name']} for sale{$pageInfo}");
+        $smarty->assign('keywords', "{$group['name']}, {$corporation['name']}, Quality {$group['name']}, {$group['name']} for sale");
+        $smarty->assign('description', "Buy {$group['name']}, we provide quality {$group['name']} and you can choose the right product you want{$pageInfo}.");
+    }
 
     return $smarty->fetch($tplPath);
 }
@@ -955,6 +975,14 @@ function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSu
     enterprise_assign_certification_list($smarty, 'certifications', $siteId);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+    $corporation = $smarty->getTemplateVars('corporation');
+    $groups = $smarty->getTemplateVars('groups');
+
+    // TDK
+    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $smarty->assign('title', "Quality control - {$corporation['name']}");
+    $smarty->assign('keywords', "{$corporation['name']}, Best quality, Quality control");
+    $smarty->assign('description', "Quality control - {$corporation['name']} provide {$group1Name} with best quality.");
 
     return $smarty->fetch($tplPath);
 }
