@@ -1102,3 +1102,86 @@ function enterprise_admin_action_delete_task($smarty)
 }
 
 /* }}} */
+
+
+/* {{{ Banner */
+
+/**
+ * Banners
+ */
+function enterprise_admin_action_banner($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $condition = enterprise_assign_banner_list($smarty, 'banners', $userSiteId);
+
+    $smarty->display('admin/banner.tpl');
+}
+
+/**
+ * Edit Banner
+ */
+function enterprise_admin_action_edit_banner($smarty)
+{
+    $tplPath = 'admin/edit_banner.tpl';
+
+    $bannerId = (int)enterprise_get_query_data('banner_id');
+    $smarty->assign('banner_id', $bannerId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($bannerId) 
+            enterprise_assign_banner_info($smarty, 'banner', $bannerId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $uri = enterprise_get_post_data('uri');
+    $desc = enterprise_get_post_data('desc');
+    $link = enterprise_get_post_data('link');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择图片');
+        return $smarty->display($tplPath);
+    }
+    $uri = 'image://' . $images[0];
+
+    $bannerDAO = new \enterprise\daos\Banner();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'desc' => $desc,
+            'link' => $link,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($bannerId) {// Edit
+        $bannerDAO->update($bannerId, $values);
+        enterprise_assign_banner_info($smarty, 'banner', $bannerId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $bannerDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Banner
+ */
+function enterprise_admin_action_delete_banner($smarty)
+{
+    $bannerId = (int)enterprise_get_query_data('banner_id');
+
+    $bannerDAO = new \enterprise\daos\Banner();
+    $values = array(
+            'deleted' => 1,
+        );
+    $bannerDAO->update($bannerId, $values);
+    header('Location: ?action=banner&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

@@ -135,6 +135,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='banner'} active{/if}">
+
+                    <a href="?action=banner">
+
+                    <i class="icon-money"></i> 
+
+                    <span class="title">我的横幅</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

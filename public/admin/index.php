@@ -67,6 +67,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_task($smarty);
                 case 'delete_task':
                     return enterprise_admin_action_delete_task($smarty);
+                case 'banner':
+                    return enterprise_admin_action_banner($smarty);
+                case 'edit_banner':
+                    return enterprise_admin_action_edit_banner($smarty);
+                case 'delete_banner':
+                    return enterprise_admin_action_delete_banner($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }
