@@ -69,6 +69,7 @@ $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
 $smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../') . '/plugins/');
+$smarty->loadFilter("pre", 'whitespace_control');
 
 // + 警告：这个新的Router是来截胡的
 do {
