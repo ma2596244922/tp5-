@@ -11,7 +11,7 @@
 <body>
 <div class="content">
     <div class="container">
-{include file="sets/trade/common/logobar.tpl"}
+{include file="sets/trade/common/logobar.tpl" page_name="product_list"}
         <!--header-->
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
@@ -27,7 +27,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box">
-                    <div class="title"><i></i>{if $group|default:[]}{$group.name}{else}All Products{/if}<a href="/contactnow.html">Contact Now</a></div>
+                    <div class="title"><i></i>{if $group|default:[]}<h1>{$group.name}</h1>{else}All Products{/if}<a href="/contactnow.html">Contact Now</a></div>
                     <div class="product-all">
 {foreach $products as $product}
                         <div class="product-intro">
@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                             <div class="msg-detail">
-                                <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
+                                <span><a href="{$product|url:'enterprise_url_product'}"><h3>{$product.caption}</h3></a></span>
                                 <ul>
     {-assign var="total_items" value="0"}
     {-foreach $product_desc as $k => $meta}

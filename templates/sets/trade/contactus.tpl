@@ -39,7 +39,7 @@
 {/foreach}
         <!--contact-msg-->
         <div class="contact-us contact-us1">
-            <div class="title"><i></i>Send Inquiry</div>
+            <div class="title"><i></i><h2>Send Inquiry</h2></div>
             <div class="contact-info contact-info1 fl-clr">
                 <div class="right-list">
                     <form action="/contactsave.html" id="form-inquiry" method="POST">

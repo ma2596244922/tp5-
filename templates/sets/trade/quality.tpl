@@ -28,14 +28,14 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box quality-box">
-                    <div class="title"><i></i>Quality Control</div>
+                    <div class="title"><i></i><h2>Quality Control</h2></div>
                     <div class="quality-list">
                         {$corporation.qc_profile}
                     </div>
                 </div>
                 <!--products-box-->
                 <div class="product-box certification-box">
-                    <div class="title"><i></i>Certifications</div>
+                    <div class="title"><i></i><h2>Certifications</h2></div>
                     <div class="certification-list fl-clr">
 {foreach $certifications as $cert}
                         <div class="certification-detail">

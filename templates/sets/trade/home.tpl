@@ -18,7 +18,7 @@
 <div class="header">
     <div class="head">
         <div class="logo">
-        <h1 title=""><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="" /></h1>
+        <h1 title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name|escape}" /></h1>
         <span>{$corporation.name}</span>
         </div>
     </div>

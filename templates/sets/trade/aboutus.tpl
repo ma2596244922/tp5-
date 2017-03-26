@@ -28,7 +28,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box news-box">
-                    <div class="title"><i></i>Contact Information</div>
+                    <div class="title"><i></i><h2>Contact Information</h2></div>
                     <div class="news-detail">
                         <div class="news-art intro-art">
                             <div class="scrollArea" id="scrollArea">
@@ -45,7 +45,7 @@
                                 {$corporation.introduction}
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i>Company Details</div>
+                                <div class="title"><i></i><h2>Company Details</h2></div>
                                 <ul class="fl-clr">
                                     <li><label>Business Type</label><span>{$corporation.business_type}</span></li>
                                     <li><label>Main Market</label><span>{$corporation.main_market}</span></li>
@@ -57,15 +57,15 @@
                                 </ul>
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i>History</div>
+                                <div class="title"><i></i><h2>History</h2></div>
                                 {$corporation.history}
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i>Service</div>
+                                <div class="title"><i></i><h2>Service</h2></div>
                                 {$corporation.service}
                             </div>
                             <div class="intro-txt last-txt">
-                                <div class="title"><i></i>Our Team</div>
+                                <div class="title"><i></i><h2>Our Team</h2></div>
                                 {$corporation.our_team}
                             </div>
                             

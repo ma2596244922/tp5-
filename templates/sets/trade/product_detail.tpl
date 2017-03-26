@@ -11,7 +11,7 @@
 
 <div class="content">
     <div class="container">
-{include file="sets/trade/common/logobar.tpl"}
+{include file="sets/trade/common/logobar.tpl" page_name="product_detail"}
         <!--header-->
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="simple-intro">
-                <div class="title">{$product.caption}</div>
+                <div class="title"><h1>{$product.caption}</h1></div>
                 <ul>
                     <!-- Product Details -->
                     {if $product.place_of_origin|default:''}<li><label>Place of Origin:</label><span>{$product.place_of_origin}</span></li>{/if}
@@ -68,7 +68,7 @@
         <!--produce-show-->
 {if count($product_specifications)>0}
         <div class="product-detail">
-            <div class="title"><i></i>Product Details</div>
+            <div class="title"><i></i><h2>Product Details</h2></div>
             <table cellpadding="0" cellspacing="0">
     {foreach $product_specifications as $k=>$v}
         {if $v@index%3==0}
@@ -85,19 +85,19 @@
 {/if}
         <!--product-detail-->
         <div class="product-description">
-            <div class="title"><i></i>Product Description</div>
+            <div class="title"><i></i><h2>Product Description</h2></div>
             {$product.description}
         </div>
         <!--product-description-->
 {include file="sets/trade/common/contactform.tpl"}
         <div class="product-categories">
-            <div class="title"><i></i>Product Categories</div>
+            <div class="title"><i></i><h2>Product Categories</h2></div>
             <table cellpadding="0" cellspacing="0">
 {foreach $groups as $group}
     {if $group@index%3==0}
                 <tr>
     {/if}
-                    <td width="33%"><a href="{$group|url:'enterprise_url_product_list'}">{$group.name}</a></td>
+                    <td width="33%"><a href="{$group|url:'enterprise_url_product_list'}"><strong>{$group.name}</strong></a></td>
     {if $group@index%3==2}
                 </tr>
     {/if}
@@ -106,7 +106,7 @@
         </div>
         <!--product categories-->
         <div class="new-products">
-            <div class="title"><i></i>New Products</div>
+            <div class="title"><i></i><h2>New Products</h2></div>
             <div class="tab-content">
                 <div class="tabs-new" id="tabs-new">
                         <a href="javascript:void(0)" class="current"></a>
@@ -136,7 +136,7 @@
             <dl>
                 <dt>Tags:</dt>
     {foreach $product_tags as $tag}
-                <dd>{$tag}</dd>
+                <dd><h3>{$tag}</h3></dd>
     {/foreach}
             </dl>
         </div>
