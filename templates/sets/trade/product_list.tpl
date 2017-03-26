@@ -33,7 +33,7 @@
                         <div class="product-intro">
                             <div class="left-img">
                                 <a href="{$product|url:'enterprise_url_product'}" class="img-box">
-                                    <img src="/media/sets/trade/new-product.jpg" />
+                                    <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" />
                                 </a>
                             </div>
                             <div class="msg-detail">
