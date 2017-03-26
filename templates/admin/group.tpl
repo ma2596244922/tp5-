@@ -169,7 +169,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-group"></i>我的分组</div>
+                                <div class="caption"><i class="icon-briefcase"></i>我的分组</div>
 
                                 <div class="tools">
 

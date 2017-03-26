@@ -19,7 +19,7 @@
 
                     <a href="/admin/">
 
-                    <i class="icon-home"></i> 
+                    <i class="icon-dashboard"></i> 
 
                     <span class="title">主面板</span>
 
@@ -43,7 +43,7 @@
 
                     <a href="?action=group">
 
-                    <i class="icon-group"></i> 
+                    <i class="icon-briefcase"></i> 
 
                     <span class="title">我的分组</span>
 

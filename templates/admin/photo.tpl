@@ -170,7 +170,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-reorder"></i>我的照片</div>
+                                <div class="caption"><i class="icon-picture"></i>我的照片</div>
 
                                 <div class="tools">
 
