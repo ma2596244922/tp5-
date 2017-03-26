@@ -336,6 +336,7 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
     // Product Group
     foreach ($groups as $group) {
         if ($group['id'] == $product['group_id']) {
+            $smarty->assign('group', $group);
             $smarty->assign('product_group', $group);
             break;
         }

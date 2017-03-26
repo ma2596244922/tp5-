@@ -22,14 +22,7 @@
         <!--crumb-->
         <div class="main-content fl-clr">
             <div class="left-content">
-                <div class="menu-list">
-                    <dl>
-                        <dt>Company Overview</dt>
-                        <dd><a href="/aboutus.html" class="current" title="">Company Introduction</a></dd>
-                        <dd><a href="#" title="">Company News </a></dd>
-                        <dd><a href="#" title="">Photo Gallery</a></dd>
-                    </dl>
-                </div>
+{include file="sets/trade/common/grouppanel.tpl"}
 {include file="sets/trade/common/contactpanel.tpl"}
             </div>
             <!--left-content-->

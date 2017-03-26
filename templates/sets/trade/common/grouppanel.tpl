@@ -1,8 +1,8 @@
                 <div class="menu-list">
                     <dl>
                         <dt>Product Groups</dt>
-{foreach $groups as $group}
-                        <dd><a href="{$group|url:'enterprise_url_product_list'}"{if $group@index==0} class="current"{/if} title="{$group.name}">{$group.name} ({$group.cnt})</a></dd>
+{foreach $groups as $g}
+                        <dd><a href="{$g|url:'enterprise_url_product_list'}"{if $g.id==$group.id|default:'0'} class="current"{/if} title="{$g.name}">{$g.name} ({$g.cnt})</a></dd>
 {/foreach}
                     </dl>
                 </div>
