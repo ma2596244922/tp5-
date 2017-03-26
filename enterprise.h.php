@@ -6,9 +6,9 @@
  */
 
 /** @var string Pattern of Product List */
-define('PATTERN_PRODUCT_LIST', '/^\/supplier-new-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
+define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
 /** @var string Pattern of Product Detail */
-define('PATTERN_PRODUCT_DETAIL', '/^\/sale-new-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
 
@@ -617,7 +617,7 @@ function enterprise_url_photo($uri, $desc = '', $imageSizeType = '')
  */
 function enterprise_url_product($product)
 {
-    return enterprise_url_prefix() . '/sale-new-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    return enterprise_url_prefix() . '/sell-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
 }
 
 /**
@@ -630,7 +630,7 @@ function enterprise_url_product_list($group, $pageNo = 1)
     $pageString = '';
     if ($pageNo > 1)
         $pageString = 'p' . $pageNo;
-    return enterprise_url_prefix() . '/supplier-new-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
+    return enterprise_url_prefix() . '/factory-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
 }
 
 /* }}} */
