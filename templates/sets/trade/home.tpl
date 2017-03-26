@@ -11,7 +11,7 @@
 <body>
 <div class="request-quote">
     <div class="inner-content">
-        <p><span><em></em>{$corporation.tel_wt}</span>|<a href="/contactnow.html">Request a quote</a></p>
+        <p><span><em></em>{$corporation.tel_wt}</span>|<a href="/contactnow.html" rel="nofollow">Request a quote</a></p>
     </div>
 </div>
 <!--request-quote-->
@@ -115,7 +115,7 @@
         <dl class="dl{$group@iteration}">
             <dt>{$group.name}</dt>
     {foreach $group.products as $product}
-            <dd><a href="{$product|url:'enterprise_url_product'}" rel="nofollow">{$product.caption}</a></dd>
+            <dd><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></dd>
     {/foreach}
         </dl>
 {/foreach}

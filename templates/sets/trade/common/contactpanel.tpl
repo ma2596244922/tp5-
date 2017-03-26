@@ -19,5 +19,5 @@
                         <li><i>Fax</i>{$corporation.fax}</li>
 {/if}
                     </ul>
-                    <div class="btn"><a href="/contactnow.html">Contact Now</a></div>
+                    <div class="btn"><a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
                 </div>

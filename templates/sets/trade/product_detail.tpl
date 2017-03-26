@@ -62,7 +62,7 @@
                     {if $product.payment_terms|default:''}<li><label>Payment Terms:</label><span>{$product.payment_terms}</span></li>{/if}
                     {if $product.supply_ability|default:''}<li><label>Supply Ability:</label><span>{$product.supply_ability}</span></li>{/if}
                 </ul>
-                <div class="contact-btn fl-clr"><a href="/contactnow.html">Contact Now</a></div>
+                <div class="contact-btn fl-clr"><a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
             </div>
         </div>
         <!--produce-show-->

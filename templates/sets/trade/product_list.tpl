@@ -27,7 +27,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box">
-                    <div class="title"><i></i>{if $group|default:[]}<h1>{$group.name}</h1>{else}All Products{/if}<a href="/contactnow.html">Contact Now</a></div>
+                    <div class="title"><i></i>{if $group|default:[]}<h1>{$group.name}</h1>{else}All Products{/if}<a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
                     <div class="product-all">
 {foreach $products as $product}
                         <div class="product-intro">
@@ -60,7 +60,7 @@
     {-/foreach}
                                     </tbody>
                                 </table>
-                                <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}">Contact Now</a></div>
+                                <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}" rel="nofollow">Contact Now</a></div>
                             </div>
                         </div>
 {/foreach}
