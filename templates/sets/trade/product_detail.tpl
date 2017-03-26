@@ -25,19 +25,17 @@
                     <div class="big-img">
                         <ul>
 {foreach $product_images as $image_id}
-                        <li><a href="#" title=""><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="" /></a></li>
+                        <li><a href="#" title="{$product.caption|default:''|escape}"><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}" /></a></li>
 {/foreach}
                         </ul>
                     </div>
                     <div class="small-img">
                         <div class="scroll">
-                            <div class="img-box">
                                 <ul>
 {foreach $product_images as $image_id}
-                                <li{if $image_id@index == 0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'d'}" alt="" /></li>
+                                <li{if $image_id@index == 0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'d'}" alt="{$product.caption|default:''|escape}" /></li>
 {/foreach}
                                 </ul>
-                            </div>
                         </div>
                         <div class="prev-next">
                         <a href="javascript:void(0);" class="prev"></a>
