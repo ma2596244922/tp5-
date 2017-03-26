@@ -174,6 +174,9 @@ $domainInfo = array(
         'jb-online.com' => array(
                 'site_id' => 26,
             ),
+        'crowd-controlbarriers.com' => array(
+                'site_id' => 27,
+            ),
     );
 $siteInfo = array(
         1 => array(
@@ -235,6 +238,9 @@ $siteInfo = array(
                 'original_domain_prefix' => '',
             ),
         26 => array(// 此处不应该存在
+                'original_domain_prefix' => '',
+            ),
+        27 => array(// 此处不应该存在
                 'original_domain_prefix' => '',
             ),
     );
