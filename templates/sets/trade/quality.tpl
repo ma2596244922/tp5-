@@ -40,8 +40,8 @@
 {foreach $certifications as $cert}
                         <div class="certification-detail">
                             <div class="left-img">
-                                <a href="{$cert.uri|url:'enterprise_url_photo'}" title="" data-lightbox="certificate-set">
-                                    <img src="{$cert.uri|url:'enterprise_url_photo':'':'m'}" alt="" />
+                                <a href="{$cert.uri|url:'enterprise_url_photo'}" title="{$cert.standard|default:''}" data-lightbox="certificate-set">
+                                    <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}" width="120" height="168" style="margin: 10px auto;" />
                                 </a>
                             </div>
                             <ul>
