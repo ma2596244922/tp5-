@@ -973,3 +973,132 @@ function enterprise_admin_action_delete_certification($smarty)
 }
 
 /* }}} */
+
+/* {{{ Task */
+
+/**
+ * Assign Task List
+ *
+ * @return string Condition
+ */
+function enterprise_admin_assign_task_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $taskDAO = new \blowjob\daos\Task();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $tasks = $taskDAO->getMultiInOrderBy($condition, '*', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $tasks);
+
+    return $condition;
+}
+
+/**
+ * Assign task info
+ */
+function enterprise_admin_assign_task_info($smarty, $var, $taskId)
+{
+    $taskDAO = new \blowjob\daos\Task();
+    $task = $taskDAO->get($taskId);
+    $smarty->assign($var, $task);
+}
+
+/**
+ * Tasks
+ */
+function enterprise_admin_action_task($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $pageNo = (int)enterprise_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $taskDAO = new \blowjob\daos\Task();
+    $start = ($pageNo - 1) * $max;
+    $sql = "SELECT t.*, g.`name` AS `group_name`
+    FROM `blowjob_tasks` AS t
+    LEFT JOIN `enterprise_groups` AS g ON t.`group_id`=g.`id`
+    WHERE t.`site_id`={$userSiteId} AND t.`deleted`=0 ORDER BY t.`id` DESC LIMIT {$start}, {$max}";
+    $tasks = $taskDAO->getMultiBySql($sql);
+    $smarty->assign('tasks', $tasks);
+
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
+    $totalTasks = $taskDAO->countBy($condition);
+    $totalPages = (int)($totalTasks / $max) + (($totalTasks % $max)?1:0);
+    $smarty->assign('total_productss', $totalTasks);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    $smarty->display('admin/task.tpl');
+}
+
+/**
+ * Edit Task
+ */
+function enterprise_admin_action_edit_task($smarty)
+{
+    $tplPath = 'admin/edit_task.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+
+    $taskId = (int)enterprise_get_query_data('task_id');
+    $smarty->assign('task_id', $taskId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($taskId) 
+            enterprise_admin_assign_task_info($smarty, 'task', $taskId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $groupId = enterprise_get_post_data('group_id');
+    $targetUrl = enterprise_get_post_data('target_url');
+    if (!$groupId) {
+        $smarty->assign('error_msg', '请选择目标分组');
+        return $smarty->display($tplPath);
+    }
+    if (!$targetUrl) {
+        $smarty->assign('error_msg', '请输入目标URL');
+        return $smarty->display($tplPath);
+    }
+
+    $taskDAO = new \blowjob\daos\Task();
+    $values = array(
+            'site_id' => $userSiteId,
+            'group_id' => $groupId,
+            'target_url' => $targetUrl,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($taskId) {// Edit
+        $taskDAO->update($taskId, $values);
+        enterprise_admin_assign_task_info($smarty, 'task', $taskId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $taskDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Task
+ */
+function enterprise_admin_action_delete_task($smarty)
+{
+    $taskId = (int)enterprise_get_query_data('task_id');
+
+    $taskDAO = new \blowjob\daos\Task();
+    $values = array(
+            'deleted' => 1,
+        );
+    $taskDAO->update($taskId, $values);
+    header('Location: ?action=task&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

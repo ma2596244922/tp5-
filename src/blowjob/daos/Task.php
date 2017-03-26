@@ -79,4 +79,16 @@ class Task extends \crawler\daos\AbstractDAO
             );
         return in_array($status, $validStatus);
     }
+
+    public static function status2Text($status)
+    {
+        switch ($status) {
+            case self::STATUS_FINISHED:
+                return '已完成';
+            case self::STATUS_IN_PROGRESS:
+                return '处理中';
+            default:
+                return '待处理';
+        }
+    }
 }

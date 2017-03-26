@@ -61,6 +61,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_certification($smarty);
                 case 'delete_certification':
                     return enterprise_admin_action_delete_certification($smarty);
+                case 'task':
+                    return enterprise_admin_action_task($smarty);
+                case 'edit_task':
+                    return enterprise_admin_action_edit_task($smarty);
+                case 'delete_task':
+                    return enterprise_admin_action_delete_task($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }
