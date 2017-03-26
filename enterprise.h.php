@@ -961,11 +961,11 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
                 ),
             'min_order_quantity' => array(
                     'label' => 'Min.Order Quantity',
-                    'default' => 'Unlimited',
+                    'default' => '1 Piece',
                 ),
             'price' => array(
                     'label' => 'Price',
-                    'default' => 'Negotiation',
+                    'default' => 'Negotiable',
                 ),
             'packaging_details' => array(
                     'label' => 'Packaging Details',
