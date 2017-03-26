@@ -172,6 +172,10 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
         $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
         $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
         $sitemapIndex->addSitemap($sitemap);
+    } else {// Not a site made by crawler
+        $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/english.xml';
+        $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
+        $sitemapIndex->addSitemap($sitemap);
     }
 
     header('Content-Type: text/xml; utf-8');
