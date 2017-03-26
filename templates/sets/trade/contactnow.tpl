@@ -8,6 +8,7 @@
 </head>
 
 <body>
+{include file="sets/trade/inquiry/logobar.tpl"}
 <div class="content">
     <div class="main-form fl-clr">
     <form action="/contactsave.html" id="form-inquiry" method="POST" enctype="multipart/form-data">
