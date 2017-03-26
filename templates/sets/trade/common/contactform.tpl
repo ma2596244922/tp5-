@@ -16,9 +16,9 @@
                 <div class="right-list">
                     <form action="/contactsave.html" id="form-inquiry" method="POST">
                     <ul class="fl-clr">
-                        <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" /></li>
+                        <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" placeholder="Please Enter your Email Address" /></li>
                         <li><label><i></i>To</label>{$corporation.name}</li>
-                        <li><label><i>*</i>Subject</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="" /></li>
+                        <li><label><i>*</i>Subject</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /></li>
                         <li class="fl-clr"><label><i></i>Quick question</label><div class="select fl-clr">
                             <ul class="fl-clr">
                                 <li class="select">
@@ -36,7 +36,11 @@
                         </div>
                         <div class="tips">What is this?<em>This feature is Quick question function, select the corresponding question types, automatically enter the corresponding problem, remove your trouble of typing<i></i></em></div></li>
                         <li class="area-li"><label><i>*</i>Message</label>
-                        <textarea class="area" id="area" name="message"></textarea></li>
+                        <textarea class="area" id="area" name="message" placeholder="For the best results, we recommend including the following details:
+    -Self introduction  
+    -Required specifications 
+    -Inquire about price/MOQ
+                                "></textarea></li>
                     </ul>
                     <div class="send-btn"><a href="">SENG NOW</a></div>
                     </form>
