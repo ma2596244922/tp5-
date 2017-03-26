@@ -52,11 +52,11 @@
                         <ul class="fl-clr">
                             <li class="select"> <a class="select-box" id="slt2" onclick="boxOut(2)"> <span class="selectTxt" id="selectTxt2">Mr.</span> <i class="select-btn"><em class="search-btn"></em></i> </a> 
                             <span class="selectMenu" id="selectMenu2" style="display:none;"> 
-                                <a href="javascript:void(0)" onclick="getvalue('Ms.','3')">Ms.</a>  
+                                <a href="javascript:void(0)" onclick="getvalue('Ms.','2')">Ms.</a>  
                                 <a href="javascript:void(0)" onclick="getvalue('Miss.','2')">Miss.</a>  
-                                <a href="javascript:void(0)" onclick="getvalue('Mrs.','1')">Mrs.</a>  
-                                <a href="javascript:void(0)" onclick="getvalue('Mr.','0')">Mr.</a>
-                                <input type="hidden" value="1" name="gender" id="sex_hidden" />
+                                <a href="javascript:void(0)" onclick="getvalue('Mrs.','2')">Mrs.</a>  
+                                <a href="javascript:void(0)" onclick="getvalue('Mr.','2')">Mr.</a>
+                                <input type="hidden" value="0" name="gender" id="sex_hidden" />
                             </span>
                             </li>
                         </ul>

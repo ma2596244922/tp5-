@@ -147,10 +147,14 @@ function getvalue(index, number) {
     $("#selectTxt" + number).text(index);
     $("#selectMenu" + number).css("display", "none");
     $(".select-box").children("i").removeClass("current");
-    if (index == "Mrs.") {
+    if (index == "Ms.") {
+        $("#sex_hidden").val(3);
+    } else if (index == "Miss.") {
         $("#sex_hidden").val(2);
-    } else {
+    } else if (index == "Mrs.") {
         $("#sex_hidden").val(1);
+    } else {
+        $("#sex_hidden").val(0);
     }
 
 }
