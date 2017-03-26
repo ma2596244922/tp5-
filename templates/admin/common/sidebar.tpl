@@ -99,6 +99,30 @@
 
                 </li>
 
+                <li class="start{if $page_name=='info'} active{/if}">
+
+                    <a href="?action=info">
+
+                    <i class="icon-cog"></i> 
+
+                    <span class="title">公司信息</span>
+
+                    </a>
+
+                </li>
+
+                <li class="start{if $page_name=='logo'} active{/if}">
+
+                    <a href="?action=logo">
+
+                    <i class="icon-picture"></i> 
+
+                    <span class="title">公司LOGO</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

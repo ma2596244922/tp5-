@@ -73,7 +73,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl"}
+{include file="admin/common/sidebar.tpl" page_name="logo"}
 
         <!-- END SIDEBAR -->
 
