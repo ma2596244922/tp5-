@@ -134,7 +134,7 @@
         <div class="search-product">
         <div class="hot-search">
             <dl>
-                <dt>Hot Searches:</dt>
+                <dt>Tags:</dt>
     {foreach $product_tags as $tag}
                 <dd>{$tag}</dd>
     {/foreach}
