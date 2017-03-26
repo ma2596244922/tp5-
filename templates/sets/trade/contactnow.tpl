@@ -26,11 +26,11 @@
             <div class="select fl-clr">
                 <ul class="fl-clr">
                     <li class="select"> <a class="select-box" id="slt1" onclick="boxOut(1)"> <span class="selectTxt" id="selectTxt1">Please select FAQ</span> <i class="select-btn"><em class="search-btn"></em></i> </a> <span class="selectMenu" id="selectMenu1" style="display:none;"> 
-                    <a href="javascript:void(0)" title="Please select FAQ" >Please select FAQ</a>  
-                    <a href="javascript:void(0)" title="I'm very interested in your products; could you send me some detail reference information?" >I'm very interested in your products; could you send me some detail reference information?</a>  
-                    <a href="javascript:void(0)" title="Please send me detail product specification, thank you!" >Please send me detail product specification, thank you!</a>
-                    <a href="javascript:void(0)" title="May I be an agency of your products,and what's yourterms?" >May I be an agency of your products,and what's yourterms?</a>
-                    <a href="javascript:void(0)" title="We intend to purchase this product, would you please send me the quotation and minimum order quantity?" >We intend to purchase this product, would you please send me the quotation and minimum order quantity?</a> </span>
+                    <a href="javascript:void(0)" title="Please select FAQ" >Please select FAQ</a>
+{foreach $quick_questions as $q}
+                    <a href="javascript:void(0)" title="{$q|escape}" >{$q}</a>
+{/foreach}
+                    </span>
                     </li>
                 </ul>
                 <input type="hidden" id="selectHidden" value="" />

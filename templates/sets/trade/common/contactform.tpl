@@ -28,8 +28,9 @@
                                     </a>
                                     <span class="selectMenu" id="selectMenu2" style="display:none;">
                                        <a href="javascript:void(0)" onclick="getvalue('Quick question','2')">Quick question</a>
-                                       <a href="javascript:void(0)" onclick="getvalue('Supplier','2')">Supplier</a>
-                                       <a href="javascript:void(0)" onclick="getvalue('Buying Leads','2')">Buying Leads</a>
+{foreach $quick_questions as $q}
+                                       <a href="javascript:void(0)" onclick="getvalue('{$q|escape}','2')">{$q}</a>
+{/foreach}
                                     </span>
                                 </li>
                             </ul>

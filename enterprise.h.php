@@ -773,6 +773,9 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);
+
+    // Quick questions
+    $smarty->assign('quick_questions', enterprise_get_quick_questions_for_inquiry());
 }
 
 /**
@@ -1101,6 +1104,16 @@ function enterprise_get_query_by_server_request($key, $filters = 'trim, strip_ta
     parse_str($query, $params);
     $v = (isset($params[$key])?$params[$key]:'');
     return timandes_filter($v, $filters);
+}
+
+function enterprise_get_quick_questions_for_inquiry()
+{
+    return array(
+            'I\'m very interested in your products; could you send me some detail reference information?',
+            'Please send me detail product specification, thank you!',
+            'May I be an agency of your products,and what\'s yourterms?',
+            'We intend to purchase this product, would you please send me the quotation and minimum order quantity?',
+        );
 }
 
 /**
