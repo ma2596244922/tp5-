@@ -2,7 +2,7 @@
 
         <div class="footer-inner">
 
-            2016 &copy; JB-Online.
+            2016-2017 &copy; M1.0
 
         </div>
 
