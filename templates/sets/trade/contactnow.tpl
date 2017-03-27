@@ -13,6 +13,7 @@
     <div class="main-form fl-clr">
     <form action="/contactsave.html" id="form-inquiry" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="message_type" value="text/plain" />
+    <input type="hidden" name="target_product_id" value="{$target_product_id}" />
     <ul class="form-main">
         <li><label><i>*</i>From</label><input type="text" class="txt" id="username" name="email" placeholder="Please Enter your Email Address" /><span class="erro_alert" id="username_error">Please Enter your Email Address</span></li>
         <li class="fl-clr sendTo"><label><i></i>To</label>

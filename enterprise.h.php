@@ -502,6 +502,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'created' => date('Y-m-d H:i:s'),
             'domain' => $currentDomainSuffix,
             'ip' => $_SERVER['REMOTE_ADDR'],
+            'target_product_id' => (int)enterprise_get_post_data('target_product_id'),
         );
     $inquiryDAO->insert($values);
     $smarty->display($tplPath);
@@ -1156,12 +1157,14 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
         if ($refererPath
                 && preg_match(PATTERN_PRODUCT_DETAIL, $refererPath, $matches)) {
             $productId = $matches[1];
+            $smarty->assign('target_product_id', $productId);
             $subject = enterprise_generate_inquiry_subject_by_product_id($productId);
         }
 
         if (!$subject)
             $subject= 'Inquiry About ' . $corporation['name'];
-    }
+    } else
+        $smarty->assign('target_product_id', $aboutProductId);
     $smarty->assign('subject', $subject);
 
     return $smarty->fetch($tplPath);
@@ -1228,6 +1231,16 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null,
     $smarty->assign($var, $products);
 
     return $condition;
+}
+
+/**
+ * Assign product info
+ */
+function enterprise_assign_product_info($smarty, $var, $productId)
+{
+    $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->get($productId);
+    $smarty->assign($var, $product);
 }
 /* }}} */
 

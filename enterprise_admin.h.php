@@ -356,6 +356,9 @@ function enterprise_admin_action_inquiry_detail($smarty)
     $inquiry = $inquiryDAO->getOneBy($condition);
     $smarty->assign('inquiry', $inquiry);
 
+    if ($inquiry['target_product_id'])
+        enterprise_assign_product_info($smarty, 'target_product', $inquiry['target_product_id']);
+
     $smarty->display('admin/inquiry_detail_2.tpl');
 }
 

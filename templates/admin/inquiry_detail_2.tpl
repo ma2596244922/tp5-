@@ -170,7 +170,7 @@
 
                                     <div class="span2">
 
-                                        <img src="media/image/no_image.png" alt="" /> 
+                                        <img src="{if $target_product|default:[]}{$target_product.head_image_id|url:'enterprise_url_image'}{else}media/image/no_image.png{/if}" alt="" /> 
 
                                     </div>
 

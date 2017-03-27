@@ -56,6 +56,7 @@ CREATE TABLE `enterprise_inquiries` (
   `created` datetime NOT NULL COMMENT '发布日期（时间）',
   `domain` VARCHAR(45) NOT NULL COMMENT '完整根域（如：baidu.com）',
   `ip` VARCHAR(15) NOT NULL COMMENT 'IPv4地址',
+  `target_product_id` int(10) unsigned NOT NULL COMMENT '目标产品ID',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_mutex` (`guid`),
   KEY `idx_get_by_site` (`site_id`)
