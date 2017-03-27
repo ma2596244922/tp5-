@@ -7,10 +7,10 @@
 
 $thumbnailInfo = array(
         'product' => array(
-                't' => array(378, 270),
-                'c' => array(329, 235),
-                'd' => array(140, 100),
-                'm' => array(54, 39),
+                't' => array(600, 600),
+                'c' => array(360, 360),
+                'd' => array(160, 160),
+                'm' => array(100, 100),
             ),
         'certification' => array(
                 't' => array(370, 515),
