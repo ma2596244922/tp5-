@@ -443,6 +443,10 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
     $message = enterprise_get_post_data('message', 'trim');
     $email = enterprise_get_post_data('email');
 
+    $messageType = enterprise_get_post_data('message_type');
+    if ($messageType == 'text/plain')
+        $message = nl2br($message);
+
     // Validation
     if (!$subject
             || !$message
