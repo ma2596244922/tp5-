@@ -170,6 +170,13 @@
 {if $inquiry.country}
                                             <li><i class="icon-globe"></i> {$inquiry.country}</li>
 {/if}
+{if $inquiry.ip}
+                                            <li><i class="icon-globe"></i>
+
+                                                <a href="http://www.ip138.com/ips138.asp?ip={$inquiry.ip|call:'urlencode'}" target="_blank">{$inquiry.ip}</a>
+
+                                            </li>
+{/if}
                                             <li><i class="icon-calendar"></i> {$inquiry.created}</li>
 {if $inquiry.contact}
                                             <li><i class="icon-user"></i> {$inquiry.courtesy_title|call:'\enterprise\daos\Contact::courtesyTitle2Text'}&nbsp;{$inquiry.contact}</li>
