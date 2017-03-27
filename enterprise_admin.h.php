@@ -356,7 +356,7 @@ function enterprise_admin_action_inquiry_detail($smarty)
     $inquiry = $inquiryDAO->getOneBy($condition);
     $smarty->assign('inquiry', $inquiry);
 
-    $smarty->display('admin/inquiry_detail.tpl');
+    $smarty->display('admin/inquiry_detail_2.tpl');
 }
 
 /* }}} */
