@@ -123,18 +123,6 @@
 
                 </li>
 
-                <li class="start{if $page_name=='task'} active{/if}">
-
-                    <a href="?action=task">
-
-                    <i class="icon-tasks"></i> 
-
-                    <span class="title">我的任务</span>
-
-                    </a>
-
-                </li>
-
                 <li class="start{if $page_name=='banner'} active{/if}">
 
                     <a href="?action=banner">
