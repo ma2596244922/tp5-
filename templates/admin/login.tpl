@@ -60,8 +60,6 @@
 
     <div class="logo">
 
-        <img src="media/image/logo-big.png" alt="" /> 
-
     </div>
 
     <!-- END LOGO -->
