@@ -12,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>Metronic | 用户后台</title>
+    <title>用户后台</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
