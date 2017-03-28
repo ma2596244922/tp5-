@@ -175,32 +175,32 @@
                                     </div>
 
                                     <ul class="unstyled span10">
-{if $inquiry.country}
-                                        <li><span>Country:</span> {$inquiry.country}</li>
+{if $inquiry_country}
+                                        <li><span>国家:</span> {$inquiry_country}</li>
 {/if}
 {if $inquiry.ip}
-                                        <li><span>IP:</span> <a href="http://www.ip138.com/ips138.asp?ip={$inquiry.ip|call:'urlencode'}" target="_blank">{$inquiry.ip}</a></li>
+                                        <li><span>IP地址:</span> <a href="http://www.ip138.com/ips138.asp?ip={$inquiry.ip|call:'urlencode'}" target="_blank">{$inquiry.ip}</a></li>
 {/if}
 {if $inquiry.created}
-                                        <li><span>Date:</span> {$inquiry.created}</li>
+                                        <li><span>发布时间:</span> {$inquiry.created}</li>
 {/if}
 {if $inquiry.contact}
-                                        <li><span>Contact:</span> {$inquiry.courtesy_title|call:'\enterprise\daos\Contact::courtesyTitle2Text'}&nbsp;{$inquiry.contact}</li>
+                                        <li><span>联系人:</span> {$inquiry.courtesy_title|call:'\enterprise\daos\Contact::courtesyTitle2Text'}&nbsp;{$inquiry.contact}</li>
 {/if}
 {if $inquiry.email}
                                         <li><span>Email:</span> <a href="mailto:{$inquiry.email}">{$inquiry.email}</a></li>
 {/if}
 {if $inquiry.tel}
-                                        <li><span>Tel:</span> {$inquiry.tel}</li>
+                                        <li><span>联系电话:</span> {$inquiry.tel}</li>
 {/if}
 {if $inquiry.fax}
-                                        <li><span>Fax:</span> {$inquiry.fax}</li>
+                                        <li><span>传真:</span> {$inquiry.fax}</li>
 {/if}
 {if $inquiry.company}
-                                        <li><span>Company:</span> {$inquiry.company}</li>
+                                        <li><span>公司:</span> {$inquiry.company}</li>
 {/if}
 {if $inquiry.website}
-                                        <li><span>Website:</span> <a href="{$inquiry.website}" target="_blank">{$inquiry.website}</a></li>
+                                        <li><span>网址:</span> <a href="{$inquiry.website}" target="_blank">{$inquiry.website}</a></li>
 {/if}
 
                                         <li>{$inquiry.message}</li>

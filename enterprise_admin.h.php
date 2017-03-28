@@ -351,11 +351,23 @@ function enterprise_admin_action_inquiry_detail($smarty)
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $inquiryId = (int)enterprise_get_query_data('inquiry_id');
 
+    // Inquiry
     $inquiryDAO = new \enterprise\daos\Inquiry();
     $condition = "`id`={$inquiryId}";
     $inquiry = $inquiryDAO->getOneBy($condition);
     $smarty->assign('inquiry', $inquiry);
 
+    // Country of Inquiry
+    $inquiryCountry = $inquiry['country'];
+    $ipv4 = $inquiry['ip'];
+    $ipv4Addrs = array($ipv4);
+    $r = enterprise_admin_iplookup_get_info_from_addrs($ipv4Addrs);
+    if (isset($r[$ipv4])
+            && $r[$ipv4])
+        $inquiryCountry = $r[$ipv4]['country'] . ' ' . $r[$ipv4]['province'] . ' ' . $r[$ipv4]['city'];
+    $smarty->assign('inquiry_country', $inquiryCountry);
+
+    // Target product
     if ($inquiry['target_product_id'])
         enterprise_assign_product_info($smarty, 'target_product', $inquiry['target_product_id']);
 
@@ -1187,4 +1199,77 @@ function enterprise_admin_action_delete_banner($smarty)
     header('Location: ?action=banner&success_msg=' . urlencode('删除成功'));
 }
 
+/* }}} */
+
+/* {{{ IP Lookup */
+/**
+ * 获取指定IP地址可能位于的网络列表
+ *
+ * @param string $addr IP地址字符串
+ * @return string intip1,intip2,...
+ */
+function enterprise_admin_iplookup_get_possible_networks($addr)
+{
+    $ip = ip2long($addr);
+    $aLongNetworkAddrs = array();
+    for($i=1; $i<=16777216; $i*=2) {
+        $mask = (4294967296 - $i);
+        $aLongNetworkAddrs[$ip & $mask] = 1;
+    }
+
+    return implode(",", array_keys($aLongNetworkAddrs));
+}
+
+/**
+ * 获取IP所在地信息
+ *
+ * @param array $aAddrs 多个IP地址字符串
+ * @return array[]|false (addr => (info => value))
+ */
+function enterprise_admin_iplookup_get_info_from_addrs($aAddrs, $sFields = '`country`,`city`,`province`,`district`,`isp`')
+{
+    if(!is_array($aAddrs))
+        return array();
+    if(!isset($aAddrs[0]))
+        return array();
+    if(empty($sFields))
+        return array();
+
+    $aSqls = array();
+    foreach($aAddrs as $addr) {
+        $sLongNetworkAddrs = enterprise_admin_iplookup_get_possible_networks($addr);
+        $aSqls[] = "select {$sFields},`updatetime` from `enterprise_iplookup` where `start` in ({$sLongNetworkAddrs})";
+    }
+
+    $oDb = \DbFactory::create('crawler');
+
+    $sSqls = implode(";", $aSqls);
+
+    $r = $oDb->multi_query($sSqls);
+
+    $i = 0;
+    $aRetval = array();
+    do {
+        $iUpdateTime = 0;
+        $aInfo = array();
+        if($r = $oDb->store_result()) {
+            while($row = $r->fetch_assoc()) {
+                $ut = date_format(date_create($row['updatetime']), 'U'); // FIXME: 这里应该可以通过修改数据表结构优化。可以尝试使用int类型。
+                if($ut > $iUpdateTime) {
+                    $iUpdateTime = $ut;
+                    $aInfo = $row;
+                }
+            }
+            $r->free();
+
+            $aRetval[$aAddrs[$i]] = $aInfo;
+        }
+
+        if(!$oDb->more_results())
+            break;
+        ++$i;
+    } while($oDb->next_result());
+
+    return $aRetval;
+}
 /* }}} */
