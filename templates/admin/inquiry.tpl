@@ -175,7 +175,7 @@
 
                                             <th>标题</th>
 
-                                            <th>国家</th>
+                                            <th>Email</th>
 
                                             <th>发布时间(+8)</th>
 
@@ -195,7 +195,7 @@
 
                                             </td>
 
-                                            <td>{$inquiries[i].country}</td>
+                                            <td>{$inquiries[i].email}</td>
 
                                             <td>{$inquiries[i].created}</td>
 

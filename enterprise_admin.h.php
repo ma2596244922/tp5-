@@ -5,6 +5,9 @@
  * @package timandes\enterprise
  */
 
+/** @var string Fields of Inquiry for List */
+define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`');
+
 /**
  * Grant permission
  */
@@ -42,7 +45,7 @@ function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageN
     $start = ($pageNo - 1) * $max;
     $inquiryDAO = new \enterprise\daos\Inquiry();
     $condition = "`site_id`={$userSiteId}";
-    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, '`id`, `subject`, `country`, `created`', '`id` DESC', $max, $start);
+    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, ENTERPRISE_INQUIRY_FIELDS_FOR_LIST, '`id` DESC', $max, $start);
     $smarty->assign($var, $inquiries);
 }
 
