@@ -11,6 +11,8 @@ define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?
 define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
+/** @var string Fields of Custom Page for List */
+define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
 
 /* {{{ Common */
 
@@ -572,6 +574,14 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
+
+    // Custom Pages
+    $customPageDAO = new \enterprise\daos\CustomPage();
+    $condition = "`site_id`=" . (int)$siteId . " AND `path`='" . $customPageDAO->escape($requestPath) . "'";
+    $customPage = $customPageDAO->getOneBy($condition);
+    if ($customPage
+            && !$customPage['deleted'])
+        return $customPage['body'];
 
     return null;
 }
@@ -1301,6 +1311,30 @@ function enterprise_assign_banner_info($smarty, $var, $bannerId)
     $bannerDAO = new \enterprise\daos\Banner();
     $banner = $bannerDAO->get($bannerId);
     $smarty->assign($var, $banner);
+}
+
+/* }}} */
+
+/* {{{ CustomPage */
+/**
+ * Assign CustomPage List
+ */
+function enterprise_assign_custom_page_list($smarty, $var, $siteId)
+{
+    $customPageDAO = new \enterprise\daos\CustomPage();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $customPages = $customPageDAO->getMultiInOrderBy($condition, ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST, '`id` DESC');
+    $smarty->assign($var, $customPages);
+}
+
+/**
+ * Assign custom_page info
+ */
+function enterprise_assign_custom_page_info($smarty, $var, $customPageId)
+{
+    $customPageDAO = new \enterprise\daos\CustomPage();
+    $customPage = $customPageDAO->get($customPageId);
+    $smarty->assign($var, $customPage);
 }
 
 /* }}} */

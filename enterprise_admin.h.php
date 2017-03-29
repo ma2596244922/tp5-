@@ -1276,3 +1276,82 @@ function enterprise_admin_iplookup_get_info_from_addrs($aAddrs, $sFields = '`cou
     return $aRetval;
 }
 /* }}} */
+
+
+/* {{{ CustomPage */
+
+/**
+ * CustomPages
+ */
+function enterprise_admin_action_custom_page($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    enterprise_assign_custom_page_list($smarty, 'custom_pages', $userSiteId);
+
+    $smarty->display('admin/custom_page.tpl');
+}
+
+/**
+ * Edit CustomPage
+ */
+function enterprise_admin_action_edit_custom_page($smarty)
+{
+    $tplPath = 'admin/edit_custom_page.tpl';
+
+    $customPageId = (int)enterprise_get_query_data('custom_page_id');
+    $smarty->assign('custom_page_id', $customPageId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($customPageId) 
+            enterprise_assign_custom_page_info($smarty, 'custom_page', $customPageId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $path = enterprise_get_post_data('path');
+    $desc = enterprise_get_post_data('desc');
+    $body = enterprise_get_post_data('body', 'trim');
+
+    if (!$path) {
+        $smarty->assign('error_msg', '请输入页面路径');
+        return $smarty->display($tplPath);
+    }
+
+    $customPageDAO = new \enterprise\daos\CustomPage();
+    $values = array(
+            'site_id' => $userSiteId,
+            'path' => $path,
+            'desc' => $desc,
+            'body' => $body,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($customPageId) {// Edit
+        $customPageDAO->update($customPageId, $values);
+        enterprise_assign_custom_page_info($smarty, 'custom_page', $customPageId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $customPageDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete CustomPage
+ */
+function enterprise_admin_action_delete_custom_page($smarty)
+{
+    $customPageId = (int)enterprise_get_query_data('custom_page_id');
+
+    $customPageDAO = new \enterprise\daos\CustomPage();
+    $values = array(
+            'deleted' => 1,
+        );
+    $customPageDAO->update($customPageId, $values);
+    header('Location: ?action=custom_page&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

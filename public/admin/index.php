@@ -73,6 +73,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_banner($smarty);
                 case 'delete_banner':
                     return enterprise_admin_action_delete_banner($smarty);
+                case 'custom_page':
+                    return enterprise_admin_action_custom_page($smarty);
+                case 'edit_custom_page':
+                    return enterprise_admin_action_edit_custom_page($smarty);
+                case 'delete_custom_page':
+                    return enterprise_admin_action_delete_custom_page($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

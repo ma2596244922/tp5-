@@ -231,3 +231,17 @@ CREATE TABLE `enterprise_banners` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建横幅图片表';
+
+CREATE TABLE `enterprise_custom_pages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `path` varchar(100) NOT NULL COMMENT '以/开头的页面路径',
+  `desc` varchar(45) NOT NULL COMMENT '描述',
+  `body` text NOT NULL COMMENT '页面内容',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_path` (`site_id`, `path`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自定义页面表';

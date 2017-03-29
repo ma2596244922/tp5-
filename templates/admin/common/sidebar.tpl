@@ -135,6 +135,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='custom_page'} active{/if}">
+
+                    <a href="?action=custom_page">
+
+                    <i class="icon-file"></i> 
+
+                    <span class="title">自定义页面</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->
