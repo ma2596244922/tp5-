@@ -166,7 +166,7 @@
 
                         <!-- BEGIN GALLERY MANAGER PORTLET-->
 
-                        <div class="portlet box purple">
+                        <div class="portlet box green">
 
                             <div class="portlet-title">
 
