@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+{assign var=page_title value="我的产品"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -13,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>用户后台</title>
+    <title>{$page_title}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -113,7 +112,7 @@
 
                         <h3 class="page-title">
 
-                            我的产品 <small>产品汇总</small>
+                            {$page_title} <small>产品汇总</small>
 
                         </h3>
 
@@ -129,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="?action=product">我的产品</a></li>
+                            <li><a href="?action=product">{$page_title}</a></li>
 
                         </ul>
 
@@ -169,7 +168,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-file"></i>我的产品</div>
+                                <div class="caption"><i class="icon-file"></i>{$page_title}</div>
 
                                 <div class="tools">
 

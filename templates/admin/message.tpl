@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -13,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>用户后台</title>
+    <title>{$message}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 

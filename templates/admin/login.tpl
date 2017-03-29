@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{assign var=page_title value="后台登录"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -12,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>后台登录</title>
+    <title>{$page_title}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -72,7 +72,7 @@
 
         <form class="form-vertical login-form" action="?action=login" method="POST">
 
-            <h3 class="form-title">后台登录</h3>
+            <h3 class="form-title">{$page_title}</h3>
 
             <div class="alert alert-error{if !$error_msg} hide{/if}">
 
@@ -144,7 +144,7 @@
 
     <div class="copyright">
 
-        2016 &copy; JB-Online.
+        2016-2017 &copy; M1.0
 
     </div>
 

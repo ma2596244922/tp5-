@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+{assign var=page_title value="编辑产品"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -13,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>用户后台</title>
+    <title>{$page_title}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -117,7 +116,7 @@
 
                         <h3 class="page-title">
 
-                            编辑产品 <small>发布、修改产品信息</small>
+                            {$page_title} <small>发布、修改产品信息</small>
 
                         </h3>
 
@@ -173,7 +172,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-reorder"></i>编辑产品</div>
+                                <div class="caption"><i class="icon-reorder"></i>{$page_title}</div>
 
                                 <div class="tools">
 

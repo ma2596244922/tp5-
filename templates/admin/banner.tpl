@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{assign var=page_title value="我的横幅"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -12,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>用户后台</title>
+    <title>{$page_title}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -114,7 +114,7 @@
 
                         <h3 class="page-title">
 
-                            我的横幅 <small>上传、管理横幅</small>
+                            {$page_title} <small>上传、管理横幅</small>
 
                         </h3>
 
@@ -130,7 +130,7 @@
 
                             </li>
 
-                            <li><a href="?action=banner">我的横幅</a></li>
+                            <li><a href="?action=banner">{$page_title}</a></li>
 
                         </ul>
 
@@ -170,7 +170,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-money"></i>我的横幅</div>
+                                <div class="caption"><i class="icon-money"></i>{$page_title}</div>
 
                                 <div class="tools">
 

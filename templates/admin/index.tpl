@@ -1,5 +1,4 @@
-
-<!DOCTYPE html>
+{assign var=page_title value="主面板"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -13,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>用户后台</title>
+    <title>{$page_title}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -113,7 +112,7 @@
 
                         <h3 class="page-title">
 
-                            主面板 <small>信息汇总</small>
+                            {$page_title} <small>信息汇总</small>
 
                         </h3>
 
@@ -129,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="/admin/">主面板</a></li>
+                            <li><a href="/admin/">{$page_title}</a></li>
 
                         </ul>
 
