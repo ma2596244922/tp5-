@@ -180,6 +180,9 @@ $domainInfo = array(
         'mocfaoff.org' => array(
                 'site_id' => 999,
             ),
+        'ihousebeautiful.com' => array(
+                'site_id' => 29,
+            ),
     );
 $siteInfo = array(
         1 => array(
