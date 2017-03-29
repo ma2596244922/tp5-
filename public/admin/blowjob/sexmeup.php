@@ -112,6 +112,10 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $specificationsString = enterprise_get_post_data('specifications');
     $sourceUrl = enterprise_get_post_data('shopurl');
 
+    // Force to decode URL
+    if (preg_match('/^https?%3a%2f%2f/', $sourceUrl))
+        $sourceUrl = urldecode($sourceUrl);
+
     // Images in description
     $description = enterprise_sexmeup_save_images_in_description($siteId, $description);
 
