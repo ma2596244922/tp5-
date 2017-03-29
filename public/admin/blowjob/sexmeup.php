@@ -113,7 +113,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $sourceUrl = enterprise_get_post_data('shopurl');
 
     // Force to decode URL
-    if (preg_match('/^https?%3a%2f%2f/', $sourceUrl))
+    if (preg_match('/^https?%3a%2f%2f/i', $sourceUrl))
         $sourceUrl = urldecode($sourceUrl);
 
     // Images in description
