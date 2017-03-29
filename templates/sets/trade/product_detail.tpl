@@ -26,10 +26,10 @@
                         <ul>
 {-if $product_images}
     {-foreach $product_images as $image_id}
-                        <li><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}" /></li>
+                        <li><img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
     {-/foreach}
 {-else}
-                        <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}" /></li>
+                        <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
 {-/if}
                         </ul>
                     </div>
