@@ -489,7 +489,7 @@ function enterprise_admin_action_product($smarty)
     $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
-    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 LIMIT {$start}, {$max}";
+    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 
