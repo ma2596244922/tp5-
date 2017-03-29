@@ -84,6 +84,7 @@ $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../../') . '/templates/');
 $smarty->setCompileDir(realpath(__DIR__ . '/../../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../../') . '/plugins/');
+$smarty->loadFilter("pre", 'whitespace_control');
 
 session_start();
 

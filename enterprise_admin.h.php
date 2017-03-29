@@ -486,7 +486,7 @@ function enterprise_admin_action_product($smarty)
 
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, g.`name` AS `group_name`
+    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
     WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 LIMIT {$start}, {$max}";

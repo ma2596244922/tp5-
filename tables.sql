@@ -110,6 +110,7 @@ CREATE TABLE `enterprise_products` (
   `specifications` text NOT NULL COMMENT '产品属性（JSON）',
   `head_image_id` int unsigned NOT NULL COMMENT '产品头图ID',
   `images` text NOT NULL COMMENT '产品图片（JSON）',
+  `source_url` varchar(255) NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';

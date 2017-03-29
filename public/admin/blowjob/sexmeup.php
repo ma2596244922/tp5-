@@ -110,6 +110,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $packagingDetails = enterprise_get_post_data('packaging_details');
     $tagsString = enterprise_get_post_data('tags');
     $specificationsString = enterprise_get_post_data('specifications');
+    $sourceUrl = enterprise_get_post_data('shopurl');
 
     // Images in description
     $description = enterprise_sexmeup_save_images_in_description($siteId, $description);
@@ -166,6 +167,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
             'head_image_id' => $headImageId,
             'images' => $images,
             'tags' => $tagsFieldValue,
+            'source_url' => $sourceUrl,
         );
     $values['created'] = $values['updated'];
     $retval = $productDAO->insert($values);

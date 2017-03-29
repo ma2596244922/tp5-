@@ -226,7 +226,13 @@
                                             <td>
 
                                                 <a href="{$products[i]|url:'enterprise_url_product'}" target="_blank">{$products[i].caption}</a>
+    {-if $products[i].source_url}
+                                                <br>
 
+                                                <span style="color: #7f7f7f">来源：</span>
+
+                                                <a href="{$products[i].source_url}" title="{$products[i].source_url}" target="_blank">{$products[i].source_url|truncate:100}</a>
+    {-/if}
                                             </td>
 
                                             <td>{$products[i].created}</td>

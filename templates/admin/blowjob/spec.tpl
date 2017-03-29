@@ -109,6 +109,11 @@ paths:
           description: 用三竖线（|||）分割的关键词
           required: false
           type: string
+        - name: shopurl
+          in: formData
+          description: 源站URL
+          required: false
+          type: string
       tags:
         - 产品接口
       responses:
