@@ -42,5 +42,6 @@
 <!--content-->
 {include file="sets/trade/common/inquiryfooter.tpl"}
 {include file="sets/trade/common/scripts.tpl"} 
+{$site.contactsave_fragment}
 </body>
 </html>

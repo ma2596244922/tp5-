@@ -199,6 +199,9 @@ CREATE TABLE `enterprise_sites` (
   `template` varchar(45) NOT NULL COMMENT '模板名称',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `start_year` smallint unsigned NOT NULL COMMENT '起始年份',
+  `common_fragment` text NOT NULL COMMENT '通用HTML代码片段',
+  `contactnow_fragment` text NOT NULL COMMENT '询盘页HTML代码片段',
+  `contactsave_fragment` text NOT NULL COMMENT '询盘成功页HTML代码片段',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

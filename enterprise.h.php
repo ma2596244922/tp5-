@@ -749,6 +749,17 @@ function enterprise_assign_corporation_info($smarty, $var, $siteId)
     $smarty->assign($var, $corporation);
 }
 
+/**
+ * Assign site info
+ */
+function enterprise_assign_site_info($smarty, $var, $siteId)
+{
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    $smarty->assign($var, $site);
+}
+
 /* {{{ Contact */
 /**
  * Assign Contact List

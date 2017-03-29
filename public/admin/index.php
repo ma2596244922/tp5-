@@ -21,6 +21,8 @@ function enterprise_admin_route($smarty)
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
+                case 'fragment':
+                    return enterprise_admin_action_fragment($smarty);
                 case 'logo':
                     return enterprise_admin_action_logo($smarty);
                 case 'info':

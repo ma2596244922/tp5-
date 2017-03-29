@@ -169,6 +169,39 @@ function enterprise_admin_action_logout($smarty)
 /* {{{ Profile */
 
 /**
+ * Change fragment
+ */
+function enterprise_admin_action_fragment($smarty)
+{
+    $tplPath = 'admin/fragment.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_site_info($smarty, 'site', $userSiteId);
+        return $smarty->display($tplPath);
+    }
+
+    $commonFragment = enterprise_get_post_data('common_fragment');
+    $contactnowFragment = enterprise_get_post_data('contactnow_fragment');
+    $contactsaveFragment = enterprise_get_post_data('contactsave_fragment');
+
+    $corporationDAO = new \enterprise\daos\Site();
+    $values = array(
+            'common_fragment' => $commonFragment,
+            'contactnow_fragment' => $contactnowFragment,
+            'contactsave_fragment' => $contactsaveFragment,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $corporationDAO->update($userSiteId, $values);
+    enterprise_assign_site_info($smarty, 'site', $userSiteId);
+    
+    $smarty->assign('message', '修改成功');
+    $smarty->display($tplPath);
+}
+
+/**
  * Change logo
  */
 function enterprise_admin_action_logo($smarty)

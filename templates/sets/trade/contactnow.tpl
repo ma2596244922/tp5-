@@ -99,5 +99,6 @@
 {include file="sets/trade/common/inquiryfooter.tpl"}
 {include file="sets/trade/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/send_inquiry.js"></script> 
+{$site.contactnow_fragment}
 </body>
 </html>

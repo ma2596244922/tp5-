@@ -147,6 +147,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='fragment'} active{/if}">
+
+                    <a href="?action=fragment">
+
+                    <i class="icon-cog"></i> 
+
+                    <span class="title">站点代码</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->
