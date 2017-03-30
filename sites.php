@@ -183,6 +183,39 @@ $domainInfo = array(
         'ihousebeautiful.com' => array(
                 'site_id' => 29,
             ),
+        'lldpestretch-film.com' => array(
+                'site_id' => 30,
+            ),
+        'garlic-suppliers.com' => array(
+                'site_id' => 31,
+            ),
+        '3cmachinery.com' => array(
+                'site_id' => 32,
+            ),
+        'finchemical.com' => array(
+                'site_id' => 33,
+            ),
+        'catalogue-bearing.com' => array(
+                'site_id' => 34,
+            ),
+        'maairs.com' => array(
+                'site_id' => 35,
+            ),
+        'machinerygm.com' => array(
+                'site_id' => 36,
+            ),
+        'hrgondola.com' => array(
+                'site_id' => 37,
+            ),
+        'greatguitarshop.com' => array(
+                'site_id' => 38,
+            ),
+        'greatguitareshop.com' => array(
+                'site_id' => 39,
+            ),
+        'guitarchordsshop.com' => array(
+                'site_id' => 40,
+            ),
     );
 $siteInfo = array(
         1 => array(
