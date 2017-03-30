@@ -216,6 +216,39 @@ $domainInfo = array(
         'guitarchordsshop.com' => array(
                 'site_id' => 40,
             ),
+        'high-securityseals.com' => array(
+                'site_id' => 41,
+            ),
+        'drivingleather.com' => array(
+                'site_id' => 42,
+            ),
+        'human-hairwig.com' => array(
+                'site_id' => 43,
+            ),
+        'aluminumwindowmachine.com' => array(
+                'site_id' => 44,
+            ),
+        'snackmakingmachinery.com' => array(
+                'site_id' => 45,
+            ),
+        'sdpowerquality.com' => array(
+                'site_id' => 46,
+            ),
+        'needle-rollerbearings.com' => array(
+                'site_id' => 47,
+            ),
+        'fuliton.com  ' => array(
+                'site_id' => 48,
+            ),
+        'straw-beachbag.com' => array(
+                'site_id' => 49,
+            ),
+        'tires-factory.com' => array(
+                'site_id' => 50,
+            ),
+        'cnpqsolution.com' => array(
+                'site_id' => 51,
+            ),
     );
 $siteInfo = array(
         1 => array(
