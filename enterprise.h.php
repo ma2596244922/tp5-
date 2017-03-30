@@ -854,6 +854,8 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomain
 {
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactus.tpl', $site);
+    if (!$tplPath)
+        return null;
 
     // Site
     $smarty->assign('site', $site);
@@ -1162,6 +1164,8 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
 {
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactnow.tpl', $site);
+    if (!$tplPath)
+        return null;
 
     // Site
     $smarty->assign('site', $site);
