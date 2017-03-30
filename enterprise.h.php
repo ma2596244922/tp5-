@@ -577,10 +577,9 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
 
     // Custom Pages
     $customPageDAO = new \enterprise\daos\CustomPage();
-    $condition = "`site_id`=" . (int)$siteId . " AND `path`='" . $customPageDAO->escape($requestPath) . "'";
+    $condition = "`site_id`=" . (int)$siteId . " AND `deleted`=0 AND `path`='" . $customPageDAO->escape($requestPath) . "'";
     $customPage = $customPageDAO->getOneBy($condition);
-    if ($customPage
-            && !$customPage['deleted'])
+    if ($customPage)
         return $customPage['body'];
 
     return null;
