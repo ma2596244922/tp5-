@@ -183,9 +183,9 @@ function enterprise_admin_action_fragment($smarty)
         return $smarty->display($tplPath);
     }
 
-    $commonFragment = enterprise_get_post_data('common_fragment');
-    $contactnowFragment = enterprise_get_post_data('contactnow_fragment');
-    $contactsaveFragment = enterprise_get_post_data('contactsave_fragment');
+    $commonFragment = enterprise_get_post_data('common_fragment', 'trim');
+    $contactnowFragment = enterprise_get_post_data('contactnow_fragment', 'trim');
+    $contactsaveFragment = enterprise_get_post_data('contactsave_fragment', 'trim');
 
     $corporationDAO = new \enterprise\daos\Site();
     $values = array(
