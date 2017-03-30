@@ -70,6 +70,7 @@ CREATE TABLE `enterprise_users` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `last_log_in` datetime NOT NULL COMMENT '最近登录时间',
+  `email` varchar(100) NOT NULL COMMENT '通知用Email',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_log_in` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
