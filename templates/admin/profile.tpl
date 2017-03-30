@@ -1,4 +1,4 @@
-{assign var=page_title value="公司信息"-}<!DOCTYPE html>
+{assign var=page_title value="帐号配置"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -72,7 +72,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="info"}
+{include file="admin/common/sidebar.tpl" page_name="profile"}
 
         <!-- END SIDEBAR -->
 
@@ -178,7 +178,7 @@
 
                                             <div class="span3">
 
-{include file="admin/common/profile_l2menu.tpl" profile_page_name="info"}
+{include file="admin/common/profile_l2menu.tpl" profile_page_name="profile"}
 
                                             </div>
 
@@ -190,100 +190,11 @@
 
                                                         <div style="height: auto;" id="accordion1-1" class="accordion collapse">
 
-                                                            <form action="?action=info" method="POST">
+                                                            <form action="?action=profile" method="POST">
 
-                                                                <label class="control-label">公司名称</label>
+                                                                <label class="control-label">通知Email</label>
 
-                                                                <input type="text" name="name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$site.name}" />
-
-                                                                <label class="control-label">地址</label>
-
-                                                                <input type="text" name="address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.address}" />
-
-                                                                <label class="control-label">厂址</label>
-
-                                                                <input type="text" name="factory_address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.factory_address}" />
-
-                                                                <label class="control-label">工作时间</label>
-
-                                                                <input type="text" name="worktime" placeholder="9:00-18:00(Beijing time)" class="m-wrap span8" value="{$site.worktime}" />
-
-                                                                <label class="control-label">电话（工作时间内）</label>
-
-                                                                <input type="text" name="tel_wt" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.tel_wt}" />
-
-                                                                <label class="control-label">电话（非工作时间内）</label>
-
-                                                                <input type="text" name="tel_nwt" placeholder="86-1xxxxxxxxxx" class="m-wrap span8" value="{$site.tel_nwt}" />
-
-                                                                <label class="control-label">传真</label>
-
-                                                                <input type="text" name="fax" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.fax}" />
-<!--
-                                                                <label class="control-label">Skype</label>
-
-                                                                <input type="text" name="skype" class="m-wrap span8" value="{$site.skype}" />
-
-                                                                <label class="control-label">Email</label>
-
-                                                                <input type="text" name="email" class="m-wrap span8" value="{$site.email}" />
-
-                                                                <label class="control-label">Yahoo</label>
-
-                                                                <input type="text" name="yahoo" class="m-wrap span8" value="{$site.yahoo}" />
--->
-
-                                                                <label class="control-label">Business Type</label>
-
-                                                                <input type="text" name="business_type" class="m-wrap span8" value="{$site.business_type}" />
-
-                                                                <label class="control-label">Main Market</label>
-
-                                                                <input type="text" name="main_market" class="m-wrap span8" value="{$site.main_market}" />
-
-                                                                <label class="control-label">Brands</label>
-
-                                                                <input type="text" name="brands" class="m-wrap span8" value="{$site.brands}" />
-
-                                                                <label class="control-label">No. of Employees</label>
-
-                                                                <input type="text" name="no_of_employees" class="m-wrap span8" value="{$site.no_of_employees}" />
-
-                                                                <label class="control-label">Annual Sales</label>
-
-                                                                <input type="text" name="annual_sales" class="m-wrap span8" value="{$site.annual_sales}" />
-
-                                                                <label class="control-label">Year Established</label>
-
-                                                                <input type="text" name="year_established" class="m-wrap span8" value="{$site.year_established}" />
-
-                                                                <label class="control-label">Export p.c</label>
-
-                                                                <input type="text" name="export_p_c" class="m-wrap span8" value="{$site.export_p_c}" />
-
-                                                                <label class="control-label">Introduction</label>
-
-                                                                <textarea class="span8 ckeditor m-wrap" name="introduction" rows="6">{$site.introduction|default:''}</textarea>
-
-                                                                <label class="control-label">History</label>
-
-                                                                <textarea class="span8 ckeditor m-wrap" name="history" rows="6">{$site.history|default:''}</textarea>
-
-                                                                <label class="control-label">Service</label>
-
-                                                                <textarea class="span8 ckeditor m-wrap" name="service" rows="6">{$site.service|default:''}</textarea>
-
-                                                                <label class="control-label">Our Team</label>
-
-                                                                <textarea class="span8 ckeditor m-wrap" name="our_team" rows="6">{$site.our_team|default:''}</textarea>
-
-                                                                <label class="control-label">QC Profile</label>
-
-                                                                <textarea class="span8 ckeditor m-wrap" name="qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
-
-                                                                <label class="control-label">口号</label>
-
-                                                                <textarea class="span8 m-wrap" name="slogan" rows="6">{$site.slogan|default:''}</textarea>
+                                                                <input type="text" name="email" placeholder="foo@bar.com" class="m-wrap span8" value="{$user.email}" />
 
                                                                 <div class="submit-btn">
 
@@ -381,10 +292,6 @@
 
     <script type="text/javascript" src="media/js/chosen.jquery.min.js"></script>
 
-    <script src="ckeditor/ckeditor.js" type="text/javascript" ></script>
-
-    <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
-
     <!-- END PAGE LEVEL PLUGINS -->
 
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -400,12 +307,6 @@
            // initiate layout and plugins
 
            App.init();
-
-           $('textarea.introduction').ckeditor();
-           $('textarea.history').ckeditor();
-           $('textarea.service').ckeditor();
-           $('textarea.our_team').ckeditor();
-           $('textarea.qc_profile').ckeditor();
 
         });
 

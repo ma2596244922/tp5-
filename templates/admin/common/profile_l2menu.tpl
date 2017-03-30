@@ -1,10 +1,12 @@
                                                 <ul class="ver-inline-menu tabbable margin-bottom-10">
 
+                                                    <li class="{if $profile_page_name=='profile'}active{/if}"><a href="?action=profile"><i class="icon-cog"></i> 帐号配置</a></li>
+
                                                     <li class="{if $profile_page_name=='info'}active{/if}">
 
                                                         <a href="?action=info">
 
-                                                            <i class="icon-cog"></i> 公司信息
+                                                            <i class="icon-cogs"></i> 公司信息
 
                                                         </a> 
 

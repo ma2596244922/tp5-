@@ -507,6 +507,21 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'target_product_id' => (int)enterprise_get_post_data('target_product_id'),
         );
     $inquiryDAO->insert($values);
+    // Send Email
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`site_id`=" . (int)$siteId;
+    $user = $userDAO->getOneBy($condition);
+    if ($user
+            && $user['email']
+            && Nette\Utils\Validators::is($user['email'], 'email')) {
+        $mailDomain = 'mail.50u50.com';
+        $from = 'no-reply@' . $mailDomain;
+        $mail = timandes_initialize_mail_message($user['email'], $from, $user['email'], $subject, $message);
+        $mailer = new Nette\Mail\SmtpMailer(array(
+                'host' => $mailDomain,
+            ));
+        $mailer->send($mail);
+    }
     $smarty->display($tplPath);
     enterprise_output_cnzz($currentDomainSuffix);
 }

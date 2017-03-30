@@ -8,12 +8,14 @@
 /** @var string Fields of Inquiry for List */
 define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`');
 
+define('SESSION_FIELD_USER_ID', 'user_id');
+
 /**
  * Grant permission
  */
 function enterprise_admin_grant_permission($targetSiteId)
 {
-    $userId = (int)enterprise_get_session_data('user_id');
+    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     if (!$userId
             || $userSiteId != $targetSiteId) {
@@ -141,7 +143,7 @@ function enterprise_admin_action_login($smarty, $targetSiteId)
     }
 
     // Add meta to session
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION[SESSION_FIELD_USER_ID] = $user['id'];
     $_SESSION['user_site_id'] = $user['site_id'];
 
     // Update last-log-in
@@ -159,7 +161,7 @@ function enterprise_admin_action_login($smarty, $targetSiteId)
  */
 function enterprise_admin_action_logout($smarty)
 {
-    unset($_SESSION['user_id']);
+    unset($_SESSION[SESSION_FIELD_USER_ID]);
     unset($_SESSION['user_site_id']);
     header('Location: /admin/?action=login');
 }
@@ -167,6 +169,35 @@ function enterprise_admin_action_logout($smarty)
 /* }}} */
 
 /* {{{ Profile */
+
+/**
+ * Change profile
+ */
+function enterprise_admin_action_profile($smarty)
+{
+    $tplPath = 'admin/profile.tpl';
+
+    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    $email = enterprise_get_post_data('email');
+
+    $userDAO = new \enterprise\daos\User();
+    $values = array(
+            'email' => $email,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $userDAO->update($userId, $values);
+
+    enterprise_admin_assign_user_info($smarty, 'user', $userId);
+    
+    $smarty->assign('message', '修改成功');
+    $smarty->display($tplPath);
+}
 
 /**
  * Change fragment
@@ -187,14 +218,14 @@ function enterprise_admin_action_fragment($smarty)
     $contactnowFragment = enterprise_get_post_data('contactnow_fragment', 'trim');
     $contactsaveFragment = enterprise_get_post_data('contactsave_fragment', 'trim');
 
-    $corporationDAO = new \enterprise\daos\Site();
+    $siteDAO = new \enterprise\daos\Site();
     $values = array(
             'common_fragment' => $commonFragment,
             'contactnow_fragment' => $contactnowFragment,
             'contactsave_fragment' => $contactsaveFragment,
             'updated' => date('Y-m-d H:i:s'),
         );
-    $corporationDAO->update($userSiteId, $values);
+    $siteDAO->update($userSiteId, $values);
     enterprise_assign_site_info($smarty, 'site', $userSiteId);
     
     $smarty->assign('message', '修改成功');
@@ -321,7 +352,7 @@ function enterprise_admin_action_password($smarty)
     if (!$submitButton) // No form data
         return $smarty->display($tplPath);
 
-    $userId = (int)enterprise_get_session_data('user_id');
+    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
 
     $oldPassword = enterprise_get_post_data('old_password');
     $newPassword = enterprise_get_post_data('new_password');
