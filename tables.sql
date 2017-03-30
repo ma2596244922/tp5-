@@ -158,6 +158,7 @@ CREATE TABLE `enterprise_corporations` (
   `service` text NOT NULL COMMENT 'Service',
   `our_team` text NOT NULL COMMENT 'Our Team',
   `qc_profile` text NOT NULL COMMENT 'QC Profile',
+  `slogan` varchar(100) NOT NULL COMMENT '口号',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司表';

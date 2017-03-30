@@ -272,6 +272,7 @@ function enterprise_admin_action_info($smarty)
     $service = enterprise_get_post_data('service', 'trim');
     $ourTeam = enterprise_get_post_data('our_team', 'trim');
     $qcProfile = enterprise_get_post_data('qc_profile', 'trim');
+    $slogan = enterprise_get_post_data('slogan');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -300,6 +301,7 @@ function enterprise_admin_action_info($smarty)
             'service' => $service,
             'our_team' => $ourTeam,
             'qc_profile' => $qcProfile,
+            'slogan' => $slogan,
             'updated' => date('Y-m-d H:i:s'),
         );
     $corporationDAO->update($userSiteId, $values);

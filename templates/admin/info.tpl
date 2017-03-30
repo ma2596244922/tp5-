@@ -281,6 +281,10 @@
 
                                                                 <textarea class="span8 ckeditor m-wrap" name="qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
 
+                                                                <label class="control-label">口号</label>
+
+                                                                <textarea class="span8 m-wrap" name="slogan" rows="6">{$site.slogan|default:''}</textarea>
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">

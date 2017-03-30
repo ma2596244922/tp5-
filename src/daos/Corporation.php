@@ -37,6 +37,7 @@ class Corporation extends \crawler\daos\AbstractDAO
             'service' => 'text',
             'our_team' => 'text',
             'qc_profile' => 'text',
+            'slogan' => 'text',
         );
 
     public function getTableName()

@@ -6,6 +6,6 @@
 {-else}
                 <dt><h1>{$corporation.name}</h1></dt>
 {-/if}
-                <dd>This is a verified supplier can provide quality products and have passed the Business License Check.</dd>
+                <dd>{$corporation.slogan}</dd>
             </dl>
         </div>
