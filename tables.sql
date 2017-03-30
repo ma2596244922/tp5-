@@ -247,6 +247,5 @@ CREATE TABLE `enterprise_custom_pages` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
   PRIMARY KEY (`id`),
-  KEY `idx_get_by_path` (`site_id`, `path`),
-  KEY `idx_get_by_site` (`site_id`, `deleted`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自定义页面表';
