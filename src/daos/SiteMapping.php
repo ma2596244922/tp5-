@@ -63,4 +63,19 @@ class SiteMapping extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    public function delete($id)
+    {
+        $id = (int)$id;
+        $condition = "`id`={$id}";
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+
+        $db = \DbFactory::create($dbName);
+        $sql = "DELETE FROM `{$tableName}` WHERE {$condition} LIMIT 1";
+        $r = $db->query($sql);
+        if (!$r)
+            throw new \RuntimeException($sql);
+        return true;
+    }
 }

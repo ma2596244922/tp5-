@@ -133,18 +133,14 @@ function enterprise_oms_action_edit_site($smarty)
     $domain = timandes_get_post_data('domain');
 
     if (!$siteId) {
-        if (!$domain) {
-            $smarty->assign('error_msg', "请输入根域地址");
-            return $smarty->display($tplPath);
-        }
+        if (!$domain) 
+            throw new \RuntimeException("请输入根域地址");
 
         $siteMappingDAO = new \enterprise\daos\SiteMapping();
         $condition = "`domain`='" . $siteMappingDAO->escape($domain) . "'";
         $siteMapping = $siteMappingDAO->getOneBy($condition);
-        if ($siteMapping) {
-            $smarty->assign('error_msg', "根域地址已存在");
-            return $smarty->display($tplPath);
-        }
+        if ($siteMapping) 
+            throw new \RuntimeException("根域地址已存在");
     }
 
     // Save
@@ -165,6 +161,102 @@ function enterprise_oms_action_edit_site($smarty)
     $smarty->display('oms/message.tpl');
 }
 
+
+/**
+ * SiteMappings
+ */
+function enterprise_oms_action_site_mapping($smarty)
+{
+    $siteId = (int)timandes_get_query_data('site_id');
+    $smarty->assign('site_id', $siteId);
+
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    if ($siteId)
+        $condition = "`site_id`={$siteId}";
+    else
+        $condition = null;
+    $siteMappings = $siteMappingDAO->getMultiBy($condition);
+    $smarty->assign('site_mappings', $siteMappings);
+
+    $smarty->display('oms/site_mapping.tpl');
+}
+
+
+/**
+ * Assign site_mapping info
+ */
+function enterprise_oms_assign_site_mapping_info($smarty, $var, $siteMappingId)
+{
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $siteMapping = $siteMappingDAO->get($siteMappingId);
+    $smarty->assign($var, $siteMapping);
+}
+
+/**
+ * Edit SiteMapping
+ */
+function enterprise_oms_action_edit_site_mapping($smarty)
+{
+    $tplPath = 'oms/edit_site_mapping.tpl';
+
+    $siteId = (int)timandes_get_query_data('site_id');
+    $smarty->assign('site_id', $siteId);
+
+    $siteMappingId = (int)enterprise_get_query_data('site_mapping_id');
+    $smarty->assign('site_mapping_id', $siteMappingId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($siteMappingId) 
+            enterprise_oms_assign_site_mapping_info($smarty, 'site_mapping', $siteMappingId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $domain = enterprise_get_post_data('domain');
+    $siteId = (int)enterprise_get_post_data('site_id');
+
+    if (!$domain) 
+        throw new \RuntimeException('请输入根域地址');
+
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $values = array(
+            'site_id' => $siteId,
+            'domain' => $domain,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($siteMappingId) {// Edit
+        $siteMappingDAO->update($siteMappingId, $values);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $siteMappingDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->assign('forward', '?action=site_mapping&site_id=' . $siteId);
+    $smarty->display('oms/message.tpl');
+}
+
+/**
+ * Delete SiteMapping
+ */
+function enterprise_oms_action_delete_site_mapping($smarty)
+{
+    $siteMappingId = (int)enterprise_get_query_data('site_mapping_id');
+
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $siteMapping = $siteMappingDAO->get($siteMappingId);
+    if (!$siteMapping)
+        throw new \RuntimeException("找不到指定的记录");
+
+    $siteId = $siteMapping['site_id'];
+    $siteMappingDAO->delete($siteMappingId);
+    
+    $smarty->assign('success_msg', '删除成功');
+    $smarty->assign('forward', '?action=site_mapping&site_id=' . $siteId);
+    $smarty->display('oms/message.tpl');
+}
+
 function enterprise_oms_route($smarty)
 {
     $action = timandes_get_query_data('action');
@@ -174,6 +266,12 @@ function enterprise_oms_route($smarty)
         default:
             $userId = enterprise_oms_grant_permission();
             switch ($action) {
+                case 'site_mapping':
+                    return enterprise_oms_action_site_mapping($smarty);
+                case 'edit_site_mapping':
+                    return enterprise_oms_action_edit_site_mapping($smarty);
+                case 'delete_site_mapping':
+                    return enterprise_oms_action_delete_site_mapping($smarty);
                 case 'edit_site':
                     return enterprise_oms_action_edit_site($smarty);
                 default:

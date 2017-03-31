@@ -5,6 +5,6 @@
 </head>
 <body>
     {$success_msg}
-    <a href="?">返回</a>
+    <a href="{$forward|default:'?'}">返回</a>
 </body>
 </html>
