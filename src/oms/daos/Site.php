@@ -30,7 +30,7 @@ class Site extends \crawler\daos\AbstractDAO
     }
 
     /**
-     * @return int Product ID
+     * @return int Site ID
      */
     public function insert($values)
     {

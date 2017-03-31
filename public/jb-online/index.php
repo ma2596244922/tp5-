@@ -63,6 +63,54 @@ function enterprise_oms_action_dashboard($smarty)
     $smarty->display('oms/dashboard.tpl');
 }
 
+function enterprise_oms_add_records_for_related_tables($siteId, $domain)
+{
+    $nowString = date('Y-m-d H:i:s');
+
+    // Create corporation
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $values = array(
+            'site_id' => $siteId,
+            'updated' => $nowString,
+        );
+    $corporationDAO->insert($values);
+
+    // Create site mapping
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $values = array(
+            'site_id' => $siteId,
+            'domain' => $domain,
+            'created' => $nowString,
+            'updated' => $nowString,
+        );
+    $siteMappingDAO->insert($values);
+
+    // Decide user name
+    $a = explode('.', $domain);
+    $name = $a[0];
+
+    // Create user
+    $userDAO = new \enterprise\daos\User();
+    $values = array(
+            'site_id' => $siteId,
+            'name' => $name,
+            'password' => '9cbf8a4dcb8e30682b927f352d6559a0',
+            'created' => $nowString,
+            'updated' => $nowString,
+        );
+    for ($i=2; ; $i++) {
+        try {
+            $userDAO->insert($values);
+            break;
+        } catch (\mysqli_sql_exception $mse) {
+            if (!$mse->getCode() == 1062)
+                throw $mse;
+
+            $values['name'] = $name . $i;
+        }
+    }
+}
+
 function enterprise_oms_action_edit_site($smarty)
 {
     $tplPath = 'oms/edit_site.tpl';
@@ -82,6 +130,22 @@ function enterprise_oms_action_edit_site($smarty)
     }
 
     $desc = timandes_get_post_data('desc');
+    $domain = timandes_get_post_data('domain');
+
+    if (!$siteId) {
+        if (!$domain) {
+            $smarty->assign('error_msg', "请输入根域地址");
+            return $smarty->display($tplPath);
+        }
+
+        $siteMappingDAO = new \enterprise\daos\SiteMapping();
+        $condition = "`domain`='" . $siteMappingDAO->escape($domain) . "'";
+        $siteMapping = $siteMappingDAO->getOneBy($condition);
+        if ($siteMapping) {
+            $smarty->assign('error_msg', "根域地址已存在");
+            return $smarty->display($tplPath);
+        }
+    }
 
     // Save
     $values = array(
@@ -92,7 +156,9 @@ function enterprise_oms_action_edit_site($smarty)
         $siteDAO->update($siteId, $values);
     } else {// Create
         $values['created'] = $values['updated'];
-        $siteDAO->insert($values);
+        $siteId = $siteDAO->insert($values);
+
+        enterprise_oms_add_records_for_related_tables($siteId, $domain);
     }
 
     $smarty->assign('success_msg', '保存成功');

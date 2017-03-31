@@ -266,5 +266,5 @@ CREATE TABLE `enterprise_site_mappings` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_mutex` (`site_id`, `domain`)
+  UNIQUE KEY `idx_mutex` (`domain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点域名映射';

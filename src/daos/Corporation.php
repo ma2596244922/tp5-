@@ -13,6 +13,7 @@ namespace enterprise\daos;
 class Corporation extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
+            'site_id' => 'int',
             'name' => 'text',
             'address' => 'text',
             'factory_address' => 'text',
@@ -48,6 +49,21 @@ class Corporation extends \crawler\daos\AbstractDAO
     public function getDbName()
     {
         return 'crawler';
+    }
+
+    public function insert($values)
+    {
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+
+        $db = \DbFactory::create($dbName);
+
+        $sets = $this->buildSetList($db, $values);
+        $setsString = implode(',', $sets);
+        $sql = "INSERT INTO `{$tableName}` SET {$setsString}";
+        $r = $db->query($sql);
+        if (!$r)
+            throw new \RuntimeException("Fail to query sql(#{$db->errno}, {$db->error}): {$sql}");
     }
 
     public function update($siteId, $values)
