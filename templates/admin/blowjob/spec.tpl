@@ -32,7 +32,7 @@ paths:
         - name: identity
           in: formData
           description: 产品唯一标识
-          required: true
+          required: false
           type: string
         - name: remotePic
           in: formData
