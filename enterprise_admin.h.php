@@ -8,8 +8,6 @@
 /** @var string Fields of Inquiry for List */
 define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`');
 
-define('SESSION_FIELD_USER_ID', 'user_id');
-
 /**
  * Grant permission
  */

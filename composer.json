@@ -11,6 +11,7 @@
     },
     "autoload": {
         "psr-4": {
+            "oms\\": "src/oms/",
             "blowjob\\": "src/blowjob/",
             "enterprise\\": "src/",
             "": "common/"

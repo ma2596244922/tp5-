@@ -249,3 +249,22 @@ CREATE TABLE `enterprise_custom_pages` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `path`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自定义页面表';
+
+CREATE TABLE `oms_sites` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `desc` varchar(45) NOT NULL COMMENT '描述',
+  `guid` binary(16) NOT NULL COMMENT '全局唯一ID',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='（服务器级别）站点表';
+
+CREATE TABLE `enterprise_site_mappings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `domain` varchar(45) NOT NULL COMMENT '完整根域（如：baidu.com）',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_mutex` (`site_id`, `domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点域名映射';

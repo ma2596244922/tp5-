@@ -5,6 +5,8 @@
  * @package timandes\enterprise
  */
 
+define('SESSION_FIELD_USER_ID', 'user_id');
+
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 
