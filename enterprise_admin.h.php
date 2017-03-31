@@ -560,7 +560,7 @@ function enterprise_admin_action_product($smarty)
     $condition = "`site_id`={$userSiteId} AND `deleted`=0";
     $totalProducts = $productDAO->countBy($condition);
     $totalPages = (int)($totalProducts / $max) + (($totalProducts % $max)?1:0);
-    $smarty->assign('total_productss', $totalProducts);
+    $smarty->assign('total_products', $totalProducts);
     $smarty->assign('page_size', $max);
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
