@@ -249,6 +249,15 @@ $domainInfo = array(
         'cnpqsolution.com' => array(
                 'site_id' => 51,
             ),
+        'full-ceramic-bearing.com' => array(
+                'site_id' => 52,
+            ),
+        'slewing-bearings.org' => array(
+                'site_id' => 53,
+            ),
+        'shaft-bearing.com' => array(
+                'site_id' => 54,
+            ),
     );
 $siteInfo = array(
         1 => array(
