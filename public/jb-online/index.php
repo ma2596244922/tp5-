@@ -151,6 +151,7 @@ function enterprise_oms_action_edit_site($smarty)
     if ($siteId) {// Edit
         $siteDAO->update($siteId, $values);
     } else {// Create
+        $values['guid'] = enterprise_generate_guid();
         $values['created'] = $values['updated'];
         $siteId = $siteDAO->insert($values);
 
