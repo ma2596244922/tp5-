@@ -37,15 +37,17 @@ function enterprise_extract_locale_n_domain($host)
  */
 function enterprise_extract_site_infos()
 {
-    global $domainInfo, $siteInfo;
+    global $siteInfo;
 
     list($locale, $currentDomainSuffix) = enterprise_extract_locale_n_domain($_SERVER['HTTP_HOST']);
 
-    if (!isset($domainInfo[$currentDomainSuffix])
-            || !is_array($domainInfo[$currentDomainSuffix]))
-        throw new HttpException(404);
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $condition = "`domain`='" . $siteMappingDAO->escape($currentDomainSuffix) . "'";
+    $siteMapping = $siteMappingDAO->getOneBy($condition);
+    if (!$siteMapping)
+        throw new HttpException(403);
 
-    $siteId = $domainInfo[$currentDomainSuffix]['site_id'];
+    $siteId = $siteMapping['site_id'];
 
     if (!isset($siteInfo[$siteId])
             || !is_array($siteInfo[$siteId]))
