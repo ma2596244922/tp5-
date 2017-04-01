@@ -10,9 +10,16 @@ require_once __DIR__ . '/bootstrap.php';
 list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 
 $taskDAO = new blowjob\daos\Task();
+$groupDAO = new enterprise\daos\Group();
 $statusRange = blowjob\daos\Task::STATUS_PENDING . ', ' . blowjob\daos\Task::STATUS_IN_PROGRESS;
-$condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0 AND `status` in (' . $statusRange . ')';
-$tasks = $taskDAO->getMultiInOrderBy($condition, '`id`, `group_id`, `target_url`, `max_pages`, `status`', '`id` DESC');
+$condition = 't.`site_id`=' . (int)$siteId . ' AND t.`deleted`=0 AND t.`status` in (' . $statusRange . ')';
+$taskTableName = $taskDAO->getTableName();
+$groupTableName = $groupDAO->getTableName();
+$sql = "SELECT t.`id`, t.`group_id`, g.`name` AS `group_name`, t.`target_url`, t.`max_pages`, t.`status`
+    FROM `{$taskTableName}` t
+    LEFT JOIN `{$groupTableName}` g ON g.`id`=t.`group_id`
+    WHERE {$condition} ORDER BY t.`id` DESC";
+$tasks = $taskDAO->getMultiBySql($sql);
 
 $response = array(
         "host"=> "www." . $currentDomainSuffix,
