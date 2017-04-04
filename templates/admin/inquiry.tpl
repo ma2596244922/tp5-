@@ -164,7 +164,7 @@
 
                             <div class="portlet-body">
 
-                                <table class="table table-condensed table-hover">
+                                <table class="table table-striped table-bordered table-hover">
 
                                     <thead>
 
@@ -177,6 +177,8 @@
                                             <th>Email</th>
 
                                             <th>发布时间(+8)</th>
+
+                                            <th>&nbsp;</th>
 
                                         </tr>
 
@@ -198,11 +200,17 @@
 
                                             <td>{$inquiries[i].created}</td>
 
+                                            <td>
+    {-if $inquiries[i].target_product_id}
+                                                <a href="?action=edit_comment&source_inquiry_id={$inquiries[i].id}">转留言</a>
+    {-/if}
+                                            </td>
+
                                         </tr>
 {sectionelse}
                                         <tr>
 
-                                            <td colspan="4">暂无任何询盘</td>
+                                            <td colspan="5">暂无任何询盘</td>
 
                                         </tr>
 {/section}

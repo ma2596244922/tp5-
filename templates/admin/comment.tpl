@@ -1,4 +1,4 @@
-{assign var=page_title value="产品管理"-}<!DOCTYPE html>
+{assign var=page_title value="管理留言"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -112,7 +112,7 @@
 
                         <h3 class="page-title">
 
-                            {$page_title} <small>产品汇总</small>
+                            {$page_title} <small>管理访客对产品的留言信息</small>
 
                         </h3>
 
@@ -128,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="?action=product">{$page_title}</a></li>
+                            <li><a href="?action=product">产品管理</a></li>
 
                         </ul>
 
@@ -168,7 +168,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-file"></i>{$page_title}</div>
+                                <div class="caption"><i class="icon-envelope"></i>{$page_title}</div>
 
                                 <div class="tools">
 
@@ -184,9 +184,9 @@
 
                                     <div class="btn-group">
 
-                                        <a href="?action=edit_product" class="btn red">
+                                        <a href="?action=edit_comment&product_id={$product_id}" class="btn red">
 
-                                        发布新产品 <i class="icon-plus"></i>
+                                        创建留言 <i class="icon-plus"></i>
 
                                         </a>
 
@@ -194,7 +194,7 @@
 
                                 </div>
 
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-striped table-condensed table-hover">
 
                                     <thead>
 
@@ -206,10 +206,6 @@
 
                                             <th>创建时间(+8)</th>
 
-                                            <th>最后修改时间(+8)</th>
-
-                                            <th>所属分组</th>
-
                                             <th>&nbsp;</th>
 
                                         </tr>
@@ -217,36 +213,20 @@
                                     </thead>
 
                                     <tbody>
-{section name=i loop=$products}
+{section name=i loop=$comments}
                                         <tr>
 
-                                            <td>{$products[i].id}</td>
+                                            <td>{$comments[i].id}</td>
+
+                                            <td>{$comments[i].subject}</td>
+
+                                            <td>{$comments[i].created}</td>
 
                                             <td>
 
-                                                <a href="{$products[i]|url:'enterprise_url_product'}" target="_blank">{$products[i].caption}</a>
-    {-if $products[i].source_url}
-                                                <!--<br>
+                                                <a href="?action=edit_comment&comment_id={$comments[i].id}">修改</a>
 
-                                                <span style="color: #7f7f7f">源站地址：</span>
-
-                                                <a href="{$products[i].source_url}" title="{$products[i].source_url}" target="_blank">{$products[i].source_url|truncate:100}</a>-->
-    {-/if}
-                                            </td>
-
-                                            <td>{$products[i].created}</td>
-
-                                            <td>{$products[i].updated}</td>
-
-                                            <td>{$products[i].group_name}</td>
-
-                                            <td>
-
-                                                <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
-
-                                                <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
-
-                                                <a href="?action=delete_product&product_id={$products[i].id}">删除</a>
+                                                <a href="?action=delete_comment&comment_id={$comments[i].id}">删除</a>
 
                                             </td>
 
@@ -254,43 +234,13 @@
 {sectionelse}
                                         <tr>
 
-                                            <td colspan="6">暂无任何产品</td>
+                                            <td colspan="4">暂无任何留言</td>
 
                                         </tr>
 {/section}
                                     </tbody>
 
                                 </table>
-
-                                <div class="row-fluid">
-
-                                    <div class="span6">
-
-                                        <div class="dataTables_info" id="sample_1_info">共有{$total_products}条产品。当前展示{$page_no}/{$pager_info['pages']}页</div>
-
-                                    </div>
-
-                                    <div class="span6">
-
-                                        <div class="dataTables_paginate paging_bootstrap pagination">
-
-                                            <ul>
-{-if isset($pager_info['prev_page'])}
-                                                <li class="prev"><a href="?action=product&page={$pager_info['prev_page']}">← <span class="hidden-480">Prev</span></a></li>
-{-/if}
-{-for $i=$pager_info['min_page'] to $pager_info['max_page']}
-                                                <li{if $i==$page_no} class="active"{/if}><a href="?action=product&page={$i}">{$i}</a></li>
-{-/for}
-{-if isset($pager_info['next_page'])}
-                                                <li class="next"><a href="?action=product&page={$pager_info['next_page']}"><span class="hidden-480">Next</span> → </a></li>
-{-/if}
-                                            </ul>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
 
                             </div>
 

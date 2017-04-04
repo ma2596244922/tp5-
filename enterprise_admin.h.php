@@ -6,7 +6,7 @@
  */
 
 /** @var string Fields of Inquiry for List */
-define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`');
+define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`, `target_product_id`');
 
 /**
  * Grant permission
@@ -1443,4 +1443,112 @@ function enterprise_admin_action_upload_image($smarty)
     $responseJS = "window.parent.CKEDITOR.tools.callFunction( {$funcNum}, '{$imageUrl}' );";
     echo '<script type="text/javascript">' . $responseJS . '</script>';
 }
+/* }}} */
+
+
+/* {{{ Comment */
+
+/**
+ * Comments
+ */
+function enterprise_admin_action_comment($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $productId = (int)timandes_get_query_data('product_id');
+    $smarty->assign('product_id', $productId);
+
+    enterprise_assign_comment_list($smarty, 'comments', $userSiteId, $productId);
+
+    $smarty->display('admin/comment.tpl');
+}
+
+function enterprise_admin_source_inquiry_2_comment($sourceInquiryId)
+{
+    if (!$sourceInquiryId)
+        return null;
+
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $inquiry = $inquiryDAO->get($sourceInquiryId);
+    if (!$inquiry)
+        return null;
+
+    $retval = array(
+            'product_id' => $inquiry['target_product_id'],
+            'subject' => $inquiry['subject'],
+            'message' => $inquiry['message'],
+        );
+    return $retval;
+}
+
+/**
+ * Edit Comment
+ */
+function enterprise_admin_action_edit_comment($smarty)
+{
+    $tplPath = 'admin/edit_comment.tpl';
+
+    $commentId = (int)enterprise_get_query_data('comment_id');
+    $smarty->assign('comment_id', $commentId);
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($commentId) 
+            enterprise_assign_comment_info($smarty, 'comment', $commentId);
+
+        // Product ID when creating
+        $productId = (int)enterprise_get_query_data('product_id');
+        $smarty->assign('product_id', $productId);
+
+        // From inquiry?
+        $sourceInquiryId = (int)timandes_get_query_data('source_inquiry_id');
+        $comment = enterprise_admin_source_inquiry_2_comment($sourceInquiryId);
+        if ($comment)
+            $smarty->assign('comment', $comment);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $productId = (int)enterprise_get_post_data('product_id');
+    $subject = enterprise_get_post_data('subject');
+    $message = enterprise_get_post_data('message', 'trim');
+
+    $commentDAO = new \enterprise\daos\Comment();
+    $values = array(
+            'site_id' => $userSiteId,
+            'product_id' => $productId,
+            'subject' => $subject,
+            'message' => $message,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($commentId) {// Edit
+        $commentDAO->update($commentId, $values);
+        enterprise_assign_comment_info($smarty, 'comment', $commentId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $commentDAO->insert($values);
+    }
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Delete Comment
+ */
+function enterprise_admin_action_delete_comment($smarty)
+{
+    $commentId = (int)enterprise_get_query_data('comment_id');
+
+    $commentDAO = new \enterprise\daos\Comment();
+    $values = array(
+            'deleted' => 1,
+        );
+    $commentDAO->update($commentId, $values);
+    header('Location: ?action=comment&success_msg=' . urlencode('删除成功'));
+}
+
 /* }}} */

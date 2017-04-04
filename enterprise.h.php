@@ -1388,3 +1388,31 @@ function enterprise_assign_custom_page_info($smarty, $var, $customPageId)
 }
 
 /* }}} */
+
+/* {{{ Comment */
+/**
+ * Assign Comment List
+ */
+function enterprise_assign_comment_list($smarty, $var, $siteId, $productId, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $productId = (int)$productId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $commentDAO = new \enterprise\daos\Comment();
+    $condition = "`site_id`={$siteId} AND `product_id`={$productId} AND `deleted`=0";
+    $comments = $commentDAO->getMultiInOrderBy($condition, '`id`, `subject`, `message`, `created`', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $comments);
+}
+
+/**
+ * Assign comment info
+ */
+function enterprise_assign_comment_info($smarty, $var, $commentId)
+{
+    $commentDAO = new \enterprise\daos\Comment();
+    $comment = $commentDAO->get($commentId);
+    $smarty->assign($var, $comment);
+}
+
+/* }}} */

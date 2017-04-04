@@ -87,6 +87,12 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_custom_page($smarty);
                 case 'delete_custom_page':
                     return enterprise_admin_action_delete_custom_page($smarty);
+                case 'comment':
+                    return enterprise_admin_action_comment($smarty);
+                case 'edit_comment':
+                    return enterprise_admin_action_edit_comment($smarty);
+                case 'delete_comment':
+                    return enterprise_admin_action_delete_comment($smarty);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

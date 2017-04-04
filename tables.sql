@@ -268,3 +268,16 @@ CREATE TABLE `enterprise_site_mappings` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_mutex` (`domain`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点域名映射';
+
+CREATE TABLE `enterprise_comments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `subject` varchar(100) NOT NULL COMMENT '标题',
+  `message` text NOT NULL COMMENT '内容',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品留言表';
