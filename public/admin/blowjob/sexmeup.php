@@ -25,7 +25,7 @@ function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl, $thumbnail =
     $imageDAO = new \enterprise\daos\Image();
     $thumbnailDAO = new \enterprise\daos\Thumbnail();
     $body = null;
-    $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody()->__toString(), $body);
+    $id = enterprise_admin_save_image($imageDAO, $siteId, $imageManager, $response->getBody()->__toString(), $body, IMAGE_MAX_WIDTH_4_PRODUCT);
     // Thumbnail
     if ($thumbnail)
         enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body);

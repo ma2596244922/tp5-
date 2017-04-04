@@ -206,7 +206,7 @@
 
                                                 <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
 
-                                                    <img src="{$banner.uri|default:''|url:'enterprise_url_photo'}" alt="" style="max-height: 150px;" />
+                                                    <img src="{$banner.uri|default:''|url:'enterprise_url_photo':'':'m'}" alt="" style="max-height: 150px;" />
 
                                                 </div>
 

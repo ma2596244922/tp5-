@@ -190,7 +190,7 @@
 
                                         <a href="?action=edit_banner" class="btn red">
 
-                                        上传横幅 <i class="icon-plus"></i>
+                                        上传Banner <i class="icon-plus"></i>
 
                                         </a>
 
@@ -214,7 +214,7 @@
 
                                                 <div class="zoom">
 
-                                                    <img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}" />
+                                                    <img src="{$banner.uri|url:'enterprise_url_photo':'':'t'}" alt="{$banner.desc}" />
 
                                                     <div class="zoom-icon"></div>
 
@@ -236,7 +236,7 @@
 {foreachelse}
                                     <div class="span12">
 
-                                        <div>尚未上传横幅</div>
+                                        <div>尚未上传Banner</div>
 
                                     </div>
 {/foreach}

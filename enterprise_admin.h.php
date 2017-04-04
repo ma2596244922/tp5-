@@ -589,9 +589,9 @@ function enterprise_admin_assign_product_info($smarty, $var, $productId)
     }
 }
 
-function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $source, &$body = null)
+function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $source, &$body = null, $maxWidth = 800)
 {
-    $image = enterprise_admin_standardize_image($imageManager, $source, IMAGE_MAX_WIDTH);
+    $image = enterprise_admin_standardize_image($imageManager, $source, $maxWidth);
     $body = (string)$image->encode('jpg', 90);
     $values = array(
             'site_id' => $userSiteId,
@@ -862,6 +862,8 @@ function enterprise_admin_action_photo($smarty)
 
 function enterprise_admin_upload_post_images($thumbnailFor = 'product')
 {
+    global $maxWidthInfo;
+
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $imageDAO = new \enterprise\daos\Image();
     $thumbnailDAO = new \enterprise\daos\Thumbnail();
@@ -874,7 +876,8 @@ function enterprise_admin_upload_post_images($thumbnailFor = 'product')
                 continue;
 
             $body = null;
-            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body);
+            $maxWidth = (isset($maxWidthInfo[$thumbnailFor])?$maxWidthInfo[$thumbnailFor]:IMAGE_MAX_WIDTH_4_PRODUCT);
+            $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body, $maxWidth);
             // Thumbnail
             if ($thumbnailFor)
                 enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $thumbnailFor);
@@ -1224,7 +1227,7 @@ function enterprise_admin_action_edit_banner($smarty)
     $link = enterprise_get_post_data('link');
 
     // Upload Images
-    $images = enterprise_admin_upload_post_images();
+    $images = enterprise_admin_upload_post_images('banner');
     if (!$images) {
         $smarty->assign('error_msg', '请选择图片');
         return $smarty->display($tplPath);

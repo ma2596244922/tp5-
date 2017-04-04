@@ -11,9 +11,6 @@ date_default_timezone_set("Asia/Shanghai");
 // MySQL error handler
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-// 图片最大宽度
-define('IMAGE_MAX_WIDTH', 1120);
-
 // Autoload
 require_once __DIR__ . '/vendor/autoload.php';
 
