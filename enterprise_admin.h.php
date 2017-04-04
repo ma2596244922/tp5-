@@ -559,11 +559,11 @@ function enterprise_admin_action_product($smarty)
 
     $condition = "`site_id`={$userSiteId} AND `deleted`=0";
     $totalProducts = $productDAO->countBy($condition);
-    $totalPages = (int)($totalProducts / $max) + (($totalProducts % $max)?1:0);
     $smarty->assign('total_products', $totalProducts);
     $smarty->assign('page_size', $max);
     $smarty->assign('page_no', $pageNo);
-    $smarty->assign('total_pages', $totalPages);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalProducts, $max, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
 
     $smarty->display('admin/product.tpl');
 }

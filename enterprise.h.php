@@ -161,6 +161,25 @@ function enterprise_generate_url_key($str)
     return trim(preg_replace('/[\s]+|[^0-9a-zA-Z]+/', '-', enterprise_standardize_url_key($str)), '-');
 }
 
+/**
+ * 计算分页关键参数
+ *
+ * @return array
+ */
+function enterprise_pager_calculate_key_infos($total, $size, $cur)
+{
+    $pagesEachSlice = 7;
+    $retval = array();
+    $retval['pages'] = (int)($total / $size) + (($total % $size)?1:0);
+    $retval['first_page'] = (($cur > 1)?1:null);
+    $retval['prev_page'] = (($cur > 1)?($cur - 1):null);
+    $retval['min_page'] = (($cur - 3 <= 0)?1:($cur - 3));
+    $retval['max_page'] = min($retval['pages'], $retval['min_page'] + ($pagesEachSlice - 1));
+    $retval['next_page'] = (($cur < $retval['pages'])?($cur + 1):null);
+    $retval['last_page'] = (($cur < $retval['pages'])?$retval['pages']:null);
+    return $retval;
+}
+
 /* }}} */
 
 /* {{{ Sitemap */

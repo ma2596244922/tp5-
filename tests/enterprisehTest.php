@@ -12,6 +12,9 @@
  */
 class enterprisehTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * function enterprise_extract_locale_n_domain()
+     */
     public function test1()
     {
         // seamlesssteel-tube.com
@@ -54,6 +57,57 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $host = 'french.ltbtv.com.cn';
         $expected = array('french', 'ltbtv.com.cn');
         $actual = enterprise_extract_locale_n_domain($host);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * function enterprise_pager_calculate_key_infos()
+     */
+    public function test2()
+    {
+        $total = 5;
+        $size = 20;
+        $cur = 1;
+        $expected = array(
+                'pages' => 1,
+                'min_page' => 1,
+                'max_page' => 1,
+                'prev_page' => null,
+                'next_page' => null,
+                'first_page' => null,
+                'last_page' => null,
+            );
+        $actual = enterprise_pager_calculate_key_infos($total, $size, $cur);
+        $this->assertEquals($expected, $actual);
+
+        $total = 501;
+        $size = 20;
+        $cur = 1;
+        $expected = array(
+                'pages' => 26,
+                'min_page' => 1,
+                'max_page' => 7,
+                'prev_page' => null,
+                'next_page' => 2,
+                'first_page' => null,
+                'last_page' => 26,
+            );
+        $actual = enterprise_pager_calculate_key_infos($total, $size, $cur);
+        $this->assertEquals($expected, $actual);
+
+        $total = 501;
+        $size = 20;
+        $cur = 15;
+        $expected = array(
+                'pages' => 26,
+                'min_page' => 12,
+                'max_page' => 18,
+                'prev_page' => 14,
+                'next_page' => 16,
+                'first_page' => 1,
+                'last_page' => 26,
+            );
+        $actual = enterprise_pager_calculate_key_infos($total, $size, $cur);
         $this->assertEquals($expected, $actual);
     }
 }

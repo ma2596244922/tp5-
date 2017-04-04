@@ -264,7 +264,7 @@
 
                                     <div class="span6">
 
-                                        <div class="dataTables_info" id="sample_1_info">共有{$total_products}条产品。当前展示{$page_no}/{$total_pages}页</div>
+                                        <div class="dataTables_info" id="sample_1_info">共有{$total_products}条产品。当前展示{$page_no}/{$pager_info['pages']}页</div>
 
                                     </div>
 
@@ -273,14 +273,14 @@
                                         <div class="dataTables_paginate paging_bootstrap pagination">
 
                                             <ul>
-{-if $page_no > 1}
-                                                <li class="prev"><a href="?action=product&page={$page_no-1}">← <span class="hidden-480">Prev</span></a></li>
+{-if isset($pager_info['prev_page'])}
+                                                <li class="prev"><a href="?action=product&page={$pager_info['prev_page']}">← <span class="hidden-480">Prev</span></a></li>
 {-/if}
-{-for $i=1 to $total_pages}
+{-for $i=$pager_info['min_page'] to $pager_info['max_page']}
                                                 <li{if $i==$page_no} class="active"{/if}><a href="?action=product&page={$i}">{$i}</a></li>
 {-/for}
-{-if $page_no < $total_pages}
-                                                <li class="next"><a href="?action=product&page={$page_no+1}"><span class="hidden-480">Next</span> → </a></li>
+{-if isset($pager_info['next_page'])}
+                                                <li class="next"><a href="?action=product&page={$pager_info['next_page']}"><span class="hidden-480">Next</span> → </a></li>
 {-/if}
                                             </ul>
 
