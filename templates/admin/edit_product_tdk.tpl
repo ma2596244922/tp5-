@@ -1,4 +1,4 @@
-{assign var=page_title value="产品管理"-}<!DOCTYPE html>
+{assign var=page_title value="修改产品TDK"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -41,6 +41,10 @@
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL STYLES -->
+
+    <link rel="stylesheet" type="text/css" href="media/css/select2_metro.css" />
+
+    <link rel="stylesheet" type="text/css" href="media/css/bootstrap-fileupload.css" />
 
     <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
 
@@ -112,7 +116,7 @@
 
                         <h3 class="page-title">
 
-                            {$page_title} <small>产品汇总</small>
+                            {$page_title} <small>发布、修改产品信息</small>
 
                         </h3>
 
@@ -128,7 +132,7 @@
 
                             </li>
 
-                            <li><a href="?action=product">{$page_title}</a></li>
+                            <li><a href="?action=product">产品管理</a></li>
 
                         </ul>
 
@@ -146,29 +150,29 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$smarty.get.error_msg} hide{/if}">
+                        <div class="alert alert-error{if !$error_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$smarty.get.error_msg}</span>
+                            <span>{$error_msg}</span>
 
                         </div>
 
-                        <div class="alert alert-success{if !$smarty.get.success_msg} hide{/if}">
+                        <div class="alert alert-success{if !$success_msg} hide{/if}">
 
                             <button class="close" data-dismiss="alert"></button>
 
-                            <span>{$smarty.get.success_msg}</span>
+                            <span>{$success_msg}</span>
 
                         </div>
 
-                        <!-- BEGIN CONDENSED TABLE PORTLET-->
+                        <!-- BEGIN SAMPLE FORM PORTLET-->   
 
-                        <div class="portlet box green">
+                        <div class="portlet box blue">
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-file"></i>{$page_title}</div>
+                                <div class="caption"><i class="icon-reorder"></i>{$page_title}</div>
 
                                 <div class="tools">
 
@@ -178,129 +182,73 @@
 
                             </div>
 
-                            <div class="portlet-body">
+                            <div class="portlet-body form">
 
-                                <div class="clearfix">
+                                <!-- BEGIN FORM-->
 
-                                    <div class="btn-group">
+                                <form action="?action=edit_product_tdk&product_id={$product_id}" method="POST" class="form-horizontal" id="form-edit-product">
 
-                                        <a href="?action=edit_product" class="btn red">
+                                    <div class="control-group">
 
-                                        发布新产品 <i class="icon-plus"></i>
+                                        <label class="control-label">HTML Title</label>
 
-                                        </a>
+                                        <div class="controls">
 
-                                    </div>
+                                            <input type="text" class="span6 m-wrap" name="html_title" value="{$title}" />
 
-                                </div>
-
-                                <table class="table table-striped table-bordered table-hover">
-
-                                    <thead>
-
-                                        <tr>
-
-                                            <th>#</th>
-
-                                            <th>标题</th>
-
-                                            <th>创建时间(+8)</th>
-
-                                            <th>最后修改时间(+8)</th>
-
-                                            <th>所属分组</th>
-
-                                            <th>&nbsp;</th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-{section name=i loop=$products}
-                                        <tr>
-
-                                            <td>{$products[i].id}</td>
-
-                                            <td>
-
-                                                <a href="{$products[i]|url:'enterprise_url_product'}" target="_blank">{$products[i].caption}</a>
-    {-if $products[i].source_url}
-                                                <!--<br>
-
-                                                <span style="color: #7f7f7f">源站地址：</span>
-
-                                                <a href="{$products[i].source_url}" title="{$products[i].source_url}" target="_blank">{$products[i].source_url|truncate:100}</a>-->
-    {-/if}
-                                            </td>
-
-                                            <td>{$products[i].created}</td>
-
-                                            <td>{$products[i].updated}</td>
-
-                                            <td>{$products[i].group_name}</td>
-
-                                            <td>
-
-                                                <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
-
-                                                <a href="?action=edit_product_tdk&product_id={$products[i].id}">TDK</a>
-
-                                                <a href="?action=edit_product&source_product_id={$products[i].id}">复制</a>
-
-                                                <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
-
-                                                <a href="?action=delete_product&product_id={$products[i].id}">删除</a>
-
-                                            </td>
-
-                                        </tr>
-{sectionelse}
-                                        <tr>
-
-                                            <td colspan="6">暂无任何产品</td>
-
-                                        </tr>
-{/section}
-                                    </tbody>
-
-                                </table>
-
-                                <div class="row-fluid">
-
-                                    <div class="span6">
-
-                                        <div class="dataTables_info" id="sample_1_info">共有{$total_products}条产品。当前展示{$page_no}/{$pager_info['pages']}页</div>
-
-                                    </div>
-
-                                    <div class="span6">
-
-                                        <div class="dataTables_paginate paging_bootstrap pagination">
-
-                                            <ul>
-{-if isset($pager_info['prev_page'])}
-                                                <li class="prev"><a href="?action=product&page={$pager_info['prev_page']}">← <span class="hidden-480">Prev</span></a></li>
-{-/if}
-{-for $i=$pager_info['min_page'] to $pager_info['max_page']}
-                                                <li{if $i==$page_no} class="active"{/if}><a href="?action=product&page={$i}">{$i}</a></li>
-{-/for}
-{-if isset($pager_info['next_page'])}
-                                                <li class="next"><a href="?action=product&page={$pager_info['next_page']}"><span class="hidden-480">Next</span> → </a></li>
-{-/if}
-                                            </ul>
+                                            <span class="help-inline">网页标题</span>
 
                                         </div>
 
                                     </div>
 
-                                </div>
+                                    <div class="control-group">
+
+                                        <label class="control-label">Meta Keywords</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span8 m-wrap" name="meta_keywords" value="{$keywords}" />
+
+                                            <span class="help-inline">网页关键词</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">Meta Description</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span12 m-wrap" name="meta_description" rows="6">{$description}</textarea>
+
+                                            <span class="help-inline">网页描述。多余的回车符号会被自动清除。</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-actions">
+
+                                        <input type="hidden" name="submit" value="edit_product_tdk">
+
+                                        <button type="submit" class="btn blue">保存</button>
+
+                                        <a href="?action=product" class="btn">取消</a>
+
+                                    </div>
+
+                                </form>
+
+                                <!-- END FORM-->
 
                             </div>
 
                         </div>
 
-                        <!-- END CONDENSED TABLE PORTLET-->
+                        <!-- END SAMPLE FORM PORTLET-->
 
                     </div>
 
@@ -356,9 +304,27 @@
 
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+
+    <script type="text/javascript" src="media/js/bootstrap-fileupload.js"></script>
+
+    <script type="text/javascript" src="media/js/select2.min.js"></script>
+
+    <script type="text/javascript" src="media/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" src="media/js/DT_bootstrap.js"></script>
+
+    <script src="ckeditor/ckeditor.js" type="text/javascript" ></script>
+
+    <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
+
+    <!-- END PAGE LEVEL PLUGINS -->
+
     <!-- END CORE PLUGINS -->
 
     <script src="media/js/app.js"></script>      
+
+    <script src="media/js/table-editable.js"></script>    
 
     <script>{literal}
 
@@ -368,6 +334,33 @@
 
            App.init();
 
+            var dataTable = TableEditable.init();
+
+            $('#form-edit-product').on('submit', function(e) {
+                var specifications = [];
+                var nodes = dataTable.fnGetNodes();
+                for(var node in nodes) {
+                    var data = dataTable.fnGetData(node);
+                    if (data.length <= 0)
+                        continue;
+                    var pair = data[0] + '=' + encodeURIComponent(data[1]);
+                    specifications.push(pair);
+                }
+                var val = specifications.join('&');
+                $(this).find('[name="specifications"]').val(val);
+            });
+
+            $('#textarea-description').ckeditor({
+                filebrowserUploadUrl: '?action=upload_image'
+            });
+
+            $("#select2_sample5").select2({
+                tags: []
+            });
+
+            $("#input-payment-terms").select2({
+                tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
+            });
         });
 
     </script>{/literal}

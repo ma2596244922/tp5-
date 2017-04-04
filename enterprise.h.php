@@ -953,6 +953,23 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
 }
 
 /**
+ * 向模板追加产品详情页的TDK
+ */
+function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup)
+{
+    $productGroupName = (isset($productGroup['name'])?$productGroup['name']:'');
+
+    $presetTitle = "Buy {$product['caption']} - {$corporation['name']}";
+    $smarty->assign('title', ($product['html_title']?$product['html_title']:$presetTitle));
+
+    $presetKeywords = "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale";
+    $smarty->assign('keywords', ($product['meta_keywords']?$product['meta_keywords']:$presetKeywords));
+
+    $presetDescription = "Buy {$product['caption']} from quality {$productGroupName} manufacturers of {$corporation['name']}.";
+    $smarty->assign('description', ($product['meta_description']?$product['meta_description']:$presetDescription));
+}
+
+/**
  * /sell-*.html
  *
  * @return string
@@ -993,10 +1010,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
     $productGroup = $smarty->getTemplateVars('product_group');
 
     // TDK
-    $productGroupName = (isset($productGroup['name'])?$productGroup['name']:'');
-    $smarty->assign('title', "Buy {$product['caption']} - {$corporation['name']}");
-    $smarty->assign('keywords', "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale");
-    $smarty->assign('description', "Buy {$product['caption']} from quality {$productGroupName} manufacturers of {$corporation['name']}.");
+    enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
 
     return $smarty->fetch($tplPath);
 }
