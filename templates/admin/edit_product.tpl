@@ -132,7 +132,7 @@
 
                             </li>
 
-                            <li><a href="?action=product">我的产品</a></li>
+                            <li><a href="?action=product">产品管理</a></li>
 
                         </ul>
 

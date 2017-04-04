@@ -128,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="?action=custom_page">管理自定义页面</a></li>
+                            <li><a href="?action=custom_page">Webmasters验证</a></li>
 
                         </ul>
 

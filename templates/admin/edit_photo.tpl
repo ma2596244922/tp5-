@@ -1,4 +1,4 @@
-{assign var=page_title value="编辑照片"-}<!DOCTYPE html>
+{assign var=page_title value="编辑图片"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -132,7 +132,7 @@
 
                             </li>
 
-                            <li><a href="?action=photo">我的照片</a></li>
+                            <li><a href="?action=photo">公司图片</a></li>
 
                         </ul>
 

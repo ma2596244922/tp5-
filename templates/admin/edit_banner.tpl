@@ -1,4 +1,4 @@
-{assign var=page_title value="编辑横幅"-}<!DOCTYPE html>
+{assign var=page_title value="编辑Banner"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -116,7 +116,7 @@
 
                         <h3 class="page-title">
 
-                            {$page_title} <small>上传、修改横幅信息</small>
+                            {$page_title} <small>上传、修改Banner信息</small>
 
                         </h3>
 
@@ -132,7 +132,7 @@
 
                             </li>
 
-                            <li><a href="?action=banner">我的横幅</a></li>
+                            <li><a href="?action=banner">Banner管理</a></li>
 
                         </ul>
 

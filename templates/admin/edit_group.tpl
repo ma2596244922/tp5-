@@ -128,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="?action=group">我的分组</a></li>
+                            <li><a href="?action=group">产品分组</a></li>
 
                         </ul>
 

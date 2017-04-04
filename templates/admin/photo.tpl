@@ -1,4 +1,4 @@
-{assign var=page_title value="我的照片"-}<!DOCTYPE html>
+{assign var=page_title value="公司图片"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 

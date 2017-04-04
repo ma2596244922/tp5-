@@ -1,4 +1,4 @@
-{assign var=page_title value="站点代码"-}<!DOCTYPE html>
+{assign var=page_title value="页面镶嵌代码"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 

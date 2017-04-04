@@ -1,4 +1,4 @@
-{assign var=page_title value="我的产品"-}<!DOCTYPE html>
+{assign var=page_title value="产品管理"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 

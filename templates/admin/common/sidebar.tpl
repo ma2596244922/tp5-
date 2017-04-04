@@ -45,7 +45,7 @@
 
                     <i class="icon-briefcase"></i> 
 
-                    <span class="title">我的分组</span>
+                    <span class="title">产品分组</span>
 
                     </a>
 
@@ -57,7 +57,7 @@
 
                     <i class="icon-file"></i> 
 
-                    <span class="title">我的产品</span>
+                    <span class="title">产品管理</span>
 
                     </a>
 
@@ -69,7 +69,7 @@
 
                     <i class="icon-picture"></i> 
 
-                    <span class="title">我的照片</span>
+                    <span class="title">公司图片</span>
 
                     </a>
 
@@ -129,7 +129,7 @@
 
                     <i class="icon-money"></i> 
 
-                    <span class="title">我的横幅</span>
+                    <span class="title">Banner管理</span>
 
                     </a>
 
@@ -141,7 +141,7 @@
 
                     <i class="icon-file"></i> 
 
-                    <span class="title">自定义页面</span>
+                    <span class="title">Webmasters验证</span>
 
                     </a>
 
@@ -153,7 +153,7 @@
 
                     <i class="icon-cog"></i> 
 
-                    <span class="title">站点代码</span>
+                    <span class="title">页面镶嵌代码</span>
 
                     </a>
 

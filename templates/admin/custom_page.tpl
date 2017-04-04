@@ -1,4 +1,4 @@
-{assign var=page_title value="自定义页面"-}<!DOCTYPE html>
+{assign var=page_title value="Webmasters验证"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
