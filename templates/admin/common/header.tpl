@@ -10,6 +10,8 @@
 
                 <a class="brand" href="/">
 
+                <img src="media/image/logo.png" alt="logo" width="86" height="14" />
+
                 </a>
 
                 <!-- END LOGO -->

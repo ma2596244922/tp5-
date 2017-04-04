@@ -334,33 +334,6 @@
 
            App.init();
 
-            var dataTable = TableEditable.init();
-
-            $('#form-edit-product').on('submit', function(e) {
-                var specifications = [];
-                var nodes = dataTable.fnGetNodes();
-                for(var node in nodes) {
-                    var data = dataTable.fnGetData(node);
-                    if (data.length <= 0)
-                        continue;
-                    var pair = data[0] + '=' + encodeURIComponent(data[1]);
-                    specifications.push(pair);
-                }
-                var val = specifications.join('&');
-                $(this).find('[name="specifications"]').val(val);
-            });
-
-            $('#textarea-description').ckeditor({
-                filebrowserUploadUrl: '?action=upload_image'
-            });
-
-            $("#select2_sample5").select2({
-                tags: []
-            });
-
-            $("#input-payment-terms").select2({
-                tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
-            });
         });
 
     </script>{/literal}

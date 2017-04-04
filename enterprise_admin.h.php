@@ -815,6 +815,54 @@ function enterprise_admin_action_edit_product_tdk($smarty)
     $smarty->assign('success_msg', '保存成功');
     $smarty->display($tplPath);
 }
+
+/**
+ * Insert Keywords
+ */
+function enterprise_admin_action_insert_keywords($smarty)
+{
+    $tplPath = 'admin/insert_keywords.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $keywords = enterprise_get_post_data('keywords');
+    $metaKeywords = enterprise_get_post_data('meta_keywords');
+    $metaDescription = enterprise_get_post_data('meta_description');
+    $metaDescription = str_replace("\n", '', $metaDescription);
+    $metaDescription = str_replace("\r", '', $metaDescription);
+
+    // Save products
+    $productDAO = new \enterprise\daos\Product();
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+            'html_title' => $htmlTitle,
+            'meta_keywords' => $metaKeywords,
+            'meta_description' => $metaDescription,
+        );
+    $productDAO->update($productId, $values);
+
+    // Product Info
+    enterprise_admin_assign_product_info($smarty, 'product', $productId);
+    $product = $smarty->getTemplateVars('product');
+
+    // Auto TDK
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+    $corporation = $smarty->getTemplateVars('corporation');
+    enterprise_admin_assign_group_info($smarty, 'product_group', $product['group_id']);
+    $productGroup = $smarty->getTemplateVars('product_group');
+    enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
+
+    $smarty->assign('success_msg', '保存成功');
+    $smarty->display($tplPath);
+}
 /* }}} */
 
 /* {{{ Contact */
