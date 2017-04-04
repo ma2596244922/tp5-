@@ -75,6 +75,16 @@ function enterprise_oms_add_records_for_related_tables($siteId, $domain)
         );
     $corporationDAO->insert($values);
 
+    // Create site
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'site_id' => $siteId,
+            'template' => 'trade',
+            'updated' => $nowString,
+            'start_year' => 2017,
+        );
+    $siteDAO->insert($values);
+
     // Create site mapping
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
     $values = array(
