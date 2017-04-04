@@ -8,7 +8,7 @@
 /** @var string Pattern of Product List */
 define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
 /** @var string Pattern of Product Detail */
-define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
 /** @var string Fields of Custom Page for List */
@@ -593,7 +593,11 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
         return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
         $productId = $matches[1];
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
+        if ($matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if ($matches[3])
@@ -672,9 +676,12 @@ function enterprise_url_photo($uri, $desc = '', $imageSizeType = '')
  *
  * @return string
  */
-function enterprise_url_product($product)
+function enterprise_url_product($product, $pageNo = 1)
 {
-    return enterprise_url_prefix() . '/sell-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = 'p' . $pageNo;
+    return enterprise_url_prefix() . '/sell-' . $product['id'] . $pageString . '-' . enterprise_generate_url_key($product['caption']) . '.html';
 }
 
 /**
@@ -942,11 +949,11 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
 }
 
 /**
- * /sale-*.html
+ * /sell-*.html
  *
  * @return string
  */
-function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
+function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageNo = 1)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -963,6 +970,18 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
     $smarty->assign('site', $site);
 
     enterprise_assign_action_product_detail($smarty, $siteId, $productId);
+
+    // Comments
+    $pageSize = 10;
+    $condition = enterprise_assign_comment_list($smarty, 'comments', $siteId, $productId, $pageNo, $pageSize);
+    // Total comments
+    $commentDAO = new \enterprise\daos\Comment();
+    $totalComments = $commentDAO->countBy($condition);
+    $totalPages = (int)($totalComments / $pageSize) + (($totalComments % $pageSize)?1:0);
+    $smarty->assign('total_comments', $totalComments);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
@@ -1403,6 +1422,8 @@ function enterprise_assign_comment_list($smarty, $var, $siteId, $productId, $pag
     $condition = "`site_id`={$siteId} AND `product_id`={$productId} AND `deleted`=0";
     $comments = $commentDAO->getMultiInOrderBy($condition, '`id`, `subject`, `message`, `created`', '`id` DESC', $pageSize, $start);
     $smarty->assign($var, $comments);
+
+    return $condition;
 }
 
 /**

@@ -18,6 +18,7 @@
         <div class="crumb">
             <p><a href="/">Home</a>&gt;<a href="/products.html">Products</a>&gt;<a href="{$product_group|url:'enterprise_url_product_list'}">{$product_group.name}</a>&gt;<span>{$product.caption}</span></p>
         </div>
+{-if $page_no<=1}
         <!--crumb-->
         <div class="produce-show fl-clr">
             <div class="img-show">
@@ -96,6 +97,43 @@
             <div class="title"><i></i><h2>Product Description</h2></div>
             {$product.description}
         </div>
+{-/if}
+        <!-- BEGIN COMMENT LIST -->
+{foreach $comments as $comment}
+        <div class="contact-communication fl-clr">
+            <div class="left-intro">
+                <img src="/media/sets/trade/default_photo.jpg" />
+                <span></span>
+            </div>
+            <div class="right-intro">
+                <ul>
+                    <li>{$comment.subject}</li>
+                    <li><label>Issued</label>{$comment.created}</li>
+                    <li>{$comment.message}</li>
+                </ul>
+            </div>
+        </div>
+{/foreach}
+        <!-- END COMMENT LIST -->
+        <!-- BEGIN PAGER -->
+        <div class="main-content fl-clr">
+            <div class="right-content" style="width: 980px; margin-left: 0;/* FIXME: */">
+{if $total_comments > $page_size}
+                <div class="view-page fl-clr">
+                    <div class="page">
+                        <label>Page</label><span><i>{$page_no}</i>/{$total_pages}</span>
+    {if $page_no > 1}
+                        <a href="{$product|url:'enterprise_url_product':($page_no-1)}" class="prev"></a>
+    {/if}
+    {if $page_no < $total_pages}
+                        <a href="{$product|url:'enterprise_url_product':($page_no+1)}" class="next"></a>
+    {/if}
+                    </div>
+                </div>
+{/if}
+            </div>
+        </div>
+        <!-- END PAGER -->
         <!--product-description-->
 {include file="sets/trade/common/contactform.tpl"}
         <div class="product-categories">
