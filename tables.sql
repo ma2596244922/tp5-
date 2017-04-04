@@ -287,3 +287,13 @@ CREATE TABLE `enterprise_comments` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品留言表';
+
+CREATE TABLE `enterprise_tracks` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `ipv4` int(10) unsigned NOT NULL COMMENT '访客IP',
+  `path` varchar(100) NOT NULL COMMENT '受访页面',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `created`, `ipv4`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户访问轨迹';

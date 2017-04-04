@@ -109,6 +109,18 @@ function enterprise_admin_action_dashboard($smarty)
 
     enterprise_admin_assign_inquiry_list($smarty, 'inquiries', $userSiteId);
 
+    $trackDAO = new \enterprise\daos\Track();
+    $dateString = date('Y-m-d', time() - 86400);
+    // PV
+    $condition = "`site_id`={$userSiteId} AND `created` BETWEEN '{$dateString} 00:00:00' AND '{$dateString} 23:59:59'";
+    $total = $trackDAO->countBy($condition);
+    $smarty->assign('pv', $total);
+
+    // UV
+    $condition = "`site_id`={$userSiteId} AND `created` BETWEEN '{$dateString} 00:00:00' AND '{$dateString} 23:59:59'";
+    $total = $trackDAO->countBy($condition, '`ipv4`');
+    $smarty->assign('uv', $total);
+
     $smarty->display('admin/index.tpl');
 }
 

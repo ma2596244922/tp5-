@@ -78,6 +78,16 @@ do {
         if (null === $response)
             break;// continue routing
 
+        // Track
+        $trackDAO = new \enterprise\daos\Track();
+        $values = array(
+                'site_id' => $siteId,
+                'ipv4' => ip2long($_SERVER['REMOTE_ADDR']),
+                'path' => $_SERVER['REQUEST_URI'],
+                'created' => date('Y-m-d H:i:s'),
+            );
+        $trackDAO->insert($values);
+
         echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
         enterprise_output_cnzz($currentDomainSuffix);
     } catch(HttpException $he) {

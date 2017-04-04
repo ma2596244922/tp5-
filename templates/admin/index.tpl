@@ -140,6 +140,58 @@
 
                 <!-- END PAGE HEADER-->
 
+                    <!-- BEGIN DASHBOARD STATS -->
+
+                    <div class="row-fluid">
+
+                        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+
+                            <div class="dashboard-stat blue">
+
+                                <div class="visual">
+
+                                    <i class="icon-signin"></i>
+
+                                </div>
+
+                                <div class="details">
+
+                                    <div class="number">{$pv}</div>
+
+                                    <div class="desc">昨日PV</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="span3 responsive" data-tablet="span6" data-desktop="span3">
+
+                            <div class="dashboard-stat green">
+
+                                <div class="visual">
+
+                                    <i class="icon-user"></i>
+
+                                </div>
+
+                                <div class="details">
+
+                                    <div class="number">{$uv}</div>
+
+                                    <div class="desc">昨日UV</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- END DASHBOARD STATS -->
+
                 <!-- BEGIN PAGE CONTENT-->          
 
                 <div class="row-fluid">
