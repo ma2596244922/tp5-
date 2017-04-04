@@ -1,4 +1,4 @@
-{assign var=page_title value="Webmasters验证"-}<!DOCTYPE html>
+{assign var=page_title value="Webmasters 验证"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 

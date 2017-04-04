@@ -132,7 +132,7 @@
 
                             </li>
 
-                            <li><a href="?action=banner">Banner管理</a></li>
+                            <li><a href="?action=banner">Banner 管理</a></li>
 
                         </ul>
 

@@ -129,7 +129,7 @@
 
                     <i class="icon-money"></i> 
 
-                    <span class="title">Banner管理</span>
+                    <span class="title">Banner 管理</span>
 
                     </a>
 
@@ -141,7 +141,7 @@
 
                     <i class="icon-file"></i> 
 
-                    <span class="title">Webmasters验证</span>
+                    <span class="title">Webmasters 验证</span>
 
                     </a>
 

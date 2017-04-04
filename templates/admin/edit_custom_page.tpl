@@ -128,7 +128,7 @@
 
                             </li>
 
-                            <li><a href="?action=custom_page">Webmasters验证</a></li>
+                            <li><a href="?action=custom_page">Webmasters 验证</a></li>
 
                         </ul>
 
