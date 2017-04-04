@@ -208,7 +208,7 @@
 
                                         <div class="controls">
 
-                                            <textarea class="span12 ckeditor m-wrap" name="description" rows="6">{$product.description|default:''}</textarea>
+                                            <textarea class="span12 m-wrap" name="description" id="textarea-description" rows="6">{$product.description|default:''}</textarea>
 
                                         </div>
 
@@ -248,7 +248,7 @@
 
                                                 <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
 
-                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':$product.caption:'c'}" alt="" style="max-height: 150px;" />
+                                                    <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':{$product.caption|default:''}:'c'}" alt="" style="max-height: 150px;" />
 
                                                 </div>
 
@@ -601,7 +601,9 @@
                 $(this).find('[name="specifications"]').val(val);
             });
 
-            $('textarea.description').ckeditor();
+            $('#textarea-description').ckeditor({
+                filebrowserUploadUrl: '?action=upload_image'
+            });
 
             $("#select2_sample5").select2({
                 tags: []

@@ -23,6 +23,8 @@ function enterprise_admin_route($smarty)
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
+                case 'upload_image':
+                    return enterprise_admin_action_upload_image($smarty);
                 case 'profile':
                     return enterprise_admin_action_profile($smarty);
                 case 'fragment':

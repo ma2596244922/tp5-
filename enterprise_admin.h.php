@@ -1419,3 +1419,28 @@ function enterprise_admin_action_delete_custom_page($smarty)
 }
 
 /* }}} */
+
+/* {{{ Image Manager */
+
+/**
+ * Upload Image
+ */
+function enterprise_admin_action_upload_image($smarty)
+{
+    $funcNum = (int)timandes_get_query_data('CKEditorFuncNum');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('');
+    if (!$images) {
+        $msg = '请选择要上传的图片';
+        $responseJS = "window.parent.CKEDITOR.tools.callFunction( {$funcNum}, undefined , '{$msg}' );";
+        echo '<script type="text/javascript">' . $responseJS . '</script>';
+        return;
+    }
+
+    $uri = 'image://' . $images[0];
+    $imageUrl = enterprise_url_photo($uri);
+    $responseJS = "window.parent.CKEDITOR.tools.callFunction( {$funcNum}, '{$imageUrl}' );";
+    echo '<script type="text/javascript">' . $responseJS . '</script>';
+}
+/* }}} */
