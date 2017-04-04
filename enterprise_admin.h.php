@@ -633,8 +633,15 @@ function enterprise_admin_action_edit_product($smarty)
 
     $submitButton = enterprise_get_post_data('submit');
     if (!$submitButton) {// No form data
+        // Editing?
         if ($productId) 
             enterprise_admin_assign_product_info($smarty, 'product', $productId);
+
+        // Copying?
+        $sourceProductId = (int)timandes_get_query_data('source_product_id');
+        if ($sourceProductId)
+            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId);
+
         return $smarty->display($tplPath);
     }
 

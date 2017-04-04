@@ -244,6 +244,8 @@
 
                                                 <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
 
+                                                <a href="?action=edit_product&source_product_id={$products[i].id}">复制</a>
+
                                                 <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
 
                                                 <a href="?action=delete_product&product_id={$products[i].id}">删除</a>

@@ -1,4 +1,4 @@
-{assign var=page_title value="编辑产品"-}<!DOCTYPE html>
+{if $smarty.get.product_id|default:''}{assign var=page_title value="修改产品信息"}{else}{assign var=page_title value="发布新产品"}{/if}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
