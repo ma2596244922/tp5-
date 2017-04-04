@@ -105,12 +105,9 @@
                 <img src="{$comment.avatar|url:'enterprise_url_photo':'':'':'/media/sets/trade/default_photo.jpg'}" />
                 <span>{$comment.contact}</span>
             </div>
-            <div class="right-intro">
+            <div class="right-intro" style="min-height: 150px;/* FIXME: */">
                 <ul>
-                    <li>{$comment.subject}</li>
-                    <li><label>Issued</label>{$comment.issued_on}</li>
                     <li>{$comment.message}</li>
-                    <li>&nbsp;</li>
                 </ul>
             </div>
         </div>
