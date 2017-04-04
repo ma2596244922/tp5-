@@ -20,6 +20,9 @@ class Comment extends \crawler\daos\AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'deleted' => 'tinyint',
+            'issued_on' => 'text',
+            'avatar' => 'text',
+            'contact' => 'text',
         );
 
     public function getTableName()

@@ -102,14 +102,15 @@
 {foreach $comments as $comment}
         <div class="contact-communication fl-clr">
             <div class="left-intro">
-                <img src="/media/sets/trade/default_photo.jpg" />
-                <span></span>
+                <img src="{$comment.avatar|url:'enterprise_url_photo':'':'':'/media/sets/trade/default_photo.jpg'}" />
+                <span>{$comment.contact}</span>
             </div>
             <div class="right-intro">
                 <ul>
                     <li>{$comment.subject}</li>
-                    <li><label>Issued</label>{$comment.created}</li>
+                    <li><label>Issued</label>{$comment.issued_on}</li>
                     <li>{$comment.message}</li>
+                    <li>&nbsp;</li>
                 </ul>
             </div>
         </div>

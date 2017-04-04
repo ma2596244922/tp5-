@@ -637,7 +637,7 @@ function enterprise_url_prefix()
  *
  * @return string
  */
-function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '')
+function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '', $default = '')
 {
     if (is_array($imageId)) {
         $retval = array();
@@ -647,8 +647,12 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
         return $retval;
     }
 
-    if (!$imageId)
-        return '/media/sets/trade/no_image.png';
+    if (!$imageId) {
+        if ($default)
+            return $default;
+        else
+            return '/media/sets/trade/no_image.png';
+    }
 
     $suffix = '';
     if ($productCaption)
@@ -662,13 +666,13 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
  *
  * @return string
  */
-function enterprise_url_photo($uri, $desc = '', $imageSizeType = '')
+function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = '')
 {
     if (strpos($uri, 'http://') === 0)
         return $uri;
 
     $imageId = (int)str_replace('image://', '', $uri);
-    return enterprise_url_image($imageId, $desc, $imageSizeType);
+    return enterprise_url_image($imageId, $desc, $imageSizeType, $default);
 }
 
 /**
@@ -1420,7 +1424,7 @@ function enterprise_assign_comment_list($smarty, $var, $siteId, $productId, $pag
 
     $commentDAO = new \enterprise\daos\Comment();
     $condition = "`site_id`={$siteId} AND `product_id`={$productId} AND `deleted`=0";
-    $comments = $commentDAO->getMultiInOrderBy($condition, '`id`, `subject`, `message`, `created`', '`id` DESC', $pageSize, $start);
+    $comments = $commentDAO->getMultiInOrderBy($condition, '`id`, `subject`, `message`, `issued_on`, `avatar`, `contact`', '`id` DESC', $pageSize, $start);
     $smarty->assign($var, $comments);
 
     return $condition;

@@ -1515,6 +1515,16 @@ function enterprise_admin_action_edit_comment($smarty)
     $productId = (int)enterprise_get_post_data('product_id');
     $subject = enterprise_get_post_data('subject');
     $message = enterprise_get_post_data('message', 'trim');
+    $contact = enterprise_get_post_data('contact');
+    $issuedOn = enterprise_get_post_data('issued_on');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images) {
+        $smarty->assign('error_msg', '请选择图片');
+        return $smarty->display($tplPath);
+    }
+    $avatar = 'image://' . $images[0];
 
     $commentDAO = new \enterprise\daos\Comment();
     $values = array(
@@ -1522,6 +1532,9 @@ function enterprise_admin_action_edit_comment($smarty)
             'product_id' => $productId,
             'subject' => $subject,
             'message' => $message,
+            'avatar' => $avatar,
+            'contact' => $contact,
+            'issued_on' => $issuedOn,
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($commentId) {// Edit

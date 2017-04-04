@@ -278,6 +278,9 @@ CREATE TABLE `enterprise_comments` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `issued_on` date  NOT NULL COMMENT '留言日期',
+  `avatar` varchar(100) NOT NULL COMMENT '头像URI',
+  `contact` varchar(45) NOT NULL COMMENT '留言者',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='产品留言表';

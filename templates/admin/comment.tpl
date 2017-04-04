@@ -204,7 +204,7 @@
 
                                             <th>标题</th>
 
-                                            <th>创建时间(+8)</th>
+                                            <th>留言日期</th>
 
                                             <th>&nbsp;</th>
 
@@ -220,7 +220,7 @@
 
                                             <td>{$comments[i].subject}</td>
 
-                                            <td>{$comments[i].created}</td>
+                                            <td>{$comments[i].issued_on}</td>
 
                                             <td>
 
