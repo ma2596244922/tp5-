@@ -263,23 +263,23 @@
 
                                                                 <label class="control-label">Introduction</label>
 
-                                                                <textarea class="span8 ckeditor m-wrap" name="introduction" rows="6">{$site.introduction|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="introduction" id="textarea-introduction" rows="6">{$site.introduction|default:''}</textarea>
 
                                                                 <label class="control-label">History</label>
 
-                                                                <textarea class="span8 ckeditor m-wrap" name="history" rows="6">{$site.history|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="history" id="textarea-history" rows="6">{$site.history|default:''}</textarea>
 
                                                                 <label class="control-label">Service</label>
 
-                                                                <textarea class="span8 ckeditor m-wrap" name="service" rows="6">{$site.service|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="service" id="textarea-service" rows="6">{$site.service|default:''}</textarea>
 
                                                                 <label class="control-label">Our Team</label>
 
-                                                                <textarea class="span8 ckeditor m-wrap" name="our_team" rows="6">{$site.our_team|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="our_team" id="textarea-our_team" rows="6">{$site.our_team|default:''}</textarea>
 
                                                                 <label class="control-label">QC Profile</label>
 
-                                                                <textarea class="span8 ckeditor m-wrap" name="qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="qc_profile" id="textarea-qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
 
                                                                 <label class="control-label">口号</label>
 
@@ -401,11 +401,15 @@
 
            App.init();
 
-           $('textarea.introduction').ckeditor();
-           $('textarea.history').ckeditor();
-           $('textarea.service').ckeditor();
-           $('textarea.our_team').ckeditor();
-           $('textarea.qc_profile').ckeditor();
+            var additionalConfig = {
+                filebrowserUploadUrl: '?action=upload_image'
+            };
+
+           $('#textarea-introduction').ckeditor(additionalConfig);
+           $('#textarea-history').ckeditor(additionalConfig);
+           $('#textarea-service').ckeditor(additionalConfig);
+           $('#textarea-our_team').ckeditor(additionalConfig);
+           $('#textarea-qc_profile').ckeditor(additionalConfig);
 
         });
 
