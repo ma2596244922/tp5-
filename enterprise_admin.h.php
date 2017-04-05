@@ -567,6 +567,7 @@ function enterprise_admin_action_product($smarty)
         $groupCondition = ' AND p.`group_id`=' . $groupId;
         enterprise_admin_assign_group_info($smarty, 'group', $groupId);
     }
+    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
 
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
