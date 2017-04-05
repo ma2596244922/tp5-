@@ -1,4 +1,4 @@
-{assign var=page_title value="修改产品TDK"}<!DOCTYPE html>
+{assign var=page_title value="批量插入关键词"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -186,17 +186,17 @@
 
                                 <!-- BEGIN FORM-->
 
-                                <form action="?action=edit_product_tdk&product_id={$product_id}" method="POST" class="form-horizontal" id="form-edit-product">
+                                <form action="?action=insert_keywords" method="POST" class="form-horizontal">
 
                                     <div class="control-group">
 
-                                        <label class="control-label">HTML Title</label>
+                                        <label class="control-label">关键词</label>
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="html_title" value="{$title}" />
+                                            <textarea class="span4 m-wrap" name="keywords" rows="16"></textarea>
 
-                                            <span class="help-inline">网页标题</span>
+                                            <span class="help-inline">关键词一行一个，最多不超过50个。</span>
 
                                         </div>
 
@@ -204,13 +204,46 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">Meta Keywords</label>
+                                        <label class="control-label">位置</label>
 
                                         <div class="controls">
 
-                                            <input type="text" class="span8 m-wrap" name="meta_keywords" value="{$keywords}" />
+                                            <label class="radio">
 
-                                            <span class="help-inline">网页关键词</span>
+                                                <input type="radio" name="location" value="1" checked />
+
+                                                插入标题
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="text" class="span1 m-wrap" name="location_1_cnt" value="5" />
+
+                                            个关键词
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                            <input type="radio" name="location" value="2" />
+
+                                            插入Tag
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="text" class="span1 m-wrap" name="location_2_cnt" value="5" />
+
+                                            个关键词
 
                                         </div>
 
@@ -218,13 +251,15 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">Meta Description</label>
+                                        <label class="control-label">分组</label>
 
                                         <div class="controls">
 
-                                            <textarea class="span12 m-wrap" name="meta_description" rows="6">{$description}</textarea>
-
-                                            <span class="help-inline">网页描述。多余的回车符号会被自动清除。</span>
+                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+{section name=i loop=$groups}
+                                                <option value="{$groups[i].id}">{$groups[i].name}</option>
+{/section}
+                                            </select>
 
                                         </div>
 
@@ -232,9 +267,9 @@
 
                                     <div class="form-actions">
 
-                                        <input type="hidden" name="submit" value="edit_product_tdk">
+                                        <input type="hidden" name="submit" value="insert_keywords">
 
-                                        <button type="submit" class="btn blue">保存</button>
+                                        <button type="submit" class="btn blue">强势插入</button>
 
                                         <a href="?action=product" class="btn">取消</a>
 

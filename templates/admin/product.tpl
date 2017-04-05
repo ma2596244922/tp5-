@@ -1,4 +1,4 @@
-{assign var=page_title value="产品管理"-}<!DOCTYPE html>
+{assign var=page_title value="产品管理"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -43,6 +43,8 @@
     <!-- BEGIN PAGE LEVEL STYLES -->
 
     <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
+
+    <link href="media/css/chosen.css" rel="stylesheet" type="text/css"/>
 
     <!-- END PAGE LEVEL STYLES -->
 
@@ -128,8 +130,14 @@
 
                             </li>
 
-                            <li><a href="?action=product">{$page_title}</a></li>
+                            <li><a href="?action=product">{$page_title}</a>
 
+                                <i class="icon-angle-right"></i>
+
+                            </li>
+{if $group|default:[]}
+                            <li>分组：{$group.name}</li>
+{/if}
                         </ul>
 
                         <!-- END PAGE TITLE & BREADCRUMB-->
@@ -180,19 +188,41 @@
 
                             <div class="portlet-body">
 
-                                <div class="clearfix">
+                                <div class="row-fluid">
 
-                                    <div class="btn-group">
+                                    <div class="span4">
 
                                         <a href="?action=edit_product" class="btn red">
 
-                                        发布新产品 <i class="icon-plus"></i>
+                                            发布新产品 <i class="icon-plus"></i>
 
                                         </a>
+
+                                        <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
+
+                                    </div>
+
+                                    <div class="span8">
+
+                                        <div class="pull-right">
+
+                                            <select data-placeholder="选择分组" class="chosen" tabindex="-1" id="select-group">
+
+                                                <option value="0"></option>
+
+                                                <option value="0">全部</option>
+{foreach $groups as $group}
+                                                <option value="{$group.id}"{if $group.id==$smarty.get.group_id} selected{/if}>{$group.name}</option>
+{/foreach}
+                                            </select>
+
+                                        </div>
 
                                     </div>
 
                                 </div>
+
+                                <hr class="clearfix">
 
                                 <table class="table table-striped table-bordered table-hover">
 
@@ -238,7 +268,7 @@
 
                                             <td>{$products[i].updated}</td>
 
-                                            <td>{$products[i].group_name}</td>
+                                            <td><a href="?action=product&group_id={$products[i].group_id}">{$products[i].group_name}</a></td>
 
                                             <td>
 
@@ -358,6 +388,12 @@
 
     <!-- END CORE PLUGINS -->
 
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+
+    <script type="text/javascript" src="media/js/chosen.jquery.min.js"></script>
+
+    <!-- END PAGE LEVEL PLUGINS -->
+
     <script src="media/js/app.js"></script>      
 
     <script>{literal}
@@ -367,6 +403,10 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('#select-group').change(function() {
+                location.href = '?action=product&group_id=' + $(this).val();
+           });
 
         });
 

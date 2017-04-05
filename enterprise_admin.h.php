@@ -560,12 +560,21 @@ function enterprise_admin_action_product($smarty)
         $pageNo = 1;
     $max = 20;
 
+    // Filter - Group
+    $groupId = (int)timandes_get_query_data('group_id');
+    $groupCondition = '';
+    if ($groupId) {
+        $groupCondition = ' AND p.`group_id`=' . $groupId;
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+    }
+    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, g.`name` AS `group_name`
+    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
-    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
+    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 
@@ -815,6 +824,162 @@ function enterprise_admin_action_edit_product_tdk($smarty)
     $smarty->assign('success_msg', '保存成功');
     $smarty->display($tplPath);
 }
+
+/* {{{ 批量插入关键词 - Utils */
+
+/**
+ * 标准化关键词数组
+ *  trim、去空白单元
+ * @param int &$cnt 返回最终结果数量
+ * @return array 标准化后的关键词数组
+ */
+function enterprise_admin_insert_keywords_standardize($keywords, &$cnt = null)
+{
+    $retval = array();
+    $cnt = 0;
+    foreach ($keywords as $k) {
+        $k = trim($k);
+        if (!$k)
+            continue;
+        $retval[] = $k;
+        ++$cnt;
+    }
+    return $retval;
+}
+
+/**
+ * 随机获取部分关键词
+ *
+ * @return array 随机结果数组
+ */
+function enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $targetCnt)
+{
+    if ($keywordsCnt <= $targetCnt) {
+        shuffle($keywords);
+        return $keywords;
+    }
+
+    $indexes = array();
+    $maxIndex = $keywordsCnt - 1;
+    $i = 0;
+    $retval = array();
+    do {
+        $index = mt_rand(0, $maxIndex);
+        if (isset($indexes[$index]))
+            continue;
+
+        $indexes[$index] = true;
+        $retval[] = $keywords[$index];
+        ++$i;
+    } while($i < $targetCnt);
+
+    return $retval;
+}
+
+/**
+ * 随机插入关键词至指定的值
+ *
+ * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
+ */
+function enterprise_admin_insert_random_keywords_to_value($value, $separator, $keywords, $keywordsCnt, $targetCnt)
+{
+    $targetKeywords = enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $targetCnt);
+    return enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt);
+}
+
+/**
+ * 插入关键词至指定的值
+ *
+ * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
+ */
+function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt)
+{
+    $words = explode($separator, $value);
+    $wordsCnt = count($words);
+    $finalWords = array();
+    $minCnt = min($wordsCnt, $targetCnt);
+    for ($i=0; $i<$minCnt; ++$i) {
+        $finalWords[] = trim($words[$i]);
+        $finalWords[] = $targetKeywords[$i];
+    }
+    if ($wordsCnt > $targetCnt) {
+        for (; $i<$wordsCnt; ++$i) {
+            $finalWords[] = trim($words[$i]);
+        }
+    } else {
+        for (; $i<$targetCnt; ++$i) {
+            $finalWords[] = trim($targetKeywords[$i]);
+        }
+    }
+
+    return implode($separator, $finalWords);
+}
+
+/* }}} */
+
+/**
+ * Insert Keywords
+ */
+function enterprise_admin_action_insert_keywords($smarty)
+{
+    $tplPath = 'admin/insert_keywords.tpl';
+
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $submitButton = enterprise_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $keywords = enterprise_get_post_data('keywords');
+    $location = (int)enterprise_get_post_data('location');
+    $groupId = (int)enterprise_get_post_data('group_id');
+
+    $locationRange = array(1, 2);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+    if (!$keywords)
+        throw new \UnderflowException("请给出至少一个关键词");
+
+    $targetCnt = (int)enterprise_get_post_data('location_' . $location . '_cnt');
+    $keywordsArray = explode("\n", $keywords);
+
+    $keywordsCnt = 0;
+    $keywordsArray = enterprise_admin_insert_keywords_standardize($keywordsArray, $keywordsCnt);
+
+    $productDAO = new \enterprise\daos\Product();
+    $curProductId = 0;
+    do {
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
+        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `tags`', '`id` ASC', 100);
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $values = array();
+            if ($location == 1)
+                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $keywordsArray, $keywordsCnt, $targetCnt);
+            elseif ($location == 2)
+                $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $keywordsArray, $keywordsCnt, $targetCnt);
+
+            if ($values) {
+                $values['updated'] = date('Y-m-d H:i:s');
+                $productDAO->update($product['id'], $values);
+            }
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+
+    $smarty->assign('success_msg', '操作成功');
+    $smarty->display($tplPath);
+}
+
 /* }}} */
 
 /* {{{ Contact */

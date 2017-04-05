@@ -110,4 +110,36 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = enterprise_pager_calculate_key_infos($total, $size, $cur);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * function enterprise_admin_insert_keywords_to_value()
+     */
+    public function test3()
+    {
+        $keywords = array(
+                'k1',
+                'k2',
+                'k3',
+                'k4',
+                'k5',
+            );
+        $value = 't1, t2, t3';
+        //$expected = 'k1,t1,k2,t2,k3,t3,k4,k5';
+        $expected = 't1,k1,t2,k2,t3,k3,k4,k5';
+        $actual = enterprise_admin_insert_keywords_to_value($value, ',', $keywords, 5);
+        $this->assertEquals($expected, $actual);
+
+        $keywords = array(
+                'k1',
+                'k2',
+                'k3',
+                'k4',
+                'k5',
+            );
+        $value = '576 shoots HIFU High Intensity Focused Ultrasound Liposunix fat loss equipment';
+        //$expected = 'k1 576 k2 shoots k3 HIFU k4 High k5 Intensity Focused Ultrasound Liposunix fat loss equipment';
+        $expected = '576 k1 shoots k2 HIFU k3 High k4 Intensity k5 Focused Ultrasound Liposunix fat loss equipment';
+        $actual = enterprise_admin_insert_keywords_to_value($value, ' ', $keywords, 5);
+        $this->assertEquals($expected, $actual);
+    }
 }

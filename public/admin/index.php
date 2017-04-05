@@ -53,6 +53,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_delete_product($smarty);
                 case 'edit_product_tdk':
                     return enterprise_admin_action_edit_product_tdk($smarty);
+                case 'insert_keywords':
+                    return enterprise_admin_action_insert_keywords($smarty);
                 case 'contact':
                     return enterprise_admin_action_contact($smarty);
                 case 'edit_contact':
