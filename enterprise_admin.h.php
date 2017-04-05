@@ -560,12 +560,20 @@ function enterprise_admin_action_product($smarty)
         $pageNo = 1;
     $max = 20;
 
+    // Filter - Group
+    $groupId = (int)timandes_get_query_data('group_id');
+    $groupCondition = '';
+    if ($groupId) {
+        $groupCondition = ' AND p.`group_id`=' . $groupId;
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+    }
+
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, g.`name` AS `group_name`
+    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
-    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0 ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
+    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 

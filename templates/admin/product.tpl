@@ -1,4 +1,4 @@
-{assign var=page_title value="产品管理"-}<!DOCTYPE html>
+{assign var=page_title value="产品管理"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -128,8 +128,14 @@
 
                             </li>
 
-                            <li><a href="?action=product">{$page_title}</a></li>
+                            <li><a href="?action=product">{$page_title}</a>
 
+                                <i class="icon-angle-right"></i>
+
+                            </li>
+{if $group|default:[]}
+                            <li>分组：{$group.name}</li>
+{/if}
                         </ul>
 
                         <!-- END PAGE TITLE & BREADCRUMB-->
@@ -242,7 +248,7 @@
 
                                             <td>{$products[i].updated}</td>
 
-                                            <td>{$products[i].group_name}</td>
+                                            <td><a href="?action=product&group_id={$products[i].group_id}">{$products[i].group_name}</a></td>
 
                                             <td>
 
