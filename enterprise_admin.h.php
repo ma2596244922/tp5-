@@ -856,7 +856,7 @@ function enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $t
     $retval = array();
     do {
         $index = mt_rand(0, $maxIndex);
-        if (isset($indexes))
+        if (isset($indexes[$index]))
             continue;
 
         $indexes[$index] = true;
@@ -930,7 +930,7 @@ function enterprise_admin_action_insert_keywords($smarty)
     $groupId = (int)enterprise_get_post_data('group_id');
 
     $locationRange = array(1, 2);
-    if (!in_array($location, $location))
+    if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$groupId)
         throw new \UnexpectedValueException("请选择分组");
@@ -954,9 +954,9 @@ function enterprise_admin_action_insert_keywords($smarty)
         foreach ($products as $product) {
             $values = array();
             if ($location == 1)
-                $values['caption'] = enterprise_admin_insert_keywords_to_value($product['caption'], ' ', $keywordsArray, $keywordsCnt, $targetCnt);
+                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $keywordsArray, $keywordsCnt, $targetCnt);
             elseif ($location == 2)
-                $values['tags'] = enterprise_admin_insert_keywords_to_value($product['tags'], ',', $keywordsArray, $keywordsCnt, $targetCnt);
+                $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $keywordsArray, $keywordsCnt, $targetCnt);
 
             if ($values) {
                 $values['updated'] = date('Y-m-d H:i:s');
