@@ -208,19 +208,19 @@
 
                                         <div class="controls">
 
-                                                    <label class="radio">
+                                            <label class="radio">
 
-                                                        <input type="radio" name="location" value="1" checked />
+                                                <input type="radio" name="location" value="1" checked />
 
-                                                        插入标题
+                                                插入标题
 
-                                                    </label>
+                                            </label>
 
-                                                    单个产品插入
+                                            单个产品插入
 
-                                                    <input type="text" class="span1 m-wrap" name="location_1_cnt" value="5" />
+                                            <input type="text" class="span1 m-wrap" name="location_1_cnt" value="5" />
 
-                                                    个关键词
+                                            个关键词
 
                                         </div>
 
@@ -231,19 +231,19 @@
 
                                         <div class="controls">
 
-                                                    <label class="radio">
+                                            <label class="radio">
 
-                                                    <input type="radio" name="location" value="2" />
+                                            <input type="radio" name="location" value="2" />
 
-                                                    插入Tag
+                                            插入Tag
 
-                                                    </label>
+                                            </label>
 
-                                                    单个产品插入
+                                            单个产品插入
 
-                                                    <input type="text" class="span1 m-wrap" name="location_2_cnt" value="5" />
+                                            <input type="text" class="span1 m-wrap" name="location_2_cnt" value="5" />
 
-                                                    个关键词
+                                            个关键词
 
                                         </div>
 
