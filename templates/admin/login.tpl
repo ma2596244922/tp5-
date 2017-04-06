@@ -120,6 +120,26 @@
 
             </div>
 
+            <div class="control-group">
+
+                <label class="control-label visible-ie8 visible-ie9">验证码</label>
+
+                <div class="controls">
+
+                    <div class="input-icon left">
+
+                        <i class="icon-key"></i>
+
+                        <input class="m-wrap small" type="text" placeholder="验证码" name="captcha">
+
+                        <span class="help-inline" style="margin-top: 0;"><img src="?action=captcha"></span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
             <div class="form-actions">
 
                 <input type="hidden" name="submit" value="login">

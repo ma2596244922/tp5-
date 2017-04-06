@@ -140,6 +140,14 @@ function enterprise_admin_action_login($smarty, $targetSiteId)
     $userName = enterprise_get_post_data('user');
     $password = enterprise_get_post_data('password');
     $passwordSum = md5($password);
+    $captcha = enterprise_get_post_data('captcha');
+
+    $captchaBuilder = new Gregwar\Captcha\CaptchaBuilder($_SESSION[SESSION_FIELD_CAPTCHA_PHRASE]);
+    $_SESSION[SESSION_FIELD_CAPTCHA_PHRASE] = null;
+    if (!$captchaBuilder->testPhrase($captcha)) {
+        $smarty->assign('error_msg', "请输入正确的验证码");
+        return $smarty->display($tplPath);
+    }
 
     $userDAO = new \enterprise\daos\User();
     $condition = "`name`='" . $userDAO->escape($userName) . "'";
@@ -174,6 +182,18 @@ function enterprise_admin_action_logout($smarty)
     unset($_SESSION[SESSION_FIELD_USER_ID]);
     unset($_SESSION['user_site_id']);
     header('Location: /admin/?action=login');
+}
+
+/**
+ * CAPTCHA
+ */
+function enterprise_admin_action_captcha($smarty)
+{
+    $builder = new Gregwar\Captcha\CaptchaBuilder();
+    $builder->build(120, 34);
+    header('Content-type: image/jpeg');
+    $builder->output();
+    $_SESSION[SESSION_FIELD_CAPTCHA_PHRASE] = $builder->getPhrase();
 }
 
 /* }}} */

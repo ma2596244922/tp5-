@@ -6,6 +6,7 @@
  */
 
 define('SESSION_FIELD_USER_ID', 'user_id');
+define('SESSION_FIELD_CAPTCHA_PHRASE', 'captcha_phrase');
 
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
@@ -15,6 +16,8 @@ function enterprise_admin_route($smarty)
     list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $action = enterprise_get_query_data('action');
     switch ($action) {
+        case 'captcha':
+            return enterprise_admin_action_captcha($smarty);
         case 'logout':
             return enterprise_admin_action_logout($smarty);
         case 'login':
