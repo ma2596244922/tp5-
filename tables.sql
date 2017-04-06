@@ -117,7 +117,7 @@ CREATE TABLE `enterprise_products` (
   `meta_description` text NOT NULL COMMENT 'D',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发产品表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发产品表';
 
 CREATE TABLE `enterprise_images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -125,7 +125,7 @@ CREATE TABLE `enterprise_images` (
   `body` mediumblob NOT NULL COMMENT '图片内容',
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发图片表';
 
 CREATE TABLE `enterprise_thumbnails` (
   `image_id` int(10) unsigned NOT NULL COMMENT '图片ID',
@@ -135,7 +135,7 @@ CREATE TABLE `enterprise_thumbnails` (
   `c` mediumblob NOT NULL COMMENT 'c',
   `created` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`image_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户新发图片缩略图表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发图片缩略图表';
 
 CREATE TABLE `enterprise_corporations` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
