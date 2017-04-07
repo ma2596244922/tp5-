@@ -217,7 +217,7 @@
 
                                     <div class="form-actions">
 
-                                        <button type="submit" class="btn blue">保存</button>
+                                        <button type="submit" class="btn blue">下一步</button>
 
                                         <a href="?action=email_template" class="btn">取消</a>
 
