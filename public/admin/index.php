@@ -26,6 +26,8 @@ function enterprise_admin_route($smarty)
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
             switch ($action) {
+                case 'email_template':
+                    return enterprise_admin_action_email_template($smarty, $currentDomainSuffix);
                 case 'upload_image':
                     return enterprise_admin_action_upload_image($smarty);
                 case 'profile':

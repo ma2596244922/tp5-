@@ -159,6 +159,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='email_template'} active{/if}">
+
+                    <a href="?action=email_template">
+
+                    <i class="icon-envelope"></i> 
+
+                    <span class="title">EDM邮件模板</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

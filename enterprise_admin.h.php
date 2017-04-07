@@ -1833,3 +1833,76 @@ function enterprise_admin_action_delete_comment($smarty)
 }
 
 /* }}} */
+
+
+/**
+ * Email Template
+ */
+function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+
+    $step = (int)timandes_get_query_data('step');
+    switch ($step) {
+        case 3:
+            $user = $smarty->getTemplateVars('user');
+            $message = timandes_get_post_data('message');
+            $subject = 'EDM Template (#' . date('Y-m-d H:i:s') . ')';
+
+            if ($user
+                    && $user['email']
+                    && Nette\Utils\Validators::is($user['email'], 'email')) {
+                $mailDomain = 'mail.50u50.com';
+                $from = 'no-reply@' . $mailDomain;
+                $mail = timandes_initialize_mail_message($user['email'], $from, $user['email'], $subject, $message);
+                $mailer = new Nette\Mail\SmtpMailer(array(
+                        'host' => $mailDomain,
+                    ));
+                $mailer->send($mail);
+            }
+            $smarty->assign('success_msg', '发送成功');
+
+            $smarty->assign('content', $message);
+            $tplPath = 'admin/email_template_step_2.tpl';
+            break;
+        case 2:
+            $groupIdArray = timandes_get_post_data('group_id_array');
+            $productUrlArray = timandes_get_post_data('product_url_array');
+
+            // Get groups
+            $groupDAO = new enterprise\daos\Group();
+            $groupIds = array_unique(array_values($groupIdArray));
+            $condition = "`id` IN (" . implode(',', $groupIds) . ")";
+            $groups = $groupDAO->getMultiBy($condition);
+            $smarty->assign('selected_groups', $groups);
+
+            // Get products
+            $productDAO = new enterprise\daos\Product();
+            $productArray = array();
+            foreach ($productUrlArray as $urls) {
+                $products = array();
+                foreach ($urls as $url) {
+                    $path = parse_url($url, PHP_URL_PATH);
+                    if (!preg_match(PATTERN_PRODUCT_DETAIL, $path, $matches))
+                        continue;
+                    $productId = $matches[1];
+                    $products[] = $productDAO->get($productId);
+                }
+                $productArray[] = $products;
+            }
+            $smarty->assign('product_array', $productArray);
+
+            enterprise_action_sets_common_proc($smarty, $userSiteId, $currentDomainSuffix);
+
+            $templateContent = $smarty->fetch('admin/emails/edm.tpl');
+            $smarty->assign('content', $templateContent);
+
+            $tplPath = 'admin/email_template_step_2.tpl';
+            break;
+        default:
+            $tplPath = 'admin/email_template_step_1.tpl';
+            enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+            break;
+    }
+    $smarty->display($tplPath);
+}
