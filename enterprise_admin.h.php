@@ -1846,7 +1846,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
     switch ($step) {
         case 3:
             $user = $smarty->getTemplateVars('user');
-            $message = timandes_get_post_data('message');
+            $message = timandes_get_post_data('message', 'trim');
             $subject = 'EDM Template (#' . date('Y-m-d H:i:s') . ')';
 
             if ($user
