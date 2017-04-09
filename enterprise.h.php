@@ -16,7 +16,7 @@ define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, 
 /** @var string Fields of Custom Page for List */
 define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
 /** @var int Max Urls per File */
-define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5);
+define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 50000);
 
 /* {{{ Common */
 
