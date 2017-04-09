@@ -565,6 +565,29 @@ function enterprise_admin_action_delete_group($smarty)
     header('Location: ?action=group&success_msg=' . urlencode('删除成功'));
 }
 
+/**
+ * Count Products
+ */
+function enterprise_admin_action_count_products($smarty)
+{
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $groupId = (int)enterprise_get_query_data('group_id');
+
+    // Count products
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId}";
+    $r = $productDAO->countBy($condition);
+    $cnt = (($r && isset($r[0]))?(int)$r[0]:0);
+
+    // Save count to group
+    $groupDAO = new enterprise\daos\Group();
+    $values = array(
+            'cnt' => $cnt,
+        );
+    $groupDAO->update($groupId, $values);
+
+    header('Location: ?action=group&success_msg=' . urlencode('操作成功'));
+}
 /* }}} */
 
 /* {{{ Product */
