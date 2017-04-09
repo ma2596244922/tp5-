@@ -50,6 +50,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_group($smarty);
                 case 'delete_group':
                     return enterprise_admin_action_delete_group($smarty);
+                case 'count_products':
+                    return enterprise_admin_action_count_products($smarty);
                 case 'product':
                     return enterprise_admin_action_product($smarty);
                 case 'edit_product':
