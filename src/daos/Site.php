@@ -64,21 +64,21 @@ class Site extends \crawler\daos\AbstractDAO
             throw new \RuntimeException("Fail to query: {$sql}");
     }
 
-    public function incrProductCnt($id, $incr = 1)
+    public function incrProductCnt($siteId, $incr = 1)
     {
         $tableName = $this->getTableName();
         $dbName = $this->getDbName();
 
         $db = \DbFactory::create($dbName);
 
-        $id = (int)$id;
+        $siteId = (int)$siteId;
         $incr = (int)$incr;
         if ($incr >= 0)
             $setsString = '`product_cnt`=`product_cnt`+' . $incr;
         else
             $setsString = '`product_cnt`=`product_cnt`' . $incr;
 
-        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `id`={$id}";
+        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `site_id`={$siteId}";
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
