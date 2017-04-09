@@ -60,6 +60,8 @@
 
     <div class="logo">
 
+        <img src="media/image/logo.png" alt="logo" width="86" height="14" />
+
     </div>
 
     <!-- END LOGO -->
