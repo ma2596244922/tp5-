@@ -21,7 +21,15 @@ function enterprise_admin_grant_permission($targetSiteId)
         exit;
     }
 
-    return $userId;
+    $userDAO = new \enterprise\daos\User();
+    $user = $userDAO->get($userId);
+    if (!$user
+            || $user['site_id'] != $targetSiteId) {
+        header('Location: /admin/?action=login');
+        exit;
+    }
+
+    return $user;
 }
 
 /**
@@ -512,11 +520,19 @@ function enterprise_admin_action_inquiry_detail($smarty)
 /**
  * Delete Inquiry
  */
-function enterprise_admin_action_delete_inquiry($smarty)
+function enterprise_admin_action_delete_inquiry($smarty, $site)
 {
     $inquiryId = (int)timandes_get_query_data('inquiry_id');
 
     $inquiryDAO = new \enterprise\daos\Inquiry();
+
+    // Authentication
+    $inquiry = $inquiryDAO->get($inquiryId);
+    if (!$inquiry
+            || $inquiry['site_id'] != $site['site_id'])
+        return header('Location: ?action=inquiry&error_msg=' . urlencode('权限不足'));
+
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -552,7 +568,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId)
 /**
  * Edit Group
  */
-function enterprise_admin_action_edit_group($smarty)
+function enterprise_admin_action_edit_group($smarty, $site)
 {
     $tplPath = 'admin/edit_group.tpl';
 
@@ -580,6 +596,12 @@ function enterprise_admin_action_edit_group($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($groupId) {// Edit
+        // Authentication
+        $originalGroup = $groupDAO->get($groupId);
+        if (!$originalGroup
+                || $originalGroup['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
         $groupDAO->update($groupId, $values);
         enterprise_admin_assign_group_info($smarty, 'group', $groupId);
     } else {// Create
@@ -593,13 +615,20 @@ function enterprise_admin_action_edit_group($smarty)
 /**
  * Delete Group
  */
-function enterprise_admin_action_delete_group($smarty)
+function enterprise_admin_action_delete_group($smarty, $site)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $groupId = (int)timandes_get_query_data('group_id');
     $forceDelete = (int)timandes_get_query_data('force');
 
     $productDAO = new \enterprise\daos\Product();
+    $groupDAO = new \enterprise\daos\Group();
+    // Authentication
+    $group = $groupDAO->get($groupId);
+    if (!$group
+            || $group['site_id'] != $site['site_id'])
+        return header('Location: ?action=group&error_msg=' . urlencode('权限不足'));
+
     if (!$forceDelete) {// Check products in current group
         $condition = "`group_id`={$groupId}";
         $product = $productDAO->getOneBy($condition);
@@ -617,7 +646,6 @@ function enterprise_admin_action_delete_group($smarty)
     $productDAO->updateBy($condition, $values);
 
     // Delete group
-    $groupDAO = new \enterprise\daos\Group();
     $values = array(
             'deleted' => 1,
         );
@@ -767,7 +795,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Edit Product
  */
-function enterprise_admin_action_edit_product($smarty)
+function enterprise_admin_action_edit_product($smarty, $site)
 {
     $tplPath = 'admin/edit_product.tpl';
 
@@ -847,6 +875,12 @@ function enterprise_admin_action_edit_product($smarty)
             'images' => $images,
         );
     if ($productId) {// Edit
+        // Authentication
+        $originalProduct = $productDAO->get($productId);
+        if (!$originalProduct
+                || $originalProduct['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
         $productDAO->update($productId, $values);
         enterprise_admin_assign_product_info($smarty, 'product', $productId);
     } else {// Create
@@ -868,7 +902,7 @@ function enterprise_admin_action_edit_product($smarty)
 /**
  * Delete Product
  */
-function enterprise_admin_action_delete_product($smarty)
+function enterprise_admin_action_delete_product($smarty, $site)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $productId = (int)timandes_get_query_data('product_id');
@@ -880,6 +914,8 @@ function enterprise_admin_action_delete_product($smarty)
         $msg = '找不到指定的产品';
         return header('Location: ?action=product&error_msg=' . urlencode($msg));
     }
+    if ($product['site_id'] != $site['site_id'])
+        return header('Location: ?action=product&error_msg=' . urlencode('权限不足'));
     if ($product['deleted']) 
         return header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
     $groupId = $product['group_id'];
@@ -904,7 +940,7 @@ function enterprise_admin_action_delete_product($smarty)
 /**
  * Edit Product TDK
  */
-function enterprise_admin_action_edit_product_tdk($smarty)
+function enterprise_admin_action_edit_product_tdk($smarty, $site)
 {
     $tplPath = 'admin/edit_product_tdk.tpl';
 
@@ -938,8 +974,14 @@ function enterprise_admin_action_edit_product_tdk($smarty)
     $metaDescription = str_replace("\n", '', $metaDescription);
     $metaDescription = str_replace("\r", '', $metaDescription);
 
-    // Save products
     $productDAO = new \enterprise\daos\Product();
+    // Authentication
+    $originalProduct = $productDAO->get($productId);
+    if (!$originalProduct
+            || $originalProduct['site_id'] != $site['site_id'])
+        return enterprise_admin_display_error_msg($smarty, '权限不足');
+
+    // Save products
     $values = array(
             'updated' => date('Y-m-d H:i:s'),
             'html_title' => $htmlTitle,
@@ -1134,7 +1176,7 @@ function enterprise_admin_action_contact($smarty)
 /**
  * Edit Contact
  */
-function enterprise_admin_action_edit_contact($smarty)
+function enterprise_admin_action_edit_contact($smarty, $site)
 {
     $tplPath = 'admin/edit_contact.tpl';
 
@@ -1178,6 +1220,12 @@ function enterprise_admin_action_edit_contact($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($contactId) {// Edit
+        // Authentication
+        $originalContact = $contactDAO->get($contactId);
+        if (!$originalContact
+                || $originalContact['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $contactDAO->update($contactId, $values);
         enterprise_assign_contact_info($smarty, 'contact', $contactId);
     } else {// Create
@@ -1191,11 +1239,17 @@ function enterprise_admin_action_edit_contact($smarty)
 /**
  * Delete Contact
  */
-function enterprise_admin_action_delete_contact($smarty)
+function enterprise_admin_action_delete_contact($smarty, $site)
 {
     $contactId = (int)timandes_get_query_data('contact_id');
 
     $contactDAO = new \enterprise\daos\Contact();
+    // Authentication
+    $contact = $contactDAO->get($contactId);
+    if (!$contact
+            || $contact['site_id'] != $site['site_id'])
+        return header('Location: ?action=contact&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1270,7 +1324,7 @@ function enterprise_admin_upload_post_images($thumbnailFor = 'product')
 /**
  * Edit Photo
  */
-function enterprise_admin_action_edit_photo($smarty)
+function enterprise_admin_action_edit_photo($smarty, $site)
 {
     $tplPath = 'admin/edit_photo.tpl';
 
@@ -1313,6 +1367,12 @@ function enterprise_admin_action_edit_photo($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($photoId) {// Edit
+        // Authentication
+        $originalPhoto = $photoDAO->get($photoId);
+        if (!$originalPhoto
+                || $originalPhoto['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $photoDAO->update($photoId, $values);
         enterprise_assign_photo_info($smarty, 'photo', $photoId);
     } else {// Create
@@ -1326,11 +1386,17 @@ function enterprise_admin_action_edit_photo($smarty)
 /**
  * Delete Photo
  */
-function enterprise_admin_action_delete_photo($smarty)
+function enterprise_admin_action_delete_photo($smarty, $site)
 {
     $photoId = (int)timandes_get_query_data('photo_id');
 
     $photoDAO = new \enterprise\daos\Photo();
+    // Authentication
+    $photo = $photoDAO->get($photoId);
+    if (!$photo
+            || $photo['site_id'] != $site['site_id'])
+        return header('Location: ?action=photo&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1358,7 +1424,7 @@ function enterprise_admin_action_certification($smarty)
 /**
  * Edit Certification
  */
-function enterprise_admin_action_edit_certification($smarty)
+function enterprise_admin_action_edit_certification($smarty, $site)
 {
     $tplPath = 'admin/edit_certification.tpl';
 
@@ -1402,6 +1468,12 @@ function enterprise_admin_action_edit_certification($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($certificationId) {// Edit
+        // Authentication
+        $originalCertification = $certificationDAO->get($certificationId);
+        if (!$originalCertification
+                || $originalCertification['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $certificationDAO->update($certificationId, $values);
         enterprise_assign_certification_info($smarty, 'certification', $certificationId);
     } else {// Create
@@ -1415,11 +1487,17 @@ function enterprise_admin_action_edit_certification($smarty)
 /**
  * Delete Certification
  */
-function enterprise_admin_action_delete_certification($smarty)
+function enterprise_admin_action_delete_certification($smarty, $site)
 {
     $certificationId = (int)timandes_get_query_data('certification_id');
 
     $certificationDAO = new \enterprise\daos\Certification();
+    // Authentication
+    $certification = $certificationDAO->get($certificationId);
+    if (!$certification
+            || $certification['site'] != $site['site_id'])
+        return header('Location: ?action=certification&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1493,7 +1571,7 @@ function enterprise_admin_action_task($smarty)
 /**
  * Edit Task
  */
-function enterprise_admin_action_edit_task($smarty)
+function enterprise_admin_action_edit_task($smarty, $site)
 {
     $tplPath = 'admin/edit_task.tpl';
 
@@ -1526,6 +1604,12 @@ function enterprise_admin_action_edit_task($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($taskId) {// Edit
+        // Authentication
+        $originalTask = $taskDAO->get($taskId);
+        if (!$originalTask
+                || $originalTask['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $taskDAO->update($taskId, $values);
         enterprise_admin_assign_task_info($smarty, 'task', $taskId);
     } else {// Create
@@ -1539,11 +1623,18 @@ function enterprise_admin_action_edit_task($smarty)
 /**
  * Delete Task
  */
-function enterprise_admin_action_delete_task($smarty)
+function enterprise_admin_action_delete_task($smarty, $site)
 {
     $taskId = (int)timandes_get_query_data('task_id');
 
     $taskDAO = new \blowjob\daos\Task();
+    // Authentication
+    $task = $taskDAO->get($taskId);
+    if (!$task
+            || $task['site_id'] != $site['site_id'])
+        return header('Location: ?action=task&error_msg=' . urlencode('权限不足'));
+
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1571,7 +1662,7 @@ function enterprise_admin_action_banner($smarty)
 /**
  * Edit Banner
  */
-function enterprise_admin_action_edit_banner($smarty)
+function enterprise_admin_action_edit_banner($smarty, $site)
 {
     $tplPath = 'admin/edit_banner.tpl';
 
@@ -1607,6 +1698,12 @@ function enterprise_admin_action_edit_banner($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($bannerId) {// Edit
+        // Authentication
+        $originalBanner = $bannerDAO->get($bannerId);
+        if (!$originalBanner
+                || $originalBanner['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $bannerDAO->update($bannerId, $values);
         enterprise_assign_banner_info($smarty, 'banner', $bannerId);
     } else {// Create
@@ -1620,11 +1717,17 @@ function enterprise_admin_action_edit_banner($smarty)
 /**
  * Delete Banner
  */
-function enterprise_admin_action_delete_banner($smarty)
+function enterprise_admin_action_delete_banner($smarty, $site)
 {
     $bannerId = (int)timandes_get_query_data('banner_id');
 
     $bannerDAO = new \enterprise\daos\Banner();
+    // Authentication
+    $banner = $bannerDAO->get($bannerId);
+    if (!$banner
+            || $banner['site_id'] != $site['site_id'])
+        return header('Location: ?action=banner&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1724,7 +1827,7 @@ function enterprise_admin_action_custom_page($smarty)
 /**
  * Edit CustomPage
  */
-function enterprise_admin_action_edit_custom_page($smarty)
+function enterprise_admin_action_edit_custom_page($smarty, $site)
 {
     $tplPath = 'admin/edit_custom_page.tpl';
 
@@ -1756,6 +1859,12 @@ function enterprise_admin_action_edit_custom_page($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($customPageId) {// Edit
+        // Authentication
+        $originalCustomPage = $customPageDAO->get($customPageId);
+        if (!$originalCustomPage
+                || $originalCustomPage['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $customPageDAO->update($customPageId, $values);
         enterprise_assign_custom_page_info($smarty, 'custom_page', $customPageId);
     } else {// Create
@@ -1769,11 +1878,17 @@ function enterprise_admin_action_edit_custom_page($smarty)
 /**
  * Delete CustomPage
  */
-function enterprise_admin_action_delete_custom_page($smarty)
+function enterprise_admin_action_delete_custom_page($smarty, $site)
 {
     $customPageId = (int)timandes_get_query_data('custom_page_id');
 
     $customPageDAO = new \enterprise\daos\CustomPage();
+    // Authentication
+    $customPage = $customPageDAO->get($customPageId);
+    if (!$customPage
+            || $customPage['site_id'] != $site['site_id'])
+        return header('Location: ?action=custom_page&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );
@@ -1847,7 +1962,7 @@ function enterprise_admin_source_inquiry_2_comment($sourceInquiryId)
 /**
  * Edit Comment
  */
-function enterprise_admin_action_edit_comment($smarty)
+function enterprise_admin_action_edit_comment($smarty, $site)
 {
     $tplPath = 'admin/edit_comment.tpl';
 
@@ -1900,6 +2015,12 @@ function enterprise_admin_action_edit_comment($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     if ($commentId) {// Edit
+        // Authentication
+        $originalComment = $commentDAO->get($commentId);
+        if (!$originalComment
+                || $originalComment['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
         $commentDAO->update($commentId, $values);
         enterprise_assign_comment_info($smarty, 'comment', $commentId);
     } else {// Create
@@ -1913,11 +2034,17 @@ function enterprise_admin_action_edit_comment($smarty)
 /**
  * Delete Comment
  */
-function enterprise_admin_action_delete_comment($smarty)
+function enterprise_admin_action_delete_comment($smarty, $site)
 {
     $commentId = (int)timandes_get_query_data('comment_id');
 
     $commentDAO = new \enterprise\daos\Comment();
+    // Authentication
+    $comment = $commentDAO->get($commentId);
+    if (!$comment
+            || $comment['site_id'] != $site['site_id'])
+        return header('Location: ?action=comment&error_msg=' . urlencode('权限不足'));
+    // Delete
     $values = array(
             'deleted' => 1,
         );

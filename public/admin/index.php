@@ -23,10 +23,13 @@ function enterprise_admin_route($smarty)
         case 'login':
             return enterprise_admin_action_login($smarty, $siteId);
         default:
-            $userId = enterprise_admin_grant_permission($siteId);
-            enterprise_admin_assign_user_info($smarty, 'user', $userId);
+            $user = enterprise_admin_grant_permission($siteId);
+            $smarty->assign('user', $user);
+
             $userSiteId = (int)timandes_get_session_data('user_site_id');
             enterprise_assign_site_info($smarty, 'site', $userSiteId);
+            $site = $smarty->getTemplateVars('site');
+
             switch ($action) {
                 case 'message':
                     return enterprise_admin_action_message($smarty);
@@ -49,67 +52,67 @@ function enterprise_admin_route($smarty)
                 case 'inquiry_detail':
                     return enterprise_admin_action_inquiry_detail($smarty);
                 case 'delete_inquiry':
-                    return enterprise_admin_action_delete_inquiry($smarty);
+                    return enterprise_admin_action_delete_inquiry($smarty, $site);
                 case 'group':
                     return enterprise_admin_action_group($smarty);
                 case 'edit_group':
-                    return enterprise_admin_action_edit_group($smarty);
+                    return enterprise_admin_action_edit_group($smarty, $site);
                 case 'delete_group':
-                    return enterprise_admin_action_delete_group($smarty);
+                    return enterprise_admin_action_delete_group($smarty, $site);
                 case 'count_products':
                     return enterprise_admin_action_count_products($smarty);
                 case 'product':
                     return enterprise_admin_action_product($smarty);
                 case 'edit_product':
-                    return enterprise_admin_action_edit_product($smarty);
+                    return enterprise_admin_action_edit_product($smarty, $site);
                 case 'delete_product':
-                    return enterprise_admin_action_delete_product($smarty);
+                    return enterprise_admin_action_delete_product($smarty, $site);
                 case 'edit_product_tdk':
-                    return enterprise_admin_action_edit_product_tdk($smarty);
+                    return enterprise_admin_action_edit_product_tdk($smarty, $site);
                 case 'insert_keywords':
                     return enterprise_admin_action_insert_keywords($smarty);
                 case 'contact':
                     return enterprise_admin_action_contact($smarty);
                 case 'edit_contact':
-                    return enterprise_admin_action_edit_contact($smarty);
+                    return enterprise_admin_action_edit_contact($smarty, $site);
                 case 'delete_contact':
-                    return enterprise_admin_action_delete_contact($smarty);
+                    return enterprise_admin_action_delete_contact($smarty, $site);
                 case 'photo':
                     return enterprise_admin_action_photo($smarty);
                 case 'edit_photo':
-                    return enterprise_admin_action_edit_photo($smarty);
+                    return enterprise_admin_action_edit_photo($smarty, $site);
                 case 'delete_photo':
-                    return enterprise_admin_action_delete_photo($smarty);
+                    return enterprise_admin_action_delete_photo($smarty, $site);
                 case 'certification':
                     return enterprise_admin_action_certification($smarty);
                 case 'edit_certification':
-                    return enterprise_admin_action_edit_certification($smarty);
+                    return enterprise_admin_action_edit_certification($smarty, $site);
                 case 'delete_certification':
-                    return enterprise_admin_action_delete_certification($smarty);
+                    return enterprise_admin_action_delete_certification($smarty, $site);
                 case 'task':
                     return enterprise_admin_action_task($smarty);
                 case 'edit_task':
-                    return enterprise_admin_action_edit_task($smarty);
+                    return enterprise_admin_action_edit_task($smarty, $site);
                 case 'delete_task':
-                    return enterprise_admin_action_delete_task($smarty);
+                    return enterprise_admin_action_delete_task($smarty, $site);
                 case 'banner':
                     return enterprise_admin_action_banner($smarty);
                 case 'edit_banner':
-                    return enterprise_admin_action_edit_banner($smarty);
+                    return enterprise_admin_action_edit_banner($smarty, $site);
                 case 'delete_banner':
-                    return enterprise_admin_action_delete_banner($smarty);
+                    return enterprise_admin_action_delete_banner($smarty, $site);
                 case 'custom_page':
                     return enterprise_admin_action_custom_page($smarty);
                 case 'edit_custom_page':
-                    return enterprise_admin_action_edit_custom_page($smarty);
+                    return enterprise_admin_action_edit_custom_page($smarty, $site);
                 case 'delete_custom_page':
-                    return enterprise_admin_action_delete_custom_page($smarty);
+                    return enterprise_admin_action_delete_custom_page($smarty, $site);
                 case 'comment':
                     return enterprise_admin_action_comment($smarty);
                 case 'edit_comment':
-                    return enterprise_admin_action_edit_comment($smarty);
+                    return enterprise_admin_action_edit_comment($smarty, $site);
                 case 'delete_comment':
-                    return enterprise_admin_action_delete_comment($smarty);
+                    return enterprise_admin_action_delete_comment($smarty, $site);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }
