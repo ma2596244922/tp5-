@@ -457,7 +457,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
         enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
         // Groups
-        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, 5);
+        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, true, 5);
 
         // Domain suffix
         $smarty->assign('site_root_domain', $currentDomainSuffix);
@@ -721,12 +721,14 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
  *
  * @return array Group Array
  */
-function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appendFirstProducts = false, $maxAppendedProducts = 1)
+function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skipEmpty = true,
+        $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
     $maxGroupsFromDb = ($appendFirstProducts?null:$max);
+    $cntString = ($skipEmpty?' AND `cnt`>0':'');
 
     $groupDAO = new \enterprise\daos\Group();
-    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $condition = "`site_id`={$siteId} AND `deleted`=0{$cntString}";
     $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $maxGroupsFromDb);
 
     if ($appendFirstProducts) {
@@ -734,9 +736,6 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appe
         $retval = array();
         $accItems = 0;
         foreach ($groups as $group) {
-            if ($group['cnt'] <= 0)
-                continue; // Skip empty group
-
             $groupId = (int)$group['id'];
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
             $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);
@@ -865,7 +864,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId, null, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
+    enterprise_assign_group_list($smarty, 'groups', $siteId, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);

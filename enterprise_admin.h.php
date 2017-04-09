@@ -52,9 +52,9 @@ function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageN
 /**
  * Assign Group List
  */
-function enterprise_admin_assign_group_list($smarty, $var, $siteId)
+function enterprise_admin_assign_group_list($smarty, $var, $siteId, $max = null)
 {
-    enterprise_assign_group_list($smarty, $var, $siteId);
+    enterprise_assign_group_list($smarty, $var, $siteId, $max, false);
 }
 
 /* }}} */
@@ -609,7 +609,7 @@ function enterprise_admin_action_product($smarty)
         $groupCondition = ' AND p.`group_id`=' . $groupId;
         enterprise_admin_assign_group_info($smarty, 'group', $groupId);
     }
-    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
     $productDAO = new \enterprise\daos\Product();
     $start = ($pageNo - 1) * $max;
@@ -981,7 +981,7 @@ function enterprise_admin_action_insert_keywords($smarty)
 
     $submitButton = enterprise_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
         return $smarty->display($tplPath);
     }
@@ -1426,7 +1426,7 @@ function enterprise_admin_action_edit_task($smarty)
     $tplPath = 'admin/edit_task.tpl';
 
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
     $taskId = (int)enterprise_get_query_data('task_id');
     $smarty->assign('task_id', $taskId);
@@ -1934,7 +1934,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
             break;
         default:
             $tplPath = 'admin/email_template_step_1.tpl';
-            enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+            enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
             break;
     }
     $smarty->display($tplPath);
