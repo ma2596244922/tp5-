@@ -632,7 +632,8 @@ function enterprise_admin_action_product($smarty)
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
+    $groupCondition = str_replace('p.', '', $groupCondition);
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}";
     $totalProducts = $productDAO->countBy($condition);
     $smarty->assign('total_products', $totalProducts);
     $smarty->assign('page_size', $max);
