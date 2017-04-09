@@ -710,19 +710,26 @@ function enterprise_url_product_list($group, $pageNo = 1)
  */
 function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
+    $maxGroupsFromDb = ($appendFirstProducts?null:$max);
+
     $groupDAO = new \enterprise\daos\Group();
     $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $max);
+    $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $maxGroupsFromDb);
 
     if ($appendFirstProducts) {
         $productDAO = new \enterprise\daos\Product();
         $retval = array();
+        $accItems = 0;
         foreach ($groups as $group) {
             $groupId = (int)$group['id'];
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
             $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);
             $group['products'] = $products;
             $retval[] = $group;
+            ++$accItems;
+
+            if ($accItems >= $max)
+                break;
         }
         $groups = $retval;
     }
