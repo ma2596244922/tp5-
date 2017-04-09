@@ -134,7 +134,11 @@
 
                         <input class="m-wrap small" type="text" placeholder="验证码" name="captcha">
 
-                        <span class="help-inline" style="margin-top: 0;"><img src="?action=captcha"></span>
+                        <a class="help-inline" href="javascript:void(0);" style="margin-top: 0;" id="btn-update-captcha">
+
+                            <img src="?action=captcha&t={$smarty.now}">
+
+                        </a>
 
                     </div>
 
@@ -225,6 +229,13 @@
           App.init();
 
           Login.init();
+
+          $('#btn-update-captcha').click(function() {
+                var baseUrl = '?action=captcha';
+                var t = Math.round(Math.random() * 10000);
+                var url = baseUrl + '&t=' + encodeURIComponent(t);
+                $(this).find('img').attr('src', url);
+          })
 
         });
 
