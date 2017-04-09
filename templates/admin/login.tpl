@@ -62,13 +62,7 @@
 
             <h3 class="form-title">{$page_title}</h3>
 
-            <div class="alert alert-error{if !$error_msg} hide{/if}">
-
-                <button class="close" data-dismiss="alert"></button>
-
-                <span>{$error_msg}</span>
-
-            </div>
+{include file="admin/common/op_alerts.tpl"}
 
             <div class="control-group">
 

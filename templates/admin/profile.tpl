@@ -113,15 +113,9 @@
                 <div class="row-fluid profile">
 
                     <div class="span12">
-{if isset($message)}
-                        <div class="alert alert-success">
 
-                            <button class="close" data-dismiss="alert"></button>
+{include file="admin/common/op_alerts.tpl"}
 
-                            <strong>成功!</strong>{$message}
-
-                        </div>
-{/if}
                         <!--BEGIN TABS-->
 
                         <div class="tabbable tabbable-custom tabbable-full-width">

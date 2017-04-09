@@ -225,7 +225,7 @@ function enterprise_admin_action_profile($smarty)
 
     enterprise_admin_assign_user_info($smarty, 'user', $userId);
     
-    $smarty->assign('message', '修改成功');
+    $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
 
@@ -258,7 +258,7 @@ function enterprise_admin_action_fragment($smarty)
     $siteDAO->update($userSiteId, $values);
     enterprise_assign_site_info($smarty, 'site', $userSiteId);
     
-    $smarty->assign('message', '修改成功');
+    $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
 
@@ -292,7 +292,7 @@ function enterprise_admin_action_logo($smarty)
     $corporationDAO->update($userSiteId, $values);
     enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
     
-    $smarty->assign('message', '修改成功');
+    $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
 
@@ -368,7 +368,7 @@ function enterprise_admin_action_info($smarty)
     $corporationDAO->update($userSiteId, $values);
     enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
     
-    $smarty->assign('message', '修改成功');
+    $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
 
@@ -409,7 +409,7 @@ function enterprise_admin_action_password($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     $userDAO->update($userId, $values);
-    $smarty->assign('message', '密码修改成功');
+    $smarty->assign('success_msg', '密码修改成功');
     $smarty->display($tplPath);
 }
 
