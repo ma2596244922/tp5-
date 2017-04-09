@@ -192,9 +192,9 @@
 
                             <div class="portlet-body">
 
-                                <div class="row-fluid">
+                                <div class="clearfix">
 
-                                    <div class="span4">
+                                    <div class="btn-group">
 
                                         <a href="?action=edit_product" class="btn red">
 
@@ -208,47 +208,29 @@
 
                                     </div>
 
-                                    <div class="span8">
+                                    <div class="control-group">
 
-                                        <div class="pull-right span6">
+                                        <select data-placeholder="选择分组" class="chosen" tabindex="-1" id="select-group">
 
-                                            <div class="row-fluid">
+                                            <option value="0"></option>
 
-                                                <div class="span6">
-
-                                                    <select data-placeholder="选择分组" class="chosen" tabindex="-1" id="select-group">
-
-                                                        <option value="0"></option>
-
-                                                        <option value="0">全部</option>
+                                            <option value="0">全部</option>
 {foreach $groups as $group}
-                                                        <option value="{$group.id}"{if $group.id==$smarty.get.group_id|default:''} selected{/if}>{$group.name}</option>
+                                            <option value="{$group.id}"{if $group.id==$smarty.get.group_id|default:''} selected{/if}>{$group.name}</option>
 {/foreach}
-                                                    </select>
+                                        </select>
+                        
+                                        <div class="input-icon inline">
 
-                                                </div>
+                                            <i class="icon-envelop"></i>
 
-                                                <div class="span6">
-
-                                                    <div class="input-icon">
-
-                                                        <i class="icon-envelop"></i>
-
-                                                        <input class="m-wrap" type="text" id="input-keywords" placeholder="搜索标题" value="{$smarty.get.keywords|default:''|escape}">
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
+                                            <input class="m-wrap" type="text" id="input-keywords" placeholder="搜索标题" value="{$smarty.get.keywords|default:''|escape}">
 
                                         </div>
 
                                     </div>
 
                                 </div>
-
-                                <hr class="clearfix">
 
                                 <table class="table table-striped table-bordered table-hover">
 
