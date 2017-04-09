@@ -600,19 +600,33 @@ function enterprise_admin_action_count_products($smarty)
     $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $groupId = (int)enterprise_get_query_data('group_id');
 
+    $groupCondition = '';
+    if ($groupId)
+        $groupCondition = " AND `group_id`={$groupId}";
+
     // Count products
     $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId}";
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}";
     $cnt = (int)$productDAO->countBy($condition);
 
     // Save count to group
-    $groupDAO = new enterprise\daos\Group();
-    $values = array(
-            'cnt' => $cnt,
-        );
-    $groupDAO->update($groupId, $values);
+    if ($groupId) {
+        $groupDAO = new enterprise\daos\Group();
+        $values = array(
+                'cnt' => $cnt,
+            );
+        $groupDAO->update($groupId, $values);
 
-    header('Location: ?action=group&success_msg=' . urlencode('操作成功'));
+        header('Location: ?action=group&success_msg=' . urlencode('操作成功'));
+    } else {
+        $siteDAO = new enterprise\daos\Site();
+        $values = array(
+                'product_cnt' => $cnt,
+            );
+        $siteDAO->update($userSiteId, $values);
+
+        header('Location: ?action=product&success_msg=' . urlencode('操作成功'));
+    }
 }
 /* }}} */
 
@@ -815,6 +829,10 @@ function enterprise_admin_action_edit_product($smarty)
         // Cnt of products
         $groupDAO = new \enterprise\daos\Group();
         $groupDAO->incrCnt($groupId);
+
+        // Cnt of products
+        $siteDAO = new \enterprise\daos\Site();
+        $siteDAO->incrProductCnt($userSiteId);
     }
 
     $smarty->assign('success_msg', '保存成功');
@@ -826,6 +844,7 @@ function enterprise_admin_action_edit_product($smarty)
  */
 function enterprise_admin_action_delete_product($smarty)
 {
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $productId = (int)enterprise_get_query_data('product_id');
 
     // Get group ID
@@ -848,6 +867,10 @@ function enterprise_admin_action_delete_product($smarty)
     // Cnt of products
     $groupDAO = new \enterprise\daos\Group();
     $groupDAO->incrCnt($groupId, -1);
+
+    // Cnt of products
+    $siteDAO = new \enterprise\daos\Site();
+    $siteDAO->incrProductCnt($userSiteId, -1);
 
     header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
 }

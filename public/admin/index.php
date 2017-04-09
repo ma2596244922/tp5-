@@ -25,6 +25,8 @@ function enterprise_admin_route($smarty)
         default:
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
+            $userSiteId = (int)enterprise_get_session_data('user_site_id');
+            enterprise_assign_site_info($smarty, 'site', $userSiteId);
             switch ($action) {
                 case 'email_template':
                     return enterprise_admin_action_email_template($smarty, $currentDomainSuffix);

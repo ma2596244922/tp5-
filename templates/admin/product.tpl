@@ -140,7 +140,7 @@
 {elseif $smarty.get.keywords|default:''}
                             <li>关键词：{$smarty.get.keywords}</li>
 {else}
-                            <li>全部产品</li>
+                            <li>全部产品({$site.product_cnt})</li>
 {/if}
                         </ul>
 
@@ -203,6 +203,8 @@
                                         </a>
 
                                         <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
+
+                                        <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
                                     </div>
 

@@ -46,8 +46,16 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     $sitemapLocale = $matches[1];
     if ($sitemapLocale == 'index')
         enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
+    elseif ($sitemapLocale == 'product')
+        enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
+} elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
+    if (isset($matches[2]))
+        $no = (int)$matches[2];
+    else
+        $no = 1;
+    enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
 } elseif(preg_match('/^\/uploaded_images\/([a-z]?)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
     $char = $matches[1];
     $imageId = $matches[2];

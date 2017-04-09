@@ -15,6 +15,8 @@ define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
 /** @var string Fields of Custom Page for List */
 define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
+/** @var int Max Urls per File */
+define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5);
 
 /* {{{ Common */
 
@@ -200,10 +202,20 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
         $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
         $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
         $sitemapIndex->addSitemap($sitemap);
-    } else {// Not a site made by crawler
-        $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/english.xml';
-        $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
-        $sitemapIndex->addSitemap($sitemap);
+    }
+
+    {
+        $siteDAO = new enterprise\daos\Site();
+        $condition = "`site_id`=" . (int)$siteId;
+        $site = $siteDAO->getOneBy($condition);
+        $productCnt = (int)$site['product_cnt'];
+        $productsPerFile = ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE;
+        $sitemapFiles = (int)($productCnt / $productsPerFile) + (($productCnt % $productsPerFile)?1:0);
+        for ($i=1; $i<=$sitemapFiles; ++$i) {
+            $loc = enterprise_url_sitemap($currentDomainSuffix, $i);
+            $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
+            $sitemapIndex->addSitemap($sitemap);
+        }
     }
 
     header('Content-Type: text/xml; utf-8');
@@ -245,6 +257,7 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 
     // New groups N products
     if ($locale == 'english') {
+        // groups
         $groupDAO = new \enterprise\daos\Group();
         $curGroupId = 0;
         $max = 100;
@@ -257,32 +270,35 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
             foreach ($groups as $group) {
                 $curGroupId = max($curGroupId, $group['id']);
 
-                $productDAO = new \enterprise\daos\Product();
-                $curProductId = 0;
-                $totalProductsInGroup = 0;
-                do {
-                    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `group_id`={$group['id']} AND `id`>{$curProductId}";
-                    $products = $productDAO->getMultiBy($condition, $max);
-                    if (!$products)
-                        break;
-
-                    foreach ($products as $product) {
-                        $curProductId = max($curProductId, $product['id']);
-                        ++$totalProductsInGroup;
-
-                        $loc = enterprise_url_product($product);
-                        $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
-                        $urlSet->addUrl($url);
-                    }
-                } while(true);
-
-                if ($totalProductsInGroup > 0) {
+                if ($group['cnt'] > 0) {
                     $loc = enterprise_url_product_list($group);
                     $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
                     $urlSet->addUrl($url);
                 }
             }
         } while(true);
+    }
+
+    header('Content-Type: text/xml; utf-8');
+    echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
+    exit(0);
+}
+
+/**
+ * 展示Sitemap页面
+ */
+function enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, $no = 1)
+{
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
+
+    $productDAO = new \enterprise\daos\Product();
+    $start = ($no - 1) * ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE;
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` ASC', ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, $start);
+    if ($products) foreach ($products as $product) {
+        $loc = enterprise_url_product($product);
+        $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+        $urlSet->addUrl($url);
     }
 
     header('Content-Type: text/xml; utf-8');
@@ -714,6 +730,17 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
             $pageString = '-' . $pageNo;
         return enterprise_url_prefix() . '/products' . $pageString . '.html';
     }
+}
+
+/**
+ * URL - Sitemap
+ */
+function enterprise_url_sitemap($currentDomainSuffix, $no = 1)
+{
+    $suffix = '';
+    if ($no > 1)
+        $suffix = '-' . $no;
+    return 'http://www.' . $currentDomainSuffix . '/sitemap/product' . $suffix . '.xml';
 }
 
 /* }}} */
