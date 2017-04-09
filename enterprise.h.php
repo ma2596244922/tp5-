@@ -162,7 +162,7 @@ function enterprise_standardize_url_key($s)
  */
 function enterprise_generate_url_key($str)
 {
-    return trim(preg_replace('/[\s]+|[^0-9a-zA-Z]+/', '-', enterprise_standardize_url_key($str)), '-');
+    return trim(preg_replace('/([\s]|[^0-9a-zA-Z])+/', '-', enterprise_standardize_url_key($str)), '-');
 }
 
 /**

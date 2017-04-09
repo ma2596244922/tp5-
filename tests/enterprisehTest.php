@@ -142,4 +142,26 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = enterprise_admin_insert_keywords_to_value($value, ' ', $keywords, 5);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * function enterprise_generate_url_key()
+     */
+    public function test4()
+    {
+        $s = 'USED PALISADE FENCING NEEDS TLC APPROX 130 / 140 FT ... 8FT HIGH - 2.6 MTRS';
+        $expected = 'used-palisade-fencing-needs-tlc-approx-130-140-ft-8ft-high-2-6-mtrs';
+        $actual = enterprise_generate_url_key($s);
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * function enterprise_standardize_url_key()
+     */
+    public function test5()
+    {
+        $s = 'USED PALISADE FENCING NEEDS TLC APPROX 130 / 140 FT ... 8FT HIGH - 2.6 MTRS';
+        $expected = 'used palisade fencing needs tlc approx 130 140 ft ... 8ft high 2.6 mtrs';
+        $actual = enterprise_standardize_url_key($s);
+        $this->assertEquals($expected, $actual);
+    }
 }
