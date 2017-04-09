@@ -148,21 +148,7 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$smarty.get.error_msg} hide{/if}">
-
-                            <button class="close" data-dismiss="alert"></button>
-
-                            <span>{$smarty.get.error_msg}</span>
-
-                        </div>
-
-                        <div class="alert alert-success{if !$smarty.get.success_msg} hide{/if}">
-
-                            <button class="close" data-dismiss="alert"></button>
-
-                            <span>{$smarty.get.success_msg}</span>
-
-                        </div>
+{include file="admin/common/op_alerts.tpl"}
 
                         <!-- BEGIN GALLERY MANAGER PORTLET-->
 
