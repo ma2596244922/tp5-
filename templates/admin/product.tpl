@@ -318,13 +318,13 @@
 
                                             <ul>
 {-if isset($pager_info['prev_page'])}
-                                                <li class="prev"><a href="?action=product&page={$pager_info['prev_page']}">← <span class="hidden-480">Prev</span></a></li>
+                                                <li class="prev"><a href="?action=product&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$pager_info['prev_page']}">← <span class="hidden-480">Prev</span></a></li>
 {-/if}
 {-for $i=$pager_info['min_page'] to $pager_info['max_page']}
-                                                <li{if $i==$page_no} class="active"{/if}><a href="?action=product&page={$i}">{$i}</a></li>
+                                                <li{if $i==$page_no} class="active"{/if}><a href="?action=product&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$i}">{$i}</a></li>
 {-/for}
 {-if isset($pager_info['next_page'])}
-                                                <li class="next"><a href="?action=product&page={$pager_info['next_page']}"><span class="hidden-480">Next</span> → </a></li>
+                                                <li class="next"><a href="?action=product&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$pager_info['next_page']}"><span class="hidden-480">Next</span> → </a></li>
 {-/if}
                                             </ul>
 
