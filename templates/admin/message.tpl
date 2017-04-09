@@ -12,7 +12,7 @@
 
     <meta charset="utf-8" />
 
-    <title>{$message}</title>
+    <title>{$error_msg|default:''}{$success_msg|default:''}</title>
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
@@ -70,28 +70,6 @@
 
         <div class="page-content">
 
-            <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-
-            <div id="portlet-config" class="modal hide">
-
-                <div class="modal-header">
-
-                    <button data-dismiss="modal" class="close" type="button"></button>
-
-                    <h3>Widget Settings</h3>
-
-                </div>
-
-                <div class="modal-body">
-
-                    <p>Here will be a configuration form</p>
-
-                </div>
-
-            </div>
-
-            <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-
             <div class="container-fluid">
 
                 <!-- BEGIN PAGE HEADER-->
@@ -137,25 +115,66 @@
 
                 <div class="row-fluid">
 
-                    <div class="span12 page-500">
+                    <div class="span12">
 
-                        <div class=" number">
+                        <!-- BEGIN INLINE NOTIFICATIONS PORTLET-->
 
-                            错误
+                        <div class="portlet box blue">
+
+                            <div class="portlet-title">
+
+                                <div class="caption"><i class="icon-cogs"></i>信息提示</div>
+
+                            </div>
+
+                            <div class="portlet-body">
+{if $error_msg|default:''}
+                                <div class="alert alert-block alert-error fade in">
+
+                                    <button type="button" class="close" data-dismiss="alert"></button>
+
+                                    <h4 class="alert-heading">错误!</h4>
+
+                                    <p>
+
+                                        {$error_msg}
+
+                                    </p>
+
+                                    <p>
+
+                                        <a class="btn red" href="javascript:void(0);" onclick="history.go(-1);">返回修改</a>
+
+                                    </p>
+
+                                </div>
+{/if}
+{if $success_msg|default:''}
+                                <div class="alert alert-block alert-success fade in">
+
+                                    <button type="button" class="close" data-dismiss="alert"></button>
+
+                                    <h4 class="alert-heading">成功!</h4>
+
+                                    <p>
+
+                                        {$success_msg}
+
+                                    </p>
+    {-if $forward|default:[]}
+                                    <p>
+
+                                        <a class="btn green" href="{$forward.url}" data-role="btn-delay-forward">{$forward.text}</a>
+
+                                    </p>
+    {-/if}
+                                </div>
+{/if}
+                            </div>
 
                         </div>
 
-                        <div class=" details">
-
-                            <h3>{$message}</h3>
-
-                            <p>
-
-                                <a href="javascript:void(0);" onclick="history.go(-1);">返回修改</a>
-
-                            </p>
-
-                        </div>
+                        <!-- END INLINE NOTIFICATIONS PORTLET-->
 
                     </div>
 
@@ -185,31 +204,7 @@
 
     <!-- BEGIN CORE PLUGINS -->
 
-    <script src="media/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-
-    <script src="media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-
-    <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-
-    <script src="media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
-
-    <script src="media/js/bootstrap-rtl.min.js" type="text/javascript"></script>
-
-    <!--[if lt IE 9]>
-
-    <script src="media/js/excanvas.min.js"></script>
-
-    <script src="media/js/respond.min.js"></script>  
-
-    <![endif]-->   
-
-    <script src="media/js/jquery.slimscroll.min.js" type="text/javascript"></script>
-
-    <script src="media/js/jquery.blockui.min.js" type="text/javascript"></script>  
-
-    <script src="media/js/jquery.cookie.min.js" type="text/javascript"></script>
-
-    <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
+{include file="admin/common/scripts.tpl"}
 
     <!-- END CORE PLUGINS -->
 
@@ -220,6 +215,11 @@
         jQuery(document).ready(function() {    
 
            App.init();
+
+           setTimeout(function() {
+                var forward = $('[data-role="btn-delay-forward"]').attr('href');
+                location.href = forward;
+           }, 3000);
 
         });
 

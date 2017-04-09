@@ -28,6 +28,8 @@ function enterprise_admin_route($smarty)
             $userSiteId = (int)timandes_get_session_data('user_site_id');
             enterprise_assign_site_info($smarty, 'site', $userSiteId);
             switch ($action) {
+                case 'message':
+                    return enterprise_admin_action_message($smarty);
                 case 'email_template':
                     return enterprise_admin_action_email_template($smarty, $currentDomainSuffix);
                 case 'upload_image':
@@ -128,6 +130,5 @@ try {
 } catch(HttpException $he) {
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
-    $smarty->assign('message', $e->getMessage());
-    $smarty->display('admin/message.tpl');
+    enterprise_admin_display_error_msg($smarty, $e->getMessage());
 }

@@ -57,6 +57,24 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId, $max = null)
     enterprise_assign_group_list($smarty, $var, $siteId, $max, false);
 }
 
+function enterprise_admin_display_success_msg($smarty, $msg, $url = null, $text = null)
+{
+    $smarty->assign('success_msg', $msg);
+    if ($url) {
+        $smarty->assign('forward', array(
+                'url' => $url,
+                'text' => $text,
+            ));
+    }
+    $smarty->display('admin/message.tpl');
+}
+
+function enterprise_admin_display_error_msg($smarty, $msg)
+{
+    $smarty->assign('error_msg', $msg);
+    $smarty->display('admin/message.tpl');
+}
+
 /* }}} */
 
 /* {{{ Image Resizing */
@@ -122,6 +140,24 @@ function enterprise_admin_action_dashboard($smarty)
     $smarty->assign('uv', $total);
 
     $smarty->display('admin/index.tpl');
+}
+
+/**
+ * Message page
+ */
+function enterprise_admin_action_message($smarty)
+{
+    $error = (int)timandes_get_query_data('error');
+    if ($error)
+        $smarty->assign('error_msg', '这是一条错误消息');
+    else {
+        $smarty->assign('forward', array(
+                'url' => '?action=dashboard',
+                'text' => 'Dashboard',
+            ));
+        $smarty->assign('success_msg', '这是一条成功消息');
+    }
+    $smarty->display('admin/message.tpl');
 }
 
 /* {{{ Log-in Log-out */
@@ -534,10 +570,8 @@ function enterprise_admin_action_edit_group($smarty)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $groupName = timandes_get_post_data('name');
 
-    if (!$groupName) {
-        $smarty->assign('error_msg', '请输入分组名称');
-        return $smarty->display($tplPath);
-    }
+    if (!$groupName)
+        return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
     $groupDAO = new \enterprise\daos\Group();
     $values = array(
@@ -553,8 +587,7 @@ function enterprise_admin_action_edit_group($smarty)
         $groupDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }
 
 /**
@@ -778,21 +811,15 @@ function enterprise_admin_action_edit_product($smarty)
 
     parse_str($specificationsQueryString, $specificationsArray);
 
-    if (!$caption) {
-        $smarty->assign('error_msg', '请输入产品名称');
-        return $smarty->display($tplPath);
-    }
-    if (!$groupId) {
-        $smarty->assign('error_msg', '请选择所属分组');
-        return $smarty->display($tplPath);
-    }
+    if (!$caption)
+        return enterprise_admin_display_error_msg($smarty, '请输入产品名称');
+    if (!$groupId)
+        return enterprise_admin_display_error_msg($smarty, '请选择所属分组');
 
     // Upload images
     $images = enterprise_admin_upload_post_images();
-    if (!$images) {
-        $smarty->assign('error_msg', '请选择至少一张图片');
-        return $smarty->display($tplPath);
-    }
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
 
     // Save products
@@ -835,8 +862,7 @@ function enterprise_admin_action_edit_product($smarty)
         $siteDAO->incrProductCnt($userSiteId);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
 
 /**
@@ -933,8 +959,7 @@ function enterprise_admin_action_edit_product_tdk($smarty)
     $productGroup = $smarty->getTemplateVars('product_group');
     enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
 
 /* {{{ 批量插入关键词 - Utils */
@@ -1088,8 +1113,7 @@ function enterprise_admin_action_insert_keywords($smarty)
         }
     } while(true);
 
-    $smarty->assign('success_msg', '操作成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
 /* }}} */
@@ -1136,10 +1160,8 @@ function enterprise_admin_action_edit_contact($smarty)
     $viber = timandes_get_post_data('viber');
     $whatsapp = timandes_get_post_data('whatsapp');
 
-    if (!$name) {
-        $smarty->assign('error_msg', '请输入姓名');
-        return $smarty->display($tplPath);
-    }
+    if (!$name)
+        return enterprise_admin_display_error_msg($smarty, '请输入姓名');
 
     $contactDAO = new \enterprise\daos\Contact();
     $values = array(
@@ -1163,8 +1185,7 @@ function enterprise_admin_action_edit_contact($smarty)
         $contactDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=contact', '管理联系人');
 }
 
 /**
@@ -1271,21 +1292,16 @@ function enterprise_admin_action_edit_photo($smarty)
     $desc = timandes_get_post_data('desc');
     $type = (int)timandes_get_post_data('type');
 
-    if (!$desc) {
-        $smarty->assign('error_msg', '请输入描述');
-        return $smarty->display($tplPath);
-    }
-    if (!$type) {
-        $smarty->assign('error_msg', '请选择分类');
-        return $smarty->display($tplPath);
-    }
+    if (!$desc)
+        return enterprise_admin_display_error_msg($smarty, '请输入描述');
+    if (!$type)
+        return enterprise_admin_display_error_msg($smarty, '请选择分类');
 
     // Upload Images
     $images = enterprise_admin_upload_post_images();
-    if (!$images) {
-        $smarty->assign('error_msg', '请选择照片');
-        return $smarty->display($tplPath);
-    }
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择照片');
+
     $uri = $images[0];
 
     $photoDAO = new \enterprise\daos\Photo();
@@ -1304,8 +1320,7 @@ function enterprise_admin_action_edit_photo($smarty)
         $photoDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=photo', '公司图片');
 }
 
 /**
@@ -1369,10 +1384,9 @@ function enterprise_admin_action_edit_certification($smarty)
 
     // Upload Images
     $images = enterprise_admin_upload_post_images('certification');
-    if (!$images) {
-        $smarty->assign('error_msg', '请选择照片');
-        return $smarty->display($tplPath);
-    }
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择照片');
+
     $uri = 'image://' . $images[0];
 
     $certificationDAO = new \enterprise\daos\Certification();
@@ -1395,8 +1409,7 @@ function enterprise_admin_action_edit_certification($smarty)
         $certificationDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=certification', '我的证书');
 }
 
 /**
@@ -1500,14 +1513,10 @@ function enterprise_admin_action_edit_task($smarty)
     // Save
     $groupId = timandes_get_post_data('group_id');
     $targetUrl = timandes_get_post_data('target_url');
-    if (!$groupId) {
-        $smarty->assign('error_msg', '请选择目标分组');
-        return $smarty->display($tplPath);
-    }
-    if (!$targetUrl) {
-        $smarty->assign('error_msg', '请输入目标URL');
-        return $smarty->display($tplPath);
-    }
+    if (!$groupId)
+        return enterprise_admin_display_error_msg($smarty, '请选择目标分组');
+    if (!$targetUrl)
+        return enterprise_admin_display_error_msg($smarty, '请输入目标URL');
 
     $taskDAO = new \blowjob\daos\Task();
     $values = array(
@@ -1524,8 +1533,7 @@ function enterprise_admin_action_edit_task($smarty)
         $taskDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=task', '我的任务');
 }
 
 /**
@@ -1585,10 +1593,9 @@ function enterprise_admin_action_edit_banner($smarty)
 
     // Upload Images
     $images = enterprise_admin_upload_post_images('banner');
-    if (!$images) {
-        $smarty->assign('error_msg', '请选择图片');
-        return $smarty->display($tplPath);
-    }
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择图片');
+
     $uri = 'image://' . $images[0];
 
     $bannerDAO = new \enterprise\daos\Banner();
@@ -1607,8 +1614,7 @@ function enterprise_admin_action_edit_banner($smarty)
         $bannerDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=banner', 'Banner 管理');
 }
 
 /**
@@ -1738,10 +1744,8 @@ function enterprise_admin_action_edit_custom_page($smarty)
     $desc = timandes_get_post_data('desc');
     $body = timandes_get_post_data('body', 'trim');
 
-    if (!$path) {
-        $smarty->assign('error_msg', '请输入页面路径');
-        return $smarty->display($tplPath);
-    }
+    if (!$path)
+        return enterprise_admin_display_error_msg($smarty, '请输入页面路径');
 
     $customPageDAO = new \enterprise\daos\CustomPage();
     $values = array(
@@ -1759,8 +1763,7 @@ function enterprise_admin_action_edit_custom_page($smarty)
         $customPageDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=custom_page', 'Webmasters 验证');
 }
 
 /**
@@ -1880,10 +1883,9 @@ function enterprise_admin_action_edit_comment($smarty)
 
     // Upload Images
     $images = enterprise_admin_upload_post_images();
-    if (!$images) {
-        $smarty->assign('error_msg', '请选择图片');
-        return $smarty->display($tplPath);
-    }
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择图片');
+
     $avatar = 'image://' . $images[0];
 
     $commentDAO = new \enterprise\daos\Comment();
@@ -1905,8 +1907,7 @@ function enterprise_admin_action_edit_comment($smarty)
         $commentDAO->insert($values);
     }
 
-    $smarty->assign('success_msg', '保存成功');
-    $smarty->display($tplPath);
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=comment', '产品留言');
 }
 
 /**
