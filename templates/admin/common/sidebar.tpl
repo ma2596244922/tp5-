@@ -170,7 +170,19 @@
                     </a>
 
                 </li>
+{if $user.advanced}
+                <li class="start{if $page_name=='task'} active{/if}">
 
+                    <a href="?action=task">
+
+                    <i class="icon-tasks"></i> 
+
+                    <span class="title">我的任务</span>
+
+                    </a>
+
+                </li>
+{/if}
             </ul>
 
             <!-- END SIDEBAR MENU -->
