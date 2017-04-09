@@ -187,6 +187,11 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     // Cnt of products
     $groupDAO = new \enterprise\daos\Group();
     $groupDAO->incrCnt($groupId);
+
+    // Cnt of products
+    $siteDAO = new \enterprise\daos\Site();
+    $siteDAO->incrProductCnt($siteId);
+
     return $retval;
 }
 
