@@ -721,6 +721,9 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appe
         $retval = array();
         $accItems = 0;
         foreach ($groups as $group) {
+            if ($group['cnt'] <= 0)
+                continue; // Skip empty group
+
             $groupId = (int)$group['id'];
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
             $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);

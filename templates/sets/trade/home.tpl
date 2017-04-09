@@ -44,7 +44,7 @@
     <div class="all-categories">
         <div class="title"><em><h2>ALL CATEGORIES</h2></em><span><a href="/products.html">View All&nbsp;&nbsp;&gt;</a></span></div>
         <ul>
-{foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index>=5}{continue}{/if}
+{foreach $groups as $group}{if $group@index>=5}{continue}{/if}
             <li>
                 <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
                     <img src="{$group.products[0].head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$group.products[0].caption}" />
