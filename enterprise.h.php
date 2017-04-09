@@ -602,13 +602,15 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
         return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
-        if ($matches[3])
+        if (isset($matches[3])
+                && $matches[3])
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
-        if ($matches[2])
+        if (isset($matches[2])
+                && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
