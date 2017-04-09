@@ -770,7 +770,18 @@ function enterprise_admin_action_delete_product($smarty)
 {
     $productId = (int)enterprise_get_query_data('product_id');
 
+    // Get group ID
     $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->get($productId);
+    if (!$product) {
+        $msg = '找不到指定的产品';
+        return header('Location: ?action=product&error_msg=' . urlencode($msg));
+    }
+    if ($product['deleted']) 
+        return header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
+    $groupId = $product['group_id'];
+
+    // Delete product
     $values = array(
             'deleted' => 1,
         );
