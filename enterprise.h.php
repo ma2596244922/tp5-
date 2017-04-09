@@ -9,6 +9,8 @@
 define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
 /** @var string Pattern of Product Detail */
 define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Product Index */
+define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
 /** @var string Fields of Custom Page for List */
@@ -605,8 +607,12 @@ function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffi
         else
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
-    } elseif ($requestPath == '/products.html') {
-        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null);
+    } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
+        if ($matches[2])
+            $pageNo = (int)$matches[2];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
@@ -693,12 +699,19 @@ function enterprise_url_product($product, $pageNo = 1)
  *
  * @return string
  */
-function enterprise_url_product_list($group, $pageNo = 1)
+function enterprise_url_product_list($group = null, $pageNo = 1)
 {
-    $pageString = '';
-    if ($pageNo > 1)
-        $pageString = 'p' . $pageNo;
-    return enterprise_url_prefix() . '/factory-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
+    if ($group) {
+        $pageString = '';
+        if ($pageNo > 1)
+            $pageString = 'p' . $pageNo;
+        return enterprise_url_prefix() . '/factory-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
+    } else {
+        $pageString = '';
+        if ($pageNo > 1)
+            $pageString = '-' . $pageNo;
+        return enterprise_url_prefix() . '/products' . $pageString . '.html';
+    }
 }
 
 /* }}} */

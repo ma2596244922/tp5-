@@ -72,10 +72,10 @@
                     <div class="page">
                         <label>Page</label><span><i>{$page_no}</i>/{$total_pages}</span>
     {if $page_no > 1}
-                        <a href="{$group|url:'enterprise_url_product_list':($page_no-1)}" class="prev"></a>
+                        <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no-1)}" class="prev"></a>
     {/if}
     {if $page_no < $total_pages}
-                        <a href="{$group|url:'enterprise_url_product_list':($page_no+1)}" class="next"></a>
+                        <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no+1)}" class="next"></a>
     {/if}
                     </div>
                 </div>
