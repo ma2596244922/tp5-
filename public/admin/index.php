@@ -44,6 +44,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_inquiry($smarty);
                 case 'inquiry_detail':
                     return enterprise_admin_action_inquiry_detail($smarty);
+                case 'delete_inquiry':
+                    return enterprise_admin_action_delete_inquiry($smarty);
                 case 'group':
                     return enterprise_admin_action_group($smarty);
                 case 'edit_group':

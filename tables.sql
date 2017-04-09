@@ -57,9 +57,10 @@ CREATE TABLE `enterprise_inquiries` (
   `domain` VARCHAR(45) NOT NULL COMMENT '完整根域（如：baidu.com）',
   `ip` VARCHAR(15) NOT NULL COMMENT 'IPv4地址',
   `target_product_id` int(10) unsigned NOT NULL COMMENT '目标产品ID',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_mutex` (`guid`),
-  KEY `idx_get_by_site` (`site_id`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='询盘表';
 
 CREATE TABLE `enterprise_users` (

@@ -44,7 +44,7 @@ function enterprise_admin_assign_inquiry_list($smarty, $var, $userSiteId, $pageN
 {
     $start = ($pageNo - 1) * $max;
     $inquiryDAO = new \enterprise\daos\Inquiry();
-    $condition = "`site_id`={$userSiteId}";
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
     $inquiries = $inquiryDAO->getMultiInOrderBy($condition, ENTERPRISE_INQUIRY_FIELDS_FOR_LIST, '`id` DESC', $max, $start);
     $smarty->assign($var, $inquiries);
 }
@@ -431,7 +431,7 @@ function enterprise_admin_action_inquiry($smarty)
     enterprise_admin_assign_inquiry_list($smarty, 'inquiries', $userSiteId, $pageNo, $max);
 
     $inquiryDAO = new \enterprise\daos\Inquiry();
-    $condition = "`site_id`={$userSiteId}";
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0";
     $totalInquiries = $inquiryDAO->countBy($condition);
     $totalPages = (int)($totalInquiries / $max) + (($totalInquiries % $max)?1:0);
     $smarty->assign('total_inquiries', $totalInquiries);
@@ -471,6 +471,21 @@ function enterprise_admin_action_inquiry_detail($smarty)
         enterprise_assign_product_info($smarty, 'target_product', $inquiry['target_product_id']);
 
     $smarty->display('admin/inquiry_detail_2.tpl');
+}
+
+/**
+ * Delete Inquiry
+ */
+function enterprise_admin_action_delete_inquiry($smarty)
+{
+    $inquiryId = (int)enterprise_get_query_data('inquiry_id');
+
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $values = array(
+            'deleted' => 1,
+        );
+    $inquiryDAO->update($inquiryId, $values);
+    header('Location: ?action=inquiry&success_msg=' . urlencode('删除成功'));
 }
 
 /* }}} */
