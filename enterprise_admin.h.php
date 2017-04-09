@@ -576,8 +576,7 @@ function enterprise_admin_action_count_products($smarty)
     // Count products
     $productDAO = new \enterprise\daos\Product();
     $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId}";
-    $r = $productDAO->countBy($condition);
-    $cnt = (($r && isset($r[0]))?(int)$r[0]:0);
+    $cnt = (int)$productDAO->countBy($condition);
 
     // Save count to group
     $groupDAO = new enterprise\daos\Group();
