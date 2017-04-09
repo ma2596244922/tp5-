@@ -728,7 +728,8 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $appe
             $retval[] = $group;
             ++$accItems;
 
-            if ($accItems >= $max)
+            if ($max
+                    && $accItems >= $max)
                 break;
         }
         $groups = $retval;
