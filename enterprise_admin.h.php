@@ -547,16 +547,28 @@ function enterprise_admin_action_edit_group($smarty)
  */
 function enterprise_admin_action_delete_group($smarty)
 {
+    $userSiteId = (int)enterprise_get_session_data('user_site_id');
     $groupId = (int)enterprise_get_query_data('group_id');
+    $forceDelete = (int)enterprise_get_query_data('force');
 
     $productDAO = new \enterprise\daos\Product();
-    $condition = "`group_id`={$groupId}";
-    $product = $productDAO->getOneBy($condition);
-    if ($product) {
-        header('Location: ?action=group&error_msg=' . urlencode('该分组下存在产品，无法删除'));
-        return;
+    if (!$forceDelete) {// Check products in current group
+        $condition = "`group_id`={$groupId}";
+        $product = $productDAO->getOneBy($condition);
+        if ($product) {
+            header('Location: ?action=group&error_msg=' . urlencode('该分组下存在产品，无法删除'));
+            return;
+        }
     }
 
+    // Delete products in current group
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId}";
+    $values = array(
+            'deleted' => 1,
+        );
+    $productDAO->updateBy($condition, $values);
+
+    // Delete group
     $groupDAO = new \enterprise\daos\Group();
     $values = array(
             'deleted' => 1,

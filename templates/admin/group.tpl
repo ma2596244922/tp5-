@@ -242,7 +242,7 @@
 
                                                 <a href="?action=edit_group&group_id={$groups[i].id}">修改</a>
 
-                                                <a href="?action=delete_group&group_id={$groups[i].id}">删除</a>
+                                                <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$groups[i].id}" data-group-cnt="{$groups[i].cnt}">删除</a>
 
                                             </td>
 
@@ -329,6 +329,21 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('[data-role="btn-delete-group"]').click(function() {
+                var groupId = $(this).data('group-id');
+                var groupCnt = $(this).data('group-cnt');
+                var confirmMsg = '确认删除该分组？' + ((groupCnt>0)?'（同时删除该分组下所有产品）':'（空分组）');
+                if (!confirm(confirmMsg))
+                    return;
+
+                var forceDeleteString = '';
+                if (groupCnt > 0)
+                    forceDeleteString = '&force=1';
+
+                var url = '?action=delete_group&group_id=' + encodeURIComponent(groupId) + forceDeleteString;
+                location.href = url;
+           });
 
         });
 
