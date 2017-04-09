@@ -238,6 +238,8 @@
 
                                             <td>
 
+                                                <a href="?action=count_products&group_id={$groups[i].id}">重算产品数</a>
+
                                                 <a href="?action=edit_group&group_id={$groups[i].id}">修改</a>
 
                                                 <a href="?action=delete_group&group_id={$groups[i].id}">删除</a>
