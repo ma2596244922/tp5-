@@ -29,9 +29,11 @@
 {include file="sets/trade/common/navbar.tpl"}
     <!--nav-->
     <div class="banner" id="banner">
+        <div class="inner">
 {foreach $banners as $banner}
-        <a href="{$banner.link}" class="d1" title="{$banner.desc}" target="_blank"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a>
+            <a href="{$banner.link}" class="d1" title="{$banner.desc}" target="_blank"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a>
 {/foreach}
+        </div>
         <ul class="number" id="banner_id">
 {foreach $banners as $banner}
             <li{if $banner@index==0} class="current"{/if}></li>
