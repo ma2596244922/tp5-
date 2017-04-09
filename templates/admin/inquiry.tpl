@@ -170,7 +170,7 @@
     {-if $inquiries[i].target_product_id}
                                                 <a href="?action=edit_comment&source_inquiry_id={$inquiries[i].id}">转留言</a>
     {-/if}
-                                                <a href="javascript:void(0)" data-role="btn-delete" data-href="?action=delete_inquiry&inquiry_id={$inquiries[i].id}">删除</a>
+                                                <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_inquiry&inquiry_id={$inquiries[i].id}">删除</a>
 
                                             </td>
 
@@ -257,14 +257,6 @@
            // initiate layout and plugins
 
            App.init();
-
-           $('[data-role="btn-delete"]').click(function() {
-                var href = $(this).data('href');
-                if (!confirm('确认删除吗？'))
-                    return;
-
-                location.href = href;
-           });
 
         });
 

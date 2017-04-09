@@ -23,3 +23,13 @@
     <script src="media/js/jquery.cookie.min.js" type="text/javascript"></script>
 
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
+
+    <script type="text/javascript">
+        $('[data-role="btn-delete"]').click(function() {
+            var href = $(this).data('href');
+            if (!confirm('确认删除吗？'))
+                return;
+
+            location.href = href;
+        });
+    </script>

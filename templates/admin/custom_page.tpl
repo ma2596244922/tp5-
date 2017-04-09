@@ -188,7 +188,7 @@
 
                                                 <a href="?action=edit_custom_page&custom_page_id={$custom_pages[i].id}">修改</a>
 
-                                                <a href="?action=delete_custom_page&custom_page_id={$custom_pages[i].id}">删除</a>
+                                                <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_custom_page&custom_page_id={$custom_pages[i].id}">删除</a>
 
                                             </td>
 

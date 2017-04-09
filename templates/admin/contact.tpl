@@ -198,7 +198,7 @@
 
                                                 <a href="?action=edit_contact&contact_id={$contacts[i].id}">修改</a>
 
-                                                <a href="?action=delete_contact&contact_id={$contacts[i].id}">删除</a>
+                                                <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_contact&contact_id={$contacts[i].id}">删除</a>
 
                                             </td>
 
