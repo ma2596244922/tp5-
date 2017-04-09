@@ -14,7 +14,7 @@ require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 function enterprise_admin_route($smarty)
 {
     list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
-    $action = enterprise_get_query_data('action');
+    $action = timandes_get_query_data('action');
     switch ($action) {
         case 'captcha':
             return enterprise_admin_action_captcha($smarty);
@@ -25,7 +25,7 @@ function enterprise_admin_route($smarty)
         default:
             $userId = enterprise_admin_grant_permission($siteId);
             enterprise_admin_assign_user_info($smarty, 'user', $userId);
-            $userSiteId = (int)enterprise_get_session_data('user_site_id');
+            $userSiteId = (int)timandes_get_session_data('user_site_id');
             enterprise_assign_site_info($smarty, 'site', $userSiteId);
             switch ($action) {
                 case 'email_template':

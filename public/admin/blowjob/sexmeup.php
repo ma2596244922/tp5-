@@ -35,7 +35,7 @@ function enterprise_sexmeup_save_image_from_url($siteId, $imageUrl, $thumbnail =
 
 function enterprise_sexmeup_save_images($siteId)
 {
-    $remoteImageUrlsParam = enterprise_get_post_data('remotePic');
+    $remoteImageUrlsParam = timandes_get_post_data('remotePic');
     if (!$remoteImageUrlsParam)
         return array();
 
@@ -95,22 +95,22 @@ function enterprise_sexmeup_save_images_in_description($siteId, $description)
 
 function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 {
-    $identity = enterprise_get_post_data('identity');
-    $caption = enterprise_get_post_data('title');
-    $description = enterprise_get_post_data('content', 'trim');
-    $brandName = enterprise_get_post_data('brand');
-    $modelNumber = enterprise_get_post_data('model_number');
-    $certification = enterprise_get_post_data('certification');
-    $placeOfOrigin = enterprise_get_post_data('place_of_origin');
-    $minOrderQuantity = enterprise_get_post_data('minamount');
-    $paymentTerms = enterprise_get_post_data('payment_terms');
-    $price = enterprise_get_post_data('price');
-    $supplyAbility = enterprise_get_post_data('amount');
-    $deliveryTime = enterprise_get_post_data('days');
-    $packagingDetails = enterprise_get_post_data('packaging_details');
-    $tagsString = enterprise_get_post_data('tags');
-    $specificationsString = enterprise_get_post_data('specifications');
-    $sourceUrl = enterprise_get_post_data('shopurl');
+    $identity = timandes_get_post_data('identity');
+    $caption = timandes_get_post_data('title');
+    $description = timandes_get_post_data('content', 'trim');
+    $brandName = timandes_get_post_data('brand');
+    $modelNumber = timandes_get_post_data('model_number');
+    $certification = timandes_get_post_data('certification');
+    $placeOfOrigin = timandes_get_post_data('place_of_origin');
+    $minOrderQuantity = timandes_get_post_data('minamount');
+    $paymentTerms = timandes_get_post_data('payment_terms');
+    $price = timandes_get_post_data('price');
+    $supplyAbility = timandes_get_post_data('amount');
+    $deliveryTime = timandes_get_post_data('days');
+    $packagingDetails = timandes_get_post_data('packaging_details');
+    $tagsString = timandes_get_post_data('tags');
+    $specificationsString = timandes_get_post_data('specifications');
+    $sourceUrl = timandes_get_post_data('shopurl');
 
     // Force to decode URL
     if (preg_match('/^https?%3a%2f%2f/i', $sourceUrl))
@@ -197,11 +197,11 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 
 function enterprise_sexmeup_route()
 {
-    $passwd = enterprise_get_post_data('pw');
+    $passwd = timandes_get_post_data('pw');
     if (PASSWD != $passwd)
         throw new \RuntimeException('Wrong password');
 
-    $groupId = enterprise_get_post_data('group_id');
+    $groupId = timandes_get_post_data('group_id');
     if (!$groupId)
         throw new \RuntimeException("Empty group");
 

@@ -213,10 +213,10 @@ function enterprise_oms_action_edit_site_mapping($smarty)
     $siteId = (int)timandes_get_query_data('site_id');
     $smarty->assign('site_id', $siteId);
 
-    $siteMappingId = (int)enterprise_get_query_data('site_mapping_id');
+    $siteMappingId = (int)timandes_get_query_data('site_mapping_id');
     $smarty->assign('site_mapping_id', $siteMappingId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($siteMappingId) 
             enterprise_oms_assign_site_mapping_info($smarty, 'site_mapping', $siteMappingId);
@@ -224,8 +224,8 @@ function enterprise_oms_action_edit_site_mapping($smarty)
     }
 
     // Save
-    $domain = enterprise_get_post_data('domain');
-    $siteId = (int)enterprise_get_post_data('site_id');
+    $domain = timandes_get_post_data('domain');
+    $siteId = (int)timandes_get_post_data('site_id');
 
     if (!$domain) 
         throw new \RuntimeException('请输入根域地址');
@@ -253,7 +253,7 @@ function enterprise_oms_action_edit_site_mapping($smarty)
  */
 function enterprise_oms_action_delete_site_mapping($smarty)
 {
-    $siteMappingId = (int)enterprise_get_query_data('site_mapping_id');
+    $siteMappingId = (int)timandes_get_query_data('site_mapping_id');
 
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
     $siteMapping = $siteMappingDAO->get($siteMappingId);

@@ -13,8 +13,8 @@ define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country
  */
 function enterprise_admin_grant_permission($targetSiteId)
 {
-    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userId = (int)timandes_get_session_data(SESSION_FIELD_USER_ID);
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     if (!$userId
             || $userSiteId != $targetSiteId) {
         header('Location: /admin/?action=login');
@@ -105,7 +105,7 @@ function enterprise_admin_standardize_image($imageManager, $path, $maxWidth = 80
  */
 function enterprise_admin_action_dashboard($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     enterprise_admin_assign_inquiry_list($smarty, 'inquiries', $userSiteId);
 
@@ -133,14 +133,14 @@ function enterprise_admin_action_login($smarty, $targetSiteId)
 {
     $tplPath = 'admin/login.tpl';
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) // No form data
         return $smarty->display($tplPath);
 
-    $userName = enterprise_get_post_data('user');
-    $password = enterprise_get_post_data('password');
+    $userName = timandes_get_post_data('user');
+    $password = timandes_get_post_data('password');
     $passwordSum = md5($password);
-    $captcha = enterprise_get_post_data('captcha');
+    $captcha = timandes_get_post_data('captcha');
 
     $captchaBuilder = new Gregwar\Captcha\CaptchaBuilder($_SESSION[SESSION_FIELD_CAPTCHA_PHRASE]);
     $_SESSION[SESSION_FIELD_CAPTCHA_PHRASE] = null;
@@ -207,14 +207,14 @@ function enterprise_admin_action_profile($smarty)
 {
     $tplPath = 'admin/profile.tpl';
 
-    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
+    $userId = (int)timandes_get_session_data(SESSION_FIELD_USER_ID);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         return $smarty->display($tplPath);
     }
 
-    $email = enterprise_get_post_data('email');
+    $email = timandes_get_post_data('email');
 
     $userDAO = new \enterprise\daos\User();
     $values = array(
@@ -236,17 +236,17 @@ function enterprise_admin_action_fragment($smarty)
 {
     $tplPath = 'admin/fragment.tpl';
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         enterprise_assign_site_info($smarty, 'site', $userSiteId);
         return $smarty->display($tplPath);
     }
 
-    $commonFragment = enterprise_get_post_data('common_fragment', 'trim');
-    $contactnowFragment = enterprise_get_post_data('contactnow_fragment', 'trim');
-    $contactsaveFragment = enterprise_get_post_data('contactsave_fragment', 'trim');
+    $commonFragment = timandes_get_post_data('common_fragment', 'trim');
+    $contactnowFragment = timandes_get_post_data('contactnow_fragment', 'trim');
+    $contactsaveFragment = timandes_get_post_data('contactsave_fragment', 'trim');
 
     $siteDAO = new \enterprise\daos\Site();
     $values = array(
@@ -269,9 +269,9 @@ function enterprise_admin_action_logo($smarty)
 {
     $tplPath = 'admin/logo.tpl';
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
         return $smarty->display($tplPath);
@@ -303,37 +303,37 @@ function enterprise_admin_action_info($smarty)
 {
     $tplPath = 'admin/info.tpl';
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
         return $smarty->display($tplPath);
     }
 
-    $name = enterprise_get_post_data('name');
-    $address = enterprise_get_post_data('address');
-    $factoryAddress = enterprise_get_post_data('factory_address');
-    $worktime = enterprise_get_post_data('worktime');
-    $telWt = enterprise_get_post_data('tel_wt');
-    $telNWt = enterprise_get_post_data('tel_nwt');
-    $fax = enterprise_get_post_data('fax');
-    $skype = enterprise_get_post_data('skype');
-    $email = enterprise_get_post_data('email');
-    $yahoo = enterprise_get_post_data('yahoo');
-    $businessType = enterprise_get_post_data('business_type');
-    $mainMarket = enterprise_get_post_data('main_market');
-    $brands = enterprise_get_post_data('brands');
-    $noOfEmployees = enterprise_get_post_data('no_of_employees');
-    $annualSales = enterprise_get_post_data('annual_sales');
-    $yearEstablished = enterprise_get_post_data('year_established');
-    $exportPC = enterprise_get_post_data('export_p_c');
-    $introduction = enterprise_get_post_data('introduction', 'trim');
-    $history = enterprise_get_post_data('history', 'trim');
-    $service = enterprise_get_post_data('service', 'trim');
-    $ourTeam = enterprise_get_post_data('our_team', 'trim');
-    $qcProfile = enterprise_get_post_data('qc_profile', 'trim');
-    $slogan = enterprise_get_post_data('slogan');
+    $name = timandes_get_post_data('name');
+    $address = timandes_get_post_data('address');
+    $factoryAddress = timandes_get_post_data('factory_address');
+    $worktime = timandes_get_post_data('worktime');
+    $telWt = timandes_get_post_data('tel_wt');
+    $telNWt = timandes_get_post_data('tel_nwt');
+    $fax = timandes_get_post_data('fax');
+    $skype = timandes_get_post_data('skype');
+    $email = timandes_get_post_data('email');
+    $yahoo = timandes_get_post_data('yahoo');
+    $businessType = timandes_get_post_data('business_type');
+    $mainMarket = timandes_get_post_data('main_market');
+    $brands = timandes_get_post_data('brands');
+    $noOfEmployees = timandes_get_post_data('no_of_employees');
+    $annualSales = timandes_get_post_data('annual_sales');
+    $yearEstablished = timandes_get_post_data('year_established');
+    $exportPC = timandes_get_post_data('export_p_c');
+    $introduction = timandes_get_post_data('introduction', 'trim');
+    $history = timandes_get_post_data('history', 'trim');
+    $service = timandes_get_post_data('service', 'trim');
+    $ourTeam = timandes_get_post_data('our_team', 'trim');
+    $qcProfile = timandes_get_post_data('qc_profile', 'trim');
+    $slogan = timandes_get_post_data('slogan');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -378,15 +378,15 @@ function enterprise_admin_action_info($smarty)
 function enterprise_admin_action_password($smarty)
 {
     $tplPath = 'admin/password.tpl';
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) // No form data
         return $smarty->display($tplPath);
 
-    $userId = (int)enterprise_get_session_data(SESSION_FIELD_USER_ID);
+    $userId = (int)timandes_get_session_data(SESSION_FIELD_USER_ID);
 
-    $oldPassword = enterprise_get_post_data('old_password');
-    $newPassword = enterprise_get_post_data('new_password');
-    $newPassword2 = enterprise_get_post_data('new_password_2');
+    $oldPassword = timandes_get_post_data('old_password');
+    $newPassword = timandes_get_post_data('new_password');
+    $newPassword2 = timandes_get_post_data('new_password_2');
     $oldPasswordSum = md5($oldPassword);
     $newPasswordSum = md5($newPassword);
 
@@ -422,8 +422,8 @@ function enterprise_admin_action_password($smarty)
  */
 function enterprise_admin_action_inquiry($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $pageNo = (int)enterprise_get_query_data('page');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
@@ -447,8 +447,8 @@ function enterprise_admin_action_inquiry($smarty)
  */
 function enterprise_admin_action_inquiry_detail($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $inquiryId = (int)enterprise_get_query_data('inquiry_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $inquiryId = (int)timandes_get_query_data('inquiry_id');
 
     // Inquiry
     $inquiryDAO = new \enterprise\daos\Inquiry();
@@ -478,7 +478,7 @@ function enterprise_admin_action_inquiry_detail($smarty)
  */
 function enterprise_admin_action_delete_inquiry($smarty)
 {
-    $inquiryId = (int)enterprise_get_query_data('inquiry_id');
+    $inquiryId = (int)timandes_get_query_data('inquiry_id');
 
     $inquiryDAO = new \enterprise\daos\Inquiry();
     $values = array(
@@ -497,7 +497,7 @@ function enterprise_admin_action_delete_inquiry($smarty)
  */
 function enterprise_admin_action_group($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
     $smarty->display('admin/group.tpl');
@@ -520,10 +520,10 @@ function enterprise_admin_action_edit_group($smarty)
 {
     $tplPath = 'admin/edit_group.tpl';
 
-    $groupId = (int)enterprise_get_query_data('group_id');
+    $groupId = (int)timandes_get_query_data('group_id');
     $smarty->assign('group_id', $groupId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($groupId) 
             enterprise_admin_assign_group_info($smarty, 'group', $groupId);
@@ -531,8 +531,8 @@ function enterprise_admin_action_edit_group($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $groupName = enterprise_get_post_data('name');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $groupName = timandes_get_post_data('name');
 
     if (!$groupName) {
         $smarty->assign('error_msg', '请输入分组名称');
@@ -562,9 +562,9 @@ function enterprise_admin_action_edit_group($smarty)
  */
 function enterprise_admin_action_delete_group($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $groupId = (int)enterprise_get_query_data('group_id');
-    $forceDelete = (int)enterprise_get_query_data('force');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $groupId = (int)timandes_get_query_data('group_id');
+    $forceDelete = (int)timandes_get_query_data('force');
 
     $productDAO = new \enterprise\daos\Product();
     if (!$forceDelete) {// Check products in current group
@@ -597,8 +597,8 @@ function enterprise_admin_action_delete_group($smarty)
  */
 function enterprise_admin_action_count_products($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $groupId = (int)enterprise_get_query_data('group_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $groupId = (int)timandes_get_query_data('group_id');
 
     $groupCondition = '';
     if ($groupId)
@@ -637,8 +637,8 @@ function enterprise_admin_action_count_products($smarty)
  */
 function enterprise_admin_action_product($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $pageNo = (int)enterprise_get_query_data('page');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
@@ -738,13 +738,13 @@ function enterprise_admin_action_edit_product($smarty)
 {
     $tplPath = 'admin/edit_product.tpl';
 
-    $productId = (int)enterprise_get_query_data('product_id');
+    $productId = (int)timandes_get_query_data('product_id');
     $smarty->assign('product_id', $productId);
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         // Editing?
         if ($productId) 
@@ -759,22 +759,22 @@ function enterprise_admin_action_edit_product($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $caption = enterprise_get_post_data('caption');
-    $description = enterprise_get_post_data('description', 'trim');
-    $groupId = enterprise_get_post_data('group_id');
-    $tags = enterprise_get_post_data('tags');
-    $brandName = enterprise_get_post_data('brand_name');
-    $modelNumber = enterprise_get_post_data('model_number');
-    $certification = enterprise_get_post_data('certification');
-    $placeOfOrigin = enterprise_get_post_data('place_of_origin');
-    $minOrderQuantity = enterprise_get_post_data('min_order_quantity');
-    $price = enterprise_get_post_data('price');
-    $paymentTerms = enterprise_get_post_data('payment_terms');
-    $supplyAbility = enterprise_get_post_data('supply_ability');
-    $deliveryTime = enterprise_get_post_data('delivery_time');
-    $packagingDetails = enterprise_get_post_data('packaging_details');
-    $specificationsQueryString = enterprise_get_post_data('specifications');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $caption = timandes_get_post_data('caption');
+    $description = timandes_get_post_data('description', 'trim');
+    $groupId = timandes_get_post_data('group_id');
+    $tags = timandes_get_post_data('tags');
+    $brandName = timandes_get_post_data('brand_name');
+    $modelNumber = timandes_get_post_data('model_number');
+    $certification = timandes_get_post_data('certification');
+    $placeOfOrigin = timandes_get_post_data('place_of_origin');
+    $minOrderQuantity = timandes_get_post_data('min_order_quantity');
+    $price = timandes_get_post_data('price');
+    $paymentTerms = timandes_get_post_data('payment_terms');
+    $supplyAbility = timandes_get_post_data('supply_ability');
+    $deliveryTime = timandes_get_post_data('delivery_time');
+    $packagingDetails = timandes_get_post_data('packaging_details');
+    $specificationsQueryString = timandes_get_post_data('specifications');
 
     parse_str($specificationsQueryString, $specificationsArray);
 
@@ -844,8 +844,8 @@ function enterprise_admin_action_edit_product($smarty)
  */
 function enterprise_admin_action_delete_product($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $productId = (int)enterprise_get_query_data('product_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $productId = (int)timandes_get_query_data('product_id');
 
     // Get group ID
     $productDAO = new \enterprise\daos\Product();
@@ -882,14 +882,14 @@ function enterprise_admin_action_edit_product_tdk($smarty)
 {
     $tplPath = 'admin/edit_product_tdk.tpl';
 
-    $productId = (int)enterprise_get_query_data('product_id');
+    $productId = (int)timandes_get_query_data('product_id');
     if (!$productId)
         return header('Location: ?action=product');
     $smarty->assign('product_id', $productId);
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         // Product Info
         enterprise_admin_assign_product_info($smarty, 'product', $productId);
@@ -906,9 +906,9 @@ function enterprise_admin_action_edit_product_tdk($smarty)
     }
 
     // Save
-    $htmlTitle = enterprise_get_post_data('html_title');
-    $metaKeywords = enterprise_get_post_data('meta_keywords');
-    $metaDescription = enterprise_get_post_data('meta_description');
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description');
     $metaDescription = str_replace("\n", '', $metaDescription);
     $metaDescription = str_replace("\r", '', $metaDescription);
 
@@ -1036,9 +1036,9 @@ function enterprise_admin_action_insert_keywords($smarty)
 {
     $tplPath = 'admin/insert_keywords.tpl';
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
@@ -1046,9 +1046,9 @@ function enterprise_admin_action_insert_keywords($smarty)
     }
 
     // Save
-    $keywords = enterprise_get_post_data('keywords');
-    $location = (int)enterprise_get_post_data('location');
-    $groupId = (int)enterprise_get_post_data('group_id');
+    $keywords = timandes_get_post_data('keywords');
+    $location = (int)timandes_get_post_data('location');
+    $groupId = (int)timandes_get_post_data('group_id');
 
     $locationRange = array(1, 2);
     if (!in_array($location, $locationRange))
@@ -1058,7 +1058,7 @@ function enterprise_admin_action_insert_keywords($smarty)
     if (!$keywords)
         throw new \UnderflowException("请给出至少一个关键词");
 
-    $targetCnt = (int)enterprise_get_post_data('location_' . $location . '_cnt');
+    $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
     $keywordsArray = explode("\n", $keywords);
 
     $keywordsCnt = 0;
@@ -1101,7 +1101,7 @@ function enterprise_admin_action_insert_keywords($smarty)
  */
 function enterprise_admin_action_contact($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_assign_contact_list($smarty, 'contacts', $userSiteId);
 
     $smarty->display('admin/contact.tpl');
@@ -1114,10 +1114,10 @@ function enterprise_admin_action_edit_contact($smarty)
 {
     $tplPath = 'admin/edit_contact.tpl';
 
-    $contactId = (int)enterprise_get_query_data('contact_id');
+    $contactId = (int)timandes_get_query_data('contact_id');
     $smarty->assign('contact_id', $contactId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($contactId) 
             enterprise_assign_contact_info($smarty, 'contact', $contactId);
@@ -1125,16 +1125,16 @@ function enterprise_admin_action_edit_contact($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $name = enterprise_get_post_data('name');
-    $title = enterprise_get_post_data('title');
-    $tel = enterprise_get_post_data('tel');
-    $skype = enterprise_get_post_data('skype');
-    $email = enterprise_get_post_data('email');
-    $yahoo = enterprise_get_post_data('yahoo');
-    $icq = enterprise_get_post_data('icq');
-    $viber = enterprise_get_post_data('viber');
-    $whatsapp = enterprise_get_post_data('whatsapp');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $name = timandes_get_post_data('name');
+    $title = timandes_get_post_data('title');
+    $tel = timandes_get_post_data('tel');
+    $skype = timandes_get_post_data('skype');
+    $email = timandes_get_post_data('email');
+    $yahoo = timandes_get_post_data('yahoo');
+    $icq = timandes_get_post_data('icq');
+    $viber = timandes_get_post_data('viber');
+    $whatsapp = timandes_get_post_data('whatsapp');
 
     if (!$name) {
         $smarty->assign('error_msg', '请输入姓名');
@@ -1172,7 +1172,7 @@ function enterprise_admin_action_edit_contact($smarty)
  */
 function enterprise_admin_action_delete_contact($smarty)
 {
-    $contactId = (int)enterprise_get_query_data('contact_id');
+    $contactId = (int)timandes_get_query_data('contact_id');
 
     $contactDAO = new \enterprise\daos\Contact();
     $values = array(
@@ -1192,11 +1192,11 @@ function enterprise_admin_action_delete_contact($smarty)
  */
 function enterprise_admin_action_photo($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $type = (int)enterprise_get_query_data('type');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $type = (int)timandes_get_query_data('type');
     if (!$type)
         $type = null;
-    $pageNo = (int)enterprise_get_query_data('page');
+    $pageNo = (int)timandes_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
@@ -1221,13 +1221,13 @@ function enterprise_admin_upload_post_images($thumbnailFor = 'product')
 {
     global $maxWidthInfo;
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     $imageDAO = new \enterprise\daos\Image();
     $thumbnailDAO = new \enterprise\daos\Thumbnail();
     $imageManager = new \Intervention\Image\ImageManager();
     $images = array();
     foreach ($_FILES as $name => $meta) {
-        $id = enterprise_get_post_data($name);
+        $id = timandes_get_post_data($name);
         if (!$id) {// Upload now!
             if ($meta['error'])
                 continue;
@@ -1253,12 +1253,12 @@ function enterprise_admin_action_edit_photo($smarty)
 {
     $tplPath = 'admin/edit_photo.tpl';
 
-    $photoId = (int)enterprise_get_query_data('photo_id');
+    $photoId = (int)timandes_get_query_data('photo_id');
     $smarty->assign('photo_id', $photoId);
 
     $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($photoId) 
             enterprise_assign_photo_info($smarty, 'photo', $photoId);
@@ -1266,10 +1266,10 @@ function enterprise_admin_action_edit_photo($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $uri = enterprise_get_post_data('uri');
-    $desc = enterprise_get_post_data('desc');
-    $type = (int)enterprise_get_post_data('type');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $uri = timandes_get_post_data('uri');
+    $desc = timandes_get_post_data('desc');
+    $type = (int)timandes_get_post_data('type');
 
     if (!$desc) {
         $smarty->assign('error_msg', '请输入描述');
@@ -1313,7 +1313,7 @@ function enterprise_admin_action_edit_photo($smarty)
  */
 function enterprise_admin_action_delete_photo($smarty)
 {
-    $photoId = (int)enterprise_get_query_data('photo_id');
+    $photoId = (int)timandes_get_query_data('photo_id');
 
     $photoDAO = new \enterprise\daos\Photo();
     $values = array(
@@ -1333,7 +1333,7 @@ function enterprise_admin_action_delete_photo($smarty)
  */
 function enterprise_admin_action_certification($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $condition = enterprise_assign_certification_list($smarty, 'certifications', $userSiteId);
 
@@ -1347,10 +1347,10 @@ function enterprise_admin_action_edit_certification($smarty)
 {
     $tplPath = 'admin/edit_certification.tpl';
 
-    $certificationId = (int)enterprise_get_query_data('certification_id');
+    $certificationId = (int)timandes_get_query_data('certification_id');
     $smarty->assign('certification_id', $certificationId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($certificationId) 
             enterprise_assign_certification_info($smarty, 'certification', $certificationId);
@@ -1358,14 +1358,14 @@ function enterprise_admin_action_edit_certification($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $uri = enterprise_get_post_data('uri');
-    $standard = enterprise_get_post_data('standard');
-    $number = enterprise_get_post_data('number');
-    $issueDate = enterprise_get_post_data('issue_date');
-    $expiryDate = enterprise_get_post_data('expiry_date');
-    $scopeNRange = enterprise_get_post_data('scope_n_range');
-    $issuedBy = enterprise_get_post_data('issued_by');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $uri = timandes_get_post_data('uri');
+    $standard = timandes_get_post_data('standard');
+    $number = timandes_get_post_data('number');
+    $issueDate = timandes_get_post_data('issue_date');
+    $expiryDate = timandes_get_post_data('expiry_date');
+    $scopeNRange = timandes_get_post_data('scope_n_range');
+    $issuedBy = timandes_get_post_data('issued_by');
 
     // Upload Images
     $images = enterprise_admin_upload_post_images('certification');
@@ -1404,7 +1404,7 @@ function enterprise_admin_action_edit_certification($smarty)
  */
 function enterprise_admin_action_delete_certification($smarty)
 {
-    $certificationId = (int)enterprise_get_query_data('certification_id');
+    $certificationId = (int)timandes_get_query_data('certification_id');
 
     $certificationDAO = new \enterprise\daos\Certification();
     $values = array(
@@ -1451,8 +1451,8 @@ function enterprise_admin_assign_task_info($smarty, $var, $taskId)
  */
 function enterprise_admin_action_task($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $pageNo = (int)enterprise_get_query_data('page');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
@@ -1484,13 +1484,13 @@ function enterprise_admin_action_edit_task($smarty)
 {
     $tplPath = 'admin/edit_task.tpl';
 
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
-    $taskId = (int)enterprise_get_query_data('task_id');
+    $taskId = (int)timandes_get_query_data('task_id');
     $smarty->assign('task_id', $taskId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($taskId) 
             enterprise_admin_assign_task_info($smarty, 'task', $taskId);
@@ -1498,8 +1498,8 @@ function enterprise_admin_action_edit_task($smarty)
     }
 
     // Save
-    $groupId = enterprise_get_post_data('group_id');
-    $targetUrl = enterprise_get_post_data('target_url');
+    $groupId = timandes_get_post_data('group_id');
+    $targetUrl = timandes_get_post_data('target_url');
     if (!$groupId) {
         $smarty->assign('error_msg', '请选择目标分组');
         return $smarty->display($tplPath);
@@ -1533,7 +1533,7 @@ function enterprise_admin_action_edit_task($smarty)
  */
 function enterprise_admin_action_delete_task($smarty)
 {
-    $taskId = (int)enterprise_get_query_data('task_id');
+    $taskId = (int)timandes_get_query_data('task_id');
 
     $taskDAO = new \blowjob\daos\Task();
     $values = array(
@@ -1553,7 +1553,7 @@ function enterprise_admin_action_delete_task($smarty)
  */
 function enterprise_admin_action_banner($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $condition = enterprise_assign_banner_list($smarty, 'banners', $userSiteId);
 
@@ -1567,10 +1567,10 @@ function enterprise_admin_action_edit_banner($smarty)
 {
     $tplPath = 'admin/edit_banner.tpl';
 
-    $bannerId = (int)enterprise_get_query_data('banner_id');
+    $bannerId = (int)timandes_get_query_data('banner_id');
     $smarty->assign('banner_id', $bannerId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($bannerId) 
             enterprise_assign_banner_info($smarty, 'banner', $bannerId);
@@ -1578,10 +1578,10 @@ function enterprise_admin_action_edit_banner($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $uri = enterprise_get_post_data('uri');
-    $desc = enterprise_get_post_data('desc');
-    $link = enterprise_get_post_data('link');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $uri = timandes_get_post_data('uri');
+    $desc = timandes_get_post_data('desc');
+    $link = timandes_get_post_data('link');
 
     // Upload Images
     $images = enterprise_admin_upload_post_images('banner');
@@ -1616,7 +1616,7 @@ function enterprise_admin_action_edit_banner($smarty)
  */
 function enterprise_admin_action_delete_banner($smarty)
 {
-    $bannerId = (int)enterprise_get_query_data('banner_id');
+    $bannerId = (int)timandes_get_query_data('banner_id');
 
     $bannerDAO = new \enterprise\daos\Banner();
     $values = array(
@@ -1709,7 +1709,7 @@ function enterprise_admin_iplookup_get_info_from_addrs($aAddrs, $sFields = '`cou
  */
 function enterprise_admin_action_custom_page($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_assign_custom_page_list($smarty, 'custom_pages', $userSiteId);
 
     $smarty->display('admin/custom_page.tpl');
@@ -1722,10 +1722,10 @@ function enterprise_admin_action_edit_custom_page($smarty)
 {
     $tplPath = 'admin/edit_custom_page.tpl';
 
-    $customPageId = (int)enterprise_get_query_data('custom_page_id');
+    $customPageId = (int)timandes_get_query_data('custom_page_id');
     $smarty->assign('custom_page_id', $customPageId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($customPageId) 
             enterprise_assign_custom_page_info($smarty, 'custom_page', $customPageId);
@@ -1733,10 +1733,10 @@ function enterprise_admin_action_edit_custom_page($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $path = enterprise_get_post_data('path');
-    $desc = enterprise_get_post_data('desc');
-    $body = enterprise_get_post_data('body', 'trim');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $path = timandes_get_post_data('path');
+    $desc = timandes_get_post_data('desc');
+    $body = timandes_get_post_data('body', 'trim');
 
     if (!$path) {
         $smarty->assign('error_msg', '请输入页面路径');
@@ -1768,7 +1768,7 @@ function enterprise_admin_action_edit_custom_page($smarty)
  */
 function enterprise_admin_action_delete_custom_page($smarty)
 {
-    $customPageId = (int)enterprise_get_query_data('custom_page_id');
+    $customPageId = (int)timandes_get_query_data('custom_page_id');
 
     $customPageDAO = new \enterprise\daos\CustomPage();
     $values = array(
@@ -1813,7 +1813,7 @@ function enterprise_admin_action_upload_image($smarty)
  */
 function enterprise_admin_action_comment($smarty)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $productId = (int)timandes_get_query_data('product_id');
     $smarty->assign('product_id', $productId);
@@ -1848,17 +1848,17 @@ function enterprise_admin_action_edit_comment($smarty)
 {
     $tplPath = 'admin/edit_comment.tpl';
 
-    $commentId = (int)enterprise_get_query_data('comment_id');
+    $commentId = (int)timandes_get_query_data('comment_id');
     $smarty->assign('comment_id', $commentId);
 
-    $submitButton = enterprise_get_post_data('submit');
+    $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         // Editing?
         if ($commentId) 
             enterprise_assign_comment_info($smarty, 'comment', $commentId);
 
         // Product ID when creating
-        $productId = (int)enterprise_get_query_data('product_id');
+        $productId = (int)timandes_get_query_data('product_id');
         $smarty->assign('product_id', $productId);
 
         // From inquiry?
@@ -1871,12 +1871,12 @@ function enterprise_admin_action_edit_comment($smarty)
     }
 
     // Save
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
-    $productId = (int)enterprise_get_post_data('product_id');
-    $subject = enterprise_get_post_data('subject');
-    $message = enterprise_get_post_data('message', 'trim');
-    $contact = enterprise_get_post_data('contact');
-    $issuedOn = enterprise_get_post_data('issued_on');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $productId = (int)timandes_get_post_data('product_id');
+    $subject = timandes_get_post_data('subject');
+    $message = timandes_get_post_data('message', 'trim');
+    $contact = timandes_get_post_data('contact');
+    $issuedOn = timandes_get_post_data('issued_on');
 
     // Upload Images
     $images = enterprise_admin_upload_post_images();
@@ -1914,7 +1914,7 @@ function enterprise_admin_action_edit_comment($smarty)
  */
 function enterprise_admin_action_delete_comment($smarty)
 {
-    $commentId = (int)enterprise_get_query_data('comment_id');
+    $commentId = (int)timandes_get_query_data('comment_id');
 
     $commentDAO = new \enterprise\daos\Comment();
     $values = array(
@@ -1932,7 +1932,7 @@ function enterprise_admin_action_delete_comment($smarty)
  */
 function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
 {
-    $userSiteId = (int)enterprise_get_session_data('user_site_id');
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $step = (int)timandes_get_query_data('step');
     switch ($step) {

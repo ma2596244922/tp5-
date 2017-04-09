@@ -72,48 +72,6 @@ function enterprise_generate_guid()
     return md5(uniqid(mt_rand(), true), true);
 }
 
-/**
- * 过滤参数值
- *
- * @param mixed $mValue 参数值
- * @param string $sFilters 过滤函数清单
- * @return mixed
- */
-function enterprise_filter($mValue, $sFilters = 'trim, strip_tags')
-{
-    if (!is_string($mValue))
-        return $mValue; // skip non-string
-
-    // 使用过滤函数
-    if(!empty($sFilters)) {
-        $aFilters = explode(',', $sFilters);
-        if(is_array($aFilters)) foreach($aFilters as $f) {
-            $f = trim($f);
-            eval("\$mValue = {$f}(\$mValue);");
-        }
-    }
-
-    return $mValue;
-}
-
-function enterprise_get_post_data($key, $filters = 'trim, strip_tags')
-{
-    $v = (isset($_POST[$key])?$_POST[$key]:'');
-    return enterprise_filter($v, $filters);
-}
-
-function enterprise_get_query_data($key, $filters = 'trim, strip_tags')
-{
-    $v = (isset($_GET[$key])?$_GET[$key]:'');
-    return enterprise_filter($v, $filters);
-}
-
-function enterprise_get_session_data($key, $filters = 'trim, strip_tags')
-{
-    $v = (isset($_SESSION[$key])?$_SESSION[$key]:'');
-    return enterprise_filter($v, $filters);
-}
-
 function enterprise_filter_response($content, $originalDomainSuffix, $currentDomainSuffix)
 {
     $content = str_replace('<script type=text/javascript src="/webim/webim.js"></script>', '', $content);
@@ -480,11 +438,11 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
     } else
         $tplPath = 'inquiry_sent.tpl';
 
-    $subject = enterprise_get_post_data('subject');
-    $message = enterprise_get_post_data('message', 'trim');
-    $email = enterprise_get_post_data('email');
+    $subject = timandes_get_post_data('subject');
+    $message = timandes_get_post_data('message', 'trim');
+    $email = timandes_get_post_data('email');
 
-    $messageType = enterprise_get_post_data('message_type');
+    $messageType = timandes_get_post_data('message_type');
     if ($messageType == 'text/plain')
         $message = nl2br($message);
 
@@ -521,29 +479,29 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSu
             'guid' => $guid,
             'subject' => $subject,
             'message' => $message,
-            'courtesy_title' => enterprise_get_post_data('gender'),
-            'company' => enterprise_get_post_data('company'),
-            'tel' => enterprise_get_post_data('tel'),
-            'fax' => enterprise_get_post_data('fax'),
-            'website' => enterprise_get_post_data('senderwebsite'),
-            'country' => enterprise_get_post_data('country'),
-            'contact' => enterprise_get_post_data('name'),
+            'courtesy_title' => timandes_get_post_data('gender'),
+            'company' => timandes_get_post_data('company'),
+            'tel' => timandes_get_post_data('tel'),
+            'fax' => timandes_get_post_data('fax'),
+            'website' => timandes_get_post_data('senderwebsite'),
+            'country' => timandes_get_post_data('country'),
+            'contact' => timandes_get_post_data('name'),
             'email' => $email,
-            'price_n_terms' => enterprise_get_post_data('incoterm'),
-            'payment' => enterprise_get_post_data('payment'),
-            'initial_order' => enterprise_get_post_data('order'),
-            'sample_terms' => enterprise_get_post_data('sample'),
-            'request_specifications' => enterprise_get_post_data('othersc'),
-            'request_company_description' => enterprise_get_post_data('othercd'),
-            'request_deliver_time' => enterprise_get_post_data('otherscdt'),
-            'contact_within_24h' => enterprise_get_post_data('iscontact'),
-            'email_me_updates' => enterprise_get_post_data('newsletter'),
+            'price_n_terms' => timandes_get_post_data('incoterm'),
+            'payment' => timandes_get_post_data('payment'),
+            'initial_order' => timandes_get_post_data('order'),
+            'sample_terms' => timandes_get_post_data('sample'),
+            'request_specifications' => timandes_get_post_data('othersc'),
+            'request_company_description' => timandes_get_post_data('othercd'),
+            'request_deliver_time' => timandes_get_post_data('otherscdt'),
+            'contact_within_24h' => timandes_get_post_data('iscontact'),
+            'email_me_updates' => timandes_get_post_data('newsletter'),
             'site_id' => $siteId,
             'attachments' => $attachments,
             'created' => date('Y-m-d H:i:s'),
             'domain' => $currentDomainSuffix,
             'ip' => $_SERVER['REMOTE_ADDR'],
-            'target_product_id' => (int)enterprise_get_post_data('target_product_id'),
+            'target_product_id' => (int)timandes_get_post_data('target_product_id'),
         );
     $inquiryDAO->insert($values);
     // Send Email
