@@ -614,6 +614,8 @@ function enterprise_admin_action_product($smarty)
         $pageNo = 1;
     $max = 20;
 
+    $productDAO = new \enterprise\daos\Product();
+
     // Filter - Group
     $groupId = (int)timandes_get_query_data('group_id');
     $groupCondition = '';
@@ -623,17 +625,23 @@ function enterprise_admin_action_product($smarty)
     }
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
 
-    $productDAO = new \enterprise\daos\Product();
+    // Filter - Keywords
+    $keywords = timandes_get_query_data('keywords');
+    $keywordsCondition = '';
+    if ($keywords)
+        $keywordsCondition = ' AND p.`caption` like \'%' . $productDAO->escape($keywords) . '%\'';
+
     $start = ($pageNo - 1) * $max;
     $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
-    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
+    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition}{$keywordsCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 
     $groupCondition = str_replace('p.', '', $groupCondition);
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}";
+    $keywordsCondition = str_replace('p.', '', $keywordsCondition);
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}{$keywordsCondition}";
     $totalProducts = $productDAO->countBy($condition);
     $smarty->assign('total_products', $totalProducts);
     $smarty->assign('page_size', $max);

@@ -137,6 +137,10 @@
                             </li>
 {if $group|default:[]}
                             <li>分组：{$group.name}</li>
+{elseif $smarty.get.keywords|default:''}
+                            <li>关键词：{$smarty.get.keywords}</li>
+{else}
+                            <li>全部产品</li>
 {/if}
                         </ul>
 
@@ -204,17 +208,37 @@
 
                                     <div class="span8">
 
-                                        <div class="pull-right">
+                                        <div class="pull-right span6">
 
-                                            <select data-placeholder="选择分组" class="chosen" tabindex="-1" id="select-group">
+                                            <div class="row-fluid">
 
-                                                <option value="0"></option>
+                                                <div class="span6">
 
-                                                <option value="0">全部</option>
+                                                    <select data-placeholder="选择分组" class="chosen" tabindex="-1" id="select-group">
+
+                                                        <option value="0"></option>
+
+                                                        <option value="0">全部</option>
 {foreach $groups as $group}
-                                                <option value="{$group.id}"{if $group.id==$smarty.get.group_id} selected{/if}>{$group.name}</option>
+                                                        <option value="{$group.id}"{if $group.id==$smarty.get.group_id|default:''} selected{/if}>{$group.name}</option>
 {/foreach}
-                                            </select>
+                                                    </select>
+
+                                                </div>
+
+                                                <div class="span6">
+
+                                                    <div class="input-icon">
+
+                                                        <i class="icon-envelop"></i>
+
+                                                        <input class="m-wrap" type="text" id="input-keywords" placeholder="搜索标题" value="{$smarty.get.keywords|default:''|escape}">
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
 
                                         </div>
 
@@ -406,6 +430,14 @@
 
            $('#select-group').change(function() {
                 location.href = '?action=product&group_id=' + $(this).val();
+           });
+
+           $('#input-keywords').keypress(function (e) {
+                if (e.which != 13)
+                    return;
+
+                var keywords = $(this).val();
+                location.href = '?action=product&keywords=' + encodeURIComponent(keywords);
            });
 
         });
