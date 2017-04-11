@@ -164,4 +164,47 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = enterprise_standardize_url_key($s);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * function enterprise_extract_host_meta()
+     */
+    public function test6()
+    {
+        // seamlesssteel-tube.com
+        $host = 'www.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'english',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_PC,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'm.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'english',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_MOBILE,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'french.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'french',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_PC,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'm.french.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'french',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_MOBILE,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+    }
 }

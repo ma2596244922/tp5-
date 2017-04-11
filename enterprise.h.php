@@ -18,6 +18,11 @@ define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created
 /** @var int Max Urls per File */
 define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
 
+/** @var int PC端 */
+define('ENTERPRISE_PLATFORM_PC', 10);
+/** @var int 移动端 */
+define('ENTERPRISE_PLATFORM_MOBILE', 20);
+
 /* {{{ Common */
 
 /**
@@ -25,15 +30,35 @@ define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
  */
 function enterprise_extract_locale_n_domain($host)
 {
+    $meta = enterprise_extract_host_meta($host);
+    return array($meta['locale'], $meta['root_domain']);
+}
+
+/**
+ * 从Host中分离出信息元
+ */
+function enterprise_extract_host_meta($host)
+{
     $pslManager = new Pdp\PublicSuffixListManager();
     $parser = new Pdp\Parser($pslManager->getList());
     $hostObj = $parser->parseHost($host);
 
     $currentDomainSuffix = $hostObj->registerableDomain;
     $subdomain = $hostObj->subdomain;
-    $locale = ($subdomain=='www'||$subdomain=='m'?'english':$hostObj->subdomain);
+    if (strpos($subdomain, '.') === false) {
+        $locale = ($subdomain=='www'||$subdomain=='m'?'english':$hostObj->subdomain);
+        $platform = (($subdomain == 'm')?ENTERPRISE_PLATFORM_MOBILE:ENTERPRISE_PLATFORM_PC);
+    } else {
+        $a = explode('.', $subdomain);
+        $locale = $a[1];
+        $platform = (($a[0] == 'm')?ENTERPRISE_PLATFORM_MOBILE:ENTERPRISE_PLATFORM_PC);
+    }
 
-    return array($locale, $currentDomainSuffix);
+    return array(
+            'locale' => $locale,
+            'root_domain' => $currentDomainSuffix,
+            'platform' => $platform,
+        );
 }
 
 /**
@@ -43,7 +68,10 @@ function enterprise_extract_site_infos()
 {
     global $siteInfo;
 
-    list($locale, $currentDomainSuffix) = enterprise_extract_locale_n_domain($_SERVER['HTTP_HOST']);
+    $hostMeta = enterprise_extract_host_meta($_SERVER['HTTP_HOST']);
+    $locale = $hostMeta['locale'];
+    $currentDomainSuffix = $hostMeta['root_domain'];
+    $platform = $hostMeta['platform'];
 
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
     $condition = "`domain`='" . $siteMappingDAO->escape($currentDomainSuffix) . "'";
