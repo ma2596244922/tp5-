@@ -205,7 +205,7 @@ function enterprise_sexmeup_route()
     if (!$groupId)
         throw new \RuntimeException("Empty group");
 
-    list($siteId, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+    list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $images = enterprise_sexmeup_save_images($siteId);
     $productId = enterprise_sexmeup_save_product($siteId, $groupId, $images);
     enterprise_sexmeup_response(0, 'SUCCESS', $productId);

@@ -88,7 +88,7 @@ function enterprise_extract_site_infos()
         $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
 
     return array(
-            $siteId, $locale, $originalDomainSuffix, $currentDomainSuffix,
+            $siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix,
         );
 }
 
