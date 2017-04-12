@@ -8,7 +8,7 @@
 define('SESSION_FIELD_USER_ID', 'oms_user_id');
 
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
-require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
+require_once realpath(__DIR__ . '/../../') . '/config_oms.php';
 
 /**
  * Grant permission
@@ -57,7 +57,12 @@ function enterprise_oms_action_login($smarty)
 function enterprise_oms_action_dashboard($smarty)
 {
     $siteDAO = new \oms\daos\Site();
-    $sites = $siteDAO->getMultiInOrderBy(null, '`id`, `desc`, `created`, `updated`', '`id` DESC');
+    $sql = "SELECT s.`id`, s.`desc`, s.`created`, s.`updated`, c.`name` AS `corporation_name`
+    FROM `oms_sites` AS s
+    LEFT JOIN `enterprise_corporations` AS c on c.`site_id`=s.`id`
+    ORDER BY s.`id` DESC
+    ";
+    $sites = $siteDAO->getMultiBySql($sql);
     $smarty->assign('sites', $sites);
 
     $smarty->display('oms/dashboard.tpl');

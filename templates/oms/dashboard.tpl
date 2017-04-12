@@ -12,6 +12,7 @@
         <tr>
             <th>#</th>
             <th>描述</th>
+            <th>公司名称</th>
             <th>创建时间(+8)</th>
             <th>最后修改时间(+8)</th>
             <th>&nbsp;</th>
@@ -20,6 +21,7 @@
         <tr>
             <td>{$sites[i].id}</td>
             <td>{$sites[i].desc}</td>
+            <td>{$sites[i].corporation_name}</td>
             <td>{$sites[i].created}</td>
             <td>{$sites[i].updated}</td>
             <td>
