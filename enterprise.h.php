@@ -589,7 +589,7 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
+function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
 {
     // 用户自发布产品的自定义路径
     $productDAO = new \enterprise\daos\Product();
@@ -627,7 +627,7 @@ function enterprise_route_2($smarty, $siteId, $originalDomainSuffix, $currentDom
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
-        return enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_home_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     }
@@ -1195,7 +1195,7 @@ function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSu
  *
  * @return string
  */
-function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_home_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -1204,7 +1204,10 @@ function enterprise_action_sets_home_proc($smarty, $siteId, $originalDomainSuffi
         return null;
     $templateName = $site['template'];
 
-    $tplPath = 'sets/' . $templateName . '/home.tpl';
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/home.tpl';
+    else
+        $tplPath = 'sets/mobile/home.tpl';
     if (!$smarty->templateExists($tplPath))
         return null;
 
