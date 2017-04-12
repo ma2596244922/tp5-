@@ -5,23 +5,13 @@
         <title>{$title}</title>
         <meta name="keywords" content="{$keywords|escape}">
         <meta name="description" content="{$description|escape}">
-        <meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1">
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <link type="text/css" rel="stylesheet" href="/media/sets/mobile/shop-index.css">
+{include file="sets/mobile/common/meta.tpl"}
+{include file="sets/mobile/common/styles.tpl"}
     </head>
 <body class="bj-fff">
 <div class="content">
-    <div class="logo-bar">
-        <a href="/"><img src="{$corporation.logo|url:'enterprise_url_image'}" class="logo-img"></a>
-        <h1 class="logo-name">{$corporation.name}</h1>
-    </div>
-    <ul class="top-nav">
-        <li class="hover"><a href="/">Home</a></li>
-        <li><a href="/products.html">Product</a></li>
-        <li><a href="/aboutus.html">About</a></li>
-        <li><a href="/contactus.html">Contacts</a></li>
-    </ul>
+{include file="sets/mobile/common/logobar.tpl"}
+{include file="sets/mobile/common/navbar.tpl" page_name="home"}
     <section>
         <ul class="shop-info">
             <li><i class="i1"></i>{$corporation.address}</li>
@@ -48,7 +38,6 @@
     <div class="pop-button"><a href="/products.html" class="all">All Products</a><a href="/contactnow.html" class="now">Contact Now</a></div>
 </div>
 <!--footer-->
-<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/jquery.min.js"></script> 
-<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/mobile/common.js"></script> 
+{include file="sets/mobile/common/scripts.tpl"}
 </body>
 </html>

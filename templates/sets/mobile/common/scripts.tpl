@@ -1,0 +1,2 @@
+<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/jquery.min.js"></script> 
+<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/mobile/common.js"></script> 

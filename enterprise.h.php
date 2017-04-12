@@ -616,14 +616,14 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
@@ -1070,7 +1070,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
  *
  * @return string
  */
-function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+function enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -1079,7 +1079,10 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $originalDom
         return null;
     $templateName = $site['template'];
 
-    $tplPath = 'sets/' . $templateName . '/product_list.tpl';
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/product_list.tpl';
+    else
+        $tplPath = 'sets/mobile/product_list.tpl';
     if (!$smarty->templateExists($tplPath))
         return null;
 
