@@ -117,8 +117,11 @@ CREATE TABLE `enterprise_products` (
   `html_title` text NOT NULL COMMENT 'T',
   `meta_keywords` text NOT NULL COMMENT 'K',
   `meta_description` text NOT NULL COMMENT 'D',
+  `path`text NOT NULL COMMENT '自定义路径',
+  `path_sum` binary(16) NOT NULL COMMENT '自定义路径的摘要',
   PRIMARY KEY (`id`),
-  KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
+  KEY `idx_lookup` (`site_id`, `path_sum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发产品表';
 
 CREATE TABLE `enterprise_images` (

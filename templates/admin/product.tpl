@@ -220,6 +220,13 @@
 
                                                 <a href="{$products[i].source_url}" title="{$products[i].source_url}" target="_blank">{$products[i].source_url|truncate:100}</a>-->
     {-/if}
+    {-if $products[i].path}
+                                                <br>
+
+                                                <span style="color: #7f7f7f">自定义路径：</span>
+
+                                                {$products[i].path|truncate:100}
+    {-/if}
                                             </td>
 
                                             <td>{$products[i].created}</td>
@@ -233,6 +240,8 @@
                                                 <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
 
                                                 <a href="?action=edit_product_tdk&product_id={$products[i].id}">TDK</a>
+
+                                                <a href="?action=edit_product_url&product_id={$products[i].id}">URL</a>
 
                                                 <a href="?action=edit_product&source_product_id={$products[i].id}">复制</a>
 

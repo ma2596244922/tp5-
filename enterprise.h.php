@@ -12,7 +12,7 @@ define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\
 /** @var string Pattern of Product Index */
 define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 /** @var string Fields of Product for List */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
 /** @var string Fields of Custom Page for List */
 define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
 /** @var int Max Urls per File */
@@ -589,8 +589,15 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_route_2($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
 {
+    // 用户自发布产品的自定义路径
+    $productDAO = new \enterprise\daos\Product();
+    $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
+    if ($product) {
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
+    }
+
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
@@ -690,12 +697,17 @@ function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = 
  *
  * @return string
  */
-function enterprise_url_product($product, $pageNo = 1)
+function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
 {
     $pageString = '';
     if ($pageNo > 1)
         $pageString = 'p' . $pageNo;
-    return enterprise_url_prefix() . '/sell-' . $product['id'] . $pageString . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+
+    if ($product['path'])
+        $path = $product['path'];
+    else
+        $path = '/sell-' . $product['id'] . $pageString . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
 /**

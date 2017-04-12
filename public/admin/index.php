@@ -69,6 +69,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_delete_product($smarty, $site);
                 case 'edit_product_tdk':
                     return enterprise_admin_action_edit_product_tdk($smarty, $site);
+                case 'edit_product_url':
+                    return enterprise_admin_action_edit_product_url($smarty, $site);
                 case 'insert_keywords':
                     return enterprise_admin_action_insert_keywords($smarty);
                 case 'contact':

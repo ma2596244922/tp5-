@@ -722,7 +722,7 @@ function enterprise_admin_action_product($smarty)
         $keywordsCondition = ' AND p.`caption` like \'%' . $productDAO->escape($keywords) . '%\'';
 
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, g.`name` AS `group_name`
+    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, p.`path`, g.`name` AS `group_name`
     FROM `enterprise_products` AS p
     LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
     WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition}{$keywordsCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
@@ -1000,6 +1000,52 @@ function enterprise_admin_action_edit_product_tdk($smarty, $site)
     enterprise_admin_assign_group_info($smarty, 'product_group', $product['group_id']);
     $productGroup = $smarty->getTemplateVars('product_group');
     enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
+}
+
+/**
+ * Edit Product URL
+ */
+function enterprise_admin_action_edit_product_url($smarty, $site)
+{
+    $tplPath = 'admin/edit_product_url.tpl';
+
+    $productId = (int)timandes_get_query_data('product_id');
+    if (!$productId)
+        return header('Location: ?action=product');
+    $smarty->assign('product_id', $productId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Product Info
+        enterprise_admin_assign_product_info($smarty, 'product', $productId);
+        $product = $smarty->getTemplateVars('product');
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $path = timandes_get_post_data('path');
+    $path = '/' . ltrim($path, '/');
+    $pathSum = md5($path, true);
+
+    $productDAO = new \enterprise\daos\Product();
+    // Authentication
+    $originalProduct = $productDAO->get($productId);
+    if (!$originalProduct
+            || $originalProduct['site_id'] != $site['site_id'])
+        return enterprise_admin_display_error_msg($smarty, '权限不足');
+
+    // Save products
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+            'path' => $path,
+            'path_sum' => $pathSum,
+        );
+    $productDAO->update($productId, $values);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
