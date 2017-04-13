@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link type="text/css" rel="stylesheet" href="http://himg.china.cn??/css/common/bootstrap-2.3.2.css,/css/common/bootstrap-responsive-2.3.2.css" />
+</head>
+<body>
+    <script charset="utf-8" type="text/javascript" src="http://himg.china.cn/js/jquery-1.7.2.js"></script>
+    <script charset="utf-8" type="text/javascript" src="../jquery.validation.js"></script>
+
+    <script type="text/javascript">
+    $.validation('register.group1', {
+        method: '1'
+    });
+    $.validation('register', {
+        method: '1'
+    });
+    $.validation('register');
+    $.validation();
+
+    $('script').validation('register.group1', {
+        method: '1'
+    });
+    $('script').validation('register', {
+        method: '1'
+    });
+    $('script').validation('register');
+    $('script').validation();
+    </script>
+</body>
+</html>

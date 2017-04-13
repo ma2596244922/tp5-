@@ -582,6 +582,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     $userDAO = new \enterprise\daos\User();
     $condition = "`site_id`=" . (int)$siteId;
     $user = $userDAO->getOneBy($condition);
+        $user = null;// REMOVEME:
     if ($user
             && $user['email']
             && Nette\Utils\Validators::is($user['email'], 'email')) {
@@ -1350,13 +1351,16 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $platform, $or
                 && preg_match(PATTERN_PRODUCT_PAGE, $refererPath, $matches)) {
             $productId = $matches[1];
             $smarty->assign('target_product_id', $productId);
+            enterprise_assign_product_info($smarty, 'target_product', $productId);
             $subject = enterprise_generate_inquiry_subject_by_product_id($productId);
         }
 
         if (!$subject)
             $subject= 'Inquiry About ' . $corporation['name'];
-    } else
+    } else {
         $smarty->assign('target_product_id', $aboutProductId);
+        enterprise_assign_product_info($smarty, 'target_product', $aboutProductId);
+    }
     $smarty->assign('subject', $subject);
 
     return $smarty->fetch($tplPath);

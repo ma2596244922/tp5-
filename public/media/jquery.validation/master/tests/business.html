@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link type="text/css" rel="stylesheet" href="http://himg.china.cn??/css/common/bootstrap-2.3.2.css,/css/common/bootstrap-responsive-2.3.2.css" />
+</head>
+<body>
+    <input type="text" id="Input1" /><span id="Input1_res" style="display: none;">OK</span><span id="Input1_info" style="display: none;"></span>
+    <input type="text" id="Input2" /><span id="Input2_res" style="display: none;">OK</span><span id="Input2_info" style="display: none;"></span>
+    <input type="text" id="Input3" />
+    <input type="text" id="Input4" /><span for="Input4" role="success.validation" style="display: none;">OK</span><span for="Input4" role="failure.validation" style="display: none;"></span>
+    <input type="text" id="Input5" />
+    <button type="button" id="Button1">Validate All</button>
+    <button type="button" id="Button2">Cancel Input2 noblank</button>
+    <button type="button" id="Button3">Cancel Input2 all</button>
+    <button type="button" id="Button4">Cancel All</button>
+
+    <script charset="utf-8" type="text/javascript" src="http://himg.china.cn/js/jquery-1.7.2.js"></script>
+    <script charset="utf-8" type="text/javascript" src="../jquery.validation.js"></script>
+
+    <script type="text/javascript">
+    $('#Input1').validation('register', {
+        method: 'noblank',
+        message: 'Input1不能为空'
+    });
+    $('#Input2').validation('register', {
+        method: 'noblank',
+        message: 'Input2不能为空'
+    }).validation('register', {
+        method: 'text',
+        message: 'Input2需要介于2-20之间',
+        max: 20,
+        min: 2,
+        success: function() {
+            alert('OK');
+        }
+    });
+    $('#Input3').validation('register', {
+        method: 'noblank',
+        message: 'Input3不能为空',
+        successLayer: $('#Input1_res'),
+        failureLayer: $('#Input1_info')
+    });
+    $('#Input4').validation('register', {
+        method: 'noblank',
+        message: 'Input4不能为空'
+    });
+    $('#Input5').validation('register', {
+        method: 'noblank',
+        message: 'Input5不能为空'
+    }).validation('setSuccessLayer', $('#Input2_res')
+    ).validation('setFailureLayer', $('#Input2_info'));
+    $.validation('validateOnBlur');
+    $('#Button1').on('click', function() {
+        if ($.validation('validate'))
+            console.log("OK");
+    });
+    $('#Button2').on('click', function() {
+        $('#Input2').validation('cancel', {
+            method: 'noblank'
+        });
+    });
+    $('#Button3').on('click', function() {
+        $('#Input2').validation('cancel');
+    });
+    $('#Button4').on('click', function() {
+        $.validation('cancel');
+    });
+    </script>
+</body>
+</html>
