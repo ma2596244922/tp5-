@@ -30,10 +30,7 @@
     </section>
 </div>
 <!--content-->
-<footer>
-    <p class="links"><a href="/">Home</a>|<a href="/products.html">Products</a>|<a href="http://www.{$site_root_domain}/">PC Sites</a></p>
-{include file="sets/trade/common/copyright.tpl"}
-</footer>
+{include file="sets/mobile/common/footer.tpl"}
 {include file="sets/mobile/common/floatingbar.tpl"}
 {include file="sets/mobile/common/scripts.tpl"}
 </body>

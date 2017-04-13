@@ -493,10 +493,10 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
 /**
  * 保存询盘
  */
-function enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     $site = null;
-    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactsave.tpl', $site);
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactsave.tpl', $site);
     if ($tplPath) {
         // Site
         $smarty->assign('site', $site);
@@ -609,10 +609,10 @@ function enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $
 /**
  * Router
  */
-function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath)
 {
     if ($requestPath == '/contactsave.html') {
-        return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
@@ -645,7 +645,7 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
     }
 
     if ($requestPath == '/contactus.html') {
-        return enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
         return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
@@ -678,7 +678,7 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
     } elseif ($requestPath == '/') {
         return enterprise_action_sets_home_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
-        return enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactnow_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     // Custom Pages
@@ -970,7 +970,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
  * @param array &$site Return site info
  * @return string Path
  */
-function enterprise_decide_template_path($smarty, $siteId, $relativePath, &$site = null)
+function enterprise_decide_template_path($smarty, $siteId, $platform, $relativePath, &$site = null)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -978,7 +978,10 @@ function enterprise_decide_template_path($smarty, $siteId, $relativePath, &$site
     if ($site) {
         $templateName = $site['template'];
 
-        $tplPath = 'sets/' . $templateName . $relativePath;
+        if ($platform == ENTERPRISE_PLATFORM_PC)
+            $tplPath = 'sets/' . $templateName . $relativePath;
+        else
+            $tplPath = 'sets/mobile' . $relativePath;
         if ($smarty->templateExists($tplPath))
             return $tplPath;
     }
@@ -995,10 +998,10 @@ function enterprise_decide_template_path($smarty, $siteId, $relativePath, &$site
  *
  * @return string
  */
-function enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     $site = null;
-    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactus.tpl', $site);
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactus.tpl', $site);
     if (!$tplPath)
         return null;
 
@@ -1307,10 +1310,10 @@ function enterprise_get_quick_questions_for_inquiry()
  *
  * @return string
  */
-function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactnow_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     $site = null;
-    $tplPath = enterprise_decide_template_path($smarty, $siteId, '/contactnow.tpl', $site);
+    $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactnow.tpl', $site);
     if (!$tplPath)
         return null;
 

@@ -195,7 +195,7 @@ foreach ($daos as $dao) {
 // 其次匹配特殊页面
 
 try {
-    enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+    enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath);
 } catch(HttpException $he) {
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
