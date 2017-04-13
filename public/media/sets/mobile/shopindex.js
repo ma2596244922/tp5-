@@ -17,6 +17,20 @@ function opene(id){
 	}
 }
 
+$(function() {
+	$('[data-role="text-a"]').click(function() {
+		var btnNode = $(this);
+		var textLayer = btnNode.prev();
+		if (btnNode.hasClass('x')) {
+			textLayer.removeClass('auto');
+			btnNode.html("View more<i></i>").removeClass('x');
+		} else {
+			textLayer.addClass('auto');
+			btnNode.html("Less<i></i>").addClass('x');
+		}
+	});
+});
+
 var b_height=$(window).height();
 var b_width=$(window).width();
 var page_height=document.body.scrollHeight;

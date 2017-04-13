@@ -647,7 +647,7 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
-        return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_aboutus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         if ($matches[3])
@@ -1038,7 +1038,7 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $ori
  *
  * @return string
  */
-function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_aboutus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -1047,7 +1047,10 @@ function enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSu
         return null;
     $templateName = $site['template'];
 
-    $tplPath = 'sets/' . $templateName . '/aboutus.tpl';
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/aboutus.tpl';
+    else
+        $tplPath = 'sets/mobile/aboutus.tpl';
     if (!$smarty->templateExists($tplPath))
         return null;
 

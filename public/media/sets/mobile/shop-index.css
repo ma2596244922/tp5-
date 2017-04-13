@@ -189,7 +189,7 @@ header .search .search-btn span {
   width: 0.27rem;
   height: 0.26rem;
   display: block;
-  background: url(//himg.china.cn/img/env2/mobile/search.png) no-repeat 0 0;
+  background: url(search.png) no-repeat 0 0;
   background-size: 100%;
   margin: 0.14rem 0 0 0.2rem;
 }
@@ -202,7 +202,7 @@ header.title-header .back {
   width: 0.18rem;
   height: 0.34rem;
   display: block;
-  background: url(//himg.china.cn/img/env2/mobile/back.png) no-repeat 0 0;
+  background: url(back.png) no-repeat 0 0;
   background-size: 100%;
   position: absolute;
   left: 0.2rem;
@@ -244,7 +244,7 @@ body {
 .logo-bar {
   padding: 0.4rem 0.2rem 0.4rem 2.3rem;
   position: relative;
-  background: url(//himg.china.cn/img/env2/mobile/shop/top_bj.jpg) no-repeat center 0;
+  background: url(top_bj.jpg) no-repeat center 0;
   background-size: cover;
 }
 .logo-img {
@@ -306,19 +306,19 @@ body {
   top: 0.03rem;
 }
 .shop-info li .i1 {
-  background: url(//himg.china.cn/img/env2/mobile/shop/pic1.png) no-repeat;
+  background: url(pic1.png) no-repeat;
   background-size: 100%;
 }
 .shop-info li .i2 {
-  background: url(//himg.china.cn/img/env2/mobile/shop/pic2.png) no-repeat;
+  background: url(pic2.png) no-repeat;
   background-size: 100%;
 }
 .shop-info li .i3 {
-  background: url(//himg.china.cn/img/env2/mobile/shop/pic3.png) no-repeat;
+  background: url(pic3.png) no-repeat;
   background-size: 100%;
 }
 .shop-info li .i4 {
-  background: url(//himg.china.cn/img/env2/mobile/shop/pic4.png) no-repeat;
+  background: url(pic4.png) no-repeat;
   background-size: 100%;
 }
 .hot-products {
@@ -472,7 +472,7 @@ body {
   width: 0.1rem;
   height: 0.19rem;
   display: block;
-  background: url(//himg.china.cn/img/env2/mobile/shop/dot3.png) no-repeat;
+  background: url(dot3.png) no-repeat;
   background-size: 100%;
   position: absolute;
   right: 0;
@@ -505,11 +505,11 @@ body {
   right: 0;
   top: 50%;
   margin-top: -0.02rem;
-  background: url(//himg.china.cn/img/env2/mobile/shop/dot1.png) no-repeat;
+  background: url(dot1.png) no-repeat;
   background-size: 100%;
 }
 .about-info .text-txt .text-a.x i {
-  background: url(//himg.china.cn/img/env2/mobile/shop/dot2.png) no-repeat;
+  background: url(dot2.png) no-repeat;
   background-size: 100%;
 }
 .swiper-wrapper {
@@ -617,7 +617,7 @@ body {
   width: 0.34rem;
   height: 0.29rem;
   display: block;
-  background: url(//himg.china.cn/img/env2/mobile/classify.png) left top no-repeat;
+  background: url(classify.png) left top no-repeat;
   background-size: 100%;
   float: right;
   margin: 0.25rem 0 0 0;
@@ -684,7 +684,7 @@ body {
   height: 0.12rem;
   display: inline-block;
   margin: 0 0 0 0.19rem;
-  background: url(//himg.china.cn/img/env2/mobile/slide.png) left top no-repeat;
+  background: url(slide.png) left top no-repeat;
   background-size: 100%;
   cursor: pointer;
 }
@@ -738,7 +738,7 @@ body {
   width: 0.4rem;
   height: 0.4rem;
   display: block;
-  background: url(//himg.china.cn/img/env2/mobile/close.jpg) left top no-repeat;
+  background: url(close.jpg) left top no-repeat;
   background-size: 100%;
   float: right;
   margin: 0.2rem 0.2rem 0 0;
@@ -767,7 +767,7 @@ body {
   height: 0.22rem;
   display: block;
   content: "";
-  background: url(//himg.china.cn/img/env2/mobile/select.png) left top no-repeat;
+  background: url(select.png) left top no-repeat;
   background-size: 100%;
   float: right;
   margin: 0.25rem 0.2rem 0 0;
