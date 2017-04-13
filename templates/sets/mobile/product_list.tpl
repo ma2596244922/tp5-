@@ -46,10 +46,7 @@
     <div class="bounce3"></div>
 </div>
 <!--content-->
-<div class="bh_81">
-    <div class="pop-button"><a href="/products.html" class="all">All Products</a><a href="/contactnow.html" class="now">Contact Now</a></div>
-</div>
-<!--footer-->
+{include file="sets/mobile/common/floatingbar.tpl"}
 <div class="categories">
     <dl>
         <dt>Product  Categories</dt>

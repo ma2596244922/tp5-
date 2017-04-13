@@ -7,8 +7,10 @@
 
 /** @var string Pattern of Product List */
 define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
-/** @var string Pattern of Product Detail */
-define('PATTERN_PRODUCT_DETAIL', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Product Page */
+define('PATTERN_PRODUCT_PAGE', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Detailed Product */
+define('PATTERN_DETAILED_PRODUCT', '/^\/sell-detail-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Product Index */
 define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 /** @var string Fields of Product for List */
@@ -22,6 +24,50 @@ define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
 define('ENTERPRISE_PLATFORM_PC', 10);
 /** @var int 移动端 */
 define('ENTERPRISE_PLATFORM_MOBILE', 20);
+
+/** @var array Product Desc Mapping */
+$productDescMapping = array(
+        'place_of_origin' => array(
+                'label' => 'Place of Origin',
+                'default' => '',
+            ),
+        'brand_name' => array(
+                'label' => 'Brand Name',
+                'default' => '',
+            ),
+        'certification' => array(
+                'label' => 'Certification',
+                'default' => '',
+            ),
+        'model_number' => array(
+                'label' => 'Model Number',
+                'default' => '',
+            ),
+        'min_order_quantity' => array(
+                'label' => 'Min.Order Quantity',
+                'default' => '1 Piece',
+            ),
+        'price' => array(
+                'label' => 'Price',
+                'default' => 'Negotiable',
+            ),
+        'packaging_details' => array(
+                'label' => 'Packaging Details',
+                'default' => '',
+            ),
+        'delivery_time' => array(
+                'label' => 'Delivery Time',
+                'default' => '',
+            ),
+        'payment_terms' => array(
+                'label' => 'Payment Terms',
+                'default' => '',
+            ),
+        'supply_ability' => array(
+                'label' => 'Supply Ability',
+                'default' => '',
+            ),
+    );
 
 /* {{{ Common */
 
@@ -567,7 +613,7 @@ function enterprise_route($smarty, $requestPath, $siteId, $originalDomainSuffix,
 {
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
@@ -595,20 +641,23 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
     if ($product) {
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $product['id'], false);
     }
 
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
         return enterprise_action_sets_aboutus_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match(PATTERN_PRODUCT_DETAIL, $requestPath, $matches)) {
+    } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         if ($matches[3])
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageNo);
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, false, $pageNo);
+    } elseif(preg_match(PATTERN_DETAILED_PRODUCT, $requestPath, $matches)) {
+        $productId = $matches[1];
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, true);
     } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if (isset($matches[3])
@@ -707,6 +756,20 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
         $path = $product['path'];
     else
         $path = '/sell-' . $product['id'] . $pageString . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
+}
+
+/**
+ * URL - Detailed Product
+ *
+ * @return string
+ */
+function enterprise_url_detailed_product($product, $pathOnly = false)
+{
+    if ($product['path'])
+        $path = $product['path'] . '?detail';
+    else
+        $path = '/sell-detail-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
@@ -1024,8 +1087,10 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
  *
  * @return string
  */
-function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageNo = 1)
+function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, $detailed = false, $pageNo = 1)
 {
+    global $productDescMapping;
+
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
@@ -1033,7 +1098,14 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
         return null;
     $templateName = $site['template'];
 
-    $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
+    else {
+        if ($detailed)
+            $tplPath = 'sets/mobile/detailed_product.tpl';
+        else
+            $tplPath = 'sets/mobile/product_detail.tpl';
+    }
     if (!$smarty->templateExists($tplPath))
         return null;
 
@@ -1054,6 +1126,8 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
 
+    $smarty->assign('product_desc', $productDescMapping);
+
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
     $product = $smarty->getTemplateVars('product');
@@ -1072,6 +1146,8 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $originalD
  */
 function enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
 {
+    global $productDescMapping;
+
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
@@ -1091,49 +1167,6 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $
 
     enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
 
-    // Product Desc Mapping
-    $productDescMapping = array(
-            'place_of_origin' => array(
-                    'label' => 'Place of Origin',
-                    'default' => '',
-                ),
-            'brand_name' => array(
-                    'label' => 'Brand Name',
-                    'default' => '',
-                ),
-            'certification' => array(
-                    'label' => 'Certification',
-                    'default' => '',
-                ),
-            'model_number' => array(
-                    'label' => 'Model Number',
-                    'default' => '',
-                ),
-            'min_order_quantity' => array(
-                    'label' => 'Min.Order Quantity',
-                    'default' => '1 Piece',
-                ),
-            'price' => array(
-                    'label' => 'Price',
-                    'default' => 'Negotiable',
-                ),
-            'packaging_details' => array(
-                    'label' => 'Packaging Details',
-                    'default' => '',
-                ),
-            'delivery_time' => array(
-                    'label' => 'Delivery Time',
-                    'default' => '',
-                ),
-            'payment_terms' => array(
-                    'label' => 'Payment Terms',
-                    'default' => '',
-                ),
-            'supply_ability' => array(
-                    'label' => 'Supply Ability',
-                    'default' => '',
-                ),
-        );
     $smarty->assign('product_desc', $productDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
@@ -1308,7 +1341,7 @@ function enterprise_action_sets_contactnow_proc($smarty, $siteId, $originalDomai
         $referer = timandes_get_server_data('HTTP_REFERER');
         $refererPath = parse_url($referer, PHP_URL_PATH);
         if ($refererPath
-                && preg_match(PATTERN_PRODUCT_DETAIL, $refererPath, $matches)) {
+                && preg_match(PATTERN_PRODUCT_PAGE, $refererPath, $matches)) {
             $productId = $matches[1];
             $smarty->assign('target_product_id', $productId);
             $subject = enterprise_generate_inquiry_subject_by_product_id($productId);
