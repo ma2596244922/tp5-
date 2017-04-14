@@ -14,7 +14,7 @@
 {include file="sets/mobile/common/logobar.tpl"}
 {include file="sets/mobile/common/navbar.tpl" page_name="product_list"}
     <div class="title">
-        <em><h1>All Products</h1></em>
+        <em><h1>{if $group|default:[]}{$group.name}{else}All Products{/if}</h1></em>
         <span class="showCategories"></span>
     </div>
     <section class="pro-list">
@@ -37,14 +37,16 @@
 {/foreach}
     </section>
 </div>
-<div class="click-more">
-    <p>View More<i></i></p>
+{if $total_products > $page_size}
+<div style="text-align: right; height: 0.72rem; line-height: 0.72rem;">
+    {if $page_no > 1}
+    <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no-1)}">Prev</a>
+    {/if}
+    {if $page_no < $total_pages}
+    <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no+1)}">Next</a>
+    {/if}
 </div>
-<div class="spinner">
-    <div class="bounce1"></div>
-    <div class="bounce2"></div>
-    <div class="bounce3"></div>
-</div>
+{/if}
 <!--content-->
 {include file="sets/mobile/common/floatingbar.tpl"}
 <div class="categories">
