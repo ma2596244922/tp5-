@@ -8,6 +8,9 @@
 require_once realpath(__DIR__ . '/../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
 
+// User Agent Parser
+$userAgent = new Jenssegers\Agent\Agent();
+
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
     list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
@@ -19,7 +22,8 @@ try {
 
 // abc.com ==(301)=> www.abc.com
 if (!$locale) {
-    header('Location: http://www.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    $subdomain = ($userAgent->isMobile()?'m':'www');
+    header('Location: http://' . $subdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     exit(1);
 }
 
