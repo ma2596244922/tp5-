@@ -218,7 +218,8 @@
 
            setTimeout(function() {
                 var forward = $('[data-role="btn-delay-forward"]').attr('href');
-                location.href = forward;
+                if (typeof(forward) != 'undefined')
+                    location.href = forward;
            }, 3000);
 
         });
