@@ -24,6 +24,7 @@ try {
 if (!$locale) {
     $subdomain = ($userAgent->isMobile()?'m':'www');
     header('Location: http://' . $subdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    http_response_code(301);
     exit(1);
 }
 
