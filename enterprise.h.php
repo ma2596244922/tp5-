@@ -9,6 +9,8 @@
 define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
 /** @var string Pattern of Product Page */
 define('PATTERN_PRODUCT_PAGE', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Product Pic */
+define('PATTERN_PRODUCT_PIC', '/^\/pic-([0-9]+)\.html$/');
 /** @var string Pattern of Detailed Product */
 define('PATTERN_DETAILED_PRODUCT', '/^\/sell-detail-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Product Index */
@@ -20,10 +22,21 @@ define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created
 /** @var int Max Urls per File */
 define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
 
+/* {{{ ENTERPRISE_PLATFORM_* */
 /** @var int PC端 */
 define('ENTERPRISE_PLATFORM_PC', 10);
 /** @var int 移动端 */
 define('ENTERPRISE_PLATFORM_MOBILE', 20);
+/* }}} */
+
+/* {{{ ENTERPRISE_PRODUCT_PAGE_TYPE_* */
+/** @var int 默认产品页 */
+define('ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT', 10);
+/** @var int 移动端专属的详情页 */
+define('ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED', 20);
+/** @var int PC端专属的大图页 */
+define('ENTERPRISE_PRODUCT_PAGE_TYPE_PIC', 30);
+/* }}} */
 
 /** @var array Product Desc Mapping */
 $productDescMapping = array(
@@ -642,7 +655,7 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
     if ($product) {
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $product['id'], false);
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
     }
 
     if ($requestPath == '/contactus.html') {
@@ -655,10 +668,13 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, false, $pageNo);
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
+    } elseif(preg_match(PATTERN_PRODUCT_PIC, $requestPath, $matches)) {
+        $productId = $matches[1];
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_PIC);
     } elseif(preg_match(PATTERN_DETAILED_PRODUCT, $requestPath, $matches)) {
         $productId = $matches[1];
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, true);
+        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED);
     } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if (isset($matches[3])
@@ -767,10 +783,18 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
  */
 function enterprise_url_detailed_product($product, $pathOnly = false)
 {
-    if ($product['path'])
-        $path = $product['path'] . '?detail';
-    else
-        $path = '/sell-detail-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    $path = '/sell-detail-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
+}
+
+/**
+ * URL - Product Pic
+ *
+ * @return string
+ */
+function enterprise_url_product_pic($product, $pathOnly = false)
+{
+    $path = '/pic-' . $product['id'] . '.html';
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
@@ -1094,7 +1118,7 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
  *
  * @return string
  */
-function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, $detailed = false, $pageNo = 1)
+function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageType = ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo = 1)
 {
     global $productDescMapping;
 
@@ -1105,10 +1129,13 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform,
         return null;
     $templateName = $site['template'];
 
-    if ($platform == ENTERPRISE_PLATFORM_PC)
-        $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
-    else {
-        if ($detailed)
+    if ($platform == ENTERPRISE_PLATFORM_PC) {
+        if ($pageType == ENTERPRISE_PRODUCT_PAGE_TYPE_PIC)
+            $tplPath = 'sets/' . $templateName . '/product_pic.tpl';
+        else
+            $tplPath = 'sets/' . $templateName . '/product_detail.tpl';
+    } else {
+        if ($pageType == ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED)
             $tplPath = 'sets/mobile/detailed_product.tpl';
         else
             $tplPath = 'sets/mobile/product_detail.tpl';
