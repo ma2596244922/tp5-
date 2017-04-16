@@ -95,7 +95,7 @@ do {
         $trackDAO = new \enterprise\daos\Track();
         $values = array(
                 'site_id' => $siteId,
-                'ipv4' => ip2long($_SERVER['REMOTE_ADDR']),
+                'ipv4' => ip2long(timandes_get_remote_addr()),
                 'path' => $_SERVER['REQUEST_URI'],
                 'created' => date('Y-m-d H:i:s'),
             );

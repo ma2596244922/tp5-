@@ -587,7 +587,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
             'attachments' => $attachments,
             'created' => date('Y-m-d H:i:s'),
             'domain' => $currentDomainSuffix,
-            'ip' => $_SERVER['REMOTE_ADDR'],
+            'ip' => timandes_get_remote_addr(),
             'target_product_id' => (int)timandes_get_post_data('target_product_id'),
         );
     $inquiryDAO->insert($values);
