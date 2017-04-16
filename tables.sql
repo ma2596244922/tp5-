@@ -129,7 +129,9 @@ CREATE TABLE `enterprise_images` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `body` mediumblob NOT NULL COMMENT '图片内容',
   `created` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  `body_sum` binary(16) NOT NULL COMMENT '图片摘要',
+  PRIMARY KEY (`id`),
+  KEY `idx_sum` (`body_sum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发图片表';
 
 CREATE TABLE `enterprise_thumbnails` (

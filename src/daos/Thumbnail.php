@@ -52,4 +52,11 @@ class Thumbnail extends AbstractDAO
         $condition = "`image_id`={$imageId}";
         return $this->updateBy($condition, $values);
     }
+
+    public function getByImage($imageId)
+    {
+        $condition = "`image_id`=" . (int)$imageId;
+        return $this->getOneBy($condition);
+    }
+
 }

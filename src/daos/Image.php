@@ -16,6 +16,7 @@ class Image extends AbstractDAO
             'site_id' => 'int',
             'body' => 'text',
             'created' => 'text',
+            'body_sum' => 'text',
         );
 
     public function getTableName()
@@ -45,5 +46,11 @@ class Image extends AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query sql(#{$db->errno}, {$db->error}): {$sql}");
         return $db->insert_id;
+    }
+
+    public function getByBodySum($sum)
+    {
+        $condition = "`body_sum`='" . $this->escape($sum) . "'";
+        return $this->getOneBy($condition);
     }
 }

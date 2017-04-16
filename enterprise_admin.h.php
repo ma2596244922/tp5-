@@ -767,10 +767,19 @@ function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $sou
 {
     $image = enterprise_admin_standardize_image($imageManager, $source, $maxWidth);
     $body = (string)$image->encode('jpg', 90);
+    $bodySum = md5($body, true);
+
+    // Use existing
+    $imageRecord = $imageDAO->getByBodySum($bodySum);
+    if ($imageRecord)
+        return $imageRecord['id'];
+
+    // Create new
     $values = array(
             'site_id' => $userSiteId,
             'body' => $body,
             'created' => date('Y-m-d H:i:s'),
+            'body_sum' => $bodySum,
         );
     return $imageDAO->insert($values);
 }
@@ -779,6 +788,12 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 {
     global $thumbnailInfo;
 
+    // Existing?
+    $thumbnailRecord = $thumbnailDAO->getByImage($id);
+    if ($thumbnailRecord)
+        return;
+
+    // Create new
     $values = array(
             'image_id' => $id,
             'created' => date('Y-m-d H:i:s'),
