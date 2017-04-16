@@ -10,7 +10,7 @@ namespace enterprise\daos;
 /**
  * Thumbnail DAO
  */
-class Thumbnail extends \crawler\daos\AbstractDAO
+class Thumbnail extends AbstractDAO
 {
     protected $_fields = array(
             'image_id' => 'int',
@@ -44,5 +44,12 @@ class Thumbnail extends \crawler\daos\AbstractDAO
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query sql(#{$db->errno}, {$db->error}): {$sql}");
+    }
+
+    public function updateByImage($imageId, $values)
+    {
+        $imageId = (int)$imageId;
+        $condition = "`image_id`={$imageId}";
+        return $this->updateBy($condition, $values);
     }
 }

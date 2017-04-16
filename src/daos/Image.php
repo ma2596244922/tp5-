@@ -10,7 +10,7 @@ namespace enterprise\daos;
 /**
  * Image DAO
  */
-class Image extends \crawler\daos\AbstractDAO
+class Image extends AbstractDAO
 {
     protected $_fields = array(
             'site_id' => 'int',

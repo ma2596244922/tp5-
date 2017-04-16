@@ -22,6 +22,9 @@ define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created
 /** @var int Max Urls per File */
 define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
 
+/** @var int 存在Blob中的图片ID长度阀值 */
+define('ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD', 20);
+
 /* {{{ ENTERPRISE_PLATFORM_* */
 /** @var int PC端 */
 define('ENTERPRISE_PLATFORM_PC', 10);
@@ -353,6 +356,24 @@ function enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $curre
 
 /* }}} */
 
+function enterprise_output_image_body($imageId)
+{
+    $imageDAO = new \enterprise\daos\Image();
+    for ($i=0; $i<5; ++$i) {
+        $image = $imageDAO->get($imageId);
+        if (!$image) {
+            http_response_code(404);
+            exit;
+        }
+        if (strlen($image['body']) > ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD)
+            break;
+        $imageId = (int)$image['body'];
+    }
+
+    header('Content-Type: image/jpeg');
+    echo $image['body'];
+}
+
 /**
  * 展示用户新发图片
  */
@@ -367,26 +388,23 @@ function enterprise_action_uploaded_image_proc($char, $imageId)
         $field = $char;
 
         $thumbnailDAO = new \enterprise\daos\Thumbnail();
-        $condition = "`image_id`=" . (int)$imageId;
-        $thumbnail = $thumbnailDAO->getOneBy($condition);
-        if (!$thumbnail
-                || !$thumbnail[$field]) {
-            http_response_code(404);
-            exit;
+        for ($i=0; $i<5; ++$i) {
+            $condition = "`image_id`=" . (int)$imageId;
+            $thumbnail = $thumbnailDAO->getOneBy($condition);
+            if (!$thumbnail
+                    || !$thumbnail[$field]) {
+                enterprise_output_image_body($imageId);
+                exit;
+            }
+            if (strlen($thumbnail[$field]) > ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD)
+                break;
+            $imageId = (int)$thumbnail[$field];
         }
 
         header('Content-Type: image/jpeg');
         echo $thumbnail[$field];
     } else {
-        $imageDAO = new \enterprise\daos\Image();
-        $image = $imageDAO->get($imageId);
-        if (!$image) {
-            http_response_code(404);
-            exit;
-        }
-
-        header('Content-Type: image/jpeg');
-        echo $image['body'];
+        enterprise_output_image_body($imageId);
     }
     exit;
 }
