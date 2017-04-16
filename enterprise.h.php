@@ -645,36 +645,48 @@ function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $c
 }
 
 /**
+ * 移动跳转
+ */
+function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix)
+{
+    if ($userAgent->isMobile()
+            && $platform == ENTERPRISE_PLATFORM_PC) {
+        header('Location: http://m.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
+        exit(1);
+    }
+}
+
+/**
  * Router V2
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
+function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
 {
     // 用户自发布产品的自定义路径
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
     if ($product) {
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
+        return enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
     }
 
     if ($requestPath == '/contactus.html') {
-        return enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
-        return enterprise_action_sets_aboutus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_aboutus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         if ($matches[3])
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
+        return enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_PIC, $requestPath, $matches)) {
         $productId = $matches[1];
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_PIC);
+        return enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_PIC);
     } elseif(preg_match(PATTERN_DETAILED_PRODUCT, $requestPath, $matches)) {
         $productId = $matches[1];
-        return enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED);
+        return enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED);
     } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
         $groupId = $matches[1];
         if (isset($matches[3])
@@ -682,20 +694,20 @@ function enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, 
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
-        return enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
-        return enterprise_action_sets_home_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
-        return enterprise_action_sets_contactnow_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     // Custom Pages
@@ -1023,8 +1035,10 @@ function enterprise_decide_template_path($smarty, $siteId, $platform, $relativeP
  *
  * @return string
  */
-function enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactus.tpl', $site);
     if (!$tplPath)
@@ -1063,8 +1077,10 @@ function enterprise_action_sets_contactus_proc($smarty, $siteId, $platform, $ori
  *
  * @return string
  */
-function enterprise_action_sets_aboutus_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_aboutus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
@@ -1118,9 +1134,11 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
  *
  * @return string
  */
-function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageType = ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo = 1)
+function enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageType = ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo = 1)
 {
     global $productDescMapping;
+
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -1178,9 +1196,11 @@ function enterprise_action_sets_product_detail_proc($smarty, $siteId, $platform,
  *
  * @return string
  */
-function enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
 {
     global $productDescMapping;
+
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
@@ -1228,8 +1248,10 @@ function enterprise_action_sets_product_list_proc($smarty, $siteId, $platform, $
  *
  * @return string
  */
-function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $originalDomainSuffix, $currentDomainSuffix)
 {
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
@@ -1265,8 +1287,10 @@ function enterprise_action_sets_quality_proc($smarty, $siteId, $originalDomainSu
  *
  * @return string
  */
-function enterprise_action_sets_home_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
@@ -1341,8 +1365,10 @@ function enterprise_get_quick_questions_for_inquiry()
  *
  * @return string
  */
-function enterprise_action_sets_contactnow_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactnow.tpl', $site);
     if (!$tplPath)

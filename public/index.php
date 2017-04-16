@@ -87,7 +87,7 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
-        $response = enterprise_route_2($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
+        $response = enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing
 
