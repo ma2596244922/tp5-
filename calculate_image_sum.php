@@ -93,8 +93,18 @@ function cal_proc()
                 $thumbnailDAO->updateByImage($image['id'], $values);
             } else {
                 $imageSumMapping[$bodySum] = $image['id'];
-                if ($verbose >= 3)
-                    fprintf(STDOUT, "Done" . PHP_EOL);
+                // Save body sum as needed
+                if ($bodySum != $image['body_sum']) {
+                    $values = array(
+                            'body_sum' => $bodySum,
+                        );
+                    $imageDAO->update($image['id'], $values);
+                    if ($verbose >= 3)
+                        fprintf(STDOUT, "Saved#Sum." . PHP_EOL);
+                } else {
+                    if ($verbose >= 3)
+                        fprintf(STDOUT, "Done" . PHP_EOL);
+                }
             }
         }
     } while(true);
