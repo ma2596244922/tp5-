@@ -100,7 +100,7 @@ function cal_proc()
     } while(true);
 
     if ($verbose >= 2)
-        fprintf(STDOUT, "Finish sending procedure" . PHP_EOL);
+        fprintf(STDOUT, "Finish cal procedure" . PHP_EOL);
 }
 
 
