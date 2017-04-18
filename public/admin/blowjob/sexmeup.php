@@ -6,7 +6,7 @@
  */
 
 /** @var int 产品最大图片数 */
-define('ENTERPRISE_ADMIN_BLOWJOB_SEXMEUP_MAX_IMAGES', 5);
+define('ENTERPRISE_ADMIN_BLOWJOB_SEXMEUP_MAX_IMAGES', 20);
 
 require_once __DIR__ . '/bootstrap.php';
 
