@@ -6,6 +6,6 @@
 {-else}
                 <dt><h1>{$corporation.name}</h1></dt>
 {-/if}
-                <dd>{$corporation.slogan}</dd>
+                <dd>{$corporation_slogan}</dd>
             </dl>
         </div>

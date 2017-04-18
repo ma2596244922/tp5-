@@ -1007,6 +1007,11 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
 {
     // Corporation
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+    $corporation = $smarty->getTemplateVars('corporation');
+
+    // + Slogan
+    $corporationSlogan = ($corporation['slogan']?$corporation['slogan']:'This is a verified supplier can provide quality products and have passed the Business License Check.');
+    $smarty->assign('corporation_slogan', $corporationSlogan);
 
     // Groups
     enterprise_assign_group_list($smarty, 'groups', $siteId, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
