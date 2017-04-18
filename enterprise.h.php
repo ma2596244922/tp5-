@@ -1085,7 +1085,7 @@ function enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $pl
     // TDK
     $smarty->assign('title', "{$corporation['tel_wt']} - {$corporation['name']}");
     $smarty->assign('keywords', "{$corporation['name']}, Contact Us, {$corporation['tel_wt']}");
-    $smarty->assign('description', "Contact us by {$corporation['tel_wt']} - {$corporation['name']}.");
+    $smarty->assign('description', "Contact us by {$corporation['tel_wt']}, this is a reliable company from China with good evaluation - {$corporation['name']}.");
 
     return $smarty->fetch($tplPath);
 }
@@ -1121,11 +1121,14 @@ function enterprise_action_sets_aboutus_proc($smarty, $userAgent, $siteId, $plat
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
+    $groups = $smarty->getTemplateVars('groups');
 
     // TDK
+    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
     $smarty->assign('title', "Company Introduction - {$corporation['name']}");
     $smarty->assign('keywords', "{$corporation['name']}, China {$corporation['name']}, Company Introduction");
-    $smarty->assign('description', "Supplier's profile of {$corporation['name']}, China quality supplier.");
+    $smarty->assign('description', "Supplier's profile about {$corporation['name']}, we are China quality supplier and provide {$group1Name} & {$group2Name} with high quality.");
 
     return $smarty->fetch($tplPath);
 }
@@ -1143,7 +1146,7 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
     $presetKeywords = "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale";
     $smarty->assign('keywords', ($product['meta_keywords']?$product['meta_keywords']:$presetKeywords));
 
-    $presetDescription = "Buy {$product['caption']} from quality {$productGroupName} manufacturers of {$corporation['name']}.";
+    $presetDescription = "Buy quality {$product['caption']} about {$productGroupName}, we have provided the quality {$productGroupName} for a long time at a low price from China.";
     $smarty->assign('description', ($product['meta_description']?$product['meta_description']:$presetDescription));
 }
 
@@ -1254,7 +1257,7 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
         $group = $smarty->getTemplateVars('group');
         $smarty->assign('title', "{$group['name']} - {$group['name']} for sale{$pageInfo}");
         $smarty->assign('keywords', "{$group['name']}, {$corporation['name']}, Quality {$group['name']}, {$group['name']} for sale");
-        $smarty->assign('description', "Buy {$group['name']}, we provide quality {$group['name']} and you can choose the right product you want{$pageInfo}.");
+        $smarty->assign('description', "Buy {$group['name']}, we provide quality {$group['name']} and by the cheap {$group['name']} we provide from China, we can establish long-term corporation{$pageInfo}.");
     }
 
     return $smarty->fetch($tplPath);
@@ -1338,9 +1341,11 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
 
     // TDK
     $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
     $smarty->assign('title', "Quality {$group1Name} - {$corporation['name']}");
     $smarty->assign('keywords', "{$group1Name}, China Manufacturers, China {$group1Name}, cheap {$group1Name}");
-    $smarty->assign('description', "Quality {$group1Name} for sale of {$corporation['name']}, we provide {$group1Name} at lowest price.");
+    $smarty->assign('description', "Quality {$group1Name} & {$group2Name} for sale from {$corporation['name']}, we provide {$group1Name} & {$group2Name} for a long time at lowest price from China.");
+
 
     return $smarty->fetch($tplPath);
 }
