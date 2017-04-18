@@ -2164,7 +2164,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
                 $products = array();
                 foreach ($urls as $url) {
                     $path = parse_url($url, PHP_URL_PATH);
-                    if (!preg_match(PATTERN_PRODUCT_DETAIL, $path, $matches))
+                    if (!preg_match(PATTERN_PRODUCT_PAGE, $path, $matches))
                         continue;
                     $productId = $matches[1];
                     $products[] = $productDAO->get($productId);
