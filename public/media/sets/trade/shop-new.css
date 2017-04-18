@@ -93,8 +93,11 @@ i{ font-style:normal;}
 .header{ width:100%; height:110px;}
 .header .head{ width:980px; margin:0 auto;}
 .header .head .logo{ float:left;}
-.header .head .logo img{ max-width:210px; max-height:80px; float:left; margin-top:15px;}
-.header .head .logo span{ line-height:110px; float:left; margin-left:15px; font-size:24px; color:#333;}
+.header .head .logo h1{ float:left; margin-top:15px;}
+.header .head .logo h1 img{ max-width:210px; max-height:80px;}
+.header .head .logo .logo-right{ width:415px;float:left; margin:15px 0 0 15px;}
+.header .head .logo .logo-right span.company-name{  font-size:24px; color:#333; display:block;}
+.header .head .logo .logo-right span.company-intro{ line-height:22px; font-size:14px; height:44px; display:block; width:400px; margin-top:10px;display:block;word-wrap:break-word;text-overflow: -o-ellipsis-lastline;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;}
 .header .head .search{ float:right;}
 .header .head .search span{ width:340px; height:36px; display:block; margin:36px 0 0 0; position:relative;}
 .header .head .search span .txt{ width:324px; height:32px; border:solid 2px #6c7c93; padding-left:12px; line-height:32px;}

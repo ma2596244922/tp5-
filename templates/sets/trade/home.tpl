@@ -18,8 +18,11 @@
 <div class="header">
     <div class="head">
         <div class="logo">
-        <h1 title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name|escape}" /></h1>
-        <span>{$corporation.name}</span>
+            <h1 title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name|escape}" /></h1>
+            <div class="logo-right">
+                <span class="company-name">{$corporation.name}</span>
+                <span class="company-intro">{$corporation.slogan}</span>
+            </div>
         </div>
     </div>
     <!--head-->
