@@ -245,6 +245,11 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
     $sitemapIndex = new \Thepixeldeveloper\Sitemap\SitemapIndex(); 
     $translations = $translationDAO->getBySite($siteId);
 
+    // Core Pages
+    $loc = enterprise_url_sitemap($currentDomainSuffix, 'core');
+    $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
+    $sitemapIndex->addSitemap($sitemap);
+
     // Crawled pages
     if (is_array($translations)
             && $translations) foreach ($translations as $translation) {
@@ -371,6 +376,24 @@ function enterprise_action_sitemap_group_proc($siteId, $originalDomainSuffix, $c
     exit(0);
 }
 
+
+/**
+ * 以Sitemap格式输出核心页面的URL
+ */
+function enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
+
+    foreach (['/', '/products.html', '/aboutus.html', '/quality.html', '/contactus.html'] as $path) {
+        $loc = enterprise_url_prefix() . $path;
+        $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+        $urlSet->addUrl($url);
+    }
+
+    header('Content-Type: text/xml; utf-8');
+    echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
+    exit(0);
+}
 /* }}} */
 
 function enterprise_output_image_body($imageId)

@@ -55,6 +55,8 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
         enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     elseif ($sitemapLocale == 'group')
         enterprise_action_sitemap_group_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+    elseif ($sitemapLocale == 'core')
+        enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
 } elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
