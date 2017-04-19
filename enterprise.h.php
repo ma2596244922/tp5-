@@ -245,6 +245,7 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
     $sitemapIndex = new \Thepixeldeveloper\Sitemap\SitemapIndex(); 
     $translations = $translationDAO->getBySite($siteId);
 
+    // Crawled pages
     if (is_array($translations)
             && $translations) foreach ($translations as $translation) {
         $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
@@ -253,6 +254,7 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
     }
 
     {
+        // Products
         $siteDAO = new enterprise\daos\Site();
         $condition = "`site_id`=" . (int)$siteId;
         $site = $siteDAO->getOneBy($condition);
@@ -260,11 +262,16 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
         $productsPerFile = ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE;
         $sitemapFiles = (int)($productCnt / $productsPerFile) + (($productCnt % $productsPerFile)?1:0);
         for ($i=1; $i<=$sitemapFiles; ++$i) {
-            $loc = enterprise_url_sitemap($currentDomainSuffix, $i);
+            $loc = enterprise_url_sitemap($currentDomainSuffix, 'product', $i);
             $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
             $sitemapIndex->addSitemap($sitemap);
         }
     }
+
+    // Groups
+    $loc = enterprise_url_sitemap($currentDomainSuffix, 'group');
+    $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
+    $sitemapIndex->addSitemap($sitemap);
 
     header('Content-Type: text/xml; utf-8');
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($sitemapIndex);
@@ -303,30 +310,6 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
         }
     } while(true);
 
-    // New groups N products
-    if ($locale == 'english') {
-        // groups
-        $groupDAO = new \enterprise\daos\Group();
-        $curGroupId = 0;
-        $max = 100;
-        do {
-            $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$curGroupId}";
-            $groups = $groupDAO->getMultiBy($condition, $max);
-            if (!$groups)
-                break;
-
-            foreach ($groups as $group) {
-                $curGroupId = max($curGroupId, $group['id']);
-
-                if ($group['cnt'] > 0) {
-                    $loc = enterprise_url_product_list($group);
-                    $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
-                    $urlSet->addUrl($url);
-                }
-            }
-        } while(true);
-    }
-
     header('Content-Type: text/xml; utf-8');
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
     exit(0);
@@ -348,6 +331,40 @@ function enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $curre
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
         $urlSet->addUrl($url);
     }
+
+    header('Content-Type: text/xml; utf-8');
+    echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
+    exit(0);
+}
+
+
+/**
+ * 以Sitemap格式输出全部分组的URL
+ */
+function enterprise_action_sitemap_group_proc($siteId, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
+
+    // groups
+    $groupDAO = new \enterprise\daos\Group();
+    $curGroupId = 0;
+    $max = 100;
+    do {
+        $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$curGroupId}";
+        $groups = $groupDAO->getMultiBy($condition, $max);
+        if (!$groups)
+            break;
+
+        foreach ($groups as $group) {
+            $curGroupId = max($curGroupId, $group['id']);
+
+            if ($group['cnt'] > 0) {
+                $loc = enterprise_url_product_list($group);
+                $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+                $urlSet->addUrl($url);
+            }
+        }
+    } while(true);
 
     header('Content-Type: text/xml; utf-8');
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
@@ -851,12 +868,12 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
 /**
  * URL - Sitemap
  */
-function enterprise_url_sitemap($currentDomainSuffix, $no = 1)
+function enterprise_url_sitemap($currentDomainSuffix, $page = 'product', $no = 1)
 {
     $suffix = '';
     if ($no > 1)
         $suffix = '-' . $no;
-    return 'http://www.' . $currentDomainSuffix . '/sitemap/product' . $suffix . '.xml';
+    return 'http://www.' . $currentDomainSuffix . '/sitemap/' . $page . $suffix . '.xml';
 }
 
 /* }}} */
