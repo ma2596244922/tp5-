@@ -97,7 +97,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
 {
     $identity = timandes_get_post_data('identity');
     $caption = timandes_get_post_data('title');
-    $description = timandes_get_post_data('content', 'trim');
+    $description = timandes_get_post_data('content', 'trim, xss_clean');
     $brandName = timandes_get_post_data('brand');
     $modelNumber = timandes_get_post_data('model_number');
     $certification = timandes_get_post_data('certification');

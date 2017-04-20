@@ -562,6 +562,17 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
 }
 
 /**
+ * XSS Clean
+ *
+ * @return string
+ */
+function xss_clean($s)
+{
+    $antiXss = new voku\helper\AntiXSS();
+    return $antiXss->xss_clean($s);
+}
+
+/**
  * 保存询盘
  */
 function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
@@ -584,7 +595,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
         $tplPath = 'inquiry_sent.tpl';
 
     $subject = timandes_get_post_data('subject');
-    $message = timandes_get_post_data('message', 'trim');
+    $message = timandes_get_post_data('message', 'trim, xss_clean');
     $email = timandes_get_post_data('email');
 
     $messageType = timandes_get_post_data('message_type');
