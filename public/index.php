@@ -120,7 +120,7 @@ do {
  *
  * @return bool 成功返回true，否则返回false
  */
-function enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum)
+function enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum)
 {
     $pageDAO = new \crawler\daos\Page();
     $page = $pageDAO->getByUrlSum($urlSum);
@@ -188,7 +188,7 @@ $skippingPages = array(
         '/contactsave.html',
     );
 if (!in_array($requestPath, $skippingPages)) {
-    enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum);
+    enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum);
 }
 // + Image N Resource
 $daos = array(
