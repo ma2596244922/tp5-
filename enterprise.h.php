@@ -575,7 +575,7 @@ function xss_clean($s)
 /**
  * 保存询盘
  */
-function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL)
 {
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/contactsave.tpl', $site);
@@ -591,8 +591,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
 
         // Domain suffix
         $smarty->assign('site_root_domain', $currentDomainSuffix);
-    } else
-        $tplPath = 'inquiry_sent.tpl';
+    }
 
     $subject = timandes_get_post_data('subject');
     $message = timandes_get_post_data('message', 'trim, xss_clean');
@@ -664,7 +663,6 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     $userDAO = new \enterprise\daos\User();
     $condition = "`site_id`=" . (int)$siteId;
     $user = $userDAO->getOneBy($condition);
-        $user = null;// REMOVEME:
     if ($user
             && $user['email']
             && Nette\Utils\Validators::is($user['email'], 'email')) {
@@ -676,8 +674,15 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
             ));
         $mailer->send($mail);
     }
+
+    // Response HTML
+    if (!$tplPath) {
+        $fakeRequestURLSum = md5($fakeRequestURL, true);
+        enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURLSum);// Terminated when page exists
+        $tplPath = 'inquiry_sent.tpl';// Use default tpl
+    }
+
     $smarty->display($tplPath);
-    enterprise_output_cnzz($currentDomainSuffix);
 }
 
 /**
@@ -692,10 +697,12 @@ function enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $
 /**
  * Router
  */
-function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath)
+function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL)
 {
+    $requestPath = parse_url($fakeRequestURL, PHP_URL_PATH);
+
     if ($requestPath == '/contactsave.html') {
-        return enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);

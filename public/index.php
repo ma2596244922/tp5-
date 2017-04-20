@@ -115,69 +115,80 @@ do {
     }
 } while(exit(1));
 
+/**
+ * 响应抓取到的页面
+ *
+ * @return bool 成功返回true，否则返回false
+ */
+function enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum)
+{
+    $pageDAO = new \crawler\daos\Page();
+    $page = $pageDAO->getByUrlSum($urlSum);
+    if (!$page)
+        return;
+
+    if ($page['status_code'] != 200) {
+        http_response_code($page['status_code']);
+        exit(1);
+    }
+
+    // Cache control
+    header('Cache-Control: max-age=86400');
+
+    $response = enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
+    // Replace group list
+    $response = enterprise_response_replace_group_list($smarty, $siteId, $response);
+    // Replace Corporation name
+    if ($currentDomainSuffix == 'syrianeducation.org') {
+        $response = str_ireplace('BEIJING MEDICAL BEAUTY COMMERCE CO.,LTD', 'Jinan Color Laser Beauty Co.,Ltd', $response);
+        $response = str_ireplace('annie@ipl-rf.com.cn', 'robertjean68@yahoo.com', $response);//Email
+        $response = str_ireplace('ipllaser@yahoo.cn', '', $response);//Yahoo
+        $response = str_ireplace('annie-beautyequipment', '694118602@qq.com', $response);//Skype
+        $response = str_ireplace('Yard 6,East Rd.,Nanchang 1st Village, Jiugong Town, Daxing District, Beijing, China', 'No.28, Nanquanfu Street, Licheng District, Jinan, Shandong, China', $response);//Address
+        $response = str_ireplace('86-10-67506021', '', $response);//Business Phone :  (Working time)
+        $response = str_ireplace('86--18801419856', '', $response);//Business Phone :  (Nonworking time)
+        $response = str_ireplace('86--67506021-888', '', $response);//Fax
+        $response = str_ireplace('Mrs. Annie Yu', '', $response);//Contact1
+        $response = str_ireplace('Sales manager', '', $response);//Contact1-Title
+        $response = str_ireplace('18801419856', '', $response);//Contact1-Business Phone
+        $response = str_ireplace('8613161280838', '', $response);//Contact1-WHATSAPP
+        $response = str_ireplace('Miss. Annie', '', $response);//Contact2
+        $response = str_ireplace('86-18801419856', '', $response);//Contact2-VIBER 
+        $response = str_ireplace('Beijingmedicalbeauty', '', $response);//Contact2-Skype
+    } elseif ($currentDomainSuffix == 'ltbtv.com.cn') {
+        $response = str_ireplace('Hangzhou FAMOUS Steel Engineering Co.,Ltd.', 'Hangzhou top Steel Engineering Co.,Ltd.', $response);
+        $response = str_ireplace('Shangsan village 288#, Xindeng town, Fuyan City, Hangzhou, China.', '', $response);
+        $response = str_ireplace('86-571-87688170', '', $response);//Business Phone :  (Working time)
+        $response = str_ireplace('86-571-56389287', '', $response);//Fax
+        $response = str_ireplace('86--18072735884', '', $response);//Business Phone :  (Nonworking time)
+        $response = str_ireplace('sales@hfsteelstructure.com', 'robertjean68@yahoo.com', $response);//Email
+        $response = str_ireplace('honesty.tomi@yahoo.com', '', $response);//Yahoo
+        $response = str_ireplace('bluesky4912', '694118602@qq.com', $response);//Skype
+        $response = str_ireplace('https://www.youtube.com/watch?v=g1SvKYhZibo&feature=youtu.be', '', $response);//ICQ
+    } elseif ($currentDomainSuffix == 'mocfa.org') {
+        $response = str_ireplace('NINGBO DEEPBLUE SMARTHOUSE CO.,LTD', 'G home Co.,Ltd.', $response);
+        $response = str_ireplace('david@mocfa.org', 'robertjean68@yahoo.com', $response);//Email
+        $response = str_ireplace('chinhy', '694118602@qq.com', $response);//Skype
+        $response = str_ireplace('/logo.gif', '/logo.gif?t=123', $response);
+    }
+
+    echo $response;
+
+    // CNZZ
+    enterprise_output_cnzz($currentDomainSuffix);
+
+    if ($currentDomainSuffix == 'peanut-buttermachines.com')
+        echo '<SCRIPT LANGUAGE="JavaScript" src=http://float2006.tq.cn/floatcard?adminid=9772016&sort=0 ></SCRIPT>';
+
+    exit(0);
+}
+
 // + Page
 $skippingPages = array(
         '/contactsave.html',
     );
 if (!in_array($requestPath, $skippingPages)) {
-    $pageDAO = new \crawler\daos\Page();
-    $page = $pageDAO->getByUrlSum($urlSum);
-    if ($page) {
-        if ($page['status_code'] != 200) {
-            http_response_code($page['status_code']);
-            exit(1);
-        }
-
-        // Cache control
-        header('Cache-Control: max-age=86400');
-
-        $response = enterprise_filter_response($page['content'], $originalDomainSuffix, $currentDomainSuffix);
-        // Replace group list
-        $response = enterprise_response_replace_group_list($smarty, $siteId, $response);
-        // Replace Corporation name
-        if ($currentDomainSuffix == 'syrianeducation.org') {
-            $response = str_ireplace('BEIJING MEDICAL BEAUTY COMMERCE CO.,LTD', 'Jinan Color Laser Beauty Co.,Ltd', $response);
-            $response = str_ireplace('annie@ipl-rf.com.cn', 'robertjean68@yahoo.com', $response);//Email
-            $response = str_ireplace('ipllaser@yahoo.cn', '', $response);//Yahoo
-            $response = str_ireplace('annie-beautyequipment', '694118602@qq.com', $response);//Skype
-            $response = str_ireplace('Yard 6,East Rd.,Nanchang 1st Village, Jiugong Town, Daxing District, Beijing, China', 'No.28, Nanquanfu Street, Licheng District, Jinan, Shandong, China', $response);//Address
-            $response = str_ireplace('86-10-67506021', '', $response);//Business Phone :  (Working time)
-            $response = str_ireplace('86--18801419856', '', $response);//Business Phone :  (Nonworking time)
-            $response = str_ireplace('86--67506021-888', '', $response);//Fax
-            $response = str_ireplace('Mrs. Annie Yu', '', $response);//Contact1
-            $response = str_ireplace('Sales manager', '', $response);//Contact1-Title
-            $response = str_ireplace('18801419856', '', $response);//Contact1-Business Phone
-            $response = str_ireplace('8613161280838', '', $response);//Contact1-WHATSAPP
-            $response = str_ireplace('Miss. Annie', '', $response);//Contact2
-            $response = str_ireplace('86-18801419856', '', $response);//Contact2-VIBER 
-            $response = str_ireplace('Beijingmedicalbeauty', '', $response);//Contact2-Skype
-        } elseif ($currentDomainSuffix == 'ltbtv.com.cn') {
-            $response = str_ireplace('Hangzhou FAMOUS Steel Engineering Co.,Ltd.', 'Hangzhou top Steel Engineering Co.,Ltd.', $response);
-            $response = str_ireplace('Shangsan village 288#, Xindeng town, Fuyan City, Hangzhou, China.', '', $response);
-            $response = str_ireplace('86-571-87688170', '', $response);//Business Phone :  (Working time)
-            $response = str_ireplace('86-571-56389287', '', $response);//Fax
-            $response = str_ireplace('86--18072735884', '', $response);//Business Phone :  (Nonworking time)
-            $response = str_ireplace('sales@hfsteelstructure.com', 'robertjean68@yahoo.com', $response);//Email
-            $response = str_ireplace('honesty.tomi@yahoo.com', '', $response);//Yahoo
-            $response = str_ireplace('bluesky4912', '694118602@qq.com', $response);//Skype
-            $response = str_ireplace('https://www.youtube.com/watch?v=g1SvKYhZibo&feature=youtu.be', '', $response);//ICQ
-        } elseif ($currentDomainSuffix == 'mocfa.org') {
-            $response = str_ireplace('NINGBO DEEPBLUE SMARTHOUSE CO.,LTD', 'G home Co.,Ltd.', $response);
-            $response = str_ireplace('david@mocfa.org', 'robertjean68@yahoo.com', $response);//Email
-            $response = str_ireplace('chinhy', '694118602@qq.com', $response);//Skype
-            $response = str_ireplace('/logo.gif', '/logo.gif?t=123', $response);
-        }
-
-        echo $response;
-
-        // CNZZ
-        enterprise_output_cnzz($currentDomainSuffix);
-
-        if ($currentDomainSuffix == 'peanut-buttermachines.com')
-            echo '<SCRIPT LANGUAGE="JavaScript" src=http://float2006.tq.cn/floatcard?adminid=9772016&sort=0 ></SCRIPT>';
-
-        exit(0);
-    }
+    enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $urlSum);
 }
 // + Image N Resource
 $daos = array(
@@ -204,7 +215,7 @@ foreach ($daos as $dao) {
 // 其次匹配特殊页面
 
 try {
-    enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath);
+    enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestURL);
 } catch(HttpException $he) {
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
