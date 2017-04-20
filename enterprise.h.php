@@ -678,7 +678,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     // Response HTML
     if (!$tplPath) {
         $fakeRequestURLSum = md5($fakeRequestURL, true);
-        enterprise_response_crawled_page($siteId, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURLSum);// Terminated when page exists
+        enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURLSum);// Terminated when page exists
         $tplPath = 'inquiry_sent.tpl';// Use default tpl
     }
 
