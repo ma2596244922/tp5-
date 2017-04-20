@@ -19,11 +19,5 @@
             "enterprise\\": "src/",
             "": "common/"
         }
-    },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
-        }
     }
 }
