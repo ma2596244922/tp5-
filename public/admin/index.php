@@ -29,6 +29,11 @@ function enterprise_admin_route($smarty)
             $userSiteId = (int)timandes_get_session_data('user_site_id');
             enterprise_assign_site_info($smarty, 'site', $userSiteId);
             $site = $smarty->getTemplateVars('site');
+            if (!$site) {// 复制的站点通常没有`enterprise_sites`表记录
+                $site = array(
+                        'site_id' => $userSiteId,
+                    );
+            }
 
             switch ($action) {
                 case 'message':
