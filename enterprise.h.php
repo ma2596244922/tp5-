@@ -779,7 +779,7 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
-        return enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
         return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
@@ -1332,7 +1332,7 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
  *
  * @return string
  */
-function enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
     enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
