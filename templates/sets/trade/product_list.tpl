@@ -16,7 +16,15 @@
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="/">Home</a>&gt;{if $group|default:[]}<a href="/products.html">Products</a>&gt;<span>{$group.name}</span>{else}<span>Products</span>{/if}</p>
+            <p>
+                <a href="/">Home</a>&gt;
+{-if $group|default:[]}
+                <a href="/products.html">Products</a>&gt;<span>{$group.name}</span>
+{-elseif $phrase|default:''}
+                <a href="/products.html">Products</a>&gt;<span>{$phrase}</span>
+{-else}
+                <span>Products</span>
+{-/if}      </p>
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">
@@ -27,7 +35,17 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box">
-                    <div class="title"><i></i>{if $group|default:[]}<h1>{$group.name}</h1>{else}All Products{/if}<a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
+                    <div class="title">
+                        <i></i>
+{-if $group|default:[]}
+                        <h1>{$group.name}</h1>
+{-elseif $phrase|default:''}
+                        {$phrase}
+{-else}
+                        All Products
+{-/if}
+                        <a href="/contactnow.html" rel="nofollow">Contact Now</a>
+                    </div>
                     <div class="product-all">
 {foreach $products as $product}
                         <div class="product-intro">

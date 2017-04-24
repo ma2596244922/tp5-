@@ -15,6 +15,9 @@ define('PATTERN_PRODUCT_PIC', '/^\/pic-([0-9]+)\.html$/');
 define('PATTERN_DETAILED_PRODUCT', '/^\/sell-detail-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Product Index */
 define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
+/** @var string Pattern of Product Search */
+define('PATTERN_PRODUCT_SEARCH', '/^\/s((-[0-9a-z]+)+)?(-p([0-9]+))?\.html$/');
+
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
 /** @var string Fields of Custom Page for List */
@@ -211,6 +214,16 @@ function enterprise_standardize_url_key($s)
 function enterprise_generate_url_key($str)
 {
     return trim(preg_replace('/([\s]|[^0-9a-zA-Z])+/', '-', enterprise_standardize_url_key($str)), '-');
+}
+
+/**
+ * URL关键词 => 关键词
+ *
+ * @return string
+ */
+function enterprise_extract_url_key($urlKey)
+{
+    return str_replace('-', ' ', ltrim($urlKey, '-'));
 }
 
 /**
@@ -528,7 +541,8 @@ function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null
     $smarty->assign('total_pages', $totalPages);
 
     // Group info
-    if ($groupId) {
+    if ($groupId
+            && is_numeric($groupId)) {
         $groupDAO = new \enterprise\daos\Group();
         $group = $groupDAO->get($groupId);
         if (!$group) 
@@ -771,6 +785,14 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
         else
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+    } elseif(preg_match(PATTERN_PRODUCT_SEARCH, $requestPath, $matches)) {
+        $urlKey = $matches[1];
+        if (isset($matches[4])
+                && $matches[4])
+            $pageNo = (int)$matches[4];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
@@ -904,6 +926,19 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
             $pageString = '-' . $pageNo;
         return enterprise_url_prefix() . '/products' . $pageString . '.html';
     }
+}
+
+/**
+ * URL - Product Search
+ *
+ * @return string
+ */
+function enterprise_url_product_search($phrase, $pageNo = 1)
+{
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = '-p' . $pageNo;
+    return enterprise_url_prefix() . '/s-' . enterprise_generate_url_key($phrase) . $pageString . '.html';
 }
 
 /**
@@ -1148,7 +1183,7 @@ function enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $pl
     // TDK
     $smarty->assign('title', "{$corporation['tel_wt']} - {$corporation['name']}");
     $smarty->assign('keywords', "{$corporation['name']}, Contact Us, {$corporation['tel_wt']}");
-    $smarty->assign('description', "Contact us by {$corporation['tel_wt']}, this is a reliable company from China with good evaluation - {$corporation['name']}.");
+    $smarty->assign('description', "Contact us by {$corporation['tel_wt']}, this is a reliable company from China with good evaluation - {$corporation['name']}.");
 
     return $smarty->fetch($tplPath);
 }
@@ -1209,7 +1244,7 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
     $presetKeywords = "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale";
     $smarty->assign('keywords', ($product['meta_keywords']?$product['meta_keywords']:$presetKeywords));
 
-    $presetDescription = "Buy quality {$product['caption']} about {$productGroupName}, we have provided the quality {$productGroupName} for a long time at a low price from China.";
+    $presetDescription = "Buy quality {$product['caption']} about {$productGroupName}, we have provided the quality {$productGroupName} for a long time at a low price from China.";
     $smarty->assign('description', ($product['meta_description']?$product['meta_description']:$presetDescription));
 }
 
@@ -1309,6 +1344,7 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
+    $phrase = $smarty->getTemplateVars('phrase');
 
     // TDK
     $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
@@ -1316,7 +1352,11 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
         $smarty->assign('title', "Product Categories - {$corporation['name']}{$pageInfo}");
         $smarty->assign('keywords', "Product Categories, Product for sale, {$corporation['name']}");
         $smarty->assign('description', "Product Categories - buy quality products from {$corporation['name']}{$pageInfo}.");
-    } else {// supplier-*.html
+    } elseif (is_array($groupId)) {// PATTERN_PRODUCT_SEARCH
+        $smarty->assign('title', "Quality {$phrase} for {$corporation['name']}");
+        $smarty->assign('keywords', "Quality {$phrase}，Cheap {$phrase}，China {$phrase}，{$phrase} for sale，{$phrase} manufacturer");
+        $smarty->assign('description', "Quality {$phrase} supplier on sales from {$phrase} manufacturer – find China {$phrase} factory, suppliers from {$corporation['name']}.");
+    } else {// PATTERN_PRODUCT_LIST
         $group = $smarty->getTemplateVars('group');
         $smarty->assign('title', "{$group['name']} - {$group['name']} for sale{$pageInfo}");
         $smarty->assign('keywords', "{$group['name']}, {$corporation['name']}, Quality {$group['name']}, {$group['name']} for sale");
@@ -1545,6 +1585,33 @@ function enterprise_assign_photo_info($smarty, $var, $photoId)
 
 /* {{{ Product */
 /**
+ * Filter Array => SQL Condition
+ *
+ * @return string
+ */
+function enterprise_filter_2_sql_condition($filter = null, &$extraValues = null)
+{
+    if (!$filter)
+        return '';
+
+    if (is_numeric($filter)) {
+        $groupId = (int)$filter;
+        return " AND `group_id`={$groupId}";
+    }
+
+    if (!is_array($filter))
+        throw new \InvalidArgumentException("Parameter 'filter' must be null, integer or array");
+
+    if (isset($filter['url_key'])) {
+        $phrase = enterprise_extract_url_key($filter['url_key']);
+        $extraValues['phrase'] = $phrase;
+        return " AND `caption` LIKE '%" . str_replace(' ', '%', $phrase) . "%'";
+    }
+
+    throw new \InvalidArgumentException("Unsupported 'filter'");
+}
+
+/**
  * Assign Product List
  *
  * @return string Condition
@@ -1556,8 +1623,10 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null,
 
     $groupIdCondition = '';
     if (null !== $groupId) {
-        $groupId = (int)$groupId;
-        $groupIdCondition = " AND `group_id`={$groupId}";
+        $extraValues = array();
+        $groupIdCondition = enterprise_filter_2_sql_condition($groupId, $extraValues);
+        foreach ($extraValues as $k => $v)
+            $smarty->assign($k, $v);
     }
 
     $productDAO = new \enterprise\daos\Product();

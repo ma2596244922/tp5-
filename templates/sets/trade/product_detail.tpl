@@ -143,7 +143,7 @@
             <dl>
                 <dt>Tags:</dt>
     {foreach $product_tags as $tag}
-                <dd><h3>{$tag}</h3></dd>
+                <dd><h3><a href="{$tag|call:'enterprise_url_product_search'}">{$tag}</a></h3></dd>
     {/foreach}
             </dl>
         </div>
