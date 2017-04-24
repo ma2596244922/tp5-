@@ -16,7 +16,7 @@ define('PATTERN_DETAILED_PRODUCT', '/^\/sell-detail-([0-9]+)((-[0-9a-z]+)+)?\.ht
 /** @var string Pattern of Product Index */
 define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 /** @var string Pattern of Product Search */
-define('PATTERN_PRODUCT_SEARCH', '/^\/s((-[0-9a-z]+)+)?(-p([0-9]+))?\.html$/');
+define('PATTERN_PRODUCT_SEARCH', '/^\/s((-[0-9a-z]+)+)?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -787,10 +787,8 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
         return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_SEARCH, $requestPath, $matches)) {
         $urlKey = $matches[1];
-        if (isset($matches[4])
-                && $matches[4])
-            $pageNo = (int)$matches[4];
-        else
+        $pageNo = (int)enterprise_get_query_by_server_request('p');
+        if ($pageNo <= 0)
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
@@ -937,8 +935,8 @@ function enterprise_url_product_search($phrase, $pageNo = 1)
 {
     $pageString = '';
     if ($pageNo > 1)
-        $pageString = '-p' . $pageNo;
-    return enterprise_url_prefix() . '/s-' . enterprise_generate_url_key($phrase) . $pageString . '.html';
+        $pageString = '?p=' . $pageNo;
+    return enterprise_url_prefix() . '/s-' . enterprise_generate_url_key($phrase) . '.html' . $pageString;
 }
 
 /**
