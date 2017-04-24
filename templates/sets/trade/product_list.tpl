@@ -40,7 +40,7 @@
 {-if $group|default:[]}
                         <h1>{$group.name}</h1>
 {-elseif $phrase|default:''}
-                        {$phrase}
+                        <h1>{$phrase}</h1>
 {-else}
                         All Products
 {-/if}
