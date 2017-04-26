@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>{$title}</title>
+        <title>Send your inquiry directly to us</title>
 {include file="sets/mobile/common/meta.tpl"}
 {include file="sets/mobile/common/definitions.tpl"}
         <link type="text/css" rel="stylesheet" href="/media/sets/mobile/send-inquiry.css">
