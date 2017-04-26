@@ -1,0 +1,1 @@
+        <link rel="canonical" href="http://www.{$site_root_domain}{$smarty.server.REQUEST_URI}">

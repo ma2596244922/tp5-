@@ -6,6 +6,7 @@
         <meta name="keywords" content="{$keywords|escape}">
         <meta name="description" content="{$description|escape}">
 {include file="sets/mobile/common/meta.tpl"}
+{include file="sets/mobile/common/definitions.tpl"}
         <link type="text/css" rel="stylesheet" href="/media/swiper/3.3.1/swiper.css">
         <link type="text/css" rel="stylesheet" href="/media/sets/mobile/shop-product.css">
     </head>
