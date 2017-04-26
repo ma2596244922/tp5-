@@ -5,6 +5,7 @@
 <title>{$title}</title>
 <meta name="keywords" content="{$keywords|escape}" />
 <meta name="description" content="{$description|escape}" />
+{include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="media/lightbox/2.8.1/css/lightbox.min.css" />
 </head>

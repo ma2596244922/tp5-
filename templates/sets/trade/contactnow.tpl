@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Send your inquiry directly to us</title>
+{include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/send_inquiry.css" />
 </head>

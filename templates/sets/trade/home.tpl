@@ -5,6 +5,7 @@
 <title>{$title}</title>
 <meta name="keywords" content="{$keywords|escape}" />
 <meta name="description" content="{$description|escape}" />
+{include file="sets/trade/common/definitions.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/shop-new.css" />
 </head>
