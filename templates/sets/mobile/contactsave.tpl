@@ -32,5 +32,6 @@
 <!--content-->
 {include file="sets/mobile/common/footer.tpl"}
 {include file="sets/mobile/common/scripts.tpl"}
+{$site.contactsave_fragment}
 </body>
 </html>

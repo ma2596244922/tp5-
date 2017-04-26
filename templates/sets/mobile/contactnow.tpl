@@ -55,5 +55,6 @@
 {include file="sets/mobile/common/scripts.tpl"}
 <script charset="utf-8" type="text/javascript" src="/media/jquery.validation/master/jquery.validation.min.js"></script>
 <script charset="utf-8" type="text/javascript" src="/media/sets/mobile/send-inquiry.js"></script>
+{$site.contactnow_fragment}
 </body>
 </html>

@@ -94,5 +94,6 @@
 {include file="sets/mobile/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/swiper/3.3.1/swiper.jquery.min.js"></script>
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/mobile/shop-product.js"></script>
+{$site.common_fragment}
 </body>
 </html>

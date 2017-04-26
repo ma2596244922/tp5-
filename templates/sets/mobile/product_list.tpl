@@ -62,5 +62,6 @@
 <div id="opacity-layer"></div>
 {include file="sets/mobile/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/mobile/shopindex.js"></script> 
+{$site.common_fragment}
 </body>
 </html>

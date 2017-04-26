@@ -29,5 +29,6 @@
 {include file="sets/mobile/common/footer.tpl"}
 {include file="sets/mobile/common/floatingbar.tpl"}
 {include file="sets/mobile/common/scripts.tpl"}
+{$site.common_fragment}
 </body>
 </html>
