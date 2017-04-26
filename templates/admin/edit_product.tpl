@@ -516,12 +516,16 @@
             $('#form-edit-product').on('submit', function(e) {
                 var specifications = [];
                 var nodes = dataTable.fnGetNodes();
+                var cnt = 0;
                 for(var node in nodes) {
                     var data = dataTable.fnGetData(node);
                     if (data.length <= 0)
                         continue;
-                    var pair = data[0] + '=' + encodeURIComponent(data[1]);
-                    specifications.push(pair);
+                    var keyCell = 's[' + cnt + '][key]=' + encodeURIComponent(data[0]);
+                    specifications.push(keyCell);
+                    var valCell = 's[' + cnt + '][val]=' + encodeURIComponent(data[1]);
+                    specifications.push(valCell);
+                    ++cnt;
                 }
                 var val = specifications.join('&');
                 $(this).find('[name="specifications"]').val(val);

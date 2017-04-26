@@ -852,7 +852,13 @@ function enterprise_admin_action_edit_product($smarty, $site)
     $packagingDetails = timandes_get_post_data('packaging_details');
     $specificationsQueryString = timandes_get_post_data('specifications');
 
-    parse_str($specificationsQueryString, $specificationsArray);
+    parse_str($specificationsQueryString, $specificationsCellArray);
+
+    $specificationsArray = array();
+    if (isset($specificationsCellArray['s'])
+            && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
+        $specificationsArray[$row['key']] = $row['val'];
+    }
 
     if (!$caption)
         return enterprise_admin_display_error_msg($smarty, '请输入产品名称');
