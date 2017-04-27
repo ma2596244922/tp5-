@@ -47,7 +47,7 @@
 {-/if}
                         <a href="/contactnow.html" rel="nofollow">Contact Now</a>
                     </div>
-                    <div class="product-all">
+                    <div class="product-all{if !$products|default:[]} quality-none{/if}">
 {foreach $products as $product}
                         <div class="product-intro">
                             <div class="left-img">
@@ -82,6 +82,8 @@
                                 <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}" rel="nofollow">Contact Now</a></div>
                             </div>
                         </div>
+{foreachelse}
+                        <p><i></i>Sorry! No matches were found{if $phrase|default:''} for "{$phrase}"{/if}.</p>
 {/foreach}
                     </div>
                 </div>
