@@ -879,8 +879,13 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
 
     if ($product['path'])
         $path = $product['path'];
-    else
-        $path = '/sell-' . $product['id'] . $pageString . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    else {
+        $urlKey = enterprise_generate_url_key($product['caption']);
+        $urlKeyString = '';
+        if ($urlKey)
+            $urlKeyString = '-' . $urlKey;
+        $path = '/sell-' . $product['id'] . $pageString . $urlKeyString . '.html';
+    }
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
