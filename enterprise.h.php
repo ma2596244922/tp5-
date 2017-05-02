@@ -804,8 +804,6 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
         return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif ($requestPath == '/404.html') {
-        return enterprise_action_404_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     }
 
     // Custom Pages
@@ -1556,7 +1554,7 @@ function enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $p
  *
  * @return string
  */
-function enterprise_action_404_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_404_proc($smarty, $siteId, $platform)
 {
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/404.tpl', $site);
