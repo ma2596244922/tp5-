@@ -132,9 +132,15 @@
                                 <div class="tab-pane profile-classic row-fluid active" id="tab_1_2">
 
                                     <div class="span2">
+{if $target_product|default:[]}
+                                        <a href="{$target_product|url:'enterprise_url_product'}" target="_blank" style="opacity: 1; padding: 0; background: none;">
 
-                                        <img src="{if $target_product|default:[]}{$target_product.head_image_id|url:'enterprise_url_image'}{else}media/image/no_image.png{/if}" alt="" /> 
+                                            <img src="{$target_product.head_image_id|url:'enterprise_url_image'}" alt="" />
 
+                                        </a>
+{else}
+                                        <img src="media/image/no_image.png" alt="" />
+{/if}
                                     </div>
 
                                     <ul class="unstyled span10">
