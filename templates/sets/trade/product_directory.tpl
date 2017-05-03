@@ -43,7 +43,7 @@
             <div class="page">
                 <div class="page-show">
     {-if isset($pager_info['prev_page'])}
-                    <a href="{$pager_info['prev_page']|url:'enterprise_url_product_directory'}" rel="nofollow" class="prev" title="Prev">Prev</a>
+                    <a href="{$pager_info['prev_page']|url:'enterprise_url_product_directory'}" rel="nofollow" class="prev" title="Prev"></a>
     {-/if}
     {-for $i=$pager_info['min_page'] to $pager_info['max_page']}
                     <a{if $i==$page_no} class="default"{else} href="{$i|url:'enterprise_url_product_directory'}" title="{$i}"{/if}>{$i}</a>
