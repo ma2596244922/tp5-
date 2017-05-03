@@ -831,7 +831,7 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
 
 function enterprise_url_prefix()
 {
-    return 'http://' . $_SERVER['HTTP_HOST'];
+    return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
 }
 
 /**
