@@ -17,6 +17,8 @@ define('PATTERN_DETAILED_PRODUCT', '/^\/sell-detail-([0-9]+)((-[0-9a-z]+)+)?\.ht
 define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 /** @var string Pattern of Product Search */
 define('PATTERN_PRODUCT_SEARCH', '/^\/s((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Product Directory */
+define('PATTERN_PRODUCT_DIRECTORY', '/^\/directory(-([0-9]+))?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -539,6 +541,8 @@ function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null
     $smarty->assign('page_size', $pageSize);
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
+    $pagerInfo = timandes_pager_calculate_key_infos($totalProducts, $pageSize, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
 
     // Group info
     if ($groupId
@@ -804,6 +808,13 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
         return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+    } elseif(preg_match(PATTERN_PRODUCT_DIRECTORY, $requestPath, $matches)) {
+        if (isset($matches[2])
+                && $matches[2])
+            $pageNo = (int)$matches[2];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, 'product_directory.tpl', 50);
     }
 
     // Custom Pages
@@ -929,6 +940,19 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
             $pageString = '-' . $pageNo;
         return enterprise_url_prefix() . '/products' . $pageString . '.html';
     }
+}
+
+/**
+ * URL - Product Directory
+ *
+ * @return string
+ */
+function enterprise_url_product_directory($pageNo = 1)
+{
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = '-' . $pageNo;
+    return enterprise_url_prefix() . '/directory' . $pageString . '.html';
 }
 
 /**
@@ -1318,7 +1342,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId
  *
  * @return string
  */
-function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
+function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1, $tplFile = 'product_list.tpl', $pageSize = 10)
 {
     global $productDescMapping;
 
@@ -1332,16 +1356,16 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
     $templateName = $site['template'];
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
-        $tplPath = 'sets/' . $templateName . '/product_list.tpl';
+        $tplPath = 'sets/' . $templateName . '/' . $tplFile;
     else
-        $tplPath = 'sets/mobile/product_list.tpl';
+        $tplPath = 'sets/mobile/' . $tplFile;
     if (!$smarty->templateExists($tplPath))
         return null;
 
     // Site
     $smarty->assign('site', $site);
 
-    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo);
+    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo, $pageSize);
 
     $smarty->assign('product_desc', $productDescMapping);
 
@@ -1351,7 +1375,11 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
 
     // TDK
     $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
-    if (null === $groupId) {// /products.html
+    if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
+        $smarty->assign('title', "Site map - all new producgts list about {$corporation['name']}{$pageInfo}");
+        $smarty->assign('keywords', "Site map, New products, All categories");
+        $smarty->assign('description', "Site map about the company - you can find all the latest products and categories list easily about {$corporation['name']}{$pageInfo}.");
+    } elseif (null === $groupId) {// /products.html
         $smarty->assign('title', "Product Categories - {$corporation['name']}{$pageInfo}");
         $smarty->assign('keywords', "Product Categories, Product for sale, {$corporation['name']}");
         $smarty->assign('description', "Product Categories - buy quality products from {$corporation['name']}{$pageInfo}.");

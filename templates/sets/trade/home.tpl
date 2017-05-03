@@ -129,7 +129,7 @@
             <dt>About</dt>
             <dd><a href="/aboutus.html" rel="nofollow">Company Profile</a></dd>
             <dd><a href="/contactus.html" rel="nofollow">Contact Info</a></dd>
-            <dd><a href="/contactnow.html" rel="nofollow">Request a Quote</a></dd>
+            <dd><a href="/directory.html" rel="nofollow">Site Map</a></dd>
         </dl>
     </div>
 </div>
