@@ -105,6 +105,9 @@ do {
             );
         $trackDAO->insert($values);
 
+        // Cache-Control
+        header('Cache-Control: no-cache');
+
         echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
         enterprise_output_cnzz($currentDomainSuffix);
     } catch(HttpException $he) {

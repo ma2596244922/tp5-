@@ -457,6 +457,7 @@ function enterprise_action_uploaded_image_proc($char, $imageId)
         }
 
         header('Content-Type: image/jpeg');
+        header('Cache-Control: max-age=3600');
         echo $thumbnail[$field];
     } else {
         enterprise_output_image_body($imageId);
