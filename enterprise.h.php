@@ -524,6 +524,9 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     enterprise_assign_action_product_detail($smarty, $siteId, $productId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
+    if (!$smarty->templateExists($tplPath))
+        throw new HttpException(404);
+
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
     enterprise_output_cnzz($currentDomainSuffix);
@@ -575,6 +578,9 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
 
     // Filter
     $tplPath = 'sites/' . $siteId . '/product_list.tpl';
+    if (!$smarty->templateExists($tplPath))
+        throw new HttpException(404);
+
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
     enterprise_output_cnzz($currentDomainSuffix);
