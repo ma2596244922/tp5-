@@ -1285,7 +1285,8 @@ function enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId
 {
     global $productDescMapping;
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    if ($pageType != ENTERPRISE_PRODUCT_PAGE_TYPE_PIC)// No mobile page for /pic-*
+        enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
