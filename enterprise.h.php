@@ -1590,7 +1590,7 @@ function enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $p
  *
  * @return string
  */
-function enterprise_action_404_proc($smarty, $siteId, $platform)
+function enterprise_action_404_proc($smarty, $siteId, $platform, $currentDomainSuffix)
 {
     $site = null;
     $tplPath = enterprise_decide_template_path($smarty, $siteId, $platform, '/404.tpl', $site);
@@ -1600,6 +1600,7 @@ function enterprise_action_404_proc($smarty, $siteId, $platform)
     // Site
     $smarty->assign('site', $site);
 
+    $smarty->assign('site_portal', $_SERVER['REQUEST_SCHEME'] . '://www.' . $currentDomainSuffix . '/');
     return $smarty->fetch($tplPath);
 }
 

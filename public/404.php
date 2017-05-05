@@ -22,4 +22,4 @@ $smarty->setCompileDir(realpath(__DIR__ . '/../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../') . '/plugins/');
 $smarty->loadFilter("pre", 'whitespace_control');
 
-echo enterprise_action_404_proc($smarty, $siteId, $platform);
+echo enterprise_action_404_proc($smarty, $siteId, $platform, $currentDomainSuffix);

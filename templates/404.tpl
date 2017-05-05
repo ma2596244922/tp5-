@@ -76,7 +76,7 @@
 
         <p>
 
-            <a href="/">Return home</a>
+            <a href="{$site_portal}">Return home</a>
 
             <br>
 
