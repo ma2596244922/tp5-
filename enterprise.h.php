@@ -977,7 +977,7 @@ function enterprise_url_sitemap($currentDomainSuffix, $page = 'product', $no = 1
     $suffix = '';
     if ($no > 1)
         $suffix = '-' . $no;
-    return 'http://www.' . $currentDomainSuffix . '/sitemap/' . $page . $suffix . '.xml';
+    return enterprise_url_prefix() . '/sitemap/' . $page . $suffix . '.xml';
 }
 
 /* }}} */
