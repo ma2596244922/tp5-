@@ -2127,7 +2127,7 @@ function enterprise_admin_action_upload_image($smarty)
     }
 
     $uri = 'image://' . $images[0];
-    $imageUrl = enterprise_url_photo($uri);
+    $imageUrl = enterprise_url_photo($uri, '', '', '', true);
     $responseJS = "window.parent.CKEDITOR.tools.callFunction( {$funcNum}, '{$imageUrl}' );";
     echo '<script type="text/javascript">' . $responseJS . '</script>';
 }

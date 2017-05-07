@@ -861,7 +861,7 @@ function enterprise_url_prefix()
  *
  * @return string
  */
-function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '', $default = '')
+function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '', $default = '', $pathOnly = false)
 {
     if (is_array($imageId)) {
         $retval = array();
@@ -882,7 +882,8 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
     if ($productCaption)
         $suffix = '-' . enterprise_generate_url_key($productCaption);
 
-    return enterprise_url_prefix() . '/uploaded_images/' . $imageSizeType . $imageId . $suffix . '.jpg';
+    $path = '/uploaded_images/' . $imageSizeType . $imageId . $suffix . '.jpg';
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
 /**
@@ -890,13 +891,13 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
  *
  * @return string
  */
-function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = '')
+function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = '', $pathOnly = false)
 {
     if (strpos($uri, 'http://') === 0)
         return $uri;
 
     $imageId = (int)str_replace('image://', '', $uri);
-    return enterprise_url_image($imageId, $desc, $imageSizeType, $default);
+    return enterprise_url_image($imageId, $desc, $imageSizeType, $default, $pathOnly);
 }
 
 /**
