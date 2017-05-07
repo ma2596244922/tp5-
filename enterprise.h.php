@@ -101,6 +101,16 @@ function enterprise_extract_locale_n_domain($host)
     return array($meta['locale'], $meta['root_domain']);
 }
 
+function enterprise_decide_locale_by_subdomain($subdomain)
+{
+    return ($subdomain=='www'||$subdomain=='m'?'english':$subdomain);
+}
+
+function enterprise_decide_platform_by_subdomain($subdomain)
+{
+    return (($subdomain == 'm')?ENTERPRISE_PLATFORM_MOBILE:ENTERPRISE_PLATFORM_PC);
+}
+
 /**
  * 从Host中分离出信息元
  */
@@ -113,12 +123,17 @@ function enterprise_extract_host_meta($host)
     $currentDomainSuffix = $hostObj->registerableDomain;
     $subdomain = $hostObj->subdomain;
     if (strpos($subdomain, '.') === false) {
-        $locale = ($subdomain=='www'||$subdomain=='m'?'english':$hostObj->subdomain);
-        $platform = (($subdomain == 'm')?ENTERPRISE_PLATFORM_MOBILE:ENTERPRISE_PLATFORM_PC);
+        $locale = enterprise_decide_locale_by_subdomain($subdomain);
+        $platform = enterprise_decide_platform_by_subdomain($subdomain);
     } else {
         $a = explode('.', $subdomain);
-        $locale = $a[1];
-        $platform = (($a[0] == 'm')?ENTERPRISE_PLATFORM_MOBILE:ENTERPRISE_PLATFORM_PC);
+        if ($a[0] == 'origin')
+            array_shift($a);
+        if (count($a) > 1)
+            $locale = enterprise_decide_locale_by_subdomain($a[1]);
+        else
+            $locale = enterprise_decide_locale_by_subdomain($a[0]);
+        $platform = enterprise_decide_platform_by_subdomain($a[0]);
     }
 
     return array(

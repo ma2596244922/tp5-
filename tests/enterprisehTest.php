@@ -206,5 +206,23 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
+
+        $host = 'origin.www.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'english',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_PC,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'origin.m.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => 'english',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_MOBILE,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
     }
 }
