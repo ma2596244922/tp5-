@@ -195,6 +195,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='user_voices'} active{/if}">
+
+                    <a href="?action=user_voices">
+
+                    <i class="icon-user"></i> 
+
+                    <span class="title">首页用户赠言</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->

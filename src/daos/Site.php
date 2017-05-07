@@ -22,6 +22,7 @@ class Site extends \crawler\daos\AbstractDAO
             'contactsave_fragment' => 'text',
             'product_cnt' => 'int',
             'index_products' => 'json',
+            'user_voices' => 'json',
         );
 
     public function getTableName()

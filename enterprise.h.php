@@ -1469,7 +1469,7 @@ function enterprise_get_index_products_from_site($site, $indexProductIdArray = n
                 $pidArray[] = $pid;
         }
     }
-    
+
     if (!$pidArray)
         return null;
 
@@ -1486,6 +1486,37 @@ function enterprise_assign_index_products($smarty, $site, $indexProductIdArray =
         $smarty->assign('products', $indexProducts);
     else
         enterprise_assign_product_list($smarty, 'products', $site['site_id'], null, 1, 10);
+}
+
+function enterprise_get_user_voices($smarty, $site)
+{
+    if (!$site['user_voices'])
+        return null;
+
+    return json_decode($site['user_voices'], true);
+}
+
+function enterprise_assign_user_voices($smarty, $var, $site, $userVoices = null)
+{
+    if (!$userVoices)
+        $userVoices = enterprise_get_user_voices($smarty, $site);
+    if (!$userVoices)
+        $userVoices = array(
+                array(
+                        'title' => 'Victor',
+                        'voice' => 'I want to say that your products very good. Thank you for all your suggestion, also good after sales service.',
+                    ),
+                array(
+                        'title' => 'Ms. Smith',
+                        'voice' => 'The company considerate after-sales service ,And try their best to meet the requirement of customers. We will be a long-term cooperation.',
+                    ),
+                array(
+                        'title' => 'Mr. Johnifere',
+                        'voice' => 'We trust the quality of your products. It always the best. Keep this going, and we will establish a long-term trade relationship with you.',
+                    ),
+            );
+
+    $smarty->assign($var, $userVoices);
 }
 
 /**
@@ -1516,6 +1547,9 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
 
     // Banners
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
+
+    // Users' voices
+    enterprise_assign_user_voices($smarty, 'user_voices', $site);
 
     // Products
     enterprise_assign_index_products($smarty, $site);

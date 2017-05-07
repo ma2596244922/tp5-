@@ -97,18 +97,12 @@
                 </li>
             </ul>
             <div class="focus-text">
-                <dl data-idx="1" style="display:block;">
-                    <dt>Victor</dt>
-                    <dd>I want to say that your products very good. Thank you for all your suggestion, also good after sales service.</dd>
+{foreach $user_voices as $uv}
+                <dl data-idx="{$uv@iteration}"{if $uv@index==0} style="display: block;"{/if}>
+                    <dt>{$uv['title']}</dt>
+                    <dd>{$uv['voice']}</dd>
                 </dl>
-                <dl data-idx="2">
-                    <dt>Ms. Smith</dt>
-                    <dd>The company considerate after-sales service ,And try their best to meet the requirement of customers. We will be a long-term cooperation.</dd>
-                </dl>
-                <dl data-idx="3">
-                    <dt>Mr. Johnifere</dt>
-                    <dd>We trust the quality of your products. It always the best. Keep this going, and we will establish a long-term trade relationship with you.</dd>
-                </dl>
+{/foreach}
             </div>
         </div>
     </div>

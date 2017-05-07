@@ -505,6 +505,41 @@ function enterprise_admin_action_index_products($smarty, $site)
     $smarty->display($tplPath);
 }
 
+/**
+ * Change user voices
+ */
+function enterprise_admin_action_user_voices($smarty, $site)
+{
+    $tplPath = 'admin/user_voices.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_user_voices($smarty, 'user_voices', $site);
+        return $smarty->display($tplPath);
+    }
+
+    $userVoices = timandes_get_post_data('user_voices');
+
+    if (!is_array($userVoices))
+        throw new \InvalidArgumentException("数据类型错误");
+    if (!$userVoices)
+        throw new \RuntimeException("请给出至少一个用户");
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'user_voices' => $userVoices,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    enterprise_assign_user_voices($smarty, 'user_voices', $site, $userVoices);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
+
 /* }}} */
 
 /* {{{ Inquiries */

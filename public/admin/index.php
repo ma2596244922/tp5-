@@ -36,6 +36,8 @@ function enterprise_admin_route($smarty)
             }
 
             switch ($action) {
+                case 'user_voices':
+                    return enterprise_admin_action_user_voices($smarty, $site);
                 case 'index_products':
                     return enterprise_admin_action_index_products($smarty, $site);
                 case 'message':
