@@ -70,7 +70,7 @@ function enterprise_sexmeup_save_images_in_description($siteId, $description)
         // src
         $url = $e->getAttribute('data-src');
         $imageId = enterprise_sexmeup_save_image_from_url($siteId, $url, false);
-        $newUrl = enterprise_url_image($imageId);
+        $newUrl = enterprise_url_image($imageId, '', '', '', true);
         $e->setAttribute('src', $newUrl);
         $e->removeAttribute('data-src');
         // Regular attrs
