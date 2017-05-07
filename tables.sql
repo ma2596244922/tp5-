@@ -215,6 +215,7 @@ CREATE TABLE `enterprise_sites` (
   `contactnow_fragment` text NOT NULL COMMENT '询盘页HTML代码片段',
   `contactsave_fragment` text NOT NULL COMMENT '询盘成功页HTML代码片段',
   `product_cnt` int(10) unsigned NOT NULL COMMENT '产品总数',
+  `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

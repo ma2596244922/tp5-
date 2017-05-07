@@ -457,6 +457,54 @@ function enterprise_admin_action_password($smarty)
     $smarty->display($tplPath);
 }
 
+/**
+ * Change index products
+ */
+function enterprise_admin_action_index_products($smarty, $site)
+{
+    $tplPath = 'admin/index_products.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_assign_index_products($smarty, $site);
+        return $smarty->display($tplPath);
+    }
+
+    $urls = timandes_get_post_data('urls');
+
+    if (!is_array($urls))
+        throw new \InvalidArgumentException("数据类型错误");
+    if (!$urls)
+        throw new \RuntimeException("请给出至少一个产品");
+
+    $indexProductIdArray = array();
+    foreach ($urls as $url) {
+        $path = parse_url($url, PHP_URL_PATH);
+        if (!$path)
+            continue;
+        if (!preg_match(PATTERN_PRODUCT_PAGE, $path, $matches))
+            continue;
+        $productId = $matches[1];
+        if (!$productId)
+            continue;
+        $indexProductIdArray[] = $productId;
+    }
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'index_products' => $indexProductIdArray,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    enterprise_assign_index_products($smarty, $site, $indexProductIdArray);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
+
 /* }}} */
 
 /* {{{ Inquiries */

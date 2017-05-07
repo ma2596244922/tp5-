@@ -891,6 +891,9 @@ function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = 
  */
 function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
 {
+    if (!$product)
+        return null;
+
     $pageString = '';
     if ($pageNo > 1)
         $pageString = 'p' . $pageNo;
@@ -1445,6 +1448,46 @@ function enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $plat
     return $smarty->fetch($tplPath);
 }
 
+/** 
+ * 获取“首页推荐产品”
+ */
+function enterprise_get_index_products_from_site($site, $indexProductIdArray = null)
+{
+    if ($indexProductIdArray)
+        $pidArray = $indexProductIdArray;
+    else {
+        if (!$site['index_products'])
+            return null;
+
+        $indexProducts = json_decode($site['index_products'], true);
+        if (!is_array($indexProducts))
+            return null;
+
+        $pidArray = array();
+        foreach ($indexProducts as $pid) {
+            if ($pid)
+                $pidArray[] = $pid;
+        }
+    }
+    
+    if (!$pidArray)
+        return null;
+
+    $pidCondition = ' `id` IN (' . implode(',', $pidArray) . ')';
+
+    $productDAO = new \enterprise\daos\Product();
+    return $productDAO->getMultiBy($pidCondition);
+}
+
+function enterprise_assign_index_products($smarty, $site, $indexProductIdArray = null)
+{
+    $indexProducts = enterprise_get_index_products_from_site($site, $indexProductIdArray);
+    if ($indexProducts)
+        $smarty->assign('products', $indexProducts);
+    else
+        enterprise_assign_product_list($smarty, 'products', $site['site_id'], null, 1, 10);
+}
+
 /**
  * /
  *
@@ -1475,7 +1518,7 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
     // Products
-    enterprise_assign_product_list($smarty, 'products', $siteId, $groupId = null, 1, 10);
+    enterprise_assign_index_products($smarty, $site);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
     $corporation = $smarty->getTemplateVars('corporation');
