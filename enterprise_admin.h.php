@@ -1225,6 +1225,66 @@ function enterprise_admin_action_insert_keywords($smarty)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+/**
+ * Replace Keywords
+ */
+function enterprise_admin_action_replace_keywords($smarty)
+{
+    $tplPath = 'admin/replace_keywords.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $oldPhrase = timandes_get_post_data('old_phrase');
+    $newPhrase = timandes_get_post_data('new_phrase');
+
+    if (!$oldPhrase)
+        throw new \UnderflowException("原关键词不能为空");
+    if (!$newPhrase)
+        throw new \UnderflowException("新关键词不能为空");
+
+    $productDAO = new \enterprise\daos\Product();
+    $curProductId = 0;
+    do {
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `id`>{$curProductId}";
+        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `tags`, `description`', '`id` ASC', 100);
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $values = array();
+            // Caption
+            $values['caption'] = str_ireplace($oldPhrase, $newPhrase, $product['caption']);
+            // Tags
+            $oldTags = explode(',', $product['tags']);
+            $newTags = array();
+            foreach ($oldTags as $tag) {
+                $tag = trim($tag);
+                $tag = str_ireplace($oldPhrase, $newPhrase, $tag);
+                $newTags[] = $tag;
+            }
+            $values['tags'] = implode(',', $newTags);
+            // Description
+            $values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
+
+            // Update
+            if ($values) {
+                $values['updated'] = date('Y-m-d H:i:s');
+                $productDAO->update($product['id'], $values);
+            }
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
 /* }}} */
 
 /* {{{ Contact */
