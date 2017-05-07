@@ -183,6 +183,18 @@
 
                 </li>
 {/if}
+                <li class="start{if $page_name=='index_products'} active{/if}">
+
+                    <a href="?action=index_products">
+
+                    <i class="icon-sun"></i> 
+
+                    <span class="title">首页产品设置</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->
