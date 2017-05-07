@@ -18,8 +18,8 @@
 
                                                     <li class="{if $profile_page_name=='password'}active{/if}"><a href="?action=password"><i class="icon-lock"></i> 修改密码</a></li>
 
-                                                    <li class="{if $profile_page_name=='fragment'}active{/if}"><a href="?action=fragment"><i class="icon-picture"></i> 页面镶嵌代码</a></li>
+                                                    <li class="{if $profile_page_name=='fragment'}active{/if}"><a href="?action=fragment"><i class="icon-cog"></i> 页面镶嵌代码</a></li>
 
-                                                    <li class="{if $profile_page_name=='index_products'}active{/if}"><a href="?action=index_products"><i class="icon-picture"></i> 首页产品设置</a></li>
+                                                    <li class="{if $profile_page_name=='index_products'}active{/if}"><a href="?action=index_products"><i class="icon-sun"></i> 首页产品设置</a></li>
 
                                                 </ul>

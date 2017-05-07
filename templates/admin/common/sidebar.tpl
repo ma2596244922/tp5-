@@ -103,7 +103,7 @@
 
                     <a href="?action=info">
 
-                    <i class="icon-cog"></i> 
+                    <i class="icon-cogs"></i> 
 
                     <span class="title">公司信息</span>
 
