@@ -1363,22 +1363,27 @@ function enterprise_admin_action_replace_keywords($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+
         return $smarty->display($tplPath);
     }
 
     // Save
     $oldPhrase = timandes_get_post_data('old_phrase');
     $newPhrase = timandes_get_post_data('new_phrase');
+    $groupId = (int)timandes_get_post_data('group_id');
 
     if (!$oldPhrase)
         throw new \UnderflowException("原关键词不能为空");
     if (!$newPhrase)
         throw new \UnderflowException("新关键词不能为空");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
 
     $productDAO = new \enterprise\daos\Product();
     $curProductId = 0;
     do {
-        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `id`>{$curProductId}";
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
         $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `tags`, `description`', '`id` ASC', 100);
         if (!$products)
             break;

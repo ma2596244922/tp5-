@@ -166,6 +166,22 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">分组</label>
+
+                                        <div class="controls">
+
+                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+{section name=i loop=$groups}
+                                                <option value="{$groups[i].id}">{$groups[i].name}</option>
+{/section}
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="replace_keywords">
