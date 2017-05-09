@@ -283,7 +283,7 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
     // Crawled pages
     if (is_array($translations)
             && $translations) foreach ($translations as $translation) {
-        $loc = 'http://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
+        $loc = $_SERVER['REQUEST_SCHEME'] . '://www.' . $currentDomainSuffix . '/sitemap/' . $translation['locale'] . '.xml';
         $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
         $sitemapIndex->addSitemap($sitemap);
     }
@@ -767,7 +767,7 @@ function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix)
 {
     if ($userAgent->isMobile()
             && $platform == ENTERPRISE_PLATFORM_PC) {
-        header('Location: http://m.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
+        header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://m.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
         exit(1);
     }
 }
@@ -893,7 +893,7 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
  */
 function enterprise_url_photo($uri, $desc = '', $imageSizeType = '', $default = '', $pathOnly = false)
 {
-    if (strpos($uri, 'http://') === 0)
+    if (strpos($uri, $_SERVER['REQUEST_SCHEME'] . '://') === 0)
         return $uri;
 
     $imageId = (int)str_replace('image://', '', $uri);
