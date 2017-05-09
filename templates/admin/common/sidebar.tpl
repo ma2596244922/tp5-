@@ -39,27 +39,47 @@
 
                 </li>
 
-                <li class="start{if $page_name=='group'} active{/if}">
+                <li{if $page_name=='group' || $page_name=='product'} class="active"{/if}>
 
-                    <a href="?action=group">
-
-                    <i class="icon-briefcase"></i> 
-
-                    <span class="title">产品分组</span>
-
-                    </a>
-
-                </li>
-
-                <li class="start{if $page_name=='product'} active{/if}">
-
-                    <a href="?action=product">
+                    <a href="javascript:;">
 
                     <i class="icon-file"></i> 
 
                     <span class="title">产品管理</span>
 
+                    <span class="selected"></span>
+
+                    <span class="arrow open"></span>
+
                     </a>
+
+                    <ul class="sub-menu">
+
+                        <li{if $page_name=='group'} class="active"{/if}>
+
+                            <a href="?action=group">
+
+                                <i class="icon-briefcase"></i>
+
+                                 <span class="title">产品分组</span>
+
+                            </a>
+
+                        </li>
+
+                        <li{if $page_name=='product'} class="active"{/if}>
+
+                            <a href="?action=product">
+
+                                <i class="icon-file"></i>
+
+                                <span class="title">产品管理</span>
+
+                            </a>
+
+                        </li>
+
+                    </ul>
 
                 </li>
 
@@ -147,18 +167,6 @@
 
                 </li>
 
-                <li class="start{if $page_name=='fragment'} active{/if}">
-
-                    <a href="?action=fragment">
-
-                    <i class="icon-cog"></i> 
-
-                    <span class="title">页面镶嵌代码</span>
-
-                    </a>
-
-                </li>
-
                 <li class="start{if $page_name=='email_template'} active{/if}">
 
                     <a href="?action=email_template">
@@ -183,27 +191,59 @@
 
                 </li>
 {/if}
-                <li class="start{if $page_name=='index_products'} active{/if}">
+                <li{if $page_name=='index_products' || $page_name=='user_voices'} class="active"{/if}>
 
-                    <a href="?action=index_products">
+                    <a href="javascript:;">
 
                     <i class="icon-sun"></i> 
 
-                    <span class="title">首页产品设置</span>
+                    <span class="title">站点设置</span>
+
+                    <span class="selected"></span>
+
+                    <span class="arrow open"></span>
 
                     </a>
 
-                </li>
+                    <ul class="sub-menu">
 
-                <li class="start{if $page_name=='user_voices'} active{/if}">
+                        <li class="start{if $page_name=='fragment'} active{/if}">
 
-                    <a href="?action=user_voices">
+                            <a href="?action=fragment">
 
-                    <i class="icon-user"></i> 
+                            <i class="icon-cog"></i> 
 
-                    <span class="title">首页用户赠言</span>
+                            <span class="title">页面镶嵌代码</span>
 
-                    </a>
+                            </a>
+
+                        </li>
+
+                        <li class="start{if $page_name=='index_products'} active{/if}">
+
+                            <a href="?action=index_products">
+
+                            <i class="icon-sun"></i> 
+
+                            <span class="title">首页产品设置</span>
+
+                            </a>
+
+                        </li>
+
+                        <li class="start{if $page_name=='user_voices'} active{/if}">
+
+                            <a href="?action=user_voices">
+
+                            <i class="icon-user"></i> 
+
+                            <span class="title">首页用户赠言</span>
+
+                            </a>
+
+                        </li>
+
+                    </ul>
 
                 </li>
 
