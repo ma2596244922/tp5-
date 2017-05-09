@@ -24,4 +24,6 @@
 
                                                     <li class="{if $profile_page_name=='user_voices'}active{/if}"><a href="?action=user_voices"><i class="icon-user"></i> 首页用户赠言</a></li>
 
+                                                    <li class="{if $profile_page_name=='index_tdk'}active{/if}"><a href="?action=index_tdk"><i class="icon-user"></i> 首页TDK</a></li>
+
                                                 </ul>

@@ -217,6 +217,9 @@ CREATE TABLE `enterprise_sites` (
   `product_cnt` int(10) unsigned NOT NULL COMMENT '产品总数',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
   `user_voices` text NOT NULL COMMENT '首页用户赠言（JSON）',
+  `index_html_title` text NOT NULL COMMENT '首页T',
+  `index_meta_keywords` text NOT NULL COMMENT '首页K',
+  `index_meta_description` text NOT NULL COMMENT '首页D',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

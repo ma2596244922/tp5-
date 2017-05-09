@@ -23,6 +23,9 @@ class Site extends \crawler\daos\AbstractDAO
             'product_cnt' => 'int',
             'index_products' => 'json',
             'user_voices' => 'json',
+            'index_html_title' => 'text',
+            'index_meta_keywords' => 'text',
+            'index_meta_description' => 'text',
         );
 
     public function getTableName()

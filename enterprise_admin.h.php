@@ -540,6 +540,50 @@ function enterprise_admin_action_user_voices($smarty, $site)
     $smarty->display($tplPath);
 }
 
+/**
+ * Change index tdk
+ */
+function enterprise_admin_action_index_tdk($smarty, $site)
+{
+    $tplPath = 'admin/index_tdk.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Auto TDK
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+        $corporation = $smarty->getTemplateVars('corporation');
+        enterprise_assign_group_list($smarty, 'groups', $userSiteId, null, true, true, 3);
+        $groups = $smarty->getTemplateVars('groups');
+        enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site);
+
+        return $smarty->display($tplPath);
+    }
+
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description');
+    $metaDescription = str_replace("\n", '', $metaDescription);
+    $metaDescription = str_replace("\r", '', $metaDescription);
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'index_html_title' => $htmlTitle,
+            'index_meta_keywords' => $metaKeywords,
+            'index_meta_description' => $metaDescription,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    $smarty->assign('title', $htmlTitle);
+    $smarty->assign('keywords', $metaDescription);
+    $smarty->assign('description', $metaDescription);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
+
 /* }}} */
 
 /* {{{ Inquiries */

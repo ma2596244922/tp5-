@@ -1536,6 +1536,24 @@ function enterprise_assign_user_voices($smarty, $var, $site, $userVoices = null)
 }
 
 /**
+ * 设置首页TDK
+ */
+function enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site)
+{
+    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
+
+    $presetTitle = "Quality {$group1Name} - {$corporation['name']}";
+    $smarty->assign('title', ($site['index_html_title']?$site['index_html_title']:$presetTitle));
+
+    $presetKeywords = "{$group1Name}, China Manufacturers, China {$group1Name}, cheap {$group1Name}";
+    $smarty->assign('keywords', ($site['index_meta_keywords']?$site['index_meta_keywords']:$presetKeywords));
+
+    $presetDescription = "Quality {$group1Name} & {$group2Name} for sale from {$corporation['name']}, we provide {$group1Name} & {$group2Name} for a long time at lowest price from China.";
+    $smarty->assign('description', ($site['index_meta_description']?$site['index_meta_description']:$presetDescription));
+}
+
+/**
  * /
  *
  * @return string
@@ -1575,12 +1593,7 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
     $groups = $smarty->getTemplateVars('groups');
 
     // TDK
-    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
-    $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
-    $smarty->assign('title', "Quality {$group1Name} - {$corporation['name']}");
-    $smarty->assign('keywords', "{$group1Name}, China Manufacturers, China {$group1Name}, cheap {$group1Name}");
-    $smarty->assign('description', "Quality {$group1Name} & {$group2Name} for sale from {$corporation['name']}, we provide {$group1Name} & {$group2Name} for a long time at lowest price from China.");
-
+    enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site);
 
     return $smarty->fetch($tplPath);
 }

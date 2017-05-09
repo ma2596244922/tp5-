@@ -36,6 +36,8 @@ function enterprise_admin_route($smarty)
             }
 
             switch ($action) {
+                case 'index_tdk':
+                    return enterprise_admin_action_index_tdk($smarty, $site);
                 case 'user_voices':
                     return enterprise_admin_action_user_voices($smarty, $site);
                 case 'index_products':
