@@ -158,6 +158,8 @@
 
                                         <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
+                                        <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
+
                                     </div>
 
                                     <div class="control-group">

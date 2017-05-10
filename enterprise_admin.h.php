@@ -816,6 +816,24 @@ function enterprise_admin_action_count_products($smarty)
         header('Location: ?action=product&success_msg=' . urlencode('操作成功'));
     }
 }
+
+/**
+ * Count Products
+ */
+function enterprise_admin_action_remove_empty_caption_products($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $productDAO = new \enterprise\daos\Product();
+    $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `caption`=''";
+    $values = array(
+            'deleted' => 1,
+        );
+    $productDAO->updateBy($condition, $values);
+
+    header('Location: ?action=product&success_msg=' . urlencode('操作成功'));
+}
+
 /* }}} */
 
 /* {{{ Product */

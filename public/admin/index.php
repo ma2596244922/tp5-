@@ -70,6 +70,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_group($smarty, $site);
                 case 'delete_group':
                     return enterprise_admin_action_delete_group($smarty, $site);
+                case 'remove_empty_caption_products':
+                    return enterprise_admin_action_remove_empty_caption_products($smarty);
                 case 'count_products':
                     return enterprise_admin_action_count_products($smarty);
                 case 'product':
