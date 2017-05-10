@@ -58,7 +58,7 @@
 
             <!-- BEGIN SIDEBAR MENU -->        
 
-{include file="admin/common/sidebar.tpl"}
+{include file="admin/common/sidebar.tpl" page_name=""}
 
             <!-- END SIDEBAR MENU -->
 
