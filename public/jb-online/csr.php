@@ -16,8 +16,8 @@ $dn = array(
         "stateOrProvinceName" => "Beijing",
         "localityName" => "Beijing",
         "organizationName" => "Zhang Lei",
-        "organizationalUnitName" => "",
-        "emailAddress" => "",
+        //"organizationalUnitName" => "",
+        //"emailAddress" => "",
     );
 
 $domain = timandes_get_query_data('domain');
