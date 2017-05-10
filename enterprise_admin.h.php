@@ -577,7 +577,7 @@ function enterprise_admin_action_index_tdk($smarty, $site)
     $siteDAO->update($userSiteId, $values);
 
     $smarty->assign('title', $htmlTitle);
-    $smarty->assign('keywords', $metaDescription);
+    $smarty->assign('keywords', $metaKeywords);
     $smarty->assign('description', $metaDescription);
     
     $smarty->assign('success_msg', '修改成功');
