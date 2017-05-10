@@ -168,6 +168,56 @@
 
                                     <div class="control-group">
 
+                                        <label class="control-label">位置</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="location" value="1" />
+
+                                                仅标题
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                            <input type="radio" name="location" value="2" />
+
+                                            仅Tag
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                            <input type="radio" name="location" value="0" checked />
+
+                                            标题和Tag
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
                                         <label class="control-label">分组</label>
 
                                         <div class="controls">

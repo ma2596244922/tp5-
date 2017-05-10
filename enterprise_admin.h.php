@@ -1390,7 +1390,11 @@ function enterprise_admin_action_replace_keywords($smarty)
     $oldPhrase = timandes_get_post_data('old_phrase');
     $newPhrase = timandes_get_post_data('new_phrase');
     $groupId = (int)timandes_get_post_data('group_id');
+    $location = (int)timandes_get_post_data('location');
 
+    $locationRange = array(0, 1, 2);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
     if (!$oldPhrase)
         throw new \UnderflowException("原关键词不能为空");
     if (!$newPhrase)
@@ -1409,18 +1413,22 @@ function enterprise_admin_action_replace_keywords($smarty)
         foreach ($products as $product) {
             $values = array();
             // Caption
-            $values['caption'] = str_ireplace($oldPhrase, $newPhrase, $product['caption']);
-            // Tags
-            $oldTags = explode(',', $product['tags']);
-            $newTags = array();
-            foreach ($oldTags as $tag) {
-                $tag = trim($tag);
-                $tag = str_ireplace($oldPhrase, $newPhrase, $tag);
-                $newTags[] = $tag;
+            if (in_array($location, [0, 1])) {
+                $values['caption'] = str_ireplace($oldPhrase, $newPhrase, $product['caption']);
             }
-            $values['tags'] = implode(',', $newTags);
+            // Tags
+            if (in_array($location, [0, 2])) {
+                $oldTags = explode(',', $product['tags']);
+                $newTags = array();
+                foreach ($oldTags as $tag) {
+                    $tag = trim($tag);
+                    $tag = str_ireplace($oldPhrase, $newPhrase, $tag);
+                    $newTags[] = $tag;
+                }
+                $values['tags'] = implode(',', $newTags);
+            }
             // Description
-            $values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
+            //$values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
 
             // Update
             if ($values) {
