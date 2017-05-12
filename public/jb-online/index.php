@@ -8,6 +8,7 @@
 define('SESSION_FIELD_USER_ID', 'oms_user_id');
 
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
+require_once realpath(__DIR__ . '/../../') . '/enterprise_oms.h.php';
 require_once realpath(__DIR__ . '/../../') . '/config_oms.php';
 
 /**
@@ -282,6 +283,10 @@ function enterprise_oms_route($smarty)
         default:
             $userId = enterprise_oms_grant_permission();
             switch ($action) {
+                // V2
+                case 'dashboard':
+                    return enterprise_oms_action_dashboard_2($smarty);
+                // V1
                 case 'site_mapping':
                     return enterprise_oms_action_site_mapping($smarty);
                 case 'edit_site_mapping':
