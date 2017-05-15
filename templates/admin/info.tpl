@@ -152,96 +152,100 @@
 
                                                                 <label class="control-label">公司名称</label>
 
-                                                                <input type="text" name="name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$site.name}" />
+                                                                <input type="text" name="name" placeholder="Beijing JB-Online Co., Ltd." class="m-wrap span8" value="{$corporation.name}" />
 
                                                                 <label class="control-label">地址</label>
 
-                                                                <input type="text" name="address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.address}" />
+                                                                <input type="text" name="address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$corporation.address}" />
 
                                                                 <label class="control-label">厂址</label>
 
-                                                                <input type="text" name="factory_address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$site.factory_address}" />
+                                                                <input type="text" name="factory_address" placeholder="Zhichun road, Haidian, Beijing, China" class="m-wrap span8" value="{$corporation.factory_address}" />
 
                                                                 <label class="control-label">工作时间</label>
 
-                                                                <input type="text" name="worktime" placeholder="9:00-18:00(Beijing time)" class="m-wrap span8" value="{$site.worktime}" />
+                                                                <input type="text" name="worktime" placeholder="9:00-18:00(Beijing time)" class="m-wrap span8" value="{$corporation.worktime}" />
 
                                                                 <label class="control-label">电话（工作时间内）</label>
 
-                                                                <input type="text" name="tel_wt" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.tel_wt}" />
+                                                                <input type="text" name="tel_wt" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$corporation.tel_wt}" />
 
                                                                 <label class="control-label">电话（非工作时间内）</label>
 
-                                                                <input type="text" name="tel_nwt" placeholder="86-1xxxxxxxxxx" class="m-wrap span8" value="{$site.tel_nwt}" />
+                                                                <input type="text" name="tel_nwt" placeholder="86-1xxxxxxxxxx" class="m-wrap span8" value="{$corporation.tel_nwt}" />
 
                                                                 <label class="control-label">传真</label>
 
-                                                                <input type="text" name="fax" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$site.fax}" />
+                                                                <input type="text" name="fax" placeholder="86-xx-xxxxxxx" class="m-wrap span8" value="{$corporation.fax}" />
 <!--
                                                                 <label class="control-label">Skype</label>
 
-                                                                <input type="text" name="skype" class="m-wrap span8" value="{$site.skype}" />
+                                                                <input type="text" name="skype" class="m-wrap span8" value="{$corporation.skype}" />
 
                                                                 <label class="control-label">Email</label>
 
-                                                                <input type="text" name="email" class="m-wrap span8" value="{$site.email}" />
+                                                                <input type="text" name="email" class="m-wrap span8" value="{$corporation.email}" />
 
                                                                 <label class="control-label">Yahoo</label>
 
-                                                                <input type="text" name="yahoo" class="m-wrap span8" value="{$site.yahoo}" />
+                                                                <input type="text" name="yahoo" class="m-wrap span8" value="{$corporation.yahoo}" />
 -->
 
                                                                 <label class="control-label">Business Type</label>
 
-                                                                <input type="text" name="business_type" class="m-wrap span8" value="{$site.business_type}" />
+                                                                <input type="text" name="business_type" class="m-wrap span8" value="{$corporation.business_type}" />
 
                                                                 <label class="control-label">Main Market</label>
 
-                                                                <input type="text" name="main_market" class="m-wrap span8" value="{$site.main_market}" />
+                                                                <input type="text" name="main_market" class="m-wrap span8" value="{$corporation.main_market}" />
 
                                                                 <label class="control-label">Brands</label>
 
-                                                                <input type="text" name="brands" class="m-wrap span8" value="{$site.brands}" />
+                                                                <input type="text" name="brands" class="m-wrap span8" value="{$corporation.brands}" />
 
                                                                 <label class="control-label">No. of Employees</label>
 
-                                                                <input type="text" name="no_of_employees" class="m-wrap span8" value="{$site.no_of_employees}" />
+                                                                <input type="text" name="no_of_employees" class="m-wrap span8" value="{$corporation.no_of_employees}" />
 
                                                                 <label class="control-label">Annual Sales</label>
 
-                                                                <input type="text" name="annual_sales" class="m-wrap span8" value="{$site.annual_sales}" />
+                                                                <input type="text" name="annual_sales" class="m-wrap span8" value="{$corporation.annual_sales}" />
 
                                                                 <label class="control-label">Year Established</label>
 
-                                                                <input type="text" name="year_established" class="m-wrap span8" value="{$site.year_established}" />
+                                                                <input type="text" name="year_established" class="m-wrap span8" value="{$corporation.year_established}" />
 
                                                                 <label class="control-label">Export p.c</label>
 
-                                                                <input type="text" name="export_p_c" class="m-wrap span8" value="{$site.export_p_c}" />
+                                                                <input type="text" name="export_p_c" class="m-wrap span8" value="{$corporation.export_p_c}" />
 
                                                                 <label class="control-label">Introduction</label>
 
-                                                                <textarea class="span8 m-wrap" name="introduction" id="textarea-introduction" rows="6">{$site.introduction|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="introduction" id="textarea-introduction" rows="6">{$corporation.introduction|default:''}</textarea>
 
                                                                 <label class="control-label">History</label>
 
-                                                                <textarea class="span8 m-wrap" name="history" id="textarea-history" rows="6">{$site.history|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="history" id="textarea-history" rows="6">{$corporation.history|default:''}</textarea>
 
                                                                 <label class="control-label">Service</label>
 
-                                                                <textarea class="span8 m-wrap" name="service" id="textarea-service" rows="6">{$site.service|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="service" id="textarea-service" rows="6">{$corporation.service|default:''}</textarea>
 
                                                                 <label class="control-label">Our Team</label>
 
-                                                                <textarea class="span8 m-wrap" name="our_team" id="textarea-our_team" rows="6">{$site.our_team|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="our_team" id="textarea-our_team" rows="6">{$corporation.our_team|default:''}</textarea>
 
                                                                 <label class="control-label">QC Profile</label>
 
-                                                                <textarea class="span8 m-wrap" name="qc_profile" id="textarea-qc_profile" rows="6">{$site.qc_profile|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="qc_profile" id="textarea-qc_profile" rows="6">{$corporation.qc_profile|default:''}</textarea>
 
                                                                 <label class="control-label">口号</label>
 
-                                                                <textarea class="span8 m-wrap" name="slogan" rows="6">{$site.slogan|default:''}</textarea>
+                                                                <textarea class="span8 m-wrap" name="slogan" rows="6">{$corporation.slogan|default:''}</textarea>
+
+                                                                <label class="control-label">信息说明</label>
+
+                                                                <textarea class="span8 m-wrap" name="desc_4_inquiry_sender" id="textarea-desc_4_inquiry_sender" rows="6">{$site.desc_4_inquiry_sender|default:''}</textarea>
 
                                                                 <div class="submit-btn">
 
@@ -344,6 +348,7 @@
            $('#textarea-service').ckeditor(additionalConfig);
            $('#textarea-our_team').ckeditor(additionalConfig);
            $('#textarea-qc_profile').ckeditor(additionalConfig);
+           $('#textarea-desc_4_inquiry_sender').ckeditor(additionalConfig);
 
         });
 

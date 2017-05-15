@@ -220,6 +220,7 @@ CREATE TABLE `enterprise_sites` (
   `index_html_title` text NOT NULL COMMENT '首页T',
   `index_meta_keywords` text NOT NULL COMMENT '首页K',
   `index_meta_description` text NOT NULL COMMENT '首页D',
+  `desc_4_inquiry_sender` text NOT NULL COMMENT '信息说明',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

@@ -1,3 +1,10 @@
+{if $site.desc_4_inquiry_sender|default:''}
+        <div class="product-description">
+            <div class="title"><i></i><h2>Special Note</h2></div>
+            {$site.desc_4_inquiry_sender}
+        </div>
+{/if}
+
         <div class="contact-us">
             <div class="title"><i></i><h2>Contact Us</h2></div>
             <div class="contact-info fl-clr">

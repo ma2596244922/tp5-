@@ -351,7 +351,7 @@ function enterprise_admin_action_info($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
         return $smarty->display($tplPath);
     }
 
@@ -378,6 +378,7 @@ function enterprise_admin_action_info($smarty)
     $ourTeam = timandes_get_post_data('our_team', 'trim, xss_clean');
     $qcProfile = timandes_get_post_data('qc_profile', 'trim, xss_clean');
     $slogan = timandes_get_post_data('slogan');
+    $desc4InquirySender = timandes_get_post_data('desc_4_inquiry_sender', 'trim, xss_clean');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -410,7 +411,17 @@ function enterprise_admin_action_info($smarty)
             'updated' => date('Y-m-d H:i:s'),
         );
     $corporationDAO->update($userSiteId, $values);
-    enterprise_assign_corporation_info($smarty, 'site', $userSiteId);
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'desc_4_inquiry_sender' => $desc4InquirySender,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+    $site = $smarty->getTemplateVars('site');
+    $site['desc_4_inquiry_sender'] = $desc4InquirySender;
+    $smarty->assign('site', $site);
     
     $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);

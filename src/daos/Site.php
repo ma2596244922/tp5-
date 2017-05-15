@@ -26,6 +26,7 @@ class Site extends \crawler\daos\AbstractDAO
             'index_html_title' => 'text',
             'index_meta_keywords' => 'text',
             'index_meta_description' => 'text',
+            'desc_4_inquiry_sender' => 'text',
         );
 
     public function getTableName()
