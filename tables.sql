@@ -310,3 +310,16 @@ CREATE TABLE `enterprise_tracks` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `created`, `ipv4`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户访问轨迹';
+
+CREATE TABLE `enterprise_news` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '新闻ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '新闻标题',
+  `content` text NOT NULL COMMENT '新闻正文',
+  `head_image_id` int unsigned NOT NULL COMMENT '新闻头图ID',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='新闻表';

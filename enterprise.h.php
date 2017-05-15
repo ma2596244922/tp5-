@@ -1005,6 +1005,25 @@ function enterprise_url_sitemap($currentDomainSuffix, $page = 'product', $no = 1
     return enterprise_url_prefix() . '/sitemap/' . $page . $suffix . '.xml';
 }
 
+/**
+ * URL - News
+ *
+ * @return string
+ */
+function enterprise_url_news($news, $pathOnly = false)
+{
+    if (!$news)
+        return null;
+
+    $urlKey = enterprise_generate_url_key($news['caption']);
+    $urlKeyString = '';
+    if ($urlKey)
+        $urlKeyString = '-' . $urlKey;
+    $path = '/news-' . $news['id'] . $urlKeyString . '.html';
+
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
+}
+
 /* }}} */
 
 /**
@@ -1928,3 +1947,22 @@ function enterprise_assign_comment_info($smarty, $var, $commentId)
 }
 
 /* }}} */
+
+
+/**
+ * Assign News List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_news_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $newsDAO = new \enterprise\daos\News();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $news);
+
+    return $condition;
+}

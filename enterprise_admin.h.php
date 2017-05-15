@@ -2411,3 +2411,136 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
     }
     $smarty->display($tplPath);
 }
+
+
+/* {{{ News */
+
+/**
+ * News
+ */
+function enterprise_admin_action_news($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $newsDAO = new \enterprise\daos\News();
+
+    $condition = enterprise_assign_news_list($smarty, 'news', $userSiteId, $pageNo, $max);
+
+    $totalNews = $newsDAO->countBy($condition);
+    $smarty->assign('total_news', $totalNews);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalNews, $max, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->display('admin/news.tpl');
+}
+
+/**
+ * Assign News info
+ */
+function enterprise_admin_assign_news_info($smarty, $var, $newsId)
+{
+    $newsDAO = new \enterprise\daos\News();
+    $news = $newsDAO->get($newsId);
+    $smarty->assign($var, $news);
+}
+
+
+/**
+ * Edit News
+ */
+function enterprise_admin_action_edit_news($smarty, $site)
+{
+    $tplPath = 'admin/edit_news.tpl';
+
+    $newsId = (int)timandes_get_query_data('news_id');
+    $smarty->assign('news_id', $newsId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($newsId) 
+            enterprise_admin_assign_news_info($smarty, 'news', $newsId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $caption = timandes_get_post_data('caption');
+    $content = timandes_get_post_data('content', 'trim, xss_clean');
+
+    if (!$caption)
+        return enterprise_admin_display_error_msg($smarty, '请输入新闻标题');
+
+    // Upload images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
+    $headImageId = $images[0];
+
+    // Save news
+    $newsDAO = new \enterprise\daos\News();
+    $values = array(
+            'site_id' => $userSiteId,
+            'caption' => $caption,
+            'content' => $content,
+            'updated' => date('Y-m-d H:i:s'),
+            'head_image_id' => $headImageId,
+        );
+    if ($newsId) {// Edit
+        // Authentication
+        $originalNews = $newsDAO->get($newsId);
+        if (!$originalNews
+                || $originalNews['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
+        $newsDAO->update($newsId, $values);
+        enterprise_admin_assign_news_info($smarty, 'news', $newsId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $newsDAO->insert($values);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=news', '新闻管理');
+}
+
+/**
+ * Delete News
+ */
+function enterprise_admin_action_delete_news($smarty, $site)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $newsId = (int)timandes_get_query_data('news_id');
+
+    // Get group ID
+    $newsDAO = new \enterprise\daos\News();
+    $news = $newsDAO->get($newsId);
+    if (!$news) {
+        $msg = '找不到指定的产品';
+        return header('Location: ?action=news&error_msg=' . urlencode($msg));
+    }
+    if ($news['site_id'] != $site['site_id'])
+        return header('Location: ?action=news&error_msg=' . urlencode('权限不足'));
+    if ($news['deleted']) 
+        return header('Location: ?action=news&success_msg=' . urlencode('删除成功'));
+
+    // Delete news
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $newsDAO->update($newsId, $values);
+
+    header('Location: ?action=news&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
