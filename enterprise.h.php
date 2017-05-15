@@ -19,6 +19,10 @@ define('PATTERN_PRODUCT_INDEX', '/^\/products(-([0-9]+))?\.html$/');
 define('PATTERN_PRODUCT_SEARCH', '/^\/s((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Product Directory */
 define('PATTERN_PRODUCT_DIRECTORY', '/^\/directory(-([0-9]+))?\.html$/');
+/** @var string Pattern of News List */
+define('PATTERN_NEWS_LIST', '/^\/news(-([0-9]+))?$/');
+/** @var string Pattern of News Page */
+define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -837,6 +841,16 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
         else
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, 'product_directory.tpl', 50);
+    } elseif(preg_match(PATTERN_NEWS_LIST, $requestPath, $matches)) {
+        if (isset($matches[2])
+                && $matches[2])
+            $pageNo = (int)$matches[2];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_news_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
+    } elseif(preg_match(PATTERN_NEWS_PAGE, $requestPath, $matches)) {
+        $newsId = $matches[1];
+        return enterprise_action_sets_news_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId);
     }
 
     // Custom Pages
@@ -1024,6 +1038,18 @@ function enterprise_url_news($news, $pathOnly = false)
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
+/**
+ * URL - News List
+ *
+ * @return string
+ */
+function enterprise_url_news_list($pageNo = 1)
+{
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = '-' . $pageNo;
+    return enterprise_url_prefix() . '/news' . $pageString;
+}
 /* }}} */
 
 /**
@@ -1383,6 +1409,47 @@ function enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId
     return $smarty->fetch($tplPath);
 }
 
+
+/**
+ * /news-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_news_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId)
+{
+    global $newsDescMapping;
+
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/news_detail.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    enterprise_assign_news_info($smarty, 'news', $newsId);
+    enterprise_assign_next_news_info($smarty, 'next_news', $siteId, $newsId);
+    enterprise_assign_prev_news_info($smarty, 'prev_news', $siteId, $newsId);
+
+    // New Products
+    enterprise_assign_product_list($smarty, 'new_products', $siteId);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    // TDK
+    $smarty->assign('title', "");
+    $smarty->assign('keywords', "");
+    $smarty->assign('description', "");
+
+    return $smarty->fetch($tplPath);
+}
+
 /**
  * /supplier-*.html
  *
@@ -1443,6 +1510,49 @@ function enterprise_action_sets_product_list_proc($smarty, $userAgent, $siteId, 
     return $smarty->fetch($tplPath);
 }
 
+
+/**
+ * /news-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_news_list_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $pageNo = 1)
+{
+    $pageSize = 10;
+
+    $siteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site)
+        return null;
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/news_list.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    $condition = enterprise_assign_news_list($smarty, 'news', $siteId, $pageNo, $pageSize);
+
+    $newsDAO = new \enterprise\daos\News();
+    $totalNews = $newsDAO->countBy($condition);
+    $smarty->assign('total_news', $totalNews);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalNews, $pageSize, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
+
+    // TDK
+    $smarty->assign('title', "");
+    $smarty->assign('keywords', "");
+    $smarty->assign('description', "");
+
+    return $smarty->fetch($tplPath);
+}
 
 /**
  * /quality.html
@@ -1961,8 +2071,40 @@ function enterprise_assign_news_list($smarty, $var, $siteId, $pageNo = 1, $pageS
 
     $newsDAO = new \enterprise\daos\News();
     $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`', '`id` DESC', $pageSize, $start);
+    $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`, `content`', '`id` DESC', $pageSize, $start);
     $smarty->assign($var, $news);
 
     return $condition;
+}
+
+/**
+ * Assign News info
+ */
+function enterprise_assign_news_info($smarty, $var, $newsId)
+{
+    $newsDAO = new \enterprise\daos\News();
+    $news = $newsDAO->get($newsId);
+    $smarty->assign($var, $news);
+}
+
+/**
+ * Assign Next News info
+ */
+function enterprise_assign_next_news_info($smarty, $var, $siteId, $newsId)
+{
+    $newsDAO = new \enterprise\daos\News();
+    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$newsId} ORDER BY `id`";
+    $news = $newsDAO->getOneBy($condition);
+    $smarty->assign($var, $news);
+}
+
+/**
+ * Assign Prev News info
+ */
+function enterprise_assign_prev_news_info($smarty, $var, $siteId, $newsId)
+{
+    $newsDAO = new \enterprise\daos\News();
+    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`<{$newsId} ORDER BY `id` DESC";
+    $news = $newsDAO->getOneBy($condition);
+    $smarty->assign($var, $news);
 }

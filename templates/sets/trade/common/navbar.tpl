@@ -8,7 +8,12 @@
 {/foreach}
                     </ul>
                 </li>
-                <li><a href="/aboutus.html">Company Profile</a></li>
+                <li><a href="/aboutus.html">Company Profile<i></i></a>
+                    <ul class="nav-list nav-list1">
+                        <li><a href="/aboutus.html">Company Introduction</a></li>
+                        <li><a href="/news">Company News</a></li>
+                    </ul>
+                </li>
                 <li><a href="/quality.html" title="">Quality Control</a></li>
                 <li><a href="/contactus.html" title="">Contacts</a></li>
             </ul>

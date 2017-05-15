@@ -126,7 +126,7 @@
 
                             <div class="portlet-title">
 
-                                <div class="caption"><i class="icon-file"></i>{$page_title}</div>
+                                <div class="caption"><i class="icon-coffee"></i>{$page_title}</div>
 
                                 <div class="tools">
 

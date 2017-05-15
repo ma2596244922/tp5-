@@ -2441,17 +2441,6 @@ function enterprise_admin_action_news($smarty)
 }
 
 /**
- * Assign News info
- */
-function enterprise_admin_assign_news_info($smarty, $var, $newsId)
-{
-    $newsDAO = new \enterprise\daos\News();
-    $news = $newsDAO->get($newsId);
-    $smarty->assign($var, $news);
-}
-
-
-/**
  * Edit News
  */
 function enterprise_admin_action_edit_news($smarty, $site)
@@ -2468,7 +2457,7 @@ function enterprise_admin_action_edit_news($smarty, $site)
     if (!$submitButton) {// No form data
         // Editing?
         if ($newsId) 
-            enterprise_admin_assign_news_info($smarty, 'news', $newsId);
+            enterprise_assign_news_info($smarty, 'news', $newsId);
 
         return $smarty->display($tplPath);
     }
@@ -2483,9 +2472,7 @@ function enterprise_admin_action_edit_news($smarty, $site)
 
     // Upload images
     $images = enterprise_admin_upload_post_images();
-    if (!$images)
-        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
-    $headImageId = $images[0];
+    $headImageId = ($images?$images[0]:0);
 
     // Save news
     $newsDAO = new \enterprise\daos\News();
@@ -2504,7 +2491,7 @@ function enterprise_admin_action_edit_news($smarty, $site)
             return enterprise_admin_display_error_msg($smarty, '权限不足');
         // Update
         $newsDAO->update($newsId, $values);
-        enterprise_admin_assign_news_info($smarty, 'news', $newsId);
+        enterprise_assign_news_info($smarty, 'news', $newsId);
     } else {// Create
         $values['created'] = $values['updated'];
         $newsDAO->insert($values);

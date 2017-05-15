@@ -259,6 +259,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='news'} active{/if}">
+
+                    <a href="?action=news">
+
+                    <i class="icon-coffee"></i> 
+
+                    <span class="title">新闻管理</span>
+
+                    </a>
+
+                </li>
+
             </ul>
 
             <!-- END SIDEBAR MENU -->
