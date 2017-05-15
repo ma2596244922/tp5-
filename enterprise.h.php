@@ -1342,7 +1342,7 @@ function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product
     $presetKeywords = "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale";
     $smarty->assign('keywords', ($product['meta_keywords']?$product['meta_keywords']:$presetKeywords));
 
-    $presetDescription = "Buy quality {$product['caption']} about {$productGroupName}, we have provided the quality {$productGroupName} for a long time at a low price from China.";
+    $presetDescription = "Buy {$product['caption']} from {$corporation['name']}，{$productGroupName} Distributor online Service suppliers.";
     $smarty->assign('description', ($product['meta_description']?$product['meta_description']:$presetDescription));
 }
 
