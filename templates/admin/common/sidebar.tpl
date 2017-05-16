@@ -191,7 +191,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voices' || $page_name=='index_tdk'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -231,18 +231,6 @@
 
                         </li>
 
-                        <li class="start{if $page_name=='user_voices'} active{/if}">
-
-                            <a href="?action=user_voices">
-
-                            <i class="icon-user"></i> 
-
-                            <span class="title">首页用户赠言</span>
-
-                            </a>
-
-                        </li>
-
                         <li class="start{if $page_name=='index_tdk'} active{/if}">
 
                             <a href="?action=index_tdk">
@@ -250,6 +238,18 @@
                             <i class="icon-edit"></i> 
 
                             <span class="title">首页TDK</span>
+
+                            </a>
+
+                        </li>
+
+                        <li class="start{if $page_name=='user_voice'} active{/if}">
+
+                            <a href="?action=user_voice">
+
+                            <i class="icon-comments"></i> 
+
+                            <span class="title">用户赠言</span>
 
                             </a>
 

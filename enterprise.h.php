@@ -1712,7 +1712,7 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
     // Users' voices
-    enterprise_assign_user_voices($smarty, 'user_voices', $site);
+    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, 1, 5);
 
     // Products
     enterprise_assign_index_products($smarty, $site);
@@ -2059,6 +2059,8 @@ function enterprise_assign_comment_info($smarty, $var, $commentId)
 /* }}} */
 
 
+/* {{{ News */
+
 /**
  * Assign News List
  *
@@ -2108,3 +2110,37 @@ function enterprise_assign_prev_news_info($smarty, $var, $siteId, $newsId)
     $news = $newsDAO->getOneBy($condition);
     $smarty->assign($var, $news);
 }
+/* }}} */
+
+
+/* {{{ UserVoice */
+
+/**
+ * Assign UserVoice List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_user_voice_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, '`id`, `title`, `avatar_image_id`, `created`, `updated`, `voice`', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $userVoices);
+
+    return $condition;
+}
+
+/**
+ * Assign UserVoice info
+ */
+function enterprise_assign_user_voice_info($smarty, $var, $userVoiceId)
+{
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+    $userVoice = $userVoiceDAO->get($userVoiceId);
+    $smarty->assign($var, $userVoice);
+}
+
+/* }}} */

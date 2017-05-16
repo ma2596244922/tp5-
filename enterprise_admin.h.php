@@ -2523,7 +2523,7 @@ function enterprise_admin_action_delete_news($smarty, $site)
     $newsDAO = new \enterprise\daos\News();
     $news = $newsDAO->get($newsId);
     if (!$news) {
-        $msg = '找不到指定的产品';
+        $msg = '找不到指定的新闻';
         return header('Location: ?action=news&error_msg=' . urlencode($msg));
     }
     if ($news['site_id'] != $site['site_id'])
@@ -2539,6 +2539,163 @@ function enterprise_admin_action_delete_news($smarty, $site)
     $newsDAO->update($newsId, $values);
 
     header('Location: ?action=news&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+
+/* {{{ UserVoice */
+
+/**
+ * 从站点中导入旧的用户赠言
+ *
+ * @return array 导入的用户赠言
+ */
+function enterprise_admin_import_user_voices($site)
+{
+    $userVoices = json_decode($site['user_voices'], true);
+    if (!is_array($userVoices))
+        return false;
+
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+    $dateString = date('Y-m-d H:i:s');
+    $retval = array();
+    foreach ($userVoices as $uv) {
+        $values = array(
+                'site_id' => $site['site_id'],
+                'title' => $uv['title'],
+                'voice' => $uv['voice'],
+                'created' => $dateString,
+                'updated' => $dateString,
+                'avatar_image_id' => 0,
+            );
+        $values['id'] = $userVoiceDAO->insert($values);
+
+        $retval[] = $values;
+    }
+
+    return $retval;
+}
+
+/**
+ * UserVoice
+ */
+function enterprise_admin_action_user_voice($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+
+    $condition = enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $pageNo, $max);
+    // Need import?
+    $userVoices = $smarty->getTemplateVars('user_voices');
+    if (!$userVoices) {
+        $site = $smarty->getTemplateVars('site');
+        $userVoices = enterprise_admin_import_user_voices($site);
+        if ($userVoices)
+            $smarty->assign('user_voices', $userVoices);
+    }
+
+    $totalUserVoice = $userVoiceDAO->countBy($condition);
+    $smarty->assign('total_user_voice', $totalUserVoice);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalUserVoice, $max, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->display('admin/user_voice.tpl');
+}
+
+/**
+ * Edit UserVoice
+ */
+function enterprise_admin_action_edit_user_voice($smarty, $site)
+{
+    $tplPath = 'admin/edit_user_voice.tpl';
+
+    $userVoiceId = (int)timandes_get_query_data('user_voice_id');
+    $smarty->assign('user_voice_id', $userVoiceId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($userVoiceId) 
+            enterprise_assign_user_voice_info($smarty, 'user_voice', $userVoiceId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $title = timandes_get_post_data('title');
+    $voice = timandes_get_post_data('voice');
+
+    if (!$title)
+        return enterprise_admin_display_error_msg($smarty, '请输入称谓');
+
+    // Upload images
+    $images = enterprise_admin_upload_post_images();
+    $avatarImageId = ($images?$images[0]:0);
+
+    // Save user_voice
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+    $values = array(
+            'site_id' => $userSiteId,
+            'title' => $title,
+            'voice' => $voice,
+            'updated' => date('Y-m-d H:i:s'),
+            'avatar_image_id' => $avatarImageId,
+        );
+    if ($userVoiceId) {// Edit
+        // Authentication
+        $originalUserVoice = $userVoiceDAO->get($userVoiceId);
+        if (!$originalUserVoice
+                || $originalUserVoice['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
+        $userVoiceDAO->update($userVoiceId, $values);
+        enterprise_assign_user_voice_info($smarty, 'user_voice', $userVoiceId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $userVoiceDAO->insert($values);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=user_voice', '用户赠言');
+}
+
+/**
+ * Delete UserVoice
+ */
+function enterprise_admin_action_delete_user_voice($smarty, $site)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $userVoiceId = (int)timandes_get_query_data('user_voice_id');
+
+    // Get group ID
+    $userVoiceDAO = new \enterprise\daos\UserVoice();
+    $user_voice = $userVoiceDAO->get($userVoiceId);
+    if (!$user_voice) {
+        $msg = '找不到指定的赠言';
+        return header('Location: ?action=user_voice&error_msg=' . urlencode($msg));
+    }
+    if ($user_voice['site_id'] != $site['site_id'])
+        return header('Location: ?action=user_voice&error_msg=' . urlencode('权限不足'));
+    if ($user_voice['deleted']) 
+        return header('Location: ?action=user_voice&success_msg=' . urlencode('删除成功'));
+
+    // Delete user_voice
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $userVoiceDAO->update($userVoiceId, $values);
+
+    header('Location: ?action=user_voice&success_msg=' . urlencode('删除成功'));
 }
 
 /* }}} */

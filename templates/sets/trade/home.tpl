@@ -86,15 +86,11 @@
             <span class="prev"></span>
             <span class="next"></span>
             <ul>
-                <li data-idx="1">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer1.png"/></a>
+{foreach $user_voices as $uv}
+                <li data-idx="{$uv@iteration}"{if $uv@index!=0} class="gray"{/if}>
+                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="{if $uv.avatar_image_id|default:''}{$uv.avatar_image_id|default:''|url:'enterprise_url_image':{$uv.title|default:''}:'m'}{else}/media/sets/trade/customer{$uv@iteration}.png{/if}"/></a>
                 </li>
-                <li data-idx="2" class="gray">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer2.png"/></a>
-                </li>
-                <li data-idx="3" class="gray">
-                    <a href="javascript:void(0)" title=""><img width="99" height="100" alt="" src="/media/sets/trade/customer3.png"/></a>
-                </li>
+{/foreach}
             </ul>
             <div class="focus-text">
 {foreach $user_voices as $uv}

@@ -130,14 +130,20 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_comment($smarty, $site);
                 case 'delete_comment':
                     return enterprise_admin_action_delete_comment($smarty, $site);
-                default:
-                    return enterprise_admin_action_dashboard($smarty);
                 case 'news':
                     return enterprise_admin_action_news($smarty);
                 case 'edit_news':
                     return enterprise_admin_action_edit_news($smarty, $site);
                 case 'delete_news':
                     return enterprise_admin_action_delete_news($smarty, $site);
+                case 'user_voice':
+                    return enterprise_admin_action_user_voice($smarty);
+                case 'edit_user_voice':
+                    return enterprise_admin_action_edit_user_voice($smarty, $site);
+                case 'delete_user_voice':
+                    return enterprise_admin_action_delete_user_voice($smarty, $site);
+                default:
+                    return enterprise_admin_action_dashboard($smarty);
             }
             
     }
