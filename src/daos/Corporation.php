@@ -81,4 +81,10 @@ class Corporation extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    public function getBySite($siteId)
+    {
+        $condition = "`site_id`=" . (int)$siteId;
+        return $this->getOneBy($condition);
+    }
 }

@@ -694,13 +694,20 @@ function enterprise_admin_action_group($smarty)
 }
 
 /**
+ * Get group info
+ */
+function enterprise_get_group_info($groupId)
+{
+    $groupDAO = new \enterprise\daos\Group();
+    return $groupDAO->get($groupId);
+}
+
+/**
  * Assign group info
  */
 function enterprise_admin_assign_group_info($smarty, $var, $groupId)
 {
-    $groupDAO = new \enterprise\daos\Group();
-    $group = $groupDAO->get($groupId);
-    $smarty->assign($var, $group);
+    $smarty->assign($var, enterprise_get_group_info($groupId));
 }
 
 /**
@@ -1446,6 +1453,66 @@ function enterprise_admin_action_replace_keywords($smarty)
                 $values['updated'] = date('Y-m-d H:i:s');
                 $productDAO->update($product['id'], $values);
             }
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
+/**
+ * Insert Desc
+ */
+function enterprise_admin_action_insert_desc($smarty)
+{
+    $tplPath = 'admin/insert_desc.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $desc = timandes_get_post_data('desc');
+    $location = (int)timandes_get_post_data('location');
+    $groupId = (int)timandes_get_post_data('group_id');
+
+    $locationRange = array(1, 2);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+    if (!$desc)
+        throw new \UnderflowException("请给出至少一个关键词");
+
+    $corporation = enterprise_get_corporation_info($userSiteId);
+    $desc = str_replace('[公司名称]', $corporation['name'], $desc);
+
+    $group = enterprise_get_group_info($groupId);
+    $desc = str_replace('[产品分组]', $group['name'], $desc);
+
+    $productDAO = new \enterprise\daos\Product();
+    $curProductId = 0;
+    do {
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
+        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `description`', '`id` ASC', 100);
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $fragment = str_replace('[产品标题]', $product['caption'], $desc);
+            $fragmentHtml = '<p>' . $fragment . '</p>';
+            $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
+            $values = array(
+                    'description' => $newDescription,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $productDAO->update($product['id'], $values);
 
             $curProductId = $product['id'];
         }

@@ -266,6 +266,21 @@ function enterprise_pager_calculate_key_infos($total, $size, $cur)
     return $retval;
 }
 
+/**
+ * 返回DAO对象
+ *
+ * @return \crawler\daos\AbstractDAO
+ */
+function enterprise_dao($alias)
+{
+    switch ($alias) {
+        case 'corporation':
+            return new \enterprise\daos\Corporation();
+    }
+
+    return null;
+}
+
 /* }}} */
 
 /* {{{ Sitemap */
@@ -1144,14 +1159,21 @@ function enterprise_site_info_get_product_list_page_size($siteId)
 /* }}} */
 
 /**
+ * Get corporation info
+ */
+function enterprise_get_corporation_info($siteId)
+{
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $condition = "`site_id`=" . (int)$siteId;
+    return $corporationDAO->getOneBy($condition);
+}
+
+/**
  * Assign corporation info
  */
 function enterprise_assign_corporation_info($smarty, $var, $siteId)
 {
-    $corporationDAO = new \enterprise\daos\Corporation();
-    $condition = "`site_id`=" . (int)$siteId;
-    $corporation = $corporationDAO->getOneBy($condition);
-    $smarty->assign($var, $corporation);
+    $smarty->assign($var, enterprise_get_corporation_info($siteId));
 }
 
 /**
