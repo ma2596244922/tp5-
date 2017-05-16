@@ -1521,6 +1521,80 @@ function enterprise_admin_action_insert_desc($smarty)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+
+/**
+ * Insert Images
+ */
+function enterprise_admin_action_insert_images($smarty)
+{
+    $tplPath = 'admin/insert_images.tpl';
+    $maxImages = 5;
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $location = (int)timandes_get_post_data('location');
+    $groupId = (int)timandes_get_post_data('group_id');
+
+    $locationRange = array(1);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+
+    // Upload images
+    $uploadedImages = enterprise_admin_upload_post_images();
+    if (!$uploadedImages)
+        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
+
+    $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
+
+    $productDAO = new \enterprise\daos\Product();
+    $curProductId = 0;
+    $pendingImages = $uploadedImages;
+    do {
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
+        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `images`', '`id` ASC', 100);
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $images = json_decode($product['images'], true);
+            if (!is_array($images))
+                $images = array();
+
+            $imageCnt = count($images);
+            $imageSlots = $maxImages - $imageCnt;
+            for ($i=0; $i<$imageSlots; ++$i) {
+                $img = array_pop($pendingImages);
+                array_unshift($images, $img);
+                if (count($pendingImages) <= 0) {
+                    $pendingImages = $uploadedImages;
+                    shuffle($pendingImages);
+                }
+            }
+
+            $values = array(
+                    'images' => $images,
+                    'head_image_id' => $images[0],
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $productDAO->update($product['id'], $values);
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
 /* }}} */
 
 /* {{{ Contact */

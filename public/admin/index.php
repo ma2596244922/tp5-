@@ -84,6 +84,8 @@ function enterprise_admin_route($smarty)
                     return enterprise_admin_action_edit_product_tdk($smarty, $site);
                 case 'edit_product_url':
                     return enterprise_admin_action_edit_product_url($smarty, $site);
+                case 'insert_images':
+                    return enterprise_admin_action_insert_images($smarty);
                 case 'insert_desc':
                     return enterprise_admin_action_insert_desc($smarty);
                 case 'insert_keywords':

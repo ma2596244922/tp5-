@@ -152,6 +152,8 @@
 
                                         </a>
 
+                                        <a href="?action=insert_images" class="btn normal">批量插入产品图</a>
+
                                         <a href="?action=insert_desc" class="btn normal">批量插入产品描述</a>
 
                                         <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
