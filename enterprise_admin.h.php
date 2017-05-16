@@ -2482,7 +2482,7 @@ function enterprise_admin_action_edit_news($smarty, $site)
         return enterprise_admin_display_error_msg($smarty, '请输入新闻标题');
 
     // Upload images
-    $images = enterprise_admin_upload_post_images();
+    $images = enterprise_admin_upload_post_images('');
     $headImageId = ($images?$images[0]:0);
 
     // Save news
