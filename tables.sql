@@ -221,6 +221,10 @@ CREATE TABLE `enterprise_sites` (
   `index_meta_keywords` text NOT NULL COMMENT '首页K',
   `index_meta_description` text NOT NULL COMMENT '首页D',
   `desc_4_inquiry_sender` text NOT NULL COMMENT '信息说明',
+  `product_tdk_scope` tinyint NOT NULL COMMENT '产品页TDK有效半径（0-全站；>0-分组ID）',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

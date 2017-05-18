@@ -24,4 +24,6 @@
 
                                                     <li class="{if $profile_page_name=='index_tdk'}active{/if}"><a href="?action=index_tdk"><i class="icon-user"></i> 首页TDK</a></li>
 
+                                                    <li class="{if $profile_page_name=='product_tdk'}active{/if}"><a href="?action=product_tdk"><i class="icon-edit"></i> TDK自行设计</a></li>
+
                                                 </ul>

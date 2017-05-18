@@ -499,6 +499,21 @@ function enterprise_action_uploaded_image_proc($char, $imageId)
     exit;
 }
 
+/**
+ * 从字符串中解析出产品标签数组
+ *
+ * @return array
+ */
+function enterprise_extract_product_tags($tagsString)
+{
+    $productTags = array();
+    $a = explode(',', $tagsString);
+    foreach ($a as $tag) {
+        $productTags[] = trim($tag);
+    }
+    return $productTags;
+}
+
 function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
 {
     $productDAO = new \enterprise\daos\Product();
@@ -508,13 +523,7 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
     $smarty->assign('product', $product);
 
     // Tags
-    $productTags = array();
-    if ($product['tags']) {
-        $a = explode(',', $product['tags']);
-        foreach ($a as $tag) {
-            $productTags[] = trim($tag);
-        }
-    }
+    $productTags = ($product['tags']?enterprise_extract_product_tags($product['tags']):array());
     $smarty->assign('product_tags', $productTags);
 
     // Images
@@ -1352,19 +1361,56 @@ function enterprise_action_sets_aboutus_proc($smarty, $userAgent, $siteId, $plat
 }
 
 /**
- * 向模板追加产品详情页的TDK
+ * 替换TDK中的占位符
+ *
+ * @return string
  */
-function enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup)
+function enterprise_replace_placeholders_in_tdk($s, $corporation, $product, $productGroup)
 {
     $productGroupName = (isset($productGroup['name'])?$productGroup['name']:'');
+    $productTags = ($product['tags']?enterprise_extract_product_tags($product['tags']):array());
+    $productTag1 = (isset($productTags[0])?$productTags[0]:'');
+    $productTag2 = (isset($productTags[1])?$productTags[1]:'');
+    $productTag3 = (isset($productTags[2])?$productTags[2]:'');
 
-    $presetTitle = "Buy {$product['caption']} - {$corporation['name']}";
+    $retval = $s;
+    $retval = str_replace('[产品标题]', $product['caption'], $retval);
+    $retval = str_replace('[产品分组]', $productGroupName, $retval);
+    $retval = str_replace('[公司名称]', $corporation['name'], $retval);
+    $retval = str_replace('[Tag1]', $productTag1, $retval);
+    $retval = str_replace('[Tag2]', $productTag2, $retval);
+    $retval = str_replace('[Tag3]', $productTag3, $retval);
+    return $retval;
+}
+
+/**
+ * 向模板追加产品详情页的TDK
+ */
+function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup)
+{
+    $productGroupId = (isset($productGroup['id'])?$productGroup['id']:0);
+    $hitScope = ($site['product_tdk_scope'] == 0
+            || $site['product_tdk_scope'] == $productGroupId);
+
+    $titleTemplate = "Buy [产品标题] - [公司名称]";
+    $keywordsTemplate = "[产品标题], China [产品分组] manufacturer, [产品分组] supplier, [产品分组] for sale";
+    $descriptionTemplate = "Buy [产品标题] from [公司名称]，[产品分组] Distributor online Service suppliers.";
+
+    if ($hitScope) {
+        if ($site['product_html_title'])
+            $titleTemplate = $site['product_html_title'];
+        if ($site['product_meta_keywords'])
+            $keywordsTemplate = $site['product_meta_keywords'];
+        if ($site['product_meta_description'])
+            $descriptionTemplate = $site['product_meta_description'];
+    }
+
+    $presetTitle = enterprise_replace_placeholders_in_tdk($titleTemplate, $corporation, $product, $productGroup);
+    $presetKeywords = enterprise_replace_placeholders_in_tdk($keywordsTemplate, $corporation, $product, $productGroup);
+    $presetDescription = enterprise_replace_placeholders_in_tdk($descriptionTemplate, $corporation, $product, $productGroup);
+
     $smarty->assign('title', ($product['html_title']?$product['html_title']:$presetTitle));
-
-    $presetKeywords = "{$product['caption']}, China {$productGroupName} manufacturer, {$productGroupName} supplier, {$productGroupName} for sale";
     $smarty->assign('keywords', ($product['meta_keywords']?$product['meta_keywords']:$presetKeywords));
-
-    $presetDescription = "Buy {$product['caption']} from {$corporation['name']}，{$productGroupName} Distributor online Service suppliers.";
     $smarty->assign('description', ($product['meta_description']?$product['meta_description']:$presetDescription));
 }
 
@@ -1426,7 +1472,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $userAgent, $siteId
     $productGroup = $smarty->getTemplateVars('product_group');
 
     // TDK
-    enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
+    enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup);
 
     return $smarty->fetch($tplPath);
 }

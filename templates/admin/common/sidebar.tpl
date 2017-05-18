@@ -191,7 +191,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -250,6 +250,18 @@
                             <i class="icon-comments"></i> 
 
                             <span class="title">用户赠言</span>
+
+                            </a>
+
+                        </li>
+
+                        <li class="start{if $page_name=='product_tdk'} active{/if}">
+
+                            <a href="?action=product_tdk">
+
+                            <i class="icon-edit"></i> 
+
+                            <span class="title">TDK自行设计</span>
 
                             </a>
 
