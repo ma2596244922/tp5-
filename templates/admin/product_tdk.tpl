@@ -174,17 +174,17 @@
 
                                                                 <div class="space10"></div>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#textarea-meta-keywords" type="button">产品标题</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题], " data-target="#textarea-meta-keywords" type="button">产品标题</button>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#textarea-meta-keywords" type="button">产品分组</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组], " data-target="#textarea-meta-keywords" type="button">产品分组</button>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#textarea-meta-keywords" type="button">公司名称</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称], " data-target="#textarea-meta-keywords" type="button">公司名称</button>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag1]" data-target="#textarea-meta-keywords" type="button">Tag1</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag1], " data-target="#textarea-meta-keywords" type="button">Tag1</button>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2]" data-target="#textarea-meta-keywords" type="button">Tag2</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2], " data-target="#textarea-meta-keywords" type="button">Tag2</button>
 
-                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#textarea-meta-keywords" type="button">Tag3</button>
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3], " data-target="#textarea-meta-keywords" type="button">Tag3</button>
 
                                                                 <label class="control-label">Meta Description</label>
 
