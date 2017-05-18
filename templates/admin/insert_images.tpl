@@ -137,13 +137,13 @@
                                 <!-- BEGIN FORM-->
 
                                 <form action="?action=insert_images" method="POST" enctype="multipart/form-data" class="form-horizontal">
-
+{for $j=0 to 1}
                                     <div class="control-group">
 
                                         <label class="control-label">图片</label>
 
                                         <div class="controls">
-{for $i=0 to 4}
+    {-for $i=0 to 4}
                                             <div class="fileupload fileupload-new span2" data-provides="fileupload">
 
                                                 <input type="hidden" name="file{$i}" value="">
@@ -175,11 +175,11 @@
                                                 </div>
 
                                             </div>
-{/for}
+    {-/for}
                                         </div>
 
                                     </div>
-
+{/for}
                                     <div class="control-group">
 
                                         <label class="control-label">位置</label>
