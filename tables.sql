@@ -341,3 +341,22 @@ CREATE TABLE `enterprise_user_voices` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户赠言表';
+
+CREATE TABLE `enterprise_fr_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '产品标题',
+  `description` text NOT NULL COMMENT '产品描述',
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `tags` varchar(255) NOT NULL COMMENT '关键词（逗号分隔）',
+  `min_order_quantity` varchar(100) NOT NULL COMMENT '最小起订量',
+  `delivery_time` varchar(100) NOT NULL COMMENT '发货期限',
+  `packaging_details` varchar(100) NOT NULL COMMENT '常规包装',
+  `specifications` text NOT NULL COMMENT '产品属性（JSON）',
+  `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='法语-用户新发产品表';
