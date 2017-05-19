@@ -146,7 +146,7 @@
     {-for $i=0 to 4}
                                             <div class="fileupload fileupload-new span2" data-provides="fileupload">
 
-                                                <input type="hidden" name="file{$i}" value="">
+                                                <input type="hidden" name="file{$j*5+$i}" value="">
 
                                                 <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
@@ -167,7 +167,7 @@
 
                                                         <span class="fileupload-exists">更换</span>
 
-                                                        <input type="file" class="default" name="file{$i}" />
+                                                        <input type="file" class="default" name="file{$j*5+$i}" />
                                                     </span>
 
                                                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
