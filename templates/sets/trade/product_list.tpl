@@ -43,7 +43,7 @@
 {-elseif $phrase|default:''}
                         <h1>{$phrase}</h1>
 {-else}
-                        All Products
+                        {$preset_translations.all_products}
 {-/if}
                         <a href="/contactnow.html" rel="nofollow">Contact Now</a>
                     </div>

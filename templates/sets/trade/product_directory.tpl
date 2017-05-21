@@ -24,7 +24,7 @@
         </div>
         <!--crumb-->
         <div class="product-map">
-            <div class="title"><span></span><h1>All Products Page {$page_no}</h1></div>
+            <div class="title"><span></span><h1>{$preset_translations.all_products} Page {$page_no}</h1></div>
             <div class="product-list">
                 <ul class="fl-clr">
 {foreach $products as $product}

@@ -15,8 +15,8 @@
 {if $contacts[0]|default:[]}
                         <dd><span>Email</span>{$contacts[0].email}</dd>
 {/if}
-                        <dd><span>Address</span>{$corporation.address}</dd>
-                        <dd><span>Business Phone(Working Time)</span>{$corporation.tel_wt}</dd>
+                        <dd><span>{$preset_translations.address}</span>{$corporation.address}</dd>
+                        <dd><span>{$preset_translations.business_phone}(Working Time)</span>{$corporation.tel_wt}</dd>
                         <dd><span>Fax</span>{$corporation.fax}</dd>
                     </dl>
                 </div>
@@ -24,8 +24,8 @@
                     <form action="/contactsave.html" id="form-inquiry" method="POST">
                     <ul class="fl-clr">
                         <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" placeholder="Please Enter your Email Address" /></li>
-                        <li><label><i></i>To</label>{$corporation.name}</li>
-                        <li><label><i>*</i>Subject</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /></li>
+                        <li><label><i></i>{$preset_translations.to}</label>{$corporation.name}</li>
+                        <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /></li>
                         <li class="fl-clr"><label><i></i>Quick question</label><div class="select fl-clr">
                             <ul class="fl-clr">
                                 <li class="select">
@@ -43,7 +43,7 @@
                             </ul>
                         </div>
                         <div class="tips">What is this?<em>This feature is Quick question function, select the corresponding question types, automatically enter the corresponding problem, remove your trouble of typing<i></i></em></div></li>
-                        <li class="area-li"><label><i>*</i>Message</label>
+                        <li class="area-li"><label><i>*</i>{$preset_translations.message}</label>
                         <textarea class="area" id="area" name="message" placeholder="For the best results, we recommend including the following details:
     -Self introduction  
     -Required specifications 
