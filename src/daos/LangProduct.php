@@ -33,7 +33,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
 
     /** @var array 内置支持的语言代码 */
     private $_supportedLangCodes = array(
-            'fr',
+            'fr', 'pt',
         );
 
     public function __construct($langCode)
@@ -83,5 +83,27 @@ class LangProduct extends \crawler\daos\AbstractDAO
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
+    }
+
+    // Override
+    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0)
+    {
+        $tableName = $this->getTableName();
+
+        $limit = '';
+        if (null !== $max) {
+            $start = (int)$start;
+            $max = (int)$max;
+            $limit = " LIMIT {$start}, {$max}";
+        }
+        if ($orderBy)
+            $orderBy = ' ORDER BY ' . $orderBy;
+        if ($condition)
+            $condition = ' WHERE ' . $condition;
+
+        $sql = "SELECT {$fields} FROM `{$tableName}` AS elp
+        LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
+        {$condition}{$orderBy}{$limit}";
+        return $this->getMultiBySql($sql);
     }
 }

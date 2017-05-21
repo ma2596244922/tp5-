@@ -10,7 +10,7 @@ require_once realpath(__DIR__ . '/../') . '/config.php';
 
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
-    list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 } catch(HttpException $he) {
     header('Step: ESI');
     exit(1);

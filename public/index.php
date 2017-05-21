@@ -13,7 +13,7 @@ $userAgent = new Jenssegers\Agent\Agent();
 
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
-    list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 } catch(HttpException $he) {
     header('Step: ESI');
     http_response_code($he->getCode());
@@ -90,11 +90,9 @@ $smarty->loadFilter("pre", 'whitespace_control');
 
 // + 警告：这个新的Router是来截胡的
 do {
-    if ($locale != 'english')
-        break;// English only
-
     try {
-        $response = enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
+        enterprise_load_preset_translations($smarty, $langCode);
+        $response = enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing
 
@@ -118,6 +116,9 @@ do {
     } catch (\RuntimeException $e) {
         $smarty->assign('message', $e->getMessage());
         $smarty->display('message.tpl');
+    } catch(\DomainException $e) {
+        header('DomainException: ' . $e->getMessage());
+        http_response_code(404);
     }
 } while(exit(1));
 

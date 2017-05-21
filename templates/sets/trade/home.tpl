@@ -12,7 +12,7 @@
 <body>
 <div class="request-quote">
     <div class="inner-content">
-        <p><span><em></em>{$corporation.tel_wt}</span>|<a href="/contactnow.html" rel="nofollow">Request a quote</a></p>
+        <p><span><em></em>{$corporation.tel_wt}</span>|<a href="/contactnow.html" rel="nofollow">{$preset_translations.request_a_quote}</a></p>
     </div>
 </div>
 <!--request-quote-->
@@ -116,10 +116,10 @@
         </dl>
 {/foreach}
         <dl class="dl4">
-            <dt>About</dt>
-            <dd><a href="/aboutus.html" rel="nofollow">Company Profile</a></dd>
-            <dd><a href="/contactus.html" rel="nofollow">Contact Info</a></dd>
-            <dd><a href="/directory.html" rel="nofollow">Site Map</a></dd>
+            <dt>{$preset_translations.about_us}</dt>
+            <dd><a href="/aboutus.html" rel="nofollow">{$preset_translations.company_profile}</a></dd>
+            <dd><a href="/contactus.html" rel="nofollow">{$preset_translations.contact_info}</a></dd>
+            <dd><a href="/directory.html" rel="nofollow">{$preset_translations.site_map}</a></dd>
         </dl>
     </div>
 </div>

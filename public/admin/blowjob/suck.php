@@ -7,7 +7,7 @@
 
 require_once __DIR__ . '/bootstrap.php';
 
-list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 
 // Get tasks
 $taskDAO = new blowjob\daos\Task();

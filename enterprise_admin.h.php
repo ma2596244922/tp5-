@@ -510,7 +510,7 @@ function enterprise_admin_action_index_products($smarty, $site)
         );
     $siteDAO->update($userSiteId, $values);
 
-    enterprise_assign_index_products($smarty, $site, $indexProductIdArray);
+    enterprise_assign_index_products($smarty, $site, 'en', $indexProductIdArray);
     
     $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);

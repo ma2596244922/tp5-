@@ -26,6 +26,7 @@ define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
+define('ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST', 'ep.`id`, elp.`caption`, ep.`head_image_id`, elp.`group_id`, ep.`brand_name`, ep.`model_number`, ep.`certification`, ep.`place_of_origin`, elp.`min_order_quantity`, ep.`price`, ep.`payment_terms`, ep.`supply_ability`, elp.`delivery_time`, elp.`packaging_details`, ep.`path`');
 /** @var string Fields of Custom Page for List */
 define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
 /** @var int Max Urls per File */
@@ -107,7 +108,12 @@ function enterprise_extract_locale_n_domain($host)
 
 function enterprise_decide_locale_by_subdomain($subdomain)
 {
-    return ($subdomain=='www'||$subdomain=='m'?'english':$subdomain);
+    $retval = ($subdomain=='www'||$subdomain=='m'?'english':$subdomain);
+    if (strlen($retval) == 2) {
+        $iso639 = new Matriphe\ISO639\ISO639();
+        $retval = $iso639->languageByCode1($retval);
+    }
+    return $retval;
 }
 
 function enterprise_decide_platform_by_subdomain($subdomain)
@@ -173,8 +179,13 @@ function enterprise_extract_site_infos()
     else
         $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
 
+    $iso639 = new Matriphe\ISO639\ISO639();
+    $langCode = $iso639->code1ByLanguage($locale);
+    if (!$langCode)
+        throw new HttpException(404);
+
     return array(
-            $siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix,
+            $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix,
         );
 }
 
@@ -553,7 +564,7 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $productId)
     }
 
     // New Products
-    enterprise_assign_product_list($smarty, 'new_products', $siteId, $product['group_id']);
+    enterprise_assign_product_list($smarty, 'new_products', $siteId, 'en', $product['group_id']);
 }
 
 /**
@@ -578,7 +589,7 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
 function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
 {
     // Product list
-    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, $groupId, $pageNo, $pageSize);
+    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, 'en', $groupId, $pageNo, $pageSize);
 
     // Total products
     $productDAO = new \enterprise\daos\Product();
@@ -801,12 +812,27 @@ function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix)
 }
 
 /**
+ * 加载预设翻译
+ */
+function enterprise_load_preset_translations($smarty, $langCode)
+{
+    $path = __DIR__ . '/locale/' . $langCode . '.php';
+    if (!file_exists($path))
+        throw new HttpException(404);
+
+    require_once $path;
+    $smarty->assign('preset_translations', $presetTranslations);
+}
+
+/**
  * Router V2
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
+function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
 {
+    $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
+
     // 用户自发布产品的自定义路径
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
@@ -855,7 +881,7 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $originalDo
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/') {
-        return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_DIRECTORY, $requestPath, $matches)) {
@@ -1692,13 +1718,13 @@ function enterprise_get_index_products_from_site($site, $indexProductIdArray = n
     return $productDAO->getMultiBy($pidCondition);
 }
 
-function enterprise_assign_index_products($smarty, $site, $indexProductIdArray = null)
+function enterprise_assign_index_products($smarty, $site, $langCode = 'en', $indexProductIdArray = null)
 {
     $indexProducts = enterprise_get_index_products_from_site($site, $indexProductIdArray);
     if ($indexProducts)
         $smarty->assign('products', $indexProducts);
     else
-        enterprise_assign_product_list($smarty, 'products', $site['site_id'], null, 1, 10);
+        enterprise_assign_product_list($smarty, 'products', $site['site_id'], $langCode, null, 1, 10);
 }
 
 function enterprise_get_user_voices($smarty, $site)
@@ -1755,7 +1781,7 @@ function enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site)
  *
  * @return string
  */
-function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
@@ -1783,7 +1809,7 @@ function enterprise_action_sets_home_proc($smarty, $userAgent, $siteId, $platfor
     enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, 1, 5);
 
     // Products
-    enterprise_assign_index_products($smarty, $site);
+    enterprise_assign_index_products($smarty, $site, $langCode);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
     $corporation = $smarty->getTemplateVars('corporation');
@@ -1952,14 +1978,14 @@ function enterprise_assign_photo_info($smarty, $var, $photoId)
  *
  * @return string
  */
-function enterprise_filter_2_sql_condition($filter = null, &$extraValues = null)
+function enterprise_filter_2_sql_condition($tablePrefix = '', $filter = null, &$extraValues = null)
 {
     if (!$filter)
         return '';
 
     if (is_numeric($filter)) {
         $groupId = (int)$filter;
-        return " AND `group_id`={$groupId}";
+        return " AND {$tablePrefix}`group_id`={$groupId}";
     }
 
     if (!is_array($filter))
@@ -1968,7 +1994,7 @@ function enterprise_filter_2_sql_condition($filter = null, &$extraValues = null)
     if (isset($filter['url_key'])) {
         $phrase = enterprise_extract_url_key($filter['url_key']);
         $extraValues['phrase'] = $phrase;
-        return " AND `caption` LIKE '%" . str_replace(' ', '%', $phrase) . "%'";
+        return " AND {$tablePrefix}`caption` LIKE '%" . str_replace(' ', '%', $phrase) . "%'";
     }
 
     throw new \InvalidArgumentException("Unsupported 'filter'");
@@ -1979,22 +2005,36 @@ function enterprise_filter_2_sql_condition($filter = null, &$extraValues = null)
  *
  * @return string Condition
  */
-function enterprise_assign_product_list($smarty, $var, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
+function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10)
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
 
+    if ($langCode == 'en')
+        $tablePrefix = '';
+    else
+        $tablePrefix = 'elp.';
+
     $groupIdCondition = '';
     if (null !== $groupId) {
         $extraValues = array();
-        $groupIdCondition = enterprise_filter_2_sql_condition($groupId, $extraValues);
+        $groupIdCondition = enterprise_filter_2_sql_condition($tablePrefix, $groupId, $extraValues);
         foreach ($extraValues as $k => $v)
             $smarty->assign($k, $v);
     }
 
-    $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
-    $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $pageSize, $start);
+    if ($langCode == 'en') {
+        $productDAO = new \enterprise\daos\Product();
+        $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
+        $orderBy = '`id` DESC';
+        $fields = ENTERPRISE_PRODUCT_FIELDS_FOR_LIST;
+    } else {
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        $condition = "elp.`site_id`={$siteId}{$groupIdCondition} AND elp.`deleted`=0";
+        $orderBy = 'elp.`product_id` DESC';
+        $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
+    }
+    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start);
     $smarty->assign($var, $products);
 
     return $condition;

@@ -10,7 +10,8 @@
         "nette/mail": "~2.4",
         "gregwar/captcha": "~1.1",
         "jenssegers/agent": "~2.5",
-        "voku/anti-xss": "~2.1"
+        "voku/anti-xss": "~2.1",
+        "matriphe/iso-639": "dev-master"
     },
     "autoload": {
         "psr-4": {

@@ -13,7 +13,7 @@ require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 
 function enterprise_admin_route($smarty)
 {
-    list($siteId, $platform, $locale, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $action = timandes_get_query_data('action');
     switch ($action) {
         case 'captcha':
