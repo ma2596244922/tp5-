@@ -37,17 +37,43 @@ $presetTranslations = array(
         'each_file_sized_1m_max' => 'Each file sized 1M max',
         'please_reply_me_within_24_hours' => 'Please reply me within 24 hours',
 
-        // Product Categories
-        // Company Introduction
-        // Company News
-        // ALL CATEGORIES
-        // View All
-        // FEATURED PRODUCTS
-        // China Manufacturer with main products
-        // WHY CHOOSE US
-        // All about us
-        // Contact details
-        // OUR CUSTOMER SAY
+        'product_categories' => 'Product Categories',
+        'company_introduction' => 'Company Introduction',
+        'company_news' => 'Company News',
+        'all_categories' => 'ALL CATEGORIES',
+        'view_all' => 'View All',
+        'featured_products' => 'FEATURED PRODUCTS',
+        'china_manufacturer_with_main_products' => 'China Manufacturer with main products',
+        'why_choose_us' => 'WHY CHOOSE US',
+        'all_about_us' => 'All about us',
+        'contact_details' => 'Contact details',
+        'our_customer_say' => 'OUR CUSTOMER SAY',
+
+        'place_of_origin' => 'Place of Origin',
+        'brand_name' => 'Brand Name',
+        'certification' => 'Certification',
+        'model_number' => 'Model Number',
+        'minimum_order_quantity' => 'Min.Order Quantity',
+        'price' => 'Price',
+        'packaging_details' => 'Packaging Details',
+        'delivery_time' => 'Delivery Time',
+        'payment_terms' => 'Payment Terms',
+        'supply_ability' => 'Supply Ability',
 
         // Fax
+        // See More
+        // Contact Suppliers
+        // Quick question
+        // No typing, "Quick question" Help you!
+        // Please select FAQ
+        // I'm very interested in your products; could you send me some detail reference information?
+        // Please send me detail product specification, thank you!
+        // May I be an agency of your products,and what's yourterms?
+        // We intend to purchase this product, would you please send me the quotation and minimum order quantity?
+        // Yes! I would like your verified suppliers matching service!
+        // Send Inquiry
+        // Contact Now
+        // Special Note
+        // Product Description
+        // New Products
     );

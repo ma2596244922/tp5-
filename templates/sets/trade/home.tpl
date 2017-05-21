@@ -46,7 +46,7 @@
     </div>
     <!--banner-->
     <div class="all-categories">
-        <div class="title"><em><h2>ALL CATEGORIES</h2></em><span><a href="/products.html">View All&nbsp;&nbsp;&gt;</a></span></div>
+        <div class="title"><em><h2>{$preset_translations.all_categories}</h2></em><span><a href="/products.html">{$preset_translations.view_all}&nbsp;&nbsp;&gt;</a></span></div>
         <ul>
 {foreach $groups as $group}{if $group@index>=5}{continue}{/if}
             <li>
@@ -59,8 +59,8 @@
     </div>
     <!--all-categories-->
     <div class="all-categories featured">
-        <div class="title"><em><h2>FEATURED PRODUCTS</h2></em></div>
-        <p>China Manufacturer with main products: {if $groups[0]|default:[]}{$groups[0].name}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</p>
+        <div class="title"><em><h2>{$preset_translations.featured_products}</h2></em></div>
+        <p>{$preset_translations.china_manufacturer_with_main_products}: {if $groups[0]|default:[]}{$groups[0].name}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</p>
         <ul class="fl-clr">
 {foreach $products as $product}
             <li>
@@ -72,16 +72,16 @@
     </div>
     <!--featured-->
     <div class="choose-us">
-        <div class="title"><h2>WHY CHOOSE US</h2></div>
+        <div class="title"><h2>{$preset_translations.why_choose_us}</h2></div>
         <ul>
-            <li><span class="icon1"></span><i><a href="/aboutus.html" title="">All about us</a></i><em>Our aim is to provide you with the tour service of the top quality, and we'll d o our</em></li>
-            <li><span class="icon2"></span><i><a href="/contactus.html" title="">Contact details</a></i><em>Our aim is to provide you with the tour service of the top quality</em></li>
-            <li><span class="icon3"></span><i><a href="/quality.html" title="">Quality control</a></i><em>cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts</em></li>
+            <li><span class="icon1"></span><i><a href="/aboutus.html" title="">{$preset_translations.all_about_us}</a></i><em>Our aim is to provide you with the tour service of the top quality, and we'll d o our</em></li>
+            <li><span class="icon2"></span><i><a href="/contactus.html" title="">{$preset_translations.contact_details}</a></i><em>Our aim is to provide you with the tour service of the top quality</em></li>
+            <li><span class="icon3"></span><i><a href="/quality.html" title="">{$preset_translations.quality_control}</a></i><em>cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts</em></li>
         </ul>
     </div>
     <!--choose-us-->
     <div class="all-categories customer">
-        <div class="title"><em><h2>OUR CUSTOMER SAY</h2></em></div>
+        <div class="title"><em><h2>{$preset_translations.our_customer_say}</h2></em></div>
         <div id="focus_Box">
             <span class="prev"></span>
             <span class="next"></span>

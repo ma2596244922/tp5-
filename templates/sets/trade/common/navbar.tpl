@@ -10,8 +10,8 @@
                 </li>
                 <li><a href="/aboutus.html">{$preset_translations.company_profile}<i></i></a>
                     <ul class="nav-list nav-list1">
-                        <li><a href="/aboutus.html">{$preset_translations.about_us}</a></li>
-                        <li><a href="/news">Company News</a></li>
+                        <li><a href="/aboutus.html">{$preset_translations.company_introduction}</a></li>
+                        <li><a href="/news">{$preset_translations.company_news}</a></li>
                     </ul>
                 </li>
                 <li><a href="/quality.html" title="">{$preset_translations.quality_control}</a></li>

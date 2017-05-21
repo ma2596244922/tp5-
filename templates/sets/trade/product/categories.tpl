@@ -1,5 +1,5 @@
         <div class="product-categories">
-            <div class="title"><i></i><h2>Product Categories</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.product_categories}</h2></div>
             <table cellpadding="0" cellspacing="0">
 {foreach $groups as $group}
     {if $group@index%3==0}

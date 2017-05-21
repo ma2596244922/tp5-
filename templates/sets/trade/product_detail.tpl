@@ -62,19 +62,18 @@
                 <div class="title"><h1>{$product.caption}</h1></div>
                 <ul>
                     <!-- Product Details -->
-                    {if $product.place_of_origin|default:''}<li><label>Place of Origin:</label><span>{$product.place_of_origin}</span></li>{/if}
-                    {if $product.brand_name|default:''}<li><label>Brand Name:</label><span>{$product.brand_name}</span></li>{/if}
-                    {if $product.certification|default:''}<li><label>Certification:</label><span>{$product.certification}</span></li>{/if}
-                    {if $product.model_number|default:''}<li><label>Model Number:</label><span>{$product.model_number}</span></li>{/if}
+                    {if $product.place_of_origin|default:''}<li><label>{$preset_translations.place_of_origin}:</label><span>{$product.place_of_origin}</span></li>{/if}
+                    {if $product.brand_name|default:''}<li><label>{$preset_translations.brand_name}:</label><span>{$product.brand_name}</span></li>{/if}
+                    {if $product.certification|default:''}<li><label>{$preset_translations.certification}:</label><span>{$product.certification}</span></li>{/if}
+                    {if $product.model_number|default:''}<li><label>{$preset_translations.model_number}:</label><span>{$product.model_number}</span></li>{/if}
 
                     <!-- Payment & Shipping Terms -->
-                    <li><label>Min.Order Quantity:</label><span>{$product.min_order_quantity|default:'Negotiation'}</span></li>
-                    <li><label>Price:</label><span>{$product.price|default:'Negotiation'}</span></li>
-                    {if $product.packaging_details|default:''}<li><label>Packaging Details:</label><span>{$product.packaging_details}</span></li>{/if}
-                    {if $product.delivery_time|default:''}<li><label>Delivery Time:</label><span>{$product.delivery_time}</span></li>{/if}
-                    {if $product.place_of_origin|default:''}<li><label>Place of Origin:</label><span>{$product.place_of_origin}</span></li>{/if}
-                    {if $product.payment_terms|default:''}<li><label>Payment Terms:</label><span>{$product.payment_terms}</span></li>{/if}
-                    {if $product.supply_ability|default:''}<li><label>Supply Ability:</label><span>{$product.supply_ability}</span></li>{/if}
+                    <li><label>{$preset_translations.minimum_order_quantity}:</label><span>{$product.min_order_quantity|default:'Negotiation'}</span></li>
+                    <li><label>{$preset_translations.price}:</label><span>{$product.price|default:'Negotiation'}</span></li>
+                    {if $product.packaging_details|default:''}<li><label>{$preset_translations.packaging_details}:</label><span>{$product.packaging_details}</span></li>{/if}
+                    {if $product.delivery_time|default:''}<li><label>{$preset_translations.delivery_time}:</label><span>{$product.delivery_time}</span></li>{/if}
+                    {if $product.payment_terms|default:''}<li><label>{$preset_translations.payment_terms}:</label><span>{$product.payment_terms}</span></li>{/if}
+                    {if $product.supply_ability|default:''}<li><label>{$preset_translations.supply_ability}:</label><span>{$product.supply_ability}</span></li>{/if}
                 </ul>
                 <div class="contact-btn fl-clr"><a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
             </div>
