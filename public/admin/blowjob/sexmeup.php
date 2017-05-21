@@ -111,6 +111,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $tagsString = timandes_get_post_data('tags');
     $specificationsString = timandes_get_post_data('specifications');
     $sourceUrl = timandes_get_post_data('shopurl');
+    $langCode = timandes_get_post_data('lang_code');
 
     // Force to decode URL
     if (preg_match('/^https?%3a%2f%2f/i', $sourceUrl))
@@ -148,33 +149,57 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     if ($productIdentity)// Already exists
         return $productIdentity['product_id'];
 
+    // LangProductDAO
+    $langProductDAO = ($langCode?new \enterprise\daos\LangProduct($langCode):null);
+
     // Insert product
     $productDAO = new \enterprise\daos\Product();
     $values = array(
-            'site_id' => $siteId,
-            'caption' => $caption,
-            'description' => $description,
-            'group_id' => $groupId,
-            'locale' => 'english',
             'updated' => date('Y-m-d H:i:s'),
             'brand_name' => $brandName,
             'model_number' => $modelNumber,
             'certification' => $certification,
             'place_of_origin' => $placeOfOrigin,
-            'min_order_quantity' => $minOrderQuantity,
             'payment_terms' => $paymentTerms,
             'price' => $price,
             'supply_ability' => $supplyAbility,
-            'delivery_time' => $deliveryTime,
-            'packaging_details' => $packagingDetails,
-            'specifications' => $specifications,
             'head_image_id' => $headImageId,
             'images' => $images,
-            'tags' => $tagsFieldValue,
             'source_url' => $sourceUrl,
         );
     $values['created'] = $values['updated'];
+    if (!$langProductDAO) {// English only
+        $values['site_id'] = $siteId;
+        $values['caption'] = $caption;
+        $values['description'] = $description;
+        $values['group_id'] = $groupId;
+        $values['min_order_quantity'] = $minOrderQuantity;
+        $values['delivery_time'] = $deliveryTime;
+        $values['packaging_details'] = $packagingDetails;
+        $values['specifications'] = $specifications;
+        $values['tags'] = $tagsFieldValue;
+    }
     $retval = $productDAO->insert($values);
+
+    // Insert lang product
+    if ($langProductDAO) {// Other language
+        $values = array(
+                'product_id' => $retval,
+                'site_id' => $siteId,
+                'caption' => $caption,
+                'description' => $description,
+                'group_id' => $groupId,
+                'updated' => date('Y-m-d H:i:s'),
+                'min_order_quantity' => $minOrderQuantity,
+                'delivery_time' => $deliveryTime,
+                'packaging_details' => $packagingDetails,
+                'specifications' => $specifications,
+                'tags' => $tagsFieldValue,
+                'source_url' => $sourceUrl,
+            );
+        $values['created'] = $values['updated'];
+        $langProductDAO->insert($values);
+    }
 
     // Insert identity
     $values = array(
@@ -228,4 +253,6 @@ try {
     enterprise_sexmeup_route();
 } catch (\RuntimeException $e) {
     enterprise_sexmeup_response(1, $e->getMessage());
+} catch (\Exception $e) {
+    enterprise_sexmeup_response(2, $e->getMessage());
 }
