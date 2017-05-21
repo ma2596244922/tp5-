@@ -1985,7 +1985,7 @@ function enterprise_admin_action_delete_certification($smarty, $site)
     // Authentication
     $certification = $certificationDAO->get($certificationId);
     if (!$certification
-            || $certification['site'] != $site['site_id'])
+            || $certification['site_id'] != $site['site_id'])
         return header('Location: ?action=certification&error_msg=' . urlencode('权限不足'));
     // Delete
     $values = array(
