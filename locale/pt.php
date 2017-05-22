@@ -59,4 +59,22 @@ $presetTranslations = array(
         'delivery_time' => 'Tempo de entrega',
         'payment_terms' => 'Termos de pagamento',
         'supply_ability' => 'Habilidade da fonte',
+
+        'fax' => 'Fax',
+        'see_more' => 'See More',//*
+        'contact_suppliers' => 'Fornecedores',
+        'quick_question' => 'Pergunta rápida',
+        'no_typing_quick_question_help_you' => 'Nenhuma digitação, "pergunta rápida" Ajudá-lo!',
+        'please_select_faq' => 'Selecione FAQ',
+        'quick_question_1' => 'Estou muito interessado em seus produtos; Você poderia me enviar algumas informações de referência de detalhes?',
+        'quick_question_2' => 'Por favor, envie-me detalhe especificação do produto, obrigado!',
+        'quick_question_3' => 'Posso ser uma agência de seus produtos, e quais são seus termos?',
+        'quick_question_4' => 'Temos a intenção de comprar este produto, você poderia por favor me enviar a cotação e quantidade mínima da ordem?',
+        'yes_i_would_like_your_verified_suppliers_matching_service' => 'Sim! Gostaria de seu serviço de correspondência de fornecedores verificados!',
+        'send_inquiry' => 'Enviar consulta',
+
+        'contact_now' => 'Contate agora',
+        'special_note' => 'Nota especial',
+        'product_description' => 'Descrição do Produto',
+        'new_products' => 'Novos Produtos',
     );

@@ -25,10 +25,10 @@
             </div>
         </li>
         <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt" id="subject" name="subject" value="{$subject|escape}" /><span class="erro_alert" id="subject_error">Please enter a subject for your inquiry</span></li>
-        <li class="fl-clr"><label><i></i>Quick question</label>
+        <li class="fl-clr"><label><i></i>{$preset_translations.quick_question}</label>
             <div class="select fl-clr">
                 <ul class="fl-clr">
-                    <li class="select"> <a class="select-box" id="slt1" onclick="boxOut(1)"> <span class="selectTxt" id="selectTxt1">Please select FAQ</span> <i class="select-btn"><em class="search-btn"></em></i> </a> <span class="selectMenu" id="selectMenu1" style="display:none;"> 
+                    <li class="select"> <a class="select-box" id="slt1" onclick="boxOut(1)"> <span class="selectTxt" id="selectTxt1">{$preset_translations.please_select_faq}</span> <i class="select-btn"><em class="search-btn"></em></i> </a> <span class="selectMenu" id="selectMenu1" style="display:none;"> 
                     <a href="javascript:void(0)" title="Please select FAQ" >Please select FAQ</a>
 {foreach $quick_questions as $q}
                     <a href="javascript:void(0)" title="{$q|escape}" >{$q}</a>
@@ -38,7 +38,7 @@
                 </ul>
                 <input type="hidden" id="selectHidden" value="" />
             </div>
-            <span class="tips">No typing, "Quick question" Help you!</span>
+            <span class="tips">{$preset_translations.no_typing_quick_question_help_you}</span>
         </li>
         <li class="area"><label><i>*</i>{$preset_translations.message}</label><textarea class="area" name="message" id="area" placeholder="For the best results, we recommend including the following details:
 -Self introduction\n
@@ -67,7 +67,7 @@
                     <input type="text" class="txt1" name="name" placeholder="First Name  Last Name" />
                 </li>
                 <li><label>{$preset_translations.company}</label><input type="text" class="txt1 txt2" name="company" placeholder="" /></li>
-                <li><label>{$preset_translations.telephone}</label><input type="text" class="txt1 txt2" id="tel" name="tel" placeholder="Area - Local Number - Ext" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /><label class="label2">Fax</label><input type="text" class="txt1 txt2" name="fax" placeholder="Area - Local Number - Ext" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></li>
+                <li><label>{$preset_translations.telephone}</label><input type="text" class="txt1 txt2" id="tel" name="tel" placeholder="Area - Local Number - Ext" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /><label class="label2">{$preset_translations.fax}</label><input type="text" class="txt1 txt2" name="fax" placeholder="Area - Local Number - Ext" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></li>
                 <li><label>{$preset_translations.website}</label><input type="text" class="txt1 txt3" name="senderwebsite" placeholder="" /></li>
             </ul>
         </div>
@@ -89,9 +89,9 @@
     <!--slide-menu-->
     <ul class="check-list">
     <li><input type="checkbox" checked="checked" class="check" name="iscontact" />{$preset_translations.please_reply_me_within_24_hours}. </li>
-    <li><input type="checkbox" class="check English" name="newsletter" />Yes! I would like your verified suppliers matching service! </li>
+    <li><input type="checkbox" class="check English" name="newsletter" />{$preset_translations.yes_i_would_like_your_verified_suppliers_matching_service} </li>
     </ul>
-    <div class="submit"><a href="javascript:void(0);" onclick="submit();">Send Inquiry</a></div>
+    <div class="submit"><a href="javascript:void(0);" onclick="submit();">{$preset_translations.send_inquiry}</a></div>
     </form>
     </div>
     <!--main-form -->    

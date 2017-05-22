@@ -1,6 +1,6 @@
 {if $site.desc_4_inquiry_sender|default:''}
         <div class="product-description">
-            <div class="title"><i></i><h2>Special Note</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.special_note}</h2></div>
             {$site.desc_4_inquiry_sender}
         </div>
 {/if}
@@ -17,7 +17,7 @@
 {/if}
                         <dd><span>{$preset_translations.address}</span>{$corporation.address}</dd>
                         <dd><span>{$preset_translations.business_phone}(Working Time)</span>{$corporation.tel_wt}</dd>
-                        <dd><span>Fax</span>{$corporation.fax}</dd>
+                        <dd><span>{$preset_translations.fax}</span>{$corporation.fax}</dd>
                     </dl>
                 </div>
                 <div class="right-list">
@@ -26,15 +26,15 @@
                         <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" placeholder="Please Enter your Email Address" /></li>
                         <li><label><i></i>{$preset_translations.to}</label>{$corporation.name}</li>
                         <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /></li>
-                        <li class="fl-clr"><label><i></i>Quick question</label><div class="select fl-clr">
+                        <li class="fl-clr"><label><i></i>{$preset_translations.quick_question}</label><div class="select fl-clr">
                             <ul class="fl-clr">
                                 <li class="select">
                                     <a class="select-box" id="slt2" onclick="boxOut(2)">
-                                        <span class="selectTxt" id="selectTxt2">Quick question</span>
+                                        <span class="selectTxt" id="selectTxt2">{$preset_translations.quick_question}</span>
                                         <i class="select-btn"><a href="javascript:void(0)" class="search-btn"></a></i>
                                     </a>
                                     <span class="selectMenu" id="selectMenu2" style="display:none;">
-                                       <a href="javascript:void(0)" onclick="getvalue('Quick question','2')">Quick question</a>
+                                       <a href="javascript:void(0)" onclick="getvalue('{$preset_translations.quick_question}','2')">{$preset_translations.quick_question}</a>
 {foreach $quick_questions as $q}
                                        <a href="javascript:void(0)" onclick="getvalue('{$q|escape}','2')">{$q}</a>
 {/foreach}

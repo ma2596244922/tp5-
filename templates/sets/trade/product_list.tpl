@@ -45,7 +45,7 @@
 {-else}
                         {$preset_translations.all_products}
 {-/if}
-                        <a href="/contactnow.html" rel="nofollow">Contact Now</a>
+                        <a href="/contactnow.html" rel="nofollow">{$preset_translations.contact_now}</a>
                     </div>
                     <div class="product-all{if !$products|default:[]} quality-none{/if}">
 {foreach $products as $product}
@@ -79,7 +79,7 @@
     {-/foreach}
                                     </tbody>
                                 </table>
-                                <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}" rel="nofollow">Contact Now</a></div>
+                                <div class="contact-btn"><a href="/contactnow.html?about_product={$product.id}" rel="nofollow">{$preset_translations.contact_now}</a></div>
                             </div>
                         </div>
 {foreachelse}

@@ -59,4 +59,22 @@ $presetTranslations = array(
         'delivery_time' => 'Délai de livraison',
         'payment_terms' => 'Conditions de paiement',
         'supply_ability' => 'Capacité d\'approvisionnement',
+
+        'fax' => 'Télécopieur',
+        'see_more' => 'See More',//*
+        'contact_suppliers' => 'Fournisseurs de contact',
+        'quick_question' => 'Question rapide',
+        'no_typing_quick_question_help_you' => 'Pas de saisie, "Question rapide" vous aidez!',
+        'please_select_faq' => 'Sélectionnez la FAQ',
+        'quick_question_1' => 'Je suis très intéressé par vos produits; Pouvez-vous m\'envoyer des informations de référence détaillées?',
+        'quick_question_2' => 'Veuillez m\'envoyer des détails sur les spécifications du produit, merci!',
+        'quick_question_3' => 'Puis-je être une agence de vos produits, et quels sont vos termes?',
+        'quick_question_4' => 'Nous avons l\'intention d\'acheter ce produit, voulez-vous m\'envoyer la citation et la quantité minimale de commande?',
+        'yes_i_would_like_your_verified_suppliers_matching_service' => 'Oui! Je voudrais que vos fournisseurs vérifiés correspondent au service!',
+        'send_inquiry' => 'envoyer une demande',
+
+        'contact_now' => 'Envoyez demande',
+        'special_note' => 'Note spéciale',
+        'product_description' => 'Description du produit',
+        'new_products' => 'Nouveaux produits',
     );

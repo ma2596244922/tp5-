@@ -16,8 +16,8 @@
                         <li><i>{$preset_translations.business_phone}(Nonworking Time)</i>{$corporation.tel_nwt}</li>
 {-/if}
 {-if $corporation.fax|default:''}
-                        <li><i>Fax</i>{$corporation.fax}</li>
+                        <li><i>{$preset_translations.fax}</i>{$corporation.fax}</li>
 {/if}
                     </ul>
-                    <div class="btn"><a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
+                    <div class="btn"><a href="/contactnow.html" rel="nofollow">{$preset_translations.contact_now}</a></div>
                 </div>

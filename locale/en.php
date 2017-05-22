@@ -60,20 +60,21 @@ $presetTranslations = array(
         'payment_terms' => 'Payment Terms',
         'supply_ability' => 'Supply Ability',
 
-        // Fax
-        // See More
-        // Contact Suppliers
-        // Quick question
-        // No typing, "Quick question" Help you!
-        // Please select FAQ
-        // I'm very interested in your products; could you send me some detail reference information?
-        // Please send me detail product specification, thank you!
-        // May I be an agency of your products,and what's yourterms?
-        // We intend to purchase this product, would you please send me the quotation and minimum order quantity?
-        // Yes! I would like your verified suppliers matching service!
-        // Send Inquiry
-        // Contact Now
-        // Special Note
-        // Product Description
-        // New Products
+        'fax' => 'Fax',
+        'see_more' => 'See More',
+        'contact_suppliers' => 'Contact Suppliers',
+        'quick_question' => 'Quick question',
+        'no_typing_quick_question_help_you' => 'No typing, "Quick question" Help you!',
+        'please_select_faq' => 'Please select FAQ',
+        'quick_question_1' => 'I\'m very interested in your products; could you send me some detail reference information?',
+        'quick_question_2' => 'Please send me detail product specification, thank you!',
+        'quick_question_3' => 'May I be an agency of your products,and what\'s yourterms?',
+        'quick_question_4' => 'We intend to purchase this product, would you please send me the quotation and minimum order quantity?',
+        'yes_i_would_like_your_verified_suppliers_matching_service' => 'Yes! I would like your verified suppliers matching service!',
+        'send_inquiry' => 'Send Inquiry',
+
+        'contact_now' => 'Contact Now',
+        'special_note' => 'Special Note',
+        'product_description' => 'Product Description',
+        'new_products' => 'New Products',
     );

@@ -53,7 +53,7 @@
                 <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
                     <img src="{$group.products[0].head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$group.products[0].caption}" />
                 </a>
-                <i><strong><a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">{$group.products[0].caption}</a></strong></i><span><a href="{$group|url:'enterprise_url_product_list'}">See More</a><em>&gt;</em></span></li>
+                <i><strong><a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">{$group.products[0].caption}</a></strong></i><span><a href="{$group|url:'enterprise_url_product_list'}">{$preset_translations.see_more}</a><em>&gt;</em></span></li>
 {/foreach}
         </ul>
     </div>

@@ -75,14 +75,14 @@
                     {if $product.payment_terms|default:''}<li><label>{$preset_translations.payment_terms}:</label><span>{$product.payment_terms}</span></li>{/if}
                     {if $product.supply_ability|default:''}<li><label>{$preset_translations.supply_ability}:</label><span>{$product.supply_ability}</span></li>{/if}
                 </ul>
-                <div class="contact-btn fl-clr"><a href="/contactnow.html" rel="nofollow">Contact Now</a></div>
+                <div class="contact-btn fl-clr"><a href="/contactnow.html" rel="nofollow">{$preset_translations.contact_now}</a></div>
             </div>
         </div>
         <!--produce-show-->
 {include file="sets/trade/product/specifications.tpl"}
         <!--product-detail-->
         <div class="product-description">
-            <div class="title"><i></i><h2>Product Description</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.product_description}</h2></div>
             {$product.description}
         </div>
 {-/if}
@@ -125,7 +125,7 @@
 {include file="sets/trade/product/categories.tpl"}
         <!--product categories-->
         <div class="new-products">
-            <div class="title"><i></i><h2>New Products</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.new_products}</h2></div>
             <div class="tab-content">
                 <div class="tabs-list" id="tabs-list">
                     <ul class="fl-clr">
