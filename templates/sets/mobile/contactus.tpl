@@ -18,7 +18,7 @@
         <ul class="contact-info">
     {foreach $contact as $f => $v}
         {if isset($contact_desc.$f) && $contact.$f}
-            <li><span class="t">{$contact_desc.$f}</span>{$v}</li>
+            <li><span class="t">{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</span>{$v}</li>
         {/if}
     {/foreach}
         </ul>

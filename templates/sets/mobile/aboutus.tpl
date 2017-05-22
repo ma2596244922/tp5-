@@ -36,7 +36,7 @@
         </ul>
     </section>
     <section>
-        <h2 class="title-t">Company Introduction</h2>
+        <h2 class="title-t">{$preset_translations.company_introduction}</h2>
         <ul class="about-info">
             <li class="text-txt">
                 <div class="txt" data-role="txt">{$corporation.introduction}</div>

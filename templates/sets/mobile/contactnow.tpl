@@ -10,7 +10,7 @@
 <body>
 <header class="title-header">
     <a href="{$smarty.server.HTTP_REFERER}" class="back"></a>
-    <span>Contact Suppliers</span>
+    <span>{$preset_translations.contact_suppliers}</span>
 </header>
 <!--header-->
 <div class="content">
@@ -28,12 +28,12 @@
     <input type="hidden" name="back_to" value="{$smarty.server.HTTP_REFERER}" />
     <div class="form-inquiry">
         <ul>
-            <li class="fl-clr"><label>From</label><input type="text" class="txt" placeholder="Please Enter your Email Address" id="email" name="email" /><span class="error" id="email_info"></span></li>
-            <li class="company fl-clr"><label>To</label><i>{$corporation.name}</i></li>
+            <li class="fl-clr"><label>{$preset_translations.from}</label><input type="text" class="txt" placeholder="Please Enter your Email Address" id="email" name="email" /><span class="error" id="email_info"></span></li>
+            <li class="company fl-clr"><label>{$preset_translations.to}</label><i>{$corporation.name}</i></li>
         </ul>
         <div class="inquiry-detail">
             <dl>
-                <dt>Quick question</dt>
+                <dt>{$preset_translations.quick_question}</dt>
 {foreach $quick_questions as $q}{if $q@index>=4}{break}{/if}
                 <dd>{$q|truncate:22}
                     <span>{$q}</span>
@@ -42,10 +42,10 @@
             </dl>
             <textarea placeholder="This is the default language." class="area" id="area" name="message"></textarea>
             <span class="area_error" id="area_error">Your inquiry content must be between 20 to 5000 characters.</span>
-            <a href="javascript:send_inquiry();" class="send-inquiry">Send Inquiry</a>
+            <a href="javascript:send_inquiry();" class="send-inquiry">{$preset_translations.send_inquiry}</a>
         </div>
-        <p><input type="checkbox" value="1" id="checkboxFiveInput" name="iscontact" /><label for="checkboxFiveInput"  class="check"></label>Please reply me within 24 hours.</p>
-        <p><input type="checkbox" value="1" id="checkboxFiveInput2" name="newsletter" /><label for="checkboxFiveInput2" class="check"></label>Yes! I would like your verified suppliers matching service!</p>
+        <p><input type="checkbox" value="1" id="checkboxFiveInput" name="iscontact" /><label for="checkboxFiveInput"  class="check"></label>{$preset_translations.please_reply_me_within_24_hours}.</p>
+        <p><input type="checkbox" value="1" id="checkboxFiveInput2" name="newsletter" /><label for="checkboxFiveInput2" class="check"></label>{$preset_translations.yes_i_would_like_your_verified_suppliers_matching_service}</p>
     </div>
     </form>
     <!--form-inquiry-->

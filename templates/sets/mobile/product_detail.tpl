@@ -54,24 +54,24 @@
    </div>
    <!--product-detail-->
    <div class="product-detail">
-       <div class="title"><h2>Company Profile</h2></div>
+       <div class="title"><h2>{$preset_translations.company_profile}</h2></div>
        <div class="company-name"><a href="/aboutus.html">{$corporation.name}</a></div>
        <table cellpadding="0" cellspacing="0">
 {-if $corporation.worktime|default:''}
            <tr>
-               <td valign="top">Worktime</td>
+               <td valign="top">{$preset_translations.worktime}</td>
                <td>{$corporation.worktime}</td>
            </tr>
 {-/if}
 {-if $corporation.tel_wt|default:''}
            <tr>
-               <td valign="top">Business Phone</td>
+               <td valign="top">{$preset_translations.business_phone}</td>
                <td>{$corporation.tel_wt}</td>
            </tr>
 {-/if}
 {-if $corporation.fax|default:''}
            <tr>
-               <td valign="top">Fax</td>
+               <td valign="top">{$preset_translations.fax}</td>
                <td>{$corporation.fax}</td>
            </tr>
 {-/if}

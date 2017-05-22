@@ -54,6 +54,7 @@ $presetTranslations = array(
         'certification' => 'Certification',
         'model_number' => 'Model Number',
         'minimum_order_quantity' => 'Min.Order Quantity',
+        'min_order_quantity' => 'Min.Order Quantity',
         'price' => 'Price',
         'packaging_details' => 'Packaging Details',
         'delivery_time' => 'Delivery Time',
@@ -77,4 +78,27 @@ $presetTranslations = array(
         'special_note' => 'Special Note',
         'product_description' => 'Product Description',
         'new_products' => 'New Products',
+
+        // About
+        // Contacts
+        // Hot Products
+        // PC Sites
+        // Company Details
+        // Business Type
+        // Main Market
+        // Brands
+        // No. of Employees
+        // Annual Sales
+        // Year Established
+        // Export p.c
+        // View more
+        // See detail
+        // History
+        // Service
+        // Our Team
+        // Please Enter your Email Address
+        // Your inquiry content must be between 20 to 5000 characters.
+        // Recommended Products
+        // Product Details
+        // Product Features
     );

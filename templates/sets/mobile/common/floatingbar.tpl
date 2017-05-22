@@ -3,8 +3,8 @@
 {if $contacts[0].skype|default:''}
         <a href="skype:{$contacts[0].skype}?call" class="all">Skype</a>
 {else}
-        <a href="/products.html" class="all">All Products</a>
+        <a href="/products.html" class="all">{$preset_translations.all_products}</a>
 {/if}
-        <a href="/contactnow.html" class="now">Contact Now</a>
+        <a href="/contactnow.html" class="now">{$preset_translations.contact_now}</a>
     </div>
 </div>

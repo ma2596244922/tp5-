@@ -54,6 +54,7 @@ $presetTranslations = array(
         'certification' => 'Certification',
         'model_number' => 'Numéro de modèle',
         'minimum_order_quantity' => 'Quantité de commande min',
+        'min_order_quantity' => 'Quantité de commande min',
         'price' => 'Prix',
         'packaging_details' => 'Détails d\'emballage',
         'delivery_time' => 'Délai de livraison',

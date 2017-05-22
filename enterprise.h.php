@@ -52,7 +52,7 @@ define('ENTERPRISE_PRODUCT_PAGE_TYPE_PIC', 30);
 /* }}} */
 
 /** @var array Product Desc Mapping */
-$productDescMapping = array(
+$productDescMapping = array(// Key 'label' is deprecated.
         'place_of_origin' => array(
                 'label' => 'Place of Origin',
                 'default' => '',
@@ -60,6 +60,7 @@ $productDescMapping = array(
         'brand_name' => array(
                 'label' => 'Brand Name',
                 'default' => '',
+                ''
             ),
         'certification' => array(
                 'label' => 'Certification',
@@ -94,6 +95,20 @@ $productDescMapping = array(
                 'default' => '',
             ),
     );
+
+/** @var array Contact Desc Mapping */
+$contactDescMapping = array(
+        'name' => 'contact_person',
+        'title' => 'job_title',
+        'tel' => 'business_phone',
+        'skype' => 'Skype',
+        'email' => 'Email',
+        'yahoo' => 'Yahoo',
+        'icq' => 'ICQ',
+        'viber' => 'Viber',
+        'whatsapp' => 'WhatsApp',
+    );
+
 
 /* {{{ Common */
 
@@ -846,7 +861,8 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, 
         return enterprise_action_sets_aboutus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
         $productId = $matches[1];
-        if ($matches[3])
+        if (isset($matches[3])
+                && $matches[3])
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
@@ -1268,7 +1284,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
     $smarty->assign('site_root_domain', $currentDomainSuffix);
 
     // Quick questions
-    $smarty->assign('quick_questions', enterprise_get_quick_questions_for_inquiry());
+    $smarty->assign('quick_questions', enterprise_get_quick_questions_for_inquiry($smarty));
 
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
@@ -1308,6 +1324,8 @@ function enterprise_decide_template_path($smarty, $siteId, $platform, $relativeP
  */
 function enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    global $contactDescMapping;
+
     enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
     $site = null;
@@ -1318,18 +1336,6 @@ function enterprise_action_sets_contactus_proc($smarty, $userAgent, $siteId, $pl
     // Site
     $smarty->assign('site', $site);
 
-    // Contact Desc Mapping
-    $contactDescMapping = array(
-            'name' => 'Contact Person',
-            'title' => 'Job Title',
-            'tel' => 'Business Phone',
-            'skype' => 'Skype',
-            'email' => 'Email',
-            'yahoo' => 'Yahoo',
-            'icq' => 'ICQ',
-            'viber' => 'Viber',
-            'whatsapp' => 'WhatsApp',
-        );
     $smarty->assign('contact_desc', $contactDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
@@ -1844,13 +1850,14 @@ function enterprise_get_query_by_server_request($key, $filters = 'trim, strip_ta
     return timandes_filter($v, $filters);
 }
 
-function enterprise_get_quick_questions_for_inquiry()
+function enterprise_get_quick_questions_for_inquiry($smarty)
 {
+    $presetTranslations = $smarty->getTemplateVars('preset_translations');
     return array(
-            'I\'m very interested in your products; could you send me some detail reference information?',
-            'Please send me detail product specification, thank you!',
-            'May I be an agency of your products,and what\'s yourterms?',
-            'We intend to purchase this product, would you please send me the quotation and minimum order quantity?',
+            $presetTranslations['quick_question_1'],
+            $presetTranslations['quick_question_2'],
+            $presetTranslations['quick_question_3'],
+            $presetTranslations['quick_question_4'],
         );
 }
 
@@ -1861,6 +1868,8 @@ function enterprise_get_quick_questions_for_inquiry()
  */
 function enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix)
 {
+    global $contactDescMapping;
+
     enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
     $site = null;
@@ -1871,18 +1880,6 @@ function enterprise_action_sets_contactnow_proc($smarty, $userAgent, $siteId, $p
     // Site
     $smarty->assign('site', $site);
 
-    // Contact Desc Mapping
-    $contactDescMapping = array(
-            'name' => 'Contact Person',
-            'title' => 'Job Title',
-            'tel' => 'Business Phone',
-            'skype' => 'Skype',
-            'email' => 'Email',
-            'yahoo' => 'Yahoo',
-            'icq' => 'ICQ',
-            'viber' => 'Viber',
-            'whatsapp' => 'WhatsApp',
-        );
     $smarty->assign('contact_desc', $contactDescMapping);
 
     enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);

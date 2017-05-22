@@ -15,7 +15,7 @@
 {include file="sets/mobile/common/logobar.tpl"}
 {include file="sets/mobile/common/navbar.tpl" page_name="product_list"}
     <div class="title">
-        <em><h1>{if $group|default:[]}{$group.name}{else}All Products{/if}</h1></em>
+        <em><h1>{if $group|default:[]}{$group.name}{else}{$preset_translations.all_products}{/if}</h1></em>
         <span class="showCategories"></span>
     </div>
     <section class="pro-list">
@@ -28,7 +28,7 @@
     {-foreach $product_desc as $k => $meta}
         {-if $total_items>=2}{break}{/if}
         {-if $product.$k|default:$meta.default}
-                <dd><label>{$meta.label} : </label>{$product.$k|default:$meta.default}</dd>
+                <dd><label>{$preset_translations.$k} : </label>{$product.$k|default:$meta.default}</dd>
             {-assign var="total_items" value=$total_items+1}
         {-/if}
     {-/foreach}
@@ -52,7 +52,7 @@
 {include file="sets/mobile/common/floatingbar.tpl"}
 <div class="categories">
     <dl>
-        <dt>Product  Categories</dt>
+        <dt>{$preset_translations.product_categories}</dt>
 {foreach $groups as $g}
         <dd><a href="{$g|url:'enterprise_url_product_list'}"{if $g.id==$group.id|default:'0'} class="current"{/if} title="{$g.name}">{$g.name}</a></dd>
 {/foreach}
