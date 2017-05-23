@@ -29,7 +29,31 @@
                 <!-- BEGIN TOP NAVIGATION MENU -->              
 
                 <ul class="nav pull-right">
+{if $user.advanced}
+                    <!-- BEGIN LANG DROPDOWN -->
 
+                    <li class="dropdown">
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                        {if $cur_lang_code=='en'}英语{else}{$supported_lang_codes.$cur_lang_code.label}{/if}
+
+                        <i class="icon-angle-down"></i>
+
+                        </a>
+
+                        <ul class="dropdown-menu">
+
+                            <li><a href="//www.{$site_root_domain}/admin/"><i class="icon-globe"></i> 英语</a></li>
+    {-foreach $supported_lang_codes as $lang_code => $def}
+                            <li><a href="//{$lang_code}.{$site_root_domain}/admin/"><i class="icon-globe"></i> {$def.label}</a></li>
+    {-/foreach}
+                        </ul>
+
+                    </li>
+
+                    <!-- END LANG DROPDOWN -->
+{/if}
                     <!-- BEGIN USER LOGIN DROPDOWN -->
 
                     <li class="dropdown user">

@@ -34,6 +34,13 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     );
             }
 
+            $supportedLangCodes = \enterprise\daos\LangProduct::getSupportedLangCodes();
+            $smarty->assign('supported_lang_codes', $supportedLangCodes);
+            $smarty->assign('cur_lang_code', $langCode);
+
+            // Domain suffix
+            $smarty->assign('site_root_domain', $currentDomainSuffix);
+
             switch ($action) {
                 case 'product_tdk':
                     return enterprise_admin_action_product_tdk($smarty, $site);

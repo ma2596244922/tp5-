@@ -32,16 +32,31 @@ class LangProduct extends \crawler\daos\AbstractDAO
     private $_langCode = '';
 
     /** @var array 内置支持的语言代码 */
-    private $_supportedLangCodes = array(
-            'fr', 'pt',
+    private static $_supportedLangCodes = array(
+            'fr' => array(
+                    'label' => '法语',
+                ),
+            'pt' => array(
+                    'label' => '葡萄牙语',
+                ),
         );
 
     public function __construct($langCode)
     {
-        if (!in_array($langCode, $this->_supportedLangCodes))
+        if (!isset(self::$_supportedLangCodes[$langCode]))
             throw new \DomainException("Unsupported lang {$langCode}");
 
         $this->_langCode = $langCode;
+    }
+
+    /**
+     * 获取内置支持的语言代码
+     *
+     * @return array
+     */
+    public static function getSupportedLangCodes()
+    {
+        return self::$_supportedLangCodes;
     }
 
     public function getTableName()
