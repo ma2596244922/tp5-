@@ -11,9 +11,8 @@ define('SESSION_FIELD_CAPTCHA_PHRASE', 'captcha_phrase');
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 
-function enterprise_admin_route($smarty)
+function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
-    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $action = timandes_get_query_data('action');
     switch ($action) {
         case 'captcha':
@@ -161,10 +160,13 @@ $smarty->setCompileDir(realpath(__DIR__ . '/../../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../../') . '/plugins/');
 $smarty->loadFilter("pre", 'whitespace_control');
 
+list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+
+ini_set('session.cookie_domain', '.' . $currentDomainSuffix);
 session_start();
 
 try {
-    enterprise_admin_route($smarty);
+    enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix);
 } catch(HttpException $he) {
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
