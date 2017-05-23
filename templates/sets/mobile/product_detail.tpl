@@ -43,7 +43,7 @@
         {-if $total_items>=5}{break}{/if}
         {-if $product.$k|default:$meta.default}
            <tr>
-               <td>{$meta.label}</td>
+               <td>{$preset_translations.$k}</td>
                <td>{if $meta.default}<em>{/if}{$product.$k|default:$meta.default}{if $meta.default}</em>{/if}</td>
            </tr>
             {-assign var="total_items" value=$total_items+1}
