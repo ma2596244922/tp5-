@@ -69,7 +69,7 @@ h1,h2{ display:inline;}
 .product-detail table td.title-td{ color:#666;}
 
 .product-description span{ color:#333; font-size:18px; line-height:30px; margin:10px 0 5px 0; display:block;    word-wrap: break-word;}
-.product-description p{ font-size:14px; line-height:30px; color:#333; word-break: keep-all;word-wrap: break-word;white-space: pre-wrap;}
+.product-description p{ font-size:14px; line-height:20px; color:#333; word-break: keep-all;word-wrap: break-word;white-space: pre-wrap;}
 .product-description img{ max-width:918px; margin:20px 0;}
 .product-description table{
     border-collapse: collapse;
@@ -385,7 +385,7 @@ h1,h2{ display:inline;}
 .news-detail .news-art{ width:700px; font-size:14px; color:#414141; margin:0 auto; padding-bottom:60px;}
 .news-detail .news-art .imgdiv{ text-align: center;}
 .news-detail .news-art img{ margin-top:30px;}
-.news-detail .news-art p{ line-height:32px; margin-top:15px;}
+.news-detail .news-art p{ line-height:20px; margin-top:15px;}
 .news-box .next-prev{ height:54px; background:#f9f9f9; border-top:solid 1px #ddd; position:relative;}
 .news-box .next-prev li{ float:left; height:54px; line-height:54px; width:349px; padding-left:24px; font-size:14px; font-weight:bold; color:#333;}
 .news-box .next-prev li span{ display:block; float:left;}
