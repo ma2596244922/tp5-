@@ -136,7 +136,7 @@
 
                                         <div class="controls">
 
-                                            <div class="fileupload fileupload-{if $certification.uri|default:''}exists{else}new{/if} span2" data-provides="fileupload">
+                                            <div class="fileupload fileupload-{if $certification.uri|default:''}exists{else}new{/if} pull-left" data-provides="fileupload">
 
                                                 <input type="hidden" name="uri" value="{$certification.uri|default:''}">
 
@@ -146,7 +146,7 @@
 
                                                 </div>
 
-                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 150px; padding: 4px;">
 
                                                     <img src="{$certification.uri|default:''|url:'enterprise_url_photo':'':'m'}" alt="" style="max-height: 150px;" />
 

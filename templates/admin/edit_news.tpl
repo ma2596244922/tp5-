@@ -150,7 +150,7 @@
 
                                         <div class="controls">
 
-                                            <div class="fileupload fileupload-{if $news.head_image_id|default:''}exists{else}new{/if} span2" data-provides="fileupload">
+                                            <div class="fileupload fileupload-{if $news.head_image_id|default:''}exists{else}new{/if} pull-left" data-provides="fileupload">
 
                                                 <input type="hidden" name="file0" value="{$news.head_image_id|default:''}">
 
@@ -160,7 +160,7 @@
 
                                                 </div>
 
-                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 150px; padding: 4px;">
 
                                                     <img src="{$news.head_image_id|default:''|url:'enterprise_url_image':{$news.caption|default:''}:'c'}" alt="" style="max-height: 150px;" />
 
