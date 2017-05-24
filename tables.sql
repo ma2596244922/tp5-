@@ -380,3 +380,19 @@ CREATE TABLE `enterprise_pt_products` (
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='葡语-用户新发产品表';
+
+CREATE TABLE `enterprise_pt_sites` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `product_cnt` int(10) unsigned NOT NULL COMMENT '产品总数',
+  `index_html_title` text NOT NULL COMMENT '首页T',
+  `index_meta_keywords` text NOT NULL COMMENT '首页K',
+  `index_meta_description` text NOT NULL COMMENT '首页D',
+  `desc_4_inquiry_sender` text NOT NULL COMMENT '信息说明',
+  `product_tdk_scope` tinyint NOT NULL COMMENT '产品页TDK有效半径（0-全站；>0-分组ID）',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
+  `contact_content` text NOT NULL COMMENT '联系页替代正文',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-站点表';
