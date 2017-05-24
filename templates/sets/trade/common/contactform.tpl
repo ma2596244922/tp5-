@@ -1,6 +1,5 @@
 {if $site.desc_4_inquiry_sender|default:''}
         <div class="product-description">
-            <div class="title"><i></i><h2>{$preset_translations.special_note}</h2></div>
             {$site.desc_4_inquiry_sender}
         </div>
 {/if}

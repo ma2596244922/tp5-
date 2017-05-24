@@ -31,7 +31,6 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box news-box">
-                    <div class="title"><i></i>Company News</div>
                     <div class="news-detail">
                         <div class="title-news"><span>{$news.caption}</span><i>{$news.created}</i></div>
                         <div class="news-art">
