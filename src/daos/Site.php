@@ -31,6 +31,7 @@ class Site extends \crawler\daos\AbstractDAO
             'product_html_title' => 'text',
             'product_meta_keywords' => 'text',
             'product_meta_description' => 'text',
+            'contact_content' => 'text',
         );
 
     public function getTableName()

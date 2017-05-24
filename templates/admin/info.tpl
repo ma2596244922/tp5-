@@ -239,6 +239,10 @@
 
                                                                 <textarea class="span8 m-wrap" name="desc_4_inquiry_sender" id="textarea-desc_4_inquiry_sender" rows="6">{$site.desc_4_inquiry_sender|default:''}</textarea>
 
+                                                                <label class="control-label">联系我们页正文</label>
+
+                                                                <textarea class="span8 m-wrap" name="contact_content" id="textarea-contact_content" rows="6">{$site.contact_content|default:''}</textarea>
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">
@@ -341,6 +345,7 @@
            $('#textarea-our_team').ckeditor(additionalConfig);
            $('#textarea-qc_profile').ckeditor(additionalConfig);
            $('#textarea-desc_4_inquiry_sender').ckeditor(additionalConfig);
+           $('#textarea-contact_content').ckeditor(additionalConfig);
 
         });
 

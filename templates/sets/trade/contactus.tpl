@@ -21,7 +21,12 @@
             <p><a href="/">Home</a>&gt;<span>{$corporation.name} Contact Info</span></p>
         </div>
         <!--crumb-->
-{foreach $contacts as $contact}
+{if $site.contact_content|default:''}
+        <div class="product-description">
+            {$site.contact_content}
+        </div>
+{else}
+    {-foreach $contacts as $contact}
         <div class="contact-communication fl-clr">
             <div class="left-intro">
                 <img src="/media/sets/trade/default_photo.jpg" />
@@ -29,15 +34,15 @@
             </div>
             <div class="right-intro">
                 <ul>
-    {foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
-        {if isset($contact_desc.$f) && $contact.$f}
+        {-foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
+            {-if isset($contact_desc.$f) && $contact.$f}
                     <li><label>{$contact_desc.$f}</label>{$v}</li>
-        {/if}
-    {/foreach}
+            {-/if}
+        {-/foreach}
                 </ul>
             </div>
         </div>
-{/foreach}
+    {-/foreach}
         <!--contact-msg-->
         <div class="contact-us contact-us1">
             <div class="title"><i></i><h2>Send Inquiry</h2></div>
@@ -56,6 +61,7 @@
                 </div>
             </div> 
         </div>
+{/if}
     </div>
     <!--container--> 
 </div>

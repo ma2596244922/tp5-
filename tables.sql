@@ -225,6 +225,7 @@ CREATE TABLE `enterprise_sites` (
   `product_html_title` text NOT NULL COMMENT '产品页T',
   `product_meta_keywords` text NOT NULL COMMENT '产品页K',
   `product_meta_description` text NOT NULL COMMENT '产品页D',
+  `contact_content` text NOT NULL COMMENT '联系页替代正文',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

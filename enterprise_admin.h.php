@@ -379,6 +379,7 @@ function enterprise_admin_action_info($smarty)
     $qcProfile = timandes_get_post_data('qc_profile', 'xss_clean, remove_n_r, trim');
     $slogan = timandes_get_post_data('slogan');
     $desc4InquirySender = timandes_get_post_data('desc_4_inquiry_sender', 'xss_clean, remove_n_r, trim');
+    $contactContent = timandes_get_post_data('contact_content', 'xss_clean, remove_n_r, trim');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -416,11 +417,13 @@ function enterprise_admin_action_info($smarty)
     $siteDAO = new \enterprise\daos\Site();
     $values = array(
             'desc_4_inquiry_sender' => $desc4InquirySender,
+            'contact_content' => $contactContent,
             'updated' => date('Y-m-d H:i:s'),
         );
     $siteDAO->update($userSiteId, $values);
     $site = $smarty->getTemplateVars('site');
     $site['desc_4_inquiry_sender'] = $desc4InquirySender;
+    $site['contact_content'] = $contactContent;
     $smarty->assign('site', $site);
     
     $smarty->assign('success_msg', '修改成功');
