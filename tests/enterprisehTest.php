@@ -225,4 +225,20 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * function xss_clean()
+     */
+    public function test7()
+    {
+        $s = '<p style="text-align: right;">www.tipl.com</p>';
+        $expected = $s;
+        $actual = xss_clean($s);
+        $this->assertEquals($expected, $actual);
+
+        $s = '<li style="list-style-image: url(javascript:alert(0))">';
+        $expected = '<li style="list-style-image: url(alert&#40;0&#41;)">';
+        $actual = xss_clean($s);
+        $this->assertEquals($expected, $actual);
+    }
 }

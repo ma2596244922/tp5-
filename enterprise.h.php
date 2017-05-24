@@ -663,6 +663,7 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
 function xss_clean($s)
 {
     $antiXss = new voku\helper\AntiXSS();
+    $antiXss->removeEvilAttributes(array('style'));
     return $antiXss->xss_clean($s);
 }
 
