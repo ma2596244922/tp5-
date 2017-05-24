@@ -178,7 +178,7 @@
 
                                         <div class="controls">
 {for $i=0 to 4}
-                                            <div class="fileupload fileupload-{if isset($product_images[$i])}exists{else}new{/if} span2" data-provides="fileupload">
+                                            <div class="fileupload fileupload-{if isset($product_images[$i])}exists{else}new{/if} pull-left" data-provides="fileupload" style="margin-left: 5px;">
 
                                                 <input type="hidden" name="file{$i}" value="{$product_images[$i]|default:''}">
 
@@ -188,7 +188,7 @@
 
                                                 </div>
 
-                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 150px; padding: 4px;">
 
                                                     <img src="{$product_images[$i]|default:''|url:'enterprise_url_image':{$product.caption|default:''}:'c'}" alt="" style="max-height: 150px;" />
 
