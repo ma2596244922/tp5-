@@ -129,16 +129,16 @@
                                 <!-- BEGIN FORM-->
 
                                 <form action="?action=insert_images" method="POST" enctype="multipart/form-data" class="form-horizontal">
-{for $j=0 to 1}
+
                                     <div class="control-group">
 
                                         <label class="control-label">图片</label>
 
                                         <div class="controls">
-    {-for $i=0 to 4}
-                                            <div class="fileupload fileupload-new span2" data-provides="fileupload">
+    {-for $i=0 to 9}
+                                            <div class="fileupload fileupload-new pull-left" data-provides="fileupload" style="margin-left: 5px;">
 
-                                                <input type="hidden" name="file{$j*5+$i}" value="">
+                                                <input type="hidden" name="file{$i}" value="">
 
                                                 <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 
@@ -146,7 +146,7 @@
 
                                                 </div>
 
-                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;">
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 150px; padding: 4px;">
 
                                                     <img src="/media/sets/trade/no_image.png" alt="" style="max-height: 150px;" />
 
@@ -159,7 +159,7 @@
 
                                                         <span class="fileupload-exists">更换</span>
 
-                                                        <input type="file" class="default" name="file{$j*5+$i}" />
+                                                        <input type="file" class="default" name="file{$i}" />
                                                     </span>
 
                                                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
@@ -171,7 +171,7 @@
                                         </div>
 
                                     </div>
-{/for}
+
                                     <div class="control-group">
 
                                         <label class="control-label">位置</label>
