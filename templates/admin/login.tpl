@@ -106,7 +106,7 @@
 
                         <input class="m-wrap small" type="text" placeholder="验证码" name="captcha">
 
-                        <a class="help-inline" href="javascript:void(0);" style="margin-top: 0;" id="btn-update-captcha">
+                        <a class="help-inline" href="javascript:void(0);" style="margin-top: 0; padding-left: 0;" id="btn-update-captcha">
 
                             <img src="?action=captcha&t={$smarty.now}">
 
