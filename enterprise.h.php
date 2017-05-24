@@ -667,6 +667,19 @@ function xss_clean($s)
 }
 
 /**
+ * Remove \n N \r
+ *
+ * @return string
+ */
+function remove_n_r($s)
+{
+    $retval = $s;
+    $retval = str_replace("\n", '', $retval);
+    $retval = str_replace("\r", '', $retval);
+    return $retval;
+}
+
+/**
  * 保存询盘
  */
 function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL)

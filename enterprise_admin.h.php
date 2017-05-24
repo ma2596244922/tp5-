@@ -372,13 +372,13 @@ function enterprise_admin_action_info($smarty)
     $annualSales = timandes_get_post_data('annual_sales');
     $yearEstablished = timandes_get_post_data('year_established');
     $exportPC = timandes_get_post_data('export_p_c');
-    $introduction = timandes_get_post_data('introduction', 'trim, xss_clean');
-    $history = timandes_get_post_data('history', 'trim, xss_clean');
-    $service = timandes_get_post_data('service', 'trim, xss_clean');
-    $ourTeam = timandes_get_post_data('our_team', 'trim, xss_clean');
-    $qcProfile = timandes_get_post_data('qc_profile', 'trim, xss_clean');
+    $introduction = timandes_get_post_data('introduction', 'xss_clean, remove_n_r, trim');
+    $history = timandes_get_post_data('history', 'xss_clean, remove_n_r, trim');
+    $service = timandes_get_post_data('service', 'xss_clean, remove_n_r, trim');
+    $ourTeam = timandes_get_post_data('our_team', 'xss_clean, remove_n_r, trim');
+    $qcProfile = timandes_get_post_data('qc_profile', 'xss_clean, remove_n_r, trim');
     $slogan = timandes_get_post_data('slogan');
-    $desc4InquirySender = timandes_get_post_data('desc_4_inquiry_sender', 'trim, xss_clean');
+    $desc4InquirySender = timandes_get_post_data('desc_4_inquiry_sender', 'xss_clean, remove_n_r, trim');
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
@@ -1053,7 +1053,7 @@ function enterprise_admin_action_edit_product($smarty, $site)
     // Save
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $caption = timandes_get_post_data('caption');
-    $description = timandes_get_post_data('description', 'trim, xss_clean');
+    $description = timandes_get_post_data('description', 'xss_clean, remove_n_r, trim');
     $groupId = timandes_get_post_data('group_id');
     $tags = timandes_get_post_data('tags');
     $brandName = timandes_get_post_data('brand_name');
@@ -2482,7 +2482,7 @@ function enterprise_admin_action_edit_comment($smarty, $site)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $productId = (int)timandes_get_post_data('product_id');
     $subject = timandes_get_post_data('subject');
-    $message = timandes_get_post_data('message', 'trim, xss_clean');
+    $message = timandes_get_post_data('message', 'xss_clean, remove_n_r, trim');
     $contact = timandes_get_post_data('contact');
     $issuedOn = timandes_get_post_data('issued_on');
 
@@ -2556,7 +2556,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
     switch ($step) {
         case 3:
             $user = $smarty->getTemplateVars('user');
-            $message = timandes_get_post_data('message', 'trim, xss_clean');
+            $message = timandes_get_post_data('message', 'xss_clean, remove_n_r, trim');
             $subject = 'EDM Template (#' . date('Y-m-d H:i:s') . ')';
 
             if ($user
@@ -2670,7 +2670,7 @@ function enterprise_admin_action_edit_news($smarty, $site)
     // Save
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $caption = timandes_get_post_data('caption');
-    $content = timandes_get_post_data('content', 'trim, xss_clean');
+    $content = timandes_get_post_data('content', 'xss_clean, remove_n_r, trim');
 
     if (!$caption)
         return enterprise_admin_display_error_msg($smarty, '请输入新闻标题');
