@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{assign var=page_title value="{$error_msg|default:''}{$success_msg|default:''}"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -10,15 +10,7 @@
 
 <head>
 
-    <meta charset="utf-8" />
-
-    <title>{$error_msg|default:''}{$success_msg|default:''}</title>
-
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <meta content="" name="description" />
-
-    <meta content="" name="author" />
+{include file="admin/common/definitions.tpl"}
 
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
 
