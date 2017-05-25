@@ -83,7 +83,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'count_products':
                     return enterprise_admin_action_count_products($smarty);
                 case 'product':
-                    return enterprise_admin_action_product($smarty);
+                    return enterprise_admin_action_product($smarty, $langCode);
                 case 'edit_product':
                     return enterprise_admin_action_edit_product($smarty, $site);
                 case 'delete_product':

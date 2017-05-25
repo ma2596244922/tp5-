@@ -915,7 +915,7 @@ function enterprise_admin_action_remove_empty_caption_products($smarty)
 /**
  * Products
  */
-function enterprise_admin_action_product($smarty)
+function enterprise_admin_action_product($smarty, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $pageNo = (int)timandes_get_query_data('page');
@@ -923,13 +923,26 @@ function enterprise_admin_action_product($smarty)
         $pageNo = 1;
     $max = 20;
 
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en') {
+        $productDAO = new \enterprise\daos\Product();
+        $leftJoin1 = '';
+        $diffFields = 'p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`';
+        $tableAlias = 'p';
+        $orderByFields = 'p.`id`';
+    } else {
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        $leftJoin1 = 'LEFT JOIN `enterprise_products` AS p ON p.`id`=elp.`product_id`';
+        $diffFields = 'elp.`caption`, elp.`created`, elp.`updated`, elp.`source_url`, elp.`group_id`';
+        $tableAlias = 'elp';
+        $orderByFields = 'elp.`product_id`';
+    }
+    $tableName = $productDAO->getTableName();
 
     // Filter - Group
     $groupId = (int)timandes_get_query_data('group_id');
     $groupCondition = '';
     if ($groupId) {
-        $groupCondition = ' AND p.`group_id`=' . $groupId;
+        $groupCondition = ' AND ' . $tableAlias . '.`group_id`=' . $groupId;
         enterprise_admin_assign_group_info($smarty, 'group', $groupId);
     }
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
@@ -938,18 +951,20 @@ function enterprise_admin_action_product($smarty)
     $keywords = timandes_get_query_data('keywords');
     $keywordsCondition = '';
     if ($keywords)
-        $keywordsCondition = ' AND p.`caption` like \'%' . $productDAO->escape($keywords) . '%\'';
+        $keywordsCondition = ' AND ' . $tableAlias . '.`caption` like \'%' . $productDAO->escape($keywords) . '%\'';
 
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT p.`id`, p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`, p.`path`, g.`name` AS `group_name`
-    FROM `enterprise_products` AS p
-    LEFT JOIN `enterprise_groups` AS g ON p.`group_id`=g.`id`
-    WHERE p.`site_id`={$userSiteId} AND p.`deleted`=0{$groupCondition}{$keywordsCondition} ORDER BY p.`id` DESC LIMIT {$start}, {$max}";
+    $sql = "SELECT p.`id`, p.`path`, g.`name` AS `group_name`, {$diffFields}
+    FROM `{$tableName}` AS {$tableAlias}
+    {$leftJoin1}
+    LEFT JOIN `enterprise_groups` AS g ON {$tableAlias}.`group_id`=g.`id`
+    WHERE {$tableAlias}.`site_id`={$userSiteId} AND {$tableAlias}.`deleted`=0{$groupCondition}{$keywordsCondition}
+    ORDER BY {$orderByFields} DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
     $smarty->assign('products', $products);
 
-    $groupCondition = str_replace('p.', '', $groupCondition);
-    $keywordsCondition = str_replace('p.', '', $keywordsCondition);
+    $groupCondition = str_replace($tableAlias . '.', '', $groupCondition);
+    $keywordsCondition = str_replace($tableAlias . '.', '', $keywordsCondition);
     $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}{$keywordsCondition}";
     $totalProducts = $productDAO->countBy($condition);
     $smarty->assign('total_products', $totalProducts);
