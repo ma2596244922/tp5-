@@ -194,10 +194,13 @@ function enterprise_extract_site_infos()
     else
         $originalDomainSuffix = $siteInfo[$siteId]['original_domain_prefix'];
 
-    $iso639 = new Matriphe\ISO639\ISO639();
-    $langCode = $iso639->code1ByLanguage($locale);
-    if (!$langCode)
-        throw new HttpException(404);
+    $langCode = '';
+    if ($locale) {
+        $iso639 = new Matriphe\ISO639\ISO639();
+        $langCode = $iso639->code1ByLanguage($locale);
+        if (!$langCode)
+            throw new HttpException(404);
+    }
 
     return array(
             $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix,
