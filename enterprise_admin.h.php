@@ -699,6 +699,10 @@ function enterprise_admin_action_inquiry_detail($smarty)
     $inquiry = $inquiryDAO->getOneBy($condition);
     $smarty->assign('inquiry', $inquiry);
 
+    // Inquiry Attachments
+    $inquiryAttachments = json_decode($inquiry['attachments'], true);
+    $smarty->assign('inquiry_attachments', $inquiryAttachments);
+
     // Country of Inquiry
     $inquiryCountry = $inquiry['country'];
     $ipv4 = $inquiry['ip'];

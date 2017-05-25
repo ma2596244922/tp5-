@@ -934,6 +934,9 @@ function enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, 
     } elseif(preg_match(PATTERN_NEWS_PAGE, $requestPath, $matches)) {
         $newsId = $matches[1];
         return enterprise_action_sets_news_detail_proc($smarty, $userAgent, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId);
+    } elseif(preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
+        $guidHex = $matches[1];
+        return enterprise_action_attachment_proc($guidHex);
     }
 
     // Custom Pages
@@ -2277,3 +2280,19 @@ function enterprise_assign_user_voice_info($smarty, $var, $userVoiceId)
 }
 
 /* }}} */
+
+/**
+ * 展示附件
+ */
+function enterprise_action_attachment_proc($guidHex)
+{
+    $attachmentDAO = new \enterprise\daos\Attachment();
+    $condition = '`guid`=UNHEX(\'' . $guidHex . '\')';
+    $attachment = $attachmentDAO->getOneBy($condition);
+    if (!$attachment)
+        return null;
+
+    header('Content-Type: ' . $attachment['content_type']);
+    header('Cache-Control: max-age=3600');
+    return $attachment['body'];
+}

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{assign var=page_title value="我的询盘"-}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -162,6 +162,14 @@
 {/if}
 {if $inquiry.website}
                                         <li><span>网址:</span> <a href="{$inquiry.website}" target="_blank">{$inquiry.website}</a></li>
+{/if}
+{if $inquiry_attachments}
+                                        <li>
+                                            <span>附件:</span>
+    {-foreach $inquiry_attachments as $guid}
+                                            <a href="/attachments/{$guid}" target="_blank">附件{$guid@iteration}</a>
+    {-/foreach}
+                                        </li>
 {/if}
 
                                         <li>{$inquiry.message}</li>
