@@ -6,6 +6,7 @@
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/send_inquiry.css" />
+{$site.common_head_fragment}
 </head>
 
 <body>

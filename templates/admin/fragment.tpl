@@ -154,6 +154,10 @@
 
                                                                 <textarea class="span8 m-wrap" name="contactsave_fragment" rows="6">{$site.contactsave_fragment|default:''}</textarea>
 
+                                                                <label class="control-label">全站通用&lt;head&gt;</label>
+
+                                                                <textarea class="span8 m-wrap" name="common_head_fragment" rows="6">{$site.common_head_fragment|default:''}</textarea>
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">

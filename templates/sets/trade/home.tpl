@@ -8,6 +8,7 @@
 {include file="sets/trade/common/definitions.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/shop-new.css" />
+{$site.common_head_fragment}
 </head>
 <body>
 <div class="request-quote">

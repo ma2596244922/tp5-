@@ -8,6 +8,7 @@
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="media/lightbox/2.8.1/css/lightbox.min.css" />
+{$site.common_head_fragment}
 </head>
 
 <body>

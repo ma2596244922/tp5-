@@ -8,6 +8,7 @@
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 {include file="sets/trade/common/contact_desc.tpl"}
+{$site.common_head_fragment}
 </head>
 
 <body>

@@ -6,6 +6,7 @@
 <meta name="keywords" content="{$keywords|escape}" />
 <meta name="description" content="{$description|escape}" />
 {include file="sets/trade/common/shopstyles.tpl"}
+{$site.common_head_fragment}
 </head>
 
 <body>

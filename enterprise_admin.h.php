@@ -291,12 +291,14 @@ function enterprise_admin_action_fragment($smarty)
     $commonFragment = timandes_get_post_data('common_fragment', 'trim');
     $contactnowFragment = timandes_get_post_data('contactnow_fragment', 'trim');
     $contactsaveFragment = timandes_get_post_data('contactsave_fragment', 'trim');
+    $commonHeadFragment = timandes_get_post_data('common_head_fragment', 'trim');
 
     $siteDAO = new \enterprise\daos\Site();
     $values = array(
             'common_fragment' => $commonFragment,
             'contactnow_fragment' => $contactnowFragment,
             'contactsave_fragment' => $contactsaveFragment,
+            'common_head_fragment' => $commonHeadFragment,
             'updated' => date('Y-m-d H:i:s'),
         );
     $siteDAO->update($userSiteId, $values);

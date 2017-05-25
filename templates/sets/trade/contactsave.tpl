@@ -5,6 +5,7 @@
 <title>Your inquiry is sent successfully</title>
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/send_inquiry.css" />
+{$site.common_head_fragment}
 </head>
 
 <body>
