@@ -343,7 +343,7 @@ function enterprise_admin_action_logo($smarty)
 /**
  * Change info
  */
-function enterprise_admin_action_info($smarty)
+function enterprise_admin_action_info($smarty, $langCode)
 {
     $tplPath = 'admin/info.tpl';
 
@@ -414,7 +414,10 @@ function enterprise_admin_action_info($smarty)
     $corporationDAO->update($userSiteId, $values);
     enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
 
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $values = array(
             'desc_4_inquiry_sender' => $desc4InquirySender,
             'contact_content' => $contactContent,

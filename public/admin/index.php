@@ -22,11 +22,13 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
         case 'login':
             return enterprise_admin_action_login($smarty, $siteId);
         default:
+            // Current User
             $user = enterprise_admin_grant_permission($siteId);
             $smarty->assign('user', $user);
 
+            // Site Info
             $userSiteId = (int)timandes_get_session_data('user_site_id');
-            enterprise_assign_site_info($smarty, 'site', $userSiteId);
+            enterprise_assign_site_info($smarty, 'site', $userSiteId, $langCode);
             $site = $smarty->getTemplateVars('site');
             if (!$site) {// 复制的站点通常没有`enterprise_sites`表记录
                 $site = array(
@@ -34,6 +36,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     );
             }
 
+            // Supported Language Codes
             $supportedLangCodes = \enterprise\daos\LangProduct::getSupportedLangCodes();
             $smarty->assign('supported_lang_codes', $supportedLangCodes);
             $smarty->assign('cur_lang_code', $langCode);
@@ -63,7 +66,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'logo':
                     return enterprise_admin_action_logo($smarty);
                 case 'info':
-                    return enterprise_admin_action_info($smarty);
+                    return enterprise_admin_action_info($smarty, $langCode);
                 case 'password':
                     return enterprise_admin_action_password($smarty);
                 case 'inquiry':

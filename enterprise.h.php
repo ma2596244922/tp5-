@@ -1247,11 +1247,22 @@ function enterprise_assign_corporation_info($smarty, $var, $siteId)
 /**
  * Assign site info
  */
-function enterprise_assign_site_info($smarty, $var, $siteId)
+function enterprise_assign_site_info($smarty, $var, $siteId, $langCode = 'en')
 {
+    // Site
     $siteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;
     $site = $siteDAO->getOneBy($condition);
+
+    // Language Site
+    if ($langCode != 'en') {
+        $langSiteDAO = new \enterprise\daos\LangSite($langCode);
+        $condition = '`site_id`=' . (int)$siteId;
+        $langSite = $langSiteDAO->getOneBy($condition);
+        if ($langSite)
+            $site = array_merge($site, $langSite);
+    }
+
     $smarty->assign($var, $site);
 }
 
