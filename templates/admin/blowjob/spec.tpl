@@ -119,6 +119,11 @@ paths:
           description: 语言代码（ISO-639-1，默认为英语）
           required: false
           type: string
+        - name: custom_path
+          in: formData
+          description: 自定义路径（以“/”开头）
+          required: false
+          type: string
       tags:
         - 产品接口
       responses:

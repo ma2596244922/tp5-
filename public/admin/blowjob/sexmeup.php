@@ -112,6 +112,7 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $specificationsString = timandes_get_post_data('specifications');
     $sourceUrl = timandes_get_post_data('shopurl');
     $langCode = timandes_get_post_data('lang_code');
+    $customPath = timandes_get_post_data('custom_path');
 
     // Force to decode URL
     if (preg_match('/^https?%3a%2f%2f/i', $sourceUrl))
@@ -178,6 +179,10 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
         $values['packaging_details'] = $packagingDetails;
         $values['specifications'] = $specifications;
         $values['tags'] = $tagsFieldValue;
+    }
+    if ($customPath) {
+        $values['path'] = '/' . ltrim($customPath, '/');
+        $values['path_sum'] = md5($values['path'], true);
     }
     $retval = $productDAO->insert($values);
 
