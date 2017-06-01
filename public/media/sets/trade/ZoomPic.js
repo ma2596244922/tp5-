@@ -14,7 +14,7 @@ ZoomPic.prototype =
 		this.next = this.wrap.getElementsByTagName("span")[1];
 		this.timer = 1000;
 		this.aSort = [];
-		this.iCenter = 1;
+		this.iCenter = 0;
 		this._doPrev = function () {return _this.doPrev.apply(_this)};
 		this._doNext = function () {return _this.doNext.apply(_this)};
 		this.options = [
@@ -25,6 +25,7 @@ ZoomPic.prototype =
 		for (var i = 0; i < this.aLi.length; i++) this.aSort[i] = this.aLi[i];
 		this.aSort.unshift(this.aSort.pop());
 		this.setUp();
+		if (this.aLi.length > 1) {
 		this.addEvent(this.prev, "click", this._doPrev);
 		this.addEvent(this.next, "click", this._doNext);
 		this.timer = setInterval(function ()
@@ -42,6 +43,7 @@ ZoomPic.prototype =
 				_this.doNext()	
 			}, 5000);	
 		}
+		}// end if
 	},
 	doPrev : function ()
 	{
