@@ -7,6 +7,7 @@
 
 require_once realpath(__DIR__ . '/../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
+require_once realpath(__DIR__ . '/../') . '/settings.php';
 
 // User Agent Parser
 $userAgent = new Jenssegers\Agent\Agent();
@@ -92,6 +93,11 @@ $smarty->loadFilter("pre", 'whitespace_control');
 do {
     try {
         enterprise_load_preset_translations($smarty, $langCode);
+
+        $site = enterprise_get_site_info($siteId, $langCode);
+        if ($site['product_default_image'])
+            $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
+
         $response = enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing

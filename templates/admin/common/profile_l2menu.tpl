@@ -26,4 +26,6 @@
 
                                                     <li class="{if $profile_page_name=='product_tdk'}active{/if}"><a href="?action=product_tdk"><i class="icon-edit"></i> TDK自行设计</a></li>
 
+                                                    <li class="{if $profile_page_name=='product_default_image'}active{/if}"><a href="?action=product_default_image"><i class="icon-picture"></i> 产品默认图片</a></li>
+
                                                 </ul>

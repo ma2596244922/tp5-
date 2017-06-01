@@ -10,6 +10,7 @@ define('SESSION_FIELD_CAPTCHA_PHRASE', 'captcha_phrase');
 
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
+require_once realpath(__DIR__ . '/../../') . '/settings.php';
 
 function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
@@ -45,6 +46,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
             switch ($action) {
+                case 'product_default_image':
+                    return enterprise_admin_action_product_default_image($smarty);
                 case 'product_tdk':
                     return enterprise_admin_action_product_tdk($smarty, $site);
                 case 'index_tdk':

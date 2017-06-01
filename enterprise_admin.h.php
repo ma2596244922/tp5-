@@ -656,6 +656,41 @@ function enterprise_admin_action_product_tdk($smarty, $site)
     $smarty->display($tplPath);
 }
 
+/**
+ * Change default image of products
+ */
+function enterprise_admin_action_product_default_image($smarty)
+{
+    $tplPath = 'admin/product_default_image.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    // Upload logo
+    $images = enterprise_admin_upload_post_images('');
+    if ($images)
+        $productDefaultImage = $images[0];
+    else
+        $productDefaultImage = 0;
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'product_default_image' => $productDefaultImage,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    $site = $smarty->getTemplateVars('site');
+    $site['product_default_image'] = $productDefaultImage;
+    $smarty->assign('site', $site);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
 /* }}} */
 
 /* {{{ Inquiries */

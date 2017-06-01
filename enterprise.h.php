@@ -975,7 +975,7 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
         if ($default)
             return $default;
         else
-            return '/media/sets/trade/no_image.png';
+            return $GLOBALS['gsProductDefaultImageUrl'];
     }
 
     $suffix = '';
@@ -1248,9 +1248,9 @@ function enterprise_assign_corporation_info($smarty, $var, $siteId)
 }
 
 /**
- * Assign site info
+ * Get site info
  */
-function enterprise_assign_site_info($smarty, $var, $siteId, $langCode = 'en')
+function enterprise_get_site_info($siteId, $langCode = 'en')
 {
     // Site
     $siteDAO = new \enterprise\daos\Site();
@@ -1266,7 +1266,15 @@ function enterprise_assign_site_info($smarty, $var, $siteId, $langCode = 'en')
             $site = array_merge($site, $langSite);
     }
 
-    $smarty->assign($var, $site);
+    return $site;
+}
+
+/**
+ * Assign site info
+ */
+function enterprise_assign_site_info($smarty, $var, $siteId, $langCode = 'en')
+{
+    $smarty->assign($var, enterprise_get_site_info($siteId, $langCode));
 }
 
 /* {{{ Contact */

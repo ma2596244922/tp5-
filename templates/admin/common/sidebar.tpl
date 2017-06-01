@@ -267,6 +267,18 @@
 
                         </li>
 
+                        <li class="start{if $page_name=='product_default_image'} active{/if}">
+
+                            <a href="?action=product_default_image">
+
+                            <i class="icon-picture"></i> 
+
+                            <span class="title">产品默认图片</span>
+
+                            </a>
+
+                        </li>
+
                     </ul>
 
                 </li>
