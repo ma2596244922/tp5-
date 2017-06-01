@@ -1490,7 +1490,7 @@ function enterprise_admin_action_replace_keywords($smarty)
     $groupId = (int)timandes_get_post_data('group_id');
     $location = (int)timandes_get_post_data('location');
 
-    $locationRange = array(0, 1, 2);
+    $locationRange = array(0, 1, 2, 3);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$oldPhrase)
@@ -1526,7 +1526,8 @@ function enterprise_admin_action_replace_keywords($smarty)
                 $values['tags'] = implode(',', $newTags);
             }
             // Description
-            //$values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
+            if ($location == 3)
+                $values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
 
             // Update
             if ($values) {

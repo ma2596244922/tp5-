@@ -198,6 +198,22 @@
 
                                             <label class="radio">
 
+                                            <input type="radio" name="location" value="3" />
+
+                                            仅描述
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
                                             <input type="radio" name="location" value="0" checked />
 
                                             标题和Tag
