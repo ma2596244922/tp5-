@@ -1639,6 +1639,9 @@ function enterprise_admin_action_insert_images($smarty)
     $productDAO = new \enterprise\daos\Product();
     $curProductId = 0;
     $pendingImages = $uploadedImages;
+    $imageBlackList = array(
+            1428754, 1429277
+        );
     do {
         $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
         $products = $productDAO->getMultiInOrderBy($condition, '`id`, `images`', '`id` ASC', 100);
@@ -1646,9 +1649,16 @@ function enterprise_admin_action_insert_images($smarty)
             break;
 
         foreach ($products as $product) {
-            $images = json_decode($product['images'], true);
-            if (!is_array($images))
-                $images = array();
+            $curImages = json_decode($product['images'], true);
+            if (!is_array($curImages))
+                $curImages = array();
+
+            $images = array();
+            foreach ($curImages as $id) {
+                if (in_array($id, $imageBlackList))
+                    continue;
+                $images[] = $id;
+            }
 
             $imageCnt = count($images);
             $imageSlots = $maxImages - $imageCnt;
