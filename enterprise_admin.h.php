@@ -1520,8 +1520,8 @@ function enterprise_admin_action_replace_keywords($smarty)
     }
 
     // Save
-    $oldPhrase = timandes_get_post_data('old_phrase');
-    $newPhrase = timandes_get_post_data('new_phrase');
+    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r, trim');
+    $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
     $groupId = (int)timandes_get_post_data('group_id');
     $location = (int)timandes_get_post_data('location');
 
