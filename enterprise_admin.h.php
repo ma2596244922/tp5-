@@ -2562,9 +2562,9 @@ function enterprise_admin_action_edit_comment($smarty, $site)
     // Upload Images
     $images = enterprise_admin_upload_post_images();
     if (!$images)
-        return enterprise_admin_display_error_msg($smarty, '请选择图片');
-
-    $avatar = 'image://' . $images[0];
+        $avatar = '';
+    else
+        $avatar = 'image://' . $images[0];
 
     $commentDAO = new \enterprise\daos\Comment();
     $values = array(
@@ -2591,7 +2591,7 @@ function enterprise_admin_action_edit_comment($smarty, $site)
         $commentDAO->insert($values);
     }
 
-    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=comment', '产品留言');
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=comment&product_id=' . $productId, '产品留言');
 }
 
 /**

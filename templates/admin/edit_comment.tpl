@@ -179,7 +179,7 @@
                                         </div>
 
                                     </div>
-
+<!--
                                     <div class="control-group">
 
                                         <label class="control-label">头像</label>
@@ -229,7 +229,7 @@
                                         </div>
 
                                     </div>
-
+-->
                                     <div class="form-actions">
 
                                         <input type="hidden" name="product_id" value="{$comment.product_id|default:{$product_id|default:'0'}}">
