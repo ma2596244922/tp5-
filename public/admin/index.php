@@ -160,6 +160,12 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     return enterprise_admin_action_edit_user_voice($smarty, $site);
                 case 'delete_user_voice':
                     return enterprise_admin_action_delete_user_voice($smarty, $site);
+                case 'main_product':
+                    return enterprise_admin_action_main_product($smarty);
+                case 'edit_main_product':
+                    return enterprise_admin_action_edit_main_product($smarty, $site);
+                case 'delete_main_product':
+                    return enterprise_admin_action_delete_main_product($smarty, $site);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }

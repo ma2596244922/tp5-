@@ -1327,6 +1327,9 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuff
 
     // Contacts
     enterprise_assign_contact_list($smarty, 'contacts', $siteId);
+
+    // Main Products
+    enterprise_assign_main_product_list($smarty, 'main_products', $siteId);
 }
 
 /**
@@ -2304,3 +2307,36 @@ function enterprise_action_attachment_proc($guidHex)
     header('Cache-Control: max-age=3600');
     return $attachment['body'];
 }
+
+
+/* {{{ MainProduct */
+
+/**
+ * Assign MainProduct List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_main_product_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $mainProducts = $mainProductDAO->getMultiInOrderBy($condition, '`id`, `label`, `url`, `target_product_id`, `created`, `updated`, `url`', '`id` DESC', $pageSize, $start);
+    $smarty->assign($var, $mainProducts);
+
+    return $condition;
+}
+
+/**
+ * Assign MainProduct info
+ */
+function enterprise_assign_main_product_info($smarty, $var, $mainProductId)
+{
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+    $mainProduct = $mainProductDAO->get($mainProductId);
+    $smarty->assign($var, $mainProduct);
+}
+
+/* }}} */

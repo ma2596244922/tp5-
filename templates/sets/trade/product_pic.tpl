@@ -66,6 +66,7 @@
 {include file="sets/trade/product/specifications.tpl"}
         <!--product-detail-->
 {include file="sets/trade/common/contactform.tpl"}
+{include file="sets/trade/common/main_products.tpl"}
     </div>
     <!--container-->
 </div>

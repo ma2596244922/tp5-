@@ -41,6 +41,7 @@
         </article>
     </section>
     <!--recom-products-->
+{include file="sets/mobile/common/main_products.tpl"}
 </div>
 <!--content-->
 {include file="sets/mobile/common/floatingbar.tpl"}

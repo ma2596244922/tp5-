@@ -65,6 +65,7 @@
 {/foreach}
             </ul>
         </div>
+{include file="sets/trade/common/main_products.tpl"}
     </div>
     <!--container--> 
 </div>

@@ -414,3 +414,16 @@ CREATE TABLE `enterprise_pt_sites` (
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-站点表';
+
+CREATE TABLE `enterprise_main_products` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主推产品ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `label` varchar(100) NOT NULL COMMENT '关键词',
+  `url` varchar(255) NOT NULL COMMENT 'URL',
+  `target_product_id` int(10) unsigned NOT NULL COMMENT '目标产品ID',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主推产品表';

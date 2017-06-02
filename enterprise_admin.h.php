@@ -2966,3 +2966,122 @@ function enterprise_admin_action_delete_user_voice($smarty, $site)
 }
 
 /* }}} */
+
+
+/* {{{ MainProduct */
+
+/**
+ * MainProduct
+ */
+function enterprise_admin_action_main_product($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+
+    $condition = enterprise_assign_main_product_list($smarty, 'main_products', $userSiteId, $pageNo, $max);
+
+    $totalMainProduct = $mainProductDAO->countBy($condition);
+    $smarty->assign('total_main_product', $totalMainProduct);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalMainProduct, $max, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->display('admin/main_product.tpl');
+}
+
+/**
+ * Edit MainProduct
+ */
+function enterprise_admin_action_edit_main_product($smarty, $site)
+{
+    $tplPath = 'admin/edit_main_product.tpl';
+
+    $mainProductId = (int)timandes_get_query_data('main_product_id');
+    $smarty->assign('main_product_id', $mainProductId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($mainProductId) 
+            enterprise_assign_main_product_info($smarty, 'main_product', $mainProductId);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $label = timandes_get_post_data('label');
+    $url = timandes_get_post_data('url');
+
+    if (!$label)
+        return enterprise_admin_display_error_msg($smarty, '请输入关键词');
+    if (!$url)
+        return enterprise_admin_display_error_msg($smarty, '请输入URL');
+
+    // Upload images
+    $images = enterprise_admin_upload_post_images();
+    $avatarImageId = ($images?$images[0]:0);
+
+    // Save main_product
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+    $values = array(
+            'site_id' => $userSiteId,
+            'label' => $label,
+            'url' => $url,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($mainProductId) {// Edit
+        // Authentication
+        $originalMainProduct = $mainProductDAO->get($mainProductId);
+        if (!$originalMainProduct
+                || $originalMainProduct['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
+        $mainProductDAO->update($mainProductId, $values);
+        enterprise_assign_main_product_info($smarty, 'main_product', $mainProductId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $mainProductDAO->insert($values);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=main_product', '主推产品');
+}
+
+/**
+ * Delete MainProduct
+ */
+function enterprise_admin_action_delete_main_product($smarty, $site)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $mainProductId = (int)timandes_get_query_data('main_product_id');
+
+    // Get group ID
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+    $main_product = $mainProductDAO->get($mainProductId);
+    if (!$main_product) {
+        $msg = '找不到指定的主推产品';
+        return header('Location: ?action=main_product&error_msg=' . urlencode($msg));
+    }
+    if ($main_product['site_id'] != $site['site_id'])
+        return header('Location: ?action=main_product&error_msg=' . urlencode('权限不足'));
+    if ($main_product['deleted']) 
+        return header('Location: ?action=main_product&success_msg=' . urlencode('删除成功'));
+
+    // Delete main_product
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $mainProductDAO->update($mainProductId, $values);
+
+    header('Location: ?action=main_product&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

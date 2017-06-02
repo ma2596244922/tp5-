@@ -279,6 +279,18 @@
 
                         </li>
 
+                        <li class="start{if $page_name=='main_product'} active{/if}">
+
+                            <a href="?action=main_product">
+
+                            <i class="icon-file"></i> 
+
+                            <span class="title">全局主推产品</span>
+
+                            </a>
+
+                        </li>
+
                     </ul>
 
                 </li>
