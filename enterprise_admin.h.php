@@ -2971,6 +2971,34 @@ function enterprise_admin_action_delete_user_voice($smarty, $site)
 /* {{{ MainProduct */
 
 /**
+ * 从站点中导入最新产品作为主推产品
+ *
+ * @return array 导入的主推产品
+ */
+function enterprise_admin_import_main_products($site, $langCode = 'en')
+{
+    $products = enterprise_get_product_list($site['site_id'], $langCode, null, 1, 3);
+
+    $mainProductDAO = new \enterprise\daos\MainProduct();
+    $dateString = date('Y-m-d H:i:s');
+    $retval = array();
+    if (is_array($products)) foreach ($products as $p) {
+        $values = array(
+                'site_id' => $site['site_id'],
+                'label' => $p['caption'],
+                'url' => enterprise_url_product($p),
+                'created' => $dateString,
+                'updated' => $dateString,
+            );
+        $values['id'] = $mainProductDAO->insert($values);
+
+        $retval[] = $values;
+    }
+
+    return $retval;
+}
+
+/**
  * MainProduct
  */
 function enterprise_admin_action_main_product($smarty)
@@ -3082,6 +3110,16 @@ function enterprise_admin_action_delete_main_product($smarty, $site)
     $mainProductDAO->update($mainProductId, $values);
 
     header('Location: ?action=main_product&success_msg=' . urlencode('删除成功'));
+}
+
+/**
+ * Import MainProduct
+ */
+function enterprise_admin_action_import_main_product($smarty, $site)
+{
+    enterprise_admin_import_main_products($site);
+
+    header('Location: ?action=main_product&success_msg=' . urlencode('导入成功'));
 }
 
 /* }}} */

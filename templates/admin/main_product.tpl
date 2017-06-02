@@ -140,6 +140,8 @@
 
                                         </a>
 
+                                        <a href="?action=import_main_product" class="btn normal">自动导入</a>
+
                                     </div>
 
                                 </div>

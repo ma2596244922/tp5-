@@ -2040,11 +2040,11 @@ function enterprise_filter_2_sql_condition($tablePrefix = '', $filter = null, &$
 }
 
 /**
- * Assign Product List
+ * Get Product List
  *
  * @return string Condition
  */
-function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10)
+function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10, &$extraValues = array(), &$condition = '')
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
@@ -2056,10 +2056,7 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en'
 
     $groupIdCondition = '';
     if (null !== $groupId) {
-        $extraValues = array();
         $groupIdCondition = enterprise_filter_2_sql_condition($tablePrefix, $groupId, $extraValues);
-        foreach ($extraValues as $k => $v)
-            $smarty->assign($k, $v);
     }
 
     if ($langCode == 'en') {
@@ -2073,9 +2070,22 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en'
         $orderBy = 'elp.`product_id` DESC';
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
-    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start);
-    $smarty->assign($var, $products);
+    return $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start);
+}
 
+/**
+ * Assign Product List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10)
+{
+    $condition = '';
+    $extraValues = array();
+    $products = enterprise_get_product_list($siteId, $langCode, $groupId, $pageNo, $pageSize, $extraValues, $condition);
+    $smarty->assign($var, $products);
+    foreach ($extraValues as $k => $v)
+        $smarty->assign($k, $v);
     return $condition;
 }
 

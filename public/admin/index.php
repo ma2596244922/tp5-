@@ -166,6 +166,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     return enterprise_admin_action_edit_main_product($smarty, $site);
                 case 'delete_main_product':
                     return enterprise_admin_action_delete_main_product($smarty, $site);
+                case 'import_main_product':
+                    return enterprise_admin_action_import_main_product($smarty, $site);
                 default:
                     return enterprise_admin_action_dashboard($smarty);
             }
