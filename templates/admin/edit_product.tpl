@@ -210,6 +210,10 @@
 
                                             </div>
 {/for}
+                                            <div class="space10"></div>
+
+                                            <span class="help-block">推荐图片尺寸600x600。</span>
+
                                         </div>
 
                                     </div>

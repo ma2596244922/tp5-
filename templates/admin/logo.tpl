@@ -194,7 +194,7 @@
 
                                                                     <span class="label label-important">注意!</span>
 
-                                                                    <span>推荐尺寸图片大小220x60。</span>
+                                                                    <span>推荐图片尺寸220x60。</span>
 
                                                                 </div>
 

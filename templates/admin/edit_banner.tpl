@@ -136,7 +136,7 @@
 
                                         <div class="controls">
 
-                                            <div class="fileupload fileupload-{if $banner.uri|default:''}exists{else}new{/if} pull-left" data-provides="fileupload">
+                                            <div class="fileupload fileupload-{if $banner.uri|default:''}exists{else}new{/if}" data-provides="fileupload">
 
                                                 <input type="hidden" name="uri" value="{$banner.uri|default:''}">
 
@@ -167,6 +167,8 @@
                                                 </div>
 
                                             </div>
+
+                                            <span class="help-block">推荐图片尺寸1920x400。</span>
 
                                         </div>
 
