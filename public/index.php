@@ -95,10 +95,12 @@ do {
         enterprise_load_preset_translations($smarty, $langCode);
 
         $site = enterprise_get_site_info($siteId, $langCode);
+        if (!$site)
+            break;// continue routing
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
-        $response = enterprise_route_2($smarty, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
+        $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing
 
