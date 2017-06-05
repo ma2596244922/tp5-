@@ -562,7 +562,7 @@ function enterprise_admin_action_user_voices($smarty, $site)
 /**
  * Change index tdk
  */
-function enterprise_admin_action_index_tdk($smarty, $site)
+function enterprise_admin_action_index_tdk($smarty, $site, $langCode)
 {
     $tplPath = 'admin/index_tdk.tpl';
 
@@ -586,7 +586,10 @@ function enterprise_admin_action_index_tdk($smarty, $site)
     $metaDescription = str_replace("\n", '', $metaDescription);
     $metaDescription = str_replace("\r", '', $metaDescription);
 
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $values = array(
             'index_html_title' => $htmlTitle,
             'index_meta_keywords' => $metaKeywords,
@@ -606,7 +609,7 @@ function enterprise_admin_action_index_tdk($smarty, $site)
 /**
  * Change product tdk
  */
-function enterprise_admin_action_product_tdk($smarty, $site)
+function enterprise_admin_action_product_tdk($smarty, $site, $langCode)
 {
     $tplPath = 'admin/product_tdk.tpl';
 
@@ -635,7 +638,10 @@ function enterprise_admin_action_product_tdk($smarty, $site)
         $tdkScope = $groupId;
     }
 
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $values = array(
             'product_tdk_scope' => $tdkScope,
             'product_html_title' => $htmlTitle,

@@ -49,9 +49,9 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'product_default_image':
                     return enterprise_admin_action_product_default_image($smarty);
                 case 'product_tdk':
-                    return enterprise_admin_action_product_tdk($smarty, $site);
+                    return enterprise_admin_action_product_tdk($smarty, $site, $langCode);
                 case 'index_tdk':
-                    return enterprise_admin_action_index_tdk($smarty, $site);
+                    return enterprise_admin_action_index_tdk($smarty, $site, $langCode);
                 case 'user_voices':
                     return enterprise_admin_action_user_voices($smarty, $site);
                 case 'index_products':
