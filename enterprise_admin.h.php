@@ -791,10 +791,10 @@ function enterprise_admin_action_delete_inquiry($smarty, $site)
 /**
  * Groups
  */
-function enterprise_admin_action_group($smarty)
+function enterprise_admin_action_group($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_assign_group_list_ext($smarty, 'groups', $userSiteId, $langCode, null, false);
 
     $smarty->display('admin/group.tpl');
 }
@@ -819,7 +819,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId)
 /**
  * Edit Group
  */
-function enterprise_admin_action_edit_group($smarty, $site)
+function enterprise_admin_action_edit_group($smarty, $site, $langCode)
 {
     $tplPath = 'admin/edit_group.tpl';
 
@@ -840,12 +840,18 @@ function enterprise_admin_action_edit_group($smarty, $site)
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
+    // Language Group
+    $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
+
+    // Save group
     $groupDAO = new \enterprise\daos\Group();
     $values = array(
-            'site_id' => $userSiteId,
-            'name' => $groupName,
             'updated' => date('Y-m-d H:i:s'),
         );
+    if (!$langGroupDAO) {// English only
+        $values['site_id'] = $userSiteId;
+        $values['name'] = $groupName;
+    }
     if ($groupId) {// Edit
         // Authentication
         $originalGroup = $groupDAO->get($groupId);
@@ -854,10 +860,25 @@ function enterprise_admin_action_edit_group($smarty, $site)
             return enterprise_admin_display_error_msg($smarty, '权限不足');
         // Update
         $groupDAO->update($groupId, $values);
-        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
     } else {// Create
         $values['created'] = $values['updated'];
-        $groupDAO->insert($values);
+        $newGroupId = $groupDAO->insert($values);
+    }
+
+    // Save lang group
+    if ($langGroupDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'name' => $groupName,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        if ($groupId) {// Edit
+            $langGroupDAO->update($groupId, $values);
+        } else {// Create
+            $values['created'] = $values['updated'];
+            $values['group_id'] = $newGroupId;
+            $langGroupDAO->insert($values);
+        }
     }
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
@@ -866,14 +887,19 @@ function enterprise_admin_action_edit_group($smarty, $site)
 /**
  * Delete Group
  */
-function enterprise_admin_action_delete_group($smarty, $site)
+function enterprise_admin_action_delete_group($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $groupId = (int)timandes_get_query_data('group_id');
     $forceDelete = (int)timandes_get_query_data('force');
 
-    $productDAO = new \enterprise\daos\Product();
-    $groupDAO = new \enterprise\daos\Group();
+    if ($langCode == 'en') {
+        $productDAO = new \enterprise\daos\Product();
+        $groupDAO = new \enterprise\daos\Group();
+    } else {
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+    }
     // Authentication
     $group = $groupDAO->get($groupId);
     if (!$group
@@ -979,14 +1005,19 @@ function enterprise_admin_action_product($smarty, $langCode)
         $diffFields = 'p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`';
         $tableAlias = 'p';
         $orderByFields = 'p.`id`';
+        $groupDAO = new \enterprise\daos\Group();
+        $groupPrimaryKey = '`id`';
     } else {
         $productDAO = new \enterprise\daos\LangProduct($langCode);
         $leftJoin1 = 'LEFT JOIN `enterprise_products` AS p ON p.`id`=elp.`product_id`';
         $diffFields = 'elp.`caption`, elp.`created`, elp.`updated`, elp.`source_url`, elp.`group_id`';
         $tableAlias = 'elp';
         $orderByFields = 'elp.`product_id`';
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+        $groupPrimaryKey = '`group_id`';
     }
     $tableName = $productDAO->getTableName();
+    $groupTableName = $groupDAO->getTableName();
 
     // Filter - Group
     $groupId = (int)timandes_get_query_data('group_id');
@@ -1007,7 +1038,7 @@ function enterprise_admin_action_product($smarty, $langCode)
     $sql = "SELECT p.`id`, p.`path`, g.`name` AS `group_name`, {$diffFields}
     FROM `{$tableName}` AS {$tableAlias}
     {$leftJoin1}
-    LEFT JOIN `enterprise_groups` AS g ON {$tableAlias}.`group_id`=g.`id`
+    LEFT JOIN `{$groupTableName}` AS g ON {$tableAlias}.`group_id`=g.{$groupPrimaryKey}
     WHERE {$tableAlias}.`site_id`={$userSiteId} AND {$tableAlias}.`deleted`=0{$groupCondition}{$keywordsCondition}
     ORDER BY {$orderByFields} DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);

@@ -159,10 +159,10 @@
                                     </thead>
 
                                     <tbody>
-{section name=i loop=$groups}
+{section name=i loop=$groups}{assign var="gid" value={$groups[i].id|default:$groups[i].group_id}}
                                         <tr>
 
-                                            <td>{$groups[i].id}</td>
+                                            <td>{$gid}</td>
 
                                             <td>
     {if $groups[i].cnt > 0}
@@ -180,11 +180,11 @@
 
                                             <td>
 
-                                                <a href="?action=count_products&group_id={$groups[i].id}">重算产品数</a>
+                                                <a href="?action=count_products&group_id={$gid}">重算产品数</a>
 
-                                                <a href="?action=edit_group&group_id={$groups[i].id}">修改</a>
+                                                <a href="?action=edit_group&group_id={$gid}">修改</a>
 
-                                                <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$groups[i].id}" data-group-cnt="{$groups[i].cnt}">删除</a>
+                                                <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$gid}" data-group-cnt="{$groups[i].cnt}">删除</a>
 
                                             </td>
 

@@ -345,6 +345,18 @@ CREATE TABLE `enterprise_user_voices` (
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户赠言表';
 
+CREATE TABLE `enterprise_fr_groups` (
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(255) NOT NULL COMMENT '分组名称',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`group_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-用户自建分组表';
+
 CREATE TABLE `enterprise_fr_products` (
   `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -379,6 +391,18 @@ CREATE TABLE `enterprise_fr_sites` (
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-站点表';
+
+CREATE TABLE `enterprise_pt_groups` (
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(255) NOT NULL COMMENT '分组名称',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`group_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-用户自建分组表';
 
 CREATE TABLE `enterprise_pt_products` (
   `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',

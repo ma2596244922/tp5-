@@ -79,11 +79,11 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'delete_inquiry':
                     return enterprise_admin_action_delete_inquiry($smarty, $site);
                 case 'group':
-                    return enterprise_admin_action_group($smarty);
+                    return enterprise_admin_action_group($smarty, $site, $langCode);
                 case 'edit_group':
-                    return enterprise_admin_action_edit_group($smarty, $site);
+                    return enterprise_admin_action_edit_group($smarty, $site, $langCode);
                 case 'delete_group':
-                    return enterprise_admin_action_delete_group($smarty, $site);
+                    return enterprise_admin_action_delete_group($smarty, $site, $langCode);
                 case 'remove_empty_caption_products':
                     return enterprise_admin_action_remove_empty_caption_products($smarty);
                 case 'count_products':

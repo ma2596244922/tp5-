@@ -1146,21 +1146,34 @@ function enterprise_url_news_list($pageNo = 1)
 function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skipEmpty = true,
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
+    return enterprise_assign_group_list_ext($smarty, $var, $siteId, 'en', $max, $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
+}
+
+/**
+ * Assign Group List Ext
+ *
+ * @return array Group Array
+ */
+function enterprise_assign_group_list_ext($smarty, $var, $siteId, $langCode = 'en', $max = null, $skipEmpty = true,
+        $appendFirstProducts = false, $maxAppendedProducts = 1)
+{
     $maxGroupsFromDb = ($appendFirstProducts?null:$max);
     $cntString = ($skipEmpty?' AND `cnt`>0':'');
 
-    $groupDAO = new \enterprise\daos\Group();
+    if ($langCode == 'en')
+        $groupDAO = new \enterprise\daos\Group();
+    else
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
     $condition = "`site_id`={$siteId} AND `deleted`=0{$cntString}";
     $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $maxGroupsFromDb);
 
     if ($appendFirstProducts) {
-        $productDAO = new \enterprise\daos\Product();
         $retval = array();
         $accItems = 0;
         foreach ($groups as $group) {
             $groupId = (int)$group['id'];
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
-            $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` DESC', $maxAppendedProducts);
+            $products = enterprise_get_product_list($siteId, $langCode, $groupId, 1, $maxAppendedProducts);
             $group['products'] = $products;
             $retval[] = $group;
             ++$accItems;
