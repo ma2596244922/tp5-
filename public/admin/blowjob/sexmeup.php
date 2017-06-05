@@ -219,7 +219,10 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $groupDAO->incrCnt($groupId);
 
     // Cnt of products
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $siteDAO->incrProductCnt($siteId);
 
     return $retval;

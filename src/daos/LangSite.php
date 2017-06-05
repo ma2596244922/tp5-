@@ -77,4 +77,24 @@ class LangSite extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    public function incrProductCnt($siteId, $incr = 1)
+    {
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+
+        $db = \DbFactory::create($dbName);
+
+        $siteId = (int)$siteId;
+        $incr = (int)$incr;
+        if ($incr >= 0)
+            $setsString = '`product_cnt`=`product_cnt`+' . $incr;
+        else
+            $setsString = '`product_cnt`=`product_cnt`' . $incr;
+
+        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `site_id`={$siteId}";
+        $r = $db->query($sql);
+        if (!$r)
+            throw new \RuntimeException("Fail to query: {$sql}");
+    }
 }

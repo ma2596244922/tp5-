@@ -91,7 +91,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'product':
                     return enterprise_admin_action_product($smarty, $langCode);
                 case 'edit_product':
-                    return enterprise_admin_action_edit_product($smarty, $site);
+                    return enterprise_admin_action_edit_product($smarty, $site, $langCode);
                 case 'delete_product':
                     return enterprise_admin_action_delete_product($smarty, $site);
                 case 'edit_product_tdk':

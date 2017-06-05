@@ -1094,7 +1094,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Edit Product
  */
-function enterprise_admin_action_edit_product($smarty, $site)
+function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 {
     $tplPath = 'admin/edit_product.tpl';
 
@@ -1155,30 +1155,34 @@ function enterprise_admin_action_edit_product($smarty, $site)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
 
+    // LangProductDAO
+    $langProductDAO = ($langCode?new \enterprise\daos\LangProduct($langCode):null);
+
     // Save products
     $productDAO = new \enterprise\daos\Product();
     $values = array(
-            'site_id' => $userSiteId,
-            'caption' => $caption,
-            'description' => $description,
-            'group_id' => $groupId,
-            'locale' => 'english',
             'updated' => date('Y-m-d H:i:s'),
-            'tags' => $tags,
             'brand_name' => $brandName,
             'model_number' => $modelNumber,
             'certification' => $certification,
             'place_of_origin' => $placeOfOrigin,
-            'min_order_quantity' => $minOrderQuantity,
             'price' => $price,
             'payment_terms' => $paymentTerms,
             'supply_ability' => $supplyAbility,
-            'delivery_time' => $deliveryTime,
-            'packaging_details' => $packagingDetails,
-            'specifications' => $specificationsArray,
             'head_image_id' => $headImageId,
             'images' => $images,
         );
+    if (!$langProductDAO) {// English only
+        $values['site_id'] = $userSiteId;
+        $values['caption'] = $caption;
+        $values['description'] = $description;
+        $values['group_id'] = $groupId;
+        $values['min_order_quantity'] = $minOrderQuantity;
+        $values['delivery_time'] = $deliveryTime;
+        $values['packaging_details'] = $packagingDetails;
+        $values['specifications'] = $specificationsArray;
+        $values['tags'] = $tags;
+    }
     if ($productId) {// Edit
         // Authentication
         $originalProduct = $productDAO->get($productId);
@@ -1187,18 +1191,49 @@ function enterprise_admin_action_edit_product($smarty, $site)
             return enterprise_admin_display_error_msg($smarty, '权限不足');
         // Update
         $productDAO->update($productId, $values);
-        enterprise_admin_assign_product_info($smarty, 'product', $productId);
     } else {// Create
         $values['created'] = $values['updated'];
-        $productDAO->insert($values);
+        $newProductId = $productDAO->insert($values);
 
-        // Cnt of products
-        $groupDAO = new \enterprise\daos\Group();
-        $groupDAO->incrCnt($groupId);
+        if (!$langProductDAO) {// English only
+            // Cnt of products of group
+            $groupDAO = new \enterprise\daos\Group();
+            $groupDAO->incrCnt($groupId);
 
-        // Cnt of products
-        $siteDAO = new \enterprise\daos\Site();
-        $siteDAO->incrProductCnt($userSiteId);
+            // Cnt of products
+            $siteDAO = new \enterprise\daos\Site();
+            $siteDAO->incrProductCnt($userSiteId);
+        }
+    }
+
+    // Save lang product
+    if ($langProductDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'caption' => $caption,
+                'description' => $description,
+                'group_id' => $groupId,
+                'updated' => date('Y-m-d H:i:s'),
+                'min_order_quantity' => $minOrderQuantity,
+                'delivery_time' => $deliveryTime,
+                'packaging_details' => $packagingDetails,
+                'specifications' => $specificationsArray,
+                'tags' => $tags,
+            );
+        if ($productId) {// Edit
+            $values['product_id'] = $productId;
+            $langProductDAO->update($productId, $values);
+        } else {// Create
+            $values['product_id'] = $newProductId;
+            $values['created'] = $values['updated'];
+            $langProductDAO->insert($values);
+
+            // TODO: Cnt of products of group
+
+            // Cnt of products
+            $siteDAO = new \enterprise\daos\LangSite($langCode);
+            $siteDAO->incrProductCnt($userSiteId);
+        }
     }
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
