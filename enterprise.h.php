@@ -604,13 +604,16 @@ function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomain
     enterprise_output_cnzz($currentDomainSuffix);
 }
 
-function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null, $pageNo = 1, $pageSize = 10)
+function enterprise_assign_action_product_list($smarty, $siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10)
 {
     // Product list
-    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, 'en', $groupId, $pageNo, $pageSize);
+    $condition = enterprise_assign_product_list($smarty, 'products', $siteId, $langCode, $groupId, $pageNo, $pageSize);
 
     // Total products
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
     $totalProducts = $productDAO->countBy($condition);
     $totalPages = (int)($totalProducts / $pageSize) + (($totalProducts % $pageSize)?1:0);
     $smarty->assign('total_products', $totalProducts);
@@ -631,7 +634,7 @@ function enterprise_assign_action_product_list($smarty, $siteId, $groupId = null
     }
 
     // All groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId);
+    enterprise_assign_group_list_ext($smarty, 'groups', $siteId, $langCode);
 }
 
 /**
@@ -646,7 +649,7 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
     if (!$pageSize)
         $pageSize = 10;
 
-    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo, $pageSize);
+    enterprise_assign_action_product_list($smarty, $siteId, 'en', $groupId, $pageNo, $pageSize);
 
     // Filter
     $tplPath = 'sites/' . $siteId . '/product_list.tpl';
@@ -910,20 +913,20 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_SEARCH, $requestPath, $matches)) {
         $urlKey = $matches[1];
         $pageNo = (int)enterprise_get_query_by_server_request('p');
         if ($pageNo <= 0)
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
@@ -934,7 +937,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, 'product_directory.tpl', 50);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, 'product_directory.tpl', 50);
     } elseif(preg_match(PATTERN_NEWS_LIST, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
@@ -1067,10 +1070,11 @@ function enterprise_url_product_pic($product, $pathOnly = false)
 function enterprise_url_product_list($group = null, $pageNo = 1)
 {
     if ($group) {
+        $groupId = $group['id']??$group['group_id'];
         $pageString = '';
         if ($pageNo > 1)
             $pageString = 'p' . $pageNo;
-        return enterprise_url_prefix() . '/factory-' . $group['id'] . $pageString . '-' . enterprise_generate_url_key($group['name']);
+        return enterprise_url_prefix() . '/factory-' . $groupId . $pageString . '-' . enterprise_generate_url_key($group['name']);
     } else {
         $pageString = '';
         if ($pageNo > 1)
@@ -1353,7 +1357,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
     $smarty->assign('corporation_slogan', $corporationSlogan);
 
     // Groups
-    enterprise_assign_group_list($smarty, 'groups', $siteId, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
+    enterprise_assign_group_list_ext($smarty, 'groups', $siteId, $langCode, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);
@@ -1618,7 +1622,7 @@ function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $pl
  *
  * @return string
  */
-function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1, $tplFile = 'product_list.tpl', $pageSize = 10)
+function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1, $tplFile = 'product_list.tpl', $pageSize = 10)
 {
     global $productDescMapping;
 
@@ -1638,7 +1642,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     // Site
     $smarty->assign('site', $site);
 
-    enterprise_assign_action_product_list($smarty, $siteId, $groupId, $pageNo, $pageSize);
+    enterprise_assign_action_product_list($smarty, $siteId, $langCode, $groupId, $pageNo, $pageSize);
 
     $smarty->assign('product_desc', $productDescMapping);
 
@@ -2097,11 +2101,30 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en'
 /**
  * Assign product info
  */
-function enterprise_assign_product_info($smarty, $var, $productId)
+function enterprise_assign_product_info($smarty, $var, $productId, $langCode = 'en')
 {
+    $smarty->assign($var, enterprise_get_product_info($productId, $langCode));
+}
+
+/**
+ * Get product info
+ */
+function enterprise_get_product_info($productId, $langCode = 'en')
+{
+    // Product
     $productDAO = new \enterprise\daos\Product();
     $product = $productDAO->get($productId);
-    $smarty->assign($var, $product);
+
+    // Language Product
+    if ($langCode != 'en') {
+        $langProductDAO = new \enterprise\daos\LangProduct($langCode);
+        $condition = '`product_id`=' . (int)$productId;
+        $langProduct = $langProductDAO->getOneBy($condition);
+        if ($langProduct)
+            $product = array_merge($product, $langProduct);
+    }
+
+    return $product;
 }
 /* }}} */
 

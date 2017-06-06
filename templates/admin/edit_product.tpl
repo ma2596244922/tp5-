@@ -163,8 +163,8 @@
                                         <div class="controls">
 
                                             <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
-{section name=i loop=$groups}
-                                                <option value="{$groups[i].id}"{if isset($product.group_id) && $product.group_id==$groups[i].id} selected="selected"{/if}>{$groups[i].name}</option>
+{section name=i loop=$groups}{assign var="gid" value={$groups[i].id|default:$groups[i].group_id}}
+                                                <option value="{$gid}"{if isset($product.group_id) && $product.group_id==$gid} selected="selected"{/if}>{$groups[i].name}</option>
 {/section}
                                             </select>
 

@@ -85,7 +85,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
         $id = (int)$id;
         $sets = $this->buildSetList($db, $values);
         $setsString = implode(',', $sets);
-        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `id`={$id}";
+        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `product_id`={$id}";
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
@@ -111,5 +111,16 @@ class LangProduct extends \crawler\daos\AbstractDAO
         LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
         {$condition}{$orderBy}{$limit}";
         return $this->getMultiBySql($sql);
+    }
+
+    // Override
+    public function countBy($condition, $distinct = null)
+    {
+        $tableName = $this->getTableName();
+
+        $countBy = ($distinct?'DISTINCT(' . $distinct . ')':0);
+
+        $sql = "SELECT count({$countBy}) FROM `{$tableName}` AS elp WHERE {$condition}";
+        return $this->countBySql($sql);
     }
 }

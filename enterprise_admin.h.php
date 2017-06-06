@@ -65,6 +65,14 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId, $max = null)
     enterprise_assign_group_list($smarty, $var, $siteId, $max, false);
 }
 
+/**
+ * Assign Group List Ext
+ */
+function enterprise_admin_assign_group_list_ext($smarty, $var, $siteId, $langCode = 'en', $max = null)
+{
+    enterprise_assign_group_list_ext($smarty, $var, $siteId, $langCode, $max, false);
+}
+
 function enterprise_admin_display_success_msg($smarty, $msg, $url = null, $text = null)
 {
     $smarty->assign('success_msg', $msg);
@@ -1087,10 +1095,9 @@ function enterprise_admin_action_product($smarty, $langCode)
 /**
  * Assign Product info
  */
-function enterprise_admin_assign_product_info($smarty, $var, $productId)
+function enterprise_admin_assign_product_info($smarty, $var, $productId, $langCode = 'en')
 {
-    $productDAO = new \enterprise\daos\Product();
-    $product = $productDAO->get($productId);
+    $product = enterprise_get_product_info($productId, $langCode);
     $smarty->assign($var, $product);
 
     if ($product) {
@@ -1160,18 +1167,18 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $smarty->assign('product_id', $productId);
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_admin_assign_group_list_ext($smarty, 'groups', $userSiteId, $langCode);
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         // Editing?
         if ($productId) 
-            enterprise_admin_assign_product_info($smarty, 'product', $productId);
+            enterprise_admin_assign_product_info($smarty, 'product', $productId, $langCode);
 
         // Copying?
         $sourceProductId = (int)timandes_get_query_data('source_product_id');
         if ($sourceProductId)
-            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId);
+            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -1243,12 +1250,23 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     }
     if ($productId) {// Edit
         // Authentication
-        $originalProduct = $productDAO->get($productId);
+        $originalProduct = enterprise_get_product_info($productId, $langCode);
         if (!$originalProduct
                 || $originalProduct['site_id'] != $site['site_id'])
             return enterprise_admin_display_error_msg($smarty, '权限不足');
         // Update
         $productDAO->update($productId, $values);
+
+        // Cnt of products of group
+        if (!$langProductDAO// English only
+                && $originalProduct['group_id'] != $values['group_id']) {
+            $groupDAO = new \enterprise\daos\Group();
+            $group = $groupDAO->get($originalProduct['group_id']);
+            if ($group
+                    && $group['cnt'] > 0)
+                $groupDAO->incrCnt($originalProduct['group_id'], -1);
+            $groupDAO->incrCnt($groupId);
+        }
     } else {// Create
         $values['created'] = $values['updated'];
         $newProductId = $productDAO->insert($values);
@@ -1281,12 +1299,24 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         if ($productId) {// Edit
             $values['product_id'] = $productId;
             $langProductDAO->update($productId, $values);
+
+            // Cnt of products of group
+            if ($originalProduct['group_id'] != $values['group_id']) {
+                $groupDAO = new \enterprise\daos\LangGroup($langCode);
+                $group = $groupDAO->get($originalProduct['group_id']);
+                if ($group
+                        && $group['cnt'] > 0)
+                    $groupDAO->incrCnt($originalProduct['group_id'], -1);
+                $groupDAO->incrCnt($groupId);
+            }
         } else {// Create
             $values['product_id'] = $newProductId;
             $values['created'] = $values['updated'];
             $langProductDAO->insert($values);
 
-            // TODO: Cnt of products of group
+            // Cnt of products of group
+            $groupDAO = new \enterprise\daos\LangGroup($langCode);
+            $groupDAO->incrCnt($groupId);
 
             // Cnt of products
             $siteDAO = new \enterprise\daos\LangSite($langCode);
