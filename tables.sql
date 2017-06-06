@@ -345,6 +345,28 @@ CREATE TABLE `enterprise_user_voices` (
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户赠言表';
 
+CREATE TABLE `enterprise_fr_corporations` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(100) NOT NULL COMMENT '公司名称',
+  `address` varchar(100) NOT NULL COMMENT '地址',
+  `factory_address` varchar(100) NOT NULL COMMENT '厂址',
+  `business_type` varchar(45) NOT NULL COMMENT 'Business Type',
+  `main_market` varchar(45) NOT NULL COMMENT 'Main Market',
+  `brands` varchar(45) NOT NULL COMMENT 'Brands',
+  `no_of_employees` varchar(45) NOT NULL COMMENT 'No. of Employees',
+  `annual_sales` varchar(45) NOT NULL COMMENT 'Annual Sales',
+  `year_established` varchar(45) NOT NULL COMMENT 'Year Established',
+  `export_p_c` varchar(45) NOT NULL COMMENT 'Export p.c',
+  `introduction` text NOT NULL COMMENT 'Introduction',
+  `history` text NOT NULL COMMENT 'History',
+  `service` text NOT NULL COMMENT 'Service',
+  `our_team` text NOT NULL COMMENT 'Our Team',
+  `qc_profile` text NOT NULL COMMENT 'QC Profile',
+  `slogan` varchar(100) NOT NULL COMMENT '口号',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-公司表';
+
 CREATE TABLE `enterprise_fr_groups` (
   `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -391,6 +413,28 @@ CREATE TABLE `enterprise_fr_sites` (
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-站点表';
+
+CREATE TABLE `enterprise_pt_corporations` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(100) NOT NULL COMMENT '公司名称',
+  `address` varchar(100) NOT NULL COMMENT '地址',
+  `factory_address` varchar(100) NOT NULL COMMENT '厂址',
+  `business_type` varchar(45) NOT NULL COMMENT 'Business Type',
+  `main_market` varchar(45) NOT NULL COMMENT 'Main Market',
+  `brands` varchar(45) NOT NULL COMMENT 'Brands',
+  `no_of_employees` varchar(45) NOT NULL COMMENT 'No. of Employees',
+  `annual_sales` varchar(45) NOT NULL COMMENT 'Annual Sales',
+  `year_established` varchar(45) NOT NULL COMMENT 'Year Established',
+  `export_p_c` varchar(45) NOT NULL COMMENT 'Export p.c',
+  `introduction` text NOT NULL COMMENT 'Introduction',
+  `history` text NOT NULL COMMENT 'History',
+  `service` text NOT NULL COMMENT 'Service',
+  `our_team` text NOT NULL COMMENT 'Our Team',
+  `qc_profile` text NOT NULL COMMENT 'QC Profile',
+  `slogan` varchar(100) NOT NULL COMMENT '口号',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-公司表';
 
 CREATE TABLE `enterprise_pt_groups` (
   `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
