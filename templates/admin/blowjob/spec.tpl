@@ -114,11 +114,6 @@ paths:
           description: 源站URL
           required: false
           type: string
-        - name: lang_code
-          in: formData
-          description: 语言代码（ISO-639-1，默认为英语）
-          required: false
-          type: string
         - name: custom_path
           in: formData
           description: 自定义路径（以“/”开头）

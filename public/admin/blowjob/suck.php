@@ -11,20 +11,26 @@ list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDoma
 
 // Get tasks
 $taskDAO = new blowjob\daos\Task();
-$groupDAO = new enterprise\daos\Group();
+if ($langCode == 'en') {
+    $groupDAO = new enterprise\daos\Group();
+    $groupPrimaryKey = '`id`';
+} else {
+    $groupDAO = new enterprise\daos\LangGroup($langCode);
+    $groupPrimaryKey = '`group_id`';
+}
 $statusRange = blowjob\daos\Task::STATUS_PENDING . ', ' . blowjob\daos\Task::STATUS_IN_PROGRESS;
 $condition = 't.`site_id`=' . (int)$siteId . ' AND t.`deleted`=0 AND t.`status` in (' . $statusRange . ')';
 $taskTableName = $taskDAO->getTableName();
 $groupTableName = $groupDAO->getTableName();
 $sql = "SELECT t.`id`, t.`group_id`, g.`name` AS `group_name`, t.`target_url`, t.`max_pages`, t.`status`
     FROM `{$taskTableName}` t
-    LEFT JOIN `{$groupTableName}` g ON g.`id`=t.`group_id`
+    LEFT JOIN `{$groupTableName}` g ON g.{$groupPrimaryKey}=t.`group_id`
     WHERE {$condition} ORDER BY t.`id` DESC";
 $tasks = $taskDAO->getMultiBySql($sql);
 
 // Get groups
 $condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0';
-$groups = $groupDAO->getMultiInOrderBy($condition, '`id`, `name`', '`id` ASC');
+$groups = $groupDAO->getMultiInOrderBy($condition, $groupPrimaryKey . ', `name`', $groupPrimaryKey . ' ASC');
 
 $response = array(
         "host"=> "www." . $currentDomainSuffix,

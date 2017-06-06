@@ -93,7 +93,7 @@ function enterprise_sexmeup_save_images_in_description($siteId, $description)
     return $description;
 }
 
-function enterprise_sexmeup_save_product($siteId, $groupId, $images)
+function enterprise_sexmeup_save_product($siteId, $langCode, $groupId, $images)
 {
     $identity = timandes_get_post_data('identity');
     $caption = timandes_get_post_data('title');
@@ -111,7 +111,6 @@ function enterprise_sexmeup_save_product($siteId, $groupId, $images)
     $tagsString = timandes_get_post_data('tags');
     $specificationsString = timandes_get_post_data('specifications');
     $sourceUrl = timandes_get_post_data('shopurl');
-    $langCode = timandes_get_post_data('lang_code');
     $customPath = timandes_get_post_data('custom_path');
 
     // Force to decode URL
@@ -240,7 +239,7 @@ function enterprise_sexmeup_route()
 
     list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
     $images = enterprise_sexmeup_save_images($siteId);
-    $productId = enterprise_sexmeup_save_product($siteId, $groupId, $images);
+    $productId = enterprise_sexmeup_save_product($siteId, $langCode, $groupId, $images);
     enterprise_sexmeup_response(0, 'SUCCESS', $productId);
 }
 
