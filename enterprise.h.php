@@ -863,6 +863,19 @@ function enterprise_load_preset_translations($smarty, $langCode)
  */
 function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
 {
+    // Non-pages
+    if (preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
+        $guidHex = $matches[1];
+        return enterprise_action_attachment_proc($guidHex);
+    }
+
+    if ($requestPath == '/') {
+        return enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
+    }// Skip 'Common queries'
+
+    // Common queries
+    enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix);
+
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
     // 用户自发布产品的自定义路径
@@ -913,8 +926,6 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif ($requestPath == '/') {
-        return enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_DIRECTORY, $requestPath, $matches)) {
@@ -1331,10 +1342,10 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /**
  * Common procedure
  */
-function enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
+function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
 {
     // Corporation
-    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId, $langCode);
     $corporation = $smarty->getTemplateVars('corporation');
 
     // + Slogan
@@ -1403,7 +1414,6 @@ function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $plat
 
     $smarty->assign('contact_desc', $contactDescMapping);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
 
     // TDK
@@ -1440,7 +1450,6 @@ function enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platfo
     // Photos - AboutUs
     enterprise_assign_photo_list($smarty, 'photos', $siteId, \enterprise\daos\Photo::TYPE_ABOUT_US);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
 
@@ -1557,7 +1566,6 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
 
     $smarty->assign('product_desc', $productDescMapping);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
     $product = $smarty->getTemplateVars('product');
     $productGroup = $smarty->getTemplateVars('product_group');
@@ -1596,7 +1604,6 @@ function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $pl
     // New Products
     enterprise_assign_product_list($smarty, 'new_products', $siteId);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     // TDK
     $smarty->assign('title', "");
@@ -1635,7 +1642,6 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     $smarty->assign('product_desc', $productDescMapping);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
     $phrase = $smarty->getTemplateVars('phrase');
 
@@ -1693,7 +1699,6 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
     $pagerInfo = enterprise_pager_calculate_key_infos($totalNews, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
 
     // TDK
     $smarty->assign('title', "");
@@ -1726,7 +1731,6 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
     // Certifications
     enterprise_assign_certification_list($smarty, 'certifications', $siteId);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
 
@@ -1860,7 +1864,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix, true, 3);
+    enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix, true, 3);
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
 
@@ -1926,7 +1930,6 @@ function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $pla
 
     $smarty->assign('contact_desc', $contactDescMapping);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $currentDomainSuffix);
     $corporation = $smarty->getTemplateVars('corporation');
 
     // Inquiry subject
