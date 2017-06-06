@@ -123,7 +123,7 @@ function enterprise_extract_locale_n_domain($host)
 
 function enterprise_decide_locale_by_subdomain($subdomain)
 {
-    $retval = ($subdomain=='www'||$subdomain=='m'?'english':$subdomain);
+    $retval = ($subdomain=='www'||$subdomain=='m'?'English':$subdomain);
     if (strlen($retval) == 2) {
         $iso639 = new Matriphe\ISO639\ISO639();
         $retval = $iso639->languageByCode1($retval);

@@ -19,7 +19,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
     {
         // seamlesssteel-tube.com
         $host = 'www.seamlesssteel-tube.com';
-        $expected = array('english', 'seamlesssteel-tube.com');
+        $expected = array('English', 'seamlesssteel-tube.com');
         $actual = enterprise_extract_locale_n_domain($host);
         $this->assertEquals($expected, $actual);
 
@@ -29,7 +29,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
 
         $host = 'm.seamlesssteel-tube.com';
-        $expected = array('english', 'seamlesssteel-tube.com');
+        $expected = array('English', 'seamlesssteel-tube.com');
         $actual = enterprise_extract_locale_n_domain($host);
         $this->assertEquals($expected, $actual);
 
@@ -40,7 +40,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
 
         // ltbtv.com.cn
         $host = 'www.ltbtv.com.cn';
-        $expected = array('english', 'ltbtv.com.cn');
+        $expected = array('English', 'ltbtv.com.cn');
         $actual = enterprise_extract_locale_n_domain($host);
         $this->assertEquals($expected, $actual);
 
@@ -50,7 +50,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
 
         $host = 'm.ltbtv.com.cn';
-        $expected = array('english', 'ltbtv.com.cn');
+        $expected = array('English', 'ltbtv.com.cn');
         $actual = enterprise_extract_locale_n_domain($host);
         $this->assertEquals($expected, $actual);
 
@@ -173,7 +173,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         // seamlesssteel-tube.com
         $host = 'www.seamlesssteel-tube.com';
         $expected = array(
-                'locale' => 'english',
+                'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_PC,
             );
@@ -182,7 +182,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
 
         $host = 'm.seamlesssteel-tube.com';
         $expected = array(
-                'locale' => 'english',
+                'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_MOBILE,
             );
@@ -209,7 +209,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
 
         $host = 'origin.www.seamlesssteel-tube.com';
         $expected = array(
-                'locale' => 'english',
+                'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_PC,
             );
@@ -218,9 +218,18 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
 
         $host = 'origin.m.seamlesssteel-tube.com';
         $expected = array(
-                'locale' => 'english',
+                'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_MOBILE,
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'pt.ktorrent.org';
+        $expected = array(
+                'locale' => 'Portuguese',
+                'root_domain' => 'ktorrent.org',
+                'platform' => ENTERPRISE_PLATFORM_PC,
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
