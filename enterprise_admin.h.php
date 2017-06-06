@@ -353,7 +353,7 @@ function enterprise_admin_action_info($smarty, $langCode)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
         return $smarty->display($tplPath);
     }
 
@@ -386,11 +386,10 @@ function enterprise_admin_action_info($smarty, $langCode)
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
 
+    $langCorporationDAO = (($langCode == 'en')?null:new \enterprise\daos\LangCorporation($langCode));
+
     $corporationDAO = new \enterprise\daos\Corporation();
     $values = array(
-            'name' => $name,
-            'address' => $address,
-            'factory_address' => $factoryAddress,
             'worktime' => $worktime,
             'tel_wt' => $telWt,
             'tel_nwt' => $telNWt,
@@ -398,23 +397,51 @@ function enterprise_admin_action_info($smarty, $langCode)
             'skype' => $skype,
             'email' => $email,
             'yahoo' => $yahoo,
-            'business_type' => $businessType,
-            'main_market' => $mainMarket,
-            'brands' => $brands,
-            'no_of_employees' => $noOfEmployees,
-            'annual_sales' => $annualSales,
-            'year_established' => $yearEstablished,
-            'export_p_c' => $exportPC,
-            'introduction' => $introduction,
-            'history' => $history,
-            'service' => $service,
-            'our_team' => $ourTeam,
-            'qc_profile' => $qcProfile,
-            'slogan' => $slogan,
             'updated' => date('Y-m-d H:i:s'),
         );
+    if (!$langCorporationDAO) {// English
+        $values['name'] = $name;
+        $values['address'] = $address;
+        $values['factory_address'] = $factoryAddress;
+        $values['business_type'] = $businessType;
+        $values['main_market'] = $mainMarket;
+        $values['brands'] = $brands;
+        $values['no_of_employees'] = $noOfEmployees;
+        $values['annual_sales'] = $annualSales;
+        $values['year_established'] = $yearEstablished;
+        $values['export_p_c'] = $exportPC;
+        $values['introduction'] = $introduction;
+        $values['history'] = $history;
+        $values['service'] = $service;
+        $values['our_team'] = $ourTeam;
+        $values['qc_profile'] = $qcProfile;
+        $values['slogan'] = $slogan;
+    }
     $corporationDAO->update($userSiteId, $values);
-    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+    // Language Corporation
+    if ($langCorporationDAO) {
+        $values = array(
+                'name' => $name,
+                'address' => $address,
+                'factory_address' => $factoryAddress,
+                'business_type' => $businessType,
+                'main_market' => $mainMarket,
+                'brands' => $brands,
+                'no_of_employees' => $noOfEmployees,
+                'annual_sales' => $annualSales,
+                'year_established' => $yearEstablished,
+                'export_p_c' => $exportPC,
+                'introduction' => $introduction,
+                'history' => $history,
+                'service' => $service,
+                'our_team' => $ourTeam,
+                'qc_profile' => $qcProfile,
+                'slogan' => $slogan,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $langCorporationDAO->update($userSiteId, $values);
+    }
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
 
     if ($langCode == 'en')
         $siteDAO = new \enterprise\daos\Site();

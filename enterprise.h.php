@@ -1245,19 +1245,31 @@ function enterprise_site_info_get_product_list_page_size($siteId)
 /**
  * Get corporation info
  */
-function enterprise_get_corporation_info($siteId)
+function enterprise_get_corporation_info($siteId, $langCode = 'en')
 {
+    // Corporation
     $corporationDAO = new \enterprise\daos\Corporation();
     $condition = "`site_id`=" . (int)$siteId;
-    return $corporationDAO->getOneBy($condition);
+    $corporation = $corporationDAO->getOneBy($condition);
+
+    // Language Corporation
+    if ($langCode != 'en') {
+        $langCorporationDAO = new \enterprise\daos\LangCorporation($langCode);
+        $condition = '`site_id`=' . (int)$siteId;
+        $langCorporation = $langCorporationDAO->getOneBy($condition);
+        if ($langCorporation)
+            $corporation = array_merge($corporation, $langCorporation);
+    }
+
+    return $corporation;
 }
 
 /**
  * Assign corporation info
  */
-function enterprise_assign_corporation_info($smarty, $var, $siteId)
+function enterprise_assign_corporation_info($smarty, $var, $siteId, $langCode = 'en')
 {
-    $smarty->assign($var, enterprise_get_corporation_info($siteId));
+    $smarty->assign($var, enterprise_get_corporation_info($siteId, $langCode));
 }
 
 /**
