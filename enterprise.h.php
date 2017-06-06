@@ -1186,7 +1186,7 @@ function enterprise_assign_group_list_ext($smarty, $var, $siteId, $langCode = 'e
         $retval = array();
         $accItems = 0;
         foreach ($groups as $group) {
-            $groupId = (int)$group['id'];
+            $groupId = (int)($group['id']??$group['group_id']);
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
             $products = enterprise_get_product_list($siteId, $langCode, $groupId, 1, $maxAppendedProducts);
             $group['products'] = $products;
