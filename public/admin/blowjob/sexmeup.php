@@ -150,7 +150,7 @@ function enterprise_sexmeup_save_product($siteId, $langCode, $groupId, $images)
         return $productIdentity['product_id'];
 
     // LangProductDAO
-    $langProductDAO = ($langCode?new \enterprise\daos\LangProduct($langCode):null);
+    $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
     // Insert product
     $productDAO = new \enterprise\daos\Product();
