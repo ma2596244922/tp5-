@@ -1221,7 +1221,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $headImageId = $images[0];
 
     // LangProductDAO
-    $langProductDAO = ($langCode?new \enterprise\daos\LangProduct($langCode):null);
+    $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
     // Save products
     $productDAO = new \enterprise\daos\Product();
