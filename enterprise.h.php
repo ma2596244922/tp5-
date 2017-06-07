@@ -1218,13 +1218,17 @@ function enterprise_response_replace_group_list($smarty, $siteId, $response)
     $groupListElement = \analyzer\utils\DOMUtils::findFirstElementByTagNameNAttribute($document, $characteristic['tag_name'], $characteristic['attr_name'], $characteristic['attr_value']);
     if ($groupListElement) {
         $originalGroupListHtml = $document->saveHTML($groupListElement);
+
         enterprise_assign_group_list($smarty, 'groups', $siteId);
         $newGroupListHtmlFragment = $smarty->fetch('sites/' . $siteId . '/group_list_fragment.tpl');
-        $fragment = $document->createDocumentFragment();
-        $fragment->appendXML($newGroupListHtmlFragment);
-        $groupListElement->appendChild($fragment);
-        $newGroupListHtml = $document->saveHTML($groupListElement);
-        $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
+
+        if ($newGroupListHtmlFragment) {
+            $fragment = $document->createDocumentFragment();
+            $fragment->appendXML($newGroupListHtmlFragment);
+            $groupListElement->appendChild($fragment);
+            $newGroupListHtml = $document->saveHTML($groupListElement);
+            $response = str_replace($originalGroupListHtml, $newGroupListHtml, $response);
+        }
     }
 
     return $response;
