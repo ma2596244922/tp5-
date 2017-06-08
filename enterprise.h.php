@@ -2083,7 +2083,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $orderBy = 'elp.`product_id` DESC';
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
-    return $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start);
+    return $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_get_by_site`');
 }
 
 /**
