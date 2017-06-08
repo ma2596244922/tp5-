@@ -16,6 +16,7 @@ $maxWidthInfo = array(
         'product' => IMAGE_MAX_WIDTH_4_PRODUCT,
         'certification' => IMAGE_MAX_WIDTH_4_PRODUCT,
         'banner' => IMAGE_MAX_WIDTH_4_BANNER,
+        'bg_image' => IMAGE_MAX_WIDTH_4_BANNER,
     );
 
 /** @var array 缩略图配置 */

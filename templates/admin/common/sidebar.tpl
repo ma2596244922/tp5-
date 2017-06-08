@@ -291,6 +291,18 @@
 
                         </li>
 
+                        <li class="start{if $page_name=='common_bg_image'} active{/if}">
+
+                            <a href="?action=common_bg_image">
+
+                            <i class="icon-picture"></i> 
+
+                            <span class="title">全站背景图片</span>
+
+                            </a>
+
+                        </li>
+
                     </ul>
 
                 </li>

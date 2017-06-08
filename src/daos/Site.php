@@ -34,6 +34,7 @@ class Site extends \crawler\daos\AbstractDAO
             'contact_content' => 'text',
             'common_head_fragment' => 'text',
             'product_default_image' => 'int',
+            'common_bg_image' => 'int',
         );
 
     public function getTableName()

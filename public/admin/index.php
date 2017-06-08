@@ -46,6 +46,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
             switch ($action) {
+                case 'common_bg_image':
+                    return enterprise_admin_action_common_bg_image($smarty);
                 case 'product_default_image':
                     return enterprise_admin_action_product_default_image($smarty);
                 case 'product_tdk':

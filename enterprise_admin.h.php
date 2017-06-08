@@ -732,6 +732,43 @@ function enterprise_admin_action_product_default_image($smarty)
     $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
+
+
+/**
+ * Change backgroud image
+ */
+function enterprise_admin_action_common_bg_image($smarty)
+{
+    $tplPath = 'admin/common_bg_image.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    // Upload logo
+    $images = enterprise_admin_upload_post_images('bg_image');
+    if ($images)
+        $commonBGImage = $images[0];
+    else
+        $commonBGImage = 0;
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'common_bg_image' => $commonBGImage,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    $site = $smarty->getTemplateVars('site');
+    $site['common_bg_image'] = $commonBGImage;
+    $smarty->assign('site', $site);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
 /* }}} */
 
 /* {{{ Inquiries */
@@ -1136,6 +1173,10 @@ function enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $sou
 function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, $for = 'product')
 {
     global $thumbnailInfo;
+
+    // No thumbnail info
+    if (!isset($thumbnailInfo[$for]))
+        return;
 
     // Existing?
     $thumbnailRecord = $thumbnailDAO->getByImage($id);
