@@ -1981,7 +1981,7 @@ function enterprise_action_404_proc($smarty, $siteId, $platform, $currentDomainS
     // Site
     $smarty->assign('site', $site);
 
-    $smarty->assign('site_portal', $_SERVER['REQUEST_SCHEME'] . '://www.' . $currentDomainSuffix . '/');
+    $smarty->assign('site_portal', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/');
     return $smarty->fetch($tplPath);
 }
 
