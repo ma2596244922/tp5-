@@ -109,7 +109,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
         if ($forceIndex)
             $forceIndex = ' FORCE INDEX (' . $forceIndex . ')';
 
-        $sql = "SELECT {$fields} FROM `{$tableName}`{$forceIndex} AS elp
+        $sql = "SELECT {$fields} FROM `{$tableName}` AS elp{$forceIndex}
         LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
         {$condition}{$orderBy}{$limit}";
         return $this->getMultiBySql($sql);
