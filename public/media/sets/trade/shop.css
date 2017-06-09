@@ -33,9 +33,9 @@ h1,h2{ display:inline;}
 .nav li a{ color:#fff; display:block; padding:0 36px; }
 .nav li a.current,.nav li a:hover{ background:#99a5b6;}
 .nav li a i{ width:12px; height:6px; display:inline-block; background-position:0 -60px; margin-left:7px;}
-.nav li ul{ position:absolute; left:0; top:46px; background:#99a5b6; border-radius:0 0 3px 3px; padding:5px 0 10px 0; display:none; z-index:9999;}
+.nav li ul{ position:absolute; left:0; top:46px; background:#99a5b6; border-radius:0 0 3px 3px; padding:5px 0 10px 0; display:none; z-index:9999; max-height:402px; overflow-y:scroll;}
 .nav li ul.nav-list{ width:228px;}
-.nav li ul.nav-list1{ width:209px;}
+.nav li ul.nav-list1{ width:209px; overflow-y:auto; }
 .nav li ul li{ margin:7px 0 5px 13px; float:none; font-size:14px; color:#fff; line-height:20px;}
 .nav li ul li:first-child{ margin-left:13px;}
 .nav li ul li a{ padding:0 20px;}
@@ -222,18 +222,25 @@ h1,h2{ display:inline;}
 .product-img .img-intro .photo-list .next-btn a.next{ top:718px; background-position:-111px -165px;}
 
 /*产品首页*/
-.main-content .right-content .product-box ul li a.add-basket,.main-content .right-content .view-page ul li.view-li a,.main-content .right-content .view-page .page a,.main-content .right-content .product-all .product-intro .left-img a.add-basket,.main-content .right-content .quality-none p i,.main-content .right-content .certification-none p i,.scrollArea ul.small-list li,.news-page ul li a.prev,.news-page ul li a.next{background:url('/media/sets/trade/product-icon.png') 0 0 no-repeat; }
+.main-content .right-content .product-box ul li a.add-basket,.main-content .right-content .view-page ul li.view-li a,.main-content .right-content .view-page .page a,.main-content .right-content .product-all .product-intro .left-img a.add-basket,.main-content .right-content .quality-none p i,.main-content .right-content .certification-none p i,.scrollArea ul.small-list li,.news-page ul li a.prev,.news-page ul li a.next,.recom-product .slide-more i,.left-content .menu-list2 .update span i,.left-content .menu-list .see-more i{background:url('/media/sets/trade/product-icon.png') 0 0 no-repeat; }
 .main-content{ width:980px; margin:10px auto 0 auto;}
 .main-content .left-content{ width:220px; float:left;}
-.left-content .menu-list dl dt{ width:203px; height:48px; background:#6c7c93; line-height:48px; text-align:left; color:#fff; font-size:18px; font-weight:bold; border-radius:3px 3px 0 0; padding-left:17px;}
-.left-content .menu-list dl dd{ height:40px; border:solid 1px #ddd; line-height:40px; border-top:none; background:#fff url('/media/sets/trade/product-icon.png') -180px 17px no-repeat; padding-left:29px; font-size:14px;}
-.left-content .menu-list dl dd:last-child{ border-radius:0 0 3px 3px;}
+.left-content .menu-list{border-radius:3px; width:218px; border:solid 1px #ddd; position:relative;}
+.left-content .menu-list dl{ max-height:615px; overflow:hidden; margin-top:48px;}
+.left-content .menu-list dl.current{ height:auto; max-height:inherit; overflow:inherit;}
+.left-content .menu-list dl dt{ width:203px; height:48px; background:#6c7c93; line-height:48px; text-align:left; color:#fff; font-size:18px; font-weight:bold; padding-left:17px; border-radius:3px 3px 0 0; position:absolute; left:-1px; top:-1px;}
+.left-content .menu-list dl dd{ height:40px; border-bottom:solid 1px #ddd; line-height:40px;background:#fff url('/media/sets/trade/product-icon.png') -180px 17px no-repeat; padding-left:29px; font-size:14px;}
 .left-content .menu-list dl dd a{color:#666; max-width:130px;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow:hidden;display:block; float:left; }
 .left-content .menu-list dl.company-dl dd a{ overflow:inherit;text-overflow:inherit;-o-text-overflow:inherit; }
 .left-content .menu-list dl dd strong{ font-weight:normal;}
 .left-content .menu-list dl dd i{color:#666; font-size:14px; float:left; font-style:normal;}
 .left-content .menu-list dl dd a:hover{ text-decoration:underline;}
 .left-content .menu-list dl dd a.current{ font-weight:bold;}
+.left-content .menu-list .see-more{ height:40px; background:#fafafa; line-height:40px; display:none;}
+.left-content .menu-list .see-more a{ font-size:16px; font-weight:bold; color:#666; margin-left:15px;}
+.left-content .menu-list .see-more a:hover{ color:#414141;}
+.left-content .menu-list .see-more i{ display:inline-block; width:10px; height:10px; background-position:-62px -231px;margin-left:6px;}
+.left-content .menu-list .see-more i.less{ background-position:-83px -235px;vertical-align: -4px;}
 
 .contact-msg{ width:218px; border:solid 1px #ddd; border-radius:3px; margin-top:10px; background:#fff;}
 .contact-msg span{  display:block; border-bottom:solid 1px #ddd; padding:13px 30px 12px 15px; font-size:16px; word-wrap:break-word; line-height:26px; color:#333; width:173px;}

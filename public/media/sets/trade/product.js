@@ -566,3 +566,20 @@ function submit() {
         return false;
     }
 }
+
+var dd_length=$(".menu-list dl dd").length;
+if(dd_length>=15){
+    $(".menu-list .see-more").css("display","block");
+    }
+$(".menu-list .see-more a").click(function(){
+    var a_text=$(this).html();
+    if(a_text=="see more"){
+        $(".menu-list dl").addClass("current");
+        $(this).html("less");
+        $(this).siblings("i").addClass("less");
+        }else if(a_text=="less"){
+            $(".menu-list dl").removeClass("current");
+            $(this).html("see more");
+            $(this).siblings("i").removeClass("less");
+            }
+})
