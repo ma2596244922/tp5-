@@ -92,7 +92,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
     }
 
     // Override
-    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0)
+    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
     {
         $tableName = $this->getTableName();
 
@@ -106,8 +106,10 @@ class LangProduct extends \crawler\daos\AbstractDAO
             $orderBy = ' ORDER BY ' . $orderBy;
         if ($condition)
             $condition = ' WHERE ' . $condition;
+        if ($forceIndex)
+            $forceIndex = ' FORCE INDEX (' . $forceIndex . ')';
 
-        $sql = "SELECT {$fields} FROM `{$tableName}` AS elp
+        $sql = "SELECT {$fields} FROM `{$tableName}`{$forceIndex} AS elp
         LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
         {$condition}{$orderBy}{$limit}";
         return $this->getMultiBySql($sql);
