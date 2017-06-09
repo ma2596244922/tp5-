@@ -1047,7 +1047,11 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
  */
 function enterprise_url_detailed_product($product, $pathOnly = false)
 {
-    $path = '/sell-detail-' . $product['id'] . '-' . enterprise_generate_url_key($product['caption']) . '.html';
+    $urlKey = enterprise_generate_url_key($product['caption']);
+    $urlKeyString = '';
+    if ($urlKey)
+        $urlKeyString = '-' . $urlKey;
+    $path = '/sell-detail-' . $product['id'] . $urlKeyString . '.html';
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
@@ -1074,7 +1078,11 @@ function enterprise_url_product_list($group = null, $pageNo = 1)
         $pageString = '';
         if ($pageNo > 1)
             $pageString = 'p' . $pageNo;
-        return enterprise_url_prefix() . '/factory-' . $groupId . $pageString . '-' . enterprise_generate_url_key($group['name']);
+        $urlKey = enterprise_generate_url_key($group['name']);
+        $urlKeyString = '';
+        if ($urlKey)
+            $urlKeyString = '-' . $urlKey;
+        return enterprise_url_prefix() . '/factory-' . $groupId . $pageString . $urlKeyString;
     } else {
         $pageString = '';
         if ($pageNo > 1)
