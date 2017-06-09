@@ -993,8 +993,9 @@ function enterprise_url_image($imageId, $productCaption = '', $imageSizeType = '
     }
 
     $suffix = '';
-    if ($productCaption)
-        $suffix = '-' . enterprise_generate_url_key($productCaption);
+    $urlKey = enterprise_generate_url_key($productCaption);
+    if ($urlKey)
+        $suffix = '-' . $urlKey;
 
     $path = '/uploaded_images/' . $imageSizeType . $imageId . $suffix . '.jpg';
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
