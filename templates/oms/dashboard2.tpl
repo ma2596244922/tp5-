@@ -57,6 +57,61 @@
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
+                <h2>网站开通</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputDomain" class="col-lg-1 control-label">根域*：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputDomain" placeholder="foo.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMemo" class="col-lg-1 control-label">备注：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputMemo" placeholder="某某公司">
+                        </div>
+                    </div>
+                </form>
+
+                <h2>网站开通</h2>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>全部网站</option>
+                            <option>自营</option>
+                            <option>赠送</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>全部行业</option>
+                            <option>Foos & Bars</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option>（待分配）</option>
+                            <option>web2 (12.34.56.78)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="date" class="form-control" placeholder="2017-06-09">
+                            <div class="input-group-addon">至</div>
+                            <input type="date" class="form-control" placeholder="2017-06-09">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary">查询</button>
+                        <button type="button" class="btn btn-default">今天</button>
+                        <button type="button" class="btn btn-default">昨天</button>
+                        <button type="button" class="btn btn-default">最近7天</button>
+                        <button type="button" class="btn btn-default">最近30天</button>
+                        <button type="button" class="btn btn-default">本月</button>
+                        <button type="button" class="btn btn-default">上月</button>
+                    </div>
+                </form>
                 <!-- End Content -->
             </div>
             <!-- End Page -->
