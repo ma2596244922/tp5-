@@ -236,6 +236,320 @@
                         </div>
                     </div>
                 </form>
+
+                <h2>行业管理</h2>
+                <button class="btn btn-default" type="button">录入新行业</button>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>行业名称</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Foos &amp; Bars</td>
+                        <td>
+                            <a href="#">修改</a>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2>录入新行业</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputName" class="col-lg-1 control-label">名称：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputName" placeholder="Foos &amp; Bars">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-4">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h2>VPS管理</h2>
+                <button class="btn btn-default" type="button">录入新VPS</button>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>别名</th>
+                        <th>IP</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>web2</td>
+                        <td>12.34.56.78</td>
+                        <td>
+                            <a href="#">修改</a>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2>录入新VPS</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputAlias" class="col-lg-1 control-label">别名：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputAlias" placeholder="web2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddr" class="col-lg-1 control-label">IP：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputAddr" placeholder="12.34.56.78">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-4">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h2>帐号管理</h2>
+                <button class="btn btn-default" type="button">录入新帐号</button>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>用户名</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>foo</td>
+                        <td>
+                            <a href="#">修改</a>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2>录入新帐号</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputUser" class="col-lg-1 control-label">用户名：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputUser" placeholder="foo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUser" class="col-lg-1 control-label">用户名：</label>
+                        <div class="col-lg-4">
+                           <p class="form-control-static">foo</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-lg-1 control-label">密码：</label>
+                        <div class="col-lg-4">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="为空则不作修改">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-4">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h2>客户资料</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">域名：</label>
+                        <div class="col-lg-4">
+                           <p class="form-control-static">popost.com</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMemo" class="col-lg-1 control-label">备注：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputMemo" placeholder="某某公司">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputQQ" class="col-lg-1 control-label">QQ：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputQQ" placeholder="123456">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputWechat" class="col-lg-1 control-label">微信：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputWechat" placeholder="foo">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="col-lg-1 control-label">姓名：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputName" placeholder="张三">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTelephone" class="col-lg-1 control-label">电话：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputTelephone" placeholder="13800138000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">性别：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" value="0" checked>男
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="1">女
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">询盘审核：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" value="0" checked>关闭
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="1">开启
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">VPS：</label>
+                        <div class="col-lg-4">
+                            <select class="form-control">
+                                <option>（待分配）</option>
+                                <option>web2（12.34.56.78）</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">移动版：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" value="0">关闭
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="1" checked>开启
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">上/下线：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" value="0">下线
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="1" checked>上线
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textareaCSR" class="col-lg-1 control-label">CSR：</label>
+                        <div class="col-lg-4">
+                            <textarea class="form-control" id="textareaCSR" rows="15"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textareaKey" class="col-lg-1 control-label">Key：</label>
+                        <div class="col-lg-4">
+                            <textarea class="form-control" id="textareaKey" rows="15"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">HTTPS：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" value="0" checked>关闭
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" value="1">开启
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-4">
+                            <button type="submit" class="btn btn-primary">保存</button>
+                            <button type="button" class="btn btn-default">返回</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h2>月度报告</h2>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>月度报告</th>
+                        <th>询盘量</th>
+                        <th>邮箱数</th>
+                    </tr>
+                    <tr>
+                        <td>2017年4月月报</td>
+                        <td>123</td>
+                        <td>11</td>
+                    </tr>
+                </table>
+
+                <h2>匹配询盘</h2>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">域名：</label>
+                        <div class="col-lg-4">
+                           <p class="form-control-static">popost.com</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCaption" class="col-lg-1 control-label">标题：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputCaption" placeholder="Inquiry about ...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textareaContent" class="col-lg-1 control-label">正文：</label>
+                        <div class="col-lg-4">
+                            <textarea class="form-control" id="textareaContent" rows="15"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-1 control-label">Email：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputEmail" placeholder="foo@bar.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddr" class="col-lg-1 control-label">IP：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputAddr" placeholder="12.34.56.78">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDateTime" class="col-lg-1 control-label">时间：</label>
+                        <div class="col-lg-4">
+                            <input type="datetime-local" class="form-control" id="inputDateTime" placeholder="2017-06-12 17:24:59">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUrl" class="col-lg-1 control-label">相关URL：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputUrl" placeholder="http://">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">附件：</label>
+                        <div class="col-lg-4">
+                            <input type="file">
+                            <input type="file">
+                            <input type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-1 col-lg-4">
+                            <button type="submit" class="btn btn-primary">匹配</button>
+                        </div>
+                    </div>
+                </form>
                 <!-- End Content -->
             </div>
             <!-- End Page -->
