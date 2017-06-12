@@ -339,8 +339,22 @@ $smarty->loadFilter("pre", 'whitespace_control');
 session_start();
 
 try {
+    enterprise_oms_route_2($smarty);
+    exit(0);
+} catch(\HttpException $he) {
+    $code = $he->getCode();
+    if ($code != 404) {
+        http_response_code($code);
+        exit(1);
+    }
+} catch (\RuntimeException $e) {
+    enterprise_oms_display_error_msg($smarty, $e->getMessage());
+    exit(1);
+}
+
+try {
     enterprise_oms_route($smarty);
-} catch(HttpException $he) {
+} catch(\HttpException $he) {
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
     echo $e->getMessage();

@@ -1,6 +1,6 @@
             <div class="col-lg-2">
                 <div class="list-group">
-                    <a class="list-group-item active" href="#">运营管理</a>
+                    <a class="list-group-item active" href="?action=dashboard">运营管理</a>
                     <a class="list-group-item">
                         <select class="form-control" name="type">
                             <option value="0">全部网站</option>

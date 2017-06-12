@@ -23,20 +23,22 @@
 
                 <!-- Begin Content -->
                 <h2>行业管理</h2>
-                <button class="btn btn-default" type="button">录入新行业</button>
+                <a class="btn btn-default" href="?action=edit_industry">录入新行业</a>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>#</th>
                         <th>行业名称</th>
                         <th>&nbsp;</th>
                     </tr>
+{foreach $industries as $i}
                     <tr>
-                        <td>1</td>
-                        <td>Foos &amp; Bars</td>
+                        <td>{$i.id}</td>
+                        <td>{$i.name|escape}</td>
                         <td>
-                            <a href="#">修改</a>
+                            <a href="?action=edit_industry&industry_id={$i.id}">修改</a>
                         </td>
                     </tr>
+{/foreach}
                 </table>
                 <!-- End Content -->
             </div>
