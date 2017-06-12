@@ -22,6 +22,24 @@
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
+                <h2>VPS管理</h2>
+                <button class="btn btn-default" type="button">录入新VPS</button>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>别名</th>
+                        <th>IP</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>web2</td>
+                        <td>12.34.56.78</td>
+                        <td>
+                            <a href="#">修改</a>
+                        </td>
+                    </tr>
+                </table>
                 <!-- End Content -->
             </div>
             <!-- End Page -->
