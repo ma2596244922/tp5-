@@ -926,7 +926,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
-        return enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_DIRECTORY, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
@@ -1903,13 +1903,12 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     return $smarty->fetch($tplPath);
 }
 
-function enterprise_generate_inquiry_subject_by_product_id($productId)
+function enterprise_generate_inquiry_subject_by_product_id($productId, $langCode)
 {
     if (!$productId)
         return null;
 
-    $productDAO = new \enterprise\daos\Product();
-    $product = $productDAO->get($productId);
+    $product = enterprise_get_product_info($productId, $langCode);
     if (!$product)
         return null;
 
@@ -1942,7 +1941,7 @@ function enterprise_get_quick_questions_for_inquiry($smarty)
  *
  * @return string
  */
-function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     global $contactDescMapping;
 
@@ -1963,7 +1962,7 @@ function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $pla
 
     // Inquiry subject
     $aboutProductId = (int)enterprise_get_query_by_server_request('about_product');
-    $subject = enterprise_generate_inquiry_subject_by_product_id($aboutProductId);
+    $subject = enterprise_generate_inquiry_subject_by_product_id($aboutProductId, $langCode);
     if (!$subject) {
         $referer = timandes_get_server_data('HTTP_REFERER');
         $refererPath = parse_url($referer, PHP_URL_PATH);
@@ -1971,15 +1970,15 @@ function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $pla
                 && preg_match(PATTERN_PRODUCT_PAGE, $refererPath, $matches)) {
             $productId = $matches[1];
             $smarty->assign('target_product_id', $productId);
-            enterprise_assign_product_info($smarty, 'target_product', $productId);
-            $subject = enterprise_generate_inquiry_subject_by_product_id($productId);
+            enterprise_assign_product_info($smarty, 'target_product', $productId, $langCode);
+            $subject = enterprise_generate_inquiry_subject_by_product_id($productId, $langCode);
         }
 
         if (!$subject)
             $subject= 'Inquiry About ' . $corporation['name'];
     } else {
         $smarty->assign('target_product_id', $aboutProductId);
-        enterprise_assign_product_info($smarty, 'target_product', $aboutProductId);
+        enterprise_assign_product_info($smarty, 'target_product', $aboutProductId, $langCode);
     }
     $smarty->assign('subject', $subject);
 
