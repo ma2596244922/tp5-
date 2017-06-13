@@ -412,6 +412,7 @@ CREATE TABLE `enterprise_fr_sites` (
   `product_meta_keywords` text NOT NULL COMMENT '产品页K',
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
+  `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-站点表';
 
@@ -481,6 +482,7 @@ CREATE TABLE `enterprise_pt_sites` (
   `product_meta_keywords` text NOT NULL COMMENT '产品页K',
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
+  `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-站点表';
 

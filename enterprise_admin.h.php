@@ -514,7 +514,7 @@ function enterprise_admin_action_password($smarty)
 /**
  * Change index products
  */
-function enterprise_admin_action_index_products($smarty, $site)
+function enterprise_admin_action_index_products($smarty, $site, $langCode = 'en')
 {
     $tplPath = 'admin/index_products.tpl';
 
@@ -522,7 +522,7 @@ function enterprise_admin_action_index_products($smarty, $site)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_assign_index_products($smarty, $site);
+        enterprise_assign_index_products($smarty, $site, $langCode);
         return $smarty->display($tplPath);
     }
 
@@ -546,7 +546,10 @@ function enterprise_admin_action_index_products($smarty, $site)
         $indexProductIdArray[] = $productId;
     }
 
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $values = array(
             'index_products' => $indexProductIdArray,
             'updated' => date('Y-m-d H:i:s'),

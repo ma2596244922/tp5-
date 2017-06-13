@@ -57,7 +57,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'user_voices':
                     return enterprise_admin_action_user_voices($smarty, $site);
                 case 'index_products':
-                    return enterprise_admin_action_index_products($smarty, $site);
+                    return enterprise_admin_action_index_products($smarty, $site, $langCode);
                 case 'message':
                     return enterprise_admin_action_message($smarty);
                 case 'email_template':

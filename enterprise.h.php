@@ -1775,7 +1775,7 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 /** 
  * 获取“首页推荐产品”
  */
-function enterprise_get_index_products_from_site($site, $indexProductIdArray = null)
+function enterprise_get_index_products_from_site($site, $indexProductIdArray = null, $langCode = 'en')
 {
     if ($indexProductIdArray)
         $pidArray = $indexProductIdArray;
@@ -1797,15 +1797,22 @@ function enterprise_get_index_products_from_site($site, $indexProductIdArray = n
     if (!$pidArray)
         return null;
 
-    $pidCondition = ' `id` IN (' . implode(',', $pidArray) . ')';
-
-    $productDAO = new \enterprise\daos\Product();
-    return $productDAO->getMultiBy($pidCondition);
+    if ($langCode == 'en') {
+        $pidFieldName = '`id`';
+        $productDAO = new \enterprise\daos\Product();
+        $fields = ENTERPRISE_PRODUCT_FIELDS_FOR_LIST;
+    } else {
+        $pidFieldName = 'elp.`product_id`';
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
+    }
+    $pidCondition = ' ' . $pidFieldName . ' IN (' . implode(',', $pidArray) . ')';
+    return $productDAO->getMultiInOrderBy($pidCondition, $fields);
 }
 
 function enterprise_assign_index_products($smarty, $site, $langCode = 'en', $indexProductIdArray = null)
 {
-    $indexProducts = enterprise_get_index_products_from_site($site, $indexProductIdArray);
+    $indexProducts = enterprise_get_index_products_from_site($site, $indexProductIdArray, $langCode);
     if ($indexProducts)
         $smarty->assign('products', $indexProducts);
     else
