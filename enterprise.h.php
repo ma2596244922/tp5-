@@ -626,11 +626,7 @@ function enterprise_assign_action_product_list($smarty, $siteId, $langCode = 'en
     // Group info
     if ($groupId
             && is_numeric($groupId)) {
-        $groupDAO = new \enterprise\daos\Group();
-        $group = $groupDAO->get($groupId);
-        if (!$group) 
-            throw new HttpException(404);
-        $smarty->assign('group', $group);
+        enterprise_assign_group_info($smarty, 'group', $groupId, $langCode);
     }
 
     // All groups
@@ -1162,6 +1158,21 @@ function enterprise_url_news_list($pageNo = 1)
 }
 /* }}} */
 
+/* {{{ Groups */
+
+function enterprise_assign_group_info($smarty, $var, $groupId, $langCode = 'en')
+{
+    if ($langCode == 'en') {
+        $groupDAO = new \enterprise\daos\Group();
+        $group = $groupDAO->get($groupId);
+    } else {
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+        $condition = '`group_id`=' . (int)$groupId;
+        $group = $groupDAO->getOneBy($condition);
+    }
+    $smarty->assign('group', $group);
+}
+
 /**
  * Assign Group List
  *
@@ -1242,6 +1253,7 @@ function enterprise_response_replace_group_list($smarty, $siteId, $response)
 
     return $response;
 }
+/* }}} */
 
 /* {{{ Site Info */
 /**
