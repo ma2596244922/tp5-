@@ -416,6 +416,18 @@ CREATE TABLE `enterprise_fr_sites` (
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-站点表';
 
+CREATE TABLE `enterprise_fr_news` (
+  `news_id` int(10) unsigned NOT NULL COMMENT '新闻ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '新闻标题',
+  `content` text NOT NULL COMMENT '新闻正文',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`news_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-新闻表';
+
 CREATE TABLE `enterprise_pt_corporations` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `name` varchar(100) NOT NULL COMMENT '公司名称',
@@ -485,6 +497,18 @@ CREATE TABLE `enterprise_pt_sites` (
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-站点表';
+
+CREATE TABLE `enterprise_pt_news` (
+  `news_id` int(10) unsigned NOT NULL COMMENT '新闻ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '新闻标题',
+  `content` text NOT NULL COMMENT '新闻正文',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`news_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-新闻表';
 
 CREATE TABLE `enterprise_main_products` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主推产品ID',
