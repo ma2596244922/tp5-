@@ -940,7 +940,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
+        return enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
     } elseif(preg_match(PATTERN_NEWS_PAGE, $requestPath, $matches)) {
         $newsId = $matches[1];
         return enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId);
@@ -1704,7 +1704,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
  *
  * @return string
  */
-function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $pageNo = 1)
+function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo = 1)
 {
     $pageSize = 10;
     $siteId = $site['site_id'];
@@ -1718,10 +1718,8 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
     // Site
     $smarty->assign('site', $site);
 
-    $condition = enterprise_assign_news_list($smarty, 'news', $siteId, $pageNo, $pageSize);
+    $totalNews = enterprise_assign_news_list($smarty, 'news', $siteId, $langCode, $pageNo, $pageSize, true);
 
-    $newsDAO = new \enterprise\daos\News();
-    $totalNews = $newsDAO->countBy($condition);
     $smarty->assign('total_news', $totalNews);
     $smarty->assign('page_size', $pageSize);
     $smarty->assign('page_no', $pageNo);
@@ -2282,26 +2280,64 @@ function enterprise_assign_comment_info($smarty, $var, $commentId)
  *
  * @return string Condition
  */
-function enterprise_assign_news_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+function enterprise_assign_news_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10, $returnTotal = false)
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
+    $retval = 0;
 
     $newsDAO = new \enterprise\daos\News();
-    $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`, `content`', '`id` DESC', $pageSize, $start);
+    if ($langCode == 'en') {
+        $condition = "`site_id`={$siteId} AND `deleted`=0";
+        $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`, `content`', '`id` DESC', $pageSize, $start);
+        if ($returnTotal)
+            $retval = $newsDAO->countBy($condition);
+    } else {
+        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
+        $tableName = $langNewsDAO->getTableName();
+        $newsTableName = $newsDAO->getTableName();
+        $condition = "ln.`site_id`={$siteId} AND ln.`deleted`=0";
+        $sql = "SELECT n.`id`, ln.`caption`, n.`head_image_id`, ln.`created`, ln.`updated`, ln.`content` FROM `{$tableName}` ln
+LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
+WHERE {$condition}";
+        $news = $langNewsDAO->getMultiBySql($sql);
+        if ($returnTotal) {
+            $strippedCondition = str_replace('ln.', '', $condition);
+            $retval = $langNewsDAO->countBy($strippedCondition);
+        }
+    }
     $smarty->assign($var, $news);
 
-    return $condition;
+    return $retval;
+}
+
+/**
+ * Get News Info
+ */
+function enterprise_get_news_info($newsId, $langCode = 'en')
+{
+    $newsId = (int)$newsId;
+
+    $newsDAO = new \enterprise\daos\News();
+    if ($langCode)
+        return $newsDAO->get($newsId);
+    else {
+        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
+        $newsTableName = $newsDAO->getTableName();
+        $tableName = $langNewsDAO->getTableName();
+        $sql = "SELECT n.`id`, ln.*, n.`head_image_id` FROM `{$tableName}` ln
+LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
+WHERE ln.`news_id`={$newsId}";
+        return $langNewsDAO->getOneBySql($sql);
+    }
 }
 
 /**
  * Assign News info
  */
-function enterprise_assign_news_info($smarty, $var, $newsId)
+function enterprise_assign_news_info($smarty, $var, $newsId, $langCode = 'en')
 {
-    $newsDAO = new \enterprise\daos\News();
-    $news = $newsDAO->get($newsId);
+    $news = enterprise_get_news_info($newsId, $langCode);
     $smarty->assign($var, $news);
 }
 

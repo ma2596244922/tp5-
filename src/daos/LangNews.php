@@ -97,15 +97,4 @@ class LangNews extends \crawler\daos\AbstractDAO
         {$condition}{$orderBy}{$limit}";
         return $this->getMultiBySql($sql);
     }
-
-    // Override
-    public function countBy($condition, $distinct = null)
-    {
-        $tableName = $this->getTableName();
-
-        $countBy = ($distinct?'DISTINCT(' . $distinct . ')':0);
-
-        $sql = "SELECT count({$countBy}) FROM `{$tableName}` AS eln WHERE {$condition}";
-        return $this->countBySql($sql);
-    }
 }

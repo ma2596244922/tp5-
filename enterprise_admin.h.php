@@ -1398,6 +1398,8 @@ function enterprise_admin_action_delete_product($smarty, $site)
         );
     $productDAO->update($productId, $values);
 
+    // FIXME: Delete language product
+
     // Cnt of products
     $groupDAO = new \enterprise\daos\Group();
     $groupDAO->incrCnt($groupId, -1);
@@ -2869,7 +2871,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
 /**
  * News
  */
-function enterprise_admin_action_news($smarty)
+function enterprise_admin_action_news($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $pageNo = (int)timandes_get_query_data('page');
@@ -2877,11 +2879,8 @@ function enterprise_admin_action_news($smarty)
         $pageNo = 1;
     $max = 20;
 
-    $newsDAO = new \enterprise\daos\News();
+    $totalNews = enterprise_assign_news_list($smarty, 'news', $userSiteId, $langCode, $pageNo, $max, true);
 
-    $condition = enterprise_assign_news_list($smarty, 'news', $userSiteId, $pageNo, $max);
-
-    $totalNews = $newsDAO->countBy($condition);
     $smarty->assign('total_news', $totalNews);
     $smarty->assign('page_size', $max);
     $smarty->assign('page_no', $pageNo);
@@ -2894,7 +2893,7 @@ function enterprise_admin_action_news($smarty)
 /**
  * Edit News
  */
-function enterprise_admin_action_edit_news($smarty, $site)
+function enterprise_admin_action_edit_news($smarty, $site, $langCode)
 {
     $tplPath = 'admin/edit_news.tpl';
 
@@ -2925,15 +2924,20 @@ function enterprise_admin_action_edit_news($smarty, $site)
     $images = enterprise_admin_upload_post_images('');
     $headImageId = ($images?$images[0]:0);
 
+    // LangNewsDAO
+    $langNewsDAO = (($langCode!='en')?new \enterprise\daos\LangNews($langCode):null);
+
     // Save news
     $newsDAO = new \enterprise\daos\News();
     $values = array(
-            'site_id' => $userSiteId,
-            'caption' => $caption,
-            'content' => $content,
             'updated' => date('Y-m-d H:i:s'),
             'head_image_id' => $headImageId,
         );
+    if (!$langNewsDAO) {// English
+        $values['site_id'] = $userSiteId;
+        $values['caption'] = $caption;
+        $values['content'] = $content;
+    }
     if ($newsId) {// Edit
         // Authentication
         $originalNews = $newsDAO->get($newsId);
@@ -2945,7 +2949,26 @@ function enterprise_admin_action_edit_news($smarty, $site)
         enterprise_assign_news_info($smarty, 'news', $newsId);
     } else {// Create
         $values['created'] = $values['updated'];
-        $newsDAO->insert($values);
+        $newNewsId = $newsDAO->insert($values);
+    }
+
+    // Save Language News
+    if ($langNewsDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'caption' => $caption,
+                'content' => $content,
+                'updated' => date('Y-m-d H:i:s'),
+                'head_image_id' => $headImageId,
+            );
+        if ($newsId) {// Edit
+            $values['news_id'] = $newsId;
+            $langNewsDAO->update($newsId, $values);
+        } else {
+            $values['news_id'] = $newNewsId;
+            $values['created'] = $values['updated'];
+            $langNewsDAO->insert($values);
+        }
     }
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=news', '新闻管理');
@@ -2954,14 +2977,13 @@ function enterprise_admin_action_edit_news($smarty, $site)
 /**
  * Delete News
  */
-function enterprise_admin_action_delete_news($smarty, $site)
+function enterprise_admin_action_delete_news($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $newsId = (int)timandes_get_query_data('news_id');
 
-    // Get group ID
-    $newsDAO = new \enterprise\daos\News();
-    $news = $newsDAO->get($newsId);
+    // Get news
+    $news = enterprise_get_news_info($newsId, $langCode);
     if (!$news) {
         $msg = '找不到指定的新闻';
         return header('Location: ?action=news&error_msg=' . urlencode($msg));
@@ -2976,7 +2998,14 @@ function enterprise_admin_action_delete_news($smarty, $site)
             'deleted' => 1,
             'updated' => date('Y-m-d H:i:s'),
         );
+    $newsDAO = new \enterprise\daos\News();
     $newsDAO->update($newsId, $values);
+
+    // Delete language news
+    if ($langCode != 'en') {
+        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
+        $langNewsDAO->update($newsId, $values);
+    }
 
     header('Location: ?action=news&success_msg=' . urlencode('删除成功'));
 }
