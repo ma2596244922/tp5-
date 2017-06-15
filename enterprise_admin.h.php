@@ -1697,7 +1697,7 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
 /**
  * Replace Keywords
  */
-function enterprise_admin_action_replace_keywords($smarty)
+function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
 {
     $tplPath = 'admin/replace_keywords.tpl';
 
@@ -1705,7 +1705,7 @@ function enterprise_admin_action_replace_keywords($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -1726,11 +1726,16 @@ function enterprise_admin_action_replace_keywords($smarty)
     if (!$groupId)
         throw new \UnexpectedValueException("请选择分组");
 
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
     $curProductId = 0;
     do {
-        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
-        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `tags`, `description`', '`id` ASC', 100);
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`');
         if (!$products)
             break;
 

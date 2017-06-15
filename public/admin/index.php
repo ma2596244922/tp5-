@@ -107,7 +107,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'insert_keywords':
                     return enterprise_admin_action_insert_keywords($smarty, $site, $langCode);
                 case 'replace_keywords':
-                    return enterprise_admin_action_replace_keywords($smarty);
+                    return enterprise_admin_action_replace_keywords($smarty, $site, $langCode);
                 case 'contact':
                     return enterprise_admin_action_contact($smarty);
                 case 'edit_contact':
