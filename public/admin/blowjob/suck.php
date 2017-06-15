@@ -30,7 +30,7 @@ $tasks = $taskDAO->getMultiBySql($sql);
 
 // Get groups
 $condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0';
-$groups = $groupDAO->getMultiInOrderBy($condition, $groupPrimaryKey . ', `name`', $groupPrimaryKey . ' ASC');
+$groups = $groupDAO->getMultiInOrderBy($condition, $groupPrimaryKey . ' AS `id`, `name`', $groupPrimaryKey . ' ASC');
 
 $response = array(
         "host"=> "www." . $currentDomainSuffix,
