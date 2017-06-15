@@ -877,10 +877,21 @@ function enterprise_admin_action_group($smarty, $site, $langCode)
 /**
  * Get group info
  */
-function enterprise_get_group_info($groupId)
+function enterprise_get_group_info($groupId, $langCode = 'en')
 {
     $groupDAO = new \enterprise\daos\Group();
-    return $groupDAO->get($groupId);
+    $group = $groupDAO->get($groupId);
+
+    // Language Group
+    if ($langCode != 'en') {
+        $langGroupDAO = new \enterprise\daos\LangGroup($langCode);
+        $condition = '`group_id`=' . (int)$groupId;
+        $langGroup = $langGroupDAO->getOneBy($condition);
+        if ($langGroup)
+            $group = array_merge($group, $langGroup);
+    }
+
+    return $group;
 }
 
 /**
@@ -1755,7 +1766,7 @@ function enterprise_admin_action_replace_keywords($smarty)
 /**
  * Insert Desc
  */
-function enterprise_admin_action_insert_desc($smarty)
+function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
 {
     $tplPath = 'admin/insert_desc.tpl';
 
@@ -1763,7 +1774,7 @@ function enterprise_admin_action_insert_desc($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -1781,17 +1792,22 @@ function enterprise_admin_action_insert_desc($smarty)
     if (!$desc)
         throw new \UnderflowException("请给出至少一个关键词");
 
-    $corporation = enterprise_get_corporation_info($userSiteId);
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
     $desc = str_replace('[公司名称]', $corporation['name'], $desc);
 
-    $group = enterprise_get_group_info($groupId);
+    $group = enterprise_get_group_info($groupId, $langCode);
     $desc = str_replace('[产品分组]', $group['name'], $desc);
 
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
     $curProductId = 0;
     do {
-        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
-        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `description`', '`id` ASC', 100);
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
         if (!$products)
             break;
 

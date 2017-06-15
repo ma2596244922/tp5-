@@ -103,7 +103,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'insert_images':
                     return enterprise_admin_action_insert_images($smarty, $site, $langCode);
                 case 'insert_desc':
-                    return enterprise_admin_action_insert_desc($smarty);
+                    return enterprise_admin_action_insert_desc($smarty, $site, $langCode);
                 case 'insert_keywords':
                     return enterprise_admin_action_insert_keywords($smarty);
                 case 'replace_keywords':
