@@ -33,7 +33,7 @@ $condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0';
 $groups = $groupDAO->getMultiInOrderBy($condition, $groupPrimaryKey . ' AS `id`, `name`', $groupPrimaryKey . ' ASC');
 
 $response = array(
-        "host"=> "www." . $currentDomainSuffix,
+        "host"=> $_SERVER['HTTP_HOST'],
         "site_id"=> $siteId,
         "update_task"=> array(
             "method"=> "PUT",
