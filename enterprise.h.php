@@ -2085,7 +2085,7 @@ function enterprise_filter_2_sql_condition($tablePrefix = '', $filter = null, &$
  *
  * @return string Condition
  */
-function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10, &$extraValues = array(), &$condition = '')
+function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10, $additionalConditions = '', $orderBy = null, $additionalFields = '', &$extraValues = array(), &$condition = '')
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
@@ -2100,17 +2100,24 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $groupIdCondition = enterprise_filter_2_sql_condition($tablePrefix, $groupId, $extraValues);
     }
 
+    if ($additionalConditions)
+        $additionalConditions = ' AND ' . $additionalConditions;
+
     if ($langCode == 'en') {
         $productDAO = new \enterprise\daos\Product();
-        $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0";
-        $orderBy = '`id` DESC';
+        $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0{$additionalConditions}";
+        if (!$orderBy)
+            $orderBy = '`id` DESC';
         $fields = ENTERPRISE_PRODUCT_FIELDS_FOR_LIST;
     } else {
         $productDAO = new \enterprise\daos\LangProduct($langCode);
-        $condition = "elp.`site_id`={$siteId}{$groupIdCondition} AND elp.`deleted`=0";
-        $orderBy = 'elp.`product_id` DESC';
+        $condition = "elp.`site_id`={$siteId}{$groupIdCondition} AND elp.`deleted`=0{$additionalConditions}";
+        if (!$orderBy)
+            $orderBy = 'elp.`product_id` DESC';
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
+    if ($additionalFields)
+        $fields .= ", {$additionalFields}";
     return $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_get_by_site`');
 }
 
@@ -2123,7 +2130,7 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en'
 {
     $condition = '';
     $extraValues = array();
-    $products = enterprise_get_product_list($siteId, $langCode, $groupId, $pageNo, $pageSize, $extraValues, $condition);
+    $products = enterprise_get_product_list($siteId, $langCode, $groupId, $pageNo, $pageSize, '', null, '', $extraValues, $condition);
     $smarty->assign($var, $products);
     foreach ($extraValues as $k => $v)
         $smarty->assign($k, $v);

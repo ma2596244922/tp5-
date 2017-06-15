@@ -1816,7 +1816,7 @@ function enterprise_admin_action_insert_desc($smarty)
 /**
  * Insert Images
  */
-function enterprise_admin_action_insert_images($smarty)
+function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 {
     $tplPath = 'admin/insert_images.tpl';
     $maxImages = 5;
@@ -1825,7 +1825,7 @@ function enterprise_admin_action_insert_images($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -1854,8 +1854,10 @@ function enterprise_admin_action_insert_images($smarty)
             1428754, 1429277
         );
     do {
-        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
-        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `images`', '`id` ASC', 100);
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`');
         if (!$products)
             break;
 
@@ -1872,14 +1874,20 @@ function enterprise_admin_action_insert_images($smarty)
             }
 
             $imageCnt = count($images);
-            $imageSlots = $maxImages - $imageCnt;
-            for ($i=0; $i<$imageSlots; ++$i) {
+            $imageSlots = $targetCnt - $imageCnt;
+            $insertedImageCnt = 0;
+            for ($i=0; $i<$maxImages; ++$i) {
                 $img = array_pop($pendingImages);
                 array_unshift($images, $img);
+                ++$insertedImageCnt;
+
                 if (count($pendingImages) <= 0) {
                     $pendingImages = $uploadedImages;
                     shuffle($pendingImages);
                 }
+
+                if ($insertedImageCnt >= $targetCnt)
+                    break;
             }
 
             $values = array(
