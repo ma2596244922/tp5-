@@ -569,7 +569,7 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $langCode, $p
     $smarty->assign('product_specifications', $productSpecifications);
 
     // Groups
-    $groups = enterprise_assign_group_list_ext($smarty, 'groups', $siteId, $langCode);
+    $groups = enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode);
 
     // Product Group
     foreach ($groups as $group) {
@@ -630,7 +630,7 @@ function enterprise_assign_action_product_list($smarty, $siteId, $langCode = 'en
     }
 
     // All groups
-    enterprise_assign_group_list_ext($smarty, 'groups', $siteId, $langCode);
+    enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode);
 }
 
 /**
@@ -1181,7 +1181,7 @@ function enterprise_assign_group_info($smarty, $var, $groupId, $langCode = 'en')
 function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skipEmpty = true,
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
-    return enterprise_assign_group_list_ext($smarty, $var, $siteId, 'en', $max, $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
+    return enterprise_assign_group_list_ex($smarty, $var, $siteId, 'en', $max, $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
 }
 
 /**
@@ -1189,18 +1189,21 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skip
  *
  * @return array Group Array
  */
-function enterprise_assign_group_list_ext($smarty, $var, $siteId, $langCode = 'en', $max = null, $skipEmpty = true,
+function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null, $skipEmpty = true,
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
     $maxGroupsFromDb = ($appendFirstProducts?null:$max);
     $cntString = ($skipEmpty?' AND `cnt`>0':'');
 
-    if ($langCode == 'en')
+    if ($langCode == 'en') {
         $groupDAO = new \enterprise\daos\Group();
-    else
+        $fields = '*';
+    } else {
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
+        $fields = '*, `group_id` AS `id`';
+    }
     $condition = "`site_id`={$siteId} AND `deleted`=0{$cntString}";
-    $groups = $groupDAO->getMultiInOrderBy($condition, '*', null, $maxGroupsFromDb);
+    $groups = $groupDAO->getMultiInOrderBy($condition, $fields, null, $maxGroupsFromDb);
 
     if ($appendFirstProducts) {
         $retval = array();
@@ -1382,7 +1385,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
     $smarty->assign('corporation_slogan', $corporationSlogan);
 
     // Groups
-    enterprise_assign_group_list_ext($smarty, 'groups', $siteId, $langCode, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
+    enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);

@@ -61,7 +61,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'message':
                     return enterprise_admin_action_message($smarty);
                 case 'email_template':
-                    return enterprise_admin_action_email_template($smarty, $currentDomainSuffix);
+                    return enterprise_admin_action_email_template($smarty, $site, $langCode, $currentDomainSuffix);
                 case 'upload_image':
                     return enterprise_admin_action_upload_image($smarty);
                 case 'profile':

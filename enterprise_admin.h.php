@@ -68,9 +68,9 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId, $max = null)
 /**
  * Assign Group List Ext
  */
-function enterprise_admin_assign_group_list_ext($smarty, $var, $siteId, $langCode = 'en', $max = null)
+function enterprise_admin_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null)
 {
-    enterprise_assign_group_list_ext($smarty, $var, $siteId, $langCode, $max, false);
+    enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode, $max, false);
 }
 
 function enterprise_admin_display_success_msg($smarty, $msg, $url = null, $text = null)
@@ -869,7 +869,7 @@ function enterprise_admin_action_delete_inquiry($smarty, $site)
 function enterprise_admin_action_group($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_assign_group_list_ext($smarty, 'groups', $userSiteId, $langCode, null, false);
+    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, false);
 
     $smarty->display('admin/group.tpl');
 }
@@ -1211,7 +1211,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $smarty->assign('product_id', $productId);
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_admin_assign_group_list_ext($smarty, 'groups', $userSiteId, $langCode);
+    enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
@@ -2796,7 +2796,7 @@ function enterprise_admin_action_delete_comment($smarty, $site)
 /**
  * Email Template
  */
-function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
+function enterprise_admin_action_email_template($smarty, $site, $langCode, $currentDomainSuffix)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -2828,14 +2828,19 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
             $productUrlArray = timandes_get_post_data('product_url_array');
 
             // Get groups
-            $groupDAO = new enterprise\daos\Group();
+            if ($langCode == 'en') {
+                $groupDAO = new enterprise\daos\Group();
+                $groupPrimaryKey = 'id';
+            } else {
+                $groupDAO = new enterprise\daos\LangGroup($langCode);
+                $groupPrimaryKey = 'group_id';
+            }
             $groupIds = array_unique(array_values($groupIdArray));
-            $condition = "`id` IN (" . implode(',', $groupIds) . ")";
+            $condition = "`{$groupPrimaryKey}` IN (" . implode(',', $groupIds) . ")";
             $groups = $groupDAO->getMultiBy($condition);
             $smarty->assign('selected_groups', $groups);
 
             // Get products
-            $productDAO = new enterprise\daos\Product();
             $productArray = array();
             foreach ($productUrlArray as $urls) {
                 $products = array();
@@ -2844,13 +2849,13 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
                     if (!preg_match(PATTERN_PRODUCT_PAGE, $path, $matches))
                         continue;
                     $productId = $matches[1];
-                    $products[] = $productDAO->get($productId);
+                    $products[] = enterprise_get_product_info($productId, $langCode);
                 }
                 $productArray[] = $products;
             }
             $smarty->assign('product_array', $productArray);
 
-            enterprise_action_sets_common_proc($smarty, $userSiteId, $currentDomainSuffix);
+            enterprise_action_sets_common_proc($smarty, $userSiteId, $langCode, $currentDomainSuffix);
 
             $templateContent = $smarty->fetch('admin/emails/edm.tpl');
             $smarty->assign('content', $templateContent);
@@ -2859,7 +2864,7 @@ function enterprise_admin_action_email_template($smarty, $currentDomainSuffix)
             break;
         default:
             $tplPath = 'admin/email_template_step_1.tpl';
-            enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+            enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
             break;
     }
     $smarty->display($tplPath);

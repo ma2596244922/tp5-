@@ -102,21 +102,7 @@
 
                     <div class="span12">
 
-                        <div class="alert alert-error{if !$error_msg} hide{/if}">
-
-                            <button class="close" data-dismiss="alert"></button>
-
-                            <span>{$error_msg}</span>
-
-                        </div>
-
-                        <div class="alert alert-success{if !$success_msg} hide{/if}">
-
-                            <button class="close" data-dismiss="alert"></button>
-
-                            <span>{$success_msg}</span>
-
-                        </div>
+{include file="admin/common/op_alerts.tpl"}
 
                         <!-- BEGIN SAMPLE FORM PORTLET-->   
 
