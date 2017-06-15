@@ -1630,7 +1630,7 @@ function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKe
 /**
  * Insert Keywords
  */
-function enterprise_admin_action_insert_keywords($smarty)
+function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
 {
     $tplPath = 'admin/insert_keywords.tpl';
 
@@ -1638,7 +1638,7 @@ function enterprise_admin_action_insert_keywords($smarty)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -1662,11 +1662,16 @@ function enterprise_admin_action_insert_keywords($smarty)
     $keywordsCnt = 0;
     $keywordsArray = enterprise_admin_insert_keywords_standardize($keywordsArray, $keywordsCnt);
 
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
     $curProductId = 0;
     do {
-        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId} AND `id`>{$curProductId}";
-        $products = $productDAO->getMultiInOrderBy($condition, '`id`, `caption`, `tags`', '`id` ASC', 100);
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`');
         if (!$products)
             break;
 
