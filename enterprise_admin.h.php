@@ -70,7 +70,7 @@ function enterprise_admin_assign_group_list($smarty, $var, $siteId, $max = null)
  */
 function enterprise_admin_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null)
 {
-    enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode, $max, false);
+    enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode, $max, '', false);
 }
 
 function enterprise_admin_display_success_msg($smarty, $msg, $url = null, $text = null)
@@ -869,7 +869,7 @@ function enterprise_admin_action_delete_inquiry($smarty, $site)
 function enterprise_admin_action_group($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, false);
+    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, '', false);
 
     $smarty->display('admin/group.tpl');
 }

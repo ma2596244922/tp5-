@@ -317,7 +317,7 @@ function enterprise_dao($alias)
 /**
  * 展示Sitemap Index页面
  */
-function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
+function enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix)
 {
     $translationDAO = new \crawler\daos\Translation();
     $sitemapIndex = new \Thepixeldeveloper\Sitemap\SitemapIndex(); 
@@ -338,9 +338,7 @@ function enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix)
 
     {
         // Products
-        $siteDAO = new enterprise\daos\Site();
-        $condition = "`site_id`=" . (int)$siteId;
-        $site = $siteDAO->getOneBy($condition);
+        $site = enterprise_get_site_info($siteId, $langCode);
         $productCnt = (int)$site['product_cnt'];
         $productsPerFile = ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE;
         $sitemapFiles = (int)($productCnt / $productsPerFile) + (($productCnt % $productsPerFile)?1:0);
@@ -401,14 +399,14 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
 /**
  * 展示Sitemap页面
  */
-function enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, $no = 1)
+function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no = 1)
 {
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
-    $productDAO = new \enterprise\daos\Product();
-    $start = ($no - 1) * ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE;
-    $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, '`id` ASC', ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, $start);
+    if ($langCode == 'en')
+        $products = enterprise_get_product_list($siteId, $langCode, null, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', '`id` ASC');
+    else
+        $products = enterprise_get_product_list($siteId, $langCode, null, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', 'elp.`product_id` ASC');
     if ($products) foreach ($products as $product) {
         $loc = enterprise_url_product($product);
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
@@ -424,17 +422,18 @@ function enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $curre
 /**
  * 以Sitemap格式输出全部分组的URL
  */
-function enterprise_action_sitemap_group_proc($siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
     // groups
-    $groupDAO = new \enterprise\daos\Group();
     $curGroupId = 0;
     $max = 100;
     do {
-        $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$curGroupId}";
-        $groups = $groupDAO->getMultiBy($condition, $max);
+        if ($langCode == 'en')
+            $groups = enterprise_get_group_list($siteId, $langCode, $max, "`id`>{$curGroupId}");
+        else
+            $groups = enterprise_get_group_list($siteId, $langCode, $max, "`group_id`>{$curGroupId}");
         if (!$groups)
             break;
 
@@ -1181,20 +1180,14 @@ function enterprise_assign_group_info($smarty, $var, $groupId, $langCode = 'en')
 function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skipEmpty = true,
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
-    return enterprise_assign_group_list_ex($smarty, $var, $siteId, 'en', $max, $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
+    return enterprise_assign_group_list_ex($smarty, $var, $siteId, 'en', $max, '', $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
 }
 
 /**
- * Assign Group List Ext
- *
- * @return array Group Array
+ * Get Group List
  */
-function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null, $skipEmpty = true,
-        $appendFirstProducts = false, $maxAppendedProducts = 1)
+function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $additionalConditions = '')
 {
-    $maxGroupsFromDb = ($appendFirstProducts?null:$max);
-    $cntString = ($skipEmpty?' AND `cnt`>0':'');
-
     if ($langCode == 'en') {
         $groupDAO = new \enterprise\daos\Group();
         $fields = '*';
@@ -1202,8 +1195,26 @@ function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
         $fields = '*, `group_id` AS `id`';
     }
-    $condition = "`site_id`={$siteId} AND `deleted`=0{$cntString}";
-    $groups = $groupDAO->getMultiInOrderBy($condition, $fields, null, $maxGroupsFromDb);
+    $condition = "`site_id`={$siteId} AND `deleted`=0" . ($additionalConditions?(' AND ' . $additionalConditions):'');
+    return $groupDAO->getMultiInOrderBy($condition, $fields, null, $max);
+}
+
+/**
+ * Assign Group List Ext
+ *
+ * @return array Group Array
+ */
+function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null, $additionalConditions = '', $skipEmpty = true,
+        $appendFirstProducts = false, $maxAppendedProducts = 1)
+{
+    $maxGroupsFromDb = ($appendFirstProducts?null:$max);
+    $cntString = ($skipEmpty?'`cnt`>0':'');
+
+    if ($additionalConditions)
+        $additionalConditions .= $cntString;
+    else
+        $additionalConditions = $cntString;
+    $groups = enterprise_get_group_list($siteId, $langCode, $maxGroupsFromDb, $additionalConditions);
 
     if ($appendFirstProducts) {
         $retval = array();
@@ -1385,7 +1396,7 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
     $smarty->assign('corporation_slogan', $corporationSlogan);
 
     // Groups
-    enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode, null, true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
+    enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode, null, '', true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);

@@ -51,11 +51,11 @@ if (isset($pageBlackList[$requestPath])) {
 if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     $sitemapLocale = $matches[1];
     if ($sitemapLocale == 'index')
-        enterprise_action_sitemap_index_proc($siteId, $currentDomainSuffix);// Terminated
+        enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
     elseif ($sitemapLocale == 'product')
-        enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+        enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     elseif ($sitemapLocale == 'group')
-        enterprise_action_sitemap_group_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+        enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     elseif ($sitemapLocale == 'core')
         enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     else
