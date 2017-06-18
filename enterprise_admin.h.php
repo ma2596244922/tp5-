@@ -1393,14 +1393,13 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 /**
  * Delete Product
  */
-function enterprise_admin_action_delete_product($smarty, $site)
+function enterprise_admin_action_delete_product($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $productId = (int)timandes_get_query_data('product_id');
 
     // Get group ID
-    $productDAO = new \enterprise\daos\Product();
-    $product = $productDAO->get($productId);
+    $product = enterprise_get_product_info($productId, $langCode);
     if (!$product) {
         $msg = '找不到指定的产品';
         return header('Location: ?action=product&error_msg=' . urlencode($msg));
@@ -1412,6 +1411,10 @@ function enterprise_admin_action_delete_product($smarty, $site)
     $groupId = $product['group_id'];
 
     // Delete product
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
     $values = array(
             'deleted' => 1,
         );
@@ -1420,11 +1423,17 @@ function enterprise_admin_action_delete_product($smarty, $site)
     // FIXME: Delete language product
 
     // Cnt of products
-    $groupDAO = new \enterprise\daos\Group();
+    if ($langCode == 'en')
+        $groupDAO = new \enterprise\daos\Group();
+    else
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
     $groupDAO->incrCnt($groupId, -1);
 
     // Cnt of products
-    $siteDAO = new \enterprise\daos\Site();
+    if ($langCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
     $siteDAO->incrProductCnt($userSiteId, -1);
 
     header('Location: ?action=product&success_msg=' . urlencode('删除成功'));
