@@ -30,7 +30,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box news-box">
-                    <div class="title"><i></i><h2>Contact Information</h2></div>
+                    <div class="title"><i></i><h2>{$preset_translations.contact_info}</h2></div>
                     <div class="news-detail">
                         <div class="news-art intro-art">
                             <div class="scrollArea" id="scrollArea">
