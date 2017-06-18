@@ -897,9 +897,9 @@ function enterprise_get_group_info($groupId, $langCode = 'en')
 /**
  * Assign group info
  */
-function enterprise_admin_assign_group_info($smarty, $var, $groupId)
+function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode = 'en')
 {
-    $smarty->assign($var, enterprise_get_group_info($groupId));
+    $smarty->assign($var, enterprise_get_group_info($groupId, $langCode));
 }
 
 /**
@@ -1110,9 +1110,9 @@ function enterprise_admin_action_product($smarty, $langCode)
     $groupCondition = '';
     if ($groupId) {
         $groupCondition = ' AND ' . $tableAlias . '.`group_id`=' . $groupId;
-        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId, $langCode);
     }
-    enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
     // Filter - Keywords
     $keywords = timandes_get_query_data('keywords');
