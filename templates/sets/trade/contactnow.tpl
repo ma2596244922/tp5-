@@ -30,7 +30,7 @@
             <div class="select fl-clr">
                 <ul class="fl-clr">
                     <li class="select"> <a class="select-box" id="slt1" onclick="boxOut(1)"> <span class="selectTxt" id="selectTxt1">{$preset_translations.please_select_faq}</span> <i class="select-btn"><em class="search-btn"></em></i> </a> <span class="selectMenu" id="selectMenu1" style="display:none;"> 
-                    <a href="javascript:void(0)" title="Please select FAQ" >Please select FAQ</a>
+                    <a href="javascript:void(0)" title="Please select FAQ" >{$preset_translations.please_select_faq}</a>
 {foreach $quick_questions as $q}
                     <a href="javascript:void(0)" title="{$q|escape}" >{$q}</a>
 {/foreach}
