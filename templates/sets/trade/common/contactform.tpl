@@ -22,7 +22,7 @@
                 <div class="right-list">
                     <form action="/contactsave.html" id="form-inquiry" method="POST">
                     <ul class="fl-clr">
-                        <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" placeholder="Please Enter your Email Address" /></li>
+                        <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" value="" placeholder="{$preset_translations.please_enter_your_email_address}" /></li>
                         <li><label><i></i>{$preset_translations.to}</label>{$corporation.name}</li>
                         <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /></li>
                         <li class="fl-clr"><label><i></i>{$preset_translations.quick_question}</label><div class="select fl-clr">
@@ -49,7 +49,7 @@
     -Inquire about price/MOQ
                                 "></textarea></li>
                     </ul>
-                    <div class="send-btn"><a href="">SENG NOW</a></div>
+                    <div class="send-btn"><a href="">SEND NOW</a></div>
                     </form>
                 </div>
             </div>

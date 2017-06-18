@@ -11,7 +11,7 @@
 <body>
 <header class="title-header">
     <a href="{$product|url:'enterprise_url_product'}" class="back"></a>
-    <span>Product Details</span>
+    <span>{$preset_translations.product_details}</span>
 </header>
 <!--header-->
 <div class="content">  
@@ -35,7 +35,7 @@
    </div>
    <!--product-detail-->
     <section class="product-features">
-        <div class="title"><h2>Product Features</h2></div>
+        <div class="title"><h2>{$preset_translations.product_features}</h2></div>
         <article>
             {$product.description}
         </article>

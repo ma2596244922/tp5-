@@ -101,4 +101,10 @@ $presetTranslations = array(
         'recommended_products' => 'Recommended Products',
         'product_details' => 'Product Details',
         'product_features' => 'Product Features',
+
+        // 'top_products' => 'Top Products',
+        // 'less' => 'Less',
+        // 'copyright' => 'Copyright',
+        // 'all_rights_reserved' => 'All Rights Reserved',
+        // 'send_now' => 'Send Now',
     );

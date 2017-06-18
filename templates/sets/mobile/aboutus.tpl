@@ -24,15 +24,15 @@
         </div>
     </div>
     <section>
-        <h2 class="title-t">Company Details</h2>
+        <h2 class="title-t">{$preset_translations.company_details}</h2>
         <ul class="about-info">
-            <li><span class="t">Business Type</span>{$corporation.business_type}</li>
-            <li><span class="t">Main Market</span>{$corporation.main_market}</li>
-            <li><span class="t">Brands</span>{$corporation.brands}</li>
-            <li><span class="t">No. of Employees</span>{$corporation.no_of_employees}</li>
-            <li><span class="t">Annual Sales</span>{$corporation.annual_sales}</li>
-            <li><span class="t">Year Established</span>{$corporation.year_established}</li>
-            <li><span class="t">Export p.c</span>{$corporation.export_p_c}</li>
+            <li><span class="t">{$preset_translations.business_type}</span>{$corporation.business_type}</li>
+            <li><span class="t">{$preset_translations.main_market}</span>{$corporation.main_market}</li>
+            <li><span class="t">{$preset_translations.brands}</span>{$corporation.brands}</li>
+            <li><span class="t">{$preset_translations.no_of_employees}</span>{$corporation.no_of_employees}</li>
+            <li><span class="t">{$preset_translations.annual_sales}</span>{$corporation.annual_sales}</li>
+            <li><span class="t">{$preset_translations.year_established}</span>{$corporation.year_established}</li>
+            <li><span class="t">{$preset_translations.export_p_c}</span>{$corporation.export_p_c}</li>
         </ul>
     </section>
     <section>
@@ -40,35 +40,35 @@
         <ul class="about-info">
             <li class="text-txt">
                 <div class="txt" data-role="txt">{$corporation.introduction}</div>
-                <span class="text-a" data-role="text-a">View more<i></i></span>
+                <span class="text-a" data-role="text-a">{$preset_translations.view_more}<i></i></span>
             </li>
-            <li><span class="t tt">Contact Info</span><a href="/contactus.html" class="see">See detail<i></i></a></li>
+            <li><span class="t tt">Contact Info</span><a href="/contactus.html" class="see">{$preset_translations.see_detail}<i></i></a></li>
         </ul>
     </section>
     <section>
-        <h2 class="title-t">History</h2>
+        <h2 class="title-t">{$preset_translations.history}</h2>
         <ul class="about-info">
             <li class="text-txt">
                 <div class="txt" data-role="txt">{$corporation.history}</div>
-                <span class="text-a" data-role="text-a">View more<i></i></span>
+                <span class="text-a" data-role="text-a">{$preset_translations.view_more}<i></i></span>
             </li>
         </ul>
     </section>
     <section>
-        <h2 class="title-t">Service</h2>
+        <h2 class="title-t">{$preset_translations.service}</h2>
         <ul class="about-info">
             <li class="text-txt">
                 <div class="txt" data-role="txt">{$corporation.service}</div>
-                <span class="text-a" data-role="text-a">View more<i></i></span>
+                <span class="text-a" data-role="text-a">{$preset_translations.view_more}<i></i></span>
             </li>
         </ul>
     </section>
     <section>
-        <h2 class="title-t">Our Team</h2>
+        <h2 class="title-t">{$preset_translations.our_team}</h2>
         <ul class="about-info">
             <li class="text-txt">
                 <div class="txt" data-role="txt">{$corporation.our_team}</div>
-                <span class="text-a" data-role="text-a">View more<i></i></span>
+                <span class="text-a" data-role="text-a">{$preset_translations.view_more}<i></i></span>
             </li>
         </ul>
     </section>

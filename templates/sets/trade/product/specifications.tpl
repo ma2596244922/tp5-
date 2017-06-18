@@ -1,6 +1,6 @@
 {if count($product_specifications)>0}
         <div class="product-detail">
-            <div class="title"><i></i><h2>Product Details</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.product_details}</h2></div>
             <table cellpadding="0" cellspacing="0">
     {foreach $product_specifications as $k=>$v}
         {if $v@index%3==0}

@@ -47,27 +47,27 @@
                                 {$corporation.introduction}
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i><h2>Company Details</h2></div>
+                                <div class="title"><i></i><h2>{$preset_translations.company_details}</h2></div>
                                 <ul class="fl-clr">
-                                    <li><label>Business Type</label><span>{$corporation.business_type}</span></li>
-                                    <li><label>Main Market</label><span>{$corporation.main_market}</span></li>
-                                    <li><label>Brands</label><span>{$corporation.brands}</span></li>
-                                    <li><label>No. of Employees</label><span>{$corporation.no_of_employees}</span></li>
-                                    <li><label>Annual Sales</label><span>{$corporation.annual_sales}</span></li>
-                                    <li><label>Year Established</label><span>{$corporation.year_established}</span></li>
-                                    <li><label>Export p.c</label><span>{$corporation.export_p_c}</span></li>
+                                    <li><label>{$preset_translations.business_type}</label><span>{$corporation.business_type}</span></li>
+                                    <li><label>{$preset_translations.main_market}</label><span>{$corporation.main_market}</span></li>
+                                    <li><label>{$preset_translations.brands}</label><span>{$corporation.brands}</span></li>
+                                    <li><label>{$preset_translations.no_of_employees}</label><span>{$corporation.no_of_employees}</span></li>
+                                    <li><label>{$preset_translations.annual_sales}</label><span>{$corporation.annual_sales}</span></li>
+                                    <li><label>{$preset_translations.year_established}</label><span>{$corporation.year_established}</span></li>
+                                    <li><label>{$preset_translations.export_p_c}</label><span>{$corporation.export_p_c}</span></li>
                                 </ul>
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i><h2>History</h2></div>
+                                <div class="title"><i></i><h2>{$preset_translations.history}</h2></div>
                                 {$corporation.history}
                             </div>
                             <div class="intro-txt">
-                                <div class="title"><i></i><h2>Service</h2></div>
+                                <div class="title"><i></i><h2>{$preset_translations.service}</h2></div>
                                 {$corporation.service}
                             </div>
                             <div class="intro-txt last-txt">
-                                <div class="title"><i></i><h2>Our Team</h2></div>
+                                <div class="title"><i></i><h2>{$preset_translations.our_team}</h2></div>
                                 {$corporation.our_team}
                             </div>
                             

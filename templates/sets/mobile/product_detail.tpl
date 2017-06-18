@@ -50,7 +50,7 @@
         {-/if}
     {-/foreach}
        </table>
-       <section><a href="{$product|url:'enterprise_url_detailed_product'}" class="show-more">View More</a></section>
+       <section><a href="{$product|url:'enterprise_url_detailed_product'}" class="show-more">{$preset_translations.view_more}</a></section>
    </div>
    <!--product-detail-->
    <div class="product-detail">
@@ -76,11 +76,11 @@
            </tr>
 {-/if}
        </table>
-       <section><a href="/aboutus.html" class="show-more">View More</a></section>
+       <section><a href="/aboutus.html" class="show-more">{$preset_translations.view_more}</a></section>
    </div>
    <!--product-detail-->
    <section class="recom-products">
-        <div class="title"><h2>Recommended Products</h2></div>
+        <div class="title"><h2>{$preset_translations.recommended_products}</h2></div>
         <ul class="fl-clr">
 {foreach $new_products as $product}{if $product@index>=6}{break}{/if}
             <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|escape}" /></a><span class="pro-title"><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}"><strong>{$product.caption}</strong></a></span></li>

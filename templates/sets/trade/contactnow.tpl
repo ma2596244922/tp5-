@@ -17,7 +17,7 @@
     <input type="hidden" name="message_type" value="text/plain" />
     <input type="hidden" name="target_product_id" value="{$target_product_id}" />
     <ul class="form-main">
-        <li><label><i>*</i>{$preset_translations.from}</label><input type="text" class="txt" id="username" name="email" placeholder="Please Enter your Email Address" /><span class="erro_alert" id="username_error">Please Enter your Email Address</span></li>
+        <li><label><i>*</i>{$preset_translations.from}</label><input type="text" class="txt" id="username" name="email" placeholder="{$preset_translations.please_enter_your_email_address}" /><span class="erro_alert" id="username_error">{$preset_translations.please_enter_your_email_address}</span></li>
         <li class="fl-clr sendTo"><label><i></i>{$preset_translations.to}</label>
             <div class="company">
                 <dl class="edit default">

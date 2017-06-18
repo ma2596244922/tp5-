@@ -22,7 +22,7 @@
         </ul>
     </section>
     <section class="hot-products">
-        <h2 class="title-t">Hot Products</h2>
+        <h2 class="title-t">{$preset_translations.hot_products}</h2>
         <ul class="hot-ul fl-clr">
 {foreach $products as $product}{if $product@index>=7}{continue}{/if}
             <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|escape}"></a><span class="pro-title"><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}"><strong>{$product.caption}</strong></a></span></li>

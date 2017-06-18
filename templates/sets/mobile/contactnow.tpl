@@ -28,7 +28,7 @@
     <input type="hidden" name="back_to" value="{$smarty.server.HTTP_REFERER}" />
     <div class="form-inquiry">
         <ul>
-            <li class="fl-clr"><label>{$preset_translations.from}</label><input type="text" class="txt" placeholder="Please Enter your Email Address" id="email" name="email" /><span class="error" id="email_info"></span></li>
+            <li class="fl-clr"><label>{$preset_translations.from}</label><input type="text" class="txt" placeholder="{$preset_translations.please_enter_your_email_address}" id="email" name="email" /><span class="error" id="email_info"></span></li>
             <li class="company fl-clr"><label>{$preset_translations.to}</label><i>{$corporation.name}</i></li>
         </ul>
         <div class="inquiry-detail">
@@ -41,7 +41,7 @@
 {/foreach}
             </dl>
             <textarea placeholder="This is the default language." class="area" id="area" name="message"></textarea>
-            <span class="area_error" id="area_error">Your inquiry content must be between 20 to 5000 characters.</span>
+            <span class="area_error" id="area_error">{$preset_translations.your_inquiry_content_must_be_between_20_to_5000_characters}</span>
             <a href="javascript:send_inquiry();" class="send-inquiry">{$preset_translations.send_inquiry}</a>
         </div>
         <p><input type="checkbox" value="1" id="checkboxFiveInput" name="iscontact" /><label for="checkboxFiveInput"  class="check"></label>{$preset_translations.please_reply_me_within_24_hours}.</p>
