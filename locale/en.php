@@ -115,5 +115,7 @@ $presetTranslations = array(
         // 'news' => 'News',
         // 'Previous_page' => 'Previous page',
         // 'next_page' => 'Next page',
-        // 'the_user_has_not_provide_such_information.' => 'The user has not provide such information.',
+        // 'the_user_has_not_provide_such_information' => 'The user has not provide such information.',
+        // 'please_enter_the_content_for_your_inquiry' => 'Please enter the content for your inquiry.',
+        // 'placeholder_of_inquiry_message' => 'For the best results, we recommend including the following details:\n-Self introduction\n-Required specifications\n-Inquire about price/MOQ',
     );
