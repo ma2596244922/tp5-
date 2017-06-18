@@ -79,26 +79,26 @@ $presetTranslations = array(
         'product_description' => 'Product Description',
         'new_products' => 'New Products',
 
-        // About
-        // Contacts
-        // Hot Products
-        // PC Sites
-        // Company Details
-        // Business Type
-        // Main Market
-        // Brands
-        // No. of Employees
-        // Annual Sales
-        // Year Established
-        // Export p.c
-        // View more
-        // See detail
-        // History
-        // Service
-        // Our Team
-        // Please Enter your Email Address
-        // Your inquiry content must be between 20 to 5000 characters.
-        // Recommended Products
-        // Product Details
-        // Product Features
+        'about' => 'About',
+        'contacts' => 'Contacts',
+        'hot_products' => 'Hot Products',
+        'pc_sites' => 'PC Sites',
+        'company_details' => 'Company Details',
+        'business_type' => 'Business Type',
+        'main_market' => 'Main Market',
+        'brands' => 'Brands',
+        'no_of_employees' => 'No. of Employees',
+        'annual_sales' => 'Annual Sales',
+        'year_established' => 'Year Established',
+        'export_p_c' => 'Export p.c',
+        'view_more' => 'View more',
+        'see_detail' => 'See detail',
+        'history' => 'History',
+        'service' => 'Service',
+        'our_team' => 'Our Team',
+        'please_enter_your_email_address' => 'Please Enter your Email Address',
+        'your_inquiry_content_must_be_between_20_to_5000_characters' => 'Your inquiry content must be between 20 to 5000 characters.',
+        'recommended_products' => 'Recommended Products',
+        'product_details' => 'Product Details',
+        'product_features' => 'Product Features',
     );
