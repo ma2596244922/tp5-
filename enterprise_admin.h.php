@@ -1212,69 +1212,10 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 }
 
 /**
- * Edit Product
+ * Save Products
  */
-function enterprise_admin_action_edit_product($smarty, $site, $langCode)
+function enterprise_admin_save_products($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags)
 {
-    $tplPath = 'admin/edit_product.tpl';
-
-    $productId = (int)timandes_get_query_data('product_id');
-    $smarty->assign('product_id', $productId);
-
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
-
-    $submitButton = timandes_get_post_data('submit');
-    if (!$submitButton) {// No form data
-        // Editing?
-        if ($productId) 
-            enterprise_admin_assign_product_info($smarty, 'product', $productId, $langCode);
-
-        // Copying?
-        $sourceProductId = (int)timandes_get_query_data('source_product_id');
-        if ($sourceProductId)
-            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId, $langCode);
-
-        return $smarty->display($tplPath);
-    }
-
-    // Save
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
-    $caption = timandes_get_post_data('caption');
-    $description = timandes_get_post_data('description', 'xss_clean, remove_n_r, trim');
-    $groupId = timandes_get_post_data('group_id');
-    $tags = timandes_get_post_data('tags');
-    $brandName = timandes_get_post_data('brand_name');
-    $modelNumber = timandes_get_post_data('model_number');
-    $certification = timandes_get_post_data('certification');
-    $placeOfOrigin = timandes_get_post_data('place_of_origin');
-    $minOrderQuantity = timandes_get_post_data('min_order_quantity');
-    $price = timandes_get_post_data('price');
-    $paymentTerms = timandes_get_post_data('payment_terms');
-    $supplyAbility = timandes_get_post_data('supply_ability');
-    $deliveryTime = timandes_get_post_data('delivery_time');
-    $packagingDetails = timandes_get_post_data('packaging_details');
-    $specificationsQueryString = timandes_get_post_data('specifications');
-
-    parse_str($specificationsQueryString, $specificationsCellArray);
-
-    $specificationsArray = array();
-    if (isset($specificationsCellArray['s'])
-            && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
-        $specificationsArray[$row['key']] = $row['val'];
-    }
-
-    if (!$caption)
-        return enterprise_admin_display_error_msg($smarty, '请输入产品名称');
-    if (!$groupId)
-        return enterprise_admin_display_error_msg($smarty, '请选择所属分组');
-
-    // Upload images
-    $images = enterprise_admin_upload_post_images();
-    if (!$images)
-        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
-    $headImageId = $images[0];
-
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
@@ -1307,7 +1248,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         // Authentication
         $originalProduct = enterprise_get_product_info($productId, $langCode);
         if (!$originalProduct
-                || $originalProduct['site_id'] != $site['site_id'])
+                || $originalProduct['site_id'] != $userSiteId)
             return enterprise_admin_display_error_msg($smarty, '权限不足');
         // Update
         $productDAO->update($productId, $values);
@@ -1378,6 +1319,73 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
             $siteDAO->incrProductCnt($userSiteId);
         }
     }
+}
+
+/**
+ * Edit Product
+ */
+function enterprise_admin_action_edit_product($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/edit_product.tpl';
+
+    $productId = (int)timandes_get_query_data('product_id');
+    $smarty->assign('product_id', $productId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($productId) 
+            enterprise_admin_assign_product_info($smarty, 'product', $productId, $langCode);
+
+        // Copying?
+        $sourceProductId = (int)timandes_get_query_data('source_product_id');
+        if ($sourceProductId)
+            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $caption = timandes_get_post_data('caption');
+    $description = timandes_get_post_data('description', 'xss_clean, remove_n_r, trim');
+    $groupId = timandes_get_post_data('group_id');
+    $tags = timandes_get_post_data('tags');
+    $brandName = timandes_get_post_data('brand_name');
+    $modelNumber = timandes_get_post_data('model_number');
+    $certification = timandes_get_post_data('certification');
+    $placeOfOrigin = timandes_get_post_data('place_of_origin');
+    $minOrderQuantity = timandes_get_post_data('min_order_quantity');
+    $price = timandes_get_post_data('price');
+    $paymentTerms = timandes_get_post_data('payment_terms');
+    $supplyAbility = timandes_get_post_data('supply_ability');
+    $deliveryTime = timandes_get_post_data('delivery_time');
+    $packagingDetails = timandes_get_post_data('packaging_details');
+    $specificationsQueryString = timandes_get_post_data('specifications');
+
+    parse_str($specificationsQueryString, $specificationsCellArray);
+
+    $specificationsArray = array();
+    if (isset($specificationsCellArray['s'])
+            && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
+        $specificationsArray[$row['key']] = $row['val'];
+    }
+
+    if (!$caption)
+        return enterprise_admin_display_error_msg($smarty, '请输入产品名称');
+    if (!$groupId)
+        return enterprise_admin_display_error_msg($smarty, '请选择所属分组');
+
+    // Upload images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
+    $headImageId = $images[0];
+
+    enterprise_admin_save_products($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
@@ -1533,6 +1541,49 @@ function enterprise_admin_action_edit_product_url($smarty, $site)
     $productDAO->update($productId, $values);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
+}
+
+
+/**
+ * Duplicate Products
+ */
+function enterprise_admin_action_duplicate_products($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/duplicate_products.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $productId = (int)timandes_get_query_data('product_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $cnt = (int)timandes_get_post_data('cnt');
+    $groupId = (int)timandes_get_post_data('group_id');
+
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+    if (!$cnt)
+        throw new \UnexpectedValueException("请输入数量");
+
+    $product = enterprise_get_product_info($productId, $langCode);
+    if (!$product)
+        throw new \RuntimeException("找不到指定的产品");
+
+    // Pre-Process
+    $product['images'] = [];
+    $product['head_image_id'] = 0;
+    $product['specifications'] = ($product['specifications']?json_decode($product['specifications'], true):[]);
+
+    for ($i=0; $i<$cnt; ++$i) {
+        enterprise_admin_save_products($langCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $groupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
 /* {{{ 批量插入关键词 - Utils */

@@ -46,6 +46,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
             switch ($action) {
+                case 'duplicate_products':
+                    return enterprise_admin_action_duplicate_products($smarty, $site, $langCode);
                 case 'common_bg_image':
                     return enterprise_admin_action_common_bg_image($smarty);
                 case 'product_default_image':

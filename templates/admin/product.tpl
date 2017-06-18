@@ -248,7 +248,10 @@
                                                 <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
 
                                                 <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_product&product_id={$products[i].id}">删除</a>
+    {-if $smarty.get.group_id|default:''}
 
+                                                <a href="?action=duplicate_products&product_id={$products[i].id}">批量复制产品</a>
+    {-/if}
                                             </td>
 
                                         </tr>
