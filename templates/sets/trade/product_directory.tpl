@@ -19,7 +19,7 @@
         <!--nav-->
         <div class="crumb">
             <p>
-                <a href="/">Home</a>&gt;
+                <a href="/">{$preset_translations.home}</a>&gt;
                 <span>Site Map</span>
             </p>
         </div>

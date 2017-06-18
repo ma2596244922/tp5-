@@ -18,7 +18,7 @@
         <!--nav-->
         <div class="crumb">
             <p>
-                <a href="/">Home</a>&gt;
+                <a href="/">{$preset_translations.home}</a>&gt;
                 <span>News</span>
             </p>
         </div>
@@ -31,7 +31,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box news-box{if !$news|default:[]} quality-none{/if}">
-                    <div class="title"><i></i>Company News</div>
+                    <div class="title"><i></i>{$preset_translations.company_news}</div>
                     <div class="news-list">
 {foreach $news as $n}
                         <dl>

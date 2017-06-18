@@ -18,7 +18,7 @@
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="/">Home</a>&gt;<a href="/products.html">Products</a>&gt;<a href="{$product_group|default:[]|url:'enterprise_url_product_list'}">{$product_group.name|default:''}</a>&gt;<span>{$product.caption}</span></p>
+            <p><a href="/">{$preset_translations.home}</a>&gt;<a href="/products.html">{$preset_translations.products}</a>&gt;<a href="{$product_group|default:[]|url:'enterprise_url_product_list'}">{$product_group.name|default:''}</a>&gt;<span>{$product.caption}</span></p>
         </div>
 {-if $page_no<=1}
         <!--crumb-->

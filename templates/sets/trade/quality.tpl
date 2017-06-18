@@ -19,7 +19,7 @@
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="/">Home</a>&gt;<a href="/aboutus.html">{$preset_translations.about_us}</a>&gt;<span>{$corporation.name} Quality Control</span></p>
+            <p><a href="/">{$preset_translations.home}</a>&gt;<a href="/aboutus.html">{$preset_translations.about_us}</a>&gt;<span>{$corporation.name} {$preset_translations.quality_control}</span></p>
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">
@@ -30,7 +30,7 @@
             <!--left-content-->
             <div class="right-content">
                 <div class="product-box quality-box">
-                    <div class="title"><i></i><h2>Quality Control</h2></div>
+                    <div class="title"><i></i><h2>{$preset_translations.quality_control}</h2></div>
                     <div class="quality-list">
                         {$corporation.qc_profile}
                     </div>

@@ -18,7 +18,7 @@
         <!--nav-->
         <div class="crumb">
             <p>
-                <a href="/">Home</a>&gt;
+                <a href="/">{$preset_translations.home}</a>&gt;
                 <a href="/news">News</a>&gt;
                 <span>{$news.caption}</span>
             </p>
@@ -58,7 +58,7 @@
         </div>
         <!--main-content-->
         <div class="new-products">
-            <div class="title"><i></i>New Products</div>
+            <div class="title"><i></i>{$preset_translations.new_products}</div>
             <ul class="fl-clr">
 {foreach $new_products as $product}{if $product@index>=5}{break}{/if}
                 <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|escape}"><i>{$product.caption|escape}</i></a></li>

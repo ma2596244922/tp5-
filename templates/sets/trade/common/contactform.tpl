@@ -5,7 +5,7 @@
 {/if}
 
         <div class="contact-us">
-            <div class="title"><i></i><h2>Contact Us</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.contact_us}</h2></div>
             <div class="contact-info fl-clr">
                 <div class="left-list">
                     <img src="{$corporation.logo|url:'enterprise_url_image'}" alt="" />

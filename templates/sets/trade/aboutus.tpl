@@ -19,7 +19,7 @@
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="/">Home</a>&gt;<span>{$corporation.name}</span></p>
+            <p><a href="/">{$preset_translations.home}</a>&gt;<span>{$corporation.name}</span></p>
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">

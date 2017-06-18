@@ -19,13 +19,13 @@
         <!--nav-->
         <div class="crumb">
             <p>
-                <a href="/">Home</a>&gt;
+                <a href="/">{$preset_translations.home}</a>&gt;
 {-if $group|default:[]}
-                <a href="/products.html">Products</a>&gt;<span>{$group.name}</span>
+                <a href="/products.html">{$preset_translations.products}</a>&gt;<span>{$group.name}</span>
 {-elseif $phrase|default:''}
-                <a href="/products.html">Products</a>&gt;<span>{$phrase}</span>
+                <a href="/products.html">{$preset_translations.products}</a>&gt;<span>{$phrase}</span>
 {-else}
-                <span>Products</span>
+                <span>{$preset_translations.products}</span>
 {-/if}      </p>
         </div>
         <!--crumb-->

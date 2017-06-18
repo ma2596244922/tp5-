@@ -19,7 +19,7 @@
 {include file="sets/trade/common/navbar.tpl"}
         <!--nav-->
         <div class="crumb">
-            <p><a href="/">Home</a>&gt;<span>{$corporation.name} Contact Info</span></p>
+            <p><a href="/">{$preset_translations.home}</a>&gt;<span>{$corporation.name} Contact Info</span></p>
         </div>
         <!--crumb-->
 {if $site.contact_content|default:''}
