@@ -3097,14 +3097,11 @@ function enterprise_admin_action_delete_news($smarty, $site, $langCode)
             'deleted' => 1,
             'updated' => date('Y-m-d H:i:s'),
         );
-    $newsDAO = new \enterprise\daos\News();
+    if ($langCode == 'en')
+        $newsDAO = new \enterprise\daos\News();
+    else
+        $newsDAO = new \enterprise\daos\LangNews($langCode);
     $newsDAO->update($newsId, $values);
-
-    // Delete language news
-    if ($langCode != 'en') {
-        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
-        $langNewsDAO->update($newsId, $values);
-    }
 
     header('Location: ?action=news&success_msg=' . urlencode('删除成功'));
 }

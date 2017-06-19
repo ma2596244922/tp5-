@@ -2340,7 +2340,7 @@ function enterprise_get_news_info($newsId, $langCode = 'en')
     $newsId = (int)$newsId;
 
     $newsDAO = new \enterprise\daos\News();
-    if ($langCode)
+    if ($langCode == 'en')
         return $newsDAO->get($newsId);
     else {
         $langNewsDAO = new \enterprise\daos\LangNews($langCode);
