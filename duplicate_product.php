@@ -98,7 +98,7 @@ function duplicate_proc()
             $product['specifications'] = ($product['specifications']?json_decode($product['specifications'], true):[]);
             $product['images'] = ($product['images']?json_decode($product['images'], true):[]);
 
-            enterprise_admin_save_product($targetLangCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $targetGroupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
+            enterprise_admin_save_product($targetLangCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $targetSiteId, $product['caption'], $product['description'], $targetGroupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
 
             $curProductId = $product['id'];
         }
