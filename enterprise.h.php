@@ -1159,16 +1159,12 @@ function enterprise_url_news_list($pageNo = 1)
 
 /* {{{ Groups */
 
+/**
+ * Assign Group Info
+ */
 function enterprise_assign_group_info($smarty, $var, $groupId, $langCode = 'en')
 {
-    if ($langCode == 'en') {
-        $groupDAO = new \enterprise\daos\Group();
-        $group = $groupDAO->get($groupId);
-    } else {
-        $groupDAO = new \enterprise\daos\LangGroup($langCode);
-        $condition = '`group_id`=' . (int)$groupId;
-        $group = $groupDAO->getOneBy($condition);
-    }
+    $group = enterprise_get_group_info($groupId, $langCode);
     $smarty->assign('group', $group);
 }
 

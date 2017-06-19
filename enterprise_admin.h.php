@@ -902,6 +902,53 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
     $smarty->assign($var, enterprise_get_group_info($groupId, $langCode));
 }
 
+function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId)
+{
+    // Language Group
+    $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
+
+    // Save group
+    $groupDAO = new \enterprise\daos\Group();
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if (!$langGroupDAO) {// English only
+        $values['site_id'] = $userSiteId;
+        $values['name'] = $groupName;
+    }
+    if ($groupId) {// Edit
+        // Authentication
+        $originalGroup = $groupDAO->get($groupId);
+        if (!$originalGroup
+                || $originalGroup['site_id'] != $userSiteId)
+            throw new \RuntimeException('权限不足');
+        // Update
+        $groupDAO->update($groupId, $values);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $newGroupId = $groupDAO->insert($values);
+    }
+
+    // Save lang group
+    if ($langGroupDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'name' => $groupName,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        if ($groupId) {// Edit
+            $langGroupDAO->update($groupId, $values);
+        } else {// Create
+            $values['created'] = $values['updated'];
+            $values['group_id'] = $newGroupId;
+            $langGroupDAO->insert($values);
+        }
+    }
+
+    if (isset($newGroupId))
+        return $newGroupId;
+}
+
 /**
  * Edit Group
  */
@@ -926,46 +973,7 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
-    // Language Group
-    $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
-
-    // Save group
-    $groupDAO = new \enterprise\daos\Group();
-    $values = array(
-            'updated' => date('Y-m-d H:i:s'),
-        );
-    if (!$langGroupDAO) {// English only
-        $values['site_id'] = $userSiteId;
-        $values['name'] = $groupName;
-    }
-    if ($groupId) {// Edit
-        // Authentication
-        $originalGroup = $groupDAO->get($groupId);
-        if (!$originalGroup
-                || $originalGroup['site_id'] != $site['site_id'])
-            return enterprise_admin_display_error_msg($smarty, '权限不足');
-        // Update
-        $groupDAO->update($groupId, $values);
-    } else {// Create
-        $values['created'] = $values['updated'];
-        $newGroupId = $groupDAO->insert($values);
-    }
-
-    // Save lang group
-    if ($langGroupDAO) {
-        $values = array(
-                'site_id' => $userSiteId,
-                'name' => $groupName,
-                'updated' => date('Y-m-d H:i:s'),
-            );
-        if ($groupId) {// Edit
-            $langGroupDAO->update($groupId, $values);
-        } else {// Create
-            $values['created'] = $values['updated'];
-            $values['group_id'] = $newGroupId;
-            $langGroupDAO->insert($values);
-        }
-    }
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }
@@ -1214,7 +1222,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Save Products
  */
-function enterprise_admin_save_products($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags)
+function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags)
 {
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -1249,7 +1257,7 @@ function enterprise_admin_save_products($langCode, $productId, $brandName, $mode
         $originalProduct = enterprise_get_product_info($productId, $langCode);
         if (!$originalProduct
                 || $originalProduct['site_id'] != $userSiteId)
-            return enterprise_admin_display_error_msg($smarty, '权限不足');
+            throw new \RuntimeException('权限不足');
         // Update
         $productDAO->update($productId, $values);
 
@@ -1319,6 +1327,9 @@ function enterprise_admin_save_products($langCode, $productId, $brandName, $mode
             $siteDAO->incrProductCnt($userSiteId);
         }
     }
+
+    if (isset($newProductId))
+        return $newProductId;
 }
 
 /**
@@ -1385,7 +1396,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
 
-    enterprise_admin_save_products($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags);
+    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
@@ -1589,7 +1600,7 @@ function enterprise_admin_action_duplicate_products($smarty, $site, $langCode)
     $product['specifications'] = ($product['specifications']?json_decode($product['specifications'], true):[]);
 
     for ($i=0; $i<$cnt; ++$i) {
-        enterprise_admin_save_products($langCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $groupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
+        enterprise_admin_save_product($langCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $groupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
     }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
