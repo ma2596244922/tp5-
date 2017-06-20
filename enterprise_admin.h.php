@@ -1027,7 +1027,7 @@ function enterprise_admin_action_delete_group($smarty, $site, $langCode)
 /**
  * Count Products
  */
-function enterprise_admin_action_count_products($smarty)
+function enterprise_admin_action_count_products($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $groupId = (int)timandes_get_query_data('group_id');
@@ -1037,13 +1037,25 @@ function enterprise_admin_action_count_products($smarty)
         $groupCondition = " AND `group_id`={$groupId}";
 
     // Count products
-    $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}";
+    if ($langCode == 'en') {
+        $productDAO = new \enterprise\daos\Product();
+        if ($groupId)
+            $groupCondition = " AND `group_id`={$groupId}";
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}";
+    } else{
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        if ($groupId)
+            $groupCondition = " AND elp.`group_id`={$groupId}";
+        $condition = "elp.`site_id`={$userSiteId} AND elp.`deleted`=0{$groupCondition}";
+    }
     $cnt = (int)$productDAO->countBy($condition);
 
     // Save count to group
     if ($groupId) {
-        $groupDAO = new enterprise\daos\Group();
+        if ($langCode == 'en')
+            $groupDAO = new enterprise\daos\Group();
+        else
+            $groupDAO = new enterprise\daos\LangGroup($langCode);
         $values = array(
                 'cnt' => $cnt,
             );
@@ -1051,7 +1063,10 @@ function enterprise_admin_action_count_products($smarty)
 
         header('Location: ?action=group&success_msg=' . urlencode('操作成功'));
     } else {
-        $siteDAO = new enterprise\daos\Site();
+        if ($langCode == 'en')
+            $siteDAO = new enterprise\daos\Site();
+        else
+            $siteDAO = new enterprise\daos\LangSite($langCode);
         $values = array(
                 'product_cnt' => $cnt,
             );
