@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {$site.common_head_fragment}
         <meta charset="utf-8" />
         <title>Send your inquiry directly to us</title>
 {include file="sets/mobile/common/meta.tpl"}

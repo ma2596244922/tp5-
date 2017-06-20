@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        {$site.common_head_fragment}
         <meta charset="utf-8" />
         <title>{$title}</title>
         <meta name="keywords" content="{$keywords|escape}">
