@@ -918,7 +918,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
     }
     if ($groupId) {// Edit
         // Authentication
-        $originalGroup = $groupDAO->get($groupId);
+        $originalGroup = enterprise_get_group_info($groupId, $langCode);
         if (!$originalGroup
                 || $originalGroup['site_id'] != $userSiteId)
             throw new \RuntimeException('权限不足');
@@ -962,7 +962,7 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         if ($groupId) 
-            enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+            enterprise_admin_assign_group_info($smarty, 'group', $groupId, $langCode);
         return $smarty->display($tplPath);
     }
 
