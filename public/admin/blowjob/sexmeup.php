@@ -149,61 +149,7 @@ function enterprise_sexmeup_save_product($siteId, $langCode, $groupId, $images)
     if ($productIdentity)// Already exists
         return $productIdentity['product_id'];
 
-    // LangProductDAO
-    $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
-
-    // Insert product
-    $productDAO = new \enterprise\daos\Product();
-    $values = array(
-            'updated' => date('Y-m-d H:i:s'),
-            'brand_name' => $brandName,
-            'model_number' => $modelNumber,
-            'certification' => $certification,
-            'place_of_origin' => $placeOfOrigin,
-            'payment_terms' => $paymentTerms,
-            'price' => $price,
-            'supply_ability' => $supplyAbility,
-            'head_image_id' => $headImageId,
-            'images' => $images,
-            'source_url' => $sourceUrl,
-        );
-    $values['created'] = $values['updated'];
-    if (!$langProductDAO) {// English only
-        $values['site_id'] = $siteId;
-        $values['caption'] = $caption;
-        $values['description'] = $description;
-        $values['group_id'] = $groupId;
-        $values['min_order_quantity'] = $minOrderQuantity;
-        $values['delivery_time'] = $deliveryTime;
-        $values['packaging_details'] = $packagingDetails;
-        $values['specifications'] = $specifications;
-        $values['tags'] = $tagsFieldValue;
-    }
-    if ($customPath) {
-        $values['path'] = '/' . ltrim($customPath, '/');
-        $values['path_sum'] = md5($values['path'], true);
-    }
-    $retval = $productDAO->insert($values);
-
-    // Insert lang product
-    if ($langProductDAO) {// Other language
-        $values = array(
-                'product_id' => $retval,
-                'site_id' => $siteId,
-                'caption' => $caption,
-                'description' => $description,
-                'group_id' => $groupId,
-                'updated' => date('Y-m-d H:i:s'),
-                'min_order_quantity' => $minOrderQuantity,
-                'delivery_time' => $deliveryTime,
-                'packaging_details' => $packagingDetails,
-                'specifications' => $specifications,
-                'tags' => $tagsFieldValue,
-                'source_url' => $sourceUrl,
-            );
-        $values['created'] = $values['updated'];
-        $langProductDAO->insert($values);
-    }
+    $retval = enterprise_admin_save_product($langCode, 0, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $siteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specifications, $tagsFieldValue, $customPath, $sourceUrl);
 
     // Insert identity
     $values = array(
@@ -212,17 +158,6 @@ function enterprise_sexmeup_save_product($siteId, $langCode, $groupId, $images)
             'product_id' => $retval,
         );
     $productIdentityDAO->insert($values);
-
-    // Cnt of products
-    $groupDAO = new \enterprise\daos\Group();
-    $groupDAO->incrCnt($groupId);
-
-    // Cnt of products
-    if ($langCode == 'en')
-        $siteDAO = new \enterprise\daos\Site();
-    else
-        $siteDAO = new \enterprise\daos\LangSite($langCode);
-    $siteDAO->incrProductCnt($siteId);
 
     return $retval;
 }

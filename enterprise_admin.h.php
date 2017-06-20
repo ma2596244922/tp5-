@@ -1237,7 +1237,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Save Products
  */
-function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags)
+function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null)
 {
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -1256,6 +1256,10 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
             'head_image_id' => $headImageId,
             'images' => $images,
         );
+    if ($customPath) {
+        $values['path'] = '/' . ltrim($customPath, '/');
+        $values['path_sum'] = md5($values['path'], true);
+    }
     if (!$langProductDAO) {// English only
         $values['site_id'] = $userSiteId;
         $values['caption'] = $caption;
@@ -1266,6 +1270,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
         $values['packaging_details'] = $packagingDetails;
         $values['specifications'] = $specificationsArray;
         $values['tags'] = $tags;
+        $values['source_url'] = $sourceUrl;
     }
     if ($productId) {// Edit
         // Authentication
@@ -1314,6 +1319,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
                 'packaging_details' => $packagingDetails,
                 'specifications' => $specificationsArray,
                 'tags' => $tags,
+                'source_url' => $sourceUrl,
             );
         if ($productId) {// Edit
             $values['product_id'] = $productId;
