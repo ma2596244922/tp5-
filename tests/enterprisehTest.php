@@ -250,4 +250,36 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = xss_clean($s);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * function enterprise_build_alternate_mobile_host()
+     */
+    public function test8()
+    {
+        $langCode = 'en';
+        $rootDomain = 'ktorrent.org';
+        $actual = enterprise_build_alternate_mobile_host($langCode, $rootDomain);
+        $expected = 'm.' . $rootDomain;
+
+        $langCode = 'pt';
+        $rootDomain = 'ktorrent.org';
+        $actual = enterprise_build_alternate_mobile_host($langCode, $rootDomain);
+        $expected = 'm.' . $langCode . '.' . $rootDomain;
+    }
+
+    /**
+     * function enterprise_build_canonical_host()
+     */
+    public function test9()
+    {
+        $langCode = 'en';
+        $rootDomain = 'ktorrent.org';
+        $actual = enterprise_build_canonical_host($langCode, $rootDomain);
+        $expected = 'www.' . $rootDomain;
+
+        $langCode = 'pt';
+        $rootDomain = 'ktorrent.org';
+        $actual = enterprise_build_canonical_host($langCode, $rootDomain);
+        $expected = $langCode . '.' . $rootDomain;
+    }
 }

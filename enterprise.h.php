@@ -113,6 +113,29 @@ $contactDescMapping = array(
 /* {{{ Common */
 
 /**
+ * 构建移动端域名
+ */
+function enterprise_build_alternate_mobile_host($langCode, $rootDomain)
+{
+    $subdomain = '';
+    if ($langCode != 'en')
+        $subdomain = $langCode . '.';
+    return 'm.' . $subdomain . $rootDomain;
+}
+
+/**
+ * 构建PC端域名
+ */
+function enterprise_build_canonical_host($langCode, $rootDomain)
+{
+    if ($langCode == 'en')
+        $subdomain = 'www.';
+    else
+        $subdomain = $langCode . '.';
+    return $subdomain . $rootDomain;
+}
+
+/**
  * 从Host中分离出语言类型和域名
  */
 function enterprise_extract_locale_n_domain($host)
@@ -1396,6 +1419,11 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
 
     // Domain suffix
     $smarty->assign('site_root_domain', $currentDomainSuffix);
+
+    // Alternate Mobile Host
+    $smarty->assign('alternate_mobile_host', enterprise_build_alternate_mobile_host($langCode, $currentDomainSuffix));
+    // Canonical Host
+    $smarty->assign('canonical_host', enterprise_build_canonical_host($langCode, $currentDomainSuffix));
 
     // Quick questions
     $smarty->assign('quick_questions', enterprise_get_quick_questions_for_inquiry($smarty));
