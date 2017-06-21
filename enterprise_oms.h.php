@@ -180,10 +180,33 @@ function enterprise_oms_action_edit_industry($smarty)
 
 /* {{{ VPSs */
 /**
+ * Assign VPS List
+ */
+function enterprise_oms_assign_vps_list($smarty, $var)
+{
+    $vpsDAO = new \oms\daos\VPS();
+    $condition = "`deleted`=0";
+    $industries = $vpsDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $industries);
+}
+
+/**
+ * Assign VPS Info
+ */
+function enterprise_oms_assign_vps_info($smarty, $var, $vpsId)
+{
+    $vpsDAO = new \oms\daos\VPS();
+    $vps = $vpsDAO->get($vpsId);
+    $smarty->assign($var, $vps);
+}
+
+/**
  * VPSs
  */
 function enterprise_oms_action_vps($smarty)
 {
+    enterprise_oms_assign_vps_list($smarty, 'vpss');
+
     $smarty->display('oms/vps.tpl');
 }
 
@@ -192,7 +215,40 @@ function enterprise_oms_action_vps($smarty)
  */
 function enterprise_oms_action_edit_vps($smarty)
 {
-    $smarty->display('oms/edit_vps.tpl');
+    $vpsId = (int)timandes_get_query_data('vps_id');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($vpsId)
+            enterprise_oms_assign_vps_info($smarty, 'vps', $vpsId);
+
+        $smarty->assign('vps_id', $vpsId);
+
+        return $smarty->display('oms/edit_vps.tpl');
+    }
+
+    $alias = timandes_get_post_data('alias');
+    $ipAddr = timandes_get_post_data('ip_addr');
+
+    if (!$alias)
+        throw new \RuntimeException("VPS名称不能为空");
+    if (!$ipAddr)
+        throw new \RuntimeException("IP地址不能为空");
+
+    $values = array(
+            'alias' => $alias,
+            'ip_addr' => $ipAddr,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $vpsDAO = new \oms\daos\VPS();
+    if ($vpsId) {
+        $vpsDAO->update($vpsId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $vpsId = $vpsDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=vps', 'VPS管理');
 }
 /* }}} */
 

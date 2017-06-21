@@ -18,12 +18,12 @@
             <!-- Begin Page -->
             <div class="col-lg-10">
                 <!-- Begin Nav -->
-{include file="oms/common/mainnav.tpl"}
+{include file="oms/common/mainnav.tpl" page_name="vps"}
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
                 <h2>VPS管理</h2>
-                <button class="btn btn-default" type="button">录入新VPS</button>
+                <a class="btn btn-primary" href="?action=edit_vps">录入新VPS</a>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>#</th>
@@ -31,14 +31,16 @@
                         <th>IP</th>
                         <th>&nbsp;</th>
                     </tr>
+{foreach $vpss as $i}
                     <tr>
-                        <td>1</td>
-                        <td>web2</td>
-                        <td>12.34.56.78</td>
+                        <td>{$i.id}</td>
+                        <td>{$i.alias|escape}</td>
+                        <td>{$i.ip_addr|escape}</td>
                         <td>
-                            <a href="#">修改</a>
+                            <a href="?action=edit_vps&vps_id={$i.id}">修改</a>
                         </td>
                     </tr>
+{/foreach}
                 </table>
                 <!-- End Content -->
             </div>

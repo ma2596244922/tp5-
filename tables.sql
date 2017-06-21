@@ -523,6 +523,7 @@ CREATE TABLE `enterprise_main_products` (
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主推产品表';
 
+/* {{{ OMS */
 CREATE TABLE `oms_industries` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '行业ID',
   `name` varchar(100) NOT NULL COMMENT '行业名称',
@@ -532,3 +533,16 @@ CREATE TABLE `oms_industries` (
   PRIMARY KEY (`id`),
   KEY `idx_deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行业表';
+
+CREATE TABLE `oms_vpss` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '行业ID',
+  `alias` varchar(45) NOT NULL COMMENT '别名',
+  `ip_addr` varchar(15) NOT NULL COMMENT 'IP地址',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='VPS表';
+
+/* }}} */

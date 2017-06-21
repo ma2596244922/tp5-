@@ -23,7 +23,7 @@
 
                 <!-- Begin Content -->
                 <h2>行业管理</h2>
-                <a class="btn btn-default" href="?action=edit_industry">录入新行业</a>
+                <a class="btn btn-primary" href="?action=edit_industry">录入新行业</a>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>#</th>
