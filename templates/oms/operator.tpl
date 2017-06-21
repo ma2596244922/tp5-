@@ -18,25 +18,27 @@
             <!-- Begin Page -->
             <div class="col-lg-10">
                 <!-- Begin Nav -->
-{include file="oms/common/mainnav.tpl"}
+{include file="oms/common/mainnav.tpl" page_name="operator"}
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
                 <h2>帐号管理</h2>
-                <button class="btn btn-default" type="button">录入新帐号</button>
+                <a class="btn btn-primary" href="?action=edit_operator">录入新帐号</a>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>#</th>
                         <th>用户名</th>
                         <th>&nbsp;</th>
                     </tr>
+{foreach $operators as $i}
                     <tr>
-                        <td>1</td>
-                        <td>foo</td>
+                        <td>{$i.id}</td>
+                        <td>{$i.name|escape}</td>
                         <td>
-                            <a href="#">修改</a>
+                            <a href="?action=edit_operator&operator_id={$i.id}">修改</a>
                         </td>
                     </tr>
+{/foreach}
                 </table>
                 <!-- End Content -->
             </div>

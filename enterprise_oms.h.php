@@ -186,8 +186,8 @@ function enterprise_oms_assign_vps_list($smarty, $var)
 {
     $vpsDAO = new \oms\daos\VPS();
     $condition = "`deleted`=0";
-    $industries = $vpsDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
-    $smarty->assign($var, $industries);
+    $vpss = $vpsDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $vpss);
 }
 
 /**
@@ -254,11 +254,35 @@ function enterprise_oms_action_edit_vps($smarty)
 
 
 /* {{{ Operators */
+
+/**
+ * Assign Operator List
+ */
+function enterprise_oms_assign_operator_list($smarty, $var)
+{
+    $operatorDAO = new \oms\daos\Operator();
+    $condition = "`deleted`=0";
+    $operators = $operatorDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $operators);
+}
+
+/**
+ * Assign Operator Info
+ */
+function enterprise_oms_assign_operator_info($smarty, $var, $operatorId)
+{
+    $operatorDAO = new \oms\daos\Operator();
+    $operator = $operatorDAO->get($operatorId);
+    $smarty->assign($var, $operator);
+}
+
 /**
  * Operators
  */
 function enterprise_oms_action_operator($smarty)
 {
+    enterprise_oms_assign_operator_list($smarty, 'operators');
+
     $smarty->display('oms/operator.tpl');
 }
 
@@ -267,7 +291,39 @@ function enterprise_oms_action_operator($smarty)
  */
 function enterprise_oms_action_edit_operator($smarty)
 {
-    $smarty->display('oms/edit_operator.tpl');
+    $operatorId = (int)timandes_get_query_data('operator_id');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($operatorId)
+            enterprise_oms_assign_operator_info($smarty, 'operator', $operatorId);
+
+        $smarty->assign('operator_id', $operatorId);
+
+        return $smarty->display('oms/edit_operator.tpl');
+    }
+
+    $name = timandes_get_post_data('name');
+    $password = timandes_get_post_data('password');
+
+    if (!$name)
+        throw new \RuntimeException("用户名不能为空");
+
+    $values = array(
+            'name' => $name,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($password)
+        $values['password'] = md5($password);
+    $operatorDAO = new \oms\daos\Operator();
+    if ($operatorId) {
+        $operatorDAO->update($operatorId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $operatorId = $operatorDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=operator', '帐号管理');
 }
 /* }}} */
 

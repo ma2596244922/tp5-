@@ -535,7 +535,7 @@ CREATE TABLE `oms_industries` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='行业表';
 
 CREATE TABLE `oms_vpss` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '行业ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'VPS ID',
   `alias` varchar(45) NOT NULL COMMENT '别名',
   `ip_addr` varchar(15) NOT NULL COMMENT 'IP地址',
   `created` datetime NOT NULL COMMENT '创建时间',
@@ -544,5 +544,16 @@ CREATE TABLE `oms_vpss` (
   PRIMARY KEY (`id`),
   KEY `idx_deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='VPS表';
+
+CREATE TABLE `oms_operators` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '运营人员ID',
+  `name` varchar(45) NOT NULL COMMENT '用户名' UNIQUE,
+  `password` char(32) NOT NULL COMMENT '密码（MD5）',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运营人员表';
 
 /* }}} */

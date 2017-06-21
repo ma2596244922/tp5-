@@ -12,6 +12,7 @@
                                 <li{if $page_name|default:''=="monthly_report"} class="active"{/if}><a href="?action=monthly_report">月度报告</a></li>
                                 <li><a href="#">超进任务</a></li>
                                 <li{if $page_name|default:''=="input_inquiry"} class="active"{/if}><a href="?action=input_inquiry">匹配询盘</a></li>
+                                <li><a href="#">用户管理</a></li>
                             </ul>
                         </div>
                     </div>
