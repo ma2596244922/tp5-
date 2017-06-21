@@ -653,7 +653,7 @@ function enterprise_admin_action_product_tdk($smarty, $site, $langCode)
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    enterprise_assign_group_list($smarty, 'groups', $userSiteId);
+    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
