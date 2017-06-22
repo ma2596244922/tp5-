@@ -229,6 +229,10 @@ CREATE TABLE `enterprise_sites` (
   `common_head_fragment` text NOT NULL COMMENT '通用HTML head代码片段',
   `product_default_image` int(10) unsigned NOT NULL COMMENT '产品默认图片ID',
   `common_bg_image` int(10) unsigned NOT NULL COMMENT '默认背景图片ID',
+  `enable_inquiry_checking` tinyint unsigned NOT NULL COMMENT '是否需要审核询盘(0/1)',
+  `enable_mobile_sites` tinyint unsigned NOT NULL COMMENT '是否启用移动站(0/1)',
+  `enable_https` tinyint unsigned NOT NULL COMMENT '是否启用HTTPS(0/1)',
+  `online` tinyint unsigned NOT NULL COMMENT '是否上线(0/1)',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
@@ -279,6 +283,14 @@ CREATE TABLE `oms_sites` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `desc` varchar(45) NOT NULL COMMENT '描述',
   `guid` binary(16) NOT NULL COMMENT '全局唯一ID',
+  `qq` VARCHAR(15) NOT NULL COMMENT 'QQ',
+  `wechat` VARCHAR(45) NOT NULL COMMENT '微信',
+  `name` VARCHAR(45) NOT NULL COMMENT '姓名',
+  `tel` varchar(45) NOT NULL COMMENT '联系电话',
+  `sex` tinyint unsigned NOT NULL COMMENT '性别（0-男；1-女）',
+  `csr` text NOT NULL COMMENT 'CSR',
+  `key` text NOT NULL COMMENT 'Key',
+  `vps_id` int(10) unsigned NOT NULL COMMENT 'VPS ID',
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`)

@@ -8,8 +8,8 @@
                             <option value="20">赠送</option>
                         </select>
                     </a>
-{foreach $site_mappings as $sm}
-                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.id}">(上){$sm.domain}</a>
+{foreach $all_site_mappings as $sm}
+                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.site_id}">(上){$sm.domain}</a>
 {/foreach}
                 </div>
             </div>

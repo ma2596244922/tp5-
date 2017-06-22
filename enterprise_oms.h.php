@@ -371,7 +371,52 @@ function enterprise_oms_action_edit_operator($smarty)
  */
 function enterprise_oms_action_client_info($smarty)
 {
-    $smarty->display('oms/client_info.tpl');
+    enterprise_oms_assign_vps_list($smarty, 'vpss');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        return $smarty->display('oms/client_info.tpl');
+    }
+
+    $desc = timandes_get_post_data('desc');
+    $qq = timandes_get_post_data('qq');
+    $wechat = timandes_get_post_data('wechat');
+    $name = timandes_get_post_data('name');
+    $tel = timandes_get_post_data('tel');
+    $sex = timandes_get_post_data('sex');
+    $enable_inquiry_checking = (int)timandes_get_post_data('enable_inquiry_checking');
+    $vps_id = (int)timandes_get_post_data('vps_id');
+    $enable_mobile_sites = (int)timandes_get_post_data('enable_mobile_sites');
+    $online = (int)timandes_get_post_data('online');
+    $csr = timandes_get_post_data('csr');
+    $key = timandes_get_post_data('key');
+    $https = (int)timandes_get_post_data('https');
+
+    // TODO: 下面一个都没动
+    $values = array(
+            'desc' => $desc,
+            'qq' => $qq,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if (!$operatorId) {// Create
+        if (!$name)
+            throw new \RuntimeException("用户名不能为空");
+        if (!$password)
+            throw new \RuntimeException("密码不能为空");
+        $values['name'] = $name;
+    }
+
+    if ($password)
+        $values['password'] = md5($password);
+    $operatorDAO = new \oms\daos\Operator();
+    if ($operatorId) {
+        $operatorDAO->update($operatorId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $operatorId = $operatorDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=operator', '帐号管理');
 }
 
 /**
@@ -408,8 +453,37 @@ function enterprise_oms_display_error_msg($smarty, $msg)
     $smarty->display('oms/message2.tpl');
 }
 
+function enterprise_oms_get_site_info($siteId)
+{
+    if (!$siteId)
+        return null;
+
+    $site = enterprise_get_site_info($siteId);
+
+    $siteDAO = new \oms\daos\Site();
+    $omsSite = $siteDAO->get($siteId);
+    if ($site
+            && $omsSite)
+        return array_merge($site, $omsSite);
+    elseif ($site)
+        return $site;
+    elseif ($omsSite)
+        return $omsSite;
+
+    return null;
+}
+
 function enterprise_oms_assign_common($smarty)
 {
-    $siteMappings = enterprise_oms_get_site_mapping_list();
-    $smarty->assign('site_mappings', $siteMappings);
+    $allSiteMappings = enterprise_oms_get_site_mapping_list();
+    $smarty->assign('all_site_mappings', $allSiteMappings);
+
+    $siteId = (int)timandes_get_query_data('site_id');
+    if ($siteId) {
+        $site = enterprise_oms_get_site_info($siteId);
+        $smarty->assign('site', $site);
+
+        $siteMappings = enterprise_oms_get_site_mapping_list($siteId);
+        $smarty->assign('site_mappings', $siteMappings);
+    }
 }
