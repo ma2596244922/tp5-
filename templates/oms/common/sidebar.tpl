@@ -1,4 +1,4 @@
-            <div class="col-lg-2">
+            <div class="col-lg-2" id="sidebar-outer-container" style="overflow-y:scroll;">
                 <div class="list-group">
                     <a class="list-group-item active" href="?action=dashboard">运营管理</a>
                     <a class="list-group-item">
@@ -8,9 +8,8 @@
                             <option value="20">赠送</option>
                         </select>
                     </a>
-                    <a class="list-group-item" href="?action=site_dashboard">(上)foo.com</a>
-                    <a class="list-group-item" href="?action=site_dashboard">(上)foo.com</a>
-                    <a class="list-group-item" href="?action=site_dashboard">(上)foo.com</a>
-                    <a class="list-group-item" href="?action=site_dashboard">(上)foo.com</a>
+{foreach $site_mappings as $sm}
+                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.id}">(上){$sm.domain}</a>
+{/foreach}
                 </div>
             </div>

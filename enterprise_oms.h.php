@@ -14,6 +14,9 @@ function enterprise_oms_route_2($smarty)
             return enterprise_oms_action_login($smarty);
         default:
             $userId = enterprise_oms_grant_permission();
+
+            enterprise_oms_assign_common($smarty);
+
             switch ($action) {
                 case 'site_dashboard':
                     return enterprise_oms_action_site_dashboard($smarty);
@@ -371,4 +374,10 @@ function enterprise_oms_display_error_msg($smarty, $msg)
 {
     $smarty->assign('error_msg', $msg);
     $smarty->display('oms/message2.tpl');
+}
+
+function enterprise_oms_assign_common($smarty)
+{
+    $siteMappings = enterprise_oms_get_site_mapping_list();
+    $smarty->assign('site_mappings', $siteMappings);
 }

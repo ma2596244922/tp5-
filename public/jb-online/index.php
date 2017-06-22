@@ -179,6 +179,16 @@ function enterprise_oms_action_edit_site($smarty)
 }
 
 
+function enterprise_oms_get_site_mapping_list($siteId = null)
+{
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    if ($siteId)
+        $condition = "`site_id`={$siteId}";
+    else
+        $condition = null;
+    return $siteMappingDAO->getMultiBy($condition);
+}
+
 /**
  * SiteMappings
  */
@@ -187,12 +197,7 @@ function enterprise_oms_action_site_mapping($smarty)
     $siteId = (int)timandes_get_query_data('site_id');
     $smarty->assign('site_id', $siteId);
 
-    $siteMappingDAO = new \enterprise\daos\SiteMapping();
-    if ($siteId)
-        $condition = "`site_id`={$siteId}";
-    else
-        $condition = null;
-    $siteMappings = $siteMappingDAO->getMultiBy($condition);
+    $siteMappings = enterprise_oms_get_site_mapping_list($siteId);
     $smarty->assign('site_mappings', $siteMappings);
 
     $smarty->display('oms/site_mapping.tpl');
@@ -283,38 +288,6 @@ function enterprise_oms_route($smarty)
         default:
             $userId = enterprise_oms_grant_permission();
             switch ($action) {
-                // V2
-                case 'site_dashboard':
-                    return enterprise_oms_action_site_dashboard($smarty);
-                case 'input_inquiry':
-                    return enterprise_oms_action_input_inquiry($smarty);
-                case 'monthly_report':
-                    return enterprise_oms_action_monthly_report($smarty);
-                case 'client_info':
-                    return enterprise_oms_action_client_info($smarty);
-                case 'edit_operator':
-                    return enterprise_oms_action_edit_operator($smarty);
-                case 'operator':
-                    return enterprise_oms_action_operator($smarty);
-                case 'edit_vps':
-                    return enterprise_oms_action_edit_vps($smarty);
-                case 'vps':
-                    return enterprise_oms_action_vps($smarty);
-                case 'edit_industry':
-                    return enterprise_oms_action_edit_industry($smarty);
-                case 'industry':
-                    return enterprise_oms_action_industry($smarty);
-                case 'check_inquiry':
-                    return enterprise_oms_action_check_inquiry($smarty);
-                case 'inquiry_stats':
-                    return enterprise_oms_action_inquiry_stats($smarty);
-                case 'site_stats':
-                    return enterprise_oms_action_site_stats($smarty);
-                case 'new_site':
-                    return enterprise_oms_action_new_site($smarty);
-                case 'dashboard':
-                    return enterprise_oms_action_dashboard_2($smarty);
-                // V1
                 case 'site_mapping':
                     return enterprise_oms_action_site_mapping($smarty);
                 case 'edit_site_mapping':
