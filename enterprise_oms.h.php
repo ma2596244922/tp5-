@@ -306,13 +306,17 @@ function enterprise_oms_action_edit_operator($smarty)
     $name = timandes_get_post_data('name');
     $password = timandes_get_post_data('password');
 
-    if (!$name)
-        throw new \RuntimeException("用户名不能为空");
-
     $values = array(
-            'name' => $name,
             'updated' => date('Y-m-d H:i:s'),
         );
+    if (!$operatorId) {// Create
+        if (!$name)
+            throw new \RuntimeException("用户名不能为空");
+        if (!$password)
+            throw new \RuntimeException("密码不能为空");
+        $values['name'] = $name;
+    }
+
     if ($password)
         $values['password'] = md5($password);
     $operatorDAO = new \oms\daos\Operator();
