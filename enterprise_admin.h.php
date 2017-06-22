@@ -1079,16 +1079,41 @@ function enterprise_admin_action_count_products($smarty, $site, $langCode)
 /**
  * Count Products
  */
-function enterprise_admin_action_remove_empty_caption_products($smarty)
+function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
-    $productDAO = new \enterprise\daos\Product();
-    $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `caption`=''";
-    $values = array(
-            'deleted' => 1,
-        );
-    $productDAO->updateBy($condition, $values);
+    if ($langCode == 'en') {
+        $productDAO = new \enterprise\daos\Product();
+        $groupDAO = new \enterprise\daos\Group();
+        $siteDAO = new \enterprise\daos\Site();
+    } else {
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+        $siteDAO = new \enterprise\daos\LangSite($langCode);
+    }
+
+    do {
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`caption`=''", '`id` ASC');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`caption`=''", 'elp.`product_id` ASC');
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $values = array(
+                    'deleted' => 1,
+                );
+            $productDAO->update($product['id'], $values);
+
+            // Cnt of products of group
+            $groupDAO->incrCnt($product['group_id'], -1);
+
+            // Cnt of products
+            $siteDAO->incrProductCnt($userSiteId, -1);
+        }
+    } while(true);
 
     header('Location: ?action=product&success_msg=' . urlencode('操作成功'));
 }

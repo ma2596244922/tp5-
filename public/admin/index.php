@@ -89,7 +89,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'delete_group':
                     return enterprise_admin_action_delete_group($smarty, $site, $langCode);
                 case 'remove_empty_caption_products':
-                    return enterprise_admin_action_remove_empty_caption_products($smarty);
+                    return enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode);
                 case 'count_products':
                     return enterprise_admin_action_count_products($smarty, $site, $langCode);
                 case 'product':
