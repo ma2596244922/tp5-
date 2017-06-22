@@ -68,7 +68,39 @@ function enterprise_oms_action_dashboard_2($smarty)
  */
 function enterprise_oms_action_new_site($smarty)
 {
-    $smarty->display('oms/new_site.tpl');
+    $tplPath = 'oms/new_site.tpl';
+
+    $siteDAO = new \oms\daos\Site();
+
+    $submitted = timandes_get_post_data('submit');
+    if (!$submitted) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    $desc = timandes_get_post_data('desc');
+    $domain = timandes_get_post_data('domain');
+
+    if (!$domain) 
+        throw new \RuntimeException("请输入根域地址");
+
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    $condition = "`domain`='" . $siteMappingDAO->escape($domain) . "'";
+    $siteMapping = $siteMappingDAO->getOneBy($condition);
+    if ($siteMapping) 
+        throw new \RuntimeException("根域地址已存在");
+
+    // Save
+    $values = array(
+            'desc' => $desc,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $values['guid'] = enterprise_generate_guid();
+    $values['created'] = $values['updated'];
+    $siteId = $siteDAO->insert($values);
+
+    enterprise_oms_add_records_for_related_tables($siteId, $domain);
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=dashboard', '运营管理');
 }
 
 /**

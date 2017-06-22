@@ -127,6 +127,9 @@ function enterprise_oms_add_records_for_related_tables($siteId, $domain)
     }
 }
 
+/**
+ * @deprecated See: enterprise_oms_action_new_site()
+ */
 function enterprise_oms_action_edit_site($smarty)
 {
     $tplPath = 'oms/edit_site.tpl';
