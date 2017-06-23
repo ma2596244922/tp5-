@@ -22,7 +22,7 @@
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
-                <h2>{if $vps|default:[]}修改{else}录入新{/if}新VPS</h2>
+                <h2>{if $vps|default:[]}修改{else}录入新{/if}VPS</h2>
                 <form class="form-horizontal" action="?action=edit_vps&vps_id={$vps_id}" method="POST">
                     <div class="form-group">
                         <label for="inputAlias" class="col-lg-1 control-label">别名：</label>

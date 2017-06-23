@@ -15,9 +15,13 @@ function enterprise_oms_route_2($smarty)
         default:
             $userId = enterprise_oms_grant_permission();
 
-            enterprise_oms_assign_common($smarty);
+            $site = enterprise_oms_assign_common($smarty);
 
             switch ($action) {
+                case 'edit_user':
+                    return enterprise_oms_action_edit_user($smarty, $site);
+                case 'user':
+                    return enterprise_oms_action_user($smarty, $site);
                 case 'site_dashboard':
                     return enterprise_oms_action_site_dashboard($smarty);
                 case 'input_inquiry':
@@ -482,12 +486,16 @@ function enterprise_oms_get_site_info($siteId)
     return null;
 }
 
+/**
+ * @return array Site Info
+ */
 function enterprise_oms_assign_common($smarty)
 {
     $allSiteMappings = enterprise_oms_get_site_mapping_list();
     $smarty->assign('all_site_mappings', $allSiteMappings);
 
     $siteId = (int)timandes_get_query_data('site_id');
+    $site = null;
     if ($siteId) {
         $site = enterprise_oms_get_site_info($siteId);
         $smarty->assign('site', $site);
@@ -495,4 +503,81 @@ function enterprise_oms_assign_common($smarty)
         $siteMappings = enterprise_oms_get_site_mapping_list($siteId);
         $smarty->assign('site_mappings', $siteMappings);
     }
+
+    return $site;
 }
+
+/* {{{ Users */
+
+/**
+ * Assign User List
+ */
+function enterprise_oms_assign_user_list($smarty, $var, $siteId = null)
+{
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`deleted`=0";
+    if ($siteId)
+        $condition .= ' AND `site_id`=' . (int)$siteId;
+    $users = $userDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $users);
+}
+
+/**
+ * Users
+ */
+function enterprise_oms_action_user($smarty, $site)
+{
+    enterprise_oms_assign_user_list($smarty, 'users', $site['id']);
+
+    $smarty->display('oms/user.tpl');
+}
+
+/**
+ * Edit User
+ */
+function enterprise_oms_action_edit_user($smarty, $site)
+{
+    $userId = (int)timandes_get_query_data('user_id');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($userId)
+            enterprise_admin_assign_user_info($smarty, 'user', $userId);
+
+        $smarty->assign('user_id', $userId);
+
+        return $smarty->display('oms/edit_user.tpl');
+    }
+
+    $name = timandes_get_post_data('name');
+    $password = timandes_get_post_data('password');
+    $email = timandes_get_post_data('email');
+    $advanced = (int)timandes_get_post_data('advanced');
+
+    $values = array(
+            'email' => $email,
+            'advanced' => $advanced,
+            'site_id' => $site['id'],
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if (!$userId) {// Create
+        if (!$name)
+            throw new \RuntimeException("用户名不能为空");
+        if (!$password)
+            throw new \RuntimeException("密码不能为空");
+        $values['name'] = $name;
+    }
+
+    if ($password)
+        $values['password'] = md5($password);
+    $userDAO = new \enterprise\daos\User();
+    if ($userId) {
+        $userDAO->update($userId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $userId = $userDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=user&site_id=' . $site['id'], '帐号管理');
+}
+/* }}} */

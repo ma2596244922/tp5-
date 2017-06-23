@@ -18,17 +18,17 @@
             <!-- Begin Page -->
             <div class="col-lg-10">
                 <!-- Begin Nav -->
-{include file="oms/common/mainnav.tpl" page_name="operator"}
+{include file="oms/common/sitenav.tpl" page_name="user"}
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
-                <h2>{if $operator|default:[]}修改{else}录入新{/if}帐号</h2>
-                <form class="form-horizontal" action="?action=edit_operator&operator_id={$operator_id}" method="POST">
+                <h2>{if $user|default:[]}修改{else}录入新{/if}用户</h2>
+                <form class="form-horizontal" action="?action=edit_user&site_id={$smarty.get.site_id}&user_id={$user_id}" method="POST">
                     <div class="form-group">
                         <label for="inputUser" class="col-lg-1 control-label">用户名：</label>
                         <div class="col-lg-4">
-{if $operator.name|default:''}
-                            <p class="form-control-static">{$operator.name}</p>
+{if $user.name|default:''}
+                            <p class="form-control-static">{$user.name}</p>
 {else}
                             <input type="text" class="form-control" id="inputUser" name="name" placeholder="foo">
 {/if}
@@ -41,10 +41,27 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputEmail" class="col-lg-1 control-label">Email：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputEmail" name="email" value="{$user.email|default:''|escape}" placeholder="foo@bar.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">高级用户：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="advanced" value="0"{if $user.advanced|default:'0'=='0'} checked{/if}>否
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="advanced" value="1"{if $user.advanced|default:'0'=='1'} checked{/if}>是
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>
-                            <button type="button" class="btn btn-default" onclick="location.href='?action=operator';">返回</button>
+                            <button type="button" class="btn btn-default" onclick="location.href='?action=user&site_id={$smarty.get.site_id}';">返回</button>
                         </div>
                     </div>
                 </form>
