@@ -102,7 +102,7 @@ function duplicate_source_group($sourceGroupId)
         if ($sourceLangCode == 'en')
             $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`, `images`, `site_id`');
         else
-            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`, elp.`images`, elp.`site_id`');
+            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`, ep.`images`, elp.`site_id`');
         if (!$products)
             break;
 
