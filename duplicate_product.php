@@ -16,6 +16,7 @@ define('EXIT_FAILURE', 1);
 $GLOBALS['gaSettings'] = array(
         'verbose' => 3,
         'source_group_id' => 0,
+        'source_lang_code' => 'en',
         'target_site_id' => 1,
     );
 
@@ -34,6 +35,7 @@ function usage()
     $options = "OPTIONS:" . PHP_EOL;
     $options .= "\t-v                           output warning/errors" . PHP_EOL;
     $options .= "\t--source-group=<ID>          id of source group" . PHP_EOL;
+    $options .= "\t--source-lang-code=<code>    language code of source group(default: en)" . PHP_EOL;
     $options .= "\t--target-site=<ID>           id of target site" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
@@ -48,7 +50,7 @@ function duplicate_proc()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
     $sourceGroupId = $GLOBALS['gaSettings']['source_group_id'];
-    $sourceLangCode = 'en';
+    $sourceLangCode = $GLOBALS['gaSettings']['source_lang_code'];
     $targetSiteId = $GLOBALS['gaSettings']['target_site_id'];
     $targetLangCode = 'pt';
 
@@ -115,7 +117,7 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("v", array('source-group:', 'target-site:'));
+    $params = getopt("v", array('source-group:', 'source-lang-code:', 'target-site:'));
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
@@ -124,6 +126,9 @@ function main($argc, $argv)
                 break;
             case 'source-group':
                 $GLOBALS['gaSettings']['source_group_id'] = $v;
+                break;
+            case 'source-lang-code':
+                $GLOBALS['gaSettings']['source_lang_code'] = $v;
                 break;
             case 'target-site':
                 $GLOBALS['gaSettings']['target_site_id'] = $v;
