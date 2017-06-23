@@ -35,6 +35,10 @@ class Site extends \crawler\daos\AbstractDAO
             'common_head_fragment' => 'text',
             'product_default_image' => 'int',
             'common_bg_image' => 'int',
+            'enable_inquiry_checking' => 'tinyint',
+            'enable_mobile_sites' => 'tinyint',
+            'enable_https' => 'tinyint',
+            'online' => 'tinyint',
         );
 
     public function getTableName()

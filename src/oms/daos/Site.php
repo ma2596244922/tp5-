@@ -15,6 +15,14 @@ class Site extends \crawler\daos\AbstractDAO
     protected $_fields = array(
             'desc' => 'text',
             'guid' => 'text',
+            'qq' => 'text',
+            'wechat' => 'text',
+            'name' => 'text',
+            'tel' => 'text',
+            'sex' => 'text',
+            'vps_id' => 'int',
+            'csr' => 'text',
+            'key' => 'text',
             'created' => 'text',
             'updated' => 'text',
         );

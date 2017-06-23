@@ -371,6 +371,8 @@ function enterprise_oms_action_edit_operator($smarty)
  */
 function enterprise_oms_action_client_info($smarty)
 {
+    $siteId = (int)timandes_get_query_data('site_id');
+
     enterprise_oms_assign_vps_list($smarty, 'vpss');
 
     $submitted = (int)timandes_get_post_data('submit');
@@ -390,33 +392,40 @@ function enterprise_oms_action_client_info($smarty)
     $online = (int)timandes_get_post_data('online');
     $csr = timandes_get_post_data('csr');
     $key = timandes_get_post_data('key');
-    $https = (int)timandes_get_post_data('https');
+    $enable_https = (int)timandes_get_post_data('enable_https');
 
-    // TODO: 下面一个都没动
     $values = array(
             'desc' => $desc,
             'qq' => $qq,
+            'wechat' => $wechat,
+            'name' => $name,
+            'tel' => $tel,
+            'sex' => $sex,
+            'vps_id' => $vps_id,
+            'csr' => $csr,
+            'key' => $key,
             'updated' => date('Y-m-d H:i:s'),
         );
-    if (!$operatorId) {// Create
-        if (!$name)
-            throw new \RuntimeException("用户名不能为空");
-        if (!$password)
-            throw new \RuntimeException("密码不能为空");
-        $values['name'] = $name;
+    $omsSiteDAO = new \oms\daos\Site();
+    $omsSiteDAO->update($siteId, $values);
+
+    $values = array(
+            'enable_inquiry_checking' => $enable_inquiry_checking,
+            'enable_mobile_sites' => $enable_mobile_sites,
+            'enable_https' => $enable_https,
+            'online' => $online,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $entSiteDAO = new \enterprise\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    if ($entSiteDAO->getOneBy($condition))
+        $entSiteDAO->update($siteId, $values);
+    else {
+        $values['site_id'] = $siteId;
+        $entSiteDAO->insert($values);
     }
 
-    if ($password)
-        $values['password'] = md5($password);
-    $operatorDAO = new \oms\daos\Operator();
-    if ($operatorId) {
-        $operatorDAO->update($operatorId, $values);
-    } else {
-        $values['created'] = $values['updated'];
-        $operatorId = $operatorDAO->insert($values);
-    }
-
-    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=operator', '帐号管理');
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=site_dashboard&site_id=' . $siteId, '网站管理');
 }
 
 /**
