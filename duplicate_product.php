@@ -15,7 +15,7 @@ define('EXIT_FAILURE', 1);
 
 $GLOBALS['gaSettings'] = array(
         'verbose' => 3,
-        'source_group_id' => 0,
+        'source_group_id_list' => array(),
         'source_lang_code' => 'en',
         'target_site_id' => 1,
     );
@@ -34,7 +34,7 @@ function usage()
 
     $options = "OPTIONS:" . PHP_EOL;
     $options .= "\t-v                           output warning/errors" . PHP_EOL;
-    $options .= "\t--source-group=<ID>          id of source group" . PHP_EOL;
+    $options .= "\t--source-group=<ID1,ID2,...> id list of source groups" . PHP_EOL;
     $options .= "\t--source-lang-code=<code>    language code of source group(default: en)" . PHP_EOL;
     $options .= "\t--target-site=<ID>           id of target site" . PHP_EOL;
     fprintf(STDOUT, $options);
@@ -49,10 +49,26 @@ function software_info()
 function duplicate_proc()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
-    $sourceGroupId = $GLOBALS['gaSettings']['source_group_id'];
+    $sourceGroupIdList = $GLOBALS['gaSettings']['source_group_id_list'];
+
+    $sourceGroupIdArray = explode(',', $sourceGroupIdList);
+    if (is_array($sourceGroupIdArray)) foreach ($sourceGroupIdArray as $id) {
+        duplicate_source_group($id);
+    }
+
+    if ($verbose >= 2)
+        fprintf(STDOUT, "Finish duplicate procedure" . PHP_EOL);
+}
+
+function duplicate_source_group($sourceGroupId)
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
     $sourceLangCode = $GLOBALS['gaSettings']['source_lang_code'];
     $targetSiteId = $GLOBALS['gaSettings']['target_site_id'];
     $targetLangCode = 'pt';
+
+    if ($verbose >= 2)
+        fprintf(STDOUT, "Duplicating source group {$sourceGroupId} ..." . PHP_EOL);
 
     // Get source group
     $sourceGroup = enterprise_get_group_info($sourceGroupId, $sourceLangCode);
@@ -107,7 +123,7 @@ function duplicate_proc()
     } while(true);
 
     if ($verbose >= 2)
-        fprintf(STDOUT, "Finish duplicate procedure" . PHP_EOL);
+        fprintf(STDOUT, "Finish duplicate procedure for source group {$sourceGroupId}" . PHP_EOL);
 }
 
 function main($argc, $argv)
@@ -125,7 +141,7 @@ function main($argc, $argv)
                 $GLOBALS['gaSettings']['verbose'] = count($v);
                 break;
             case 'source-group':
-                $GLOBALS['gaSettings']['source_group_id'] = $v;
+                $GLOBALS['gaSettings']['source_group_id_list'] = $v;
                 break;
             case 'source-lang-code':
                 $GLOBALS['gaSettings']['source_lang_code'] = $v;
