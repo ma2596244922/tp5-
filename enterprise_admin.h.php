@@ -179,6 +179,15 @@ function enterprise_admin_action_message($smarty)
 /* {{{ Log-in Log-out */
 
 /**
+ * 注册用户登录Session
+ */
+function enterprise_admin_register_user_session($siteId, $userId)
+{
+    $_SESSION[SESSION_FIELD_USER_ID] = $userId;
+    $_SESSION['user_site_id'] = $siteId;
+}
+
+/**
  * Log-in
  */
 function enterprise_admin_action_login($smarty, $targetSiteId)
@@ -212,9 +221,7 @@ function enterprise_admin_action_login($smarty, $targetSiteId)
         return $smarty->display($tplPath);
     }
 
-    // Add meta to session
-    $_SESSION[SESSION_FIELD_USER_ID] = $user['id'];
-    $_SESSION['user_site_id'] = $user['site_id'];
+    enterprise_admin_register_user_session($user['site_id'], $user['id']);
 
     // Update last-log-in
     $values = array(

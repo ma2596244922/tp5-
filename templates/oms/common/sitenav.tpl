@@ -7,7 +7,7 @@
                         <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li><a href="#" target="_blank">打开网站</a></li>
-                                <li><a href="#">超进后台</a></li>
+                                <li><a href="?action=super_login&site_id={$smarty.get.site_id}" target="_blank">超进后台</a></li>
                                 <li{if $page_name|default:''=="client_info"} class="active"{/if}><a href="?action=client_info&site_id={$smarty.get.site_id}">客户资料</a></li>
                                 <li{if $page_name|default:''=="monthly_report"} class="active"{/if}><a href="?action=monthly_report&site_id={$smarty.get.site_id}">月度报告</a></li>
                                 <li><a href="#">超进任务</a></li>

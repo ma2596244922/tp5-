@@ -18,6 +18,8 @@ function enterprise_oms_route_2($smarty)
             $site = enterprise_oms_assign_common($smarty);
 
             switch ($action) {
+                case 'super_login':
+                    return enterprise_oms_action_super_login($smarty, $site);
                 case 'edit_user':
                     return enterprise_oms_action_edit_user($smarty, $site);
                 case 'user':
@@ -507,18 +509,49 @@ function enterprise_oms_assign_common($smarty)
     return $site;
 }
 
+
+/**
+ * 超后台
+ */
+function enterprise_oms_action_super_login($smarty, $site)
+{
+    $users = enterprise_oms_get_user_list($site['id']);
+    if (!$users)
+        throw new \RuntimeException("站点内没有符合的用户");
+    $firstUser = $users[0];
+
+    $siteMappings = enterprise_oms_get_site_mapping_list($site['id']);
+    if (!$siteMappings)
+        throw new \RuntimeException("站点没有设置匹配的域名");
+    $firstSiteMapping = $siteMappings[0];
+
+    // FIXME: 这里注册是无效的，需要借助对应站点的页面来完成注册。
+    enterprise_admin_register_user_session($firstUser['site_id'], $firstUser['id']);
+
+    // Redirect
+    header('Location: http://www.' . $firstSiteMapping['domain'] . '/admin/');
+}
+
 /* {{{ Users */
+
+/**
+ * Get User List
+ */
+function enterprise_oms_get_user_list($siteId = null)
+{
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`deleted`=0";
+    if ($siteId)
+        $condition .= ' AND `site_id`=' . (int)$siteId;
+    return $userDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+}
 
 /**
  * Assign User List
  */
 function enterprise_oms_assign_user_list($smarty, $var, $siteId = null)
 {
-    $userDAO = new \enterprise\daos\User();
-    $condition = "`deleted`=0";
-    if ($siteId)
-        $condition .= ' AND `site_id`=' . (int)$siteId;
-    $users = $userDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $users = enterprise_oms_get_user_list($siteId);
     $smarty->assign($var, $users);
 }
 
