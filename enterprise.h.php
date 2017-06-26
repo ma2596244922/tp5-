@@ -906,7 +906,7 @@ function enterprise_load_preset_translations($smarty, $langCode)
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestPath, $requestPathSum)
+function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $requestPathSum)
 {
     // Non-pages
     if (preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
@@ -937,7 +937,16 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
     $group = $groupDAO->getByIdxLookup($siteId, $requestPathSum);
     if ($group) {
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $group['id']);
+        $pageNo = 1;
+        $queryString = parse_url($requestURL, PHP_URL_QUERY);
+        if ($queryString) {
+            $queries = array();
+            parse_str($queryString, $queries);
+            $pageNo = (int)($queries['p']??1);
+            if ($pageNo <= 1)
+                $pageNo = 1;
+        }
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $group['id'], $pageNo);
     }
 
     if ($requestPath == '/contactus.html') {
@@ -1128,7 +1137,7 @@ function enterprise_url_product_list($group = null, $pageNo = 1, $pathOnly = fal
 {
     if ($group) {
         if ($group['path'])
-            $path = $group['path'];
+            $path = $group['path'] . ($pageNo > 1?'?p=' . $pageNo:'');
         else {
             $groupId = $group['id']??$group['group_id'];
             $pageString = '';
