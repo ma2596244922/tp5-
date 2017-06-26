@@ -88,7 +88,7 @@ function duplicate_source_group($sourceGroupId)
         fprintf(STDOUT, "Target Site: #{$targetSiteId} {$targetLangCode}" . PHP_EOL);
 
     // Duplicate Group
-    $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId);
+    $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path']);
     if ($verbose >= 2)
         fprintf(STDOUT, "Target group #{$targetGroupId} created" . PHP_EOL);
 

@@ -456,7 +456,7 @@ function enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $or
         if ($langCode == 'en')
             $groups = enterprise_get_group_list($siteId, $langCode, $max, "`id`>{$curGroupId}");
         else
-            $groups = enterprise_get_group_list($siteId, $langCode, $max, "`group_id`>{$curGroupId}");
+            $groups = enterprise_get_group_list($siteId, $langCode, $max, "lg.`group_id`>{$curGroupId}");
         if (!$groups)
             break;
 
@@ -930,6 +930,16 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
     }
 
+    // 用户自建分组的自定义路径
+    if ($langCode == 'en')
+        $groupDAO = new \enterprise\daos\Group();
+    else
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+    $group = $groupDAO->getByIdxLookup($siteId, $requestPathSum);
+    if ($group) {
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $group['id']);
+    }
+
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
@@ -1114,24 +1124,29 @@ function enterprise_url_product_pic($product, $pathOnly = false)
  *
  * @return string
  */
-function enterprise_url_product_list($group = null, $pageNo = 1)
+function enterprise_url_product_list($group = null, $pageNo = 1, $pathOnly = false)
 {
     if ($group) {
-        $groupId = $group['id']??$group['group_id'];
-        $pageString = '';
-        if ($pageNo > 1)
-            $pageString = 'p' . $pageNo;
-        $urlKey = enterprise_generate_url_key($group['name']);
-        $urlKeyString = '';
-        if ($urlKey)
-            $urlKeyString = '-' . $urlKey;
-        return enterprise_url_prefix() . '/factory-' . $groupId . $pageString . $urlKeyString;
+        if ($group['path'])
+            $path = $group['path'];
+        else {
+            $groupId = $group['id']??$group['group_id'];
+            $pageString = '';
+            if ($pageNo > 1)
+                $pageString = 'p' . $pageNo;
+            $urlKey = enterprise_generate_url_key($group['name']);
+            $urlKeyString = '';
+            if ($urlKey)
+                $urlKeyString = '-' . $urlKey;
+            $path = '/factory-' . $groupId . $pageString . $urlKeyString;
+        }
     } else {
         $pageString = '';
         if ($pageNo > 1)
             $pageString = '-' . $pageNo;
-        return enterprise_url_prefix() . '/products' . $pageString . '.html';
+        $path = '/products' . $pageString . '.html';
     }
+    return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
 
 /**
@@ -1234,11 +1249,13 @@ function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $addi
     if ($langCode == 'en') {
         $groupDAO = new \enterprise\daos\Group();
         $fields = '*';
+        $condition = "`site_id`={$siteId} AND `deleted`=0";
     } else {
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
-        $fields = '*, `group_id` AS `id`';
+        $fields = 'lg.*, g.`id`, g.`path`';
+        $condition = "lg.`site_id`={$siteId} AND lg.`deleted`=0";
     }
-    $condition = "`site_id`={$siteId} AND `deleted`=0" . ($additionalConditions?(' AND ' . $additionalConditions):'');
+    $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
     return $groupDAO->getMultiInOrderBy($condition, $fields, null, $max);
 }
 
@@ -1251,7 +1268,7 @@ function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
     $maxGroupsFromDb = ($appendFirstProducts?null:$max);
-    $cntString = ($skipEmpty?'`cnt`>0':'');
+    $cntString = ($skipEmpty?($langCode!='en'?'lg.':'') . '`cnt`>0':'');
 
     if ($additionalConditions)
         $additionalConditions .= $cntString;

@@ -101,4 +101,52 @@ class LangGroup extends \crawler\daos\AbstractDAO
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
+
+    // Override
+    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
+    {
+        $tableName = $this->getTableName();
+
+        $limit = '';
+        if (null !== $max) {
+            $start = (int)$start;
+            $max = (int)$max;
+            $limit = " LIMIT {$start}, {$max}";
+        }
+        if ($orderBy)
+            $orderBy = ' ORDER BY ' . $orderBy;
+        if ($condition)
+            $condition = ' WHERE ' . $condition;
+        if ($forceIndex)
+            $forceIndex = ' FORCE INDEX (' . $forceIndex . ')';
+
+        $sql = "SELECT {$fields} FROM `{$tableName}` AS lg{$forceIndex}
+        LEFT JOIN `enterprise_groups` AS g ON g.`id`=lg.`group_id`
+        {$condition}{$orderBy}{$limit}";
+        return $this->getMultiBySql($sql);
+    }
+
+    // Override
+    public function countBy($condition, $distinct = null)
+    {
+        $tableName = $this->getTableName();
+
+        $countBy = ($distinct?'DISTINCT(' . $distinct . ')':0);
+
+        $sql = "SELECT count({$countBy}) FROM `{$tableName}` AS lg WHERE {$condition}";
+        return $this->countBySql($sql);
+    }
+
+    public function getByIdxLookup($siteId, $pathSum)
+    {
+        $siteId = (int)$siteId;
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+        $db = \DbFactory::create($dbName);
+
+        $sql = "SELECT lg.*, g.`id`, g.`path` FROM `{$tableName}` AS lg
+        LEFT JOIN `enterprise_groups` AS g ON g.`id`=lg.`group_id`
+        WHERE lg.`site_id`={$siteId} AND g.`path_sum`='" . $db->escape_string($pathSum) . "'";
+        return $this->getOneBySql($sql);
+    }
 }

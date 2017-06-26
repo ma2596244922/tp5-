@@ -19,6 +19,8 @@ class Group extends \crawler\daos\AbstractDAO
             'updated' => 'text',
             'cnt' => 'int',
             'deleted' => 'tinyint',
+            'path' => 'text',
+            'path_sum' => 'text',
         );
 
     public function getTableName()
@@ -84,5 +86,15 @@ class Group extends \crawler\daos\AbstractDAO
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
+    }
+
+    public function getByIdxLookup($siteId, $pathSum)
+    {
+        $siteId = (int)$siteId;
+        $dbName = $this->getDbName();
+        $db = \DbFactory::create($dbName);
+
+        $condition = "`site_id`={$siteId} and `path_sum`='" . $db->escape_string($pathSum) . "'";
+        return $this->getOneBy($condition);
     }
 }

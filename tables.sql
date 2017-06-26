@@ -87,8 +87,11 @@ CREATE TABLE `enterprise_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `path`text NOT NULL COMMENT '自定义路径',
+  `path_sum` binary(16) NOT NULL COMMENT '自定义路径的摘要',
   PRIMARY KEY (`id`),
-  KEY `idx_get_by_site` (`site_id`, `deleted`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`),
+  KEY `idx_lookup` (`site_id`, `path_sum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建分组表';
 
 CREATE TABLE `enterprise_products` (

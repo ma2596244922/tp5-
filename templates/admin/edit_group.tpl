@@ -140,6 +140,20 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">页面路径</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="path" value="{$group.path|default:''}" placeholder="/high-speed-doritos-corn-chips-cutting" />
+
+                                            <span class="help-inline">请输入以/开头的页面路径（如：/high-speed-doritos-corn-chips-cutting）</span>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">
