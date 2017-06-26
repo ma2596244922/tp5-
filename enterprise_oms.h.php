@@ -159,8 +159,9 @@ function enterprise_oms_action_input_inquiry($smarty, $site)
     $relatedUrl = timandes_get_post_data('related_url');
 
     // TODO: 校验时间、IP地址的格式
-    // TODO: 获取目标产品ID
-    $targetProductId = 0;
+    // 获取目标产品ID
+    $relatedPath = parse_url($relatedUrl, PHP_URL_PATH);
+    $targetProductId = enterprise_parse_id_from_product_page($relatedPath);
 
     enterprise_save_inquiry_from_post_data($site['id'], $domain, \enterprise\daos\Inquiry::TYPE_INPUT, $ipAddr, $created, $targetProductId);
 

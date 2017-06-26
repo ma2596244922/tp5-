@@ -23,7 +23,7 @@
 
                 <!-- Begin Content -->
                 <h2>匹配询盘</h2>
-                <form class="form-horizontal" action="?action=input_inquiry&site_id={$smarty.get.site_id}" method="POST">
+                <form class="form-horizontal" enctype="multipart/form-data" action="?action=input_inquiry&site_id={$smarty.get.site_id}" method="POST">
                     <div class="form-group">
                         <label class="col-lg-1 control-label">域名：</label>
                         <div class="col-lg-4">
@@ -77,6 +77,7 @@
                     <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="message_type" value="text/plain" />
+                            <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">匹配</button>
                         </div>
                     </div>

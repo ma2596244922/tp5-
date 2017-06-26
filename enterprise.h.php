@@ -2003,6 +2003,15 @@ function enterprise_get_quick_questions_for_inquiry($smarty)
         );
 }
 
+function enterprise_parse_id_from_product_page($reqeustPath)
+{
+    if ($reqeustPath
+            && preg_match(PATTERN_PRODUCT_PAGE, $reqeustPath, $matches))
+        return $matches[1];
+    else
+        return null;
+}
+
 /**
  * /contactnow.html
  *
@@ -2033,9 +2042,8 @@ function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $pla
     if (!$subject) {
         $referer = timandes_get_server_data('HTTP_REFERER');
         $refererPath = parse_url($referer, PHP_URL_PATH);
-        if ($refererPath
-                && preg_match(PATTERN_PRODUCT_PAGE, $refererPath, $matches)) {
-            $productId = $matches[1];
+        $productId = enterprise_parse_id_from_product_page($refererPath);
+        if ($productId) {
             $smarty->assign('target_product_id', $productId);
             enterprise_assign_product_info($smarty, 'target_product', $productId, $langCode);
             $subject = enterprise_generate_inquiry_subject_by_product_id($productId, $langCode);
