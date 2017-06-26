@@ -22,6 +22,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             return enterprise_admin_action_logout($smarty);
         case 'login':
             return enterprise_admin_action_login($smarty, $siteId);
+        case 'super_login':
+            return enterprise_admin_action_super_login($smarty);
         default:
             // Current User
             $user = enterprise_admin_grant_permission($siteId);

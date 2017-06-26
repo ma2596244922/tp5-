@@ -3485,3 +3485,46 @@ function enterprise_admin_action_import_main_product($smarty, $site)
 }
 
 /* }}} */
+
+function enterprise_admin_calculate_parameter_sum($a, $phrase)
+{
+    ksort($a);
+    return md5(http_build_query($a) . $phrase);
+}
+
+/**
+ * 超级登录
+ *
+ * @todo 更为保险的方案是在持久存储中保存token，利用token保证请求的唯一性
+ */
+function enterprise_admin_action_super_login($smarty)
+{
+    $userId = (int)timandes_get_query_data('user_id');
+    $timestamp = (int)timandes_get_query_data('timestamp');
+    $redirectTo = timandes_get_query_data('redirect_to');
+    $sum = timandes_get_query_data('sum');
+
+    $a = array(
+            'user_id' => $userId,
+            'timestamp' => $timestamp,
+            'redirect_to' => $redirectTo,
+        );
+    $localSum = enterprise_admin_calculate_parameter_sum($a, $GLOBALS['gsSuperLoginPhrase']);
+
+    if ($sum != $localSum)
+        throw new \RuntimeException("通讯失败");
+    if ((time() - $timestamp) > 3)
+        throw new \RuntimeException("通讯超时");
+
+    $userDAO = new \enterprise\daos\User();
+    $user = $userDAO->get($userId);
+    if (!$user)
+        throw new \RuntimeException("登录失败");
+
+    enterprise_admin_register_user_session($user['site_id'], $user['id']);
+
+    // Redirect
+    if (!$redirectTo)
+        $redirectTo = '/admin/';
+    header('Location: ' . $redirectTo);
+}

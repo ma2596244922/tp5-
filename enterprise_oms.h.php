@@ -536,6 +536,8 @@ function enterprise_oms_assign_common($smarty)
  */
 function enterprise_oms_action_super_login($smarty, $site)
 {
+    $redirectTo = timandes_get_query_data('redirect_to');
+
     $users = enterprise_oms_get_user_list($site['id']);
     if (!$users)
         throw new \RuntimeException("站点内没有符合的用户");
@@ -546,11 +548,15 @@ function enterprise_oms_action_super_login($smarty, $site)
         throw new \RuntimeException("站点没有设置匹配的域名");
     $firstSiteMapping = $siteMappings[0];
 
-    // FIXME: 这里注册是无效的，需要借助对应站点的页面来完成注册。
-    enterprise_admin_register_user_session($firstUser['site_id'], $firstUser['id']);
+    $parameters = array(
+            'user_id' => $firstUser['id'],
+            'timestamp' => time(),
+            'redirect_to' => $redirectTo,
+        );
+    $parameters['sum'] = enterprise_admin_calculate_parameter_sum($parameters, $GLOBALS['gsSuperLoginPhrase']);
 
     // Redirect
-    header('Location: http://www.' . $firstSiteMapping['domain'] . '/admin/');
+    header('Location: http://www.' . $firstSiteMapping['domain'] . '/admin/?action=super_login&' . http_build_query($parameters));
 }
 
 /* {{{ Users */

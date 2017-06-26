@@ -10,6 +10,7 @@ define('SESSION_FIELD_USER_ID', 'oms_user_id');
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/enterprise_oms.h.php';
 require_once realpath(__DIR__ . '/../../') . '/config_oms.php';
+require_once realpath(__DIR__ . '/../../') . '/settings.php';
 
 /**
  * Grant permission
