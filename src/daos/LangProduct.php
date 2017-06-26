@@ -125,4 +125,18 @@ class LangProduct extends \crawler\daos\AbstractDAO
         $sql = "SELECT count({$countBy}) FROM `{$tableName}` AS elp WHERE {$condition}";
         return $this->countBySql($sql);
     }
+
+    public function getByIdxLookup($siteId, $pathSum)
+    {
+        $siteId = (int)$siteId;
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+        $db = \DbFactory::create($dbName);
+        $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
+
+        $sql = "SELECT {$fields}, elp.`tags`, elp.`description` FROM `{$tableName}` AS elp
+        LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
+        WHERE elp.`site_id`={$siteId} AND ep.`path_sum`='" . $db->escape_string($pathSum) . "'";
+        return $this->getOneBySql($sql);
+    }
 }

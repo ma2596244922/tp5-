@@ -924,7 +924,10 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
     // 用户自发布产品的自定义路径
-    $productDAO = new \enterprise\daos\Product();
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = $langProductDAO;
     $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
     if ($product) {
         return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
