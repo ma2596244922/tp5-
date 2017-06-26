@@ -705,26 +705,10 @@ function remove_n_r($s)
 }
 
 /**
- * 保存询盘
+ * 从POST表单获取数据保存至询盘表
  */
-function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL)
+function enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix, $type = null, $ipAddr = null, $created = null, $targetProductId = null)
 {
-    $site = enterprise_get_site_info($siteId);
-    $tplPath = enterprise_decide_template_path($smarty, $site, $platform, '/contactsave.tpl');
-    if ($tplPath) {
-        // Site
-        $smarty->assign('site', $site);
-
-        // Corporation
-        enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
-
-        // Groups
-        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, true, 5);
-
-        // Domain suffix
-        $smarty->assign('site_root_domain', $currentDomainSuffix);
-    }
-
     $subject = timandes_get_post_data('subject');
     $message = timandes_get_post_data('message', 'trim, xss_clean');
     $email = timandes_get_post_data('email');
@@ -733,13 +717,22 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     if ($messageType == 'text/plain')
         $message = nl2br($message);
 
+    if ($type === null)
+        $type = \enterprise\daos\Inquiry::TYPE_NATURAL;
+    if (!$created)
+        $created = date('Y-m-d H:i:s');
+    if (!$ipAddr)
+        $ipAddr = timandes_get_remote_addr();
+    if ($targetProductId === null)
+        $targetProductId = (int)timandes_get_post_data('target_product_id');
+
     // Validation
-    if (!$subject
-            || !$message
-            || !$email) {
-        header('Location: /contactnow.html');
-        exit(0);
-    }
+    if (!$subject)
+        throw new \RuntimeException("Please input subject");
+    if (!$message)
+        throw new \RuntimeException("Please input message");
+    if (!$email)
+        throw new \RuntimeException("Please input email");
 
     // Upload files
     $attachmentDAO = new \enterprise\daos\Attachment();
@@ -785,12 +778,43 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
             'email_me_updates' => timandes_get_post_data('newsletter'),
             'site_id' => $siteId,
             'attachments' => $attachments,
-            'created' => date('Y-m-d H:i:s'),
+            'created' => $created,
             'domain' => $currentDomainSuffix,
-            'ip' => timandes_get_remote_addr(),
-            'target_product_id' => (int)timandes_get_post_data('target_product_id'),
+            'ip' => $ipAddr,
+            'target_product_id' => $targetProductId,
+            'type' => $type,
         );
     $inquiryDAO->insert($values);
+}
+
+/**
+ * 保存询盘
+ */
+function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL)
+{
+    $site = enterprise_get_site_info($siteId);
+    $tplPath = enterprise_decide_template_path($smarty, $site, $platform, '/contactsave.tpl');
+    if ($tplPath) {
+        // Site
+        $smarty->assign('site', $site);
+
+        // Corporation
+        enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+        // Groups
+        $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, true, 5);
+
+        // Domain suffix
+        $smarty->assign('site_root_domain', $currentDomainSuffix);
+    }
+
+    try {
+        enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix);
+    } catch (\Exception $e) {
+        header('Location: /contactnow.html');
+        exit(0);
+    }
+
     // Send Email
     $userDAO = new \enterprise\daos\User();
     $condition = "`site_id`=" . (int)$siteId;

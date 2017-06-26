@@ -27,7 +27,7 @@ function enterprise_oms_route_2($smarty)
                 case 'site_dashboard':
                     return enterprise_oms_action_site_dashboard($smarty);
                 case 'input_inquiry':
-                    return enterprise_oms_action_input_inquiry($smarty);
+                    return enterprise_oms_action_input_inquiry($smarty, $site);
                 case 'monthly_report':
                     return enterprise_oms_action_monthly_report($smarty);
                 case 'client_info':
@@ -141,9 +141,30 @@ function enterprise_oms_action_check_inquiry($smarty)
 /**
  * Input Inquiry
  */
-function enterprise_oms_action_input_inquiry($smarty)
+function enterprise_oms_action_input_inquiry($smarty, $site)
 {
-    $smarty->display('oms/input_inquiry.tpl');
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        return $smarty->display('oms/input_inquiry.tpl');
+    }
+
+    $siteMappings = enterprise_oms_get_site_mapping_list($site['id']);
+    $domain = '';
+    if ($siteMappings) {
+        $domain = $siteMappings[0]['domain'];
+    }
+
+    $created = timandes_get_post_data('created');
+    $ipAddr = timandes_get_post_data('ip_addr');
+    $relatedUrl = timandes_get_post_data('related_url');
+
+    // TODO: 校验时间、IP地址的格式
+    // TODO: 获取目标产品ID
+    $targetProductId = 0;
+
+    enterprise_save_inquiry_from_post_data($site['id'], $domain, \enterprise\daos\Inquiry::TYPE_INPUT, $ipAddr, $created, $targetProductId);
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=site_dashboard&site_id=' . $site['id'], '网站管理');
 }
 /* }}} */
 
