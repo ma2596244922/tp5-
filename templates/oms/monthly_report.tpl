@@ -29,11 +29,13 @@
                         <th>询盘量</th>
                         <th>邮箱数</th>
                     </tr>
+{foreach $report as $r}
                     <tr>
-                        <td>2017年4月月报</td>
-                        <td>123</td>
-                        <td>11</td>
+                        <td>{$r.label}</td>
+                        <td>{$r.cnt}</td>
+                        <td>{$r.email_cnt}</td>
                     </tr>
+{/foreach}
                 </table>
                 <!-- End Content -->
             </div>

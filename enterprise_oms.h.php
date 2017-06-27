@@ -29,7 +29,7 @@ function enterprise_oms_route_2($smarty)
                 case 'input_inquiry':
                     return enterprise_oms_action_input_inquiry($smarty, $site);
                 case 'monthly_report':
-                    return enterprise_oms_action_monthly_report($smarty);
+                    return enterprise_oms_action_monthly_report($smarty, $site);
                 case 'client_info':
                     return enterprise_oms_action_client_info($smarty);
                 case 'edit_operator':
@@ -459,8 +459,32 @@ function enterprise_oms_action_client_info($smarty)
 /**
  * Monthly Report
  */
-function enterprise_oms_action_monthly_report($smarty)
+function enterprise_oms_action_monthly_report($smarty, $site)
 {
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $inquiryTableName = $inquiryDAO->getTableName();
+
+    $totalMonths = 6;
+    $report = array();
+    for ($i=0; $i<$totalMonths; ++$i) {
+        $fmt = "first day of -{$i} month";
+        $ts = strtotime($fmt);
+        $from = date('Y-m-d', $ts);
+
+        $fmt = "last day of -{$i} month";
+        $ts = strtotime($fmt);
+        $to = date('Y-m-d', $ts);
+
+        $label = date('Y年m月月报', $ts);
+
+        $sql = "SELECT COUNT(`id`) AS `cnt`, COUNT(DISTINCT `email`) AS `email_cnt` FROM `{$inquiryTableName}`
+        WHERE `site_id`={$site['id']} AND `created` BETWEEN '{$from}' AND '{$to}'";
+        $result = $inquiryDAO->getOneBySql($sql);
+        $result['label'] = $label;
+        $report[] = $result;
+    }
+    $smarty->assign('report', $report);
+
     $smarty->display('oms/monthly_report.tpl');
 }
 
