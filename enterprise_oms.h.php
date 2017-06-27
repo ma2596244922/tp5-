@@ -45,7 +45,7 @@ function enterprise_oms_route_2($smarty)
                 case 'industry':
                     return enterprise_oms_action_industry($smarty);
                 case 'check_inquiry':
-                    return enterprise_oms_action_check_inquiry($smarty);
+                    return enterprise_oms_action_check_inquiry($smarty, $site);
                 case 'inquiry_stats':
                     return enterprise_oms_action_inquiry_stats($smarty);
                 case 'site_stats':
@@ -133,8 +133,42 @@ function enterprise_oms_action_inquiry_stats($smarty)
 /**
  * Check Inquiry
  */
-function enterprise_oms_action_check_inquiry($smarty)
+function enterprise_oms_action_check_inquiry($smarty, $site)
 {
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+
+    $submitted = (int)timandes_get_post_data('submitted');
+    if ($submitted == 1
+            || $submitted == 2) {
+        $pendingInquiryId = (int)timandes_get_post_data('pending_inquiry_id');
+        if ($pendingInquiryId) {
+            $pendingInquiry = $pendingInquiryDAO->get($pendingInquiryId);
+            if ($pendingInquiry) {
+                if ($submitted == 1) {// 通过
+                    $values = json_decode($pendingInquiry['data'], true);
+                    $values['guid'] = enterprise_generate_guid();
+                    $inquiryDAO = new \enterprise\daos\Inquiry();
+                    $inquiryDAO->insert($values);
+                }
+
+                $values = array(
+                        'deleted' => 1,
+                    );
+                $pendingInquiryDAO->update($pendingInquiryId, $values);
+            }
+        }
+    }
+
+    $pendingInquiries = $pendingInquiryDAO->getMultiInOrderBy('`deleted`=0', '`id`, `data`', '`id` ASC', 1);
+    if (!$pendingInquiries)
+        return enterprise_oms_display_success_msg($smarty, '所有询盘已全部审核完成', '?action=dashboard', '运营管理');
+
+    $inquiry = json_decode($pendingInquiries[0]['data'], true);
+    $smarty->assign('inquiry', $inquiry);
+    $smarty->assign('pending_inquiry_id', $pendingInquiries[0]['id']);
+
+    enterprise_admin_assign_inquiry_detail($smarty, $inquiry);
+
     $smarty->display('oms/check_inquiry.tpl');
 }
 
@@ -163,7 +197,7 @@ function enterprise_oms_action_input_inquiry($smarty, $site)
     $relatedPath = parse_url($relatedUrl, PHP_URL_PATH);
     $targetProductId = enterprise_parse_id_from_product_page($relatedPath);
 
-    enterprise_save_inquiry_from_post_data($site['id'], $domain, \enterprise\daos\Inquiry::TYPE_INPUT, $ipAddr, $created, $targetProductId);
+    enterprise_save_inquiry_from_post_data($site, $domain, \enterprise\daos\Inquiry::TYPE_INPUT, $ipAddr, $created, $targetProductId);
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=site_dashboard&site_id=' . $site['id'], '网站管理');
 }

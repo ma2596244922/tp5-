@@ -540,6 +540,14 @@ CREATE TABLE `enterprise_main_products` (
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='主推产品表';
 
+CREATE TABLE `enterprise_pending_inquiries` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `data` text NOT NULL COMMENT '提交的询盘数据（JSON）',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_pending` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='待审核询盘表';
+
 /* {{{ OMS */
 CREATE TABLE `oms_industries` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '行业ID',

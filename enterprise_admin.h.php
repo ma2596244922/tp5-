@@ -808,22 +808,13 @@ function enterprise_admin_action_inquiry($smarty)
     $smarty->display('admin/inquiry.tpl');
 }
 
-/**
- * Inquiry Detail
- */
-function enterprise_admin_action_inquiry_detail($smarty)
+function enterprise_admin_assign_inquiry_detail($smarty, $inquiry)
 {
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
-    $inquiryId = (int)timandes_get_query_data('inquiry_id');
-
-    // Inquiry
-    $inquiryDAO = new \enterprise\daos\Inquiry();
-    $condition = "`id`={$inquiryId}";
-    $inquiry = $inquiryDAO->getOneBy($condition);
-    $smarty->assign('inquiry', $inquiry);
-
     // Inquiry Attachments
-    $inquiryAttachments = json_decode($inquiry['attachments'], true);
+    if (is_array($inquiry['attachments']))
+        $inquiryAttachments = $inquiry['attachments'];
+    else
+        $inquiryAttachments = json_decode($inquiry['attachments'], true);
     $smarty->assign('inquiry_attachments', $inquiryAttachments);
 
     // Country of Inquiry
@@ -839,6 +830,23 @@ function enterprise_admin_action_inquiry_detail($smarty)
     // Target product
     if ($inquiry['target_product_id'])
         enterprise_assign_product_info($smarty, 'target_product', $inquiry['target_product_id']);
+}
+
+/**
+ * Inquiry Detail
+ */
+function enterprise_admin_action_inquiry_detail($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $inquiryId = (int)timandes_get_query_data('inquiry_id');
+
+    // Inquiry
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $condition = "`id`={$inquiryId}";
+    $inquiry = $inquiryDAO->getOneBy($condition);
+    $smarty->assign('inquiry', $inquiry);
+
+    enterprise_admin_assign_inquiry_detail($smarty, $inquiry);
 
     $smarty->display('admin/inquiry_detail_2.tpl');
 }

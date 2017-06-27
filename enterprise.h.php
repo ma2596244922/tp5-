@@ -704,11 +704,35 @@ function remove_n_r($s)
     return $retval;
 }
 
+function enterprise_upload_attachments_from_post_data()
+{
+    $attachmentDAO = new \enterprise\daos\Attachment();
+    $attachments = array();
+    foreach ($_FILES as $meta) {
+        if ($meta['error'])
+            continue;
+        $body = file_get_contents($meta['tmp_name']);
+        $contentType = $meta['type'];
+        $guid = enterprise_generate_guid();
+        $values = array(
+                'guid' => $guid,
+                'body' => $body,
+                'content_type' => $contentType,
+                'created' => date('Y-m-d H:i:s'),
+            );
+        $id = $attachmentDAO->insert($values);
+        $attachments[] = bin2hex($guid);
+    }
+    return $attachments;
+}
+
 /**
  * 从POST表单获取数据保存至询盘表
  */
-function enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix, $type = null, $ipAddr = null, $created = null, $targetProductId = null)
+function enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix, $type = null, $ipAddr = null, $created = null, $targetProductId = null)
 {
+    $siteId = $site['site_id'];
+
     $subject = timandes_get_post_data('subject');
     $message = timandes_get_post_data('message', 'trim, xss_clean');
     $email = timandes_get_post_data('email');
@@ -735,28 +759,10 @@ function enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix, $
         throw new \RuntimeException("Please input email");
 
     // Upload files
-    $attachmentDAO = new \enterprise\daos\Attachment();
-    $attachments = array();
-    foreach ($_FILES as $meta) {
-        if ($meta['error'])
-            continue;
-        $body = file_get_contents($meta['tmp_name']);
-        $contentType = $meta['type'];
-        $guid = enterprise_generate_guid();
-        $values = array(
-                'guid' => $guid,
-                'body' => $body,
-                'content_type' => $contentType,
-                'created' => date('Y-m-d H:i:s'),
-            );
-        $id = $attachmentDAO->insert($values);
-        $attachments[] = bin2hex($guid);
-    }
+    $attachments = enterprise_upload_attachments_from_post_data();
+
     // Create inquiry
-    $inquiryDAO = new \enterprise\daos\Inquiry();
-    $guid = enterprise_generate_guid();
     $values = array(
-            'guid' => $guid,
             'subject' => $subject,
             'message' => $message,
             'courtesy_title' => timandes_get_post_data('gender'),
@@ -784,7 +790,17 @@ function enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix, $
             'target_product_id' => $targetProductId,
             'type' => $type,
         );
-    $inquiryDAO->insert($values);
+    if ($site['enable_inquiry_checking']) {// 需要审核
+        $values = array(
+                'data' => $values,
+            );
+        $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+        $pendingInquiryDAO->insert($values);
+    } else {
+        $values['guid'] = enterprise_generate_guid();
+        $inquiryDAO = new \enterprise\daos\Inquiry();
+        $inquiryDAO->insert($values);
+    }
 }
 
 /**
@@ -809,7 +825,7 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     }
 
     try {
-        enterprise_save_inquiry_from_post_data($siteId, $currentDomainSuffix);
+        enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix);
     } catch (\Exception $e) {
         header('Location: /contactnow.html');
         exit(0);
