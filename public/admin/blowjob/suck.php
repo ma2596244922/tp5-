@@ -14,9 +14,15 @@ $taskDAO = new blowjob\daos\Task();
 if ($langCode == 'en') {
     $groupDAO = new enterprise\daos\Group();
     $groupPrimaryKey = '`id`';
+    $groupListCondition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0';
+    $groupListFields = $groupPrimaryKey . ' AS `id`, `name`';
+    $groupListOrderBy = $groupPrimaryKey . ' ASC';
 } else {
     $groupDAO = new enterprise\daos\LangGroup($langCode);
     $groupPrimaryKey = '`group_id`';
+    $groupListCondition = 'lg.`site_id`=' . (int)$siteId . ' AND lg.`deleted`=0';
+    $groupListFields = 'lg.' . $groupPrimaryKey . ' AS `id`, lg.`name`';
+    $groupListOrderBy = 'lg.' . $groupPrimaryKey . ' ASC';
 }
 $statusRange = blowjob\daos\Task::STATUS_PENDING . ', ' . blowjob\daos\Task::STATUS_IN_PROGRESS;
 $condition = 't.`site_id`=' . (int)$siteId . ' AND t.`deleted`=0 AND t.`status` in (' . $statusRange . ')';
@@ -29,8 +35,7 @@ $sql = "SELECT t.`id`, t.`group_id`, g.`name` AS `group_name`, t.`target_url`, t
 $tasks = $taskDAO->getMultiBySql($sql);
 
 // Get groups
-$condition = '`site_id`=' . (int)$siteId . ' AND `deleted`=0';
-$groups = $groupDAO->getMultiInOrderBy($condition, $groupPrimaryKey . ' AS `id`, `name`', $groupPrimaryKey . ' ASC');
+$groups = $groupDAO->getMultiInOrderBy($groupListCondition, $groupListFields, $groupListOrderBy);
 
 $response = array(
         "host"=> $_SERVER['HTTP_HOST'],
