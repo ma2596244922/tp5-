@@ -478,7 +478,7 @@ function enterprise_oms_action_monthly_report($smarty, $site)
         $label = date('Y年m月月报', $ts);
 
         $sql = "SELECT COUNT(`id`) AS `cnt`, COUNT(DISTINCT `email`) AS `email_cnt` FROM `{$inquiryTableName}`
-        WHERE `site_id`={$site['id']} AND `created` BETWEEN '{$from}' AND '{$to}'";
+        WHERE `site_id`={$site['id']} AND `created` BETWEEN '{$from}' AND '{$to}' AND `deleted`=0";
         $result = $inquiryDAO->getOneBySql($sql);
         $result['label'] = $label;
         $report[] = $result;
