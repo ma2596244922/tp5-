@@ -919,9 +919,10 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
     $values = array(
             'updated' => date('Y-m-d H:i:s'),
         );
-    if ($path) {
+    if (isset($path)) {
         $values['path'] = $path;
-        $values['path_sum'] = md5($path, true);
+        if ($path)
+            $values['path_sum'] = md5($path, true);
     }
     if (!$langGroupDAO) {// English only
         $values['site_id'] = $userSiteId;
@@ -981,7 +982,8 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $groupName = timandes_get_post_data('name');
     $path = timandes_get_post_data('path');
-    $path = '/' . ltrim($path, '/');
+    if ($path)
+        $path = '/' . ltrim($path, '/');
 
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
