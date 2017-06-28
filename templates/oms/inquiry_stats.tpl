@@ -25,10 +25,10 @@
                 <h2>询盘统计</h2>
                 <form class="form-inline" action="?" method="GET" id="formFilter">
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>所有来源</option>
-                            <option>自然</option>
-                            <option>匹配</option>
+                        <select class="form-control" name="type">
+                            <option value="-1">所有来源</option>
+                            <option value="{$TYPE_NATURAL}"{if $smarty.get.type|default:0==$TYPE_NATURAL} selected{/if}>自然</option>
+                            <option value="{$TYPE_INPUT}"{if $smarty.get.type|default:0==$TYPE_INPUT} selected{/if}>匹配</option>
                         </select>
                     </div>
                     <div class="form-group">

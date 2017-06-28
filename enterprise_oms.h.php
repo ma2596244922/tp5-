@@ -138,7 +138,7 @@ function enterprise_oms_action_site_stats($smarty)
  * Assign inquiry list to template
  */
 function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max = 10, $pageNo = 1,
-        $email = null, $domain = null, $from = null, $to = null)
+        $email = null, $domain = null, $from = null, $to = null, $type = null)
 {
     $inquiryDAO = new \enterprise\daos\Inquiry();
 
@@ -163,6 +163,9 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
         $escapedTo = $inquiryDAO->escape($to);
         $condition .= " AND `created`<='{$escapedTo}'";
     }
+    if (isset($type)) {
+        $condition .= " AND `type`={$type}";
+    }
 
     $start = ($pageNo - 1) * $max;
     $inquiries = $inquiryDAO->getMultiInOrderBy($condition, ENTERPRISE_INQUIRY_FIELDS_FOR_LIST, '`id` DESC', $max, $start);
@@ -178,23 +181,29 @@ function enterprise_oms_action_inquiry_stats($smarty)
     $domain = timandes_get_query_data('domain');
     $from = timandes_get_query_data('from');
     $to = timandes_get_query_data('to');
+    $type = (int)timandes_get_query_data('type');
     $pageNo = (int)timandes_get_query_data('page');
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
 
     enterprise_oms_assign_inquiry_list($smarty, 'inquiries', null, $max, $pageNo,
-        $email, $domain, $from, $to);
+        $email, $domain, $from, $to, ($type<0?null:$type));
 
     $queries = array(
             'action' => 'inquiry_stats',
             'email' => $email,
             'domain' => $domain,
             'from' => $from,
-            'to' => $to
+            'to' => $to,
+            'type' => $type,
         );
     $queryString = http_build_query($queries);
     $smarty->assign('query_string', $queryString);
+
+    // Types
+    $smarty->assign('TYPE_NATURAL', \enterprise\daos\Inquiry::TYPE_NATURAL);
+    $smarty->assign('TYPE_INPUT', \enterprise\daos\Inquiry::TYPE_INPUT);
 
     $smarty->display('oms/inquiry_stats.tpl');
 }
