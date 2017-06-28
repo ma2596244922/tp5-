@@ -32,17 +32,17 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="email" placeholder="询盘邮箱">
+                        <input class="form-control" type="text" name="email" placeholder="询盘邮箱" value="{$smarty.get.email|default:''}">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="domain" placeholder="域名">
+                        <input class="form-control" type="text" name="domain" placeholder="域名" value="{$smarty.get.domain|default:''}">
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="date" class="form-control" name="from" id="inputFrom" placeholder="2017-06-09">
+                            <input type="date" class="form-control" name="from" id="inputFrom" placeholder="2017-06-09" value="{$smarty.get.from|default:''}">
                             <div class="input-group-addon">至</div>
-                            <input type="date" class="form-control" name="to" id="inputTo" placeholder="2017-06-09">
+                            <input type="date" class="form-control" name="to" id="inputTo" placeholder="2017-06-09" value="{$smarty.get.to|default:''}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -58,13 +58,10 @@
                 </form>
                 <nav class="pull-right">
                     <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li class="active"><span>1</span></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
+{if $smarty.get.page|default:1 > 1}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1-1}">&laquo;</a></li>
+{/if}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1+1}">&raquo;</a></li>
                     </ul>
                 </nav>
                 <table class="table table-striped table-bordered table-hover">
@@ -75,25 +72,24 @@
                         <th>询盘邮箱</th>
                         <th>域名</th>
                     </tr>
+{foreach $inquiries as $i}
                     <tr>
-                        <td>Inquiry About Internal wall insulation work good quality prefab house designs for kenya</td>
+                        <td>{$i.subject}</td>
                         <td>
                             <a href="#" target="_blank">查看</a>
                         </td>
-                        <td>2017-05-04 19:11:05</td>
-                        <td>timands@gmail.com</td>
-                        <td>popost.com</td>
+                        <td>{$i.created}</td>
+                        <td>{$i.email}</td>
+                        <td>{$i.domain}</td>
                     </tr>
+{/foreach}
                 </table>
                 <nav class="pull-right">
                     <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li class="active"><span>1</span></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
+{if $smarty.get.page|default:1 > 1}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1-1}">&laquo;</a></li>
+{/if}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1+1}">&raquo;</a></li>
                     </ul>
                 </nav>
                 <!-- End Content -->

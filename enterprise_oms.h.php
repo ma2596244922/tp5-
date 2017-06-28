@@ -57,7 +57,7 @@ function enterprise_oms_route_2($smarty)
                 case 'industry':
                     return enterprise_oms_action_industry($smarty);
                 case 'check_inquiry':
-                    return enterprise_oms_action_check_inquiry($smarty, $site);
+                    return enterprise_oms_action_check_inquiry($smarty);
                 case 'inquiry_stats':
                     return enterprise_oms_action_inquiry_stats($smarty);
                 case 'site_stats':
@@ -135,10 +135,67 @@ function enterprise_oms_action_site_stats($smarty)
 /* {{{ Inquiries */
 
 /**
+ * Assign inquiry list to template
+ */
+function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max = 10, $pageNo = 1,
+        $email = null, $domain = null, $from = null, $to = null)
+{
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+
+    // Build condition
+    $condition = "`deleted`=0";
+    if ($siteId) {
+        $condition .= " AND `site_id`={$siteId}";
+    }
+    if ($email) {
+        $escapedEmail = $inquiryDAO->escape($email);
+        $condition .= " AND `email` like '%{$escapedEmail}%'";
+    }
+    if ($domain) {
+        $escapedDomain = $inquiryDAO->escape($domain);
+        $condition .= " AND `domain` like '%{$escapedDomain}%'";
+    }
+    if ($from) {
+        $escapedFrom = $inquiryDAO->escape($from);
+        $condition .= " AND `created`>='{$escapedFrom}'";
+    }
+    if ($to) {
+        $escapedTo = $inquiryDAO->escape($to);
+        $condition .= " AND `created`<='{$escapedTo}'";
+    }
+
+    $start = ($pageNo - 1) * $max;
+    $inquiries = $inquiryDAO->getMultiInOrderBy($condition, ENTERPRISE_INQUIRY_FIELDS_FOR_LIST, '`id` DESC', $max, $start);
+    $smarty->assign($var, $inquiries);
+}
+
+/**
  * Inquiry Stats.
  */
 function enterprise_oms_action_inquiry_stats($smarty)
 {
+    $email = timandes_get_query_data('email');
+    $domain = timandes_get_query_data('domain');
+    $from = timandes_get_query_data('from');
+    $to = timandes_get_query_data('to');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    enterprise_oms_assign_inquiry_list($smarty, 'inquiries', null, $max, $pageNo,
+        $email, $domain, $from, $to);
+
+    $queries = array(
+            'action' => 'inquiry_stats',
+            'email' => $email,
+            'domain' => $domain,
+            'from' => $from,
+            'to' => $to
+        );
+    $queryString = http_build_query($queries);
+    $smarty->assign('query_string', $queryString);
+
     $smarty->display('oms/inquiry_stats.tpl');
 }
 
@@ -146,7 +203,7 @@ function enterprise_oms_action_inquiry_stats($smarty)
 /**
  * Check Inquiry
  */
-function enterprise_oms_action_check_inquiry($smarty, $site)
+function enterprise_oms_action_check_inquiry($smarty)
 {
     $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
 

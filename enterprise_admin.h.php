@@ -6,7 +6,7 @@
  */
 
 /** @var string Fields of Inquiry for List */
-define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`, `target_product_id`');
+define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`, `target_product_id`, `domain`');
 
 /**
  * Grant permission
