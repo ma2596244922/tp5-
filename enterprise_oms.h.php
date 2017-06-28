@@ -18,6 +18,18 @@ function enterprise_oms_route_2($smarty)
             $site = enterprise_oms_assign_common($smarty);
 
             switch ($action) {
+                // V1
+                case 'site_mapping':
+                    return enterprise_oms_action_site_mapping($smarty);
+                case 'edit_site_mapping':
+                    return enterprise_oms_action_edit_site_mapping($smarty);
+                case 'delete_site_mapping':
+                    return enterprise_oms_action_delete_site_mapping($smarty);
+                case 'edit_site':
+                    return enterprise_oms_action_edit_site($smarty);
+                case 'dashboard1':
+                    return enterprise_oms_action_dashboard($smarty);
+                // V2
                 case 'super_login':
                     return enterprise_oms_action_super_login($smarty, $site);
                 case 'edit_user':
@@ -53,6 +65,7 @@ function enterprise_oms_route_2($smarty)
                 case 'new_site':
                     return enterprise_oms_action_new_site($smarty);
                 case 'dashboard':
+                default:
                     return enterprise_oms_action_dashboard_2($smarty);
             }
     }

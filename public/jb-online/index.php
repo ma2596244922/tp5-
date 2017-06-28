@@ -283,30 +283,6 @@ function enterprise_oms_action_delete_site_mapping($smarty)
     $smarty->display('oms/message.tpl');
 }
 
-function enterprise_oms_route($smarty)
-{
-    $action = timandes_get_query_data('action');
-    switch ($action) {
-        case 'login':
-            return enterprise_oms_action_login($smarty);
-        default:
-            $userId = enterprise_oms_grant_permission();
-            switch ($action) {
-                case 'site_mapping':
-                    return enterprise_oms_action_site_mapping($smarty);
-                case 'edit_site_mapping':
-                    return enterprise_oms_action_edit_site_mapping($smarty);
-                case 'delete_site_mapping':
-                    return enterprise_oms_action_delete_site_mapping($smarty);
-                case 'edit_site':
-                    return enterprise_oms_action_edit_site($smarty);
-                default:
-                    return enterprise_oms_action_dashboard($smarty);
-            }
-            
-    }
-}
-
 $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../../') . '/templates/');
 $smarty->setCompileDir(realpath(__DIR__ . '/../../') . '/templates_c/');
@@ -317,7 +293,6 @@ session_start();
 
 try {
     enterprise_oms_route_2($smarty);
-    exit(0);
 } catch(\HttpException $he) {
     $code = $he->getCode();
     if ($code != 404) {
@@ -327,13 +302,4 @@ try {
 } catch (\RuntimeException $e) {
     enterprise_oms_display_error_msg($smarty, $e->getMessage());
     exit(1);
-}
-
-try {
-    enterprise_oms_route($smarty);
-} catch(\HttpException $he) {
-    http_response_code($he->getCode());
-} catch (\RuntimeException $e) {
-    echo $e->getMessage();
-    echo '<a href="javascript:void(0);" onclick="javascript: history.back();">返回</a>';
 }
