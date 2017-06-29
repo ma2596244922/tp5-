@@ -23,42 +23,48 @@
 
                 <!-- Begin Content -->
                 <h2>网站统计</h2>
-                <form class="form-inline">
+                <form class="form-inline" action="?" method="GET" id="formFilter">
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>全部网站</option>
-                            <option>自营</option>
-                            <option>赠送</option>
+                        <select class="form-control" name="type">
+                            <option value="0">全部网站</option>
+{foreach $types as $type => $label}
+                            <option value="{$type}">{$label}</option>
+{/foreach}
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>全部行业</option>
-                            <option>Foos & Bars</option>
+                        <select class="form-control" name="industry_id">
+                            <option value="0">全部行业</option>
+{foreach $industries as $i}
+                            <option value="{$i.id}">{$i.name|escape}</option>
+{/foreach}
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control">
-                            <option>（待分配）</option>
-                            <option>web2 (12.34.56.78)</option>
+                        <select class="form-control" name="vps_id">
+                            <option value="0">（待分配）</option>
+{foreach $vpss as $v}
+                            <option value="{$v.id}">{$v.alias} ({$v.ip_addr})</option>
+{/foreach}
                         </select>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
-                            <input type="date" class="form-control" placeholder="2017-06-09">
+                            <input type="date" class="form-control" name="from" id="inputFrom" placeholder="2017-06-09" value="{$smarty.get.from|default:''}">
                             <div class="input-group-addon">至</div>
-                            <input type="date" class="form-control" placeholder="2017-06-09">
+                            <input type="date" class="form-control" name="to" id="inputTo" placeholder="2017-06-09" value="{$smarty.get.to|default:''}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary">查询</button>
-                        <button type="button" class="btn btn-default">今天</button>
-                        <button type="button" class="btn btn-default">昨天</button>
-                        <button type="button" class="btn btn-default">最近7天</button>
-                        <button type="button" class="btn btn-default">最近30天</button>
-                        <button type="button" class="btn btn-default">本月</button>
-                        <button type="button" class="btn btn-default">上月</button>
+                        <input type="hidden" name="action" value="site_stats"/>
+                        <button type="submit" class="btn btn-primary">查询</button>
+                        <button type="button" class="btn btn-default" id="btnToday">今天</button>
+                        <button type="button" class="btn btn-default" id="btnYesterday">昨天</button>
+                        <button type="button" class="btn btn-default" id="btnRecent7Days">最近7天</button>
+                        <button type="button" class="btn btn-default" id="btnRecent30Days">最近30天</button>
+                        <button type="button" class="btn btn-default" id="btnThisMonth">本月</button>
+                        <button type="button" class="btn btn-default" id="btnLastMonth">上月</button>
                     </div>
                 </form>
                 <table class="table table-striped table-bordered table-hover">
@@ -70,14 +76,18 @@
                         <th>已删除询盘</th>
                         <th>邮箱数</th>
                     </tr>
+{foreach $sites as $s}
                     <tr>
-                        <td>popost.com</td>
-                        <td>2017-05-04</td>
-                        <td>1234</td>
-                        <td>12</td>
-                        <td>123</td>
-                        <td>11</td>
+                        <td>
+                            <a href="?action=site_dashboard&site_id={$s.id}" target="_blank">{$s.domain}</a>
+                        </td>
+                        <td>{$s.created}</td>
+                        <td>{$s.products}</td>
+                        <td>{$s.inquiries}</td>
+                        <td>{$s.deleted_inquiries}</td>
+                        <td>{$s.inquiry_emails}</td>
                     </tr>
+{/foreach}
                 </table>
                 <!-- End Content -->
             </div>
@@ -86,5 +96,6 @@
     </div>
 
 {include file="oms/common/scripts.tpl"}
+{include file="oms/common/filterscripts.tpl"}
 </body>
 </html>

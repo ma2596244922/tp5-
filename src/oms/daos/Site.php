@@ -12,6 +12,18 @@ namespace oms\daos;
  */
 class Site extends \crawler\daos\AbstractDAO
 {
+    /** @var int 未知 */
+    const TYPE_UNKNOW = 0;
+    /** @var int 自营 */
+    const TYPE_SELF = 1;
+    /** @var int 赠送 */
+    const TYPE_AS_A_GIFT = 2;
+
+    private static $_typeLabels = array(
+            self::TYPE_SELF => '自营',
+            self::TYPE_AS_A_GIFT => '赠送',
+        );
+
     protected $_fields = array(
             'desc' => 'text',
             'guid' => 'text',
@@ -70,5 +82,18 @@ class Site extends \crawler\daos\AbstractDAO
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
+    }
+
+    public static function getTypes()
+    {
+        return self::$_typeLabels;
+    }
+
+    public static function getLabelByType($type)
+    {
+        if (isset(self::$_typeLabels[$type]))
+            return self::$_typeLabels[$type];
+
+        return '其他';
     }
 }

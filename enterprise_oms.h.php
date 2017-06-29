@@ -123,10 +123,94 @@ function enterprise_oms_action_new_site($smarty)
 }
 
 /**
+ * Assign site list to template
+ */
+function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
+        $type = null, $industryId = null, $vpsId = null, $from = null, $to = null, $stats = false)
+{
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+
+    // Build condition
+    $condition = "";
+    if ($type) {
+        $condition .= " AND s.`type`={$type}";
+    }
+    if ($industryId) {
+        $condition .= " AND s.`industry_id`={$industryId}";
+    }
+    if ($vpsId) {
+        $condition .= " AND s.`vps_id`={$vpsId}";
+    }
+    if ($from) {
+        $escapedFrom = $siteMappingDAO->escape($from);
+        $condition .= " AND s.`created`>='{$escapedFrom}'";
+    }
+    if ($to) {
+        $escapedTo = $siteMappingDAO->escape($to);
+        $condition .= " AND s.`created`<='{$escapedTo}'";
+    }
+    if ($condition)
+        $condition = " WHERE {$condition}";
+
+    $start = ($pageNo - 1) * $max;
+    $sql = "SELECT s.*, sm.`domain` FROM `enterprise_site_mappings` AS sm
+    LEFT JOIN `oms_sites` AS s ON s.`id`=sm.`site_id`
+    {$condition} ORDER BY s.`id` DESC LIMIT {$start}, {$max}";
+    $sites = $siteMappingDAO->getMultiBySql($sql);
+
+    // Stats
+    if ($stats
+            && is_array($sites)) {
+        $productDAO = new \enterprise\daos\Product();
+        foreach ($sites as &$s) {
+            $condition = "`deleted`=0 AND `site_id`=" . (int)$s['id'];
+            $s['products'] = $productDAO->countBy($condition);
+            $s['inquiries'] = 0;
+            $s['deleted_inquiries'] = 0;
+            $s['inquiry_emails'] = 0;
+        }
+    }
+
+    $smarty->assign($var, $sites);
+}
+
+/**
  * Site Stats.
  */
 function enterprise_oms_action_site_stats($smarty)
 {
+    $type = (int)timandes_get_query_data('type');
+    $industryId = (int)timandes_get_query_data('industry_id');
+    $vpsId = (int)timandes_get_query_data('vps_id');
+    $from = timandes_get_query_data('from');
+    $to = timandes_get_query_data('to');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    enterprise_oms_assign_site_list($smarty, 'sites', $max, $pageNo,
+        $type, $industryId, $vpsId, $from, $to, true);
+
+    $queries = array(
+            'action' => 'site_stats',
+            'type' => $type,
+            'industry_id' => $industryId,
+            'vps_id' => $vpsId,
+            'from' => $from,
+            'to' => $to,
+        );
+    $queryString = http_build_query($queries);
+    $smarty->assign('query_string', $queryString);
+
+    // Types
+    $types = \oms\daos\Site::getTypes();
+    $smarty->assign('types', $types);
+
+    enterprise_oms_assign_vps_list($smarty, 'vpss');
+
+    enterprise_oms_assign_industry_list($smarty, 'industries');
+
     $smarty->display('oms/site_stats.tpl');
 }
 
