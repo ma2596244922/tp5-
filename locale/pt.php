@@ -62,7 +62,7 @@ $presetTranslations = array(
         'supply_ability' => 'Habilidade da fonte',
 
         'fax' => 'Fax',
-        'see_more' => 'See More',//*
+        'see_more' => 'See More(PT)',//*
         'contact_suppliers' => 'Fornecedores',
         'quick_question' => 'Pergunta rápida',
         'no_typing_quick_question_help_you' => 'Nenhuma digitação, "pergunta rápida" Ajudá-lo!',
