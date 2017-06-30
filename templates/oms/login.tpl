@@ -35,7 +35,7 @@
 
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
-                                    <input class="btn btn-primary" type="submit" name="submit" value="Login">
+                                    <input class="btn btn-primary" type="submit" name="submit" value="登录">
                                 </div>
                             </div>
                         </form>

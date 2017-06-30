@@ -14,6 +14,9 @@
                                 <li{if $page_name|default:''=="input_inquiry"} class="active"{/if}><a href="?action=input_inquiry&site_id={$smarty.get.site_id}">匹配询盘</a></li>
                                 <li{if $page_name|default:''=="user"} class="active"{/if}><a href="?action=user&site_id={$smarty.get.site_id}">用户管理</a></li>
                             </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="?action=logout">退出登录</a></li>
+                            </ul>
                         </div>
                     </div>
                 </nav>
