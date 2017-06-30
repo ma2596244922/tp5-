@@ -28,7 +28,7 @@
                         <select class="form-control" name="type">
                             <option value="0">全部网站</option>
 {foreach $types as $type => $label}
-                            <option value="{$type}">{$label}</option>
+                            <option value="{$type}"{if $type==$smarty.get.type|default:'0'} selected{/if}>{$label}</option>
 {/foreach}
                         </select>
                     </div>
@@ -36,7 +36,7 @@
                         <select class="form-control" name="industry_id">
                             <option value="0">全部行业</option>
 {foreach $industries as $i}
-                            <option value="{$i.id}">{$i.name|escape}</option>
+                            <option value="{$i.id}"{if $i.id==$smarty.get.industry_id|default:'0'} selected{/if}>{$i.name|escape}</option>
 {/foreach}
                         </select>
                     </div>
@@ -44,7 +44,7 @@
                         <select class="form-control" name="vps_id">
                             <option value="0">（待分配）</option>
 {foreach $vpss as $v}
-                            <option value="{$v.id}">{$v.alias} ({$v.ip_addr})</option>
+                            <option value="{$v.id}"{if $v.id==$smarty.get.vps_id|default:'0'} selected{/if}>{$v.alias} ({$v.ip_addr})</option>
 {/foreach}
                         </select>
                     </div>
@@ -67,6 +67,14 @@
                         <button type="button" class="btn btn-default" id="btnLastMonth">上月</button>
                     </div>
                 </form>
+                <nav class="pull-right">
+                    <ul class="pagination">
+{if $smarty.get.page|default:1 > 1}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1-1}">&laquo;</a></li>
+{/if}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1+1}">&raquo;</a></li>
+                    </ul>
+                </nav>
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>域名</th>
@@ -89,6 +97,14 @@
                     </tr>
 {/foreach}
                 </table>
+                <nav class="pull-right">
+                    <ul class="pagination">
+{if $smarty.get.page|default:1 > 1}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1-1}">&laquo;</a></li>
+{/if}
+                        <li><a href="?{$query_string}&page={$smarty.get.page|default:1+1}">&raquo;</a></li>
+                    </ul>
+                </nav>
                 <!-- End Content -->
             </div>
             <!-- End Page -->

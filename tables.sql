@@ -296,6 +296,8 @@ CREATE TABLE `oms_sites` (
   `csr` text NOT NULL COMMENT 'CSR',
   `key` text NOT NULL COMMENT 'Key',
   `vps_id` int(10) unsigned NOT NULL COMMENT 'VPS ID',
+  `industry_id` int(10) unsigned NOT NULL COMMENT '行业ID',
+  `type` tinyint NOT NULL COMMENT '网站类型（1-自营；2-赠送）',
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`)

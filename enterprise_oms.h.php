@@ -131,26 +131,27 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
 
     // Build condition
-    $condition = "";
+    $condition = '';
+    $conditionArray = [];
     if ($type) {
-        $condition .= " AND s.`type`={$type}";
+        $conditionArray[] = "s.`type`={$type}";
     }
     if ($industryId) {
-        $condition .= " AND s.`industry_id`={$industryId}";
+        $conditionArray[] = "s.`industry_id`={$industryId}";
     }
     if ($vpsId) {
-        $condition .= " AND s.`vps_id`={$vpsId}";
+        $conditionArray[] = "s.`vps_id`={$vpsId}";
     }
     if ($from) {
         $escapedFrom = $siteMappingDAO->escape($from);
-        $condition .= " AND s.`created`>='{$escapedFrom}'";
+        $conditionArray[] = "s.`created`>='{$escapedFrom}'";
     }
     if ($to) {
         $escapedTo = $siteMappingDAO->escape($to);
-        $condition .= " AND s.`created`<='{$escapedTo}'";
+        $conditionArray[] = "s.`created`<='{$escapedTo}'";
     }
-    if ($condition)
-        $condition = " WHERE {$condition}";
+    if ($conditionArray)
+        $condition = " WHERE " . implode(' AND ', $conditionArray);
 
     $start = ($pageNo - 1) * $max;
     $sql = "SELECT s.*, sm.`domain` FROM `enterprise_site_mappings` AS sm
@@ -162,12 +163,14 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
     if ($stats
             && is_array($sites)) {
         $productDAO = new \enterprise\daos\Product();
+        $inquiryDAO = new \enterprise\daos\Inquiry();
         foreach ($sites as &$s) {
             $condition = "`deleted`=0 AND `site_id`=" . (int)$s['id'];
             $s['products'] = $productDAO->countBy($condition);
-            $s['inquiries'] = 0;
-            $s['deleted_inquiries'] = 0;
-            $s['inquiry_emails'] = 0;
+            $s['inquiries'] = $inquiryDAO->countBy($condition);
+            $s['inquiry_emails'] = $inquiryDAO->countBy($condition, 'email');
+            $condition = "`deleted`=1 AND `site_id`=" . (int)$s['id'];
+            $s['deleted_inquiries'] = $inquiryDAO->countBy($condition);
         }
     }
 
@@ -599,6 +602,10 @@ function enterprise_oms_action_client_info($smarty)
     $siteId = (int)timandes_get_query_data('site_id');
 
     enterprise_oms_assign_vps_list($smarty, 'vpss');
+    enterprise_oms_assign_industry_list($smarty, 'industries');
+    // Types
+    $types = \oms\daos\Site::getTypes();
+    $smarty->assign('types', $types);
 
     $submitted = (int)timandes_get_post_data('submit');
     if (!$submitted) {
@@ -612,7 +619,9 @@ function enterprise_oms_action_client_info($smarty)
     $tel = timandes_get_post_data('tel');
     $sex = timandes_get_post_data('sex');
     $enable_inquiry_checking = (int)timandes_get_post_data('enable_inquiry_checking');
-    $vps_id = (int)timandes_get_post_data('vps_id');
+    $vpsId = (int)timandes_get_post_data('vps_id');
+    $industryId = (int)timandes_get_post_data('industry_id');
+    $type = (int)timandes_get_post_data('type');
     $enable_mobile_sites = (int)timandes_get_post_data('enable_mobile_sites');
     $online = (int)timandes_get_post_data('online');
     $csr = timandes_get_post_data('csr');
@@ -626,7 +635,9 @@ function enterprise_oms_action_client_info($smarty)
             'name' => $name,
             'tel' => $tel,
             'sex' => $sex,
-            'vps_id' => $vps_id,
+            'vps_id' => $vpsId,
+            'industry_id' => $industryId,
+            'type' => $type,
             'csr' => $csr,
             'key' => $key,
             'updated' => date('Y-m-d H:i:s'),

@@ -94,6 +94,28 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">行业：</label>
+                        <div class="col-lg-4">
+                            <select class="form-control" name="industry_id">
+                                <option>（请选择）</option>
+{foreach $industries as $industry}
+                                <option value="{$industry.id}"{if $site.industry_id|default:'0'==$industry.id} selected{/if}>{$industry.name}</option>
+{/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-1 control-label">类型：</label>
+                        <div class="col-lg-4">
+                            <select class="form-control" name="type">
+                                <option>（请选择）</option>
+{foreach $types as $type => $label}
+                                <option value="{$type}"{if $type==$site.type} selected{/if}>{$label}</option>
+{/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-lg-1 control-label">移动版：</label>
                         <div class="col-lg-4">
                             <label class="radio-inline">

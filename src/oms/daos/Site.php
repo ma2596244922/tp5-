@@ -33,6 +33,8 @@ class Site extends \crawler\daos\AbstractDAO
             'tel' => 'text',
             'sex' => 'text',
             'vps_id' => 'int',
+            'industry_id' => 'int',
+            'type' => 'int',
             'csr' => 'text',
             'key' => 'text',
             'created' => 'text',
