@@ -97,6 +97,8 @@ do {
         $site = enterprise_get_site_info($siteId, $langCode);
         if (!$site)
             break;// continue routing
+        if ($site['offline'])
+            break;// continue routing
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
