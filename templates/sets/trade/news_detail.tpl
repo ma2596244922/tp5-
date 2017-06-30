@@ -19,7 +19,7 @@
         <div class="crumb">
             <p>
                 <a href="/">{$preset_translations.home}</a>&gt;
-                <a href="/news">News</a>&gt;
+                <a href="/news">{$preset_translations.news}</a>&gt;
                 <span>{$news.caption}</span>
             </p>
         </div>
@@ -44,10 +44,10 @@
                     <div class="next-prev">
                         <ul>
 {if $prev_news|default:[]}
-                            <li><span>Previous page</span><a href="{$prev_news|url:'enterprise_url_news'}">{$prev_news.caption}</a></li>
+                            <li><span>{$preset_translations.previous_page}</span><a href="{$prev_news|url:'enterprise_url_news'}">{$prev_news.caption}</a></li>
 {/if}
 {if $next_news|default:[]}
-                            <li class="next"><span>Next page</span><a href="{$next_news|url:'enterprise_url_news'}">{$next_news.caption}</a></li>
+                            <li class="next"><span>{$preset_translations.next_page}</span><a href="{$next_news|url:'enterprise_url_news'}">{$next_news.caption}</a></li>
 {/if}
                         </ul>
                         <i></i>

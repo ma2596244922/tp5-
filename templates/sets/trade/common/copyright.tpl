@@ -1,1 +1,1 @@
-        <p>{$corporation.name}. Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'} All Rights Reserved.</p>
+        <p>{$corporation.name}. {$preset_translations.copyright} © {$site.start_year} - {$smarty.now|date_format:'%Y'} {$preset_translations.all_rights_reserved}.</p>

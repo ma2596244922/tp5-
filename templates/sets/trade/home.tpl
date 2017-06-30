@@ -118,7 +118,7 @@
 {/foreach}
 {if $main_products|default:[]}
         <dl class="dl3">
-            <dt>Top Products</dt>
+            <dt>{$preset_translations.top_products}</dt>
     {foreach $main_products as $mp}
             <dd><a href="{$mp.url}">{$mp.label}</a></dd>
     {/foreach}

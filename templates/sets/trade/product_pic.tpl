@@ -41,10 +41,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="back-page"><a href="{$product|url:'enterprise_url_product'}"><i></i>Back to product page</a></div>
+                <div class="back-page"><a href="{$product|url:'enterprise_url_product'}"><i></i>{$preset_translations.back_to_product_page}</a></div>
             </div>
             <div class="img-intro">
-                <div class="title">You Might Also Like</div>
+                <div class="title">{$preset_translations.you_might_also_like}</div>
                 <div class="photo-list photo-big">
                     <div class="scrollArea">
                         <div class="img-list">

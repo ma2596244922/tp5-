@@ -117,6 +117,6 @@ $presetTranslations = array(
         'next_page' => 'Próxima página',
         'the_user_has_not_provide_such_information' => 'O usuário não forneceu essa informação.',
         'please_enter_the_content_for_your_inquiry' => 'Digite o conteúdo para o seu inquérito.',
-        'placeholder_of_inquiry_message' => 'Para obter os melhores resultados, recomendamos incluir os seguintes detalhes:\n-Sua introdução\n-Especificações requeridas\n-Inquirir sobre preço / MOQ',
+        'placeholder_of_inquiry_message' => "Para obter os melhores resultados, recomendamos incluir os seguintes detalhes:\n-Sua introdução\n-Especificações requeridas\n-Inquirir sobre preço / MOQ",
         'please_enter_a_subject_for_your_inquiry' => 'Insira um assunto para o seu inquérito',
     );

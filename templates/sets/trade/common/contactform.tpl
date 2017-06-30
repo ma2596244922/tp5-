@@ -41,15 +41,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="tips">What is this?<em>This feature is Quick question function, select the corresponding question types, automatically enter the corresponding problem, remove your trouble of typing<i></i></em></div></li>
+                        <div class="tips">{$preset_translations.what_is_this}<em>{$preset_translations.what_is_this_1}<i></i></em></div></li>
                         <li class="area-li"><label><i>*</i>{$preset_translations.message}</label>
-                        <textarea class="area" id="area" name="message" placeholder="For the best results, we recommend including the following details:
-    -Self introduction  
-    -Required specifications 
-    -Inquire about price/MOQ
-                                "></textarea></li>
+                        <textarea class="area" id="area" name="message" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea></li>
                     </ul>
-                    <div class="send-btn"><a href="">SEND NOW</a></div>
+                    <div class="send-btn"><a href="">{$preset_translations.send_now}</a></div>
                     </form>
                 </div>
             </div>

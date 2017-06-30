@@ -19,7 +19,7 @@
         <div class="crumb">
             <p>
                 <a href="/">{$preset_translations.home}</a>&gt;
-                <span>News</span>
+                <span>{$preset_translations.news}</span>
             </p>
         </div>
         <!--crumb-->
@@ -42,7 +42,7 @@
                             <dd>{$n.content|strip_tags|truncate:260}</dd>
                         </dl>
 {foreachelse}
-                        <p><i></i>The user has not provide such information.</p>
+                        <p><i></i>{$preset_translations.the_user_has_not_provide_such_information}.</p>
 {/foreach}
                     </div>
 {if $total_news > $page_size}

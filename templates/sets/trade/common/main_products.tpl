@@ -1,6 +1,6 @@
 {if $main_products|default:[]}
         <div class="product-categories">
-            <div class="title"><i></i><h2>Top Products</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.top_products}</h2></div>
             <table cellpadding="0" cellspacing="0">
     {-foreach $main_products as $mp}
         {-if $mp@index%3==0}

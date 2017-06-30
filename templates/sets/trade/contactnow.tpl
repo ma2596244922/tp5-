@@ -25,7 +25,7 @@
                 </dl>
             </div>
         </li>
-        <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt" id="subject" name="subject" value="{$subject|escape}" /><span class="erro_alert" id="subject_error">Please enter a subject for your inquiry</span></li>
+        <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt" id="subject" name="subject" value="{$subject|escape}" /><span class="erro_alert" id="subject_error">{$preset_translations.please_enter_a_subject_for_your_inquiry}</span></li>
         <li class="fl-clr"><label><i></i>{$preset_translations.quick_question}</label>
             <div class="select fl-clr">
                 <ul class="fl-clr">
@@ -41,11 +41,7 @@
             </div>
             <span class="tips">{$preset_translations.no_typing_quick_question_help_you}</span>
         </li>
-        <li class="area"><label><i>*</i>{$preset_translations.message}</label><textarea class="area" name="message" id="area" placeholder="For the best results, we recommend including the following details:
--Self introduction\n
--Required specifications\n
--Inquire about price/MOQ
-         "></textarea><span class="erro_alert erro_alert1" id="area_error">Please enter the content for your inquiry.</span></li>
+        <li class="area"><label><i>*</i>{$preset_translations.message}</label><textarea class="area" name="message" id="area" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea><span class="erro_alert erro_alert1" id="area_error">{$preset_translations.please_enter_the_content_for_your_inquiry}</span></li>
     </ul>
     <div class="slide-menu">
         <div class="title"><span></span><i>{$preset_translations.contact_n_optional_details}</i></div>
