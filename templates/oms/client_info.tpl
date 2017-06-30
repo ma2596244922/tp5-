@@ -130,10 +130,10 @@
                         <label class="col-lg-1 control-label">上/下线：</label>
                         <div class="col-lg-4">
                             <label class="radio-inline">
-                                <input type="radio" name="online" value="0"{if $site.online|default:'1'=='0'} checked{/if}>下线
+                                <input type="radio" name="offline" value="1"{if $site.offline|default:'0'=='1'} checked{/if}>下线
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="online" value="1"{if $site.online|default:'1'=='1'} checked{/if}>上线
+                                <input type="radio" name="offline" value="0"{if $site.offline|default:'0'=='0'} checked{/if}>上线
                             </label>
                         </div>
                     </div>

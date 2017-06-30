@@ -38,7 +38,7 @@ class Site extends \crawler\daos\AbstractDAO
             'enable_inquiry_checking' => 'tinyint',
             'enable_mobile_sites' => 'tinyint',
             'enable_https' => 'tinyint',
-            'online' => 'tinyint',
+            'offline' => 'tinyint',
         );
 
     public function getTableName()

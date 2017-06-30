@@ -623,7 +623,7 @@ function enterprise_oms_action_client_info($smarty)
     $industryId = (int)timandes_get_post_data('industry_id');
     $type = (int)timandes_get_post_data('type');
     $enable_mobile_sites = (int)timandes_get_post_data('enable_mobile_sites');
-    $online = (int)timandes_get_post_data('online');
+    $offline = (int)timandes_get_post_data('offline');
     $csr = timandes_get_post_data('csr');
     $key = timandes_get_post_data('key');
     $enable_https = (int)timandes_get_post_data('enable_https');
@@ -649,7 +649,7 @@ function enterprise_oms_action_client_info($smarty)
             'enable_inquiry_checking' => $enable_inquiry_checking,
             'enable_mobile_sites' => $enable_mobile_sites,
             'enable_https' => $enable_https,
-            'online' => $online,
+            'offline' => $offline,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();
