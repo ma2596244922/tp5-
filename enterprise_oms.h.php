@@ -760,6 +760,9 @@ function enterprise_oms_assign_common($smarty)
         $smarty->assign('site_mappings', $siteMappings);
     }
 
+    $types = \oms\daos\Site::getTypes();
+    $smarty->assign('site_types', $types);
+
     return $site;
 }
 

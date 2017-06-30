@@ -11,3 +11,16 @@
         $(setHeightOfOuterContainerOfSidebar);
         $(window).resize(setHeightOfOuterContainerOfSidebar);
     {/literal}</script>
+
+    <script type="text/javascript">{literal}
+        $('#select-site-type').change(function() {
+            var selectedType = $(this).val();
+            $('#sidebar').find('[data-role="site-entry"]').each(function() {
+                var type = $(this).data('type');
+                if (type == selectedType)
+                    $(this).show();
+                else
+                    $(this).hide();
+            });
+        });
+    {/literal}</script>
