@@ -23,7 +23,14 @@ function enterprise_oms_grant_permission()
         exit;
     }
 
-    return $userId;
+    $operatorDAO = new \oms\daos\Operator();
+    $operator = $operatorDAO->get($userId);
+    if (!$operator) {
+        header('Location: /admin/?action=login');
+        exit;
+    }
+
+    return $operator;
 }
 
 function enterprise_oms_action_login($smarty)
@@ -38,22 +45,30 @@ function enterprise_oms_action_login($smarty)
     $password = timandes_get_post_data('password');
     $passwordSum = md5($password);
 
-    $user = array(
-            'id' => '1',
-            'password' => 'bc556a92571088df817377579416f4f6',
-        );
+    $operatorDAO = new \oms\daos\Operator();
+    $condition = "`name`='" . $operatorDAO->escape($userName) . "'";
+    $operator = $operatorDAO->getOneBy($condition);
     if (!$userName
-            || !$user
-            || $user['password'] != $passwordSum) {
+            || !$operator
+            || $operator['password'] != $passwordSum) {
         $smarty->assign('error_msg', "用户名或密码错误");
         return $smarty->display($tplPath);
     }
 
     // Add meta to session
-    $_SESSION[SESSION_FIELD_USER_ID] = $user['id'];
+    $_SESSION[SESSION_FIELD_USER_ID] = $operator['id'];
 
     // Redirect
     header('Location: ?');
+}
+
+/**
+ * Log-out
+ */
+function enterprise_oms_action_logout($smarty)
+{
+    unset($_SESSION[SESSION_FIELD_USER_ID]);
+    header('Location: ?action=login');
 }
 
 function enterprise_oms_action_dashboard($smarty)

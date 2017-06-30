@@ -10,10 +10,12 @@ function enterprise_oms_route_2($smarty)
 {
     $action = timandes_get_query_data('action');
     switch ($action) {
+        case 'logout':
+            return enterprise_oms_action_logout($smarty);
         case 'login':
             return enterprise_oms_action_login($smarty);
         default:
-            $userId = enterprise_oms_grant_permission();
+            $operator = enterprise_oms_grant_permission();
 
             $site = enterprise_oms_assign_common($smarty);
 
@@ -45,7 +47,7 @@ function enterprise_oms_route_2($smarty)
                 case 'client_info':
                     return enterprise_oms_action_client_info($smarty);
                 case 'edit_operator':
-                    return enterprise_oms_action_edit_operator($smarty);
+                    return enterprise_oms_action_edit_operator($smarty, $operator);
                 case 'operator':
                     return enterprise_oms_action_operator($smarty);
                 case 'edit_vps':
@@ -552,8 +554,11 @@ function enterprise_oms_action_operator($smarty)
 /**
  * Edit Operator
  */
-function enterprise_oms_action_edit_operator($smarty)
+function enterprise_oms_action_edit_operator($smarty, $operator)
 {
+    if (!$operator['advanced'])
+        throw new \RuntimeException("权限不足");
+
     $operatorId = (int)timandes_get_query_data('operator_id');
 
     $submitted = (int)timandes_get_post_data('submit');

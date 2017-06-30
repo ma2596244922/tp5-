@@ -579,6 +579,7 @@ CREATE TABLE `oms_operators` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `advanced` tinyint NOT NULL COMMENT '可使用高级功能(0/1)',
   PRIMARY KEY (`id`),
   KEY `idx_deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运营人员表';

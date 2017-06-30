@@ -18,6 +18,7 @@ class Operator extends AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'deleted' => 'tinyint',
+            'advanced' => 'tinyint',
         );
 
     public function getTableName()
