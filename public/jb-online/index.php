@@ -187,10 +187,10 @@ function enterprise_oms_get_site_mapping_list($siteId = null)
 {
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
     if ($siteId)
-        $condition = "`site_id`={$siteId}";
+        $condition = "sm.`site_id`={$siteId}";
     else
         $condition = null;
-    return $siteMappingDAO->getMultiBy($condition);
+    return $siteMappingDAO->getMultiInOrderBy($condition, 'os.*, es.*, sm.`domain`', 'sm.`domain` ASC');
 }
 
 /**

@@ -78,4 +78,29 @@ class SiteMapping extends \crawler\daos\AbstractDAO
             throw new \RuntimeException($sql);
         return true;
     }
+
+    // Override
+    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
+    {
+        $tableName = $this->getTableName();
+
+        $limit = '';
+        if (null !== $max) {
+            $start = (int)$start;
+            $max = (int)$max;
+            $limit = " LIMIT {$start}, {$max}";
+        }
+        if ($orderBy)
+            $orderBy = ' ORDER BY ' . $orderBy;
+        if ($condition)
+            $condition = ' WHERE ' . $condition;
+        if ($forceIndex)
+            $forceIndex = ' FORCE INDEX (' . $forceIndex . ')';
+
+        $sql = "SELECT {$fields} FROM `{$tableName}` AS sm{$forceIndex}
+        LEFT JOIN `oms_sites` AS os ON os.`id`=sm.`site_id`
+        LEFT JOIN `enterprise_sites` AS es ON es.`site_id`=sm.`site_id`
+        {$condition}{$orderBy}{$limit}";
+        return $this->getMultiBySql($sql);
+    }
 }

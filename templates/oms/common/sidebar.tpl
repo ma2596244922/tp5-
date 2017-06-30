@@ -9,7 +9,7 @@
                         </select>
                     </a>
 {foreach $all_site_mappings as $sm}
-                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.site_id}">(上){$sm.domain}</a>
+                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.site_id}">({if $sm.online}上{else}下{/if}){$sm.domain}</a>
 {/foreach}
                 </div>
             </div>
