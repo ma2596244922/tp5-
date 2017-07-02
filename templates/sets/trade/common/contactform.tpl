@@ -15,7 +15,7 @@
                         <dd><span>Email</span>{$contacts[0].email}</dd>
 {/if}
                         <dd><span>{$preset_translations.address}</span>{$corporation.address}</dd>
-                        <dd><span>{$preset_translations.business_phone}(Working Time)</span>{$corporation.tel_wt}</dd>
+                        <dd><span>{$preset_translations.business_phone}({$preset_translations.working_time})</span>{$corporation.tel_wt}</dd>
                         <dd><span>{$preset_translations.fax}</span>{$corporation.fax}</dd>
                     </dl>
                 </div>

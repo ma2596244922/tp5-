@@ -92,7 +92,7 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
-        enterprise_load_preset_translations($smarty, $langCode);
+        enterprise_assign_preset_translations($smarty, $langCode);
 
         $site = enterprise_get_site_info($siteId, $langCode);
         if (!$site)

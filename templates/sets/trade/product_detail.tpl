@@ -142,7 +142,7 @@
         <div class="search-product">
         <div class="hot-search">
             <dl>
-                <dt>Tags:</dt>
+                <dt>{$preset_translations.tags}:</dt>
     {foreach $product_tags as $tag}
                 <dd><h3><a href="{$tag|call:'enterprise_url_product_search'}">{$tag}</a></h3></dd>
     {/foreach}

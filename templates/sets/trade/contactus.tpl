@@ -8,7 +8,6 @@
 <meta name="description" content="{$description|escape}" />
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
-{include file="sets/trade/common/contact_desc.tpl"}
 </head>
 
 <body>
@@ -37,7 +36,7 @@
                 <ul>
         {-foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
             {-if isset($contact_desc.$f) && $contact.$f}
-                    <li><label>{$contact_desc.$f}</label>{$v}</li>
+                    <li><label>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</label>{$v}</li>
             {-/if}
         {-/foreach}
                 </ul>
@@ -46,18 +45,18 @@
     {-/foreach}
         <!--contact-msg-->
         <div class="contact-us contact-us1">
-            <div class="title"><i></i><h2>Send Inquiry</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.send_inquiry}</h2></div>
             <div class="contact-info contact-info1 fl-clr">
                 <div class="right-list">
                     <form action="/contactsave.html" id="form-inquiry" method="POST">
-                    <input type="hidden" id="subject" name="subject" value="Can you provide me a quote" />
+                    <input type="hidden" id="subject" name="subject" value="{$preset_translations.can_you_provide_me_a_quote}" />
                     <ul class="fl-clr">
-                        <li><label><i></i>To</label>{$corporation.name}</li>
-                        <li><label><i>*</i>From</label><input type="text" class="txt1 txt-val" id="email" name="email" value="" /></li>
-                        <li class="area-li"><label><i>*</i>Message</label>
+                        <li><label><i></i>{$preset_translations.to}</label>{$corporation.name}</li>
+                        <li><label><i>*</i>{$preset_translations.from}</label><input type="text" class="txt1 txt-val" id="email" name="email" value="" /></li>
+                        <li class="area-li"><label><i>*</i>{$preset_translations.message}</label>
                         <textarea class="area" id="message" name="message"></textarea></li>
                     </ul>
-                    <div class="send-btn"><a href="">SEND NOW</a></div>
+                    <div class="send-btn"><a href="">{$preset_translations.send_now}</a></div>
                     </form>
                 </div>
             </div> 

@@ -37,7 +37,7 @@
                 </div>
                 <!--products-box-->
                 <div class="product-box certification-box">
-                    <div class="title"><i></i><h2>Certifications</h2></div>
+                    <div class="title"><i></i><h2>{$preset_translations.certifications}</h2></div>
                     <div class="certification-list fl-clr">
 {foreach $certifications as $cert}
                         <div class="certification-detail">

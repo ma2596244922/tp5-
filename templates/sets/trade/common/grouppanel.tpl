@@ -1,6 +1,6 @@
                 <div class="menu-list">
                     <dl>
-                        <dt>Product Groups</dt>
+                        <dt>{$preset_translations.product_groups}</dt>
 {foreach $groups as $g}{assign var="gid" value={$g.id|default:$g.group_id}}
                         <dd><a href="{$g|url:'enterprise_url_product_list'}"{if isset($group)&&$gid=={$group.id|default:'0'}} class="current"{/if} title="{$g.name}"><h2>{$g.name}</h2> ({$g.cnt})</a></dd>
 {/foreach}

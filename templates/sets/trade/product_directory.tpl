@@ -20,7 +20,7 @@
         <div class="crumb">
             <p>
                 <a href="/">{$preset_translations.home}</a>&gt;
-                <span>Site Map</span>
+                <span>{$preset_translations.site_map}</span>
             </p>
         </div>
         <!--crumb-->
@@ -35,7 +35,7 @@
     {-/if}
                     <li><em></em><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}">{$product.caption}</a></li>
 {foreachelse}
-                    <li>Sorry! No matches were found.</li>
+                    <li>{$preset_translations.sorry_no_matches_were_found}</li>
 {/foreach}
                 </ul>
             </div>
@@ -58,7 +58,7 @@
         </div> 
         <!--product-map-->
         <div class="product-map product-map1">
-            <div class="title"><span></span><h2>All Categories</h2></div>
+            <div class="title"><span></span><h2>{$preset_translations.all_categories}</h2></div>
             <div class="product-list">
                 <ul class="fl-clr">
 {foreach $groups as $g}

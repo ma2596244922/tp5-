@@ -10,10 +10,10 @@
                         <li><i>{$preset_translations.worktime}</i>{$corporation.worktime}</li>
 {-/if}
 {-if $corporation.tel_wt|default:''}
-                        <li><i>{$preset_translations.business_phone}(Working Time)</i>{$corporation.tel_wt}</li>
+                        <li><i>{$preset_translations.business_phone}({$preset_translations.working_time})</i>{$corporation.tel_wt}</li>
 {-/if}
 {-if $corporation.tel_nwt|default:''}
-                        <li><i>{$preset_translations.business_phone}(Nonworking Time)</i>{$corporation.tel_nwt}</li>
+                        <li><i>{$preset_translations.business_phone}({$preset_translations.nonworking_time})</i>{$corporation.tel_nwt}</li>
 {-/if}
 {-if $corporation.fax|default:''}
                         <li><i>{$preset_translations.fax}</i>{$corporation.fax}</li>

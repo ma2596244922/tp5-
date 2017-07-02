@@ -907,13 +907,32 @@ function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix)
 /**
  * 加载预设翻译
  */
-function enterprise_load_preset_translations($smarty, $langCode)
+function enterprise_load_preset_translations($langCode)
 {
     $path = __DIR__ . '/locale/' . $langCode . '.php';
     if (!file_exists($path))
         throw new HttpException(404);
 
     require_once $path;
+    return $presetTranslations;
+}
+
+/**
+ * Assign预设翻译
+ */
+function enterprise_assign_preset_translations($smarty, $langCode)
+{
+    $presetTranslations = $presetEnTranslations = enterprise_load_preset_translations('en');
+    if ($langCode != 'en') {
+        $presetLangTranslations = enterprise_load_preset_translations($langCode);
+        foreach ($presetEnTranslations as $key => $pt) {
+            if (isset($presetLangTranslations[$key]))
+                $presetTranslations[$key] = $presetLangTranslations[$key];
+            else
+                $presetTranslations[$key] = '(Pending)' . $pt;
+        }
+    }
+
     $smarty->assign('preset_translations', $presetTranslations);
 }
 
