@@ -1835,36 +1835,31 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
 }
 
 /**
- * Replace Keywords
+ * Create Task
  */
-function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
+function enterprise_admin_create_task($userSiteId, $type, $details)
 {
-    $tplPath = 'admin/replace_keywords.tpl';
+    $taskDAO = new \blowjob\daos\Task();
+    $values = array(
+            'site_id' => $userSiteId,
+            'type' => $type,
+            'details' => $details,
+            'created' => date('Y-m-d H:i:s'),
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $taskDAO->insert($values);
+}
 
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
-
-    $submitButton = timandes_get_post_data('submit');
-    if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
-
-        return $smarty->display($tplPath);
-    }
-
-    // Save
-    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r, trim');
-    $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
-    $groupId = (int)timandes_get_post_data('group_id');
-    $location = (int)timandes_get_post_data('location');
-
-    $locationRange = array(0, 1, 2, 3);
-    if (!in_array($location, $locationRange))
-        throw new \RangeException("非法的位置值");
-    if (!$oldPhrase)
-        throw new \UnderflowException("原关键词不能为空");
-    if (!$newPhrase)
-        throw new \UnderflowException("新关键词不能为空");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
+/**
+ * Replace keywords proc
+ */
+function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id'];
+    $oldPhrase = $taskDetails['old_phrase'];
+    $newPhrase = $taskDetails['new_phrase'];
+    $location = $taskDetails['location'];
 
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
@@ -1909,6 +1904,53 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
             $curProductId = $product['id'];
         }
     } while(true);
+}
+
+/**
+ * Replace Keywords
+ */
+function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/replace_keywords.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r, trim');
+    $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
+    $groupId = (int)timandes_get_post_data('group_id');
+    $location = (int)timandes_get_post_data('location');
+    $background = (int)timandes_get_post_data('background');
+
+    $locationRange = array(0, 1, 2, 3);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$oldPhrase)
+        throw new \UnderflowException("原关键词不能为空");
+    if (!$newPhrase)
+        throw new \UnderflowException("新关键词不能为空");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+
+    $taskDetails = array(
+            'old_phrase' => $oldPhrase,
+            'new_phrase' => $newPhrase,
+            'group_id' => $groupId,
+            'location' => $location,
+            'lang_code' => $langCode,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS, $taskDetails);
+    } else {
+        enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails);
+    }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }

@@ -239,7 +239,29 @@
                                         </div>
 
                                     </div>
+{if $user.advanced}
+                                    <div class="control-group">
 
+                                        <label class="control-label">后台处理：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="background" value="0" />否
+
+                                            </label>
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="background" value="1" checked />是
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+{/if}
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="replace_keywords">

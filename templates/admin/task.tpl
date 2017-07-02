@@ -181,9 +181,9 @@
                                             <td>{$tasks[i].type|call:'\blowjob\daos\Task::type2Text'}</td>
 
                                             <td>
-
+    {if !$tasks[i].type}
                                                 <a href="?action=edit_task&task_id={$tasks[i].id}">修改</a>
-
+    {/if}
                                                 <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_task&task_id={$tasks[i].id}">删除</a>
 
                                             </td>

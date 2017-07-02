@@ -20,6 +20,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_DEFAULT  = 0;
     /** @var int 批量插入关键词 */
     const TYPE_INSERT_KEYWORDS  = 10;
+    /** @var int 批量替换关键词 */
+    const TYPE_REPLACE_KEYWORDS  = 10;
 
     protected $_fields = array(
             'site_id' => 'int',
@@ -31,7 +33,7 @@ class Task extends \crawler\daos\AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'type' => 'tinyint',
-            'details' => 'text',
+            'details' => 'json',
         );
 
     public function getTableName()
@@ -106,6 +108,8 @@ class Task extends \crawler\daos\AbstractDAO
                 return '爬取任务';
             case self::TYPE_INSERT_KEYWORDS:
                 return '批量插入关键词';
+            case self::TYPE_REPLACE_KEYWORDS:
+                return '批量替换关键词';
             default:
                 return '未知';
         }
