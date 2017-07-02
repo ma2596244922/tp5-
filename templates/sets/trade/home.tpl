@@ -75,9 +75,9 @@
     <div class="choose-us">
         <div class="title"><h2>{$preset_translations.why_choose_us}</h2></div>
         <ul>
-            <li><span class="icon1"></span><i><a href="/aboutus.html" title="">{$preset_translations.all_about_us}</a></i><em>Our aim is to provide you with the tour service of the top quality, and we'll d o our</em></li>
-            <li><span class="icon2"></span><i><a href="/contactus.html" title="">{$preset_translations.contact_details}</a></i><em>Our aim is to provide you with the tour service of the top quality</em></li>
-            <li><span class="icon3"></span><i><a href="/quality.html" title="">{$preset_translations.quality_control}</a></i><em>cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts</em></li>
+            <li><span class="icon1"></span><i><a href="/aboutus.html" title="">{$preset_translations.all_about_us}</a></i><em>{$preset_translations.all_about_us_desc}</em></li>
+            <li><span class="icon2"></span><i><a href="/contactus.html" title="">{$preset_translations.contact_details}</a></i><em>{$preset_translations.contact_details_desc}</em></li>
+            <li><span class="icon3"></span><i><a href="/quality.html" title="">{$preset_translations.quality_control}</a></i><em>{$preset_translations.quality_control_desc}</em></li>
         </ul>
     </div>
     <!--choose-us-->

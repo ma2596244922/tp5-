@@ -119,4 +119,8 @@ $presetTranslations = array(
         'please_enter_the_content_for_your_inquiry' => 'Please enter the content for your inquiry.',
         'placeholder_of_inquiry_message' => "For the best results, we recommend including the following details:\n-Self introduction\n-Required specifications\n-Inquire about price/MOQ",
         'please_enter_a_subject_for_your_inquiry' => 'Please enter a subject for your inquiry',
+
+        'all_about_us_desc' => 'Our aim is to provide you with the tour service of the top quality, and we\'ll d o our',
+        'contact_details_desc' => 'Our aim is to provide you with the tour service of the top quality',
+        'quality_control_desc' => 'cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts',
     );
