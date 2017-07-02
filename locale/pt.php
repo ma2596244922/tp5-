@@ -62,7 +62,7 @@ $presetTranslations = array(
         'supply_ability' => 'Habilidade da fonte',
 
         'fax' => 'Fax',
-        'see_more' => 'See More(PT)',//*
+        'see_more' => '(Pending)See More',
         'contact_suppliers' => 'Fornecedores',
         'quick_question' => 'Pergunta rápida',
         'no_typing_quick_question_help_you' => 'Nenhuma digitação, "pergunta rápida" Ajudá-lo!',
@@ -120,7 +120,7 @@ $presetTranslations = array(
         'placeholder_of_inquiry_message' => "Para obter os melhores resultados, recomendamos incluir os seguintes detalhes:\n-Sua introdução\n-Especificações requeridas\n-Inquirir sobre preço / MOQ",
         'please_enter_a_subject_for_your_inquiry' => 'Insira um assunto para o seu inquérito',
 
-        'all_about_us_desc' => 'Our aim is to provide you with the tour service of the top quality, and we\'ll d o our',
-        'contact_details_desc' => 'Our aim is to provide you with the tour service of the top quality',
-        'quality_control_desc' => 'cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts',
+        'all_about_us_desc' => '(Pending)Our aim is to provide you with the tour service of the top quality, and we\'ll d o our',
+        'contact_details_desc' => '(Pending)Our aim is to provide you with the tour service of the top quality',
+        'quality_control_desc' => '(Pending)cotton bedding sets ,bamboo pillows ,bamboo blankets ,polyester quilts',
     );
