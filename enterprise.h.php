@@ -2000,7 +2000,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
     // Users' voices
-    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, 1, 5);
+    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, $langCode, 1, 5);
 
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
@@ -2494,14 +2494,20 @@ function enterprise_assign_prev_news_info($smarty, $var, $siteId, $newsId)
  *
  * @return string Condition
  */
-function enterprise_assign_user_voice_list($smarty, $var, $siteId, $pageNo = 1, $pageSize = 10)
+function enterprise_assign_user_voice_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10)
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
 
-    $userVoiceDAO = new \enterprise\daos\UserVoice();
-    $condition = "`site_id`={$siteId} AND `deleted`=0";
-    $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, '`id`, `title`, `avatar_image_id`, `created`, `updated`, `voice`', '`id` DESC', $pageSize, $start);
+    if ($langCode == 'en') {
+        $userVoiceDAO = new \enterprise\daos\UserVoice();
+        $condition = "`site_id`={$siteId} AND `deleted`=0";
+        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, '`id`, `title`, `avatar_image_id`, `created`, `updated`, `voice`', '`id` DESC', $pageSize, $start);
+    } else {
+        $userVoiceDAO = new \enterprise\daos\LangUserVoice($langCode);
+        $condition = "eluv.`site_id`={$siteId} AND eluv.`deleted`=0";
+        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, 'euv.`id`, euv.`avatar_image_id`, eluv.*', 'eluv.`user_voice_id` DESC', $pageSize, $start);
+    }
     $smarty->assign($var, $userVoices);
 
     return $condition;
@@ -2510,11 +2516,31 @@ function enterprise_assign_user_voice_list($smarty, $var, $siteId, $pageNo = 1, 
 /**
  * Assign UserVoice info
  */
-function enterprise_assign_user_voice_info($smarty, $var, $userVoiceId)
+function enterprise_assign_user_voice_info($smarty, $var, $userVoiceId, $langCode = 'en')
 {
+    $userVoice = enterprise_get_user_voice_info($userVoiceId, $langCode);
+    $smarty->assign($var, $userVoice);
+}
+
+/**
+ * Get UserVoice info
+ */
+function enterprise_get_user_voice_info($userVoiceId, $langCode = 'en')
+{
+    // UserVoice
     $userVoiceDAO = new \enterprise\daos\UserVoice();
     $userVoice = $userVoiceDAO->get($userVoiceId);
-    $smarty->assign($var, $userVoice);
+
+    // Language UserVoice
+    if ($langCode != 'en') {
+        $langUserVoiceDAO = new \enterprise\daos\LangUserVoice($langCode);
+        $condition = '`user_voice_id`=' . (int)$userVoiceId;
+        $langUserVoice = $langUserVoiceDAO->getOneBy($condition);
+        if ($langUserVoice)
+            $userVoice = array_merge($userVoice, $langUserVoice);
+    }
+
+    return $userVoice;
 }
 
 /* }}} */

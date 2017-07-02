@@ -3225,7 +3225,7 @@ function enterprise_admin_import_user_voices($site)
 /**
  * UserVoice
  */
-function enterprise_admin_action_user_voice($smarty)
+function enterprise_admin_action_user_voice($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $pageNo = (int)timandes_get_query_data('page');
@@ -3233,24 +3233,16 @@ function enterprise_admin_action_user_voice($smarty)
         $pageNo = 1;
     $max = 20;
 
-    $userVoiceDAO = new \enterprise\daos\UserVoice();
-
-    $condition = enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $pageNo, $max);
+    $condition = enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $langCode, $pageNo, $max);
     // Need import?
     $userVoices = $smarty->getTemplateVars('user_voices');
-    if (!$userVoices) {
+    if (!$userVoices
+            && $langCode == 'en') {
         $site = $smarty->getTemplateVars('site');
         $userVoices = enterprise_admin_import_user_voices($site);
         if ($userVoices)
             $smarty->assign('user_voices', $userVoices);
     }
-
-    $totalUserVoice = $userVoiceDAO->countBy($condition);
-    $smarty->assign('total_user_voice', $totalUserVoice);
-    $smarty->assign('page_size', $max);
-    $smarty->assign('page_no', $pageNo);
-    $pagerInfo = enterprise_pager_calculate_key_infos($totalUserVoice, $max, $pageNo);
-    $smarty->assign('pager_info', $pagerInfo);
 
     $smarty->display('admin/user_voice.tpl');
 }
@@ -3258,7 +3250,7 @@ function enterprise_admin_action_user_voice($smarty)
 /**
  * Edit UserVoice
  */
-function enterprise_admin_action_edit_user_voice($smarty, $site)
+function enterprise_admin_action_edit_user_voice($smarty, $site, $langCode)
 {
     $tplPath = 'admin/edit_user_voice.tpl';
 
@@ -3271,7 +3263,7 @@ function enterprise_admin_action_edit_user_voice($smarty, $site)
     if (!$submitButton) {// No form data
         // Editing?
         if ($userVoiceId) 
-            enterprise_assign_user_voice_info($smarty, 'user_voice', $userVoiceId);
+            enterprise_assign_user_voice_info($smarty, 'user_voice', $userVoiceId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -3287,18 +3279,23 @@ function enterprise_admin_action_edit_user_voice($smarty, $site)
     $images = enterprise_admin_upload_post_images();
     $avatarImageId = ($images?$images[0]:0);
 
+    // LangUserVoiceDAO
+    $langUserVoiceDAO = (($langCode!='en')?new \enterprise\daos\LangUserVoice($langCode):null);
+
     // Save user_voice
     $userVoiceDAO = new \enterprise\daos\UserVoice();
     $values = array(
-            'site_id' => $userSiteId,
-            'title' => $title,
-            'voice' => $voice,
             'updated' => date('Y-m-d H:i:s'),
             'avatar_image_id' => $avatarImageId,
         );
+    if (!$langUserVoiceDAO) {// English
+        $values['site_id'] = $userSiteId;
+        $values['title'] = $title;
+        $values['voice'] = $voice;
+    }
     if ($userVoiceId) {// Edit
         // Authentication
-        $originalUserVoice = $userVoiceDAO->get($userVoiceId);
+        $originalUserVoice = enterprise_get_user_voice_info($userVoiceId, $langCode);
         if (!$originalUserVoice
                 || $originalUserVoice['site_id'] != $site['site_id'])
             return enterprise_admin_display_error_msg($smarty, '权限不足');
@@ -3307,7 +3304,25 @@ function enterprise_admin_action_edit_user_voice($smarty, $site)
         enterprise_assign_user_voice_info($smarty, 'user_voice', $userVoiceId);
     } else {// Create
         $values['created'] = $values['updated'];
-        $userVoiceDAO->insert($values);
+        $newUserVoiceId = $userVoiceDAO->insert($values);
+    }
+
+    // Save Language UserVoice
+    if ($langUserVoiceDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'title' => $title,
+                'voice' => $voice,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        if ($userVoiceId) {// Edit
+            $condition = "`user_voice_id`=" . (int)$userVoiceId;
+            $langUserVoiceDAO->updateBy($condition, $values);
+        } else {
+            $values['user_voice_id'] = $newUserVoiceId;
+            $values['created'] = $values['updated'];
+            $langUserVoiceDAO->insert($values);
+        }
     }
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=user_voice', '用户赠言');
@@ -3316,14 +3331,13 @@ function enterprise_admin_action_edit_user_voice($smarty, $site)
 /**
  * Delete UserVoice
  */
-function enterprise_admin_action_delete_user_voice($smarty, $site)
+function enterprise_admin_action_delete_user_voice($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $userVoiceId = (int)timandes_get_query_data('user_voice_id');
 
     // Get group ID
-    $userVoiceDAO = new \enterprise\daos\UserVoice();
-    $user_voice = $userVoiceDAO->get($userVoiceId);
+    $user_voice = enterprise_get_user_voice_info($userVoiceId, $langCode);
     if (!$user_voice) {
         $msg = '找不到指定的赠言';
         return header('Location: ?action=user_voice&error_msg=' . urlencode($msg));
@@ -3338,7 +3352,14 @@ function enterprise_admin_action_delete_user_voice($smarty, $site)
             'deleted' => 1,
             'updated' => date('Y-m-d H:i:s'),
         );
-    $userVoiceDAO->update($userVoiceId, $values);
+    if ($langCode == 'en') {
+        $userVoiceDAO = new \enterprise\daos\UserVoice();
+        $userVoiceDAO->update($userVoiceId, $values);
+    } else {
+        $userVoiceDAO = new \enterprise\daos\LangUserVoice($langCode);
+        $condition = "`user_voice_id`=" . (int)$userVoiceId;
+        $userVoiceDAO->updateBy($condition, $values);
+    }
 
     header('Location: ?action=user_voice&success_msg=' . urlencode('删除成功'));
 }

@@ -161,11 +161,11 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                 case 'delete_news':
                     return enterprise_admin_action_delete_news($smarty, $site, $langCode);
                 case 'user_voice':
-                    return enterprise_admin_action_user_voice($smarty);
+                    return enterprise_admin_action_user_voice($smarty, $site, $langCode);
                 case 'edit_user_voice':
-                    return enterprise_admin_action_edit_user_voice($smarty, $site);
+                    return enterprise_admin_action_edit_user_voice($smarty, $site, $langCode);
                 case 'delete_user_voice':
-                    return enterprise_admin_action_delete_user_voice($smarty, $site);
+                    return enterprise_admin_action_delete_user_voice($smarty, $site, $langCode);
                 case 'main_product':
                     return enterprise_admin_action_main_product($smarty);
                 case 'edit_main_product':

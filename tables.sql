@@ -529,6 +529,18 @@ CREATE TABLE `enterprise_pt_news` (
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-新闻表';
 
+CREATE TABLE `enterprise_pt_user_voices` (
+  `user_voice_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '赠言ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `title` varchar(100) NOT NULL COMMENT '称谓',
+  `voice` varchar(255) NOT NULL COMMENT '赠言',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`user_voice_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-用户赠言表';
+
 CREATE TABLE `enterprise_main_products` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主推产品ID',
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
