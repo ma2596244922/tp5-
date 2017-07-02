@@ -16,6 +16,11 @@ class Task extends \crawler\daos\AbstractDAO
     const STATUS_IN_PROGRESS = 10;
     const STATUS_FINISHED = 100;
 
+    /** @var int 爬取任务 */
+    const TYPE_DEFAULT  = 0;
+    /** @var int 批量插入关键词 */
+    const TYPE_INSERT_KEYWORDS  = 10;
+
     protected $_fields = array(
             'site_id' => 'int',
             'group_id' => 'int',
@@ -25,6 +30,8 @@ class Task extends \crawler\daos\AbstractDAO
             'deleted' => 'tinyint',
             'created' => 'text',
             'updated' => 'text',
+            'type' => 'tinyint',
+            'details' => 'text',
         );
 
     public function getTableName()
@@ -89,6 +96,18 @@ class Task extends \crawler\daos\AbstractDAO
                 return '处理中';
             default:
                 return '待处理';
+        }
+    }
+
+    public static function type2Text($type)
+    {
+        switch ($type) {
+            case self::TYPE_DEFAULT:
+                return '爬取任务';
+            case self::TYPE_INSERT_KEYWORDS:
+                return '批量插入关键词';
+            default:
+                return '未知';
         }
     }
 }

@@ -8,8 +8,10 @@ CREATE TABLE `blowjob_tasks` (
   `deleted` tinyint NOT NULL COMMENT '已删除？',
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `type` tinyint NOT NULL COMMENT '任务类型（0-抓取任务；10-批量插入关键词）',
+  `details` text NOT NULL COMMENT '任务详情（JSON）',
   PRIMARY KEY (`id`),
-  KEY `idx_get_by_site` (`site_id`, `deleted`, `status`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `type`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';
 
 CREATE TABLE `blowjob_product_identities` (

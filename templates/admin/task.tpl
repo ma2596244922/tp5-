@@ -154,6 +154,8 @@
 
                                             <th>状态</th>
 
+                                            <th>类型</th>
+
                                             <th>&nbsp;</th>
 
                                         </tr>
@@ -175,6 +177,8 @@
                                             <td>{$tasks[i].updated}</td>
 
                                             <td>{$tasks[i].status|call:'\blowjob\daos\Task::status2Text'}</td>
+
+                                            <td>{$tasks[i].type|call:'\blowjob\daos\Task::type2Text'}</td>
 
                                             <td>
 

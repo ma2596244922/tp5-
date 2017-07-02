@@ -25,7 +25,7 @@ if ($langCode == 'en') {
     $groupListOrderBy = 'lg.' . $groupPrimaryKey . ' ASC';
 }
 $statusRange = blowjob\daos\Task::STATUS_PENDING . ', ' . blowjob\daos\Task::STATUS_IN_PROGRESS;
-$condition = 't.`site_id`=' . (int)$siteId . ' AND t.`deleted`=0 AND t.`status` in (' . $statusRange . ')';
+$condition = 't.`site_id`=' . (int)$siteId . ' AND t.`deleted`=0 AND t.`type`=' . blowjob\daos\Task::TYPE_DEFAULT . ' AND t.`status` in (' . $statusRange . ')';
 $taskTableName = $taskDAO->getTableName();
 $groupTableName = $groupDAO->getTableName();
 $sql = "SELECT t.`id`, t.`group_id`, g.`name` AS `group_name`, t.`target_url`, t.`max_pages`, t.`status`
