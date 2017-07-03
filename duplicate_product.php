@@ -18,6 +18,7 @@ $GLOBALS['gaSettings'] = array(
         'source_group_id_list' => array(),
         'source_lang_code' => 'en',
         'target_site_id' => 1,
+        'target_lang_code' => 'pt',
     );
 
 require_once __DIR__ . '/bootstrap.php';
@@ -37,6 +38,7 @@ function usage()
     $options .= "\t--source-group=<ID1,ID2,...> id list of source groups" . PHP_EOL;
     $options .= "\t--source-lang-code=<code>    language code of source group(default: en)" . PHP_EOL;
     $options .= "\t--target-site=<ID>           id of target site" . PHP_EOL;
+    $options .= "\t--target-lang-code=<code>    language code of target group(default: pt)" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
 
@@ -65,7 +67,7 @@ function duplicate_source_group($sourceGroupId)
     $verbose = $GLOBALS['gaSettings']['verbose'];
     $sourceLangCode = $GLOBALS['gaSettings']['source_lang_code'];
     $targetSiteId = $GLOBALS['gaSettings']['target_site_id'];
-    $targetLangCode = 'pt';
+    $targetLangCode = $GLOBALS['gaSettings']['target_lang_code'];
 
     if ($verbose >= 2)
         fprintf(STDOUT, "Duplicating source group {$sourceGroupId} ..." . PHP_EOL);
@@ -133,7 +135,7 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("v", array('source-group:', 'source-lang-code:', 'target-site:'));
+    $params = getopt("v", array('source-group:', 'source-lang-code:', 'target-site:', 'target-lang-code:'));
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
@@ -148,6 +150,9 @@ function main($argc, $argv)
                 break;
             case 'target-site':
                 $GLOBALS['gaSettings']['target_site_id'] = $v;
+                break;
+            case 'target-lang-code':
+                $GLOBALS['gaSettings']['target_lang_code'] = $v;
                 break;
         }
     } else {
