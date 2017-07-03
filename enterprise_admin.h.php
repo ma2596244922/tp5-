@@ -1768,35 +1768,16 @@ function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKe
 /* }}} */
 
 /**
- * Insert Keywords
+ * Insert keywords proc
  */
-function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
+function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
 {
-    $tplPath = 'admin/insert_keywords.tpl';
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id'];
+    $keywords = $taskDetails['keywords'];
+    $location = $taskDetails['location'];
+    $targetCnt = $taskDetails['target_cnt'];
 
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
-
-    $submitButton = timandes_get_post_data('submit');
-    if (!$submitButton) {// No form data
-        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
-
-        return $smarty->display($tplPath);
-    }
-
-    // Save
-    $keywords = timandes_get_post_data('keywords');
-    $location = (int)timandes_get_post_data('location');
-    $groupId = (int)timandes_get_post_data('group_id');
-
-    $locationRange = array(1, 2);
-    if (!in_array($location, $locationRange))
-        throw new \RangeException("非法的位置值");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
-    if (!$keywords)
-        throw new \UnderflowException("请给出至少一个关键词");
-
-    $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
     $keywordsArray = explode("\n", $keywords);
 
     $keywordsCnt = 0;
@@ -1830,6 +1811,52 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
             $curProductId = $product['id'];
         }
     } while(true);
+}
+
+/**
+ * Insert Keywords
+ */
+function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/insert_keywords.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $keywords = timandes_get_post_data('keywords');
+    $location = (int)timandes_get_post_data('location');
+    $groupId = (int)timandes_get_post_data('group_id');
+    $background = (int)timandes_get_post_data('background');
+
+    $locationRange = array(1, 2);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+    if (!$keywords)
+        throw new \UnderflowException("请给出至少一个关键词");
+
+    $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
+
+    $taskDetails = array(
+            'keywords' => $keywords,
+            'group_id' => $groupId,
+            'location' => $location,
+            'lang_code' => $langCode,
+            'target_cnt' => $targetCnt,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_KEYWORDS, $taskDetails);
+    } else {
+        enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails);
+    }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }

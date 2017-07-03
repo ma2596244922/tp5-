@@ -21,7 +21,7 @@ class Task extends \crawler\daos\AbstractDAO
     /** @var int 批量插入关键词 */
     const TYPE_INSERT_KEYWORDS  = 10;
     /** @var int 批量替换关键词 */
-    const TYPE_REPLACE_KEYWORDS  = 10;
+    const TYPE_REPLACE_KEYWORDS  = 20;
 
     protected $_fields = array(
             'site_id' => 'int',

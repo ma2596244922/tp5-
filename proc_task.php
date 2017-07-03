@@ -44,6 +44,7 @@ function proc_task()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
     $taskTypes = array(
+            \blowjob\daos\Task::TYPE_INSERT_KEYWORDS,
             \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS,
         );
 
@@ -68,6 +69,13 @@ function proc_task()
 
         $processed = false;
         switch ($task['type']) {
+            case \blowjob\daos\Task::TYPE_INSERT_KEYWORDS:
+                $siteId = $task['site_id'];
+                $details = json_decode($task['details'], true);
+                enterprise_admin_insert_keywords_proc($siteId, $details);
+
+                $processed = true;
+                break;
             case \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS:
                 $siteId = $task['site_id'];
                 $details = json_decode($task['details'], true);
