@@ -81,7 +81,10 @@ function duplicate_source_group($sourceGroupId)
     $sourceSiteId = $sourceGroup['site_id'];
 
     // Get target language site
-    $siteDAO = new \enterprise\daos\LangSite($targetLangCode);
+    if ($targetLangCode == 'en')
+        $siteDAO = new \enterprise\daos\Site();
+    else
+        $siteDAO = new \enterprise\daos\LangSite($targetLangCode);
     $condition = "`site_id`=" . (int)$targetSiteId;
     $site = $siteDAO->getOneBy($condition);
     if (!$site)
