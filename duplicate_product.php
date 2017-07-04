@@ -15,10 +15,11 @@ define('EXIT_FAILURE', 1);
 
 $GLOBALS['gaSettings'] = array(
         'verbose' => 3,
-        'source_group_id_list' => array(),
+        'source_group_id_list' => '',
         'source_lang_code' => 'en',
         'target_site_id' => 1,
         'target_lang_code' => 'pt',
+        'from_product_id' => 0,
     );
 
 require_once __DIR__ . '/bootstrap.php';
@@ -39,6 +40,7 @@ function usage()
     $options .= "\t--source-lang-code=<code>    language code of source group(default: en)" . PHP_EOL;
     $options .= "\t--target-site=<ID>           id of target site" . PHP_EOL;
     $options .= "\t--target-lang-code=<code>    language code of target group(default: pt)" . PHP_EOL;
+    $options .= "\t--from-product-id=<ID>       process from which product id" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
 
@@ -68,6 +70,7 @@ function duplicate_source_group($sourceGroupId)
     $sourceLangCode = $GLOBALS['gaSettings']['source_lang_code'];
     $targetSiteId = $GLOBALS['gaSettings']['target_site_id'];
     $targetLangCode = $GLOBALS['gaSettings']['target_lang_code'];
+    $fromProductId = $GLOBALS['gaSettings']['from_product_id'];
 
     if ($verbose >= 2)
         fprintf(STDOUT, "Duplicating source group {$sourceGroupId} ..." . PHP_EOL);
@@ -102,7 +105,7 @@ function duplicate_source_group($sourceGroupId)
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = new \enterprise\daos\LangProduct($sourceLangCode);
-    $curProductId = 0;
+    $curProductId = ($fromProductId>0?$fromProductId:0);
     do {
         if ($sourceLangCode == 'en')
             $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`, `images`, `site_id`');
@@ -138,7 +141,7 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("v", array('source-group:', 'source-lang-code:', 'target-site:', 'target-lang-code:'));
+    $params = getopt("v", array('source-group:', 'source-lang-code:', 'target-site:', 'target-lang-code:', 'from-product-id'));
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
@@ -152,14 +155,24 @@ function main($argc, $argv)
                 $GLOBALS['gaSettings']['source_lang_code'] = $v;
                 break;
             case 'target-site':
-                $GLOBALS['gaSettings']['target_site_id'] = $v;
+                $GLOBALS['gaSettings']['target_site_id'] = (int)$v;
                 break;
             case 'target-lang-code':
                 $GLOBALS['gaSettings']['target_lang_code'] = $v;
                 break;
+            case 'from-product-id':
+                $GLOBALS['gaSettings']['from_product_id'] = (int)$v;
+                break;
         }
     } else {
         usage();
+        return EXIT_FAILURE;
+    }
+
+    // --from-product-id
+    if ($GLOBALS['gaSettings']['from_product_id'] > 0
+            && strpos($GLOBALS['gaSettings']['source_group_id_list'], ',') !== false) {
+        fprintf(STDERR, "Parameter --from-product-id can not be used when given multi groups");
         return EXIT_FAILURE;
     }
 
