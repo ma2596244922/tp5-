@@ -46,6 +46,7 @@ function proc_task()
     $taskTypes = array(
             \blowjob\daos\Task::TYPE_INSERT_KEYWORDS,
             \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS,
+            \blowjob\daos\Task::TYPE_INSERT_IMAGES,
         );
 
     $taskDAO = new \blowjob\daos\Task();
@@ -80,6 +81,13 @@ function proc_task()
                 $siteId = $task['site_id'];
                 $details = json_decode($task['details'], true);
                 enterprise_admin_replace_keywords_proc($siteId, $details);
+
+                $processed = true;
+                break;
+            case \blowjob\daos\Task::TYPE_INSERT_IMAGES:
+                $siteId = $task['site_id'];
+                $details = json_decode($task['details'], true);
+                enterprise_admin_insert_images_proc($siteId, $details);
 
                 $processed = true;
                 break;

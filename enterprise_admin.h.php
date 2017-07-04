@@ -7,6 +7,8 @@
 
 /** @var string Fields of Inquiry for List */
 define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`, `target_product_id`, `domain`');
+/** @var int Max Images per Product */
+define('ENTERPRISE_MAX_IMAGES_PER_PRODUCT', 5);
 
 /**
  * Grant permission
@@ -2047,6 +2049,104 @@ function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+function enterprise_admin_insert_images_to_array(&$images, &$pendingImages, $uploadedImages, $targetCnt)
+{
+    $imageCnt = count($images);
+    $imageSlots = $targetCnt - $imageCnt;
+    $insertedImageCnt = 0;
+    for ($i=0; $i<$imageSlots; ++$i) {
+        $img = array_pop($pendingImages);
+        array_unshift($images, $img);
+        ++$insertedImageCnt;
+
+        if (count($pendingImages) <= 0) {
+            $pendingImages = $uploadedImages;
+            shuffle($pendingImages);
+        }
+    }
+}
+
+function enterprise_admin_insert_images_to_product_images($product, &$pendingImages, $uploadedImages, $targetCnt)
+{
+    $imageBlackList = array(
+            1428754, 1429277
+        );
+
+    $productDAO = new \enterprise\daos\Product();
+
+    $curImages = json_decode($product['images'], true);
+    if (!is_array($curImages))
+        $curImages = array();
+
+    $images = array();
+    foreach ($curImages as $id) {
+        if (in_array($id, $imageBlackList))
+            continue;
+        $images[] = $id;
+    }
+
+    enterprise_admin_insert_images_to_array($images, $pendingImages, $uploadedImages, $targetCnt);
+
+    $values = array(
+            'images' => $images,
+            'head_image_id' => $images[0],
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $productDAO->update($product['id'], $values);
+}
+
+function enterprise_admin_insert_images_to_product_desc($product, &$pendingImages, $uploadedImages, $targetCnt, $location)
+{
+    $productDAO = new \enterprise\daos\Product();
+
+    $images = array();
+    enterprise_admin_insert_images_to_array($images, $pendingImages, $uploadedImages, $targetCnt);
+
+    $fragmentHtml = '';
+    foreach ($images as $id) {
+        $fragmentHtml .= '<p><img src="' . enterprise_url_image($id, '', '', '', true) . '"/></p>';
+    }
+    $newDescription = ($location==2?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
+    $values = array(
+            'description' => $newDescription,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $productDAO->update($product['id'], $values);
+}
+
+function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id'];
+    $uploadedImages = $taskDetails['uploaded_images'];
+    $location = $taskDetails['location'];
+    $targetCnt = $taskDetails['target_cnt'];
+
+    $targetCnt = min(ENTERPRISE_MAX_IMAGES_PER_PRODUCT, $targetCnt);
+
+    $curProductId = 0;
+    $pendingImages = $uploadedImages;
+    do {
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`, `description`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`, elp.`description`');
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            if ($location == 1)
+                enterprise_admin_insert_images_to_product_images($product, $pendingImages, $uploadedImages, $targetCnt);
+
+            if ($location == 2
+                    || $location == 3)
+                enterprise_admin_insert_images_to_product_desc($product, $pendingImages, $uploadedImages, $targetCnt, $location);
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+}
+
 
 /**
  * Insert Images
@@ -2054,7 +2154,6 @@ function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
 function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 {
     $tplPath = 'admin/insert_images.tpl';
-    $maxImages = 5;
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -2068,8 +2167,9 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
     // Save
     $location = (int)timandes_get_post_data('location');
     $groupId = (int)timandes_get_post_data('group_id');
+    $background = (int)timandes_get_post_data('background');
 
-    $locationRange = array(1);
+    $locationRange = array(1, 2, 3);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$groupId)
@@ -2082,59 +2182,18 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 
     $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
 
-    $productDAO = new \enterprise\daos\Product();
-    $curProductId = 0;
-    $pendingImages = $uploadedImages;
-    $imageBlackList = array(
-            1428754, 1429277
+    $taskDetails = array(
+            'uploaded_images' => $uploadedImages,
+            'group_id' => $groupId,
+            'location' => $location,
+            'lang_code' => $langCode,
+            'target_cnt' => $targetCnt,
         );
-    do {
-        if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`');
-        if (!$products)
-            break;
-
-        foreach ($products as $product) {
-            $curImages = json_decode($product['images'], true);
-            if (!is_array($curImages))
-                $curImages = array();
-
-            $images = array();
-            foreach ($curImages as $id) {
-                if (in_array($id, $imageBlackList))
-                    continue;
-                $images[] = $id;
-            }
-
-            $imageCnt = count($images);
-            $imageSlots = $targetCnt - $imageCnt;
-            $insertedImageCnt = 0;
-            for ($i=0; $i<$maxImages; ++$i) {
-                $img = array_pop($pendingImages);
-                array_unshift($images, $img);
-                ++$insertedImageCnt;
-
-                if (count($pendingImages) <= 0) {
-                    $pendingImages = $uploadedImages;
-                    shuffle($pendingImages);
-                }
-
-                if ($insertedImageCnt >= $targetCnt)
-                    break;
-            }
-
-            $values = array(
-                    'images' => $images,
-                    'head_image_id' => $images[0],
-                    'updated' => date('Y-m-d H:i:s'),
-                );
-            $productDAO->update($product['id'], $values);
-
-            $curProductId = $product['id'];
-        }
-    } while(true);
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_IMAGES, $taskDetails);
+    } else {
+        enterprise_admin_insert_images_proc($userSiteId, $taskDetails);
+    }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }

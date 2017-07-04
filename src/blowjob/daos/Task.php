@@ -21,7 +21,9 @@ class Task extends \crawler\daos\AbstractDAO
     /** @var int 批量插入关键词 */
     const TYPE_INSERT_KEYWORDS  = 10;
     /** @var int 批量替换关键词 */
-    const TYPE_REPLACE_KEYWORDS  = 20;
+    const TYPE_REPLACE_KEYWORDS = 20;
+    /** @var int 批量插入产品图 */
+    const TYPE_INSERT_IMAGES    = 30;
 
     protected $_fields = array(
             'site_id' => 'int',
@@ -110,6 +112,8 @@ class Task extends \crawler\daos\AbstractDAO
                 return '批量插入关键词';
             case self::TYPE_REPLACE_KEYWORDS:
                 return '批量替换关键词';
+            case self::TYPE_INSERT_IMAGES:
+                return '批量插入产品图';
             default:
                 return '未知';
         }

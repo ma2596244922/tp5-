@@ -198,6 +198,54 @@
 
                                     <div class="control-group">
 
+                                        <label class="control-label"></label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="location" value="2" />
+
+                                                插入描述前部
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="text" class="span1 m-wrap" name="location_2_cnt" value="5" />
+
+                                            张产品图
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label"></label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="location" value="3" />
+
+                                                插入描述后部
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="text" class="span1 m-wrap" name="location_3_cnt" value="5" />
+
+                                            张产品图
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
                                         <label class="control-label">分组</label>
 
                                         <div class="controls">
@@ -211,7 +259,29 @@
                                         </div>
 
                                     </div>
+{if $user.advanced}
+                                    <div class="control-group">
 
+                                        <label class="control-label">后台处理：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="background" value="0" />否
+
+                                            </label>
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="background" value="1" checked />是
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+{/if}
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="insert_images">
