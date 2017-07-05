@@ -1,0 +1,411 @@
+/* Date 2017-02-24
+ * By Ravens
+ * Email:342636236@qq.com
+ */
+*{font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;margin: 0;padding:0;}
+html,body{color: #414141;font-size:14px;line-height:1;background:#FFF;min-width: 1230px;}
+table {border-collapse: collapse;border-spacing: 0;}
+ol,ul {list-style: none;}
+a{text-decoration: none;}
+a{color:#414141;}
+a:hover{color: #2d56ee;}
+input,button,input[type="button"] {outline: none;}
+button,input[type="button"] {cursor: pointer;}
+img {border:none;display: block;max-width: 100%;max-height: 100%;}
+strong {font-weight: normal;}
+/**/
+.Page {width: 1190px;margin:auto;}
+.clear{width: 0px;height: 0px;overflow: hidden;clear: both;}
+.fb{font-weight: bold;}
+.fl,.Left{float: left;}.fr,.Right{float: right;}
+.tc{text-align: center;}.tr{text-align: right;}
+i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;}
+.Navigate .HotKey,.Latest .newsList a,.Main .Left .TextList li,li.ConBox .Item .Infos ul li{text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow: hidden;}
+/**/
+.topBar {height: 32px;line-height: 32px;background: #F5F5F5;border-bottom: 1px solid #E1E1E1;color:#666;font-size: 12px;}
+.topBar a:link {color: #666;}
+.topBar p span  {margin: 0px 8px;}
+
+.Top  {padding: 40px 0px;}
+  .Top a.btn,.Top input,.search,.search .main,.search .main input,.search .main p {height: 34px;line-height: 34px;}
+  .Top .Logo {margin-top: -20px;}
+  .Top a.btn {display: block;background: #2d56ee;color: #FFF;border:2px solid #2d56ee;width: 200px;text-align: center;font-size: 18px;}
+  .Top a:hover.btn  {background: #FFF;color: #2d56ee}
+
+  .search {margin-left: 70px;border:2px solid #2d56ee;}
+    .search .main {border-left: 2px solid #2d56ee;position: relative;width: 490px;}
+    .search .main input,.search .main p {width: 450px;position: absolute;padding-right: 40px;text-indent: 12px;}
+    .search .main p {z-index: 1;color:#CCC;}
+    .search .main input {z-index: 2;background: none;border:none;}
+    .search dl  {position: relative;}
+      .search dl>*{padding:0px 38px 0px 12px;cursor: default;}
+      .search dl dt {width: 100px;}
+      .search dl dd{position: absolute;border:2px solid #2d56ee;left: -2px;top: -2px;right: -2px;display: none;background-color: #FFF;}
+        .search dl dd p:hover {color: #2d56ee;}
+    .search i.arrow_down  {width: 14px;height: 7px;background-position: -10px -13px;position: absolute;right: 12px;top:14px;}
+    .search i.search_icon,.search i.search_icon_focus {width: 21px;height: 21px;background-position: -7px -39px;position: absolute;right: 20px;top:7px;z-index: 3;cursor: pointer;}
+    .search i.search_icon_focus {background-position: -45px -39px;}
+  .Navigate {line-height: 42px;}
+    .Navigate .subTitle {width: 210px;color: #FFF;background-color: #2d56ee;font-size: 18px;font-weight: normal;text-indent: 14px;}
+    .Navigate .Navs {font-size: 16px;}
+      .Navigate .Navs li  {float: left;}
+        .Navigate .Navs li a  {display: block;padding: 0px 35px;}
+    .Navigate .HotKey,.Navigate .HotKey a {color: #999;}
+      .Navigate .HotKey a:hover {color: #414141;}
+    .Navigate .HotKey {padding-left: 20px;position: relative;height: 42px;max-width: 370px;}
+      .Navigate .HotKey i.hotkey  {width: 15px;height: 15px;background-position: -10px -149px;position: absolute;left: 0px;top:12px;}
+      .Navigate .HotKey i.hotkey2 {background-position: -49px -148px;}
+      .Navigate .HotKey span  {font-size: 10px;color: #e1e1e1;height: 10px;overflow: hidden;margin: 0px 10px;}
+
+
+.Content  {background-color: #F5F5F5;overflow: hidden;}
+  .SubNavs  {width: 208px;line-height: 38px;background-color: #4b71ff;border:1px solid #2d56ee;position: relative;}
+    .SubNavs>li>a {display: block;color: #FFF;text-indent: 14px;}
+    .SubNavs>li>a:hover {background-color: #2d56ee;}
+      .SubNavs li a strong  {font-weight: normal;}
+      .SubNavs li .tags {position: absolute;top:0px;bottom:-1px;border:1px solid #2d56ee;background-color: #FFF;left: 209px;padding:20px 15px 20px 20px;z-index: 10;border-left: 0;width: 515px;display: none;}
+      .SubNavs>li:hover .tags {display: block;}
+        .SubNavs li .tags h3  {line-height: 1;margin-bottom: 20px;}
+        .SubNavs li .tags ul  {width: 250px;line-height: 28px;}
+  .Topic  {width: 760px;margin-left: 10px;padding-top: 10px;}
+    .Banners  {height: 290px;position: relative;}
+      .Banners .BannerList  {height: 100%;overflow: hidden;}
+        .Banners .BannerList li {height: 100%;display: none;}
+      .Banners button {position: absolute;background: url(/media/sets/brilly/icons.png) no-repeat;width: 28px;height: 54px;top:118px;border:none;background-position: -100px 0px;cursor: pointer;display: none;}
+      .Banners button:hover {background-position: -150px 0px}
+      .Banners button.BL_prev {left: 0px;}
+      .Banners button.BL_next {right: 0px;}
+        .Banners button i.icon  {width: 10px;height: 19px;position: absolute;left: 9px;top: 17px}
+        i.arrow_left  {background-position: -12px -108px}
+        i.arrow_right  {background-position: -12px -74px}
+      .BL_dots  {width: 100%;position: absolute;left: 0px;bottom:10px;text-align: center;}
+        .BL_dots i.icon {padding:0px 5px;background-position: -150px -69px;margin:0px 5px;display: inline;cursor: pointer;}
+        .BL_dots i.icon.cur {background-position: -100px -69px;}
+    .recommend  {margin-top: 10px;width: 760px;}
+      .recommend dt {width: 120px;}
+        .recommend_Til,.recommend_Til td  {height: 74px;}
+        .recommend_Til.cur  {background-color: #FFF;}
+          .recommend_Til td{padding-left: 12px;line-height: 1.4;cursor: default;}
+      .recommend dd {padding:5px;width: 630px;background-color: #FFF;}
+        .recommend ul {display: none;}
+        .recommend ul.cur {display: block;}
+        .recommend li {padding: 5px;float: left;}
+        .recommend li img {width: 200px;height: 128px;}
+  .uInfo  {width: 180px;margin-top: 10px;background-color: #FFF;padding:10px;}
+    .uInfo h2 {font-size: 16px;margin-bottom: 10px;}
+    .uInfo .Services  {margin-bottom: 10px;}
+      .uInfo .Services a  {float: left;width: 50%;padding:10px 0;text-align: center;display: block;color:666;}
+      .uInfo .Services a:hover {color: #2d56ee;}
+        .uInfo .Services a i.icon {width: 30px;height: 30px;margin:auto;}
+        .uInfo .Services a i.icon.Products  {background-position: -364px -13px;}
+        .uInfo .Services a i.icon.Suppliers  {background-position: -452px -13px;}
+        .uInfo .Services a i.icon.Sourcing  {background-position: -362px -84px;}
+        .uInfo .Services a i.icon.News  {background-position: -452px -84px;}
+        .uInfo .Services a p  {margin-top: 11px;}
+    .uInfo a.btns  {display: block;border:1px solid #2d56ee;line-height: 34px;margin-bottom: 10px;text-align: center;font-size: 16px;}
+    .uInfo a.signin,.uInfo a:hover.join {background-color: #2d56ee;color: #FFF;}
+    .uInfo a:hover.signin {background-color: #1b43da;}
+    .uInfo a.join {color: #2d56ee;}
+    .uInfo .others {border-top: 1px solid #DDD;padding: 10px;margin:0px -10px -10px -10px;}
+      .uInfo .others img {width: 180px;height: 137px;}
+/**/
+  .IndexBox {margin-top: 10px;background: #FFF;}
+    .IndexBox h2.Til,.IndexBox h3.Til,.ConBox h1.Til,.ConBox h2.Til  {line-height: 22px;padding-left: 16px;border-left: 4px solid #2d56ee;float: left;margin:20px 0;font-size: 20px;}
+  .NewCategories{}
+    .NewCategoriesTil {border-bottom: 1px solid #DDD;line-height: 60px;}
+    .NewCategoriesTil h2.Til  {margin-top: 19px;}
+    .NewCategoriesTil .tags {}
+      .NewCategoriesTil .tags li  {float: left;width: 238px;cursor: pointer;text-align: center;}
+      .NewCategoriesTil .tags li:hover,.NewCategoriesTil .tags li.cur  {color: #2d56ee;border-bottom: 2px solid #2d56ee;margin-bottom: -2px;}
+    .NewCategoriesCon {padding: 15px;height: 516px;}
+      .NewCategoriesCon>.fl img {width: 260px;height: 516px;}
+      .NewCategoriesCon .fr {}
+        .NewCategoriesCon>.fr ul  {overflow: hidden;width: 900px;display: none;}
+        .NewCategoriesCon>.fr ul.cur  {display: block;}
+          .NewCategoriesCon>.fr ul li {float: left;width: 200px;margin-left: 25px;}
+            .NewCategoriesCon>.fr ul li img {height: 200px;}
+            .NewCategoriesCon>.fr ul li p {line-height: 20px;height: 40px;overflow: hidden;margin: 10px 0px 15px 0px;}
+  .MostPopular  {}
+    .MostPopular .Tags  {margin: 25px 15px 0px 0px;}
+      .MostPopular .Tags i.icon {width: 12px;height: 12px;float: left;margin-left: 10px;background-position: -150px -102px;cursor: pointer;}
+      .MostPopular .Tags i.icon.cur {background-position: -100px -102px;}
+    .MostPopularCon {}
+      .MostPopularCon ul{overflow: hidden;padding:7px;display: none;}
+      .MostPopularCon ul.cur  {display: block;}
+        .MostPopularCon li  {width: 180px;float: left;margin:0px 8px;}
+          .MostPopularCon li img {height: 180px;}
+          .MostPopularCon li p  {line-height: 20px;height: 40px;overflow: hidden;margin: 5px 0px 15px 0px;}
+  .MostPopular  {}
+    .MostPopular .companys  {position: relative;padding:0px 70px;padding-bottom: 30px;}
+      .MostPopular .companys ul {width: 1050px;height: 180px;overflow: hidden;}
+        .MostPopular .companys .CP_item {overflow: hidden;display: none;}
+        .MostPopular .companys .info  {float: left;width: 670px;padding-top: 15px;}
+          .MostPopular .companys .info h3 {font-style: 18px;margin-bottom: 10px;}
+          .MostPopular .companys .info p  {font-style: 14px;color: #666;line-height: 22px;height: 66px;overflow: hidden;}
+          .MostPopular .companys .info a.btns  {display: block;width: 180px;line-height: 36px;margin-top: 26px;border:1px solid #717171;color:#717171;text-align: center;font-size: 16px;}
+          .MostPopular .companys .info a:hover.btns {background-color: #F5F5F5;color: #414141;}
+        .MostPopular .companys .pic  {float: right;width: 360px;height: 180px;}
+      .MostPopular .companys button {position: absolute;width: 50px;height: 100%;top:0;border:none;background: none;cursor: pointer;}
+      .MostPopular .companys button.CP_prev {left: 0;}
+      .MostPopular .companys button.CP_next {right: 0;}
+      .MostPopular .companys button i,.ProductInfo i.icon {height: 31px;width: 16px;position: absolute;left: 17px;top:75px;}
+      .MostPopular .companys button i.arrow_left  {background-position: -1px -180px;}
+      .MostPopular .companys button i.arrow_right {background-position: -2px -220px;}
+      .MostPopular .companys button:hover i.arrow_left  {background-position: -82px -180px;}
+      .MostPopular .companys button:hover i.arrow_right {background-position: -83px -220px;}
+  .Latest {}
+    .Latest h3.Til  {margin-bottom: 12px;}
+    .Latest>div.fl  {width: 50%;}
+    .Latest .newsList {clear: both;padding:0px 20px 10px 20px;}
+      .Latest .newsList a {display: block;padding-left: 20px;background: url(/media/sets/brilly/icons.png) no-repeat; background-position: -490px -208px;line-height: 30px;height: 30px;}
+  .Request  {padding-bottom: 10px;margin-bottom: 20px;}
+    .Request .noPic  {margin: 30px;background: #F5F5F5;padding:20px 0px;}
+    .Request .noPic table  {margin-left: 160px;}
+    .Request table  {width: 710px;margin-left: 50px;display: inline-block;margin-top: 20px;}
+      .Request table th {font-weight: normal;width: 80px;text-align: left;line-height: 30px;}
+      .Request table th,.Request table td {padding-bottom: 20px;vertical-align: top;}
+        .Request .typeIn  {height: 30px;position: relative;line-height: 30px;background: #FFF;}
+        .Request .typeIn2 {height: 140px;}
+        .Request .typeIn .msg  {z-index: 1;color: #CCC;background: #FFF;}
+        .Request .typeIn.error .msg  {color: #D72323;text-align: right;}
+        .Request .typeIn.error *  {border-color: #D41313;}
+        .Request .typeIn>*  {padding:0 15px;width: 680px;position: absolute;z-index: 2;background:none;border:1px solid #DDD;line-height: 28px;height: 28px;}
+        .Request .typeIn2>*  {padding:5px 15px;height:140px;line-height: 26px;}
+        .Request .typeIn input,.Request .typeIn textarea  {}
+      .Request button {border:none;background: #2d56ee;color:#FFF;font-size: 16px;height: 40px;width: 200px;display: block;margin-top: 10px;}
+      .Request button:hover   {background-color: #1b43da;}
+    .Request .pic {width: 260px;height: 360px;margin-top: -52px;margin-right: 10px;}
+  .BottomIcons  {overflow: hidden;text-align: center;text-indent: 60px;line-height: 80px;font-size: 16px;font-weight: bold;margin-bottom: 30px;}
+    .BottomIcons li {float: left;position: relative;width: 25%;}
+    .BottomIcons i  {width: 56px;height: 56px;position: absolute;left: 30px; top: 12px;}
+    .BottomIcons i.i1 {background-position: -2px -316px;}
+    .BottomIcons i.i2 {background-position: -89px -313px;}
+    .BottomIcons i.i3 {background-position: -186px -313px;}
+    .BottomIcons i.i4 {background-position: -273px -316px;}
+
+.ServiceBox {background-color: #ECECEC;overflow: hidden;padding:30px 0px;}
+  .ServiceBox dl  {width: 276px;border-right:1px solid #CCC;float: left;padding-left: 20px;height: 130px;}
+  .ServiceBox dl:first-child {padding-left: 0;}
+  .ServiceBox dl:last-child {border:none;}
+    .ServiceBox dl dt {color: #666;font-size: 16px;font-weight: bold;margin-bottom: 10px;}
+    .ServiceBox dl dd {line-height: 26px;}
+      .ServiceBox dl a  {color: #999;}
+      .ServiceBox dl a:hover  {color: #2d56ee;}
+.Footer {background-color: #333;line-height: 40px;}
+  .Footer,.Footer a {color: #999;}
+  .Footer a:hover {color: #ECECEC;}
+
+
+/*List Page Styles*/
+.Route  {line-height: 36px;color: #666;font-size: 12px;}
+  .Route a  {color: #999;}
+  .Route a:hover  {color: #666;}
+  .Route span {margin:0 5px;}
+.ConBox {background-color: #FFF;margin-bottom: 10px;}
+  .ConBox h2.Til  {float: none;margin:15px 0;}
+  .Main  {}
+    .Main .Left {width: 240px;}
+      .Main .Left ul,.PicTextList {padding:0px 20px;}
+        .Main .Left .TextList li {line-height: 1;padding-bottom: 20px;}
+        .Main .Left .TextList li a:link span {color:#666;}
+        .PicTextList li {padding-bottom: 15px;}
+          .PicTextList li img {height: 200px;}
+          .PicTextList li p {line-height: 18px;height: 36px;overflow: hidden;margin-top: 10px;}
+    .Main .Right {width: 940px;}
+      .Main .Right .ListTitle h1 {font-size: 16px;line-height: 48px;padding:0px 20px;}
+        .Main .Right .ListTitle h1 span {color: #2d56ee;}
+      .Main .Right .ListTitle p {line-height: 20px;padding:10px 20px;border-top: 1px solid #DDD;color: #666;}
+      .Main .ItemList {}
+        .Main .ItemList li.ConBox {background-color: #FAFAFA;}
+          li.ConBox .Item {padding:10px;background-color: #FFF;width:719px;border-right:1px solid #EEE;}
+            li.ConBox .Item .pic {width: 200px;height: 200px;border:1px solid #EEE;margin-right: 20px;}
+              li.ConBox .Item .pic img  {height: 100%;}
+            li.ConBox .Item .Infos  {padding-top:10px;width: 485px;}
+              li.ConBox .Item .Infos h3 {font-size: 18px;line-height: 24px;margin-bottom: 15px;font-weight: normal;}
+              li.ConBox .Item .Infos ul {color: #999;font-size: 12px;line-height: 22px;margin-bottom: 20px;overflow: hidden;}
+                li.ConBox .Item .Infos ul li  {float: left;width: 45%;}
+                li.ConBox .Item .Infos li span  {color: #414141;}
+              li.ConBox .Item .Infos a.Btns {display: block;line-height: 36px;width: 170px;background-color: #2d56ee;color: #FFF;clear: both;text-align: center;}
+              li.ConBox .Item .Infos a:hover.Btns {background-color: #1b43da;}
+          li.ConBox .company  {width: 160px;padding:20px;}
+            li.ConBox .company h3 {line-height: 20px;font-size: 14px;font-weight: normal;}
+            li.ConBox .company i.icon.vip {display: block;height: 28px;width: 50px;margin:20px 0px;background-position: -450px -143px;}
+            li.ConBox .company p  {color: #999;font-size: 12px;}
+        .Main .ItemList li:hover.ConBox {border:1px solid #DDD;}
+          li:hover.ConBox .Item {padding: 9px 10px 9px 9px}
+          li:hover.ConBox .company  {padding:19px 19px 19px 20px;}
+    .ConBox.Request .pic {height: 460px;margin-top: -42px;}
+      .ConBox.Request table {width: 800px;}
+      .ConBox.Request table th  {width: 120px;position: relative;}
+        .ConBox.Request table th span {position: absolute;left: -10px;top:2px;color: #d41313;}
+        .ConBox.Request table td .typeIn>*  {width: 635px;}
+      .ConBox.Request .pic img  {height: 100%;}
+      .ConBox.Request .quickSelect  {line-height: 28px;border:1px solid #DDD;width: 665px;text-indent: 15px;color:#CCC;position: relative;background-color: #FFF;}
+        .ConBox.Request .quickSelect dt.cur {color:#414141;}
+        .ConBox.Request .quickSelect dd {position: absolute;top:-1px;left: -1px;right: -1px;z-index: 10;background-color: #FFF;border:1px solid #DDD;line-height: 30px;box-shadow: 1px 2px 3px #999;display: none;}
+          .ConBox.Request .quickSelect dd p:hover {cursor: pointer;background-color: #F5F5F5;color: #414141;}
+        .ConBox.Request .quickSelect i.arrow_down2  {position: absolute;width:30px;height: 30px;background-position: -461px -180px;right:0px;top:-1px;}
+
+
+.Pager  {height: 36px;padding: 18px 0px;}
+  .Pager .lists  {overflow: hidden;}
+    .Pager .lists>* {line-height: 34px;padding:0px 12px;display: inline-block;}
+    .Pager .lists>* {*display: inline;}
+    .Pager .lists span  {padding:0;}
+    .Pager .lists a {border:1px solid #DDD;margin:0px 5px;color: #666;position: relative;}
+    .Pager .lists a.cur,.Pager .lists a:hover {background-color: #2d56ee;color: #FFF;border-color: #2d56ee;}
+    .Pager .lists a.disabled  {color: #CCC;background-color: #FFF;border-color: #DDD;}
+    .Pager .lists a.left  {padding-left: 25px;}
+    .Pager .lists a.right  {padding-right: 25px;}
+    .Pager .lists a i.icon  {width: 9px;height: 17px;margin:0;padding:0;position: absolute;top:8px;}
+    .Pager .lists a i.arrow_left  {background-position: -192px -180px;left: 10px;}
+    .Pager .lists a i.arrow_right {background-position: -192px -200px;right: 10px;}
+    .Pager .lists a:hover i.icon  {background-position-x: -162px;}
+    .Pager .lists a.disabled i.icon  {background-position-x: -222px;}
+
+.Product.Navigate {background: #2d56ee;}
+  .Product.Navigate .Navs a {color: #FFF;}
+  .Product.Navigate .Navs a:hover {font-weight: bold;}
+  .Product.Navigate .HotKey,.Product.Navigate .HotKey * {color: #b9c8ff;}
+  .Product.Navigate .HotKey a:hover {color: #fff;}
+.Product  {}
+  .Product .Left  {width: 940px;}
+    .ProductInfo  {padding:10px;}
+      .ProductInfo .pics  {float: left;width: 362px;position: relative;padding-bottom: 80px;}
+        .ProductInfo .pics .PL_item {width: 360px;border:1px solid #DDD;height: 360px;display: none;}
+          .ProductInfo .pics .PL_item img {height: 100%;}
+        .ProductInfo button {width: 13px;height: 60px;border:none;background: none;position: absolute;top:378px;}
+        .ProductInfo button.PL_prev {left:0;}
+        .ProductInfo button.PL_next {right: 0;}
+          .ProductInfo button i.icon  {left:0;top:18px;width: 13px;height: 23px;}
+          .ProductInfo i.arrow_left  {background-position: -250px -70px;}
+          .ProductInfo i.arrow_right {background-position: -280px -70px;}
+          .ProductInfo button:hover i.arrow_left  {background-position: -250px -105px;}
+          .ProductInfo button:hover  i.arrow_right {background-position: -280px -105px;}
+        .ProductInfo .pics .PL_dots {position: absolute;top:370px;left: 16px;}
+          .ProductInfo .pics .PL_dots .PL_dot {width: 60px;height: 60px;float: left;border:1px solid #DDD;margin:auto 2px;margin-top: 6px;}
+          .ProductInfo .pics .PL_dots .PL_dot.cur{padding:7px 1px 1px 1px ;border:none;background: url(/media/sets/brilly/icons.png) no-repeat;background-position: -1px -431px;margin-top: 0;}
+      .ProductInfo .main  {width: 528px;padding:10px;float:right;}
+        .ProductInfo .main h2 {font-weight: normal;font-size: 20px;line-height: 32px;margin-bottom: 10px;}
+        .ProductInfo .main dl {overflow: hidden;font-size: 12px;}
+          .ProductInfo .main dl>* {line-height: 22px;padding:3px 0px;}
+          .ProductInfo .main dl dt  {float: left;width: 120px;color: #999;}
+          .ProductInfo .main dl dd  {float: left;width: 400px;}
+        .ProductInfo .main a.Btn  {display: block;width: 210px;line-height: 50px;font-size: 20px;background: #2d56ee;color: #FFF;text-align: center;margin:10px 0px;}
+        .ProductInfo .main a:hover.Btn  {background: #1b43da;}
+          .ProductInfo .main .ps  {border-top:1px solid #DDD;padding-top:20px;margin-top: 26px;line-height: 22px;color:666;}
+            .ProductInfo .main .ps a  {color: #999;}
+            .ProductInfo .main .ps a:hover  {color: #666;}
+    .ProductIntro {margin-top: 10px;}
+      .ProductIntro dl>*  {overflow: hidden;}
+      .ProductIntro dt  {background: #FAFAFA;line-height: 55px;}
+        .ProductIntro dt>h2  {float: left;cursor: pointer;border-top: 2px solid #FAFAFA;padding:0 30px;font-size: 16px;}
+        .ProductIntro dt>h2.cur  {background: #FFF;border-color: #2d56ee;color: #2d56ee;}
+      .ProductIntro dd  {background: #FFF;padding:20px;line-height: 2;}
+        .ProductIntro dd>div  {display: none;}
+        .ProductIntro dd>div.cur  {display: block;}
+        .ProductIntro dd img  {display: block;margin:10px 0px;}
+  .Product .Right {width: 240px;}
+    .Product .Right .companyInfo  {border-bottom: 1px solid #DDD;padding:10px 10px 20px 10px;margin-bottom: 0px;}
+      .Product .Right .companyInfo h3 {border-bottom: 1px solid #DDD;font-size: 16px;line-height: 20px;font-weight: normal;padding: 10px 0; }
+      .Product .Right .companyInfo dl {position: relative;padding-left: 34px;margin-top: 15px;line-height: 20px;}
+        .Product .Right .companyInfo dl dt  {color: #999;}
+          .Product .Right .companyInfo dl dt i.icon {position: absolute;width: 24px;height: 24px;top:6px;left:0px;}
+          .Product .Right .companyInfo dl dt i.i1 {background-position: -465px -300px;}
+          .Product .Right .companyInfo dl dt i.i2 {background-position: -465px -352px;}
+          .Product .Right .companyInfo dl dt i.i3 {background-position: -465px -408px;}
+          .Product .Right .companyInfo dl dt i.i4 {background-position: -465px -458px;}
+      .Product .Right .shareTo  {background: #FAFAFA;padding:20px 15px;margin-bottom: 15px;font-size: 12px;line-height: 16px;}
+        .Product .Right .shareTo i.icon {float: left;width: 16px;height: 16px;margin-left: 7px;cursor: pointer;}
+        .Product .Right .shareTo i.icon.fb  {background-position: -150px -136px;}
+        .Product .Right .shareTo i.icon.tw  {background-position: -173px -136px;}
+        .Product .Right .shareTo i.icon.pp  {background-position: -196px -136px;}
+        .Product .Right .shareTo i.icon.in  {background-position: -219px -136px;}
+        .Product .Right .shareTo i.icon.g1  {background-position: -242px -136px;width:26px;}
+
+
+.Shop.Top {height: 66px;padding:20px 0px;}
+  .Shop .Logo {margin-top: 0px;width: 206px;height: 66px;overflow: hidden;margin-right: 10px;}
+    .Shop .Logo img  {max-width: 100%;max-height: 100%;}
+  .Shop.Top>p  {font-size: 24px;font-weight: normal;line-height: 66px;}
+  .Shop.Top .search {margin-top: 14px;}
+    .Shop .search .main {border:none;width: 390px;}
+      .Shop.Top .search .main p {width: 350px;}
+    .Shop.Top .search input {width: 350px;}
+
+  .Shop li.subList  {position: relative;}
+    .Shop li.subList>a  {padding-right: 50px;}
+  .Shop li.subList:hover  {background: #FFF;border-top:2px solid #2d56ee;line-height: 40px;}
+    .Shop li.subList:hover>a  {font-weight: bold;}
+    .Shop li.subList i.icon.arrow_down3  {width: 13px;height: 6px;position: absolute;right:30px;top:19px;background-position: -220px 0px;}
+    .Shop li.subList:hover a  {color:#2d56ee;}
+    .Shop li.subList:hover i.icon.arrow_down3 {background-position: -200px 0px;}
+    .Shop li.subList .subNav  {position: absolute;left: -2px;top:40px;background: #FFF;border:2px solid #2d56ee;text-align: left;font-size: 14px;padding:10px 35px;width: 170px;border-top: 0;display: none;}
+    .Shop li.subList:hover .subNav  {display: block;}
+      .Shop li.subList .subNav a  {color:#666;line-height: 20px;padding: 5px 0px;display: block;}
+      .Shop li.subList .subNav a:hover  {color: #2d56ee;font-weight: normal;}
+
+
+.Shop.Content {padding-bottom: 20px;}
+.Shop.Content.noRoute {margin-top: 10px;}
+  .Shop .Banner {height: 300px;overflow: hidden;}
+    .Shop .Banner img {width: 100%;}
+  .Shop .Left {width: 230px;}
+    .Shop .Left .LeftSearch {padding:5px 20px;overflow: hidden;}
+      .Shop .Left .LeftSearch input {width: 162px;border:1px solid #DDD;height: 24px;line-height: 24px;float: left;text-indent: 10px;}
+      .Shop .Left .LeftSearch i.icon  {width: 26px;height: 26px;background-color: #DDD;float: left;background-position: -43px 2px;cursor: pointer;}
+      .Shop .Left .LeftSearch i.icon:hover,.Shop .Left .LeftSearch i.icon.focus  {background-color: #2d56ee;}
+  .Shop .Right  {}
+    .Shop .Right .ProductInfo h1.Til  {margin-left: -10px;margin-top: 10px;}
+    .Shop .Right .ProductInfo .main {width: 560px;}
+    .Shop .Right .ProductInfo .pics {width: 282px;margin-left: 20px;}
+    .Shop .Right .ProductInfo .pics .PL_item  {width: 280px;height: 280px;}
+    .Shop .Right .ProductInfo .pics .PL_dots .PL_dot  {width: 40px;height: 40px;margin-left: 4px;margin-right: 4px;}
+    .Shop .Right .ProductInfo .pics .PL_dots .PL_dot.cur  {background-position:  -85px -448px;}
+    .Shop .Right .ProductInfo button  {top: 288px;}
+    .Shop .Right .ProductInfo .pics .PL_dots {top:290px;}
+  .Shop .PicTextList.Type2  {}
+    .Shop .PicTextList.Type2 li {width: 140px;margin: auto;}
+    .Shop .PicTextList.Type2 img  {height: 140px;}
+  .Shop .PicTextList.Many  {padding:5px;overflow: hidden;}
+    .Shop .PicTextList.Many li {width: 200px;margin:0px 15px 15px 15px;float: left;}
+      .Shop .PicTextList.Many li a.btn  {display: block;width: 150px;line-height: 36px;color:#FFF;background: #2d56ee;text-align: center;margin-top: 10px;}
+      .Shop .PicTextList.Many li a:hover.btn  {background: #1b43da;}
+    .Shop .PicTextList.Many.Type2 li  {width: 140px;margin: auto 23px;}
+
+  .Shop .Request  {}  
+    .Shop .Request table  {width: 785px;margin-left: 50px;}
+    .Shop .Request table td .typeIn>* {width: 635px;}
+
+  .CompanyProfile {overflow: hidden;background:#FAFAFA;margin-bottom: 10px;font-size: 12px;}
+    .CompanyProfile .Left {width: 940px;background: #FFF;margin-bottom: 0;}
+      .CompanyProfile .Left img.fl  {width: 360px;height: 180px;margin-bottom: 44px;margin-left: 35px;border:1px solid #F5F5F5;}
+      .CompanyProfile .Left .info {margin-left: 415px;padding-right: 85px;}
+        .CompanyProfile .Left .info h1  {font-size: 16px;font-weight: normal;line-height: 28px;margin-top: 10px;margin-bottom: 5px;}
+        .CompanyProfile .Left .info table {text-align: left;}
+          .CompanyProfile .Left .info table tr>*  {line-height: 22px;padding-top: 6px;vertical-align: top;}
+          .CompanyProfile th  {color: #666;width: 135px;font-weight: normal;}
+          .CompanyProfile td  {color: #414141;}
+    .CompanyProfile .Right{width: 150px;padding:20px 50px 0 50px;}
+      .CompanyProfile .Right img  {width: 100px;height: 100px;display: block;margin: auto;}
+      .CompanyProfile .Right table  {text-align: left;line-height: 28px;margin-top: 10px;}
+        .CompanyProfile .Right table th {width: 75px;}
+      .CompanyProfile .Right a.btn  {color:#FFF;line-height: 36px;display: block;font-size: 16px;margin-top: 10px;background: #2d56ee;text-align: center;}
+      .CompanyProfile .Right a:hover.btn{background-color: #1b43da}
+
+    .Shop .Right .CompanyProfile .Left  {width: 620px;}
+      .Shop .Right .CompanyProfile .Left img.fl {width: 245px;margin-left: 20px;}
+      .Shop .Right .CompanyProfile .Left .info  {margin-left: 20px;}
+      .Shop .Right .CompanyProfile .Left .info.hasPic  {margin-left: 290px;}
+      .Shop .Right .CompanyProfile .Left .info table tr>* {padding-top: 0;padding-bottom: 12px;line-height: 1.5;}
+    .Shop .Right .CompanyProfile .Right {width: 280px;padding:50px 20px 0 20px;}
+      .Shop .Right .CompanyProfile .Right p {margin-left: 120px;line-height: 24px;}
+      .Shop .Right .CompanyProfile .Right a {width: 150px;margin-top:30px;}
+
+.links  {overflow: hidden;padding: 20px;line-height: 20px;}
+  .links dt {float: left;width: 110px;font-weight: bold;}
+  .links dd {margin-left: 110px;overflow: hidden;}
+    .links dd>* {float: left;}
+    .links dd span  {margin: 0 10px;color:#DDD;}
+    .links dd a {color: #666;}
+    .links dd a:hover {color: #2d56ee;}
