@@ -143,7 +143,7 @@
                                             发布新产品 <i class="icon-plus"></i>
 
                                         </a>
-
+{-if $user.advanced}
                                         <a href="?action=insert_images" class="btn normal">批量插入产品图</a>
 
                                         <a href="?action=insert_desc" class="btn normal">批量插入产品描述</a>
@@ -151,7 +151,7 @@
                                         <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
 
                                         <a href="?action=replace_keywords" class="btn normal">批量替换关键词</a>
-
+{-/if}
                                         <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
@@ -248,8 +248,7 @@
                                                 <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
 
                                                 <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_product&product_id={$products[i].id}">删除</a>
-    {-if $smarty.get.group_id|default:''}
-
+    {-if $smarty.get.group_id|default:'' && $user.advanced}
                                                 <a href="?action=duplicate_products&product_id={$products[i].id}">批量复制产品</a>
     {-/if}
                                             </td>
