@@ -1195,7 +1195,7 @@ function enterprise_admin_action_product($smarty, $langCode)
 
     $start = ($pageNo - 1) * $max;
     $sql = "SELECT p.`id`, p.`path`, g.`name` AS `group_name`, {$diffFields}
-    FROM `{$tableName}` AS {$tableAlias}
+    FROM `{$tableName}` AS {$tableAlias} FORCE INDEX (`idx_get_by_site`)
     {$leftJoin1}
     LEFT JOIN `{$groupTableName}` AS g ON {$tableAlias}.`group_id`=g.{$groupPrimaryKey}
     WHERE {$tableAlias}.`site_id`={$userSiteId} AND {$tableAlias}.`deleted`=0{$groupCondition}{$keywordsCondition}
