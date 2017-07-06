@@ -59,224 +59,164 @@
     </div>
     <div class="ConBox">
       <div class="clear">&nbsp;</div>
-      <h2 class="Til">Recommended Products</h2>
+      <h2 class="Til">{$preset_translations.recommended_products}</h2>
       <div class="clear"></div>
       <ul class="PicTextList Many">
+{foreach $products as $product}
         <li>
-          <a href=""><img src="/media/sets/brilly/pic1.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
+          <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$product.caption}"></a>
+          <p><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></p>
         </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic2.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic3.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic4.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic5.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic6.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic7.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic8.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic9.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
-        <li>
-          <a href=""><img src="/media/sets/brilly/pic10.jpg" alt="" title=""></a>
-          <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-        </li>
+{/foreach}
       </ul>
     </div>
     <div class="CompanyProfile">
       <div class="ConBox Left">
         <div class="clear">&nbsp;</div>
-        <h2 class="Til">Company Profile</h2>
+        <h2 class="Til">{$preset_translations.company_profile}</h2>
         <div class="clear"></div>
-        <img src="/media/sets/brilly/pic7.jpg" class="fl"  alt="" title="">
+        <img src="{$corporation.logo|url:'enterprise_url_image'}" class="fl"  alt="{$corporation.name}">
         <div class="info">
-          <h1>Top Biology Pharmacy Co.,LtdGuangZhou[China]</h1>
+          <h1>{$corporation.name}</h1>
           <table>
+{if $contacts[0]|default:[]}
             <tr>
-              <th>Location</th>
-              <td>Guangdong, China (Mainland) </td>
+              <th>Email</th>
+              <td>{$contacts[0].email}</td>
+            </tr>
+{/if}
+            <tr>
+              <th>{$preset_translations.address}</th>
+              <td>{$corporation.address}</td>
             </tr>
             <tr>
-              <th>Total Employees</th>
-              <td>301 - 500 People</td>
+              <th>{$preset_translations.business_phone}({$preset_translations.working_time})</th>
+              <td>{$corporation.tel_wt}</td>
             </tr>
             <tr>
-              <th>Total Annual Revenue</th>
-              <td>US$5 Million - US$10 Million</td>
-            </tr>
-            <tr>
-              <th>Membership</th>
-              <td>North America, South America, Eastern Europe, South-eastPP Bag out Side Standard Exporting Package</td>
+              <th>{$preset_translations.fax}</th>
+              <td>{$corporation.fax}</td>
             </tr>
           </table>
         </div>
       </div>
+{if $contacts[0]|default:[]}
       <div class="Right">
-        <img src="/media/sets/brilly/pic8.jpg"  alt="" title="">
+        <img src="/media/sets/trade/default_photo.jpg"  alt="" title="">
         <table>
+        {-foreach $contacts[0] as $f => $v}
+            {-if isset($contact_desc.$f) && $contacts[0].$f}
+                    <li><label></label></li>
           <tr>
-            <th>Contact </th>
-            <td>Jim Green</td>
+            <th>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</th>
+            <td>{$v}</td>
           </tr>
-          <tr>
-            <th>Phone</th>
-            <td>+8601232333</td>
-          </tr>
-          <tr>
-            <th>Cell Phone</th>
-            <td>1880110099</td>
-          </tr>
+            {-/if}
+        {-/foreach}
         </table>
-        <a href="" class="btn" rel="nofollow">Send Inquiry</a>
+        <a href="/contactnow.html" class="btn" rel="nofollow">{$preset_translations.send_inquiry}</a>
       </div>
+{/if}
     </div>
     <!-- Post Sourcing Request Start -->
     <div class="ConBox Request">
       <div class="clear">&nbsp;</div>
-      <h2 class="Til">Post Sourcing Request</h2>
+      <h2 class="Til">{$preset_translations.send_inquiry}</h2>
       <div class="clear"></div>
       <div class="noPic">
+        <form action="/contactsave.html" method="POST">
         <table>
           <tr>
             <th><span>*</span>Email</th>
             <td>
               <div class="typeIn">
-                <p class="msg">Please Enter your Email Address</p>
-                <input type="text" id="request_email" autocomplete="off">
+                <p class="msg">{$preset_translations.please_enter_your_email_address}</p>
+                <input type="text" id="request_email" name="email" autocomplete="off">
               </div>
             </td>
           </tr>
           <tr>
-            <th>Subject</th>
+            <th>{$preset_translations.subject}</th>
             <td>
               <div class="typeIn">
                 <p class="msg"> I would like to know more about your product [ CE Certification and Refrigerant Type refrigerant rec</p>
-                <input type="text" id="Subject" autocomplete="off">
+                <input type="text" id="Subject" name="subject" autocomplete="off">
               </div>
             </td>
           </tr>
           <tr>
-            <th>Quick question</th>
+            <th>{$preset_translations.quick_question}</th>
             <td>
               <dl class="quickSelect" id="quickSelect">
-                <dt>Quick questions<i class="icon arrow_down2"></i></dt>
+                <dt>{$preset_translations.please_select_faq}<i class="icon arrow_down2"></i></dt>
                 <dd>
-                  <p>I would like to know more about the product and prices.</p>
-                  <p>Can you please send me the updated price and moq?</p>
-                  <p>I would like to purchase this item.Please contact me.</p>
-                  <p>Please quote me your price and order payment terms and delivery time.</p>
+                  <p>{$preset_translations.quick_question_1}</p>
+                  <p>{$preset_translations.quick_question_2}</p>
+                  <p>{$preset_translations.quick_question_3}</p>
+                  <p>{$preset_translations.quick_question_4}</p>
                   <i class="icon arrow_down2"></i>
                 </dd>
               </dl>
             </td>
           </tr>
           <tr>
-            <th><span>*</span>Content</th>
+            <th><span>*</span>{$preset_translations.message}</th>
             <td>
               <div class="typeIn typeIn2">
-                <div class="msg">
-                  <p>For the best results, we recommend including the following details:</p>
-                  <p>-Self introduction</p>
-                  <p>-Required specifications</p>
-                  <p>-Inquire about price/MOQ</p>
-                </div>
-                <textarea id="request_con" maxlength="500" autocomplete="off"></textarea>
+                <div class="msg"></div>
+                <textarea id="request_con" maxlength="500" autocomplete="off" name="message" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea>
               </div>
             </td>
           </tr>
           <tr>
             <td>&nbsp;</td>
-            <td><button>Send Now</button></td>
+            <td><button>{$preset_translations.send_now}</button></td>
           </tr>
         </table>
+        </form>
       </div>
       <div class="clear"></div>
     </div>
     <!-- Post Sourcing Request End -->
-    <div class="ConBox">
-      <dl class="links">
-        <dt>Friendly Link:</dt>
-        <dd>
-          <a href="" target="_blank">China.cn</a>
-          <span>|</span>
-          <a href="" target="_blank">China Suppliers</a>
-          <span>|</span>
-          <a href="" target="_blank">51cto.com</a>
-        </dd>
-      </dl>
-    </div>
   </div>
 </div>
 
 <div class="ServiceBox">
   <div class="Page">
+{foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index==2&&$main_products|default:[]}{break}{/if}{if $group@index>=3}{break}{/if}
     <dl>
-      <dt>Buy on china.cn</dt>
-      <dd><a href="">How to buy</a></dd>
-      <dd><a href="">Browse by catagories</a></dd>
-      <dd><a href="">Browse by Hot regoins</a></dd>
-      <dd><a href="">Private Sourcing Events</a></dd>
+        <dt>{$group.name}</dt>
+    {foreach $group.products as $product}
+        <dd><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></dd>
+    {/foreach}
     </dl>
+{/foreach}
+{if $main_products|default:[]}
     <dl>
-      <dt>Belling on china.cn</dt>
-      <dd><a href="">How to sell</a></dd>
-      <dd><a href="">Premium Member</a></dd>
-      <dd><a href="">Post Products</a></dd>
-      <dd><a href="">Manage Products</a></dd>
+        <dt>{$preset_translations.top_products}</dt>
+    {foreach $main_products as $mp}
+        <dd><a href="{$mp.url}">{$mp.label}</a></dd>
+    {/foreach}
     </dl>
+{/if}
     <dl>
-      <dt>Services</dt>
-      <dd><a href="">Post buying lead</a></dd>
-      <dd><a href="">Product Alert</a></dd>
-    </dl>
-    <dl>
-      <dt>About</dt>
-      <dd><a href="">Dispute and Complaint Assistance</a></dd>
-      <dd><a href="">About us</a></dd>
-      <dd><a href="">Link to us</a></dd>
-      <dd><a href="">Contact us</a></dd>
+        <dt>{$preset_translations.about_us}</dt>
+        <dd><a href="/aboutus.html" rel="nofollow">{$preset_translations.company_profile}</a></dd>
+        <dd><a href="/contactus.html" rel="nofollow">{$preset_translations.contact_info}</a></dd>
+        <dd><a href="/directory.html" rel="nofollow">{$preset_translations.site_map}</a></dd>
     </dl>
   </div>
 </div>
 <div class="Footer">
   <div class="Page">
     <p class="fl">
-      <a href="">About Us</a>
+      <a href="/aboutus.html" rel="nofollow">{$preset_translations.about_us}</a>
       <span>|</span>
-      <a href="">Contact Us</a>
+      <a href="/contactus.html" rel="nofollow">{$preset_translations.contact_us}</a>
       <span>|</span>
-      <a href="">Intellectual Property Policy</a>
-      <span>|</span>
-      <a href="">Privacy Policy</a>
-      <span>|</span>
-      <a href="">Terms of Use</a>
-      <span>|</span>
-      <a href="">Advertise</a>
-      <span>|</span>
-      <a href="">Partners</a>
+      <a href="/directory.html">{$preset_translations.site_map}</a>
     </p>
-    <p class="fr">Copyright &copy; China Internet Information Center. All Rights Reserved</p>
+    <p class="fr">{$corporation.name}. {$preset_translations.copyright} © {$site.start_year} - {$smarty.now|date_format:'%Y'} {$preset_translations.all_rights_reserved}.</p>
     <div class="clear"></div>
   </div>
 </div>
