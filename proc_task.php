@@ -47,6 +47,7 @@ function proc_task()
             \blowjob\daos\Task::TYPE_INSERT_KEYWORDS,
             \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS,
             \blowjob\daos\Task::TYPE_INSERT_IMAGES,
+            \blowjob\daos\Task::TYPE_INSERT_DESC,
         );
 
     $taskDAO = new \blowjob\daos\Task();
@@ -88,6 +89,13 @@ function proc_task()
                 $siteId = $task['site_id'];
                 $details = json_decode($task['details'], true);
                 enterprise_admin_insert_images_proc($siteId, $details);
+
+                $processed = true;
+                break;
+            case \blowjob\daos\Task::TYPE_INSERT_DESC:
+                $siteId = $task['site_id'];
+                $details = json_decode($task['details'], true);
+                enterprise_admin_insert_desc_proc($siteId, $details);
 
                 $processed = true;
                 break;
