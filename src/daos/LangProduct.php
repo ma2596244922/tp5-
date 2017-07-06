@@ -136,7 +136,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
 
         $sql = "SELECT {$fields}, elp.`tags`, elp.`description` FROM `{$tableName}` AS elp
         LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
-        WHERE elp.`site_id`={$siteId} AND ep.`path_sum`='" . $db->escape_string($pathSum) . "'";
+        WHERE elp.`site_id`={$siteId} AND elp.`deleted`=0 AND ep.`path_sum`='" . $db->escape_string($pathSum) . "'";
         return $this->getOneBySql($sql);
     }
 }
