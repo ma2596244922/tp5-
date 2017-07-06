@@ -8,48 +8,14 @@
   <meta name="keywords" content="{$keywords|escape}" />
   <meta name="description" content="{$description|escape}" />
   {include file="sets/trade/common/definitions.tpl"}
-  <link rel="stylesheet" type="text/css" href="/media/sets/brilly/style.css">
-  <script type="text/javascript" src="/media/sets/brilly/jquery.min.js"></script>
-  <script type="text/javascript" src="/media/sets/brilly/prototype_create.js"></script>
-  <script type="text/javascript" src="/media/sets/brilly/plugins.js"></script>
+  {include file="sets/brilly/common/styles.tpl"}
 </head>
 <body>
 <!-- Plub Header -->
-<div class="topBar">
-  <div class="Page">
-    <p class="fr">
-      <span>{$corporation.tel_wt}</span>
-      <span>|</span>
-      <a href="/contactnow.html" rel="nofollow">{$preset_translations.request_a_quote}</a>
-    </p>
-  </div>
-</div>
-<div class="Page Top Shop">
-  <div class="fl Logo"><a href="/" title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name|escape}"></a></div>
-  <p class="fl">{$corporation.name}</p>
-  <div class="clear"></div>
-</div>
+{include file="sets/brilly/common/topbar.tpl"}
+{include file="sets/brilly/common/logobar.tpl"}
 <!-- Plub Header End -->
-<div class="Product Navigate Shop">
-  <div class="Page">
-    <ul class="Navs fl tc">
-      <li class="fb"><a href="/">{$preset_translations.home}</a></li>
-      <li class="subList">
-        <a href="/products.html">{$preset_translations.products}</a><i class="icon arrow_down3"></i>
-        <div class="subNav">
-{foreach $groups as $group}
-          <a href="{$group|url:'enterprise_url_product_list'}">{$group.name}</a>
-{/foreach}
-        </div>
-      </li>
-      <li><a href="/aboutus.html">{$preset_translations.company_profile}</a></li>
-      <li><a href="/contactus.html">{$preset_translations.contact_us}</a></li>
-      <li><a href="/news">{$preset_translations.company_news}</a></li>
-      <li><a href="/contactnow.html">{$preset_translations.request_a_quote}</a></li>
-    </ul>
-    <div class="clear"></div>
-  </div>
-</div>
+{include file="sets/brilly/common/navbar.tpl"}
 <div class="Content Shop noRoute">
   <div class="Page">
     <div class="ConBox Banner">
@@ -221,8 +187,7 @@
   </div>
 </div>
 
-<script type="text/javascript" src="./js/header.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
+{include file="sets/brilly/common/scripts.tpl"}
 
 <script type="text/javascript">
 (function(){
