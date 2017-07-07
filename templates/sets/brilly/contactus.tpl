@@ -14,7 +14,7 @@
 <body>
 <!-- Plub Header -->
 {include file="sets/brilly/common/topbar.tpl"}
-{include file="sets/brilly/common/logobar.tpl" page_name="aboutus"}
+{include file="sets/brilly/common/logobar.tpl" page_name="contactus"}
 <!-- Plub Header End -->
 {include file="sets/brilly/common/navbar.tpl"}
 
@@ -23,7 +23,7 @@
     <div class="Route">
       <a href="/">{$preset_translations.home}</a>
       <span>&gt;</span>
-      {$corporation.name}
+      {$corporation.name} Contact Info
     </div>
     <!-- Route End -->
     <div class="Main">
@@ -32,63 +32,47 @@
 {include file="sets/brilly/common/grouppanel.tpl"}
       </div>
       <div class="Right">
-{include file="sets/brilly/common/profilepanel.tpl"}
+{if $site.contact_content|default:''}
         <div class="ConBox ProductIntro">
           <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.company_details}</h2>
+          <h2 class="Til"></h2>
           <div class="clear"></div>
           <dl>
             <dd>
               <div class="content cur">
-                <ul>
-                    <li><label>{$preset_translations.business_type}</label><span>{$corporation.business_type}</span></li>
-                    <li><label>{$preset_translations.main_market}</label><span>{$corporation.main_market}</span></li>
-                    <li><label>{$preset_translations.brands}</label><span>{$corporation.brands}</span></li>
-                    <li><label>{$preset_translations.no_of_employees}</label><span>{$corporation.no_of_employees}</span></li>
-                    <li><label>{$preset_translations.annual_sales}</label><span>{$corporation.annual_sales}</span></li>
-                    <li><label>{$preset_translations.year_established}</label><span>{$corporation.year_established}</span></li>
-                    <li><label>{$preset_translations.export_p_c}</label><span>{$corporation.export_p_c}</span></li>
-                </ul>
+                {$site.contact_content}
               </div>
             </dd>
           </dl>
         </div>
-        <div class="ConBox ProductIntro">
-          <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.history}</h2>
-          <div class="clear"></div>
-          <dl>
-            <dd>
-              <div class="content cur">
-                {$corporation.history}
-              </div>
-            </dd>
-          </dl>
+{else}
+    {-foreach $contacts as $contact}
+        <div class="CompanyProfile">
+          <div class="ConBox Left">
+            <div class="clear">&nbsp;</div>
+            <h1 class="Til">{$preset_translations.contact_info}</h1>
+            <div class="clear"></div>
+            <div class="info">
+              <table>
+        {-foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
+            {-if isset($contact_desc.$f) && $contact.$f}
+                <tr>
+                  <th>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</th>
+                  <td>{$v}</td>
+                </tr>
+            {-/if}
+        {-/foreach}
+              </table>
+            </div>
+          </div>
+          <div class="Right">
+            <img src="/media/sets/trade/default_photo.jpg"  alt="" title="" class="fl">
+            <p>{$contact.name}</p>
+            <div class="clear"></div>
+          </div>
         </div>
-        <div class="ConBox ProductIntro">
-          <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.service}</h2>
-          <div class="clear"></div>
-          <dl>
-            <dd>
-              <div class="content cur">
-                {$corporation.service}
-              </div>
-            </dd>
-          </dl>
-        </div>
-        <div class="ConBox ProductIntro">
-          <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.our_team}</h2>
-          <div class="clear"></div>
-          <dl>
-            <dd>
-              <div class="content cur">
-                {$corporation.our_team}
-              </div>
-            </dd>
-          </dl>
-        </div>
+    {-/foreach}
+{/if}
 {include file="sets/brilly/common/inquiryform.tpl"}
       </div>
     </div>
