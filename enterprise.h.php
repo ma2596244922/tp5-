@@ -956,37 +956,6 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     // Common queries
     enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix);
 
-    $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
-
-    // 用户自发布产品的自定义路径
-    if ($langCode == 'en')
-        $productDAO = new \enterprise\daos\Product();
-    else
-        $productDAO = $langProductDAO;
-    $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
-    if ($product) {
-        return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
-    }
-
-    // 用户自建分组的自定义路径
-    if ($langCode == 'en')
-        $groupDAO = new \enterprise\daos\Group();
-    else
-        $groupDAO = new \enterprise\daos\LangGroup($langCode);
-    $group = $groupDAO->getByIdxLookup($siteId, $requestPathSum);
-    if ($group) {
-        $pageNo = 1;
-        $queryString = parse_url($requestURL, PHP_URL_QUERY);
-        if ($queryString) {
-            $queries = array();
-            parse_str($queryString, $queries);
-            $pageNo = (int)($queries['p']??1);
-            if ($pageNo <= 1)
-                $pageNo = 1;
-        }
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $group['id'], $pageNo);
-    }
-
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
@@ -1050,6 +1019,37 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif(preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
         $guidHex = $matches[1];
         return enterprise_action_attachment_proc($guidHex);
+    }
+
+    $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
+
+    // 用户自发布产品的自定义路径
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = $langProductDAO;
+    $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
+    if ($product) {
+        return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
+    }
+
+    // 用户自建分组的自定义路径
+    if ($langCode == 'en')
+        $groupDAO = new \enterprise\daos\Group();
+    else
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+    $group = $groupDAO->getByIdxLookup($siteId, $requestPathSum);
+    if ($group) {
+        $pageNo = 1;
+        $queryString = parse_url($requestURL, PHP_URL_QUERY);
+        if ($queryString) {
+            $queries = array();
+            parse_str($queryString, $queries);
+            $pageNo = (int)($queries['p']??1);
+            if ($pageNo <= 1)
+                $pageNo = 1;
+        }
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $group['id'], $pageNo);
     }
 
     // Custom Pages
