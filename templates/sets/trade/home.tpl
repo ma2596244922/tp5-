@@ -65,7 +65,7 @@
         <ul class="fl-clr">
 {foreach $products as $product}
             <li>
-                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$product.caption}" /></a>
+                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$groups[0].products[0].caption:'c'}" alt="{$product.caption}" /></a>
                 <i><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></strong></i>
             </li>
 {/foreach}
