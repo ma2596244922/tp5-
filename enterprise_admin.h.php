@@ -1890,6 +1890,12 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
     $newPhrase = $taskDetails['new_phrase'];
     $location = $taskDetails['location'];
 
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+    $newPhrase = str_replace('[公司名称]', $corporation['name'], $newPhrase);
+
+    $group = enterprise_get_group_info($groupId, $langCode);
+    $newPhrase = str_replace('[产品分组]', $group['name'], $newPhrase);
+
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
     else
@@ -1904,6 +1910,7 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             break;
 
         foreach ($products as $product) {
+            $newPhrase = str_replace('[产品标题]', $product['caption'], $newPhrase);
             $values = array();
             // Caption
             if (in_array($location, [0, 1])) {

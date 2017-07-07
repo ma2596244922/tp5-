@@ -150,7 +150,13 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="new_phrase" />
+                                            <input type="text" class="span6 m-wrap" name="new_phrase" id="input-new-phrase" />
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[产品标题]" type="button">插入产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[产品分组]" type="button">插入产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[公司名称]" type="button">插入公司名称</button>
 
                                             <span class="help-inline"></span>
 
@@ -341,6 +347,11 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('[data-role="btn-insert-to-phrase"]').click(function() {
+                var string = $(this).attr('data-config');
+                $('#input-new-phrase').insertAtCaret(string);
+           });
 
         });
 
