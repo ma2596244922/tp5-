@@ -38,6 +38,18 @@
       <div class="Left">
         <div class="ConBox">
           <div class="clear">&nbsp;</div>
+          <h2 class="Til">{$preset_translations.product_groups}</h2>
+          <div class="clear">&nbsp;</div>
+          <ul class="TextList">
+{foreach $groups as $g}{assign var="gid" value={$g.id|default:$g.group_id}}
+            <li><a href="{$g|url:'enterprise_url_product_list'}" title="{$g.name}"><strong>{$g.name}</strong>({$g.cnt})</a></li>
+{/foreach}
+          </ul>
+        </div>
+      </div>
+      <div class="Right">
+        <div class="ConBox">
+          <div class="clear">&nbsp;</div>
 {-if $group|default:[]}
           <h1 class="Til">{$group.name}</h1>
 {-elseif $phrase|default:''}
@@ -46,219 +58,45 @@
           <h2 class="Til">{$preset_translations.all_products}</h2>
 {-/if}
           <div class="clear">&nbsp;</div>
-          <ul class="TextList">
-            <li><a href="" title=""><strong>LED downlight</strong></a></li>
-            <li><a href="" title=""><strong>LED downlight show</strong></a></li>
-            <li><a href="" title=""><strong>LED bulbs</strong></a></li>
-            <li><a href="" title=""><strong>LED light screen</strong></a></li>
-            <li><a href="" title=""><strong>LED downlight</strong></a></li>
-            <li><a href="" title=""><strong>LED T8 move</strong></a></li>
-            <li><a href="" title=""><strong>LED PL Light</strong></a></li>
-            <li><a href="" title=""><strong>LED light screen</strong></a></li>
-          </ul>
-        </div>
-        <div class="ConBox">
-          <div class="clear">&nbsp;</div>
-          <h2 class="Til">Related Products</h2>
-          <ul class="PicTextList Type2">
-            <li>
-              <a href=""><img src="./images/pic1.jpg" alt="" title=""></a>
-              <p><a href="" title="">Matt White / Black 24W LED Track Lights ...</a></p>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic2.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic3.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic4.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic5.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="Right">
-        <div class="ConBox">
-          <div class="clear">&nbsp;</div>
-          <h1 class="Til">Surface Mounted LED Downlight</h1>
-          <div class="clear">&nbsp;</div>
           <ul class="PicTextList Many">
+{foreach $products as $product}
             <li>
-              <a href=""><img src="./images/pic1.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
+              <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|escape}"></a>
+              <p><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}">{$product.caption}</a></p>
+              <a href="/contactnow.html?about_product={$product.id}" class="btn" rel="nofollow">{$preset_translations.contact_now}</a>
             </li>
+{foreachelse}
             <li>
-              <a href=""><img src="./images/pic2.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
+              <p>Sorry! No matches were found{if $phrase|default:''} for "{$phrase}"{/if}.</p>
             </li>
-            <li>
-              <a href=""><img src="./images/pic3.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic4.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic5.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic6.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic7.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic8.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic9.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic10.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic9.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic10.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic1.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic2.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic3.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic4.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic5.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic6.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic7.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
-            <li>
-              <a href=""><img src="./images/pic8.jpg" alt="" title=""></a>
-              <p><a href="" title="">Hot Sale Promotional Customized Logo Gift 2600</a></p>
-              <a href="" class="btn" rel="nofollow">Contact Now</a>
-            </li>
+{/foreach}
           </ul>
+{if $total_products > $page_size}
           <div class="Pager ConBox tc">
             <div class="lists">
-              <a href="" class="disabled left"><i class="icon arrow_left"></i> Prev</a>
-              <a href="" class="cur">1</a>
-              <a href="">2</a>
-              <a href="">3</a>
-              <span>…</span>
-              <a href="">5</a>
-              <a href="">6</a>
-              <a href="" class="right">Next <i class="icon arrow_right"></i></a>
+    {-if $page_no > 1}
+        {-if $phrase|default:''}
+              <a href="{$phrase|url:'enterprise_url_product_search':($page_no-1)}" class="disabled left"><i class="icon arrow_left"></i> Prev</a>
+        {-else}
+              <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no-1)}" class="disabled left"><i class="icon arrow_left"></i> Prev</a>
+        {-/if}
+    {-/if}
+    {-if $page_no < $total_pages}
+        {-if $phrase|default:''}
+              <a href="{$phrase|url:'enterprise_url_product_search':($page_no+1)}" class="right">Next <i class="icon arrow_right"></i></a>
+        {-else}
+              <a href="{$group|default:[]|url:'enterprise_url_product_list':($page_no+1)}" class="right">Next <i class="icon arrow_right"></i></a>
+        {-/if}
+    {-/if}
             </div>
           </div>
+{/if}
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="ServiceBox">
-  <div class="Page">
-    <dl>
-      <dt>Buy on china.cn</dt>
-      <dd><a href="">How to buy</a></dd>
-      <dd><a href="">Browse by catagories</a></dd>
-      <dd><a href="">Browse by Hot regoins</a></dd>
-      <dd><a href="">Private Sourcing Events</a></dd>
-    </dl>
-    <dl>
-      <dt>Belling on china.cn</dt>
-      <dd><a href="">How to sell</a></dd>
-      <dd><a href="">Premium Member</a></dd>
-      <dd><a href="">Post Products</a></dd>
-      <dd><a href="">Manage Products</a></dd>
-    </dl>
-    <dl>
-      <dt>Services</dt>
-      <dd><a href="">Post buying lead</a></dd>
-      <dd><a href="">Product Alert</a></dd>
-    </dl>
-    <dl>
-      <dt>About</dt>
-      <dd><a href="">Dispute and Complaint Assistance</a></dd>
-      <dd><a href="">About us</a></dd>
-      <dd><a href="">Link to us</a></dd>
-      <dd><a href="">Contact us</a></dd>
-    </dl>
-  </div>
-</div>
-<div class="Footer">
-  <div class="Page">
-    <p class="fl">
-      <a href="">About Us</a>
-      <span>|</span>
-      <a href="">Contact Us</a>
-      <span>|</span>
-      <a href="">Intellectual Property Policy</a>
-      <span>|</span>
-      <a href="">Privacy Policy</a>
-      <span>|</span>
-      <a href="">Terms of Use</a>
-      <span>|</span>
-      <a href="">Advertise</a>
-      <span>|</span>
-      <a href="">Partners</a>
-    </p>
-    <p class="fr">Copyright &copy; China Internet Information Center. All Rights Reserved</p>
-    <div class="clear"></div>
-  </div>
-</div>
+{include file="sets/brilly/common/footer.tpl"}
 
 {include file="sets/brilly/common/scripts.tpl"}
 
