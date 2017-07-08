@@ -36,7 +36,7 @@
                         <td>{$i.alias|escape}</td>
                         <td>{$i.ip_addr|escape}</td>
                         <td data-role="vps-status-text">
-                            <a href="?action=edit_vps&vps_id={$i.id}">修改</a>
+                            Checking ...
                         </td>
                     </tr>
 {/foreach}
