@@ -5,10 +5,6 @@
  * @package timandes\enterprise
  */
 
-/** @var string Pattern of Product List */
-define('PATTERN_PRODUCT_LIST', '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
-/** @var string Pattern of Product Page */
-define('PATTERN_PRODUCT_PAGE', '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Product Pic */
 define('PATTERN_PRODUCT_PIC', '/^\/pic-([0-9]+)\.html$/');
 /** @var string Pattern of Detailed Product */
@@ -331,6 +327,21 @@ function enterprise_dao($alias)
     }
 
     return null;
+}
+
+function enterprise_define_url_pattern_constants($site)
+{
+    $gUrlPrefix = ($site['gurl_prefix']?$site['gurl_prefix']:'factory');
+    define('URL_PREFIX_GROUP', $gUrlPrefix);
+
+    $pUrlPrefix = ($site['purl_prefix']?$site['purl_prefix']:'sell');
+    define('URL_PREFIX_PRODUCT', $pUrlPrefix);
+
+    /** @var string Pattern of Product List */
+    define('PATTERN_PRODUCT_LIST', '/^\/' . URL_PREFIX_GROUP . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
+
+    /** @var string Pattern of Product Page */
+    define('PATTERN_PRODUCT_PAGE', '/^\/' . URL_PREFIX_PRODUCT . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
 }
 
 /* }}} */
@@ -1135,7 +1146,7 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
         $urlKeyString = '';
         if ($urlKey)
             $urlKeyString = '-' . $urlKey;
-        $path = '/sell-' . $product['id'] . $pageString . $urlKeyString . '.html';
+        $path = '/' . URL_PREFIX_PRODUCT . '-' . $product['id'] . $pageString . $urlKeyString . '.html';
     }
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
@@ -1185,7 +1196,7 @@ function enterprise_url_product_list($group = null, $pageNo = 1, $pathOnly = fal
             $urlKeyString = '';
             if ($urlKey)
                 $urlKeyString = '-' . $urlKey;
-            $path = '/factory-' . $groupId . $pageString . $urlKeyString;
+            $path = '/' . URL_PREFIX_GROUP . '-' . $groupId . $pageString . $urlKeyString;
         }
     } else {
         $pageString = '';

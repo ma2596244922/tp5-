@@ -39,6 +39,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     );
             }
 
+            enterprise_define_url_pattern_constants($site);
+
             // Supported Language Codes
             $supportedLangCodes = \enterprise\daos\LangProduct::getSupportedLangCodes();
             $smarty->assign('supported_lang_codes', $supportedLangCodes);

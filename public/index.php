@@ -102,6 +102,8 @@ do {
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
+        enterprise_define_url_pattern_constants($site);
+
         $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing

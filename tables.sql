@@ -240,6 +240,8 @@ CREATE TABLE `enterprise_sites` (
   `enable_mobile_sites` tinyint unsigned NOT NULL COMMENT '是否启用移动站(0/1)',
   `enable_https` tinyint unsigned NOT NULL COMMENT '是否启用HTTPS(0/1)',
   `offline` tinyint unsigned NOT NULL COMMENT '是否下线(0/1)',
+  `purl_prefix` varchar(15) NOT NULL COMMENT '产品URL前缀',
+  `gurl_prefix` varchar(15) NOT NULL COMMENT '产品分组URL前缀',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

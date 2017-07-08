@@ -243,6 +243,14 @@
 
                                                                 <textarea class="span8 m-wrap" name="contact_content" id="textarea-contact_content" rows="6">{$site.contact_content|default:''}</textarea>
 
+                                                                <label class="control-label">产品URL前缀</label>
+
+                                                                <input type="text" name="purl_prefix" class="m-wrap span2" value="{$site.purl_prefix}" />
+
+                                                                <label class="control-label">分组URL前缀</label>
+
+                                                                <input type="text" name="gurl_prefix" class="m-wrap span2" value="{$site.gurl_prefix}" />
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">
