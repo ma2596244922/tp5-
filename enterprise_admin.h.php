@@ -564,7 +564,7 @@ function enterprise_admin_action_index_products($smarty, $site, $langCode = 'en'
         $path = parse_url($url, PHP_URL_PATH);
         if (!$path)
             continue;
-        if (!preg_match(PATTERN_PRODUCT_PAGE, $path, $matches))
+        if (!preg_match($GLOBALS['gaUrlPatterns']['product'], $path, $matches))
             continue;
         $productId = $matches[1];
         if (!$productId)
@@ -3193,7 +3193,7 @@ function enterprise_admin_action_email_template($smarty, $site, $langCode, $curr
                 $products = array();
                 foreach ($urls as $url) {
                     $path = parse_url($url, PHP_URL_PATH);
-                    if (!preg_match(PATTERN_PRODUCT_PAGE, $path, $matches))
+                    if (!preg_match($GLOBALS['gaUrlPatterns']['product'], $path, $matches))
                         continue;
                     $productId = $matches[1];
                     $products[] = enterprise_get_product_info($productId, $langCode);

@@ -332,16 +332,13 @@ function enterprise_dao($alias)
 function enterprise_define_url_pattern_constants($site)
 {
     $gUrlPrefix = ($site['gurl_prefix']?$site['gurl_prefix']:'factory');
-    define('URL_PREFIX_GROUP', $gUrlPrefix);
+    $GLOBALS['gaUrlPrefixes']['group'] = $gUrlPrefix;
 
     $pUrlPrefix = ($site['purl_prefix']?$site['purl_prefix']:'sell');
-    define('URL_PREFIX_PRODUCT', $pUrlPrefix);
+    $GLOBALS['gaUrlPrefixes']['product'] = $pUrlPrefix;
 
-    /** @var string Pattern of Product List */
-    define('PATTERN_PRODUCT_LIST', '/^\/' . URL_PREFIX_GROUP . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
-
-    /** @var string Pattern of Product Page */
-    define('PATTERN_PRODUCT_PAGE', '/^\/' . URL_PREFIX_PRODUCT . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+    $GLOBALS['gaUrlPatterns']['group'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['group'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/';
+    $GLOBALS['gaUrlPatterns']['product'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['product'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/';
 }
 
 /* }}} */
@@ -886,12 +883,12 @@ function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $c
 
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL);
-    } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
+    } elseif(preg_match($GLOBALS['gaUrlPatterns']['product'], $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
         return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
+    } elseif(preg_match($GLOBALS['gaUrlPatterns']['group'], $requestPath, $matches)) {
         $groupId = $matches[1];
         if ($matches[3])
             $pageNo = (int)$matches[3];
@@ -971,7 +968,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
         return enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match(PATTERN_PRODUCT_PAGE, $requestPath, $matches)) {
+    } elseif(preg_match($GLOBALS['gaUrlPatterns']['product'], $requestPath, $matches)) {
         $productId = $matches[1];
         if (isset($matches[3])
                 && $matches[3])
@@ -985,7 +982,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif(preg_match(PATTERN_DETAILED_PRODUCT, $requestPath, $matches)) {
         $productId = $matches[1];
         return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED);
-    } elseif(preg_match(PATTERN_PRODUCT_LIST, $requestPath, $matches)) {
+    } elseif(preg_match($GLOBALS['gaUrlPatterns']['group'], $requestPath, $matches)) {
         $groupId = $matches[1];
         if (isset($matches[3])
                 && $matches[3])
@@ -1146,7 +1143,7 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
         $urlKeyString = '';
         if ($urlKey)
             $urlKeyString = '-' . $urlKey;
-        $path = '/' . URL_PREFIX_PRODUCT . '-' . $product['id'] . $pageString . $urlKeyString . '.html';
+        $path = '/' . $GLOBALS['gaUrlPrefixes']['product'] . '-' . $product['id'] . $pageString . $urlKeyString . '.html';
     }
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }
@@ -1196,7 +1193,7 @@ function enterprise_url_product_list($group = null, $pageNo = 1, $pathOnly = fal
             $urlKeyString = '';
             if ($urlKey)
                 $urlKeyString = '-' . $urlKey;
-            $path = '/' . URL_PREFIX_GROUP . '-' . $groupId . $pageString . $urlKeyString;
+            $path = '/' . $GLOBALS['gaUrlPrefixes']['group'] . '-' . $groupId . $pageString . $urlKeyString;
         }
     } else {
         $pageString = '';
@@ -1825,7 +1822,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $smarty->assign('title', "Quality {$phrase} for {$corporation['name']}");
         $smarty->assign('keywords', "Quality {$phrase}，Cheap {$phrase}，China {$phrase}，{$phrase} for sale，{$phrase} manufacturer");
         $smarty->assign('description', "Quality {$phrase} supplier on sales from {$phrase} manufacturer – find China {$phrase} factory, suppliers from {$corporation['name']}.");
-    } else {// PATTERN_PRODUCT_LIST
+    } else {// $GLOBALS['gaUrlPatterns']['group']
         $group = $smarty->getTemplateVars('group');
         $smarty->assign('title', "{$group['name']} - {$group['name']} for sale{$pageInfo}");
         $smarty->assign('keywords', "{$group['name']}, {$corporation['name']}, Quality {$group['name']}, {$group['name']} for sale");
@@ -2081,7 +2078,7 @@ function enterprise_get_quick_questions_for_inquiry($smarty)
 function enterprise_parse_id_from_product_page($reqeustPath)
 {
     if ($reqeustPath
-            && preg_match(PATTERN_PRODUCT_PAGE, $reqeustPath, $matches))
+            && preg_match($GLOBALS['gaUrlPatterns']['product'], $reqeustPath, $matches))
         return $matches[1];
     else
         return null;
