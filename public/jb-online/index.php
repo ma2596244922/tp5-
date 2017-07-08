@@ -205,7 +205,7 @@ function enterprise_oms_get_site_mapping_list($siteId = null)
         $condition = "sm.`site_id`={$siteId}";
     else
         $condition = null;
-    return $siteMappingDAO->getMultiInOrderBy($condition, 'os.*, es.*, sm.`domain`', 'sm.`domain` ASC');
+    return $siteMappingDAO->getMultiInOrderBy($condition, 'sm.`id`, os.`id` AS `site_id`, os.`created`, os.`updated`, es.`offline`, sm.`domain`', 'sm.`domain` ASC');
 }
 
 /**

@@ -19,23 +19,23 @@
             <th>最后修改时间(+8)</th>
             <th>&nbsp;</th>
         </tr>
-{section name=i loop=$site_mappings}
+{foreach $site_mappings as $sm}
         <tr>
-            <td>{$site_mappings[i].id}</td>
-            <td>{$site_mappings[i].site_id}</td>
-            <td>{$site_mappings[i].domain}</td>
-            <td>{$site_mappings[i].created}</td>
-            <td>{$site_mappings[i].updated}</td>
+            <td>{$sm.id}</td>
+            <td>{$sm.site_id}</td>
+            <td>{$sm.domain}</td>
+            <td>{$sm.created}</td>
+            <td>{$sm.updated}</td>
             <td>
-                <a href="?action=edit_site_mapping&site_mapping_id={$site_mappings[i].id}">修改</a>
-                <a href="?action=delete_site_mapping&site_mapping_id={$site_mappings[i].id}">删除</a>
+                <a href="?action=edit_site_mapping&site_mapping_id={$sm.id}">修改</a>
+                <a href="?action=delete_site_mapping&site_mapping_id={$sm.id}">删除</a>
             </td>
         </tr>
-{sectionelse}
+{foreachelse}
         <tr>
             <td colspan="6">暂无站点映射</td>
         </tr>
-{/section}
+{/foreach}
     </table>
 </body>
 </html>
