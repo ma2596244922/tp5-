@@ -65,7 +65,7 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
         $no = (int)$matches[2];
     else
         $no = 1;
-    enterprise_action_sitemap_proc_2($siteId, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
+    enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
 } elseif(preg_match('/^\/uploaded_images\/([a-z]?)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
     $char = $matches[1];
     $imageId = $matches[2];
