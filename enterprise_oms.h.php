@@ -32,6 +32,8 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'password':
+                    return enterprise_oms_action_password($smarty, $operator);
                 case 'super_login':
                     return enterprise_oms_action_super_login($smarty, $site);
                 case 'edit_user':
@@ -884,3 +886,37 @@ function enterprise_oms_action_edit_user($smarty, $site)
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=user&site_id=' . $site['id'], '帐号管理');
 }
 /* }}} */
+
+
+/**
+ * Change password
+ */
+function enterprise_oms_action_password($smarty, $operator)
+{
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        return $smarty->display('oms/password.tpl');
+    }
+
+    $oldPassword = timandes_get_post_data('old_password');
+    $newPassword = timandes_get_post_data('new_password');
+    $newPassword2 = timandes_get_post_data('new_password_2');
+    $oldPasswordSum = md5($oldPassword);
+    $newPasswordSum = md5($newPassword);
+
+    if ($operator['password'] != $oldPasswordSum)
+        throw new \RuntimeException("旧密码不正确");
+    if (!$newPassword)
+        throw new \RuntimeException("新密码不能为空");
+    if ($newPassword != $newPassword2)
+        throw new \RuntimeException("两次输入的密码不相同");
+
+    $values = array(
+            'password' => $newPasswordSum,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $operatorDAO = new \oms\daos\Operator();
+    $operatorDAO->update($operator['id'], $values);
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=dashboard', '运营管理');
+}

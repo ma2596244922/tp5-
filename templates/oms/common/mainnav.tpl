@@ -16,6 +16,7 @@
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="?action=dashboard1">旧主面板</a></li>
+                                <li><a href="?action=password">修改密码</a></li>
                                 <li><a href="?action=logout">退出登录</a></li>
                             </ul>
                         </div>
