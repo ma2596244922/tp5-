@@ -632,6 +632,7 @@ function enterprise_oms_action_client_info($smarty)
     $csr = timandes_get_post_data('csr');
     $key = timandes_get_post_data('key');
     $enable_https = (int)timandes_get_post_data('enable_https');
+    $template = timandes_get_post_data('template');
 
     $values = array(
             'desc' => $desc,
@@ -655,6 +656,7 @@ function enterprise_oms_action_client_info($smarty)
             'enable_mobile_sites' => $enable_mobile_sites,
             'enable_https' => $enable_https,
             'offline' => $offline,
+            'template' => $template,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();

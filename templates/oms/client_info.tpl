@@ -161,6 +161,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">模板：</label>
+                        <div class="col-lg-4">
+                            <select class="form-control" name="template">
+                                <option value="">（待分配）</option>
+                                <option value="trade"{if $site.template=='trade'} selected{/if}>Trade</option>
+                                <option value="brilly"{if $site.template=='brilly'} selected{/if}>M1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>
