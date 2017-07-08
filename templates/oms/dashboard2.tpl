@@ -22,6 +22,37 @@
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
+                <h2>VPS状态</h2>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>#</th>
+                        <th>别名</th>
+                        <th>IP</th>
+                        <th>&nbsp;</th>
+                    </tr>
+{foreach $vpss as $i}
+                    <tr data-role="vps" data-config="{$i.ip_addr|escape}">
+                        <td>{$i.id}</td>
+                        <td>{$i.alias|escape}</td>
+                        <td>{$i.ip_addr|escape}</td>
+                        <td data-role="vps-status-text">
+                            <a href="?action=edit_vps&vps_id={$i.id}">修改</a>
+                        </td>
+                    </tr>
+{/foreach}
+                </table>
+
+                <h2>磁盘空间</h2>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>总空间</th>
+                        <th>剩余空间</th>
+                    </tr>
+                    <tr>
+                        <td>{$disk_total_space|size_format}</td>
+                        <td>{$disk_free_space|size_format}</td>
+                    </tr>
+                </table>
                 <!-- End Content -->
             </div>
             <!-- End Page -->
@@ -29,5 +60,15 @@
     </div>
 
 {include file="oms/common/scripts.tpl"}
+    <script type="text/javascript">
+        $('[data-role="vps"]').each(function() {
+            var addr = $(this).data('config');
+            var url = '?action=vps_health&addr=' + encodeURIComponent(addr);
+            var me = this;
+            $.get(url, function(response) {
+                    $(me).find('[data-role="vps-status-text"]').text(response);
+                });
+        });
+    </script>
 </body>
 </html>

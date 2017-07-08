@@ -32,6 +32,8 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'vps_health':
+                    return enterprise_oms_action_vps_health();
                 case 'password':
                     return enterprise_oms_action_password($smarty, $operator);
                 case 'super_login':
@@ -82,6 +84,11 @@ function enterprise_oms_route_2($smarty)
  */
 function enterprise_oms_action_dashboard_2($smarty)
 {
+    enterprise_oms_assign_vps_list($smarty, 'vpss');
+
+    $smarty->assign('disk_free_space', disk_free_space('/'));
+    $smarty->assign('disk_total_space', disk_total_space('/'));
+
     $smarty->display('oms/dashboard2.tpl');
 }
 
@@ -919,4 +926,23 @@ function enterprise_oms_action_password($smarty, $operator)
     $operatorDAO->update($operator['id'], $values);
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=dashboard', '运营管理');
+}
+
+/**
+ * VPS Health
+ */
+function enterprise_oms_action_vps_health()
+{
+    $addr = timandes_get_query_data('addr');
+
+    $uri = 'http://' . $addr . '/yanan2_status';
+
+    $client = new \GuzzleHttp\Client();
+    try {
+        $response = $client->request('GET', $uri);
+        echo 'OK';
+    } catch (\GuzzleHttp\Exception\RequestException $e) {
+        $response = $e->getResponse();
+        echo 'STATUS=' . $response->getStatusCode();
+    }
 }
