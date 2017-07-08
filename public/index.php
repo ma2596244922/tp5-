@@ -130,7 +130,7 @@ do {
         $smarty->display('message.tpl');
     } catch(\DomainException $e) {
         header('DomainException: ' . $e->getMessage());
-        http_response_code(404);
+        break;
     }
 } while(exit(1));
 

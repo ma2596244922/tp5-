@@ -922,7 +922,7 @@ function enterprise_load_preset_translations($langCode)
 {
     $path = __DIR__ . '/locale/' . $langCode . '.php';
     if (!file_exists($path))
-        throw new HttpException(404);
+        throw new \DomainException("Unsupported lang {$langCode}");
 
     require_once $path;
     return $presetTranslations;
