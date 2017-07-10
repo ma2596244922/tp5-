@@ -41,6 +41,7 @@ class Site extends \crawler\daos\AbstractDAO
             'offline' => 'tinyint',
             'purl_prefix' => 'text',
             'gurl_prefix' => 'text',
+            'favicon' => 'text',
         );
 
     public function getTableName()

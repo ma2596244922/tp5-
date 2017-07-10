@@ -76,6 +76,8 @@
 
                             <li><a href="?action=logo"><i class="icon-picture"></i> 公司LOGO</a></li>
 
+                            <li><a href="?action=favicon"><i class="icon-star"></i> 收藏夹小图标</a></li>
+
                             <li><a href="?action=password"><i class="icon-user"></i> 修改密码</a></li>
 
                             <li class="divider"></li>

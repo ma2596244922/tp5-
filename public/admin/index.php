@@ -74,6 +74,8 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                     return enterprise_admin_action_profile($smarty);
                 case 'fragment':
                     return enterprise_admin_action_fragment($smarty);
+                case 'favicon':
+                    return enterprise_admin_action_favicon($smarty);
                 case 'logo':
                     return enterprise_admin_action_logo($smarty);
                 case 'info':

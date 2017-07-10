@@ -16,6 +16,8 @@
 
                                                     <li class="{if $profile_page_name=='logo'}active{/if}"><a href="?action=logo"><i class="icon-picture"></i> 公司LOGO</a></li>
 
+                                                    <li class="{if $profile_page_name=='favicon'}active{/if}"><a href="?action=favicon"><i class="icon-star"></i> 收藏夹小图标</a></li>
+
                                                     <li class="{if $profile_page_name=='password'}active{/if}"><a href="?action=password"><i class="icon-lock"></i> 修改密码</a></li>
 
                                                     <li class="{if $profile_page_name=='fragment'}active{/if}"><a href="?action=fragment"><i class="icon-cog"></i> 页面镶嵌代码</a></li>

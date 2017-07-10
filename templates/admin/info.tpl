@@ -140,7 +140,7 @@
 
                                                         <div style="height: auto;" id="accordion1-1" class="accordion collapse">
 
-                                                            <form action="?action=info" method="POST">
+                                                            <form action="?action=info" method="POST" enctype="multipart/form-data">
 
                                                                 <label class="control-label">公司名称</label>
 

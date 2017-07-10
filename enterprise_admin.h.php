@@ -359,6 +359,63 @@ function enterprise_admin_action_logo($smarty)
     $smarty->display($tplPath);
 }
 
+function enterprise_admin_parse_base64_data($s, &$meta = array())
+{
+    if (!$s)
+        return null;
+
+    if (strpos($s, 'data:') !== 0)
+        return $s;
+
+    $fp = fopen($s, 'r');
+    $meta = stream_get_meta_data($fp);
+    $data = fread($fp, 1024);
+    fclose($fp);
+
+    return $data;
+}
+
+/**
+ * Change favicon
+ */
+function enterprise_admin_action_favicon($smarty)
+{
+    $tplPath = 'admin/favicon.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    // Upload favicon
+    $favicon = '';
+    foreach ($_FILES as $name => $meta) {
+        $faviconBase64 = timandes_get_post_data($name);
+        if (!$faviconBase64
+                || !($favicon = enterprise_admin_parse_base64_data($faviconBase64))) {// Upload now!
+            if ($meta['error'])
+                continue;
+
+            $favicon = file_get_contents($meta['tmp_name']);
+        }
+    }
+
+    $siteDAO = new \enterprise\daos\Site();
+    $values = array(
+            'favicon' => $favicon,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $siteDAO->update($userSiteId, $values);
+
+    $site = $smarty->getTemplateVars('site');
+    $site['favicon'] = $favicon;
+    $smarty->assign('site', $site);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
 /**
  * Change info
  */

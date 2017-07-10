@@ -1027,6 +1027,12 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif(preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
         $guidHex = $matches[1];
         return enterprise_action_attachment_proc($guidHex);
+    } elseif ($requestPath == '/favicon.ico') {
+        header('Content-Type: image/x-icon');
+        if ($site['favicon'])
+            return $site['favicon'];
+        else
+            return file_get_contents(__DIR__ . '/favicon.ico');
     }
 
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);

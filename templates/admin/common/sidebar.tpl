@@ -143,6 +143,18 @@
 
                 </li>
 
+                <li class="start{if $page_name=='favicon'} active{/if}">
+
+                    <a href="?action=favicon">
+
+                    <i class="icon-star"></i> 
+
+                    <span class="title">收藏夹小图标</span>
+
+                    </a>
+
+                </li>
+
                 <li class="start{if $page_name=='banner'} active{/if}">
 
                     <a href="?action=banner">
