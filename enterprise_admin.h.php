@@ -2093,7 +2093,7 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
 
         foreach ($products as $product) {
             $fragment = str_replace('[产品标题]', $product['caption'], $desc);
-            $fragmentHtml = '<p>' . $fragment . '</p>';
+            $fragmentHtml = $fragment;
             $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
             $values = array(
                     'description' => $newDescription,

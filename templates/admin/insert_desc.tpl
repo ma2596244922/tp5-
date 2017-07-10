@@ -303,9 +303,10 @@
 
            $('[data-role="btn-insert-to-desc"]').click(function() {
                 var string = $(this).attr('data-config');
-                $('#textarea-desc').insertAtCaret(string);
+                CKEDITOR.instances['textarea-desc'].insertText(string);
            });
 
+            $('#textarea-desc').ckeditor();
         });
 
     </script>{/literal}
