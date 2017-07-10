@@ -158,7 +158,13 @@
 
                                             <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[公司名称]" type="button">插入公司名称</button>
 
-                                            <span class="help-inline"></span>
+                                            <label class="checkbox">
+
+                                                <input type="checkbox" name="remove_phrase" value="1" id="input-remove-phrase" />
+
+                                                删除原关键词
+
+                                            </label>
 
                                         </div>
 
@@ -351,6 +357,10 @@
            $('[data-role="btn-insert-to-phrase"]').click(function() {
                 var string = $(this).attr('data-config');
                 $('#input-new-phrase').insertAtCaret(string);
+           });
+
+           $('#input-remove-phrase').click(function() {
+                $('#input-new-phrase').prop('disabled', $(this).prop('checked'));
            });
 
         });

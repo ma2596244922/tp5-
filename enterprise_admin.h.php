@@ -2033,18 +2033,22 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     }
 
     // Save
-    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r, trim');
+    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r');
     $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
     $groupId = (int)timandes_get_post_data('group_id');
     $location = (int)timandes_get_post_data('location');
     $background = (int)timandes_get_post_data('background');
+    $removePhrase = (int)timandes_get_post_data('remove_phrase');
+    if ($removePhrase)
+        $newPhrase = '';
 
     $locationRange = array(0, 1, 2, 3);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$oldPhrase)
         throw new \UnderflowException("原关键词不能为空");
-    if (!$newPhrase)
+    if (!$removePhrase
+            && !$newPhrase)
         throw new \UnderflowException("新关键词不能为空");
     if (!$groupId)
         throw new \UnexpectedValueException("请选择分组");
