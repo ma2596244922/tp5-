@@ -73,10 +73,12 @@ h1,h2{ display:inline;}
 .product-description img{ max-width:918px; margin:20px 0;}
 .product-description table{
     border-collapse: collapse;
+    margin:15px 0 0 0;
 }
 .product-description table tr td{
     border: 1px solid #dddddd;
     padding: 5px 10px;
+    font-size:14px;
 }
 
 .new-products ul{ margin-top:20px;}
