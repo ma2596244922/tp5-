@@ -236,7 +236,7 @@ CREATE TABLE `enterprise_sites` (
   `common_head_fragment` text NOT NULL COMMENT '通用HTML head代码片段',
   `product_default_image` int(10) unsigned NOT NULL COMMENT '产品默认图片ID',
   `common_bg_image` int(10) unsigned NOT NULL COMMENT '默认背景图片ID',
-  `enable_inquiry_checking` tinyint unsigned NOT NULL COMMENT '是否需要审核询盘(0/1)',
+  `enable_inquiry_checking` tinyint unsigned NOT NULL DEFAULT '1' COMMENT '是否需要审核询盘(0/1)',
   `enable_mobile_sites` tinyint unsigned NOT NULL COMMENT '是否启用移动站(0/1)',
   `enable_https` tinyint unsigned NOT NULL COMMENT '是否启用HTTPS(0/1)',
   `offline` tinyint unsigned NOT NULL COMMENT '是否下线(0/1)',
