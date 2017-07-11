@@ -20,6 +20,9 @@ class LangCode
             'pt' => array(
                     'label' => '葡萄牙语',
                 ),
+            'es' => array(
+                    'label' => '西班牙语',
+                ),
         );
 
     /**
