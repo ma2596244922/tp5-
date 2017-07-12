@@ -439,6 +439,9 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
  */
 function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no = 1)
 {
+    $site = enterprise_get_site_info($siteId, $langCode);
+    enterprise_define_url_pattern_constants($site);
+
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
     if ($langCode == 'en')
@@ -446,6 +449,7 @@ function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $origin
     else
         $products = enterprise_get_product_list($siteId, $langCode, null, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', 'elp.`product_id` ASC');
     if ($products) foreach ($products as $product) {
+        $product['group'] = enterprise_get_group_info($product['group_id'], $langCode, true);
         $loc = enterprise_url_product($product);
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
         $urlSet->addUrl($url);
@@ -1156,7 +1160,8 @@ function enterprise_url_product($product, $pageNo = 1, $pathOnly = false)
         $urlKeyString = '';
         if ($urlKey)
             $urlKeyString = '-' . $urlKey;
-        $path = '/' . $GLOBALS['gaUrlPrefixes']['product'] . '-' . $product['id'] . $pageString . $urlKeyString . '.html';
+        $pUrlPrefix = ((isset($product['group']['purl_prefix'])&&$product['group']['purl_prefix'])?$product['group']['purl_prefix']:$GLOBALS['gaUrlPrefixes']['product']);
+        $path = '/' . $pUrlPrefix . '-' . $product['id'] . $pageString . $urlKeyString . '.html';
     }
     return ($pathOnly?'':enterprise_url_prefix()) . $path;
 }

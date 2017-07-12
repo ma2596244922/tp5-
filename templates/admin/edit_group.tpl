@@ -154,6 +154,20 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品URL前缀</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="purl_prefix" value="{$group.purl_prefix|default:''}" placeholder="sell" />
+
+                                            <span class="help-inline">仅可以输入a-z英文字母</span>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">

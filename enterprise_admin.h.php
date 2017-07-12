@@ -10,6 +10,9 @@ define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country
 /** @var int Max Images per Product */
 define('ENTERPRISE_MAX_IMAGES_PER_PRODUCT', 5);
 
+/** @var array 暂存分组信息 */
+$GLOBALS['gaGroupCache'] = array();
+
 /**
  * Grant permission
  */
@@ -971,8 +974,13 @@ function enterprise_admin_action_group($smarty, $site, $langCode)
 /**
  * Get group info
  */
-function enterprise_get_group_info($groupId, $langCode = 'en')
+function enterprise_get_group_info($groupId, $langCode = 'en', $enableCache = false)
 {
+    if ($enableCache) {
+        if (isset($GLOBALS['gaGroupCache'][$langCode][$groupId]))
+            return $GLOBALS['gaGroupCache'][$langCode][$groupId];
+    }
+
     $groupDAO = new \enterprise\daos\Group();
     $group = $groupDAO->get($groupId);
 
@@ -983,6 +991,10 @@ function enterprise_get_group_info($groupId, $langCode = 'en')
         $langGroup = $langGroupDAO->getOneBy($condition);
         if ($langGroup)
             $group = array_merge($group, $langGroup);
+    }
+
+    if ($enableCache) {
+        $GLOBALS['gaGroupCache'][$langCode][$groupId] = $group;
     }
 
     return $group;
@@ -996,7 +1008,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
     $smarty->assign($var, enterprise_get_group_info($groupId, $langCode));
 }
 
-function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null)
+function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null)
 {
     // Language Group
     $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
@@ -1004,6 +1016,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
     // Save group
     $groupDAO = new \enterprise\daos\Group();
     $values = array(
+            'purl_prefix' => $pUrlPrefix,
             'updated' => date('Y-m-d H:i:s'),
         );
     if (isset($path)) {
@@ -1071,11 +1084,12 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     $path = timandes_get_post_data('path');
     if ($path)
         $path = '/' . ltrim($path, '/');
+    $pUrlPrefix = timandes_get_post_data('purl_prefix');
 
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
-    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path);
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }
@@ -3619,6 +3633,7 @@ function enterprise_admin_import_main_products($site, $langCode = 'en')
     $dateString = date('Y-m-d H:i:s');
     $retval = array();
     if (is_array($products)) foreach ($products as $p) {
+        $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $values = array(
                 'site_id' => $site['site_id'],
                 'label' => $p['caption'],

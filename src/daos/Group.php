@@ -21,6 +21,7 @@ class Group extends \crawler\daos\AbstractDAO
             'deleted' => 'tinyint',
             'path' => 'text',
             'path_sum' => 'text',
+            'purl_prefix' => 'text',
         );
 
     public function getTableName()

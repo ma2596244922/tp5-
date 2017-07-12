@@ -20,7 +20,7 @@ $GLOBALS['gaUrlPrefixes'] = array(
 /** @var array URL规则 */
 $GLOBALS['gaUrlPatterns'] = array(
         'group' => '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/',
-        'product' => '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/',
+        'product' => '/^\/[a-z]+-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/',
     );
 
 // www默认的语言
