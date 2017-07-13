@@ -445,11 +445,10 @@ function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $origin
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
     if ($langCode == 'en')
-        $products = enterprise_get_product_list($siteId, $langCode, null, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', '`id` ASC');
+        $products = enterprise_get_product_list($siteId, $langCode, null, true, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', '`id` ASC');
     else
-        $products = enterprise_get_product_list($siteId, $langCode, null, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', 'elp.`product_id` ASC');
+        $products = enterprise_get_product_list($siteId, $langCode, null, true, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', 'elp.`product_id` ASC');
     if ($products) foreach ($products as $product) {
-        $product['group'] = enterprise_get_group_info($product['group_id'], $langCode, true);
         $loc = enterprise_url_product($product);
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
         $urlSet->addUrl($url);
@@ -1355,7 +1354,7 @@ function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en
         foreach ($groups as $group) {
             $groupId = (int)($group['id']??$group['group_id']);
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
-            $products = enterprise_get_product_list($siteId, $langCode, $groupId, 1, $maxAppendedProducts);
+            $products = enterprise_get_product_list($siteId, $langCode, $groupId, false, 1, $maxAppendedProducts);
             $group['products'] = $products;
             $retval[] = $group;
             ++$accItems;
@@ -2254,7 +2253,7 @@ function enterprise_filter_2_sql_condition($tablePrefix = '', $filter = null, &$
  *
  * @return string Condition
  */
-function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null, $pageNo = 1, $pageSize = 10, $additionalConditions = '', $orderBy = null, $additionalFields = '', &$extraValues = array(), &$condition = '')
+function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null, $withGroupInfo = false, $pageNo = 1, $pageSize = 10, $additionalConditions = '', $orderBy = null, $additionalFields = '', &$extraValues = array(), &$condition = '')
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
@@ -2287,7 +2286,18 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
     }
     if ($additionalFields)
         $fields .= ", {$additionalFields}";
-    return $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_get_by_site`');
+
+    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_get_by_site`');
+    if (!$withGroupInfo
+            || !is_array($products))
+        return $products;
+
+    $retval = array();
+    foreach ($products as $p) {
+        $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
+        $retval[] = $p;
+    }
+    return $retval;
 }
 
 /**
@@ -2299,7 +2309,7 @@ function enterprise_assign_product_list($smarty, $var, $siteId, $langCode = 'en'
 {
     $condition = '';
     $extraValues = array();
-    $products = enterprise_get_product_list($siteId, $langCode, $groupId, $pageNo, $pageSize, '', null, '', $extraValues, $condition);
+    $products = enterprise_get_product_list($siteId, $langCode, $groupId, true, $pageNo, $pageSize, '', null, '', $extraValues, $condition);
     $smarty->assign($var, $products);
     foreach ($extraValues as $k => $v)
         $smarty->assign($k, $v);
@@ -2331,6 +2341,8 @@ function enterprise_get_product_info($productId, $langCode = 'en')
         if ($langProduct)
             $product = array_merge($product, $langProduct);
     }
+
+    $product['group'] = enterprise_get_group_info($product['group_id'], $langCode);
 
     return $product;
 }

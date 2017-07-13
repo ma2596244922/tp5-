@@ -1211,9 +1211,9 @@ function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $
 
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`caption`=''", '`id` ASC');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`caption`=''", '`id` ASC');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`caption`=''", 'elp.`product_id` ASC');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`caption`=''", 'elp.`product_id` ASC');
         if (!$products)
             break;
 
@@ -1292,7 +1292,12 @@ function enterprise_admin_action_product($smarty, $langCode)
     WHERE {$tableAlias}.`site_id`={$userSiteId} AND {$tableAlias}.`deleted`=0{$groupCondition}{$keywordsCondition}
     ORDER BY {$orderByFields} DESC LIMIT {$start}, {$max}";
     $products = $productDAO->getMultiBySql($sql);
-    $smarty->assign('products', $products);
+    $productsWithGroup = array();
+    if (is_array($products)) foreach ($products as $p) {
+        $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
+        $productsWithGroup[] = $p;
+    }
+    $smarty->assign('products', $productsWithGroup);
 
     $groupCondition = str_replace($tableAlias . '.', '', $groupCondition);
     $keywordsCondition = str_replace($tableAlias . '.', '', $keywordsCondition);
@@ -1883,9 +1888,9 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`');
         if (!$products)
             break;
 
@@ -1994,9 +1999,9 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`');
         if (!$products)
             break;
 
@@ -2106,9 +2111,9 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
         if (!$products)
             break;
 
@@ -2251,9 +2256,9 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
     $pendingImages = $uploadedImages;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`, `description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`, `description`');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`, elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`, elp.`description`');
         if (!$products)
             break;
 
@@ -3627,13 +3632,12 @@ function enterprise_admin_action_delete_user_voice($smarty, $site, $langCode)
  */
 function enterprise_admin_import_main_products($site, $langCode = 'en')
 {
-    $products = enterprise_get_product_list($site['site_id'], $langCode, null, 1, 3);
+    $products = enterprise_get_product_list($site['site_id'], $langCode, null, true, 1, 3);
 
     $mainProductDAO = new \enterprise\daos\MainProduct();
     $dateString = date('Y-m-d H:i:s');
     $retval = array();
     if (is_array($products)) foreach ($products as $p) {
-        $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $values = array(
                 'site_id' => $site['site_id'],
                 'label' => $p['caption'],
