@@ -2127,7 +2127,7 @@ function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
     }
 
     // Save
-    $desc = timandes_get_post_data('desc');
+    $desc = timandes_get_post_data('desc', 'xss_clean, remove_n_r, trim');
     $location = (int)timandes_get_post_data('location');
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
