@@ -114,7 +114,7 @@ $contactDescMapping = array(
 function enterprise_build_alternate_mobile_host($langCode, $rootDomain)
 {
     $subdomain = '';
-    if ($langCode != 'en')
+    if ($langCode != $GLOBALS['gsDefaultLangCode'])
         $subdomain = $langCode . '.';
     return 'm.' . $subdomain . $rootDomain;
 }
@@ -124,7 +124,7 @@ function enterprise_build_alternate_mobile_host($langCode, $rootDomain)
  */
 function enterprise_build_canonical_host($langCode, $rootDomain)
 {
-    if ($langCode == 'en')
+    if ($langCode == $GLOBALS['gsDefaultLangCode'])
         $subdomain = 'www.';
     else
         $subdomain = $langCode . '.';
@@ -142,7 +142,7 @@ function enterprise_extract_locale_n_domain($host)
 
 function enterprise_decide_locale_by_subdomain($subdomain)
 {
-    $retval = ($subdomain=='www'||$subdomain=='m'?'English':$subdomain);
+    $retval = ($subdomain=='www'||$subdomain=='m'?$GLOBALS['gsDefaultLocale']:$subdomain);
     if (strlen($retval) == 2) {
         $iso639 = new Matriphe\ISO639\ISO639();
         $retval = $iso639->languageByCode1($retval);
@@ -339,6 +339,13 @@ function enterprise_define_url_pattern_constants($site)
 
     $GLOBALS['gaUrlPatterns']['group'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['group'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/';
     $GLOBALS['gaUrlPatterns']['product'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['product'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/';
+}
+
+function enterprise_set_default_lang_code($langCode)
+{
+    $GLOBALS['gsDefaultLangCode'] = $langCode;
+    $iso639 = new Matriphe\ISO639\ISO639();
+    $GLOBALS['gsDefaultLocale'] = $iso639->languageByCode1($langCode);
 }
 
 /* }}} */

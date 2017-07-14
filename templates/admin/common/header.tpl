@@ -44,9 +44,9 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a href="//www.{$site_root_domain}/admin/"><i class="icon-globe"></i> 英语</a></li>
+                            <li><a href="//{if $default_lang_code=='en'}www{else}en{/if}.{$site_root_domain}/admin/"><i class="icon-globe"></i> 英语</a></li>
     {-foreach $supported_lang_codes as $lang_code => $def}
-                            <li><a href="//{$lang_code}.{$site_root_domain}/admin/"><i class="icon-globe"></i> {$def.label}</a></li>
+                            <li><a href="//{if $default_lang_code==$lang_code}www{else}{$lang_code}{/if}.{$site_root_domain}/admin/"><i class="icon-globe"></i> {$def.label}</a></li>
     {-/foreach}
                         </ul>
 

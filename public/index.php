@@ -92,17 +92,26 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
-        enterprise_assign_preset_translations($smarty, $langCode);
-
+retry:
         $site = enterprise_get_site_info($siteId, $langCode);
         if (!$site)
             break;// continue routing
         if ($site['offline'])
             break;// continue routing
+
+        if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
+            enterprise_set_default_lang_code($site['default_lang_code']);
+            // 重新获取语言代码信息
+            list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+            goto retry;
+        }
+
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
         enterprise_define_url_pattern_constants($site);
+
+        enterprise_assign_preset_translations($smarty, $langCode);
 
         $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
         if (null === $response)

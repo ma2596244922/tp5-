@@ -243,6 +243,7 @@ CREATE TABLE `enterprise_sites` (
   `purl_prefix` varchar(15) NOT NULL COMMENT '产品URL前缀',
   `gurl_prefix` varchar(15) NOT NULL COMMENT '产品分组URL前缀',
   `favicon` mediumblob NOT NULL COMMENT '收藏夹小图标数据',
+  `default_lang_code` char(2) NOT NULL DEFAULT 'en' COMMENT '默认的语言代码',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

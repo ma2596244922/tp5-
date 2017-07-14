@@ -251,6 +251,10 @@
 
                                                                 <input type="text" name="gurl_prefix" class="m-wrap span2" value="{$site.gurl_prefix}" />
 
+                                                                <label class="control-label">默认的语言代码</label>
+
+                                                                <input type="text" name="default_lang_code" class="m-wrap span2" value="{$site.default_lang_code}" />
+
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">

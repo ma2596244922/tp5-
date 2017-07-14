@@ -22,3 +22,9 @@ $GLOBALS['gaUrlPatterns'] = array(
         'group' => '/^\/factory-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/',
         'product' => '/^\/sell-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/',
     );
+
+// www默认的语言
+/** @var string 默认的语言代码 */
+$GLOBALS['gsDefaultLangCode'] = 'en';
+/** @var string 默认的语言 */
+$GLOBALS['gsDefaultLocale'] = 'English';

@@ -458,6 +458,7 @@ function enterprise_admin_action_info($smarty, $langCode)
     $contactContent = timandes_get_post_data('contact_content', 'xss_clean, remove_n_r, trim');
     $pUrlPrefix = timandes_get_post_data('purl_prefix');
     $gUrlPrefix = timandes_get_post_data('gurl_prefix');
+    $defaultLangCode = timandes_get_post_data('default_lang_code');
 
     $pUrlPrefix = preg_replace('/[^a-z]/', '', $pUrlPrefix);
     $gUrlPrefix = preg_replace('/[^a-z]/', '', $gUrlPrefix);
@@ -539,6 +540,7 @@ function enterprise_admin_action_info($smarty, $langCode)
     $values = array(
             'purl_prefix' => $pUrlPrefix,
             'gurl_prefix' => $gUrlPrefix,
+            'default_lang_code' => $defaultLangCode,
         );
     $siteDAO->update($userSiteId, $values);
 
@@ -547,6 +549,7 @@ function enterprise_admin_action_info($smarty, $langCode)
     $site['contact_content'] = $contactContent;
     $site['purl_prefix'] = $pUrlPrefix;
     $site['gurl_prefix'] = $gUrlPrefix;
+    $site['default_lang_code'] = $defaultLangCode;
     $smarty->assign('site', $site);
     
     $smarty->assign('success_msg', '修改成功');

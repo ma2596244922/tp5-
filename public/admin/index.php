@@ -28,7 +28,7 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             // Current User
             $user = enterprise_admin_grant_permission($siteId);
             $smarty->assign('user', $user);
-
+retry:
             // Site Info
             $userSiteId = (int)timandes_get_session_data('user_site_id');
             enterprise_assign_site_info($smarty, 'site', $userSiteId, $langCode);
@@ -38,6 +38,15 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
                         'site_id' => $userSiteId,
                     );
             }
+
+            if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
+                enterprise_set_default_lang_code($site['default_lang_code']);
+                // 重新获取语言代码信息
+                list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+                goto retry;
+            }
+
+            $smarty->assign('default_lang_code', $GLOBALS['gsDefaultLangCode']);
 
             enterprise_define_url_pattern_constants($site);
 
