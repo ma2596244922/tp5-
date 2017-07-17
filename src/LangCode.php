@@ -23,6 +23,9 @@ class LangCode
             'es' => array(
                     'label' => '西班牙语',
                 ),
+            'zh' => array(
+                    'label' => '中文',
+                ),
         );
 
     /**
