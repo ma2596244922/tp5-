@@ -43,6 +43,7 @@ class Site extends \crawler\daos\AbstractDAO
             'gurl_prefix' => 'text',
             'favicon' => 'text',
             'default_lang_code' => 'text',
+            'lang_codes' => 'json',
         );
 
     public function getTableName()

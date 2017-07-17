@@ -171,6 +171,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">语种：</label>
+                        <div class="col-lg-4">
+{foreach $supported_lang_codes as $lc => $meta}
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="lang_codes[{$lc}]" value="1"{if $site_lang_codes.$lc|default:'0'=='1'} checked{/if}>{$meta.label}
+                            </label>
+{/foreach}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

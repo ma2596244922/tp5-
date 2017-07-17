@@ -620,6 +620,9 @@ function enterprise_oms_action_client_info($smarty)
     // Types
     $types = \oms\daos\Site::getTypes();
     $smarty->assign('types', $types);
+    // Supported lang codes
+    $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
+    $smarty->assign('supported_lang_codes', $supportedLangCodes);
 
     $submitted = (int)timandes_get_post_data('submit');
     if (!$submitted) {
@@ -642,6 +645,7 @@ function enterprise_oms_action_client_info($smarty)
     $key = timandes_get_post_data('key');
     $enable_https = (int)timandes_get_post_data('enable_https');
     $template = timandes_get_post_data('template');
+    $langCodes = timandes_get_post_data('lang_codes');
 
     $values = array(
             'desc' => $desc,
@@ -666,6 +670,7 @@ function enterprise_oms_action_client_info($smarty)
             'enable_https' => $enable_https,
             'offline' => $offline,
             'template' => $template,
+            'lang_codes' => $langCodes,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();
@@ -675,6 +680,32 @@ function enterprise_oms_action_client_info($smarty)
     else {
         $values['site_id'] = $siteId;
         $entSiteDAO->insert($values);
+    }
+
+    // Ensure records
+    foreach ($langCodes as $lc => $v) {
+        // Lang Site
+        $langSiteDAO = new \enterprise\daos\LangSite($lc);
+        $condition = "`site_id`=" . (int)$siteId;
+        $langSite = $langSiteDAO->getOneBy($condition);
+        if (!$langSite) {
+            $values = array (
+                    'site_id' => $siteId,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $langSiteDAO->insert($values);
+        }
+        // Lang Corporation
+        $langCorporationDAO = new \enterprise\daos\LangCorporation($lc);
+        $condition = "`site_id`=" . (int)$siteId;
+        $langCorporation = $langCorporationDAO->getOneBy($condition);
+        if (!$langCorporation) {
+            $values = array (
+                    'site_id' => $siteId,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $langCorporationDAO->insert($values);
+        }
     }
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=site_dashboard&site_id=' . $siteId, '网站管理');
@@ -774,6 +805,9 @@ function enterprise_oms_assign_common($smarty)
 
         $siteMappings = enterprise_oms_get_site_mapping_list($siteId);
         $smarty->assign('site_mappings', $siteMappings);
+
+        $siteLangCodes = ($site['lang_codes']?json_decode($site['lang_codes'], true):array());
+        $smarty->assign('site_lang_codes', $siteLangCodes);
     }
 
     $types = \oms\daos\Site::getTypes();
