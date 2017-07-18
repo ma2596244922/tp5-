@@ -48,6 +48,10 @@ function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $target
             throw new \RuntimeException("Could not find target {$targetLangCode} group {$targetGroupId}");
         if ($verbose >= 2)
             fprintf(STDOUT, "Target Group: #{$targetGroupId} {$targetLangCode}" . PHP_EOL);
+        // Get Site ID
+        $targetSiteId = $group['site_id'];
+        if ($verbose >= 2)
+            fprintf(STDOUT, "Target Site: #{$targetSiteId} {$targetLangCode}" . PHP_EOL);
     }
 
     // Duplicate Products

@@ -28,12 +28,14 @@
                     <tr>
                         <th>#</th>
                         <th>摘要</th>
+                        <th>状态</th>
                         <th>&nbsp;</th>
                     </tr>
 {foreach $tasks as $i}
                     <tr>
                         <td>{$i.id}</td>
                         <td>{$i.details}</td>
+                        <td>{$i.status|call:'\oms\daos\Task::status2Text'}</td>
                         <td>
                             <a href="?action=edit_task&task_id={$i.id}">修改</a>
                         </td>

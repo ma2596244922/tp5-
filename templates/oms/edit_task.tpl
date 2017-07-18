@@ -35,6 +35,7 @@
                         <div class="col-lg-4">
                             <select class="form-control" name="source_lang_code" id="selectSourceLangCode">
                                 <option value="">（请选择）</option>
+                                <option value="en"{if $task_details.source_lang_code|default:''=='en'} selected{/if}>英语</option>
 {foreach $supported_lang_codes as $lc => $meta}
                                 <option value="{$lc}"{if $task_details.source_lang_code|default:''==$lc} selected{/if}>{$meta.label}</option>
 {/foreach}
@@ -59,6 +60,7 @@
                         <div class="col-lg-4">
                             <select class="form-control" name="target_lang_code" id="selectTargetLangCode">
                                 <option value="">（请选择）</option>
+                                <option value="en"{if $task_details.target_lang_code|default:''=='en'} selected{/if}>英语</option>
 {foreach $supported_lang_codes as $lc => $meta}
                                 <option value="{$lc}"{if $task_details.target_lang_code|default:''==$lc} selected{/if}>{$meta.label}</option>
 {/foreach}
