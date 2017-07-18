@@ -32,6 +32,10 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'edit_task':
+                    return enterprise_oms_action_edit_task($smarty);
+                case 'task':
+                    return enterprise_oms_action_task($smarty);
                 case 'vps_health':
                     return enterprise_oms_action_vps_health();
                 case 'password':
@@ -980,3 +984,115 @@ function enterprise_oms_action_vps_health()
         echo 'STATUS=' . $response->getStatusCode();
     }
 }
+
+
+/* {{{ Tasks */
+/**
+ * Assign Task List
+ */
+function enterprise_oms_assign_task_list($smarty, $var)
+{
+    $taskDAO = new \oms\daos\Task();
+    $condition = "`deleted`=0";
+    $tasks = $taskDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $tasks);
+}
+
+/**
+ * Assign Task Info
+ */
+function enterprise_oms_assign_task_info($smarty, $var, $taskId)
+{
+    $taskDAO = new \oms\daos\Task();
+    $task = $taskDAO->get($taskId);
+    $smarty->assign($var, $task);
+
+    $taskDetails = json_decode($task['details'], true);
+    $smarty->assign($var . '_details', $taskDetails);
+}
+
+/**
+ * Tasks
+ */
+function enterprise_oms_action_task($smarty)
+{
+    enterprise_oms_assign_task_list($smarty, 'tasks');
+
+    $smarty->display('oms/task.tpl');
+}
+
+/**
+ * Edit Task
+ */
+function enterprise_oms_action_edit_task($smarty)
+{
+    $types = array(
+            10, 20
+        );
+
+    $taskId = (int)timandes_get_query_data('task_id');
+
+    // Supported lang codes
+    $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
+    $smarty->assign('supported_lang_codes', $supportedLangCodes);
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($taskId)
+            enterprise_oms_assign_task_info($smarty, 'task', $taskId);
+
+        $smarty->assign('task_id', $taskId);
+
+        return $smarty->display('oms/edit_task.tpl');
+    }
+
+    $source_group_id = (int)timandes_get_post_data('source_group_id');
+    $source_lang_code = timandes_get_post_data('source_lang_code');
+    $target_type = (int)timandes_get_post_data('target_type');
+    $target_group_id = (int)timandes_get_post_data('target_group_id');
+    $target_site_id = (int)timandes_get_post_data('target_site_id');
+    $target_lang_code = timandes_get_post_data('target_lang_code');
+
+    if (!in_array($target_type, $types))
+        throw new \RuntimeException("暂不支持此目标类型{$target_type}");
+    if (!$source_group_id)
+        throw new \RuntimeException("源分组ID不能为空");
+    if (!$source_lang_code)
+        throw new \RuntimeException("源分组语种不能为空");
+    switch ($target_type) {
+        case 10:
+            if (!$target_group_id)
+                throw new \RuntimeException("目标分组ID不能为空");
+            break;
+        case 20:
+            if (!$target_site_id)
+                throw new \RuntimeException("目标站ID不能为空");
+            break;
+    }
+    if (!$target_lang_code)
+        throw new \RuntimeException("目标分组语种不能为空");
+
+    $details = array (
+            'source_group_id' => $source_group_id,
+            'source_lang_code' => $source_lang_code,
+            'target_type' => $target_type,
+            'target_group_id' => $target_group_id,
+            'target_site_id' => $target_site_id,
+            'target_lang_code' => $target_lang_code,
+        );
+
+    $values = array(
+            'details' => $details,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $taskDAO = new \oms\daos\Task();
+    if ($taskId) {
+        $taskDAO->update($taskId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $taskId = $taskDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=task', '任务管理');
+}
+/* }}} */

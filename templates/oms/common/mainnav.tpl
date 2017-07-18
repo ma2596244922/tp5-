@@ -13,6 +13,7 @@
                                 <li{if $page_name|default:''=="industry"} class="active"{/if}><a href="?action=industry">行业管理</a></li>
                                 <li{if $page_name|default:''=="vps"} class="active"{/if}><a href="?action=vps">VPS管理</a></li>
                                 <li{if $page_name|default:''=="operator"} class="active"{/if}><a href="?action=operator">帐号设置</a></li>
+                                <li{if $page_name|default:''=="task"} class="active"{/if}><a href="?action=task">任务管理</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="?action=dashboard1">旧主面板</a></li>

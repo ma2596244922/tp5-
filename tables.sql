@@ -804,4 +804,15 @@ CREATE TABLE `oms_operators` (
   KEY `idx_deleted` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='运营人员表';
 
+CREATE TABLE `oms_tasks` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `status` tinyint(3) NOT NULL COMMENT '状态（0-待处理；10-进行中；100-已完成）',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `details` text NOT NULL COMMENT '任务详情（JSON）',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_pending` (`deleted`, `status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';
+
 /* }}} */
