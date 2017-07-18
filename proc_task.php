@@ -19,6 +19,7 @@ $GLOBALS['gaSettings'] = array(
 
 require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/config_admin.php';
+require_once __DIR__ . '/duplicate_product.h.php';
 
 function usage()
 {
@@ -40,7 +41,7 @@ function software_info()
 }
 
 
-function proc_task()
+function proc_enterprise_task()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
     $taskTypes = array(
@@ -59,7 +60,7 @@ function proc_task()
             break;
 
         $task = $tasks[0];
-        fprintf(STDOUT, "Processing task {$task['id']} ..." . PHP_EOL);
+        fprintf(STDOUT, "Processing enterprise task {$task['id']} ..." . PHP_EOL);
 
         // In-Progress
         $taskDAO = new \blowjob\daos\Task();
@@ -118,6 +119,45 @@ function proc_task()
         fprintf(STDOUT, "Finish task processing" . PHP_EOL);
 }
 
+function proc_oms_task()
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
+
+    $taskDAO = new \oms\daos\Task();
+    $condition = "`deleted`=0 AND `status`=" . \oms\daos\Task::STATUS_PENDING;
+    $batchSize = 1;
+    do {
+        $tasks = $taskDAO->getMultiBy($condition, $batchSize);
+        if (!$tasks)
+            break;
+
+        $task = $tasks[0];
+        fprintf(STDOUT, "Processing oms task {$task['id']} ..." . PHP_EOL);
+
+        // In-Progress
+        $taskDAO = new \oms\daos\Task();
+        $values = array(
+                'status' => \oms\daos\Task::STATUS_IN_PROGRESS,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $taskDAO->update($task['id'], $values);
+
+        $details = json_decode($task['details'], true);
+        duplicate_product_source_group($details['source_group_id'], $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0);
+
+
+        $taskDAO = new \oms\daos\Task();
+        $values = array(
+                'status' => \blowjob\daos\Task::STATUS_FINISHED,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $taskDAO->update($task['id'], $values);
+    } while(true);
+
+    if ($verbose >= 2)
+        fprintf(STDOUT, "Finish task processing" . PHP_EOL);
+}
+
 function main($argc, $argv)
 {
     $type = '';
@@ -139,7 +179,8 @@ function main($argc, $argv)
     }
 
     try {
-        proc_task();
+        proc_enterprise_task();
+        proc_oms_task();
     } catch (\Exception $e) {
         $rc = new \ReflectionClass($e);
         fprintf(STDERR, "%s#%d %s" . PHP_EOL, $rc->getName(), $e->getCode(), $e->getMessage());

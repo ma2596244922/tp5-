@@ -1063,10 +1063,12 @@ function enterprise_oms_action_edit_task($smarty)
         case 10:
             if (!$target_group_id)
                 throw new \RuntimeException("目标分组ID不能为空");
+            $target_site_id = 0;
             break;
         case 20:
             if (!$target_site_id)
                 throw new \RuntimeException("目标站ID不能为空");
+            $target_group_id = 0;
             break;
     }
     if (!$target_lang_code)
