@@ -1103,7 +1103,7 @@ function enterprise_admin_action_delete_group($smarty, $site, $langCode)
         return header('Location: ?action=group&error_msg=' . urlencode('权限不足'));
 
     if (!$forceDelete) {// Check products in current group
-        $condition = "`group_id`={$groupId}";
+        $condition = "`site_id`={$userSiteId} AND `deleted`=0 AND `group_id`={$groupId}";
         $product = $productDAO->getOneBy($condition);
         if ($product) {
             header('Location: ?action=group&error_msg=' . urlencode('该分组下存在产品，无法删除'));
