@@ -1052,6 +1052,7 @@ function enterprise_oms_action_edit_task($smarty)
     $target_group_id = (int)timandes_get_post_data('target_group_id');
     $target_site_id = (int)timandes_get_post_data('target_site_id');
     $target_lang_code = timandes_get_post_data('target_lang_code');
+    $delay_until = timandes_get_post_data('delay_until');
 
     if (!in_array($target_type, $types))
         throw new \RuntimeException("暂不支持此目标类型{$target_type}");
@@ -1085,6 +1086,7 @@ function enterprise_oms_action_edit_task($smarty)
 
     $values = array(
             'details' => $details,
+            'delay_until' => $delay_until,
             'updated' => date('Y-m-d H:i:s'),
         );
     $taskDAO = new \oms\daos\Task();

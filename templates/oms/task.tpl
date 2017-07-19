@@ -28,6 +28,7 @@
                     <tr>
                         <th>#</th>
                         <th>摘要</th>
+                        <th>定时</th>
                         <th>状态</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -35,9 +36,12 @@
                     <tr>
                         <td>{$i.id}</td>
                         <td>{$i.details}</td>
+                        <td>{$i.delay_until}</td>
                         <td>{$i.status|call:'\oms\daos\Task::status2Text'}</td>
                         <td>
+    {-if $i.status==\oms\daos\Task::STATUS_PENDING}
                             <a href="?action=edit_task&task_id={$i.id}">修改</a>
+    {-/if}
                         </td>
                     </tr>
 {/foreach}

@@ -22,6 +22,7 @@ class Task extends AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'details' => 'json',
+            'delay_until' => 'text',
         );
 
     public function getTableName()

@@ -68,6 +68,12 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputDelayUntil" class="col-lg-1 control-label">定时：</label>
+                        <div class="col-lg-4">
+                            <input type="datetime-local" class="form-control" id="inputDelayUntil" name="delay_until" placeholder="2017-06-12 17:24:59">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

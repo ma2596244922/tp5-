@@ -811,6 +811,7 @@ CREATE TABLE `oms_tasks` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `details` text NOT NULL COMMENT '任务详情（JSON）',
+  `delay_until` datetime NOT NULL COMMENT '延迟至该时间启动',
   PRIMARY KEY (`id`),
   KEY `idx_get_pending` (`deleted`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';

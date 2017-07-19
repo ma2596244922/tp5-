@@ -116,15 +116,17 @@ function proc_enterprise_task()
     } while(true);
 
     if ($verbose >= 2)
-        fprintf(STDOUT, "Finish task processing" . PHP_EOL);
+        fprintf(STDOUT, "Finish enterprise task processing" . PHP_EOL);
 }
 
 function proc_oms_task()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
 
+    $baseDateTime = date('Y-m-d H:i:s');
+
     $taskDAO = new \oms\daos\Task();
-    $condition = "`deleted`=0 AND `status`=" . \oms\daos\Task::STATUS_PENDING;
+    $condition = "`deleted`=0 AND `status`=" . \oms\daos\Task::STATUS_PENDING . " AND `delay_until`<='{$baseDateTime}'";
     $batchSize = 1;
     do {
         $tasks = $taskDAO->getMultiBy($condition, $batchSize);
@@ -155,7 +157,7 @@ function proc_oms_task()
     } while(true);
 
     if ($verbose >= 2)
-        fprintf(STDOUT, "Finish task processing" . PHP_EOL);
+        fprintf(STDOUT, "Finish oms task processing" . PHP_EOL);
 }
 
 function main($argc, $argv)
