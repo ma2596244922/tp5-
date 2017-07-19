@@ -583,3 +583,31 @@ $(".menu-list .see-more a").click(function(){
             $(this).siblings("i").removeClass("less");
             }
 })
+
+$('[data-role="ShowParent"]').click(function(){
+    var listA=$('[data-role="ListType"]').children("a");
+    var val_menu = $('[data-role="SearchShow"]').html();
+    $('[data-role="selectParent"]').toggleClass('current');
+    $('[data-role="ListType"]').slideToggle('fast');
+    listA.each(function(i) {
+        var val = $(this).html();
+        if (val_menu == val) {
+            $(this).css("display", "none");
+            $(this).siblings().css("display", "block");
+        }
+    });
+})
+var listA=$('[data-role="ListType"]').children("a");
+listA.click(function(){
+    var listV=$(this).html();
+    $('[data-role="ShowParent"]').children("span").html(listV);
+    $('[data-role="ListType"]').slideUp('fast');
+    $('[data-role="selectParent"]').removeClass('current');
+})
+$(document).bind("click",function(e){
+    var target  = $(e.target);
+    if(target.closest('[data-role="selectParent"]').length == 0){
+        $('[data-role="ListType"]').slideUp('fast');
+        $('[data-role="selectParent"]').removeClass('current');
+    }
+})

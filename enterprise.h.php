@@ -1542,6 +1542,18 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
 
     // Main Products
     enterprise_assign_main_product_list($smarty, 'main_products', $siteId);
+
+    // Supported lang codes
+    $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
+    $smarty->assign('supported_lang_codes', $supportedLangCodes);
+
+    // Site lang codes
+    $site = $smarty->getTemplateVars('site');
+    $siteLangCodes = ($site['lang_codes']?json_decode($site['lang_codes'], true):array());
+    $smarty->assign('site_lang_codes', $siteLangCodes);
+
+    // Language Code
+    $smarty->assign('lang_code', $langCode);
 }
 
 /**
