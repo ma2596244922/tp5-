@@ -38,7 +38,7 @@ function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $target
             fprintf(STDOUT, "Target Site: #{$targetSiteId} {$targetLangCode}" . PHP_EOL);
 
         // Duplicate Group
-        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path']);
+        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path'], $sourceGroup['purl_prefix']);
         if ($verbose >= 2)
             fprintf(STDOUT, "Target group #{$targetGroupId} created" . PHP_EOL);
     } else {// Use Existing Group
@@ -62,9 +62,9 @@ function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $target
     $curProductId = ($fromProductId>0?$fromProductId:0);
     do {
         if ($sourceLangCode == 'en')
-            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`, `images`, `site_id`');
+            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`, `images`, `site_id`');
         else
-            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`, ep.`images`, elp.`site_id`');
+            $products = enterprise_get_product_list($sourceSiteId, $sourceLangCode, $sourceGroupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`, ep.`images`, elp.`site_id`');
         if (!$products)
             break;
 
