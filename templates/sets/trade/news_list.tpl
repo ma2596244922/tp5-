@@ -21,6 +21,7 @@
                 <a href="/">{$preset_translations.home}</a>&gt;
                 <span>{$preset_translations.news}</span>
             </p>
+{include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">

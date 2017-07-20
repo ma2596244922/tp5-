@@ -22,6 +22,7 @@
                 <a href="/">{$preset_translations.home}</a>&gt;
                 <span>{$preset_translations.site_map}</span>
             </p>
+{include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="product-map">

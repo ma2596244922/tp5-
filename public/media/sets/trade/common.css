@@ -90,10 +90,15 @@ strong, th { font-weight:bold; }
 .select-flag{ float:right; width:118px; position:absolute; right:0; top:0; }
 .select-flag.current{border:solid 1px #e1e1e1; right:-1px; top:-1px;}
 .select-flag .select-box{ width:118px; height:32px; background:#f5f5f5; margin-bottom:-6px;}
-.select-flag .select-box span{ font-size:12px; color:#666;}
+.select-flag .select-box span{ font-size:12px; color:#666; line-height:initial;}
 .select-flag .select-box span img{ margin:10px 8px 0 8px; display:inline-block; vertical-align: -1px;}
 .select-flag .select-box i{ width:10px; height:6px; display:inline-block; background:url(/media/sets/trade/slide-flag.png) left top no-repeat; position:absolute; right:7px; top:14px;}
 .select-flag .selectMenu{ width:118px; background:#f5f5f5;}
 .select-flag .selectMenu a{ height:22px; width:110px; display:block; line-height:22px; color:#666666; padding-left:8px; font-size:12px;}
 .select-flag .selectMenu a:hover{ color:#6c7c93;}
 .select-flag .selectMenu a img{ margin-right:8px;vertical-align: -1px;}
+
+.crumb{ position:relative;}
+.crumb .select-flag{top:1px;}
+.crumb .select-flag.current{ top:0;}
+.crumb .select-flag .select-box{margin-bottom:-4px;}

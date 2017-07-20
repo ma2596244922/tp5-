@@ -972,7 +972,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     }// Skip 'Common queries'
 
     // Common queries
-    enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix);
+    enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix);
 
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
@@ -1517,8 +1517,10 @@ function enterprise_assign_contact_info($smarty, $var, $contactId)
 /**
  * Common procedure
  */
-function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
+function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix, $appendFirstProductsToGroups = false, $maxAppendedProductsToGroups = null)
 {
+    $siteId = $site['site_id'];
+
     // Corporation
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId, $langCode);
     $corporation = $smarty->getTemplateVars('corporation');
@@ -1552,7 +1554,6 @@ function enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $curren
     $smarty->assign('supported_lang_codes', $supportedLangCodes);
 
     // Site lang codes
-    $site = $smarty->getTemplateVars('site');
     $siteLangCodes = ($site['lang_codes']?json_decode($site['lang_codes'], true):array());
     $smarty->assign('site_lang_codes', $siteLangCodes);
 
@@ -2061,7 +2062,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
 
-    enterprise_action_sets_common_proc($smarty, $siteId, $langCode, $currentDomainSuffix, true, 3);
+    enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix, true, 3);
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
 

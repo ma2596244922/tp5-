@@ -27,6 +27,7 @@
 {-else}
                 <span>{$preset_translations.products}</span>
 {-/if}      </p>
+{include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">

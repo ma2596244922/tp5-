@@ -20,6 +20,7 @@
         <!--nav-->
         <div class="crumb">
             <p><a href="/">{$preset_translations.home}</a>&gt;<span>{$corporation.name}</span></p>
+{include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="main-content fl-clr">

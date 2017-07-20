@@ -3285,7 +3285,7 @@ function enterprise_admin_action_email_template($smarty, $site, $langCode, $curr
             }
             $smarty->assign('product_array', $productArray);
 
-            enterprise_action_sets_common_proc($smarty, $userSiteId, $langCode, $currentDomainSuffix);
+            enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix);
 
             $templateContent = $smarty->fetch('admin/emails/edm.tpl');
             $smarty->assign('content', $templateContent);
