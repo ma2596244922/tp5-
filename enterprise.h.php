@@ -878,7 +878,9 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     }
 
     // Send Email
-    enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $email);
+    if (!$site['enable_inquiry_checking']) {// 不需要审核
+        enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $email);
+    }
 
     // Response HTML
     if (!$tplPath) {

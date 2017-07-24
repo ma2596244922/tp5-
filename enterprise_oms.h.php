@@ -326,6 +326,7 @@ function enterprise_oms_action_check_inquiry($smarty)
             $pendingInquiry = $pendingInquiryDAO->get($pendingInquiryId);
             if ($pendingInquiry) {
                 if ($submitted == 1) {// 通过
+                    // Save to inquiry table
                     $values = json_decode($pendingInquiry['data'], true);
                     $values['guid'] = enterprise_generate_guid();
                     $inquiryDAO = new \enterprise\daos\Inquiry();
@@ -336,6 +337,12 @@ function enterprise_oms_action_check_inquiry($smarty)
                         'deleted' => 1,
                     );
                 $pendingInquiryDAO->update($pendingInquiryId, $values);
+
+                if ($submitted == 1) {// 通过
+                    // Send email
+                    // 代码放在这里确保相关SQL已执行
+                    enterprise_send_inquiry_email_to_user($values['site_id'], $values['subject'], $values['message'], $values['email']);
+                }
             }
         }
     }
