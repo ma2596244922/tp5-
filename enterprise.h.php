@@ -746,6 +746,8 @@ function enterprise_upload_attachments_from_post_data()
 
 /**
  * 从POST表单获取数据保存至询盘表
+ *
+ * @return array (subject, message, email)
  */
 function enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix, $type = null, $ipAddr = null, $created = null, $targetProductId = null)
 {
@@ -819,7 +821,33 @@ function enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix, $ty
         $inquiryDAO = new \enterprise\daos\Inquiry();
         $inquiryDAO->insert($values);
     }
+
+    return array(
+            $subject, $message, $email,
+        );
 }
+
+/**
+ * 向站内的第一个用户发送询盘邮件
+ */
+function enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $replyTo)
+{
+    $userDAO = new \enterprise\daos\User();
+    $condition = "`site_id`=" . (int)$siteId;
+    $user = $userDAO->getOneBy($condition);
+    if ($user
+            && $user['email']
+            && Nette\Utils\Validators::is($user['email'], 'email')) {
+        $mailDomain = 'mail.50u50.com';
+        $from = 'no-reply@' . $mailDomain;
+        $mail = timandes_initialize_mail_message($user['email'], $from, $replyTo, $subject, $message);
+        $mailer = new Nette\Mail\SmtpMailer(array(
+                'host' => $mailDomain,
+            ));
+        $mailer->send($mail);
+    }
+}
+
 
 /**
  * 保存询盘
@@ -843,27 +871,14 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
     }
 
     try {
-        enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix);
+        list($subject, $message, $email) = enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix);
     } catch (\Exception $e) {
         header('Location: /contactnow.html');
         exit(0);
     }
 
     // Send Email
-    $userDAO = new \enterprise\daos\User();
-    $condition = "`site_id`=" . (int)$siteId;
-    $user = $userDAO->getOneBy($condition);
-    if ($user
-            && $user['email']
-            && Nette\Utils\Validators::is($user['email'], 'email')) {
-        $mailDomain = 'mail.50u50.com';
-        $from = 'no-reply@' . $mailDomain;
-        $mail = timandes_initialize_mail_message($user['email'], $from, $user['email'], $subject, $message);
-        $mailer = new Nette\Mail\SmtpMailer(array(
-                'host' => $mailDomain,
-            ));
-        $mailer->send($mail);
-    }
+    enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $email);
 
     // Response HTML
     if (!$tplPath) {
