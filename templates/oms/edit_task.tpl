@@ -29,6 +29,7 @@
                         <div class="col-lg-4">
                             <input type="text" class="form-control" id="inputSourceGroupID" name="source_group_id" value="{$task_details.source_group_id|default:''}" placeholder="123">
                         </div>
+                        <span class="help-inline">可以使用英文半角逗号“,”分隔多个ID。</span>
                     </div>
                     <div class="form-group">
                         <label for="selectSourceLangCode" class="col-lg-1 control-label">源分组语种：</label>

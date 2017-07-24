@@ -145,7 +145,13 @@ function proc_oms_task()
         $taskDAO->update($task['id'], $values);
 
         $details = json_decode($task['details'], true);
-        duplicate_product_source_group($details['source_group_id'], $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0);
+        $sourceGroupIdArray = explode(',', $details['source_group_id']);
+        if (is_array($sourceGroupIdArray)) foreach ($sourceGroupIdArray as $id) {
+            $id = trim($id);
+            if (!$id)
+                continue;
+            duplicate_product_source_group($id, $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0);
+        }
 
 
         $taskDAO = new \oms\daos\Task();

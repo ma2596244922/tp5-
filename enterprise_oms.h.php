@@ -1046,7 +1046,7 @@ function enterprise_oms_action_edit_task($smarty)
         return $smarty->display('oms/edit_task.tpl');
     }
 
-    $source_group_id = (int)timandes_get_post_data('source_group_id');
+    $source_group_id = timandes_get_post_data('source_group_id');
     $source_lang_code = timandes_get_post_data('source_lang_code');
     $target_type = (int)timandes_get_post_data('target_type');
     $target_group_id = (int)timandes_get_post_data('target_group_id');
@@ -1058,6 +1058,8 @@ function enterprise_oms_action_edit_task($smarty)
         throw new \RuntimeException("暂不支持此目标类型{$target_type}");
     if (!$source_group_id)
         throw new \RuntimeException("源分组ID不能为空");
+    if (!preg_match('/^[0-9, ]+$/', $source_group_id))
+        throw new \RuntimeException("源分组ID格式不正确");
     if (!$source_lang_code)
         throw new \RuntimeException("源分组语种不能为空");
     switch ($target_type) {
