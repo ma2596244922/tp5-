@@ -338,7 +338,6 @@ function enterprise_define_url_pattern_constants($site)
     $GLOBALS['gaUrlPrefixes']['product'] = $pUrlPrefix;
 
     $GLOBALS['gaUrlPatterns']['group'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['group'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/';
-    $GLOBALS['gaUrlPatterns']['product'] = '/^\/' . $GLOBALS['gaUrlPrefixes']['product'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/';
 }
 
 function enterprise_set_default_lang_code($langCode)
@@ -901,6 +900,57 @@ function enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $
     $smarty->display('robots.tpl');
 }
 
+/** 
+ * 尝试匹配产品页URL
+ */
+function enterprise_match_url_product($requestPath, &$productId = null, &$pageNo = null, $langCode = null, $site = null)
+{
+    $r = preg_match($GLOBALS['gaUrlPatterns']['product'], $requestPath, $matches);
+    if (!$r)
+        return false;
+
+    $prefix = $matches[1];
+    $productId = $matches[2];
+
+    if (isset($matches[4])
+            && $matches[4])
+        $pageNo = (int)$matches[4];
+    else
+        $pageNo = 1;
+
+    $prefixMatched = false;
+
+    // group.purl_prefix
+    if ($langCode) {
+        $product = enterprise_get_product_info($productId, $langCode);
+        if ($product
+                && $product['group']
+                && $product['group']['purl_prefix']) {
+            if ($prefix != $product['group']['purl_prefix'])
+                return false;
+            else
+                $prefixMatched = true;
+        }
+    }
+
+    // site.purl_prefix
+    if (!$prefixMatched
+            && $site
+            && $site['purl_prefix']) {
+        if ($prefix != $site['purl_prefix'])
+            return false;
+        else
+            $prefixMatched = true;
+    }
+
+    // sell-
+    if (!$prefixMatched
+            && $prefix != 'sell')
+        return false;
+
+    return $r;
+}
+
 /**
  * Router
  */
@@ -910,8 +960,7 @@ function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $c
 
     if ($requestPath == '/contactsave.html') {
         return enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $fakeRequestURL);
-    } elseif(preg_match($GLOBALS['gaUrlPatterns']['product'], $requestPath, $matches)) {
-        $productId = $matches[1];
+    } elseif(enterprise_match_url_product($requestPath, $productId)) {
         return enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId);
     } elseif ($requestPath == '/robots.txt') {
         return enterprise_action_robots_txt($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix);
@@ -995,13 +1044,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
         return enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
-    } elseif(preg_match($GLOBALS['gaUrlPatterns']['product'], $requestPath, $matches)) {
-        $productId = $matches[1];
-        if (isset($matches[3])
-                && $matches[3])
-            $pageNo = (int)$matches[3];
-        else
-            $pageNo = 1;
+    } elseif(enterprise_match_url_product($requestPath, $productId, $pageNo, $langCode, $site)) {
         return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_PIC, $requestPath, $matches)) {
         $productId = $matches[1];
@@ -2125,8 +2168,8 @@ function enterprise_get_quick_questions_for_inquiry($smarty)
 function enterprise_parse_id_from_product_page($reqeustPath)
 {
     if ($reqeustPath
-            && preg_match($GLOBALS['gaUrlPatterns']['product'], $reqeustPath, $matches))
-        return $matches[1];
+            && enterprise_match_url_product($requestPath, $productId, $pageNo))
+        return $productId;
     else
         return null;
 }
