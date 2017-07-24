@@ -327,10 +327,10 @@ function enterprise_oms_action_check_inquiry($smarty)
             if ($pendingInquiry) {
                 if ($submitted == 1) {// 通过
                     // Save to inquiry table
-                    $values = json_decode($pendingInquiry['data'], true);
-                    $values['guid'] = enterprise_generate_guid();
+                    $inquiryData = json_decode($pendingInquiry['data'], true);
+                    $inquiryData['guid'] = enterprise_generate_guid();
                     $inquiryDAO = new \enterprise\daos\Inquiry();
-                    $inquiryDAO->insert($values);
+                    $inquiryDAO->insert($inquiryData);
                 }
 
                 $values = array(
@@ -341,7 +341,7 @@ function enterprise_oms_action_check_inquiry($smarty)
                 if ($submitted == 1) {// 通过
                     // Send email
                     // 代码放在这里确保相关SQL已执行
-                    enterprise_send_inquiry_email_to_user($values['site_id'], $values['subject'], $values['message'], $values['email']);
+                    enterprise_send_inquiry_email_to_user($inquiryData['site_id'], $inquiryData['subject'], $inquiryData['message'], $inquiryData['email']);
                 }
             }
         }
