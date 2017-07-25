@@ -826,11 +826,35 @@ function enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix, $ty
         );
 }
 
+function enterprise_get_site_mapping_list($siteId = null)
+{
+    $siteMappingDAO = new \enterprise\daos\SiteMapping();
+    if ($siteId)
+        $condition = "sm.`site_id`={$siteId}";
+    else
+        $condition = null;
+    return $siteMappingDAO->getMultiInOrderBy($condition, 'sm.`id`, os.`id` AS `site_id`, os.`created`, os.`updated`, es.`offline`, sm.`domain`', 'sm.`domain` ASC');
+}
+
 /**
  * 向站内的第一个用户发送询盘邮件
  */
-function enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $replyTo)
+function enterprise_send_inquiry_email_to_user($siteId, $inquirySubject, $inquiryMessage, $inquiryEmail)
 {
+    $siteMappings = enterprise_get_site_mapping_list($siteId);
+    $domainDesc = '';
+    $adminDesc = '网站后台';
+    if (isset($siteMappings[0])
+            && is_array($siteMappings[0])
+            && isset($siteMappings[0]['domain'])
+            && $siteMappings[0]['domain']) {
+        $domainDesc = '（' . $siteMappings[0]['domain'] . '）';
+        $adminDesc = '<a href="http://www.' . $siteMappings[0]['domain'] . '/admin/" target="_blank">网站后台</a>';
+    }
+
+    $mailSubject = '您的网站' . $domainDesc . '收到一封询盘';
+    $mailBody = '<p>亲爱的外贸人：</p><p>　　你的网站' . $domainDesc . '来询盘啦！快登录' . $adminDesc . '跟进啦！祝你出单顺利！</p>';
+
     $userDAO = new \enterprise\daos\User();
     $condition = "`site_id`=" . (int)$siteId;
     $user = $userDAO->getOneBy($condition);
@@ -839,7 +863,7 @@ function enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $rep
             && Nette\Utils\Validators::is($user['email'], 'email')) {
         $mailDomain = 'mail.50u50.com';
         $from = 'no-reply@' . $mailDomain;
-        $mail = timandes_initialize_mail_message($user['email'], $from, $replyTo, $subject, $message);
+        $mail = timandes_initialize_mail_message($user['email'], $from, $inquiryEmail, $mailSubject, $mailBody);
         $mailer = new Nette\Mail\SmtpMailer(array(
                 'host' => $mailDomain,
             ));

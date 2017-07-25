@@ -200,12 +200,7 @@ function enterprise_oms_action_edit_site($smarty)
 
 function enterprise_oms_get_site_mapping_list($siteId = null)
 {
-    $siteMappingDAO = new \enterprise\daos\SiteMapping();
-    if ($siteId)
-        $condition = "sm.`site_id`={$siteId}";
-    else
-        $condition = null;
-    return $siteMappingDAO->getMultiInOrderBy($condition, 'sm.`id`, os.`id` AS `site_id`, os.`created`, os.`updated`, es.`offline`, sm.`domain`', 'sm.`domain` ASC');
+    return enterprise_get_site_mapping_list($siteId);
 }
 
 /**
