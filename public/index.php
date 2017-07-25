@@ -7,7 +7,6 @@
 
 require_once realpath(__DIR__ . '/../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
-require_once realpath(__DIR__ . '/../') . '/settings.php';
 
 // User Agent Parser
 $userAgent = new Jenssegers\Agent\Agent();

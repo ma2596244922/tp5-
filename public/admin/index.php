@@ -10,7 +10,6 @@ define('SESSION_FIELD_CAPTCHA_PHRASE', 'captcha_phrase');
 
 require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
-require_once realpath(__DIR__ . '/../../') . '/settings.php';
 
 function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
