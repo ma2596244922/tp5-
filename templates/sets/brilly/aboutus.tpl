@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html{$html_attr_dir}>
 <head>
   {$site.common_head_fragment}
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

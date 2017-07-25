@@ -113,6 +113,10 @@ retry:
 
         enterprise_assign_preset_translations($smarty, $langCode);
 
+        $dir = \enterprise\LangCode::getLangDir($langCode);
+        $attrDir = ($dir=='rtl'?' dir="rtl"':'');
+        $smarty->assign('html_attr_dir', $attrDir);
+
         $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
         if (null === $response)
             break;// continue routing
