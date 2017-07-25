@@ -136,7 +136,7 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="old_phrase" />
+                                            <textarea class="span6 m-wrap" name="old_phrase" rows="6"></textarea>
 
                                             <span class="help-inline"></span>
 
@@ -150,7 +150,7 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="new_phrase" id="input-new-phrase" />
+                                            <textarea class="span6 m-wrap" name="new_phrase" rows="6" id="textarea-new-phrase"></textarea>
 
                                             <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[产品标题]" type="button">插入产品标题</button>
 
@@ -356,11 +356,11 @@
 
            $('[data-role="btn-insert-to-phrase"]').click(function() {
                 var string = $(this).attr('data-config');
-                $('#input-new-phrase').insertAtCaret(string);
+                $('#textarea-new-phrase').insertAtCaret(string);
            });
 
            $('#input-remove-phrase').click(function() {
-                $('#input-new-phrase').prop('disabled', $(this).prop('checked'));
+                $('#textarea-new-phrase').prop('disabled', $(this).prop('checked'));
            });
 
         });
