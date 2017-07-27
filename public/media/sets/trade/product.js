@@ -611,3 +611,17 @@ $(document).bind("click",function(e){
         $('[data-role="selectParent"]').removeClass('current');
     }
 })
+
+
+$(".recom-product .slide-more a").click(function(){
+    var a_text=$(this).html();
+    if(a_text=="More"){
+        $(this).parent().siblings("ul").addClass("cur");
+        $(this).html("Less");
+        $(this).siblings("i").addClass("less");
+        }else if(a_text=="Less"){
+            $(this).parent().siblings("ul").removeClass("cur");
+            $(this).html("More");
+            $(this).siblings("i").removeClass("less");
+            }
+})
