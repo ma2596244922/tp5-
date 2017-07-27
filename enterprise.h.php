@@ -1437,8 +1437,11 @@ function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en
         $accItems = 0;
         foreach ($groups as $group) {
             $groupId = (int)($group['id']??$group['group_id']);
+
+            $GLOBALS['gaGroupCache'][$langCode][$groupId] = $group;
+
             $condition = "`site_id`={$siteId} AND `group_id`={$groupId} AND `deleted`=0";
-            $products = enterprise_get_product_list($siteId, $langCode, $groupId, false, 1, $maxAppendedProducts);
+            $products = enterprise_get_product_list($siteId, $langCode, $groupId, true, 1, $maxAppendedProducts);
             $group['products'] = $products;
             $retval[] = $group;
             ++$accItems;
