@@ -16,7 +16,7 @@ class LangCode
     private static $_supportedLangCodes = array(
             'ar' => array(
                     'label' => '阿拉伯语',
-                    'locale_label' => 'Arabic',
+                    'locale_label' => 'العربية',
                     'dir' => 'rtl',
                 ),
             'es' => array(
@@ -30,6 +30,10 @@ class LangCode
             'pt' => array(
                     'label' => '葡萄牙语',
                     'locale_label' => 'Português',
+                ),
+            'ru' => array(
+                    'label' => '俄语',
+                    'locale_label' => 'Русский язык',
                 ),
             'zh' => array(
                     'label' => '中文',
