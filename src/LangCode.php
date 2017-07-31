@@ -19,6 +19,10 @@ class LangCode
                     'locale_label' => 'العربية',
                     'dir' => 'rtl',
                 ),
+            'el' => array(
+                    'label' => '希腊语',
+                    'locale_label' => 'Greek',
+                ),
             'es' => array(
                     'label' => '西班牙语',
                     'locale_label' => 'Español',
@@ -26,6 +30,10 @@ class LangCode
             'fr' => array(
                     'label' => '法语',
                     'locale_label' => 'Français',
+                ),
+            'id' => array(
+                    'label' => '印尼语',
+                    'locale_label' => 'Bahasa Indonesia',
                 ),
             'pt' => array(
                     'label' => '葡萄牙语',
