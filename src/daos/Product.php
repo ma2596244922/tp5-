@@ -97,4 +97,13 @@ class Product extends \crawler\daos\AbstractDAO
         $condition = "`site_id`={$siteId} and `path_sum`='" . $db->escape_string($pathSum) . "'";
         return $this->getOneBy($condition);
     }
+
+    public function getIdByIdxLookup($siteId, $pathSum)
+    {
+        $r = $this->getByIdxLookup($siteId, $pathSum);
+        if (!$r)
+            return null;
+
+        return $r['id'];
+    }
 }
