@@ -126,6 +126,9 @@ class LangProduct extends \crawler\daos\AbstractDAO
         return $this->countBySql($sql);
     }
 
+    /**
+     * @deprecated 效率低下，请使用getIdByIdxLookup()代替。
+     */
     public function getByIdxLookup($siteId, $pathSum)
     {
         $siteId = (int)$siteId;
@@ -138,5 +141,22 @@ class LangProduct extends \crawler\daos\AbstractDAO
         LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
         WHERE elp.`site_id`={$siteId} AND elp.`deleted`=0 AND ep.`path_sum`='" . $db->escape_string($pathSum) . "'";
         return $this->getOneBySql($sql);
+    }
+
+    public function getIdByIdxLookup($siteId, $pathSum)
+    {
+        $siteId = (int)$siteId;
+        $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
+        $db = \DbFactory::create($dbName);
+
+        $sql = "SELECT ep.`id` FROM `{$tableName}` AS elp
+        LEFT JOIN `enterprise_products` AS ep ON ep.`id`=elp.`product_id`
+        WHERE elp.`site_id`={$siteId} AND elp.`deleted`=0 AND ep.`path_sum`='" . $db->escape_string($pathSum) . "'";
+        $r = $this->getOneBySql($sql);
+        if (!$r)
+            return null;
+
+        return $r['id'];
     }
 }
