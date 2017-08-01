@@ -1136,9 +1136,9 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = $langProductDAO;
-    $product = $productDAO->getByIdxLookup($siteId, $requestPathSum);
-    if ($product) {
-        return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $product['id']);
+    $productId = $productDAO->getIdByIdxLookup($siteId, $requestPathSum);
+    if ($productId) {
+        return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId);
     }
 
     // 用户自建分组的自定义路径
