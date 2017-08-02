@@ -259,11 +259,11 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
     }
     if ($from) {
         $escapedFrom = $inquiryDAO->escape($from);
-        $condition .= " AND `created`>='{$escapedFrom}'";
+        $condition .= " AND `created`>='{$escapedFrom}' 00:00:00";
     }
     if ($to) {
         $escapedTo = $inquiryDAO->escape($to);
-        $condition .= " AND `created`<='{$escapedTo}'";
+        $condition .= " AND `created`<='{$escapedTo}' 23:59:59";
     }
     if (isset($type)) {
         $condition .= " AND `type`={$type}";
@@ -289,10 +289,8 @@ function enterprise_oms_action_inquiry_stats($smarty)
         $pageNo = 1;
     $max = 20;
 
-    $dashSplittedFrom = str_replace('/', '-', $from);
-    $dashSplittedTo = str_replace('/', '-', $to);
     enterprise_oms_assign_inquiry_list($smarty, 'inquiries', null, $max, $pageNo,
-        $email, $domain, $dashSplittedFrom, $dashSplittedTo, ($type<0?null:$type));
+        $email, $domain, $from, $to, ($type<0?null:$type));
 
     $queries = array(
             'action' => 'inquiry_stats',
