@@ -289,8 +289,10 @@ function enterprise_oms_action_inquiry_stats($smarty)
         $pageNo = 1;
     $max = 20;
 
+    $dashSplittedFrom = str_replace('/', '-', $from);
+    $dashSplittedTo = str_replace('/', '-', $to);
     enterprise_oms_assign_inquiry_list($smarty, 'inquiries', null, $max, $pageNo,
-        $email, $domain, $from, $to, ($type<0?null:$type));
+        $email, $domain, $dashSplittedFrom, $dashSplittedTo, ($type<0?null:$type));
 
     $queries = array(
             'action' => 'inquiry_stats',
