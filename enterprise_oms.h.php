@@ -259,11 +259,11 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
     }
     if ($from) {
         $escapedFrom = $inquiryDAO->escape($from);
-        $condition .= " AND `created`>='{$escapedFrom}' 00:00:00";
+        $condition .= " AND `created`>='{$escapedFrom} 00:00:00'";
     }
     if ($to) {
         $escapedTo = $inquiryDAO->escape($to);
-        $condition .= " AND `created`<='{$escapedTo}' 23:59:59";
+        $condition .= " AND `created`<='{$escapedTo} 23:59:59'";
     }
     if (isset($type)) {
         $condition .= " AND `type`={$type}";
