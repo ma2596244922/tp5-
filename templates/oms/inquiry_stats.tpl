@@ -76,7 +76,7 @@
                     <tr>
                         <td>{$i.subject}</td>
                         <td>
-                            <a href="#" target="_blank">查看</a>
+                            <a href="?action=view_inquiry&inquiry_id={$i.id}" target="_blank">查看</a>
                         </td>
                         <td>{$i.created}</td>
                         <td>{$i.email}</td>

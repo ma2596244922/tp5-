@@ -32,6 +32,8 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'view_inquiry':
+                    return enterprise_oms_action_view_inquiry($smarty);
                 case 'edit_task':
                     return enterprise_oms_action_edit_task($smarty);
                 case 'task':
@@ -235,6 +237,24 @@ function enterprise_oms_action_site_stats($smarty)
 /* }}} */
 
 /* {{{ Inquiries */
+
+/**
+ * View Inquiry
+ */
+function enterprise_oms_action_view_inquiry($smarty)
+{
+    $inquiryId = (int)timandes_get_query_data('inquiry_id');
+
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+    $inquiry = $inquiryDAO->get($inquiryId);
+
+    $smarty->assign('inquiry', $inquiry);
+
+    enterprise_admin_assign_inquiry_detail($smarty, $inquiry);
+
+    $smarty->display('oms/view_inquiry.tpl');
+}
+
 
 /**
  * Assign inquiry list to template
