@@ -233,7 +233,7 @@ function enterprise_oms_action_site_stats($smarty)
         null, '`products`', '`inquiries`', '`inquiry_emails`', '`deleted_inquiries`',
     ];
     $orderByTypeLabels = [
-        '开通时间', '产品数', '询盘量', '已删除询盘', '邮箱数',
+        '开通时间', '产品数', '询盘量', '邮箱数', '已删除询盘',
     ];
 
     $type = (int)timandes_get_query_data('type');
