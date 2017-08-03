@@ -2192,9 +2192,9 @@ function enterprise_get_quick_questions_for_inquiry($smarty)
         );
 }
 
-function enterprise_parse_id_from_product_page($reqeustPath)
+function enterprise_parse_id_from_product_page($requestPath)
 {
-    if ($reqeustPath
+    if ($requestPath
             && enterprise_match_url_product($requestPath, $productId, $pageNo))
         return $productId;
     else
