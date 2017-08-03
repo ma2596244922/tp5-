@@ -147,7 +147,7 @@ function enterprise_oms_action_new_site($smarty)
  * Assign site list to template
  */
 function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
-        $type = null, $industryId = null, $vpsId = null, $from = null, $to = null, $stats = false)
+        $type = null, $industryId = null, $vpsId = null, $from = null, $to = null, $stats = false, $orderBy = null)
 {
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
 
@@ -166,40 +166,58 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
     if ($conditionArray)
         $condition = " WHERE " . implode(' AND ', $conditionArray);
 
+    // Build stats conditions
+    $createdConditionArray = ['`deleted`=0'];
+    $updatedConditionArray = ['`deleted`=1'];
+    if ($from) {
+        $escapedFrom = $siteMappingDAO->escape($from);
+        $createdConditionArray[] = "`created`>='{$escapedFrom} 00:00:00'";
+        $updatedConditionArray[] = "`updated`>='{$escapedFrom} 00:00:00'";
+    }
+    if ($to) {
+        $escapedTo = $siteMappingDAO->escape($to);
+        $createdConditionArray[] = "`created`<='{$escapedTo} 23:59:59'";
+        $updatedConditionArray[] = "`updated`<='{$escapedTo} 23:59:59'";
+    }
+
+    $productDAO = new \enterprise\daos\Product();
+    $inquiryDAO = new \enterprise\daos\Inquiry();
+
+    $addFields = '';
+    if (!$orderBy)
+        $orderBy = 's.`id` DESC';
+    elseif ($stats
+            && $orderBy != 's.`id`') {
+        $addFieldArray = [];
+        $createdCondition = implode(' AND ', $createdConditionArray);
+        $addFieldArray[] = "(SELECT count(0) FROM `{$productDAO->getTableName()}` WHERE {$createdCondition} AND `site_id`=s.`id`) AS `products`";
+        $addFieldArray[] = "(SELECT count(0) FROM `{$inquiryDAO->getTableName()}` WHERE {$createdCondition} AND `site_id`=s.`id`) AS `inquiries`";
+        $addFieldArray[] = "(SELECT count(0) FROM `{$inquiryDAO->getTableName()}` WHERE {$createdCondition} AND `site_id`=s.`id`) AS `inquiry_emails`";
+        $updatedCondition = implode(' AND ', $updatedConditionArray);
+        $addFieldArray[] = "(SELECT count(0) FROM `{$inquiryDAO->getTableName()}` WHERE {$updatedCondition} AND `site_id`=s.`id`) AS `deleted_inquiries`";
+        $addFields = ', ' . implode(', ', $addFieldArray);
+    }
+
     $start = ($pageNo - 1) * $max;
-    $sql = "SELECT s.*, sm.`domain` FROM `enterprise_site_mappings` AS sm
+    $sql = "SELECT s.*, sm.`domain`{$addFields} FROM `enterprise_site_mappings` AS sm
     LEFT JOIN `oms_sites` AS s ON s.`id`=sm.`site_id`
-    {$condition} ORDER BY s.`id` DESC LIMIT {$start}, {$max}";
+    {$condition} ORDER BY {$orderBy} LIMIT {$start}, {$max}";
     $sites = $siteMappingDAO->getMultiBySql($sql);
 
     // Stats
     if ($stats
+            && !$addFields
             && is_array($sites)) {
-        $productDAO = new \enterprise\daos\Product();
-        $inquiryDAO = new \enterprise\daos\Inquiry();
-
-        $createdConditionArray = ['`deleted`=0'];
-        $updatedConditionArray = ['`deleted`=1'];
-        if ($from) {
-            $escapedFrom = $siteMappingDAO->escape($from);
-            $createdConditionArray[] = "`created`>='{$escapedFrom} 00:00:00'";
-            $updatedConditionArray[] = "`updated`>='{$escapedFrom} 00:00:00'";
-        }
-        if ($to) {
-            $escapedTo = $siteMappingDAO->escape($to);
-            $createdConditionArray[] = "`created`<='{$escapedTo} 23:59:59'";
-            $updatedConditionArray[] = "`updated`<='{$escapedTo} 23:59:59'";
-        }
         foreach ($sites as &$s) {
             $createdConditionArray[] = "`site_id`=" . (int)$s['id'];
             $updatedConditionArray[] = "`site_id`=" . (int)$s['id'];
 
-            $condition = implode(' AND ', $createdConditionArray);
-            $s['products'] = $productDAO->countBy($condition);
-            $s['inquiries'] = $inquiryDAO->countBy($condition);
-            $s['inquiry_emails'] = $inquiryDAO->countBy($condition, 'email');
-            $condition = implode(' AND ', $updatedConditionArray);
-            $s['deleted_inquiries'] = $inquiryDAO->countBy($condition);
+            $createdCondition = implode(' AND ', $createdConditionArray);
+            $s['products'] = $productDAO->countBy($createdCondition);
+            $s['inquiries'] = $inquiryDAO->countBy($createdCondition);
+            $s['inquiry_emails'] = $inquiryDAO->countBy($createdCondition, 'email');
+            $updatedCondition = implode(' AND ', $updatedConditionArray);
+            $s['deleted_inquiries'] = $inquiryDAO->countBy($updatedCondition);
         }
     }
 
@@ -211,6 +229,13 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
  */
 function enterprise_oms_action_site_stats($smarty)
 {
+    $orderByTypes = [
+        null, '`products`', '`inquiries`', '`inquiry_emails`', '`deleted_inquiries`',
+    ];
+    $orderByTypeLabels = [
+        '开通时间', '产品数', '询盘量', '已删除询盘', '邮箱数',
+    ];
+
     $type = (int)timandes_get_query_data('type');
     $industryId = (int)timandes_get_query_data('industry_id');
     $vpsId = (int)timandes_get_query_data('vps_id');
@@ -220,9 +245,16 @@ function enterprise_oms_action_site_stats($smarty)
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
+    $orderByType = (int)timandes_get_query_data('order_by_type');
+    $orderByDirection = (int)timandes_get_query_data('order_by_dir');
+    $orderBy = $orderByTypes[$orderByType]??null;
+    if ($orderBy)
+        $orderBy .= ' ' . ($orderByDirection?'ASC':'DESC');
+    elseif (!$orderByDirection)
+        $orderBy = 's.`id`';
 
     enterprise_oms_assign_site_list($smarty, 'sites', $max, $pageNo,
-        $type, $industryId, $vpsId, $from, $to, true);
+        $type, $industryId, $vpsId, $from, $to, true, $orderBy);
 
     $queries = array(
             'action' => 'site_stats',
@@ -231,6 +263,8 @@ function enterprise_oms_action_site_stats($smarty)
             'vps_id' => $vpsId,
             'from' => $from,
             'to' => $to,
+            'order_by_type' => $orderByType,
+            'order_by_dir' => $orderByDirection,
         );
     $queryString = http_build_query($queries);
     $smarty->assign('query_string', $queryString);
@@ -242,6 +276,10 @@ function enterprise_oms_action_site_stats($smarty)
     enterprise_oms_assign_vps_list($smarty, 'vpss');
 
     enterprise_oms_assign_industry_list($smarty, 'industries');
+
+    $smarty->assign('order_by_type', $orderByType);
+    $smarty->assign('order_by_dir', $orderByDirection);
+    $smarty->assign('order_by_type_labels', $orderByTypeLabels);
 
     $smarty->display('oms/site_stats.tpl');
 }

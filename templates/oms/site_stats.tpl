@@ -78,11 +78,14 @@
                 <table class="table table-striped table-bordered table-hover">
                     <tr>
                         <th>域名</th>
-                        <th>开通时间</th>
-                        <th>产品数</th>
-                        <th>询盘量</th>
-                        <th>已删除询盘</th>
-                        <th>邮箱数</th>
+{foreach $order_by_type_labels as $i => $label}
+                        <th>
+                            <a href="?{$query_string}&order_by_type={$i}&order_by_dir={if $order_by_type==$i}{!$order_by_dir}{else}0{/if}">{$label}</a>
+                            {-if $order_by_type==$i}
+                            <span class="glyphicon glyphicon-triangle-{if $order_by_dir}top{else}bottom{/if}" aria-hidden="true"></span>
+                            {-/if}
+                        </th>
+{/foreach}
                     </tr>
 {foreach $sites as $s}
                     <tr>
