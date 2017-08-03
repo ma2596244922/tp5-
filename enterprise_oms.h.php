@@ -163,14 +163,6 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
     if ($vpsId) {
         $conditionArray[] = "s.`vps_id`={$vpsId}";
     }
-    if ($from) {
-        $escapedFrom = $siteMappingDAO->escape($from);
-        $conditionArray[] = "s.`created`>='{$escapedFrom}'";
-    }
-    if ($to) {
-        $escapedTo = $siteMappingDAO->escape($to);
-        $conditionArray[] = "s.`created`<='{$escapedTo}'";
-    }
     if ($conditionArray)
         $condition = " WHERE " . implode(' AND ', $conditionArray);
 
@@ -185,12 +177,25 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
             && is_array($sites)) {
         $productDAO = new \enterprise\daos\Product();
         $inquiryDAO = new \enterprise\daos\Inquiry();
+
+        $createdConditionArray = [];
+        $updatedConditionArray = [];
+        if ($from) {
+            $escapedFrom = $siteMappingDAO->escape($from);
+            $createdConditionArray[] = "`created`>='{$escapedFrom} 00:00:00'";
+            $updatedConditionArray[] = "`updated`>='{$escapedFrom} 00:00:00'";
+        }
+        if ($to) {
+            $escapedTo = $siteMappingDAO->escape($to);
+            $createdConditionArray[] = "`created`<='{$escapedTo} 23:59:59'";
+            $updatedConditionArray[] = "`updated`<='{$escapedTo} 23:59:59'";
+        }
         foreach ($sites as &$s) {
-            $condition = "`deleted`=0 AND `site_id`=" . (int)$s['id'];
+            $condition = "`deleted`=0 AND `site_id`=" . (int)$s['id'] . " AND " . implode(' AND ', $createdConditionArray);
             $s['products'] = $productDAO->countBy($condition);
             $s['inquiries'] = $inquiryDAO->countBy($condition);
             $s['inquiry_emails'] = $inquiryDAO->countBy($condition, 'email');
-            $condition = "`deleted`=1 AND `site_id`=" . (int)$s['id'];
+            $condition = "`deleted`=1 AND `site_id`=" . (int)$s['id'] . " AND " . implode(' AND ', $updatedConditionArray);
             $s['deleted_inquiries'] = $inquiryDAO->countBy($condition);
         }
     }

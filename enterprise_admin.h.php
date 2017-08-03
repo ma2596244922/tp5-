@@ -949,6 +949,7 @@ function enterprise_admin_action_delete_inquiry($smarty, $site)
 
     // Delete
     $values = array(
+            'updated' => date('Y-m-d H:i:s'),
             'deleted' => 1,
         );
     $inquiryDAO->update($inquiryId, $values);

@@ -61,6 +61,7 @@ CREATE TABLE `enterprise_inquiries` (
   `target_product_id` int(10) unsigned NOT NULL COMMENT '目标产品ID',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
   `type` tinyint NOT NULL COMMENT '询盘类型（0-自然询盘；1-匹配询盘）',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_mutex` (`guid`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
