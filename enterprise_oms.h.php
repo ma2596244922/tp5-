@@ -32,6 +32,10 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'view_attachment':
+                    $guidHex = timandes_get_query_data('guid');
+                    echo enterprise_action_attachment_proc($guidHex);
+                    return;
                 case 'view_inquiry':
                     return enterprise_oms_action_view_inquiry($smarty);
                 case 'edit_task':

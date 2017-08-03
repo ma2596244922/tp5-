@@ -42,7 +42,7 @@
                             <li>
                                 附件:
     {-foreach $inquiry_attachments as $guid}
-                                <a href="/attachments/{$guid}" target="_blank">附件{$guid@iteration}</a>
+                                <a href="?action=view_attachment&guid={$guid}" target="_blank">附件{$guid@iteration}</a>
     {-/foreach}
                             </li>
 {/if}
