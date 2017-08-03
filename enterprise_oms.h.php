@@ -230,10 +230,10 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
 function enterprise_oms_action_site_stats($smarty)
 {
     $orderByTypes = [
-        null, '`products`', '`inquiries`', '`inquiry_emails`', '`deleted_inquiries`',
+        null, '`products`', '`inquiries`', '`deleted_inquiries`', '`inquiry_emails`',
     ];
     $orderByTypeLabels = [
-        '开通时间', '产品数', '询盘量', '邮箱数', '已删除询盘',
+        '开通时间', '产品数', '询盘量', '已删除询盘', '邮箱数',
     ];
 
     $type = (int)timandes_get_query_data('type');
