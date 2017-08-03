@@ -250,7 +250,7 @@ function enterprise_oms_action_site_stats($smarty)
     $orderBy = $orderByTypes[$orderByType]??null;
     if ($orderBy)
         $orderBy .= ' ' . ($orderByDirection?'ASC':'DESC');
-    elseif (!$orderByDirection)
+    elseif ($orderByDirection)
         $orderBy = 's.`id`';
 
     enterprise_oms_assign_site_list($smarty, 'sites', $max, $pageNo,
