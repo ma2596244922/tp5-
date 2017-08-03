@@ -46,6 +46,10 @@
     {-/foreach}
                             </li>
 {/if}
+                            <li>
+                                询盘目标: 
+                                <a href="http://{$inquiry.domain}" target="_blank">{$inquiry.domain}</a>
+                            </li>
                         </ul>
                         {$inquiry.message}
                     </div>
