@@ -103,6 +103,8 @@ function enterprise_oms_add_records_for_related_tables($siteId, $domain)
             'template' => 'trade',
             'updated' => $nowString,
             'start_year' => 2017,
+            'enable_mobile_sites' => 1,
+            'enable_inquiry_checking' => 1,
         );
     $siteDAO->insert($values);
 
