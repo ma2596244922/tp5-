@@ -117,7 +117,7 @@ $presetTranslations = array(
     'next_page' => 'Halaman Selanjutnya',
     'the_user_has_not_provide_such_information' => 'Pengguna Belum Memberikan Informasi Seperti Itu.',
     'please_enter_the_content_for_your_inquiry' => 'Harap Masukkan Konten Untuk Pertanyaan Anda.',
-    'placeholder_of_inquiry_message' => "Untuk Hasil Terbaik, Sebaiknya Sertakan Rincian Berikut: \ N-pengenalan Diri \ N-spesifikasi Yang Diperlukan \ N-tanyakan Tentang Harga / Moq',
+    'placeholder_of_inquiry_message' => "Untuk Hasil Terbaik, Sebaiknya Sertakan Rincian Berikut: \n-pengenalan Diri \n-spesifikasi Yang Diperlukan \n-tanyakan Tentang Harga / Moq",
     'please_enter_a_subject_for_your_inquiry' => 'Harap Masukkan Subjek Untuk Pertanyaan Anda',
 
     'all_about_us_desc' => 'Tujuan Kami Adalah Untuk Memberi Anda Layanan Tur Dengan Kualitas Terbaik, Dan Kami Akan Melakukannya',
