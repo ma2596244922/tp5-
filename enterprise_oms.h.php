@@ -178,8 +178,8 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
         $productDAO = new \enterprise\daos\Product();
         $inquiryDAO = new \enterprise\daos\Inquiry();
 
-        $createdConditionArray = [];
-        $updatedConditionArray = [];
+        $createdConditionArray = ['`deleted`=0'];
+        $updatedConditionArray = ['`deleted`=1'];
         if ($from) {
             $escapedFrom = $siteMappingDAO->escape($from);
             $createdConditionArray[] = "`created`>='{$escapedFrom} 00:00:00'";
@@ -191,11 +191,14 @@ function enterprise_oms_assign_site_list($smarty, $var, $max = 10, $pageNo = 1,
             $updatedConditionArray[] = "`updated`<='{$escapedTo} 23:59:59'";
         }
         foreach ($sites as &$s) {
-            $condition = "`deleted`=0 AND `site_id`=" . (int)$s['id'] . " AND " . implode(' AND ', $createdConditionArray);
+            $createdConditionArray[] = "`site_id`=" . (int)$s['id'];
+            $updatedConditionArray[] = "`site_id`=" . (int)$s['id'];
+
+            $condition = implode(' AND ', $createdConditionArray);
             $s['products'] = $productDAO->countBy($condition);
             $s['inquiries'] = $inquiryDAO->countBy($condition);
             $s['inquiry_emails'] = $inquiryDAO->countBy($condition, 'email');
-            $condition = "`deleted`=1 AND `site_id`=" . (int)$s['id'] . " AND " . implode(' AND ', $updatedConditionArray);
+            $condition = implode(' AND ', $updatedConditionArray);
             $s['deleted_inquiries'] = $inquiryDAO->countBy($condition);
         }
     }
