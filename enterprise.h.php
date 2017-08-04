@@ -1408,7 +1408,7 @@ function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $addi
         $condition = "`site_id`={$siteId} AND `deleted`=0";
     } else {
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
-        $fields = 'lg.*, g.`id`, g.`path`';
+        $fields = 'lg.*, g.`id`, g.`path`, g.`purl_prefix`';
         $condition = "lg.`site_id`={$siteId} AND lg.`deleted`=0";
     }
     $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
