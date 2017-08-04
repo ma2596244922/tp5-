@@ -93,6 +93,9 @@ CREATE TABLE `enterprise_groups` (
   `path`text NOT NULL COMMENT '自定义路径',
   `path_sum` binary(16) NOT NULL COMMENT '自定义路径的摘要',
   `purl_prefix` varchar(15) NOT NULL COMMENT '产品URL前缀',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`),
   KEY `idx_lookup` (`site_id`, `path_sum`)
@@ -406,6 +409,9 @@ CREATE TABLE `enterprise_fr_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-用户自建分组表';
@@ -504,6 +510,9 @@ CREATE TABLE `enterprise_pt_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-用户自建分组表';
@@ -602,6 +611,9 @@ CREATE TABLE `enterprise_es_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西班牙语-用户自建分组表';
@@ -701,6 +713,9 @@ CREATE TABLE `enterprise_zh_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='中文-用户自建分组表';
@@ -800,6 +815,9 @@ CREATE TABLE `enterprise_ar_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿拉伯语-用户自建分组表';
@@ -899,6 +917,9 @@ CREATE TABLE `enterprise_ru_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='俄语-用户自建分组表';
@@ -998,6 +1019,9 @@ CREATE TABLE `enterprise_el_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='希腊语-用户自建分组表';
@@ -1096,6 +1120,9 @@ CREATE TABLE `enterprise_id_groups` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
   PRIMARY KEY (`group_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='印尼语-用户自建分组表';

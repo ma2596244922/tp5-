@@ -708,9 +708,7 @@ function enterprise_admin_action_index_tdk($smarty, $site, $langCode)
 
     $htmlTitle = timandes_get_post_data('html_title');
     $metaKeywords = timandes_get_post_data('meta_keywords');
-    $metaDescription = timandes_get_post_data('meta_description');
-    $metaDescription = str_replace("\n", '', $metaDescription);
-    $metaDescription = str_replace("\r", '', $metaDescription);
+    $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
 
     if ($langCode == 'en')
         $siteDAO = new \enterprise\daos\Site();
@@ -732,6 +730,16 @@ function enterprise_admin_action_index_tdk($smarty, $site, $langCode)
     $smarty->display($tplPath);
 }
 
+/** 
+ * 去掉\r和\n
+ */
+function strip_rn($s)
+{
+    $s = str_replace("\n", '', $s);
+    $s = str_replace("\r", '', $s);
+    return $s;
+}
+
 /**
  * Change product tdk
  */
@@ -750,10 +758,8 @@ function enterprise_admin_action_product_tdk($smarty, $site, $langCode)
 
     $htmlTitle = timandes_get_post_data('html_title');
     $metaKeywords = timandes_get_post_data('meta_keywords');
-    $metaDescription = timandes_get_post_data('meta_description');
-    $metaDescription = str_replace("\n", '', $metaDescription);
-    $metaDescription = str_replace("\r", '', $metaDescription);
-    $tdkScope = (int)timandes_get_post_data('tdk_scope');
+    $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
+    $tdkScope = 0;
     $groupId = (int)timandes_get_post_data('group_id');
 
     if ($tdkScope > 0) 
@@ -1008,7 +1014,8 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
     $smarty->assign($var, enterprise_get_group_info($groupId, $langCode));
 }
 
-function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null)
+function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null
+        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null)
 {
     // Language Group
     $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
@@ -1027,6 +1034,9 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
     if (!$langGroupDAO) {// English only
         $values['site_id'] = $userSiteId;
         $values['name'] = $groupName;
+        $values['product_html_title'] = $htmlTitle;
+        $values['product_meta_keywords'] = $metaKeywords;
+        $values['product_meta_description'] = $metaDescription;
     }
     if ($groupId) {// Edit
         // Authentication
@@ -1046,6 +1056,9 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
         $values = array(
                 'site_id' => $userSiteId,
                 'name' => $groupName,
+                'product_html_title' => $htmlTitle,
+                'product_meta_keywords' => $metaKeywords,
+                'product_meta_description' => $metaDescription,
                 'updated' => date('Y-m-d H:i:s'),
             );
         if ($groupId) {// Edit
@@ -1085,11 +1098,14 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     if ($path)
         $path = '/' . ltrim($path, '/');
     $pUrlPrefix = timandes_get_post_data('purl_prefix');
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
 
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
-    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix);
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }

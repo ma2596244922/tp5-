@@ -20,6 +20,9 @@ class LangGroup extends \crawler\daos\AbstractDAO
             'updated' => 'text',
             'cnt' => 'int',
             'deleted' => 'tinyint',
+            'product_html_title' => 'text',
+            'product_meta_keywords' => 'text',
+            'product_meta_description' => 'text',
         );
 
     private $_langCode = '';

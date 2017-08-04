@@ -1788,6 +1788,13 @@ function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $
             $descriptionTemplate = $site['product_meta_description'];
     }
 
+    if ($productGroup['product_html_title'])
+        $titleTemplate = $productGroup['product_html_title'];
+    if ($productGroup['product_meta_keywords'])
+        $keywordsTemplate = $productGroup['product_meta_keywords'];
+    if ($productGroup['product_meta_description'])
+        $descriptionTemplate = $productGroup['product_meta_description'];
+
     $presetTitle = enterprise_replace_placeholders_in_tdk($titleTemplate, $corporation, $product, $productGroup);
     $presetKeywords = enterprise_replace_placeholders_in_tdk($keywordsTemplate, $corporation, $product, $productGroup);
     $presetDescription = enterprise_replace_placeholders_in_tdk($descriptionTemplate, $corporation, $product, $productGroup);

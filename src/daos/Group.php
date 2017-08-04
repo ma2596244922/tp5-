@@ -22,6 +22,9 @@ class Group extends \crawler\daos\AbstractDAO
             'path' => 'text',
             'path_sum' => 'text',
             'purl_prefix' => 'text',
+            'product_html_title' => 'text',
+            'product_meta_keywords' => 'text',
+            'product_meta_description' => 'text',
         );
 
     public function getTableName()

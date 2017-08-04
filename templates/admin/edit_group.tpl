@@ -168,6 +168,78 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页HTML Title</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" name="html_title" class="m-wrap span6" value="{$group.product_html_title|default:''}" id="input-html-title" />
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#input-html-title" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#input-html-title" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#input-html-title" type="button">公司名称</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag1]" data-target="#input-html-title" type="button">Tag1</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2]" data-target="#input-html-title" type="button">Tag2</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#input-html-title" type="button">Tag3</button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页Meta Keywords</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span6 m-wrap" name="meta_keywords" id="textarea-meta-keywords" rows="6">{$group.product_meta_keywords|default:''}</textarea>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题], " data-target="#textarea-meta-keywords" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组], " data-target="#textarea-meta-keywords" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称], " data-target="#textarea-meta-keywords" type="button">公司名称</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag1], " data-target="#textarea-meta-keywords" type="button">Tag1</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2], " data-target="#textarea-meta-keywords" type="button">Tag2</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3], " data-target="#textarea-meta-keywords" type="button">Tag3</button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页Meta Description</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span6 m-wrap" name="meta_description" id="textarea-meta-description" rows="6">{$group.product_meta_description|default:''}</textarea>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#textarea-meta-description" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#textarea-meta-description" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#textarea-meta-description" type="button">公司名称</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag1]" data-target="#textarea-meta-description" type="button">Tag1</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2]" data-target="#textarea-meta-description" type="button">Tag2</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#textarea-meta-description" type="button">Tag3</button>
+
+                                        </div>
+
+                                    </div>
+
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">
@@ -229,6 +301,12 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('[data-role="btn-insert-to-desc"]').click(function() {
+                var text = $(this).data('text');
+                var target = $(this).data('target');
+                $(target).insertAtCaret(text);
+           });
 
         });
 

@@ -196,16 +196,6 @@
 
                                                                 <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#textarea-meta-description" type="button">Tag3</button>
 
-                                                                <label class="radio"><input type="radio" name="tdk_scope" value="0"{if $site.product_tdk_scope==0} checked{/if} />全站</label>
-
-                                                                <label class="radio"><input type="radio" name="tdk_scope" value="-1"{if $site.product_tdk_scope>0} checked{/if} />指定分组</label>
-
-                                                                <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
-{section name=i loop=$groups}
-                                                                    <option value="{$groups[i].id}"{if $groups[i].id==$site.product_tdk_scope} selected{/if}>{$groups[i].name}</option>
-{/section}
-                                                                </select>
-
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">
