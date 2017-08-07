@@ -26,6 +26,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_INSERT_IMAGES    = 30;
     /** @var int 批量插入产品描述 */
     const TYPE_INSERT_DESC      = 40;
+    /** @var int 批量设置商务条款 */
+    const TYPE_REPLACE_TERMS    = 50;
 
     protected $_fields = array(
             'site_id' => 'int',

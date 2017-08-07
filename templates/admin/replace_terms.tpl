@@ -1,4 +1,4 @@
-{assign var=page_title value="批量替换商务条款"}<!DOCTYPE html>
+{assign var=page_title value="批量设置商务条款"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -137,6 +137,7 @@
                                         <div class="controls">
 
                                             <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+                                                <option value="0" selected>全站</option>
 {section name=i loop=$groups}
                                                 <option value="{$groups[i].id}">{$groups[i].name}</option>
 {/section}
@@ -154,13 +155,13 @@
 
                                             <label class="radio">
 
-                                                <input type="radio" name="strategy" value="0" checked />数据不为空时替换
+                                                <input type="radio" name="overwrite" value="1" checked />数据不为空时替换
 
                                             </label>
 
                                             <label class="radio">
 
-                                                <input type="radio" name="strategy" value="1" />数据不为空时跳过
+                                                <input type="radio" name="overwrite" value="0" />数据不为空时跳过
 
                                             </label>
 
@@ -276,9 +277,17 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="price" value="{$product.price|default:''}" placeholder="货币类型 + 价格区间 + 计量单位" />
+                                            <input type="text" class="span6 m-wrap" name="price" id="input-price" value="{$product.price|default:''}" placeholder="货币类型 + 价格区间 + 计量单位" />
 
                                             <span class="help-inline">请同时填写数值和单位。建议填写方式为：货币类型 + 价格区间 + 计量单位</span>
+
+                                            <div class="space10"></div>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#input-price" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#input-price" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#input-price" type="button">公司名称</button>
 
                                         </div>
 
@@ -302,9 +311,17 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="supply_ability" value="{$product.supply_ability|default:''}" placeholder="数量 + 计量单位 + per时间单位" />
+                                            <input type="text" class="span6 m-wrap" name="supply_ability" id="input-supply-ability" value="{$product.supply_ability|default:''}" placeholder="数量 + 计量单位 + per时间单位" />
 
                                             <span class="help-inline">请同时填写数值和单位。建议填写方式为：数量 + 计量单位 + per时间单位</span>
+
+                                            <div class="space10"></div>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#input-supply-ability" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#input-supply-ability" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#input-supply-ability" type="button">公司名称</button>
 
                                         </div>
 
@@ -316,9 +333,17 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="delivery_time" value="{$product.delivery_time|default:''}" />
+                                            <input type="text" class="span6 m-wrap" name="delivery_time" id="input-delivery-time" value="{$product.delivery_time|default:''}" />
 
                                             <span class="help-inline"></span>
+
+                                            <div class="space10"></div>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#input-delivery-time" type="button">产品标题</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#input-delivery-time" type="button">产品分组</button>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#input-delivery-time" type="button">公司名称</button>
 
                                         </div>
 
@@ -330,132 +355,17 @@
 
                                         <div class="controls">
 
-                                            <input type="text" class="span6 m-wrap" name="packaging_details" value="{$product.packaging_details|default:''}" />
+                                            <input type="text" class="span6 m-wrap" name="packaging_details" id="input-packaging-details" value="{$product.packaging_details|default:''}" />
 
                                             <span class="help-inline">建议填写包装形式、尺寸，各类集装箱能装载的产品件数等信息，便于买家了解。</span>
 
-                                        </div>
+                                            <div class="space10"></div>
 
-                                    </div>
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品标题]" data-target="#input-packaging-details" type="button">产品标题</button>
 
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品分组]" data-target="#input-packaging-details" type="button">产品分组</button>
 
-                                    <div class="control-group">
-
-                                        <label class="control-label">原关键词</label>
-
-                                        <div class="controls">
-
-                                            <textarea class="span6 m-wrap" name="old_phrase" rows="6"></textarea>
-
-                                            <span class="help-inline"></span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">新关键词</label>
-
-                                        <div class="controls">
-
-                                            <textarea class="span6 m-wrap" name="new_phrase" rows="6" id="textarea-new-phrase"></textarea>
-
-                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[产品标题]" type="button">插入产品标题</button>
-
-                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[产品分组]" type="button">插入产品分组</button>
-
-                                            <button class="btn btn-default" data-role="btn-insert-to-phrase" data-config="[公司名称]" type="button">插入公司名称</button>
-
-                                            <label class="checkbox">
-
-                                                <input type="checkbox" name="remove_phrase" value="1" id="input-remove-phrase" />
-
-                                                删除原关键词
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">位置</label>
-
-                                        <div class="controls">
-
-                                            <label class="radio">
-
-                                                <input type="radio" name="location" value="1" />
-
-                                                仅标题
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <div class="controls">
-
-                                            <label class="radio">
-
-                                            <input type="radio" name="location" value="2" />
-
-                                            仅Tag
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <div class="controls">
-
-                                            <label class="radio">
-
-                                            <input type="radio" name="location" value="3" />
-
-                                            仅描述
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <div class="controls">
-
-                                            <label class="radio">
-
-                                            <input type="radio" name="location" value="0" checked />
-
-                                            标题和Tag
-
-                                            </label>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div class="control-group">
-
-                                        <label class="control-label">分组</label>
-
-                                        <div class="controls">
-
-                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
-{section name=i loop=$groups}
-                                                <option value="{$groups[i].id}">{$groups[i].name}</option>
-{/section}
-                                            </select>
+                                            <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[公司名称]" data-target="#input-packaging-details" type="button">公司名称</button>
 
                                         </div>
 
@@ -487,7 +397,7 @@
 
                                         <input type="hidden" name="submit" value="replace_terms">
 
-                                        <button type="submit" class="btn blue">强势替换</button>
+                                        <button type="submit" class="btn blue">强势设置</button>
 
                                         <a href="?action=product" class="btn">取消</a>
 
@@ -569,6 +479,9 @@
                 $(target).insertAtCaret(text);
            });
 
+            $("#input-payment-terms").select2({
+                tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
+            });
         });
 
     </script>{/literal}

@@ -2109,9 +2109,61 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
 
 
 /**
+ * Replace terms proc
+ */
+function enterprise_admin_replace_terms_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = ($taskDetails['group_id']?$taskDetails['group_id']:null);
+    $overwrite = $taskDetails['overwrite'];
+    $fields = ['brand_name', 'model_number', 'certification', 'place_of_origin', 'min_order_quantity', 'price', 'payment_terms', 'supply_ability', 'delivery_time', 'packaging_details'];
+
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+    $curProductId = 0;
+    do {
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC');
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            $group = enterprise_get_group_info($product['group_id'], $langCode, true);
+
+            $searches = ['[公司名称]', '[产品分组]', '[产品标题]'];
+            $replacements = [$corporation['name'], $group['name'], $product['caption']];
+
+            $values = [];
+
+            foreach ($fields as $f) {
+                if (!$taskDetails[$f])
+                    continue;// 没有填写的字段不参与批量设置操作
+
+                if ($overwrite
+                        || !$product[$f]) {
+                    $values[$f] = str_replace($searches, $replacements, $taskDetails[$f]);
+                }
+            }
+
+            // Update
+            if ($values) {
+                $values['updated'] = date('Y-m-d H:i:s');
+                $productDAO->update($product['id'], $values);
+            }
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+}
+
+/**
  * Replace Terms
- *
- * @todo
  */
 function enterprise_admin_action_replace_terms($smarty, $site, $langCode)
 {
@@ -2127,37 +2179,43 @@ function enterprise_admin_action_replace_terms($smarty, $site, $langCode)
     }
 
     // Save
-    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r');
-    $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
     $groupId = (int)timandes_get_post_data('group_id');
-    $location = (int)timandes_get_post_data('location');
+    $overwrite = (int)timandes_get_post_data('overwrite');
+    $brandName = timandes_get_post_data('brand_name');
+    $modelNumber = timandes_get_post_data('model_number');
+    $certification = timandes_get_post_data('certification');
+    $placeOfOrigin = timandes_get_post_data('place_of_origin');
+    $minOrderQuantity = timandes_get_post_data('min_order_quantity');
+    $price = timandes_get_post_data('price');
+    $paymentTerms = timandes_get_post_data('payment_terms');
+    $supplyAbility = timandes_get_post_data('supply_ability');
+    $deliveryTime = timandes_get_post_data('delivery_time');
+    $packagingDetails = timandes_get_post_data('packaging_details');
     $background = (int)timandes_get_post_data('background');
-    $removePhrase = (int)timandes_get_post_data('remove_phrase');
-    if ($removePhrase)
-        $newPhrase = '';
 
-    $locationRange = array(0, 1, 2, 3);
-    if (!in_array($location, $locationRange))
-        throw new \RangeException("非法的位置值");
-    if (!$oldPhrase)
-        throw new \UnderflowException("原关键词不能为空");
-    if (!$removePhrase
-            && !$newPhrase)
-        throw new \UnderflowException("新关键词不能为空");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
+    $overwriteRange = array(0, 1);
+    if (!in_array($overwrite, $overwriteRange))
+        throw new \RangeException("非法的策略值");
 
     $taskDetails = array(
-            'old_phrase' => $oldPhrase,
-            'new_phrase' => $newPhrase,
             'group_id' => $groupId,
-            'location' => $location,
+            'overwrite' => $overwrite,
             'lang_code' => $langCode,
+            'brand_name' => $brandName,
+            'model_number' => $modelNumber,
+            'certification' => $certification,
+            'place_of_origin' => $placeOfOrigin,
+            'min_order_quantity' => $minOrderQuantity,
+            'price' => $price,
+            'payment_terms' => $paymentTerms,
+            'supply_ability' => $supplyAbility,
+            'delivery_time' => $deliveryTime,
+            'packaging_details' => $packagingDetails,
         );
     if ($background) {
-        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS, $taskDetails);
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_TERMS, $taskDetails);
     } else {
-        enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails);
+        enterprise_admin_replace_terms_proc($userSiteId, $taskDetails);
     }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
