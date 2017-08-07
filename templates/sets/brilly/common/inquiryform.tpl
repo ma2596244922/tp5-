@@ -3,7 +3,7 @@
       <h2 class="Til">{$preset_translations.send_inquiry}</h2>
       <div class="clear"></div>
       <div class="noPic">
-        <form action="/contactsave.html" method="POST">
+        <form action="/contactsave.html" method="POST" data-role="inquiry-form">
         <table>
           <tr>
             <th><span>*</span>Email</th>
@@ -49,7 +49,7 @@
           </tr>
           <tr>
             <td>&nbsp;</td>
-            <td><button>{$preset_translations.send_now}</button></td>
+            <td><button type="submit">{$preset_translations.send_now}</button></td>
           </tr>
         </table>
         </form>

@@ -73,7 +73,7 @@
 
 {include file="sets/brilly/common/scripts.tpl"}
 
-<script type="text/javascript">
+<script type="text/javascript">{literal}
 (function(){
   $("#quickSelect").mouseenter(function(e){
     $(this).children('dd').show()
@@ -105,7 +105,16 @@
         $(this).prev('.msg').html(s).show().parent().addClass('error')
       }
     })
-  })
+  });
+  $('[data-role="inquiry-form"]').on('submit', function(e) {console.log(e);
+    for(var i=0; i<rules.length; ++i) {
+      var s = rules[i].start();
+      if(s!==true){
+        $('#' + rules[i].dom).prev('.msg').html(s).show().parent().addClass('error');
+        e.preventDefault();
+      }
+    }
+  });
 })()
 $("#productsSearch").keyup(function(){
   console.log(this.value.length)
@@ -115,6 +124,6 @@ $("#productsSearch").keyup(function(){
   }
   $(this).next('i').removeClass('focus')
 });
-</script>
+</script>{/literal}
 </body>
 </html>
