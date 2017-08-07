@@ -58,6 +58,8 @@ retry:
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
             switch ($action) {
+                case 'replace_terms':
+                    return enterprise_admin_action_replace_terms($smarty, $site, $langCode);
                 case 'duplicate_products':
                     return enterprise_admin_action_duplicate_products($smarty, $site, $langCode);
                 case 'common_bg_image':

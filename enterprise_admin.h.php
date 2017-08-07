@@ -2107,6 +2107,63 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+
+/**
+ * Replace Terms
+ *
+ * @todo
+ */
+function enterprise_admin_action_replace_terms($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/replace_terms.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r');
+    $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
+    $groupId = (int)timandes_get_post_data('group_id');
+    $location = (int)timandes_get_post_data('location');
+    $background = (int)timandes_get_post_data('background');
+    $removePhrase = (int)timandes_get_post_data('remove_phrase');
+    if ($removePhrase)
+        $newPhrase = '';
+
+    $locationRange = array(0, 1, 2, 3);
+    if (!in_array($location, $locationRange))
+        throw new \RangeException("非法的位置值");
+    if (!$oldPhrase)
+        throw new \UnderflowException("原关键词不能为空");
+    if (!$removePhrase
+            && !$newPhrase)
+        throw new \UnderflowException("新关键词不能为空");
+    if (!$groupId)
+        throw new \UnexpectedValueException("请选择分组");
+
+    $taskDetails = array(
+            'old_phrase' => $oldPhrase,
+            'new_phrase' => $newPhrase,
+            'group_id' => $groupId,
+            'location' => $location,
+            'lang_code' => $langCode,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS, $taskDetails);
+    } else {
+        enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
+
 function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
 {
     $langCode = $taskDetails['lang_code'];
