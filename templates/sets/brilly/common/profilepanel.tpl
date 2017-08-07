@@ -5,7 +5,7 @@
         <div class="clear"></div>
         <img src="{$corporation.logo|url:'enterprise_url_image'}" class="fl"  alt="{$corporation.name}">
         <div class="info">
-          <h1>{$corporation.name}</h1>
+          <a href="/aboutus.html" title="{$corporation.name|escape}"><h1>{$corporation.name|escape}</h1></a>
           <table>
 {if $contacts[0]|default:[]}
             <tr>
@@ -18,7 +18,7 @@
               <td>{$corporation.address}</td>
             </tr>
             <tr>
-              <th>{$preset_translations.business_phone}({$preset_translations.working_time})</th>
+              <th>{$preset_translations.business_phone}</th>
               <td>{$corporation.tel_wt}</td>
             </tr>
             <tr>
