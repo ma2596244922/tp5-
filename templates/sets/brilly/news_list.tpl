@@ -49,7 +49,7 @@
             </div>
           </li>
 {foreachelse}
-          <li><p>{$preset_translations.the_user_has_not_provide_such_information}.</p></li>
+          <li class="NewsItem"><p>{$preset_translations.the_user_has_not_provide_such_information}.</p></li>
 {/foreach}
         </ul>
 {if $total_news > $page_size}
