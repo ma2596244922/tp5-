@@ -91,16 +91,5 @@
 
 {include file="sets/brilly/common/scripts.tpl"}
 
-<script type="text/javascript">
-
-$("#productsSearch").keyup(function(){
-  console.log(this.value.length)
-  if(this.value.length > 0){
-    $(this).next('i').addClass('focus')
-    return false;
-  }
-  $(this).next('i').removeClass('focus')
-});
-</script>
 </body>
 </html>
