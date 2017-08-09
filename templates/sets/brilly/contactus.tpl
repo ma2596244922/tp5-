@@ -30,6 +30,7 @@
       <div class="Left">
 {include file="sets/brilly/common/intronav.tpl"}
 {include file="sets/brilly/common/grouppanel.tpl"}
+{include file="sets/brilly/common/latestproducts.tpl"}
       </div>
       <div class="Right">
 {if $site.contact_content|default:''}

@@ -1646,6 +1646,9 @@ function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentD
 
     // Language Code
     $smarty->assign('lang_code', $langCode);
+
+    // Latest Products
+    enterprise_assign_product_list($smarty, 'latest_products', $siteId, $langCode, null, 1, 3);
 }
 
 /**

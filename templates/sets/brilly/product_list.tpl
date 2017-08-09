@@ -37,6 +37,7 @@
     <div class="Main">
       <div class="Left">
 {include file="sets/brilly/common/grouppanel.tpl"}
+{include file="sets/brilly/common/latestproducts.tpl"}
       </div>
       <div class="Right">
         <div class="ConBox">
