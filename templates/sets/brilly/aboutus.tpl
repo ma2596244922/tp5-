@@ -95,6 +95,7 @@
     </div>
   </div>
 </div>
+{include file="sets/brilly/common/links.tpl"}
 {include file="sets/brilly/common/footer.tpl"}
 
 {include file="sets/brilly/common/scripts.tpl"}

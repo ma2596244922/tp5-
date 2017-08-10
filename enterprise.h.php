@@ -1649,6 +1649,9 @@ function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentD
 
     // Latest Products
     enterprise_assign_product_list($smarty, 'latest_products', $siteId, $langCode, null, 1, 3);
+
+    // Groups In Links-Bar
+    enterprise_assign_group_list_ex($smarty, 'groups_in_links_bar', $siteId, $langCode, null, '', true, true, 3);
 }
 
 /**
