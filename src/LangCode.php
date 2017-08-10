@@ -43,6 +43,10 @@ class LangCode
                     'label' => '俄语',
                     'locale_label' => 'Русский язык',
                 ),
+            'th' => array(
+                    'label' => '泰语',
+                    'locale_label' => 'Thai',
+                ),
             'zh' => array(
                     'label' => '中文',
                     'locale_label' => '中文',
