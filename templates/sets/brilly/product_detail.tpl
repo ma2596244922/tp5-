@@ -7,6 +7,7 @@
   <title>{$title}</title>
   <meta name="keywords" content="{$keywords|escape}" />
   <meta name="description" content="{$description|escape}" />
+  <link rel="canonical" href="{$product|url:'enterprise_url_product':$page_no}" />
   {include file="sets/trade/common/definitions.tpl"}
   {include file="sets/brilly/common/styles.tpl"}
 </head>
