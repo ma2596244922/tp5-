@@ -47,6 +47,10 @@ class LangCode
                     'label' => '泰语',
                     'locale_label' => 'Thai',
                 ),
+            'uk' => array(
+                    'label' => '乌克兰语',
+                    'locale_label' => 'Русский язык',
+                ),
             'zh' => array(
                     'label' => '中文',
                     'locale_label' => '中文',
