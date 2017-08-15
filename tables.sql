@@ -1393,6 +1393,108 @@ CREATE TABLE `enterprise_uk_user_voices` (
 
 /* }}} */
 
+
+/* {{{ German */
+
+CREATE TABLE `enterprise_de_corporations` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(100) NOT NULL COMMENT '公司名称',
+  `address` varchar(100) NOT NULL COMMENT '地址',
+  `factory_address` varchar(100) NOT NULL COMMENT '厂址',
+  `business_type` varchar(45) NOT NULL COMMENT 'Business Type',
+  `main_market` varchar(45) NOT NULL COMMENT 'Main Market',
+  `brands` varchar(45) NOT NULL COMMENT 'Brands',
+  `no_of_employees` varchar(45) NOT NULL COMMENT 'No. of Employees',
+  `annual_sales` varchar(45) NOT NULL COMMENT 'Annual Sales',
+  `year_established` varchar(45) NOT NULL COMMENT 'Year Established',
+  `export_p_c` varchar(45) NOT NULL COMMENT 'Export p.c',
+  `introduction` text NOT NULL COMMENT 'Introduction',
+  `history` text NOT NULL COMMENT 'History',
+  `service` text NOT NULL COMMENT 'Service',
+  `our_team` text NOT NULL COMMENT 'Our Team',
+  `qc_profile` text NOT NULL COMMENT 'QC Profile',
+  `slogan` varchar(100) NOT NULL COMMENT '口号',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-公司表';
+
+CREATE TABLE `enterprise_de_groups` (
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `name` varchar(255) NOT NULL COMMENT '分组名称',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `cnt` int(10) unsigned NOT NULL COMMENT '产品数量',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
+  PRIMARY KEY (`group_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-用户自建分组表';
+
+CREATE TABLE `enterprise_de_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '产品标题',
+  `description` text NOT NULL COMMENT '产品描述',
+  `group_id` int(10) unsigned NOT NULL COMMENT '分组ID',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `tags` varchar(255) NOT NULL COMMENT '关键词（逗号分隔）',
+  `min_order_quantity` varchar(100) NOT NULL COMMENT '最小起订量',
+  `delivery_time` varchar(100) NOT NULL COMMENT '发货期限',
+  `packaging_details` varchar(100) NOT NULL COMMENT '常规包装',
+  `specifications` text NOT NULL COMMENT '产品属性（JSON）',
+  `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='德语-用户新发产品表';
+
+CREATE TABLE `enterprise_de_sites` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `product_cnt` int(10) unsigned NOT NULL COMMENT '产品总数',
+  `index_html_title` text NOT NULL COMMENT '首页T',
+  `index_meta_keywords` text NOT NULL COMMENT '首页K',
+  `index_meta_description` text NOT NULL COMMENT '首页D',
+  `desc_4_inquiry_sender` text NOT NULL COMMENT '信息说明',
+  `product_tdk_scope` tinyint NOT NULL COMMENT '产品页TDK有效半径（0-全站；>0-分组ID）',
+  `product_html_title` text NOT NULL COMMENT '产品页T',
+  `product_meta_keywords` text NOT NULL COMMENT '产品页K',
+  `product_meta_description` text NOT NULL COMMENT '产品页D',
+  `contact_content` text NOT NULL COMMENT '联系页替代正文',
+  `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-站点表';
+
+CREATE TABLE `enterprise_de_news` (
+  `news_id` int(10) unsigned NOT NULL COMMENT '新闻ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `caption` varchar(255) NOT NULL COMMENT '新闻标题',
+  `content` text NOT NULL COMMENT '新闻正文',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`news_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-新闻表';
+
+CREATE TABLE `enterprise_de_user_voices` (
+  `user_voice_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '赠言ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `title` varchar(100) NOT NULL COMMENT '称谓',
+  `voice` varchar(255) NOT NULL COMMENT '赠言',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`user_voice_id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-用户赠言表';
+
+/* }}} */
+
 CREATE TABLE `enterprise_main_products` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主推产品ID',
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',

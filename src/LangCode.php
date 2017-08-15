@@ -19,9 +19,13 @@ class LangCode
                     'locale_label' => 'العربية',
                     'dir' => 'rtl',
                 ),
+            'de' => array(
+                    'label' => '德语',
+                    'locale_label' => 'Deutsch',
+                ),
             'el' => array(
                     'label' => '希腊语',
-                    'locale_label' => 'Greek',
+                    'locale_label' => 'Ελληνικά',
                 ),
             'es' => array(
                     'label' => '西班牙语',
@@ -45,11 +49,11 @@ class LangCode
                 ),
             'th' => array(
                     'label' => '泰语',
-                    'locale_label' => 'Thai',
+                    'locale_label' => 'ไทย',
                 ),
             'uk' => array(
                     'label' => '乌克兰语',
-                    'locale_label' => 'Русский язык',
+                    'locale_label' => 'Українська',
                 ),
             'zh' => array(
                     'label' => '中文',
