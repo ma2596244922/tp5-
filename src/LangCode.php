@@ -39,6 +39,10 @@ class LangCode
                     'label' => '印尼语',
                     'locale_label' => 'Bahasa Indonesia',
                 ),
+            'it' => array(
+                    'label' => '意大利语',
+                    'locale_label' => 'Italiano',
+                ),
             'pt' => array(
                     'label' => '葡萄牙语',
                     'locale_label' => 'Português',
