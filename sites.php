@@ -315,4 +315,13 @@ $siteInfo = array(
         24 => array(
                 'original_domain_prefix' => 'shinlight.com',
             ),
+        140 => array(
+                'original_domain_prefix' => 'xiaofangdianqi.com',
+            ),
+        141=> array(
+                'original_domain_prefix' => 'xiaofangdianzi.com',
+            ),
+        142 => array(
+                'original_domain_prefix' => 'weixinxiaofang.com',
+            ),
     );
