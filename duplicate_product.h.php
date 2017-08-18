@@ -38,7 +38,7 @@ function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $target
             fprintf(STDOUT, "Target Site: #{$targetSiteId} {$targetLangCode}" . PHP_EOL);
 
         // Duplicate Group
-        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path'], $sourceGroup['purl_prefix'], $sourceGroup['product_html_title'], $sourceGroup['product_meta_keywords'], $sourceGroup['product_meta_description']);
+        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path'], 'happy', $sourceGroup['product_html_title'], $sourceGroup['product_meta_keywords'], $sourceGroup['product_meta_description']);
         if ($verbose >= 2)
             fprintf(STDOUT, "Target group #{$targetGroupId} created" . PHP_EOL);
     } else {// Use Existing Group
