@@ -972,7 +972,27 @@ function enterprise_admin_action_delete_inquiry($smarty, $site)
 function enterprise_admin_action_group($smarty, $site, $langCode)
 {
     $userSiteId = (int)timandes_get_session_data('user_site_id');
-    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, '', false);
+
+    
+    if ($langCode == 'en') {
+        $groupTablePrefix = '';
+        $langGroupTablePrefix = '';
+        $groupDAO = new \enterprise\daos\Group();
+    } else {
+        $groupTablePrefix = 'g.';
+        $langGroupTablePrefix = 'lg.';
+        $groupDAO = new \enterprise\daos\LangGroup($langCode);
+    }
+
+    // Filter - Keywords
+    $keywords = timandes_get_query_data('keywords');
+    $keywordsCondition = '';
+    if ($keywords) {
+        $likeKeywordsPart = 'like \'%' . $groupDAO->escape($keywords) . '%\'';
+        $keywordsCondition = '(' . $groupTablePrefix . '`purl_prefix` ' . $likeKeywordsPart . ' OR ' . $langGroupTablePrefix . '`name` ' . $likeKeywordsPart . ')';
+    }
+
+    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, $keywordsCondition, false);
 
     $smarty->display('admin/group.tpl');
 }

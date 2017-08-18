@@ -134,9 +134,21 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <div class="input-icon inline">
+
+                                            <i class="icon-envelop"></i>
+
+                                            <input class="m-wrap" type="text" id="input-keywords" placeholder="搜索关键词" value="{$smarty.get.keywords|default:''|escape}">
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
-                                <table class="table table-striped table-condensed table-hover">
+                                <table class="table table-striped table-bordered table-hover">
 
                                     <thead>
 
@@ -170,6 +182,13 @@
     {else}
                                                 {$groups[i].name}
     {/if}
+    {-if $groups[i].purl_prefix}
+                                                <br>
+
+                                                <span style="color: #7f7f7f">产品页前缀：</span>
+
+                                                {$groups[i].purl_prefix|truncate:100}
+    {-/if}
                                             </td>
 
                                             <td>{$groups[i].created}</td>
@@ -261,6 +280,14 @@
 
                 var url = '?action=delete_group&group_id=' + encodeURIComponent(groupId) + forceDeleteString;
                 location.href = url;
+           });
+
+           $('#input-keywords').keypress(function (e) {
+                if (e.which != 13)
+                    return;
+
+                var keywords = $(this).val();
+                location.href = '?action=group&keywords=' + encodeURIComponent(keywords);
            });
 
         });
