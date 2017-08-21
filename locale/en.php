@@ -137,4 +137,8 @@ $presetTranslations = array(
         'send_your_inquiry_directly_to_us' => 'Send your inquiry directly to us',
         'all_categories' => 'All Categories',
         'sorry_no_matches_were_found.' => 'Sorry! No matches were found.',
+
+        'preset_index_html_title' => 'Quality {group_1} - {corporation}',
+        'preset_index_meta_keywords' => '{group_1}, China Manufacturers, China {group_1}, cheap {group_1}',
+        'preset_index_meta_description' => 'Quality {group_1} & {group_2} for sale from {corporation}, we provide {group_1} & {group_2} for a long time at lowest price from China.',
     );

@@ -1021,14 +1021,14 @@ function enterprise_load_preset_translations($langCode)
     if (!file_exists($path))
         throw new \DomainException("Unsupported lang {$langCode}");
 
-    require_once $path;
+    include $path;
     return $presetTranslations;
 }
 
 /**
  * Assign预设翻译
  */
-function enterprise_assign_preset_translations($smarty, $langCode)
+function enterprise_get_preset_translations($smarty, $langCode)
 {
     $presetTranslations = $presetEnTranslations = enterprise_load_preset_translations('en');
     if ($langCode != 'en') {
@@ -1041,6 +1041,15 @@ function enterprise_assign_preset_translations($smarty, $langCode)
         }
     }
 
+    return $presetTranslations;
+}
+
+/**
+ * Assign预设翻译
+ */
+function enterprise_assign_preset_translations($smarty, $langCode)
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $smarty->assign('preset_translations', $presetTranslations);
 }
 
@@ -2115,18 +2124,23 @@ function enterprise_assign_user_voices($smarty, $var, $site, $userVoices = null)
 /**
  * 设置首页TDK
  */
-function enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site)
+function enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site, $langCode = 'en')
 {
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+
     $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
     $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
 
-    $presetTitle = "Quality {$group1Name} - {$corporation['name']}";
+    $searches = ['{group_1}', '{group_2}', '{corporation}'];
+    $replacements = [$group1Name, $group2Name, $corporation['name']];
+
+    $presetTitle = str_replace($searches, $replacements, $presetTranslations['preset_index_html_title']);
     $smarty->assign('title', ($site['index_html_title']?$site['index_html_title']:$presetTitle));
 
-    $presetKeywords = "{$group1Name}, China Manufacturers, China {$group1Name}, cheap {$group1Name}";
+    $presetKeywords = str_replace($searches, $replacements, $presetTranslations['preset_index_meta_keywords']);
     $smarty->assign('keywords', ($site['index_meta_keywords']?$site['index_meta_keywords']:$presetKeywords));
 
-    $presetDescription = "Quality {$group1Name} & {$group2Name} for sale from {$corporation['name']}, we provide {$group1Name} & {$group2Name} for a long time at lowest price from China.";
+    $presetDescription = str_replace($searches, $replacements, $presetTranslations['preset_index_meta_description']);
     $smarty->assign('description', ($site['index_meta_description']?$site['index_meta_description']:$presetDescription));
 }
 
@@ -2167,7 +2181,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     $groups = $smarty->getTemplateVars('groups');
 
     // TDK
-    enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site);
+    enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }

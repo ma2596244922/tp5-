@@ -699,9 +699,9 @@ function enterprise_admin_action_index_tdk($smarty, $site, $langCode)
         // Auto TDK
         enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
         $corporation = $smarty->getTemplateVars('corporation');
-        enterprise_assign_group_list($smarty, 'groups', $userSiteId, null, true, true, 3);
+        enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, '', true, true, 3);
         $groups = $smarty->getTemplateVars('groups');
-        enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site);
+        enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site, $langCode);
 
         return $smarty->display($tplPath);
     }
