@@ -51,9 +51,21 @@ class LangCode
                     'label' => '俄语',
                     'locale_label' => 'Русский язык',
                 ),
+            'sq' => array(
+                    'label' => '阿尔巴尼亚语',
+                    'locale_label' => 'Shqip',
+                ),
+            'sv' => array(
+                    'label' => '瑞典语',
+                    'locale_label' => 'Svenska',
+                ),
             'th' => array(
                     'label' => '泰语',
                     'locale_label' => 'ไทย',
+                ),
+            'tr' => array(
+                    'label' => '土耳其语',
+                    'locale_label' => 'Türkçe',
                 ),
             'uk' => array(
                     'label' => '乌克兰语',
