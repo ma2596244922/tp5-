@@ -228,6 +228,8 @@ function enterprise_extract_site_infos()
 
 /**
  * Generate GUID
+ *
+ * @deprecated timandes_generate_guid()
  */
 function enterprise_generate_guid()
 {
