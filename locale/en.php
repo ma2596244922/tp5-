@@ -165,4 +165,8 @@ $presetTranslations = array(
         'preset_contactus_html_title' => '{tel_wt} - {corporation}',
         'preset_contactus_meta_keywords' => '{corporation}, Contact Us, {tel_wt}',
         'preset_contactus_meta_description' => 'Contact us by {tel_wt}, this is a reliable company from China with good evaluation - {corporation}.',
+
+        'preset_quality_html_title' => 'Quality control - {corporation}',
+        'preset_quality_meta_keywords' => '{corporation}, Best quality, Quality control',
+        'preset_quality_meta_description' => 'Quality control - {corporation} provide {group_1} with best quality.',
     );

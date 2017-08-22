@@ -34,4 +34,8 @@ $presetTranslations = array(
         'preset_contactus_html_title' => '{tel_wt} - {corporation}',
         'preset_contactus_meta_keywords' => '{corporation}、お問い合わせ、{tel_wt}',
         'preset_contactus_meta_description' => '{tel_wt} - {corporation}までお問い合わせください。',
+
+        'preset_quality_html_title' => '品質管理 - {corporation}',
+        'preset_quality_meta_keywords' => '{corporation}、最高品質、品質管理',
+        'preset_quality_meta_description' => '品質管理 - {corporation}最高の品質で{group_1}を提供します。',
     );

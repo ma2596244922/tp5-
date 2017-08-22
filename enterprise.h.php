@@ -1109,7 +1109,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             $pageNo = 1;
         return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
     } elseif ($requestPath == '/quality.html') {
-        return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
         return enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(preg_match(PATTERN_PRODUCT_DIRECTORY, $requestPath, $matches)) {
@@ -2035,7 +2035,7 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
  *
  * @return string
  */
-function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     $siteId = $site['site_id'];
 
@@ -2057,10 +2057,13 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
     $groups = $smarty->getTemplateVars('groups');
 
     // TDK
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
-    $smarty->assign('title', "Quality control - {$corporation['name']}");
-    $smarty->assign('keywords', "{$corporation['name']}, Best quality, Quality control");
-    $smarty->assign('description', "Quality control - {$corporation['name']} provide {$group1Name} with best quality.");
+    $searches = ['{corporation}', '{group_1}'];
+    $replacements = [$corporation['name'], $group1Name];
+    $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_quality_html_title']));
+    $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_quality_meta_keywords']));
+    $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_quality_meta_description']));
 
     return $smarty->fetch($tplPath);
 }
