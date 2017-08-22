@@ -43,6 +43,10 @@ class LangCode
                     'label' => '意大利语',
                     'locale_label' => 'Italiano',
                 ),
+            'ja' => array(
+                    'label' => '日语',
+                    'locale_label' => '日本語',
+                ),
             'pt' => array(
                     'label' => '葡萄牙语',
                     'locale_label' => 'Português',
