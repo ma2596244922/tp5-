@@ -149,4 +149,8 @@ $presetTranslations = array(
         'preset_product_html_title' => 'Buy [产品标题] - [公司名称]',
         'preset_product_meta_keywords' => '[产品标题], China [产品分组] manufacturer, [产品分组] supplier, [产品分组] for sale',
         'preset_product_meta_description' => 'Buy [产品标题] from [公司名称]，[产品分组] Distributor online Service suppliers.',
+
+        'preset_pic_html_title' => 'Buy [产品标题] - [公司名称]',
+        'preset_pic_meta_keywords' => '[产品标题], China [产品分组] manufacturer, [产品分组] supplier, [产品分组] for sale',
+        'preset_pic_meta_description' => 'Buy [产品标题] from [公司名称]，[产品分组] Distributor online Service suppliers.',
     );

@@ -1789,7 +1789,7 @@ function enterprise_replace_placeholders_in_tdk($s, $corporation, $product, $pro
 /**
  * 向模板追加产品详情页的TDK
  */
-function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup, $langCode = 'en')
+function enterprise_assign_tdk_of_product_detail($smarty, $pageType, $site, $corporation, $product, $productGroup, $langCode = 'en')
 {
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
 
@@ -1797,25 +1797,31 @@ function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $
     $hitScope = ($site['product_tdk_scope'] == 0
             || $site['product_tdk_scope'] == $productGroupId);
 
-    $titleTemplate = $presetTranslations['preset_product_html_title'];
-    $keywordsTemplate = $presetTranslations['preset_product_meta_keywords'];
-    $descriptionTemplate = $presetTranslations['preset_product_meta_description'];
+    if ($pageType == ENTERPRISE_PRODUCT_PAGE_TYPE_PIC) {
+        $titleTemplate = $presetTranslations['preset_pic_html_title'];
+        $keywordsTemplate = $presetTranslations['preset_pic_meta_keywords'];
+        $descriptionTemplate = $presetTranslations['preset_pic_meta_description'];
+    } else {
+        $titleTemplate = $presetTranslations['preset_product_html_title'];
+        $keywordsTemplate = $presetTranslations['preset_product_meta_keywords'];
+        $descriptionTemplate = $presetTranslations['preset_product_meta_description'];
 
-    if ($hitScope) {
-        if ($site['product_html_title'])
-            $titleTemplate = $site['product_html_title'];
-        if ($site['product_meta_keywords'])
-            $keywordsTemplate = $site['product_meta_keywords'];
-        if ($site['product_meta_description'])
-            $descriptionTemplate = $site['product_meta_description'];
+        if ($hitScope) {
+            if ($site['product_html_title'])
+                $titleTemplate = $site['product_html_title'];
+            if ($site['product_meta_keywords'])
+                $keywordsTemplate = $site['product_meta_keywords'];
+            if ($site['product_meta_description'])
+                $descriptionTemplate = $site['product_meta_description'];
+        }
+
+        if ($productGroup['product_html_title'])
+            $titleTemplate = $productGroup['product_html_title'];
+        if ($productGroup['product_meta_keywords'])
+            $keywordsTemplate = $productGroup['product_meta_keywords'];
+        if ($productGroup['product_meta_description'])
+            $descriptionTemplate = $productGroup['product_meta_description'];
     }
-
-    if ($productGroup['product_html_title'])
-        $titleTemplate = $productGroup['product_html_title'];
-    if ($productGroup['product_meta_keywords'])
-        $keywordsTemplate = $productGroup['product_meta_keywords'];
-    if ($productGroup['product_meta_description'])
-        $descriptionTemplate = $productGroup['product_meta_description'];
 
     $presetTitle = enterprise_replace_placeholders_in_tdk($titleTemplate, $corporation, $product, $productGroup);
     $presetKeywords = enterprise_replace_placeholders_in_tdk($keywordsTemplate, $corporation, $product, $productGroup);
@@ -1880,7 +1886,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     $productGroup = $smarty->getTemplateVars('product_group');
 
     // TDK
-    enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup, $langCode);
+    enterprise_assign_tdk_of_product_detail($smarty, $pageType, $site, $corporation, $product, $productGroup, $langCode);
 
     return $smarty->fetch($tplPath);
 }

@@ -18,4 +18,8 @@ $presetTranslations = array(
         'preset_product_html_title' => '[产品标题] - [公司名称]を購入する',
         'preset_product_meta_keywords' => '[产品标题]、中国[产品分组]メーカー、[产品分组]サプライヤー、[产品分组]販売',
         'preset_product_meta_description' => '[公司名称]の品質 [产品分组]製造元から[产品标题]を購入してください。',
+
+        'preset_pic_html_title' => '高品質画像の[产品标题]',
+        'preset_pic_meta_keywords' => '品質画像、[产品标题]、[产品分组]サプライヤ',
+        'preset_pic_meta_description' => '[产品标题]写真は、中国から高品質の[产品分组]を購入しています。',
     );
