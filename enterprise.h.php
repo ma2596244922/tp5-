@@ -1789,15 +1789,17 @@ function enterprise_replace_placeholders_in_tdk($s, $corporation, $product, $pro
 /**
  * 向模板追加产品详情页的TDK
  */
-function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup)
+function enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup, $langCode = 'en')
 {
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+
     $productGroupId = (isset($productGroup['id'])?$productGroup['id']:0);
     $hitScope = ($site['product_tdk_scope'] == 0
             || $site['product_tdk_scope'] == $productGroupId);
 
-    $titleTemplate = "Buy [产品标题] - [公司名称]";
-    $keywordsTemplate = "[产品标题], China [产品分组] manufacturer, [产品分组] supplier, [产品分组] for sale";
-    $descriptionTemplate = "Buy [产品标题] from [公司名称]，[产品分组] Distributor online Service suppliers.";
+    $titleTemplate = $presetTranslations['preset_product_html_title'];
+    $keywordsTemplate = $presetTranslations['preset_product_meta_keywords'];
+    $descriptionTemplate = $presetTranslations['preset_product_meta_description'];
 
     if ($hitScope) {
         if ($site['product_html_title'])
@@ -1878,7 +1880,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     $productGroup = $smarty->getTemplateVars('product_group');
 
     // TDK
-    enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup);
+    enterprise_assign_tdk_of_product_detail($smarty, $site, $corporation, $product, $productGroup, $langCode);
 
     return $smarty->fetch($tplPath);
 }

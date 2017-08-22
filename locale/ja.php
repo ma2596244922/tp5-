@@ -14,4 +14,8 @@ $presetTranslations = array(
         'preset_aboutus_html_title' => '会社紹介 - {corporation}',
         'preset_aboutus_meta_keywords' => '{corporation}、China {corporation}、会社紹介',
         'preset_aboutus_meta_description' => 'サプライヤーの{corporation}、中国品質サプライヤーのプロフィール',
+
+        'preset_product_html_title' => '[产品标题] - [公司名称]を購入する',
+        'preset_product_meta_keywords' => '[产品标题]、中国[产品分组]メーカー、[产品分组]サプライヤー、[产品分组]販売',
+        'preset_product_meta_description' => '[公司名称]の品質 [产品分组]製造元から[产品标题]を購入してください。',
     );

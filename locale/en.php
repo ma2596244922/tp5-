@@ -145,4 +145,8 @@ $presetTranslations = array(
         'preset_aboutus_html_title' => 'Company Introduction - {corporation}',
         'preset_aboutus_meta_keywords' => '{corporation}, China {corporation}, Company Introduction',
         'preset_aboutus_meta_description' => 'Supplier\'s profile about {corporation}, we are China quality supplier and provide {group_1} & {group_2} with high quality.',
+
+        'preset_product_html_title' => 'Buy [产品标题] - [公司名称]',
+        'preset_product_meta_keywords' => '[产品标题], China [产品分组] manufacturer, [产品分组] supplier, [产品分组] for sale',
+        'preset_product_meta_description' => 'Buy [产品标题] from [公司名称]，[产品分组] Distributor online Service suppliers.',
     );
