@@ -1961,15 +1961,19 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     $phrase = $smarty->getTemplateVars('phrase');
 
     // TDK
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
     if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
         $smarty->assign('title', "Site map - all new producgts list about {$corporation['name']}{$pageInfo}");
         $smarty->assign('keywords', "Site map, New products, All categories");
         $smarty->assign('description', "Site map about the company - you can find all the latest products and categories list easily about {$corporation['name']}{$pageInfo}.");
     } elseif (null === $groupId) {// /products.html
-        $smarty->assign('title', "Product Categories - {$corporation['name']}{$pageInfo}");
-        $smarty->assign('keywords', "Product Categories, Product for sale, {$corporation['name']}");
-        $smarty->assign('description', "Product Categories - buy quality products from {$corporation['name']}{$pageInfo}.");
+        $searches = ['{corporation}', '{page_info}'];
+        $replacements = [$corporation['name'], $pageInfo];
+
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_product_index_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_description']));
     } elseif (is_array($groupId)) {// PATTERN_PRODUCT_SEARCH
         $smarty->assign('title', "Quality {$phrase} for {$corporation['name']}");
         $smarty->assign('keywords', "Quality {$phrase}，Cheap {$phrase}，China {$phrase}，{$phrase} for sale，{$phrase} manufacturer");

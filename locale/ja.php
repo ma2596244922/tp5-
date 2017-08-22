@@ -22,4 +22,8 @@ $presetTranslations = array(
         'preset_pic_html_title' => '高品質画像の[产品标题]',
         'preset_pic_meta_keywords' => '品質画像、[产品标题]、[产品分组]サプライヤ',
         'preset_pic_meta_description' => '[产品标题]写真は、中国から高品質の[产品分组]を購入しています。',
+
+        'preset_product_index_html_title' => '商品カテゴリ - {corporation}{page_info}',
+        'preset_product_index_meta_keywords' => '製品カテゴリ、販売用製品、{corporation}',
+        'preset_product_index_meta_description' => '製品カテゴリー - {corporation}{page_info}から高品質の製品を購入する。',
     );
