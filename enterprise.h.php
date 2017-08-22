@@ -1963,14 +1963,13 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     // TDK
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+    $searches = ['{corporation}', '{page_info}'];
+    $replacements = [$corporation['name'], $pageInfo];
     if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
         $smarty->assign('title', "Site map - all new producgts list about {$corporation['name']}{$pageInfo}");
         $smarty->assign('keywords', "Site map, New products, All categories");
         $smarty->assign('description', "Site map about the company - you can find all the latest products and categories list easily about {$corporation['name']}{$pageInfo}.");
     } elseif (null === $groupId) {// /products.html
-        $searches = ['{corporation}', '{page_info}'];
-        $replacements = [$corporation['name'], $pageInfo];
-
         $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_product_index_html_title']));
         $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));
         $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_description']));
@@ -1980,9 +1979,12 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $smarty->assign('description', "Quality {$phrase} supplier on sales from {$phrase} manufacturer – find China {$phrase} factory, suppliers from {$corporation['name']}.");
     } else {// $GLOBALS['gaUrlPatterns']['group']
         $group = $smarty->getTemplateVars('group');
-        $smarty->assign('title', "{$group['name']} - {$group['name']} for sale{$pageInfo}");
-        $smarty->assign('keywords', "{$group['name']}, {$corporation['name']}, Quality {$group['name']}, {$group['name']} for sale");
-        $smarty->assign('description', "Buy {$group['name']}, we provide quality {$group['name']} and by the cheap {$group['name']} we provide from China, we can establish long-term corporation{$pageInfo}.");
+        $searches[] = '{group}';
+        $replacements[] = $group['name'];
+
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_group_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_description']));
     }
 
     return $smarty->fetch($tplPath);

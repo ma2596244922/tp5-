@@ -26,4 +26,8 @@ $presetTranslations = array(
         'preset_product_index_html_title' => '商品カテゴリ - {corporation}{page_info}',
         'preset_product_index_meta_keywords' => '製品カテゴリ、販売用製品、{corporation}',
         'preset_product_index_meta_description' => '製品カテゴリー - {corporation}{page_info}から高品質の製品を購入する。',
+
+        'preset_group_html_title' => '{group} - {group}販売{page_info}',
+        'preset_group_meta_keywords' => '{group}、{corporation}、品質{group}、{group}販売',
+        'preset_group_meta_description' => '{group}を購入し、我々は品質{group}を提供し、あなたは{page_info}を望む適切な製品を選ぶことができます。',
     );

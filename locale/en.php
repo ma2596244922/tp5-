@@ -157,4 +157,8 @@ $presetTranslations = array(
         'preset_product_index_html_title' => 'Product Categories - {corporation}{page_info}',
         'preset_product_index_meta_keywords' => 'Product Categories, Product for sale, {corporation}',
         'preset_product_index_meta_description' => 'Product Categories - buy quality products from {corporation}{page_info}.',
+
+        'preset_group_html_title' => '{group} - {group} for sale{page_info}',
+        'preset_group_meta_keywords' => '{group}, {corporation}, Quality {group}, {group} for sale',
+        'preset_group_meta_description' => 'Buy {group}, we provide quality {group} and by the cheap {group} we provide from China, we can establish long-term corporation{page_info}.',
     );
