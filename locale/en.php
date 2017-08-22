@@ -173,4 +173,8 @@ $presetTranslations = array(
         'preset_directory_html_title' => 'Site map - all new producgts list about {corporation}{page_info}',
         'preset_directory_meta_keywords' => 'Site map, New products, All categories',
         'preset_directory_meta_description' => 'Site map about the company - you can find all the latest products and categories list easily about {corporation}{page_info}.',
+
+        'preset_search_html_title' => 'Quality {phrase} for {corporation}',
+        'preset_search_meta_keywords' => 'Quality {phrase}，Cheap {phrase}，China {phrase}，{phrase} for sale，{phrase} manufacturer',
+        'preset_search_meta_description' => 'Quality {phrase} supplier on sales from {phrase} manufacturer – find China {phrase} factory, suppliers from {corporation}.',
     );

@@ -1977,9 +1977,12 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));
         $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_description']));
     } elseif (is_array($groupId)) {// PATTERN_PRODUCT_SEARCH
-        $smarty->assign('title', "Quality {$phrase} for {$corporation['name']}");
-        $smarty->assign('keywords', "Quality {$phrase}，Cheap {$phrase}，China {$phrase}，{$phrase} for sale，{$phrase} manufacturer");
-        $smarty->assign('description', "Quality {$phrase} supplier on sales from {$phrase} manufacturer – find China {$phrase} factory, suppliers from {$corporation['name']}.");
+        $searches[] = '{phrase}';
+        $replacements[] = $phrase;
+
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_search_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_description']));
     } else {// $GLOBALS['gaUrlPatterns']['group']
         $group = $smarty->getTemplateVars('group');
         $searches[] = '{group}';
