@@ -1969,9 +1969,9 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     $searches = ['{corporation}', '{page_info}'];
     $replacements = [$corporation['name'], $pageInfo];
     if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
-        $smarty->assign('title', "Site map - all new producgts list about {$corporation['name']}{$pageInfo}");
-        $smarty->assign('keywords', "Site map, New products, All categories");
-        $smarty->assign('description', "Site map about the company - you can find all the latest products and categories list easily about {$corporation['name']}{$pageInfo}.");
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_directory_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_description']));
     } elseif (null === $groupId) {// /products.html
         $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_product_index_html_title']));
         $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));

@@ -169,4 +169,8 @@ $presetTranslations = array(
         'preset_quality_html_title' => 'Quality control - {corporation}',
         'preset_quality_meta_keywords' => '{corporation}, Best quality, Quality control',
         'preset_quality_meta_description' => 'Quality control - {corporation} provide {group_1} with best quality.',
+
+        'preset_directory_html_title' => 'Site map - all new producgts list about {corporation}{page_info}',
+        'preset_directory_meta_keywords' => 'Site map, New products, All categories',
+        'preset_directory_meta_description' => 'Site map about the company - you can find all the latest products and categories list easily about {corporation}{page_info}.',
     );

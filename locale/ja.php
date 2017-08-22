@@ -38,4 +38,8 @@ $presetTranslations = array(
         'preset_quality_html_title' => '品質管理 - {corporation}',
         'preset_quality_meta_keywords' => '{corporation}、最高品質、品質管理',
         'preset_quality_meta_description' => '品質管理 - {corporation}最高の品質で{group_1}を提供します。',
+
+        'preset_directory_html_title' => 'サイトマップ - {corporation}',
+        'preset_directory_meta_keywords' => 'サイトマップ、製品およびカテゴリ、{corporation}',
+        'preset_directory_meta_description' => 'サイトマップ - {corporation}に関するすべての製品とカテゴリを検索します。',
     );
