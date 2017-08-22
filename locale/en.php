@@ -161,4 +161,8 @@ $presetTranslations = array(
         'preset_group_html_title' => '{group} - {group} for sale{page_info}',
         'preset_group_meta_keywords' => '{group}, {corporation}, Quality {group}, {group} for sale',
         'preset_group_meta_description' => 'Buy {group}, we provide quality {group} and by the cheap {group} we provide from China, we can establish long-term corporation{page_info}.',
+
+        'preset_contactus_html_title' => '{tel_wt} - {corporation}',
+        'preset_contactus_meta_keywords' => '{corporation}, Contact Us, {tel_wt}',
+        'preset_contactus_meta_description' => 'Contact us by {tel_wt}, this is a reliable company from China with good evaluation - {corporation}.',
     );

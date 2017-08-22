@@ -30,4 +30,8 @@ $presetTranslations = array(
         'preset_group_html_title' => '{group} - {group}販売{page_info}',
         'preset_group_meta_keywords' => '{group}、{corporation}、品質{group}、{group}販売',
         'preset_group_meta_description' => '{group}を購入し、我々は品質{group}を提供し、あなたは{page_info}を望む適切な製品を選ぶことができます。',
+
+        'preset_contactus_html_title' => '{tel_wt} - {corporation}',
+        'preset_contactus_meta_keywords' => '{corporation}、お問い合わせ、{tel_wt}',
+        'preset_contactus_meta_description' => '{tel_wt} - {corporation}までお問い合わせください。',
     );

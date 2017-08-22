@@ -1076,7 +1076,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix);
 
     if ($requestPath == '/contactus.html') {
-        return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
         return enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(enterprise_match_url_product($requestPath, $productId, $pageNo, $langCode, $site)) {
@@ -1694,7 +1694,7 @@ function enterprise_decide_template_path($smarty, $site, $platform, $relativePat
  *
  * @return string
  */
-function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     global $contactDescMapping;
 
@@ -1714,9 +1714,12 @@ function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $plat
     $corporation = $smarty->getTemplateVars('corporation');
 
     // TDK
-    $smarty->assign('title', "{$corporation['tel_wt']} - {$corporation['name']}");
-    $smarty->assign('keywords', "{$corporation['name']}, Contact Us, {$corporation['tel_wt']}");
-    $smarty->assign('description', "Contact us by {$corporation['tel_wt']}, this is a reliable company from China with good evaluation - {$corporation['name']}.");
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+    $searches = ['{corporation}', '{tel_wt}'];
+    $replacements = [$corporation['name'], $corporation['tel_wt']];
+    $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_contactus_html_title']));
+    $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_contactus_meta_keywords']));
+    $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_contactus_meta_description']));
 
     return $smarty->fetch($tplPath);
 }
