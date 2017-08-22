@@ -1078,7 +1078,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     if ($requestPath == '/contactus.html') {
         return enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/aboutus.html') {
-        return enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix);
+        return enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif(enterprise_match_url_product($requestPath, $productId, $pageNo, $langCode, $site)) {
         return enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
     } elseif(preg_match(PATTERN_PRODUCT_PIC, $requestPath, $matches)) {
@@ -1726,7 +1726,7 @@ function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $plat
  *
  * @return string
  */
-function enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
 
@@ -1751,11 +1751,14 @@ function enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platfo
     $groups = $smarty->getTemplateVars('groups');
 
     // TDK
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
     $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
-    $smarty->assign('title', "Company Introduction - {$corporation['name']}");
-    $smarty->assign('keywords', "{$corporation['name']}, China {$corporation['name']}, Company Introduction");
-    $smarty->assign('description', "Supplier's profile about {$corporation['name']}, we are China quality supplier and provide {$group1Name} & {$group2Name} with high quality.");
+    $searches = ['{group_1}', '{group_2}', '{corporation}'];
+    $replacements = [$group1Name, $group2Name, $corporation['name']];
+    $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_aboutus_html_title']));
+    $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_aboutus_meta_keywords']));
+    $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_aboutus_meta_description']));
 
     return $smarty->fetch($tplPath);
 }

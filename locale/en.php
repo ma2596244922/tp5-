@@ -141,4 +141,8 @@ $presetTranslations = array(
         'preset_index_html_title' => 'Quality {group_1} - {corporation}',
         'preset_index_meta_keywords' => '{group_1}, China Manufacturers, China {group_1}, cheap {group_1}',
         'preset_index_meta_description' => 'Quality {group_1} & {group_2} for sale from {corporation}, we provide {group_1} & {group_2} for a long time at lowest price from China.',
+
+        'preset_aboutus_html_title' => 'Company Introduction - {corporation}',
+        'preset_aboutus_meta_keywords' => '{corporation}, China {corporation}, Company Introduction',
+        'preset_aboutus_meta_description' => 'Supplier\'s profile about {corporation}, we are China quality supplier and provide {group_1} & {group_2} with high quality.',
     );
