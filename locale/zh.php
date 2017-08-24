@@ -120,9 +120,9 @@ $presetTranslations = array(
           'placeholder_of_inquiry_message' => "为获得最佳结果，我们建议您提供以下详细信息：\n - 自我介绍\n - 必需规格\n - 查询价格/最小起订量",
           'please_enter_a_subject_for_your_inquiry' => '请输入您的询盘标题',
 
-          'all_about_us_desc' => '我们的目标是为您提供最优质的旅游服务',
-          'contact_details_desc' => '我们的目标是为您提供最优质的旅游服务',
-          'quality_control_desc' => '棉床上用品，竹枕头，竹毯，涤棉被',
+          'all_about_us_desc' => '我们的目标是为您提供最优质的产品',
+          'contact_details_desc' => '我们的目标是为您提供最优质的服务',
+          'quality_control_desc' => '电气火灾监控设备、电源监控系统、防火门监控系统、智能照明控制器',
           'product_groups' => '供应信息分类',
           'working_time' => '工作时间',
           'nonworking_time' => '非工作时间',
