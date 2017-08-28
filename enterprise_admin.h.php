@@ -3492,7 +3492,7 @@ function enterprise_admin_action_edit_news($smarty, $site, $langCode)
     if (!$submitButton) {// No form data
         // Editing?
         if ($newsId) 
-            enterprise_assign_news_info($smarty, 'news', $newsId);
+            enterprise_assign_news_info($smarty, 'news', $newsId, $langCode);
 
         return $smarty->display($tplPath);
     }
@@ -3525,7 +3525,7 @@ function enterprise_admin_action_edit_news($smarty, $site, $langCode)
     }
     if ($newsId) {// Edit
         // Authentication
-        $originalNews = $newsDAO->get($newsId);
+        $originalNews = enterprise_get_news_info($newsId, $langCode);
         if (!$originalNews
                 || $originalNews['site_id'] != $site['site_id'])
             return enterprise_admin_display_error_msg($smarty, '权限不足');

@@ -28,6 +28,9 @@ define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created
 /** @var int Max Urls per File */
 define('ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE', 5000);
 
+/** @var string Fields of News for info */
+define('ENTERPRISE_NEWS_FIELDS_FOR_INFO', 'n.`id`, ln.`caption`, n.`head_image_id`, ln.`created`, ln.`updated`, ln.`content`');
+
 /** @var int 存在Blob中的图片ID长度阀值 */
 define('ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD', 20);
 
@@ -1128,7 +1131,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
     } elseif(preg_match(PATTERN_NEWS_PAGE, $requestPath, $matches)) {
         $newsId = $matches[1];
-        return enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId);
+        return enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $newsId);
     } elseif(preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
         $guidHex = $matches[1];
         return enterprise_action_attachment_proc($guidHex);
@@ -1900,7 +1903,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
  *
  * @return string
  */
-function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $platform, $originalDomainSuffix, $currentDomainSuffix, $newsId)
+function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $newsId)
 {
     global $newsDescMapping;
 
@@ -1915,12 +1918,12 @@ function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $pl
     // Site
     $smarty->assign('site', $site);
 
-    enterprise_assign_news_info($smarty, 'news', $newsId);
-    enterprise_assign_next_news_info($smarty, 'next_news', $siteId, $newsId);
-    enterprise_assign_prev_news_info($smarty, 'prev_news', $siteId, $newsId);
+    enterprise_assign_news_info($smarty, 'news', $newsId, $langCode);
+    enterprise_assign_next_news_info($smarty, 'next_news', $siteId, $newsId, $langCode);
+    enterprise_assign_prev_news_info($smarty, 'prev_news', $siteId, $newsId, $langCode);
 
     // New Products
-    enterprise_assign_product_list($smarty, 'new_products', $siteId);
+    enterprise_assign_product_list($smarty, 'new_products', $siteId, $langCode);
 
 
     // TDK
@@ -2631,7 +2634,8 @@ function enterprise_assign_news_list($smarty, $var, $siteId, $langCode = 'en', $
         $tableName = $langNewsDAO->getTableName();
         $newsTableName = $newsDAO->getTableName();
         $condition = "ln.`site_id`={$siteId} AND ln.`deleted`=0";
-        $sql = "SELECT n.`id`, ln.`caption`, n.`head_image_id`, ln.`created`, ln.`updated`, ln.`content` FROM `{$tableName}` ln
+        $fields = ENTERPRISE_NEWS_FIELDS_FOR_INFO;
+        $sql = "SELECT {$fields} FROM `{$tableName}` ln
 LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
 WHERE {$condition}";
         $news = $langNewsDAO->getMultiBySql($sql);
@@ -2678,22 +2682,48 @@ function enterprise_assign_news_info($smarty, $var, $newsId, $langCode = 'en')
 /**
  * Assign Next News info
  */
-function enterprise_assign_next_news_info($smarty, $var, $siteId, $newsId)
+function enterprise_assign_next_news_info($smarty, $var, $siteId, $newsId, $langCode = 'en')
 {
     $newsDAO = new \enterprise\daos\News();
-    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$newsId} ORDER BY `id`";
-    $news = $newsDAO->getOneBy($condition);
+    if ($langCode == 'en') {
+        $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`>{$newsId} ORDER BY `id`";
+        $news = $newsDAO->getOneBy($condition);
+    } else {
+        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
+        $tableName = $langNewsDAO->getTableName();
+        $newsTableName = $newsDAO->getTableName();
+        $condition = "ln.`site_id`={$siteId} AND ln.`deleted`=0 AND ln.`news_id`>{$newsId}";
+        $fields = ENTERPRISE_NEWS_FIELDS_FOR_INFO;
+        $sql = "SELECT {$fields} FROM `{$tableName}` ln
+LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
+WHERE {$condition}
+ORDER BY ln.`news_id`";
+        $news = $langNewsDAO->getOneBySql($sql);
+    }
     $smarty->assign($var, $news);
 }
 
 /**
  * Assign Prev News info
  */
-function enterprise_assign_prev_news_info($smarty, $var, $siteId, $newsId)
+function enterprise_assign_prev_news_info($smarty, $var, $siteId, $newsId, $langCode = 'en')
 {
     $newsDAO = new \enterprise\daos\News();
-    $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`<{$newsId} ORDER BY `id` DESC";
-    $news = $newsDAO->getOneBy($condition);
+    if ($langCode == 'en') {
+        $condition = "`site_id`={$siteId} AND `deleted`=0 AND `id`<{$newsId} ORDER BY `id` DESC";
+        $news = $newsDAO->getOneBy($condition);
+    } else {
+        $langNewsDAO = new \enterprise\daos\LangNews($langCode);
+        $tableName = $langNewsDAO->getTableName();
+        $newsTableName = $newsDAO->getTableName();
+        $condition = "ln.`site_id`={$siteId} AND ln.`deleted`=0 AND ln.`news_id`<{$newsId}";
+        $fields = ENTERPRISE_NEWS_FIELDS_FOR_INFO;
+        $sql = "SELECT {$fields} FROM `{$tableName}` ln
+LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
+WHERE {$condition}
+ORDER BY ln.`news_id` DESC";
+        $news = $langNewsDAO->getOneBySql($sql);
+    }
     $smarty->assign($var, $news);
 }
 /* }}} */
