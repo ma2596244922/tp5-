@@ -203,7 +203,7 @@ function enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffi
         $response = str_ireplace('/logo.gif', '/logo.gif?t=123', $response);
     } elseif ($currentDomainSuffix == 'xiaofangdianzi.com'
             || $currentDomainSuffix == 'weixinxiaofang.com') {
-        $response = str_ireplace('/m/index.php', '', $response);
+        $response = str_ireplace('window.location.href="/m/index.php";', '', $response);
     }
 
     echo $response;
