@@ -201,6 +201,9 @@ function enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffi
         $response = str_ireplace('david@mocfa.org', 'robertjean68@yahoo.com', $response);//Email
         $response = str_ireplace('chinhy', '694118602@qq.com', $response);//Skype
         $response = str_ireplace('/logo.gif', '/logo.gif?t=123', $response);
+    } elseif ($currentDomainSuffix == 'xiaofangdianzi.com'
+            || $currentDomainSuffix == 'weixinxiaofang.com') {
+        $response = str_ireplace('/m/index.php', '', $response);
     }
 
     echo $response;
