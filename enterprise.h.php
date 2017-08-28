@@ -1035,6 +1035,7 @@ function enterprise_load_preset_translations($langCode)
  */
 function enterprise_get_preset_translations($smarty, $langCode)
 {
+    $untranslatedEntryPrefix = '';
     $presetTranslations = $presetEnTranslations = enterprise_load_preset_translations('en');
     if ($langCode != 'en') {
         $presetLangTranslations = enterprise_load_preset_translations($langCode);
@@ -1042,7 +1043,7 @@ function enterprise_get_preset_translations($smarty, $langCode)
             if (isset($presetLangTranslations[$key]))
                 $presetTranslations[$key] = $presetLangTranslations[$key];
             else
-                $presetTranslations[$key] = '(Pending)' . $pt;
+                $presetTranslations[$key] = $untranslatedEntryPrefix . $pt;
         }
     }
 
