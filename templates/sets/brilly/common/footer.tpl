@@ -7,7 +7,13 @@
       <span>|</span>
       <a href="/directory.html">{$preset_translations.site_map}</a>
     </p>
-    <p class="fr">{$corporation.name}. {$preset_translations.copyright} © {$site.start_year} - {$smarty.now|date_format:'%Y'} {$preset_translations.all_rights_reserved}.</p>
+    <p class="fr">
+      <a href="http://www.{$site_root_domain}/">International</a>
+{foreach $supported_lang_codes as $lc => $meta}{if $site_lang_codes.$lc|default:'0'=='0'}{continue}{/if}
+      <span>-</span>
+      <a href="http://{$lc}.{$site_root_domain}/">{$meta.locale_label}</a>
+{/foreach}
+    </p>
     <div class="clear"></div>
   </div>
 </div>
