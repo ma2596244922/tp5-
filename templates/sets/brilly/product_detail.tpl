@@ -110,7 +110,7 @@
               <dt>{$preset_translations.supply_ability}:</dt>
               <dd>{$product.supply_ability}</dd>
             </dl>{/if}
-            <a href="" class="Btn" rel="nofollow">{$preset_translations.contact_now}</a>
+            <a href="/contactnow.html" class="Btn" rel="nofollow">{$preset_translations.contact_now}</a>
           </div>
           <div class="clear"></div>
         </div>
