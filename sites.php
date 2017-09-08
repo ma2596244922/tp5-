@@ -324,4 +324,7 @@ $siteInfo = array(
         142 => array(
                 'original_domain_prefix' => 'weixinxiaofang.com',
             ),
+        150 => array(
+                'original_domain_prefix' => 'subtextproject.com',
+            ),
     );
