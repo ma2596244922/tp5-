@@ -250,6 +250,8 @@ CREATE TABLE `enterprise_sites` (
   `favicon` mediumblob NOT NULL COMMENT '收藏夹小图标数据',
   `default_lang_code` char(2) NOT NULL DEFAULT 'en' COMMENT '默认的语言代码',
   `lang_codes` text NOT NULL COMMENT '语种清单（JSON）',
+  `enable_floating_widget` tinyint unsigned NOT NULL COMMENT '是否启用漂浮框(0/1)',
+  `floating_widget_url` varchar(45) NOT NULL COMMENT '漂浮框URL',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

@@ -44,6 +44,8 @@ class Site extends \crawler\daos\AbstractDAO
             'favicon' => 'text',
             'default_lang_code' => 'text',
             'lang_codes' => 'json',
+            'enable_floating_widget' => 'tinyint',
+            'floating_widget_url' => 'text',
         );
 
     public function getTableName()

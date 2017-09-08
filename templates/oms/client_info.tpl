@@ -161,6 +161,23 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">漂浮框：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="enable_floating_widget" value="0"{if $site.enable_floating_widget|default:'0'=='0'} checked{/if}>关闭
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="enable_floating_widget" value="1"{if $site.enable_floating_widget|default:'0'=='1'} checked{/if}>开启
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputFloatingWidgetUrl" class="col-lg-1 control-label">漂浮框链接：</label>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" id="inputFloatingWidgetUrl" name="floating_widget_url" value="{$site.floating_widget_url|default:''}" placeholder="http://">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-lg-1 control-label">模板：</label>
                         <div class="col-lg-4">
                             <select class="form-control" name="template">

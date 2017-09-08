@@ -727,6 +727,8 @@ function enterprise_oms_action_client_info($smarty)
     $enable_https = (int)timandes_get_post_data('enable_https');
     $template = timandes_get_post_data('template');
     $langCodes = timandes_get_post_data('lang_codes');
+    $enable_floating_widget = (int)timandes_get_post_data('enable_floating_widget');
+    $floating_widget_url = timandes_get_post_data('floating_widget_url');
 
     $values = array(
             'desc' => $desc,
@@ -752,6 +754,8 @@ function enterprise_oms_action_client_info($smarty)
             'offline' => $offline,
             'template' => $template,
             'lang_codes' => $langCodes,
+            'enable_floating_widget' => $enable_floating_widget,
+            'floating_widget_url' => $floating_widget_url,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();

@@ -1,5 +1,7 @@
 {include file="sets/trade/common/scripts.tpl"}
-<!--<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/floating_box.js"></script>-->
+{if $site.enable_floating_widget|default:'0'}
+<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/floating_box.js"></script>
+{/if}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/product.js?t=201707191624"></script>
 {$site.common_fragment}
 {if $site.common_bg_image}
