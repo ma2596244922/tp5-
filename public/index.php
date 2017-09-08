@@ -91,6 +91,7 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
+/* {{{ 重复代码段 */
 retry:
         $site = enterprise_get_site_info($siteId, $langCode);
         if (!$site)
@@ -109,7 +110,7 @@ retry:
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
         enterprise_define_url_pattern_constants($site);
-
+/* }}} */
         enterprise_assign_preset_translations($smarty, $langCode);
 
         $dir = \enterprise\LangCode::getLangDir($langCode);

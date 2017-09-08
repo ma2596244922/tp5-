@@ -58,7 +58,7 @@ $(document).ready(function() {
     $(".send_an").append(a);
     var div = $("<div>");
     div.attr({ class: 'title_t inquiry_an open_c' });
-    $(".floating_box").append(div);
+    //$(".floating_box").append(div); // REMOVEME
     var div = $("<div>");
     div.attr({ class: 'title_pa' });
     div.html("<i title='Inquiry Basket'></i>Inquiry Basket<span></span>");
@@ -217,10 +217,10 @@ function obtain() { //获取数据
     var tt = Math.round(Math.random() * 10000);
     var m = $("#shop_id").val();
     $.ajax({
-        type: "POST",
-        url: window.location.protocol + "//trade" + DOMAIN_SUFFIX + "/common/animal/roo.php7?op=getInquiryBasket&t=" + tt + "&m=" + m,
+        type: "GET",
+        url: "/fei.php?t=" + tt + "&m=" + m,
         async: true,
-        dataType: "jsonp",
+        dataType: "json",
         jsonpCallback: "handler",
         success: function(data) {
             $('.inquiry_ul').html("");
