@@ -49,7 +49,8 @@ $(document).ready(function() {
     var a = $("<a>");
     var rightInquiryUrl = $("input[name=rightInquiryUrl]").val();
     if (rightInquiryUrl == undefined) {
-        a.attr({ href: "/index.php?op=contactnow&id=" + $.base64.encode(shop_id) + "&type=2", target: '_blank', rel: "nofollow" });
+        var targetLink = $('#input-floating-widget-url').val();
+        a.attr({ href: targetLink, target: '_blank', rel: "nofollow" });
     } else {
         a.attr({ href: rightInquiryUrl, target: '_blank', rel: "nofollow" });
     }
@@ -489,7 +490,8 @@ function inquiry_aa() {
         }
         return newStr.join("");
     }
-    $(".inquiry_aa").attr({ onclick: 'afterSendingUpdateBasketc()', alt: cutStr(str), href: "//my.trade" + DOMAIN_SUFFIX + "/index.php?op=contactnow&id=" + $.base64.encode(cutStr(str)) + "&type=1&place=detail", target: "_blank" });
+    var targetLink = $('#input-floating-widget-url').val();
+    $(".inquiry_aa").attr({ onclick: 'afterSendingUpdateBasketc()', alt: cutStr(str), href: targetLink, target: "_blank" });
 };
 
 
