@@ -1290,7 +1290,7 @@ function enterprise_admin_action_product($smarty, $langCode)
         $leftJoin1 = '';
         $diffFields = 'p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`';
         $tableAlias = 'p';
-        $orderByFields = 'p.`id`';
+        $orderByFields = 'p.`updated`';
         $groupDAO = new \enterprise\daos\Group();
         $groupPrimaryKey = '`id`';
     } else {
@@ -1298,7 +1298,7 @@ function enterprise_admin_action_product($smarty, $langCode)
         $leftJoin1 = 'LEFT JOIN `enterprise_products` AS p ON p.`id`=elp.`product_id`';
         $diffFields = 'elp.`caption`, elp.`created`, elp.`updated`, elp.`source_url`, elp.`group_id`';
         $tableAlias = 'elp';
-        $orderByFields = 'elp.`product_id`';
+        $orderByFields = 'elp.`updated`';
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
         $groupPrimaryKey = '`group_id`';
     }

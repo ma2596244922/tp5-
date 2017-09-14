@@ -2422,19 +2422,19 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $productDAO = new \enterprise\daos\Product();
         $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0{$additionalConditions}";
         if (!$orderBy)
-            $orderBy = '`id` DESC';
+            $orderBy = '`updated` DESC';
         $fields = ENTERPRISE_PRODUCT_FIELDS_FOR_LIST;
     } else {
         $productDAO = new \enterprise\daos\LangProduct($langCode);
         $condition = "elp.`site_id`={$siteId}{$groupIdCondition} AND elp.`deleted`=0{$additionalConditions}";
         if (!$orderBy)
-            $orderBy = 'elp.`product_id` DESC';
+            $orderBy = 'elp.`updated` DESC';
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
     if ($additionalFields)
         $fields .= ", {$additionalFields}";
 
-    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_get_by_site`');
+    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_list`');
     if (!$withGroupInfo
             || !is_array($products))
         return $products;
