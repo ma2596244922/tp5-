@@ -32,6 +32,8 @@ function enterprise_oms_route_2($smarty)
                 case 'dashboard1':
                     return enterprise_oms_action_dashboard($smarty);
                 // V2
+                case 'lang_site_dns_check':
+                    return enterprise_oms_action_lang_site_dns_check();
                 case 'view_attachment':
                     $guidHex = timandes_get_query_data('guid');
                     echo enterprise_action_attachment_proc($guidHex);
@@ -833,6 +835,10 @@ function enterprise_oms_action_monthly_report($smarty, $site)
  */
 function enterprise_oms_action_site_dashboard($smarty)
 {
+    // Supported lang codes
+    $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
+    $smarty->assign('supported_lang_codes', $supportedLangCodes);
+
     $smarty->display('oms/site_dashboard.tpl');
 }
 
@@ -1066,6 +1072,22 @@ function enterprise_oms_action_vps_health()
     }
 }
 
+
+/**
+ * Language Site DNS Check
+ */
+function enterprise_oms_action_lang_site_dns_check()
+{
+    $domain = timandes_get_query_data('domain');
+
+    $r = dns_get_record('mail.china.cn', DNS_A);
+    if (!$r)
+        echo "NOT FOUND";
+    elseif (!isset($r['ip']))
+        echo "EMPTY IP";
+    else
+        echo $r['ip'];
+}
 
 /* {{{ Tasks */
 /**
