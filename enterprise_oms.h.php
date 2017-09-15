@@ -1080,13 +1080,13 @@ function enterprise_oms_action_lang_site_dns_check()
 {
     $domain = timandes_get_query_data('domain');
 
-    $r = dns_get_record('mail.china.cn', DNS_A);
+    $r = dns_get_record($domain, DNS_A);
     if (!$r)
         echo "NOT FOUND";
-    elseif (!isset($r['ip']))
+    elseif (!isset($r[0]['ip']))
         echo "EMPTY IP";
     else
-        echo $r['ip'];
+        echo $r[0]['ip'];
 }
 
 /* {{{ Tasks */
