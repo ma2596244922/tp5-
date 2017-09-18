@@ -7,10 +7,11 @@
 {foreach $site_types as $type => $label}
                             <option value="{$type}">{$label}</option>
 {/foreach}
+                            <option value="lang_sites">小语种</option>
                         </select>
                     </a>
 {foreach $all_site_mappings as $sm}
-                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.site_id}" data-role="site-entry" data-type="{$sm.type|escape}">({if $sm.offline}下{else}上{/if}){$sm.domain}</a>
+                    <a class="list-group-item" href="?action=site_dashboard&site_id={$sm.site_id}" data-role="site-entry" data-type="{$sm.type|escape}" data-other-lang-enabled="{if $sm.lang_codes|default:''}1{else}0{/if}">({if $sm.offline}下{else}上{/if}{if $sm.lang_codes|default:''},语{/if}){$sm.domain}</a>
 {/foreach}
                 </div>
             </div>
