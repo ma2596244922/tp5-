@@ -75,6 +75,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">变更产品URL：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="update_purl_prefix" value="1"{if $task_details.update_purl_prefix|default:'1'=='1'} checked{/if}>变更为happy-*
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="update_purl_prefix" value="0"{if $task_details.update_purl_prefix|default:'1'=='0'} checked{/if}>保持不变
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

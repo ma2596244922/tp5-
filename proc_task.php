@@ -158,7 +158,7 @@ function proc_oms_task()
             $id = trim($id);
             if (!$id)
                 continue;
-            duplicate_product_source_group($id, $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0);
+            duplicate_product_source_group($id, $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0, (bool)$details['update_purl_prefix']);
         }
 
 
