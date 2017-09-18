@@ -154,6 +154,7 @@ function proc_oms_task()
 
         $details = json_decode($task['details'], true);
         $sourceGroupIdArray = explode(',', $details['source_group_id']);
+        shuffle($sourceGroupIdArray);
         if (is_array($sourceGroupIdArray)) foreach ($sourceGroupIdArray as $id) {
             $id = trim($id);
             if (!$id)
