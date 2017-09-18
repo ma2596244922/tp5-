@@ -1419,15 +1419,19 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Save Products
  */
-function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null)
+function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null)
 {
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
+    // Updated
+    if (!$updated)
+        $updated = date('Y-m-d H:i:s');
+
     // Save products
     $productDAO = new \enterprise\daos\Product();
     $values = array(
-            'updated' => date('Y-m-d H:i:s'),
+            'updated' => $updated,
             'brand_name' => $brandName,
             'model_number' => $modelNumber,
             'certification' => $certification,
@@ -1495,7 +1499,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
                 'caption' => $caption,
                 'description' => $description,
                 'group_id' => $groupId,
-                'updated' => date('Y-m-d H:i:s'),
+                'updated' => $updated,
                 'min_order_quantity' => $minOrderQuantity,
                 'delivery_time' => $deliveryTime,
                 'packaging_details' => $packagingDetails,
