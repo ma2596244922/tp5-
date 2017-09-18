@@ -52,7 +52,7 @@
                             </label>
                             <label class="radio">
                                 <input type="radio" name="target_type" value="20"{if $task_details.target_type|default:'10'=='20'} checked{/if} data-role="target-type">目标站ID
-                                <input type="text" class="form-control" id="inputTargetSiteID" name="target_site_id" value="{$task_details.target_site_id|default:''}" placeholder="123">
+                                <input type="text" class="form-control" id="inputTargetSiteID" name="target_site_id" value="{$task_details.target_site_id|default:''}" placeholder="123{if !$task|default:[]},456,...{/if}">
                             </label>
                         </div>
                     </div>

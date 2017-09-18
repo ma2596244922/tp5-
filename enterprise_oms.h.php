@@ -1153,10 +1153,23 @@ function enterprise_oms_action_edit_task($smarty)
     $source_lang_code = timandes_get_post_data('source_lang_code');
     $target_type = (int)timandes_get_post_data('target_type');
     $target_group_id = (int)timandes_get_post_data('target_group_id');
-    $target_site_id = (int)timandes_get_post_data('target_site_id');
+    $target_site_id = timandes_get_post_data('target_site_id');
     $target_lang_code = timandes_get_post_data('target_lang_code');
     $delay_until = timandes_get_post_data('delay_until');
     $update_purl_prefix = (int)timandes_get_post_data('update_purl_prefix');
+
+    if ($taskId) // Edit
+        $target_site_id = (int)$target_site_id;
+    else {
+        $a = explode(',', $target_site_id);
+        $targetSiteIdMutex = [];
+        foreach ($a as $id) {
+            $id = (int)trim($id);
+            if ($id)
+                $targetSiteIdMutex[$id] = 1;
+        }
+        $targetSiteIdArray = array_keys($targetSiteIdMutex);
+    }
 
     if (!in_array($target_type, $types))
         throw new \RuntimeException("暂不支持此目标类型{$target_type}");
@@ -1192,16 +1205,20 @@ function enterprise_oms_action_edit_task($smarty)
         );
 
     $values = array(
-            'details' => $details,
+            'details' => &$details,
             'delay_until' => $delay_until,
             'updated' => date('Y-m-d H:i:s'),
         );
+
     $taskDAO = new \oms\daos\Task();
     if ($taskId) {
         $taskDAO->update($taskId, $values);
     } else {
         $values['created'] = $values['updated'];
-        $taskId = $taskDAO->insert($values);
+        foreach ($targetSiteIdArray as $siteId) {
+            $details['target_site_id'] = $siteId;
+            $taskId = $taskDAO->insert($values);
+        }
     }
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=task', '任务管理');
