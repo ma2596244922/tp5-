@@ -37,6 +37,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">是否抓取站：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="crawled" value="0" checked>否
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="crawled" value="1">是
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">开通</button>

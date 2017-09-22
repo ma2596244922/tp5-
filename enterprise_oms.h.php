@@ -121,6 +121,7 @@ function enterprise_oms_action_new_site($smarty)
 
     $desc = timandes_get_post_data('desc');
     $domain = timandes_get_post_data('domain');
+    $crawled = (int)timandes_get_post_data('crawled');
 
     if (!$domain) 
         throw new \RuntimeException("请输入根域地址");
@@ -134,6 +135,7 @@ function enterprise_oms_action_new_site($smarty)
     // Save
     $values = array(
             'desc' => $desc,
+            'crawled' => $crawled,
             'updated' => date('Y-m-d H:i:s'),
         );
     $values['guid'] = enterprise_generate_guid();
@@ -731,6 +733,7 @@ function enterprise_oms_action_client_info($smarty)
     $langCodes = timandes_get_post_data('lang_codes');
     $enable_floating_widget = (int)timandes_get_post_data('enable_floating_widget');
     $floating_widget_url = timandes_get_post_data('floating_widget_url');
+    $crawled = (int)timandes_get_post_data('crawled');
 
     $values = array(
             'desc' => $desc,
@@ -745,6 +748,7 @@ function enterprise_oms_action_client_info($smarty)
             'csr' => $csr,
             'key' => $key,
             'updated' => date('Y-m-d H:i:s'),
+            'crawled' => $crawled,
         );
     $omsSiteDAO = new \oms\daos\Site();
     $omsSiteDAO->update($siteId, $values);
@@ -770,7 +774,7 @@ function enterprise_oms_action_client_info($smarty)
     }
 
     // Ensure records
-    foreach ($langCodes as $lc => $v) {
+    if (is_array($langCodes)) foreach ($langCodes as $lc => $v) {
         // Lang Site
         $langSiteDAO = new \enterprise\daos\LangSite($lc);
         $condition = "`site_id`=" . (int)$siteId;
