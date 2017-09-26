@@ -221,7 +221,7 @@ function enterprise_extract_site_infos()
         $iso639 = new Matriphe\ISO639\ISO639();
         $langCode = $iso639->code1ByLanguage($locale);
         if (!$langCode)
-            throw new HttpException(404);
+            throw new HttpException(404, 'Unsupported locale');
     }
 
     return array(
@@ -524,7 +524,7 @@ function enterprise_output_image_body($imageId)
     for ($i=0; $i<5; ++$i) {
         $image = $imageDAO->get($imageId);
         if (!$image) {
-            http_response_code(404);
+            http_response_code(404, 'No that image');
             exit;
         }
         if (strlen($image['body']) > ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD)
@@ -591,7 +591,7 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $langCode, $p
 {
     $product = enterprise_get_product_info($productId, $langCode);
     if (!$product) 
-        throw new HttpException(404);
+        throw new HttpException(404, 'No that product');
     $smarty->assign('product', $product);
 
     // Tags
@@ -635,13 +635,13 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $langCode, $p
 function enterprise_action_product_detail_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $productId)
 {
     if (!$productId)
-        throw new HttpException(404);
+        throw new HttpException(404, 'Illegal ID');
 
     enterprise_assign_action_product_detail($smarty, $siteId, 'en', $productId);
 
     $tplPath = 'sites/' . $siteId . '/product_detail.tpl';
     if (!$smarty->templateExists($tplPath))
-        throw new HttpException(404);
+        throw new HttpException(404, 'No that template');
 
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
@@ -683,7 +683,7 @@ function enterprise_assign_action_product_list($smarty, $siteId, $langCode = 'en
 function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1)
 {
     if (!$groupId)
-        throw new HttpException(404);
+        throw new HttpException(404, 'Illegal group ID');
 
     $pageSize = enterprise_site_info_get_product_list_page_size($siteId);
     if (!$pageSize)
@@ -694,7 +694,7 @@ function enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSu
     // Filter
     $tplPath = 'sites/' . $siteId . '/product_list.tpl';
     if (!$smarty->templateExists($tplPath))
-        throw new HttpException(404);
+        throw new HttpException(404, 'No that list template');
 
     $response = $smarty->fetch($tplPath);
     echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
@@ -1002,7 +1002,7 @@ function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $c
         return enterprise_action_product_list_proc($smarty, $siteId, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
     }
 
-    throw new HttpException(404);
+    throw new HttpException(404, 'V1 routing fails');
 }
 
 /**

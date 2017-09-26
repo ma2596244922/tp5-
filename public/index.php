@@ -143,6 +143,7 @@ retry:
         echo enterprise_filter_response($response, $originalDomainSuffix, $currentDomainSuffix);
         enterprise_output_cnzz($currentDomainSuffix);
     } catch(HttpException $he) {
+        header('Reason: ' . $he->getMessage());
         http_response_code($he->getCode());
     } catch (\RuntimeException $e) {
         $smarty->assign('message', $e->getMessage());
@@ -258,6 +259,7 @@ foreach ($daos as $dao) {
 try {
     enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestURL);
 } catch(HttpException $he) {
+    header('Reason: ' . $he->getMessage());
     http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
     $smarty->assign('message', $e->getMessage());
