@@ -16,6 +16,7 @@ try {
     list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
 } catch(HttpException $he) {
     header('Step: ESI');
+    header('Reason: ' . $he->getMessage());
     http_response_code($he->getCode());
     exit(1);
 }
