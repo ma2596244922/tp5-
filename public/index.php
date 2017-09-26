@@ -20,7 +20,10 @@ try {
 } catch(HttpException $he) {
     header('Step: ESI');
     header('Reason: ' . $he->getMessage());
-    http_response_code($he->getCode());
+    if (DBG_MODE)
+        echo '<p>Responding ' . $he->getCode() . '</p>';
+    else
+        http_response_code($he->getCode());
     exit(1);
 }
 
@@ -154,7 +157,10 @@ retry:
         enterprise_output_cnzz($currentDomainSuffix);
     } catch(HttpException $he) {
         header('Reason: ' . $he->getMessage());
-        http_response_code($he->getCode());
+        if (DBG_MODE)
+            echo '<p>Responding ' . $he->getCode() . '</p>';
+        else
+            http_response_code($he->getCode());
     } catch (\RuntimeException $e) {
         $smarty->assign('message', $e->getMessage());
         $smarty->display('message.tpl');
@@ -279,7 +285,10 @@ try {
     enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $currentDomainSuffix, $requestURL);
 } catch(HttpException $he) {
     header('Reason: ' . $he->getMessage());
-    http_response_code($he->getCode());
+    if (DBG_MODE)
+        echo '<p>Responding ' . $he->getCode() . '</p>';
+    else
+        http_response_code($he->getCode());
 } catch (\RuntimeException $e) {
     $smarty->assign('message', $e->getMessage());
     $smarty->display('message.tpl');
