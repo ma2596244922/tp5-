@@ -38,7 +38,7 @@ retry:
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
 
         enterprise_define_url_pattern_constants($site);
-
+/* }}} */
         // 核心业务逻辑
         $responseArray = array();
 
@@ -57,8 +57,6 @@ retry:
         header("Content-Type: application/json");
         echo json_encode($responseArray);
 
-
-/* }}} */
     } catch(HttpException $he) {
         http_response_code($he->getCode());
     } catch (\RuntimeException $e) {
