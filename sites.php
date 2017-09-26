@@ -327,4 +327,7 @@ $siteInfo = array(
         150 => array(
                 'original_domain_prefix' => 'subtextproject.com',
             ),
+        154 => array(
+                'original_domain_prefix' => 'bearingsize.info',
+            ),
     );
