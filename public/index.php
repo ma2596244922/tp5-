@@ -27,8 +27,15 @@ try {
     exit(1);
 }
 
-if (DBG_MODE)
+if (DBG_MODE) {
     echo '<p>Stage #2</p>';
+    echo "<p>\$siteId: {$siteId}</p>";
+    echo "<p>\$platform: {$platform}</p>";
+    echo "<p>\$locale: {$locale}</p>";
+    echo "<p>\$langCode: {$langCode}</p>";
+    echo "<p>\$originalDomainSuffix: {$originalDomainSuffix}</p>";
+    echo "<p>\$currentDomainSuffix: {$currentDomainSuffix}</p>";
+}
 
 // abc.com ==(301)=> www.abc.com
 if (!$locale) {
