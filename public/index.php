@@ -99,8 +99,13 @@ if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])
     }
 }
 
-if (DBG_MODE)
+if (DBG_MODE) {
     echo '<p>Stage #3</p>';
+    echo "<p>\$requestRelativeURI: {$requestRelativeURI}</p>";
+    echo "<p>\$fakeRequestHost: {$fakeRequestHost}</p>";
+    echo "<p>\$requestURL: {$requestURL}</p>";
+    echo "<p>\$requestPath: {$requestPath}</p>";
+}
 
 $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
