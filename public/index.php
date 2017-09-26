@@ -91,6 +91,12 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
+        $omsSiteDAO = new \oms\daos\Site();
+        $omsSite = $omsSiteDAO->get($siteId);
+        if ($omsSite
+                && $omsSite['crawled'])
+            break;// continue routing
+
 /* {{{ 重复代码段 */
 retry:
         $site = enterprise_get_site_info($siteId, $langCode);
