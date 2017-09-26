@@ -46,7 +46,7 @@ if (!$locale) {
 }
 
 // 优先使用本地存储的页面、图片和资源等
-$requestRelativeURI = $_SERVER['REQUEST_URI'];
+$requestRelativeURI = enterprise_remove_parameter_dbg($_SERVER['REQUEST_URI']);
 $fakeRequestHost = str_replace($currentDomainSuffix, $originalDomainSuffix, $_SERVER['HTTP_HOST']);
 $requestURL = 'http://' . $fakeRequestHost . $requestRelativeURI;
 $requestPath = parse_url($requestURL, PHP_URL_PATH);

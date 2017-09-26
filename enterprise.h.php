@@ -229,6 +229,13 @@ function enterprise_extract_site_infos()
         );
 }
 
+function enterprise_remove_parameter_dbg($requestUri)
+{
+    $uri = new GuzzleHttp\Psr7\Uri($requestUri);
+    $uri = GuzzleHttp\Psr7\Uri::withoutQueryValue($uri, 'dbg');
+    return $uri->__toString();
+}
+
 /**
  * Generate GUID
  *

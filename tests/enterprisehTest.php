@@ -260,11 +260,13 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $rootDomain = 'ktorrent.org';
         $actual = enterprise_build_alternate_mobile_host($langCode, $rootDomain);
         $expected = 'm.' . $rootDomain;
+        $this->assertEquals($expected, $actual);
 
         $langCode = 'pt';
         $rootDomain = 'ktorrent.org';
         $actual = enterprise_build_alternate_mobile_host($langCode, $rootDomain);
         $expected = 'm.' . $langCode . '.' . $rootDomain;
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -276,10 +278,43 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $rootDomain = 'ktorrent.org';
         $actual = enterprise_build_canonical_host($langCode, $rootDomain);
         $expected = 'www.' . $rootDomain;
+        $this->assertEquals($expected, $actual);
 
         $langCode = 'pt';
         $rootDomain = 'ktorrent.org';
         $actual = enterprise_build_canonical_host($langCode, $rootDomain);
         $expected = $langCode . '.' . $rootDomain;
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * function enterprise_remove_parameter_dbg()
+     */
+    public function test10()
+    {
+        $requestUri = '/?dbg=1';
+        $expected = '/';
+        $actual = enterprise_remove_parameter_dbg($requestUri);
+        $this->assertEquals($expected, $actual);
+
+        $requestUri = '/';
+        $expected = $requestUri;
+        $actual = enterprise_remove_parameter_dbg($requestUri);
+        $this->assertEquals($expected, $actual);
+
+        $requestUri = '/?q=1';
+        $expected = $requestUri;
+        $actual = enterprise_remove_parameter_dbg($requestUri);
+        $this->assertEquals($expected, $actual);
+
+        $requestUri = '/?q=1&dbg=';
+        $expected = '/?q=1';
+        $actual = enterprise_remove_parameter_dbg($requestUri);
+        $this->assertEquals($expected, $actual);
+
+        $requestUri = '/?dbg=&q=2';
+        $expected = '/?q=2';
+        $actual = enterprise_remove_parameter_dbg($requestUri);
+        $this->assertEquals($expected, $actual);
     }
 }
