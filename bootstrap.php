@@ -23,3 +23,9 @@ require_once __DIR__ . '/enterprise.h.php';
 require_once __DIR__ . '/enterprise_admin.h.php';
 require_once __DIR__ . '/sites.php';
 require_once __DIR__ . '/images.php';
+
+// Debug Mode
+if (timandes_get_query_data('dbg'))
+    define('DBG_MODE', true);
+else
+    define('DBG_MODE', false);

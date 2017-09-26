@@ -11,6 +11,9 @@ require_once realpath(__DIR__ . '/../') . '/config.php';
 // User Agent Parser
 $userAgent = new Jenssegers\Agent\Agent();
 
+if (DBG_MODE)
+    echo '<p>Stage #1</p>';
+
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
     list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
@@ -20,6 +23,9 @@ try {
     http_response_code($he->getCode());
     exit(1);
 }
+
+if (DBG_MODE)
+    echo '<p>Stage #2</p>';
 
 // abc.com ==(301)=> www.abc.com
 if (!$locale) {
@@ -82,6 +88,9 @@ if (isset($domainInfo[$currentDomainSuffix]['custom_pages'])
         }
     }
 }
+
+if (DBG_MODE)
+    echo '<p>Stage #3</p>';
 
 $smarty = new Smarty();
 $smarty->setTemplateDir(realpath(__DIR__ . '/../') . '/templates/');
@@ -155,6 +164,9 @@ retry:
     }
 } while(exit(1));
 
+if (DBG_MODE)
+    echo '<p>Stage #4</p>';
+
 /**
  * 响应抓取到的页面
  *
@@ -226,6 +238,9 @@ function enterprise_response_crawled_page($smarty, $siteId, $originalDomainSuffi
     exit(0);
 }
 
+if (DBG_MODE)
+    echo '<p>Stage #5</p>';
+
 // + Page
 $skippingPages = array(
         '/contactsave.html',
@@ -255,6 +270,9 @@ foreach ($daos as $dao) {
     }
 }
 
+if (DBG_MODE)
+    echo '<p>Stage #6</p>';
+
 // 其次匹配特殊页面
 
 try {
@@ -266,3 +284,6 @@ try {
     $smarty->assign('message', $e->getMessage());
     $smarty->display('message.tpl');
 }
+
+if (DBG_MODE)
+    echo '<p>Stage #7</p>';
