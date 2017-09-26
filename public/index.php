@@ -38,7 +38,8 @@ if (DBG_MODE) {
 }
 
 // abc.com ==(301)=> www.abc.com
-if (!$locale) {
+if (!$locale
+        && (!isset($siteInfo[$siteId]['root_domain_only']) || !$siteInfo[$siteId]['root_domain_only'])) {
     $subdomain = ($userAgent->isMobile()?'m':'www');
     header('Location: http://' . $subdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     http_response_code(301);

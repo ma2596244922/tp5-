@@ -329,5 +329,6 @@ $siteInfo = array(
             ),
         154 => array(
                 'original_domain_prefix' => 'bearingsize.info',
+                'root_domain_only' => true, // 仅可以通过 http://abc.com/ 方式访问。
             ),
     );
