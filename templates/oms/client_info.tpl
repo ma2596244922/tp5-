@@ -184,6 +184,7 @@
                                 <option value="">（待分配）</option>
                                 <option value="trade"{if $site.template=='trade'} selected{/if}>M1</option>
                                 <option value="brilly"{if $site.template=='brilly'} selected{/if}>M2</option>
+                                <option value="msma"{if $site.template=='msma'} selected{/if}>M3</option>
                             </select>
                         </div>
                     </div>
