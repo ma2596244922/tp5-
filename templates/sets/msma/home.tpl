@@ -12,8 +12,6 @@
 
 <body>
 {include file="sets/msma/common/logobar.tpl"}
-
-
 <!--********************banner********************-->
 <div id="banner">
   <a class="arrow-left" href="#"><i class="iconfont icon-arrow-left-circle"></i></a> 
@@ -42,11 +40,8 @@
 </div>
 <!--********************banner********************-->
 
-
-
 <!--********************ym_container********************-->
 <div class="ym_container">
-
    <!--****caidan****-->
     <ul class="ym_con_ul"  id="ym_con_ul">
 {foreach $groups as $group}{if $group@index>=5}{continue}{/if}
@@ -74,12 +69,8 @@
 {/foreach}
           
     </div>
-    
-    
-    
 </div>
 <!--********************ym_container********************-->
-
 
 <!--********************ym_container********************-->
 <div class="ym_mian_list">
@@ -128,52 +119,16 @@
         <img src="/media/sets/msma/images/bbs.svg" alt="" width="110" height="110"/> 
         <h1>contact with us</h1>
         <p>Just contact us and we will get in tonch with you as soon as possible.</p>
-        <a href="/contactnow.html" class="ym_bbs_a">contact now</a>
+        <a href="/contactnow.html" class="ym_bbs_a">{$preset_translations.contact_now}</a>
         
 </div>
 <!--********************ym_bbs********************-->
 
-
 <!--********************ym_end_menu********************-->
-<div class="ym_end_menu">
-    <div class="ym_con_pic">
-{foreach $groups_in_links_bar as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index==2&&$main_products|default:[]}{break}{/if}{if $group@index>=3}{break}{/if}
-        <!--**dl1**-->
-        <dl class="ym_end_menu_dl2">
-            <dt>{$group.name}</dt>
-    {-foreach $group.products as $product}
-            <dd><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></dd>
-    {-/foreach}
-        </dl>
-        <!--**dl1**-->
-{/foreach}
-{if $main_products|default:[]}
-        <!--**dl1**-->
-        <dl class="ym_end_menu_dl2">
-            <dt>{$preset_translations.top_products}</dt>
-    {-foreach $main_products as $mp}
-            <dd><a href="{$mp.url}">{$mp.label}</a></dd>
-    {-/foreach}
-        </dl>
-        <!--**dl1**-->
-{/if}
-
-        <!--**dl1**-->
-        <dl class="ym_end_menu_dl3">
-            <dt>SIGN UP FOR OUR AWESOME NEWS</dt>
-            <dd><input name="EMAIL" placeholder="Email Address" required="" type="email" class="input1"><input value="Subscribe" type="submit" class="input2"></dd>
-            <dd class="ym_end_menu_dd"><a href=""><i class="iconfont icon-facebookicon"></i></a><a href=""><i class="iconfont icon-twitter"></i></a></dd>
-
-        </dl>
-        <!--**dl1**-->
-      
-    </div>
-
-</div>
+{include file="sets/msma/common/links.tpl"}
 <!--********************ym_end_menu********************-->
 
 {include file="sets/msma/common/copyright.tpl"}
-
 
 <script src="/media/sets/msma/js/swiper.min.js"></script>
 {include file="sets/msma/common/scripts.tpl"}
@@ -187,8 +142,6 @@
         });
     });
 </script>
-
-
 <!--********************banner_js********************-->
 <script>
     var mySwiper = new Swiper('#bannerSwiper',{
@@ -204,8 +157,5 @@
   });  
 </script>
 <!--********************banner_js********************-->
-
-
-
 </body>
 </html>
