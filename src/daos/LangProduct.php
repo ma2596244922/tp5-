@@ -115,6 +115,12 @@ class LangProduct extends \crawler\daos\AbstractDAO
         return $this->getMultiBySql($sql);
     }
 
+    // Original version
+    public function getMultiInOrderBy2($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
+    {
+        return parent::getMultiInOrderBy($condition, $fields, $orderBy, $max, $start, $forceIndex);
+    }
+
     // Override
     public function countBy($condition, $distinct = null)
     {
