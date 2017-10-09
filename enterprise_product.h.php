@@ -5,6 +5,9 @@
  * @package timandes\enterprise
  */
 
+/** @var string Fields of Product for URL-Generating */
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`');
+
 /**
  * Append group info to product list
  *
@@ -45,9 +48,9 @@ function enterprise_product_iteration($siteId, $langCode, $pageNo = 1, $pageSize
             return array();
 
         $condition = '`id` IN (' . implode(',', $productIdArray) . ')';
-        $products = $productDAO->getMultiInOrderBy($mainCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST);
+        $products = $productDAO->getMultiInOrderBy($mainCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING);
     } else {
-        $products = $productDAO->getMultiInOrderBy($mainCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_LIST, null, $pageSize, $start, '`idx_iteration`');
+        $products = $productDAO->getMultiInOrderBy($mainCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING, null, $pageSize, $start, '`idx_iteration`');
     }
 
     return enterprise_product_append_group_info($langCode, $products);
