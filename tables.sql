@@ -134,7 +134,8 @@ CREATE TABLE `enterprise_products` (
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
-  KEY `idx_lookup` (`site_id`, `path_sum`)
+  KEY `idx_lookup` (`site_id`, `path_sum`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='用户新发产品表';
 
 CREATE TABLE `enterprise_images` (
@@ -437,7 +438,8 @@ CREATE TABLE `enterprise_fr_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='法语-用户新发产品表';
 
 CREATE TABLE `enterprise_fr_sites` (
@@ -642,7 +644,8 @@ CREATE TABLE `enterprise_es_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='西班牙语-用户新发产品表';
 
 CREATE TABLE `enterprise_es_sites` (
@@ -745,7 +748,8 @@ CREATE TABLE `enterprise_zh_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='中文-用户新发产品表';
 
 CREATE TABLE `enterprise_zh_sites` (
@@ -848,7 +852,8 @@ CREATE TABLE `enterprise_ar_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='阿拉伯语-用户新发产品表';
 
 CREATE TABLE `enterprise_ar_sites` (
@@ -951,7 +956,8 @@ CREATE TABLE `enterprise_ru_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='俄语-用户新发产品表';
 
 CREATE TABLE `enterprise_ru_sites` (
@@ -1054,7 +1060,8 @@ CREATE TABLE `enterprise_el_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='希腊语-用户新发产品表';
 
 CREATE TABLE `enterprise_el_sites` (
@@ -1156,7 +1163,8 @@ CREATE TABLE `enterprise_id_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='印尼语-用户新发产品表';
 
 CREATE TABLE `enterprise_id_sites` (
@@ -1259,7 +1267,8 @@ CREATE TABLE `enterprise_th_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='泰语-用户新发产品表';
 
 CREATE TABLE `enterprise_th_sites` (
@@ -1362,7 +1371,8 @@ CREATE TABLE `enterprise_uk_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='乌克兰语-用户新发产品表';
 
 CREATE TABLE `enterprise_uk_sites` (
@@ -1465,7 +1475,8 @@ CREATE TABLE `enterprise_de_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='德语-用户新发产品表';
 
 CREATE TABLE `enterprise_de_sites` (
@@ -1568,7 +1579,8 @@ CREATE TABLE `enterprise_it_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='意大利语-用户新发产品表';
 
 CREATE TABLE `enterprise_it_sites` (
@@ -1671,7 +1683,8 @@ CREATE TABLE `enterprise_sq_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='阿尔巴尼亚语-用户新发产品表';
 
 CREATE TABLE `enterprise_sq_sites` (
@@ -1774,7 +1787,8 @@ CREATE TABLE `enterprise_sv_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='瑞典语-用户新发产品表';
 
 CREATE TABLE `enterprise_sv_sites` (
@@ -1877,7 +1891,8 @@ CREATE TABLE `enterprise_tr_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='土耳其语-用户新发产品表';
 
 CREATE TABLE `enterprise_tr_sites` (
@@ -1980,7 +1995,8 @@ CREATE TABLE `enterprise_ja_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='日语-用户新发产品表';
 
 CREATE TABLE `enterprise_ja_sites` (
