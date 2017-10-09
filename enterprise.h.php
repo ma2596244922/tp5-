@@ -450,8 +450,6 @@ function enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $current
  */
 function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no = 1)
 {
-    ini_set('memory_limit', '200M');
-
     $site = enterprise_get_site_info($siteId, $langCode);
     enterprise_define_url_pattern_constants($site);
 
