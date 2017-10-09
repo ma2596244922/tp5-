@@ -20,6 +20,7 @@ require_once __DIR__ . '/common/functions.php';
 require_once __DIR__ . '/settings.php';
 
 require_once __DIR__ . '/enterprise.h.php';
+require_once __DIR__ . '/enterprise_product.h.php';
 require_once __DIR__ . '/enterprise_admin.h.php';
 require_once __DIR__ . '/sites.php';
 require_once __DIR__ . '/images.php';

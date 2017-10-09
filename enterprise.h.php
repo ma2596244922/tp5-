@@ -455,10 +455,7 @@ function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $origin
 
     $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
 
-    if ($langCode == 'en')
-        $products = enterprise_get_product_list($siteId, $langCode, null, true, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', '`id` ASC');
-    else
-        $products = enterprise_get_product_list($siteId, $langCode, null, true, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, '', 'elp.`product_id` ASC');
+    $products = enterprise_product_iteration($siteId, $langCode, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE);
     if ($products) foreach ($products as $product) {
         $loc = enterprise_url_product($product);
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
@@ -2451,6 +2448,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
             || !is_array($products))
         return $products;
 
+    // DEPRECATED: enterprise_product_append_group_info($langCode, $products);
     $retval = array();
     foreach ($products as $p) {
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
