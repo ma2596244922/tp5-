@@ -6,7 +6,7 @@
  */
 
 /** @var string Fields of Product for URL-Generating */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`, `group_id`');
 
 /**
  * Append group info to product list
