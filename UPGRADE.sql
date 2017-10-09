@@ -1,3 +1,5 @@
+-- 2017-10-9
+ALTER TABLE `enterprise_pt_products` ADD KEY `idx_iteration` (`site_id`, `deleted`);
 -- 2017-9-22
 ALTER TABLE `oms_sites` ADD COLUMN `crawled` tinyint NOT NULL COMMENT '是否抓取站点（0/1）';
 -- 2017-9-14

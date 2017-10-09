@@ -2425,23 +2425,28 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
     if ($additionalConditions)
         $additionalConditions = ' AND ' . $additionalConditions;
 
+    $forceIndex = null;
     if ($langCode == 'en') {
         $productDAO = new \enterprise\daos\Product();
         $condition = "`site_id`={$siteId}{$groupIdCondition} AND `deleted`=0{$additionalConditions}";
-        if (!$orderBy)
+        if (!$orderBy) {
             $orderBy = '`updated` DESC';
+            $forceIndex = '`idx_list`';
+        }
         $fields = ENTERPRISE_PRODUCT_FIELDS_FOR_LIST;
     } else {
         $productDAO = new \enterprise\daos\LangProduct($langCode);
         $condition = "elp.`site_id`={$siteId}{$groupIdCondition} AND elp.`deleted`=0{$additionalConditions}";
-        if (!$orderBy)
+        if (!$orderBy) {
             $orderBy = 'elp.`updated` DESC';
+            $forceIndex = '`idx_list`';
+        }
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
     if ($additionalFields)
         $fields .= ", {$additionalFields}";
 
-    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, '`idx_list`');
+    $products = $productDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start, $forceIndex);
     if (!$withGroupInfo
             || !is_array($products))
         return $products;

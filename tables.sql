@@ -539,7 +539,8 @@ CREATE TABLE `enterprise_pt_products` (
   `source_url` text NOT NULL COMMENT '若产品是抓来的则保存原始URL',
   PRIMARY KEY (`product_id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`, `group_id`),
-  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`)
+  KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
+  KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='葡语-用户新发产品表';
 
 CREATE TABLE `enterprise_pt_sites` (
