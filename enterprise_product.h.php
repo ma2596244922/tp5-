@@ -6,7 +6,7 @@
  */
 
 /** @var string Fields of Product for URL-Generating */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `path`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`, `group_id`');
 
 /**
  * Append group info to product list
@@ -55,7 +55,7 @@ function enterprise_product_iteration($siteId, $langCode, $pageNo = 1, $pageSize
         }
 
         $idCondition = ' IN (' . implode(',', $productIdArray) . ')';
-        $products = $productDAO->getMultiInOrderBy('`id`' . $idCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING);
+        $products = $productDAO->getMultiInOrderBy('`id`' . $idCondition, '`id`, `path`');
         $retval = [];
         if (is_array($products)) foreach ($products as $p) {
             if (isset($productLangInfoMapping[$p['id']])) {
