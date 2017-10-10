@@ -47,8 +47,22 @@ function enterprise_product_iteration($siteId, $langCode, $pageNo = 1, $pageSize
         if (!$productIdArray)
             return array();
 
-        $condition = '`id` IN (' . implode(',', $productIdArray) . ')';
-        $products = $productDAO->getMultiInOrderBy($condition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING);
+        $idCondition = ' IN (' . implode(',', $productIdArray) . ')';
+        $langProducts = $langProductDAO->getMultiInOrderBy2('`product_id`' . $idCondition, '`product_id`, `group_id`');
+        $productGroupIdMapping = [];
+        if (is_array($langProducts)) foreach ($langProducts as $p) {
+            $productGroupIdMapping[$p['product_id']] = $p['group_id'];
+        }
+
+        $idCondition = ' IN (' . implode(',', $productIdArray) . ')';
+        $products = $productDAO->getMultiInOrderBy('`id`' . $idCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING);
+        $retval = [];
+        if (is_array($products)) foreach ($products as $p) {
+            if (isset($productGroupIdMapping[$p['id']]))
+                $p['group_id'] = $productGroupIdMapping[$p['id']];
+            $retval[] = $p;
+        }
+        $products = $retval;
     } else {
         $products = $productDAO->getMultiInOrderBy($mainCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING, null, $pageSize, $start, '`idx_iteration`');
     }
