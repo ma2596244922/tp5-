@@ -35,6 +35,7 @@ if (DBG_MODE) {
     echo "<p>\$langCode: {$langCode}</p>";
     echo "<p>\$originalDomainSuffix: {$originalDomainSuffix}</p>";
     echo "<p>\$currentDomainSuffix: {$currentDomainSuffix}</p>";
+    echo "<p>\$subdomain: {$subdomain}</p>";
 }
 
 // abc.com ==(301)=> www.abc.com
@@ -121,16 +122,25 @@ do {
         $omsSite = $omsSiteDAO->get($siteId);
         if ($omsSite
                 && $omsSite['crawled']
-                && $subdomain == 'www')
+                && $subdomain == 'www') {
+            if (DBG_MODE)
+                echo '<p>Continue routing ... (#Crawled)</p>';
             break;// continue routing
+        }
 
 /* {{{ 重复代码段 */
 retry:
         $site = enterprise_get_site_info($siteId, $langCode);
-        if (!$site)
+        if (!$site) {
+            if (DBG_MODE)
+                echo '<p>Continue routing ... (#NoEntSite)</p>';
             break;// continue routing
-        if ($site['offline'])
+        }
+        if ($site['offline']) {
+            if (DBG_MODE)
+                echo '<p>Continue routing ... (#Offline)</p>';
             break;// continue routing
+        }
 
         if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
             enterprise_set_default_lang_code($site['default_lang_code']);
@@ -151,8 +161,11 @@ retry:
         $smarty->assign('html_attr_dir', $attrDir);
 
         $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
-        if (null === $response)
+        if (null === $response) {
+            if (DBG_MODE)
+                echo '<p>Continue routing ... (#EmptyResponse)</p>';
             break;// continue routing
+        }
 
         // Track
         $trackDAO = new \enterprise\daos\Track();
