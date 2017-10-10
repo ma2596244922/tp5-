@@ -187,6 +187,7 @@ function enterprise_extract_host_meta($host)
             'locale' => $locale,
             'root_domain' => $currentDomainSuffix,
             'platform' => $platform,
+            'subdomain' => $subdomain,
         );
 }
 
@@ -201,6 +202,7 @@ function enterprise_extract_site_infos()
     $locale = $hostMeta['locale'];
     $currentDomainSuffix = $hostMeta['root_domain'];
     $platform = $hostMeta['platform'];
+    $subdomain = $hostMeta['subdomain'];
 
     $siteMappingDAO = new \enterprise\daos\SiteMapping();
     $condition = "`domain`='" . $siteMappingDAO->escape($currentDomainSuffix) . "'";
@@ -225,7 +227,7 @@ function enterprise_extract_site_infos()
     }
 
     return array(
-            $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix,
+            $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix, $subdomain
         );
 }
 

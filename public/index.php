@@ -16,7 +16,7 @@ if (DBG_MODE)
 
 // 根据当前请求的域名，找出对应的站点替换规则
 try {
-    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+    list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix, $subdomain) = enterprise_extract_site_infos();
 } catch(HttpException $he) {
     header('Step: ESI');
     header('Reason: ' . $he->getMessage());
@@ -40,8 +40,8 @@ if (DBG_MODE) {
 // abc.com ==(301)=> www.abc.com
 if (!$locale
         && (!isset($siteInfo[$siteId]['root_domain_only']) || !$siteInfo[$siteId]['root_domain_only'])) {
-    $subdomain = ($userAgent->isMobile()?'m':'www');
-    header('Location: http://' . $subdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    $targetSubdomain = ($userAgent->isMobile()?'m':'www');
+    header('Location: http://' . $targetSubdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     http_response_code(301);
     exit(1);
 }
@@ -134,7 +134,7 @@ retry:
         if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
             enterprise_set_default_lang_code($site['default_lang_code']);
             // 重新获取语言代码信息
-            list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+            list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix, $subdomain) = enterprise_extract_site_infos();
             goto retry;
         }
 

@@ -41,7 +41,7 @@ retry:
             if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
                 enterprise_set_default_lang_code($site['default_lang_code']);
                 // 重新获取语言代码信息
-                list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+                list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix, $subdomain) = enterprise_extract_site_infos();
                 goto retry;
             }
 
@@ -201,7 +201,7 @@ $smarty->setCompileDir(realpath(__DIR__ . '/../../') . '/templates_c/');
 $smarty->addPluginsDir(realpath(__DIR__ . '/../../') . '/plugins/');
 $smarty->loadFilter("pre", 'whitespace_control');
 
-list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix) = enterprise_extract_site_infos();
+list($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix, $subdomain) = enterprise_extract_site_infos();
 
 ini_set('session.cookie_domain', '.' . $currentDomainSuffix);
 session_start();
