@@ -6,7 +6,7 @@
  */
 
 /** @var string Fields of Product for URL-Generating */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`, `group_id`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `path`');
 
 /**
  * Append group info to product list
@@ -48,18 +48,21 @@ function enterprise_product_iteration($siteId, $langCode, $pageNo = 1, $pageSize
             return array();
 
         $idCondition = ' IN (' . implode(',', $productIdArray) . ')';
-        $langProducts = $langProductDAO->getMultiInOrderBy2('`product_id`' . $idCondition, '`product_id`, `group_id`');
-        $productGroupIdMapping = [];
+        $langProducts = $langProductDAO->getMultiInOrderBy2('`product_id`' . $idCondition, '`product_id`, `group_id`, `caption`');
+        $productLangInfoMapping = [];
         if (is_array($langProducts)) foreach ($langProducts as $p) {
-            $productGroupIdMapping[$p['product_id']] = $p['group_id'];
+            $productLangInfoMapping[$p['product_id']] = $p;
         }
 
         $idCondition = ' IN (' . implode(',', $productIdArray) . ')';
         $products = $productDAO->getMultiInOrderBy('`id`' . $idCondition, ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING);
         $retval = [];
         if (is_array($products)) foreach ($products as $p) {
-            if (isset($productGroupIdMapping[$p['id']]))
-                $p['group_id'] = $productGroupIdMapping[$p['id']];
+            if (isset($productLangInfoMapping[$p['id']])) {
+                $info = $productLangInfoMapping[$p['id']];
+                $p['group_id'] = $info['group_id'];
+                $p['caption'] = $info['caption'];
+            }
             $retval[] = $p;
         }
         $products = $retval;
