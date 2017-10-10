@@ -120,7 +120,8 @@ do {
         $omsSiteDAO = new \oms\daos\Site();
         $omsSite = $omsSiteDAO->get($siteId);
         if ($omsSite
-                && $omsSite['crawled'])
+                && $omsSite['crawled']
+                && $subdomain == 'www')
             break;// continue routing
 
 /* {{{ 重复代码段 */
