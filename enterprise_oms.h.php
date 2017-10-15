@@ -142,6 +142,24 @@ function enterprise_oms_action_new_site($smarty)
     $values['created'] = $values['updated'];
     $siteId = $siteDAO->insert($values);
 
+    // Crawled site & translation
+    if ($crawled) {
+        $crawlerSiteDAO = new \crawler\daos\Site();
+        $values = array(
+                'id' => $siteId,
+                'domain' => 'www.' . $domain,
+            );
+        $crawlerSiteDAO->insert($values);
+
+        $crawlerTranslationDAO = new \crawler\daos\Translation();
+        $values = array(
+                'site_id' => $siteId,
+                'locale' => 'english',
+                'portal' => 'http://www.' . $domain . '/',
+            );
+        $crawlerTranslationDAO->insert($values);
+    }
+
     enterprise_oms_add_records_for_related_tables($siteId, $domain);
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=dashboard', '运营管理');
@@ -714,6 +732,11 @@ function enterprise_oms_action_client_info($smarty)
         return $smarty->display('oms/client_info.tpl');
     }
 
+    $siteMappings = $smarty->getTemplateVars('site_mappings');
+    if (!$siteMappings)
+        $siteMappings = enterprise_oms_get_site_mapping_list($siteId);
+    $domain = $siteMappings[0]['domain'];
+
     $desc = timandes_get_post_data('desc');
     $qq = timandes_get_post_data('qq');
     $wechat = timandes_get_post_data('wechat');
@@ -796,6 +819,31 @@ function enterprise_oms_action_client_info($smarty)
                     'updated' => date('Y-m-d H:i:s'),
                 );
             $langCorporationDAO->insert($values);
+        }
+    }
+
+    // Crawled site & translation
+    if ($crawled) {
+        $crawlerSiteDAO = new \crawler\daos\Site();
+        $crawlerSite = $crawlerSiteDAO->get($siteId);
+        if (!$crawlerSite) {
+            $values = array(
+                    'id' => $siteId,
+                    'domain' => 'www.' . $domain,
+                );
+            $crawlerSiteDAO->insert($values);
+        }
+
+        $crawlerTranslationDAO = new \crawler\daos\Translation();
+        $condition = '`site_id`=' . (int)$siteId;
+        $crawlerTranslation = $crawlerTranslationDAO->getOneBy($condition);
+        if (!$crawlerTranslation) {
+            $values = array(
+                    'site_id' => $siteId,
+                    'locale' => 'english',
+                    'portal' => 'http://www.' . $domain . '/',
+                );
+            $crawlerTranslationDAO->insert($values);
         }
     }
 
