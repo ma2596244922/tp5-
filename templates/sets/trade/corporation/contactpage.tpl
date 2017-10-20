@@ -13,7 +13,14 @@
                 <ul>
         {-foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
             {-if isset($contact_desc.$f) && $contact.$f}
+                {-if $f=='email'}
+                    <li>
+                        <label>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</label>
+                        <a href="mailto:{$v}">{$v}</a>
+                    </li>
+                {-else}
                     <li><label>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</label>{$v}</li>
+                {-/if}
             {-/if}
         {-/foreach}
                 </ul>
