@@ -2330,6 +2330,8 @@ function enterprise_action_404_proc($smarty, $siteId, $platform, $currentDomainS
     // Site
     $smarty->assign('site', $site);
 
+    enterprise_define_url_pattern_constants($site);
+
     // Corporation
     enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
 
