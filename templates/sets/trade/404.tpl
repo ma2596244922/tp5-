@@ -13,7 +13,7 @@
 <div class="content">
     <div class="main-form fl-clr">
     <div class="success">
-        <p class="p1"><i></i>Sorry, this page cannot be located.</p>
+        <p class="p1"><i></i>Contact with us, will fast reply.</p>
         <p>You may want to go back to the <a href="{$site_portal}">homepage</a></p>
     </div>
 {if $groups[0]|default:[]}
