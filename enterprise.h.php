@@ -2330,6 +2330,14 @@ function enterprise_action_404_proc($smarty, $siteId, $platform, $currentDomainS
     // Site
     $smarty->assign('site', $site);
 
+    // Corporation
+    enterprise_assign_corporation_info($smarty, 'corporation', $siteId);
+
+    enterprise_assign_preset_translations($smarty, 'en');
+
+    // Groups
+    $groups = enterprise_assign_group_list($smarty, 'groups', $siteId, 2, true, true, 5);
+
     $smarty->assign('site_portal', $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . '/');
     return $smarty->fetch($tplPath);
 }
