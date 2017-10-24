@@ -210,6 +210,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">禁用分组页D/K：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="disable_group_dk" value="0"{if $site.disable_group_dk|default:'0'=='0'} checked{/if}>启用
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="disable_group_dk" value="1"{if $site.disable_group_dk|default:'0'=='1'} checked{/if}>禁用
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

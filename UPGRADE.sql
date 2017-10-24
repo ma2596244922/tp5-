@@ -1,3 +1,5 @@
+-- 2017-10-24
+ALTER TABLE `enterprise_sites` ADD COLUMN `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)';
 -- 2017-10-9
 ALTER TABLE `enterprise_products` ADD KEY `idx_iteration` (`site_id`, `deleted`);
 ALTER TABLE `enterprise_fr_products` ADD KEY `idx_iteration` (`site_id`, `deleted`);

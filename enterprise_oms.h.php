@@ -757,6 +757,7 @@ function enterprise_oms_action_client_info($smarty)
     $enable_floating_widget = (int)timandes_get_post_data('enable_floating_widget');
     $floating_widget_url = timandes_get_post_data('floating_widget_url');
     $crawled = (int)timandes_get_post_data('crawled');
+    $disable_group_dk = (int)timandes_get_post_data('disable_group_dk');
 
     $values = array(
             'desc' => $desc,
@@ -785,6 +786,7 @@ function enterprise_oms_action_client_info($smarty)
             'lang_codes' => $langCodes,
             'enable_floating_widget' => $enable_floating_widget,
             'floating_widget_url' => $floating_widget_url,
+            'disable_group_dk' => $disable_group_dk,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();

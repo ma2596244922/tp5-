@@ -254,6 +254,7 @@ CREATE TABLE `enterprise_sites` (
   `lang_codes` text NOT NULL COMMENT '语种清单（JSON）',
   `enable_floating_widget` tinyint unsigned NOT NULL COMMENT '是否启用漂浮框(0/1)',
   `floating_widget_url` varchar(45) NOT NULL COMMENT '漂浮框URL',
+  `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
