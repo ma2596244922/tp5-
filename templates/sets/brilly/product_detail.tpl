@@ -45,9 +45,7 @@
 {-if $product_images}
     {-foreach $product_images as $image_id}
               <li class="PL_item" style="display: none;">
-                <a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape} image" target="_blank">
-                  <img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}">
-                </a>
+                <img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}">
               </li>
     {-/foreach}
 {-else}
