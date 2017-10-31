@@ -2116,7 +2116,9 @@ function enterprise_get_index_products_from_site($site, $indexProductIdArray = n
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
     $pidCondition = ' ' . $pidFieldName . ' IN (' . implode(',', $pidArray) . ')';
-    return $productDAO->getMultiInOrderBy($pidCondition, $fields);
+    $products = $productDAO->getMultiInOrderBy($pidCondition, $fields);
+
+    return enterprise_product_append_group_info($langCode, $products);
 }
 
 function enterprise_assign_index_products($smarty, $site, $langCode = 'en', $indexProductIdArray = null)

@@ -627,7 +627,7 @@ function enterprise_admin_action_index_products($smarty, $site, $langCode = 'en'
         $path = parse_url($url, PHP_URL_PATH);
         if (!$path)
             continue;
-        if (!enterprise_match_url_product($path, $productId, $pageNo))
+        if (!enterprise_match_url_product($path, $productId, $pageNo, $langCode, $site))
             continue;
         if (!$productId)
             continue;
