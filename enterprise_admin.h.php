@@ -1682,7 +1682,7 @@ function enterprise_admin_action_edit_product_tdk($smarty, $site)
         $corporation = $smarty->getTemplateVars('corporation');
         enterprise_admin_assign_group_info($smarty, 'product_group', $product['group_id']);
         $productGroup = $smarty->getTemplateVars('product_group');
-        enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
+        enterprise_assign_tdk_of_product_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $product, $productGroup);
 
         return $smarty->display($tplPath);
     }
@@ -1719,7 +1719,7 @@ function enterprise_admin_action_edit_product_tdk($smarty, $site)
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_admin_assign_group_info($smarty, 'product_group', $product['group_id']);
     $productGroup = $smarty->getTemplateVars('product_group');
-    enterprise_assign_tdk_of_product_detail($smarty, $corporation, $product, $productGroup);
+    enterprise_assign_tdk_of_product_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $product, $productGroup);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
