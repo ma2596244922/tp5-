@@ -1153,9 +1153,15 @@ function enterprise_admin_action_edit_group_tdk($smarty, $site)
         // Auto TDK
         enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
         $corporation = $smarty->getTemplateVars('corporation');
-        enterprise_admin_assign_group_info($smarty, 'group_group', $group['group_id']);
-        $groupGroup = $smarty->getTemplateVars('group_group');
-        enterprise_assign_tdk_of_group_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $group, $groupGroup);
+        enterprise_assign_tdk_of_product_list($smarty, $corporation, 1, 'en', $groupId, $group);
+
+        // Fill custom into blank
+        if ($group['html_title'])
+            $smarty->assign('title', $group['html_title']);
+        if ($group['meta_keywords'])
+            $smarty->assign('keywords', $group['meta_keywords']);
+        if ($group['meta_description'])
+            $smarty->assign('description', $group['meta_description']);
 
         return $smarty->display($tplPath);
     }
@@ -1190,11 +1196,17 @@ function enterprise_admin_action_edit_group_tdk($smarty, $site)
     // Auto TDK
     enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
     $corporation = $smarty->getTemplateVars('corporation');
-    enterprise_admin_assign_group_info($smarty, 'group_group', $group['group_id']);
-    $groupGroup = $smarty->getTemplateVars('group_group');
-    enterprise_assign_tdk_of_group_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $group, $groupGroup);
+    enterprise_assign_tdk_of_product_list($smarty, $corporation, 1, 'en', $groupId, $group);
 
-    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品管理');
+    // Fill custom into blank
+    if ($group['html_title'])
+        $smarty->assign('title', $group['html_title']);
+    if ($group['meta_keywords'])
+        $smarty->assign('keywords', $group['meta_keywords']);
+    if ($group['meta_description'])
+        $smarty->assign('description', $group['meta_description']);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '分组管理');
 }
 
 /**

@@ -1941,6 +1941,55 @@ function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $pl
     return $smarty->fetch($tplPath);
 }
 
+function enterprise_assign_tdk_of_product_list_of_group($smarty, $group, $presetTranslations, $searches, $replacements)
+{
+    $titleTemplate = $presetTranslations['preset_group_html_title'];
+    $keywordsTemplate = $presetTranslations['preset_group_meta_keywords'];
+    $descriptionTemplate = $presetTranslations['preset_group_meta_description'];
+
+    $searches[] = '{group}';
+    $searches[] = '[分组名称]';
+    $replacements[] = $group['name'];
+    $replacements[] = $group['name'];
+
+    if ($group['html_title'])
+        $titleTemplate = $group['html_title'];
+    if ($group['meta_keywords'])
+        $keywordsTemplate = $group['meta_keywords'];
+    if ($group['meta_description'])
+        $descriptionTemplate = $group['meta_description'];
+
+    $smarty->assign('title', str_replace($searches, $replacements, $titleTemplate));
+    $smarty->assign('keywords', str_replace($searches, $replacements, $keywordsTemplate));
+    $smarty->assign('description', str_replace($searches, $replacements, $descriptionTemplate));
+}
+
+function enterprise_assign_tdk_of_product_list($smarty, $corporation, $pageNo = 1, $langCode = 'en', $groupId = null, $group = null, $phrase = '', $tplFile = null)
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+    $searches = ['{corporation}', '[公司名称]', '{page_info}', '[分页信息]'];
+    $replacements = [$corporation['name'], $corporation['name'], $pageInfo, $pageInfo];
+    if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_directory_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_description']));
+    } elseif (null === $groupId) {// /products.html
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_product_index_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_description']));
+    } elseif (is_array($groupId)) {// PATTERN_PRODUCT_SEARCH
+        $searches[] = '{phrase}';
+        $replacements[] = $phrase;
+
+        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_search_html_title']));
+        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_keywords']));
+        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_description']));
+    } else {// $GLOBALS['gaUrlPatterns']['group']
+        enterprise_assign_tdk_of_product_list_of_group($smarty, $group, $presetTranslations, $searches, $replacements);
+    }
+}
+
 /**
  * /supplier-*.html
  *
@@ -1972,39 +2021,11 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     $corporation = $smarty->getTemplateVars('corporation');
     $phrase = $smarty->getTemplateVars('phrase');
+    $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
 
     // TDK
-function enterprise_assign_tdk_of_product_list($smarty, $pageNo = 1, $langCode = 'en')
-{
-    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
-    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
-    $searches = ['{corporation}', '{page_info}'];
-    $replacements = [$corporation['name'], $pageInfo];
-    if ($tplFile == 'product_directory.tpl') {// PATTERN_PRODUCT_DIRECTORY
-        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_directory_html_title']));
-        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_keywords']));
-        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_directory_meta_description']));
-    } elseif (null === $groupId) {// /products.html
-        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_product_index_html_title']));
-        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_keywords']));
-        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_product_index_meta_description']));
-    } elseif (is_array($groupId)) {// PATTERN_PRODUCT_SEARCH
-        $searches[] = '{phrase}';
-        $replacements[] = $phrase;
+    enterprise_assign_tdk_of_product_list($smarty, $corporation, $pageNo, $langCode, $groupId, $group, $phrase, $tplFile);
 
-        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_search_html_title']));
-        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_keywords']));
-        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_search_meta_description']));
-    } else {// $GLOBALS['gaUrlPatterns']['group']
-        $group = $smarty->getTemplateVars('group');
-        $searches[] = '{group}';
-        $replacements[] = $group['name'];
-
-        $smarty->assign('title', str_replace($searches, $replacements, $presetTranslations['preset_group_html_title']));
-        $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_keywords']));
-        $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_description']));
-    }
-}
     return $smarty->fetch($tplPath);
 }
 
