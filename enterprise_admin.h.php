@@ -1131,6 +1131,73 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
 }
 
 /**
+ * Edit Group TDK
+ */
+function enterprise_admin_action_edit_group_tdk($smarty, $site)
+{
+    $tplPath = 'admin/edit_group_tdk.tpl';
+
+    $groupId = (int)timandes_get_query_data('group_id');
+    if (!$groupId)
+        return header('Location: ?action=group');
+    $smarty->assign('group_id', $groupId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Group Info
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+        $group = $smarty->getTemplateVars('group');
+
+        // Auto TDK
+        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+        $corporation = $smarty->getTemplateVars('corporation');
+        enterprise_admin_assign_group_info($smarty, 'group_group', $group['group_id']);
+        $groupGroup = $smarty->getTemplateVars('group_group');
+        enterprise_assign_tdk_of_group_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $group, $groupGroup);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description');
+    $metaDescription = str_replace("\n", '', $metaDescription);
+    $metaDescription = str_replace("\r", '', $metaDescription);
+
+    $groupDAO = new \enterprise\daos\Group();
+    // Authentication
+    $originalGroup = $groupDAO->get($groupId);
+    if (!$originalGroup
+            || $originalGroup['site_id'] != $site['site_id'])
+        return enterprise_admin_display_error_msg($smarty, '权限不足');
+
+    // Save groups
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+            'html_title' => $htmlTitle,
+            'meta_keywords' => $metaKeywords,
+            'meta_description' => $metaDescription,
+        );
+    $groupDAO->update($groupId, $values);
+
+    // Group Info
+    enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+    $group = $smarty->getTemplateVars('group');
+
+    // Auto TDK
+    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId);
+    $corporation = $smarty->getTemplateVars('corporation');
+    enterprise_admin_assign_group_info($smarty, 'group_group', $group['group_id']);
+    $groupGroup = $smarty->getTemplateVars('group_group');
+    enterprise_assign_tdk_of_group_detail($smarty, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $site, $corporation, $group, $groupGroup);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品管理');
+}
+
+/**
  * Delete Group
  */
 function enterprise_admin_action_delete_group($smarty, $site, $langCode)

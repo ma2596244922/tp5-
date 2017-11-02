@@ -104,6 +104,8 @@ retry:
                     return enterprise_admin_action_edit_group($smarty, $site, $langCode);
                 case 'delete_group':
                     return enterprise_admin_action_delete_group($smarty, $site, $langCode);
+                case 'edit_group_tdk':
+                    return enterprise_admin_action_edit_group_tdk($smarty, $site);
                 case 'remove_empty_caption_products':
                     return enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode);
                 case 'count_products':

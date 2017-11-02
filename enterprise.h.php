@@ -1974,6 +1974,8 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     $phrase = $smarty->getTemplateVars('phrase');
 
     // TDK
+function enterprise_assign_tdk_of_product_list($smarty, $pageNo = 1, $langCode = 'en')
+{
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
     $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
     $searches = ['{corporation}', '{page_info}'];
@@ -2002,7 +2004,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $smarty->assign('keywords', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_keywords']));
         $smarty->assign('description', str_replace($searches, $replacements, $presetTranslations['preset_group_meta_description']));
     }
-
+}
     return $smarty->fetch($tplPath);
 }
 
