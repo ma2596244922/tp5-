@@ -96,6 +96,9 @@ CREATE TABLE `enterprise_groups` (
   `product_html_title` text NOT NULL COMMENT '产品页T',
   `product_meta_keywords` text NOT NULL COMMENT '产品页K',
   `product_meta_description` text NOT NULL COMMENT '产品页D',
+  `html_title` text NOT NULL COMMENT 'T',
+  `meta_keywords` text NOT NULL COMMENT 'K',
+  `meta_description` text NOT NULL COMMENT 'D',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`),
   KEY `idx_lookup` (`site_id`, `path_sum`)

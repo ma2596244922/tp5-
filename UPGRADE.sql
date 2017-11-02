@@ -1,5 +1,10 @@
 -- 2017-11-2
 ALTER TABLE `blowjob_tasks` CHANGE COLUMN `details` `details` MEDIUMTEXT NOT NULL COMMENT '任务详情（JSON）' ;
+-- 2017-11-1
+ALTER TABLE `enterprise_groups`
+   ADD COLUMN `html_title` text NOT NULL COMMENT 'T',
+   ADD COLUMN `meta_keywords` text NOT NULL COMMENT 'K',
+   ADD COLUMN `meta_description` text NOT NULL COMMENT 'D';
 -- 2017-10-24
 ALTER TABLE `enterprise_sites` ADD COLUMN `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)';
 -- 2017-10-9
