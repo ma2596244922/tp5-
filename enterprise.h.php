@@ -679,6 +679,11 @@ function enterprise_assign_action_product_list($smarty, $siteId, $langCode = 'en
     if ($groupId
             && is_numeric($groupId)) {
         enterprise_assign_group_info($smarty, 'group', $groupId, $langCode);
+        $group = $smarty->getTemplateVars('group');
+        if (!$group) 
+            throw new HttpException(404, 'No that group');
+        if ($group['deleted'])
+            throw new HttpException(404, 'No that group#2');
     }
 
     // All groups
