@@ -598,6 +598,8 @@ function enterprise_assign_action_product_detail($smarty, $siteId, $langCode, $p
     $product = enterprise_get_product_info($productId, $langCode);
     if (!$product) 
         throw new HttpException(404, 'No that product');
+    if ($product['deleted'])
+        throw new HttpException(404, 'No that product#2');
     $smarty->assign('product', $product);
 
     // Tags
