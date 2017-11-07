@@ -44,19 +44,17 @@
             <ul class="picsList PL_List">
 {-if $product_images}
     {-foreach $product_images as $image_id}
-              <li class="PL_item" style="display: none;">
-                <a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape} image" target="_blank">
-                  <img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}">
-                </a>
+              <li class="PL_item" style="display: none; width: 600px; height: 600px;">
+                <img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}">
               </li>
     {-/foreach}
 {-else}
-              <li class="PL_item" style="display: none;"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}"></li>
+              <li class="PL_item" style="display: none; width: 600px; height: 600px;"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}"></li>
 {-/if}
             </ul>
-            <button class="PL_prev"><i class="icon arrow_left"></i></button>
-            <button class="PL_next"><i class="icon arrow_right"></i></button>
-            <div class="PL_dots">
+            <button class="PL_prev" style="top: 608px;"><i class="icon arrow_left"></i></button>
+            <button class="PL_next" style="top: 608px;"><i class="icon arrow_right"></i></button>
+            <div class="PL_dots" style="top: 610px;">
 {-if $product_images}
     {-foreach $product_images as $image_id}
               <img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|default:''|escape}" class="PL_dot{if $image_id@index == 0} cur{/if}">
@@ -66,65 +64,7 @@
 {-/if}
             </div>
           </div>
-          <div class="main">
-            <!-- Product Details -->
-            {if $product.place_of_origin|default:''}<dl>
-              <dt>{$preset_translations.place_of_origin}:</dt>
-              <dd>{$product.place_of_origin}</dd>
-            </dl>{/if}
-            {if $product.brand_name|default:''}<dl>
-              <dt>{$preset_translations.brand_name}:</dt>
-              <dd>{$product.brand_name}</dd>
-            </dl>{/if}
-            {if $product.certification|default:''}<dl>
-              <dt>{$preset_translations.certification}:</dt>
-              <dd>{$product.certification}</dd>
-            </dl>{/if}
-            {if $product.model_number|default:''}<dl>
-              <dt>{$preset_translations.model_number}:</dt>
-              <dd>{$product.model_number}</dd>
-            </dl>{/if}
-
-            <!-- Payment & Shipping Terms -->
-            <dl>
-              <dt>{$preset_translations.minimum_order_quantity}:</dt>
-              <dd>{$product.min_order_quantity|default:'Negotiation'}</dd>
-            </dl>
-            <dl>
-              <dt>{$preset_translations.price}:</dt>
-              <dd>{$product.price|default:'Negotiation'}</dd>
-            </dl>
-            {if $product.packaging_details|default:''}<dl>
-              <dt>{$preset_translations.packaging_details}:</dt>
-              <dd>{$product.packaging_details}</dd>
-            </dl>{/if}
-            {if $product.delivery_time|default:''}<dl>
-              <dt>{$preset_translations.delivery_time}:</dt>
-              <dd>{$product.delivery_time}</dd>
-            </dl>{/if}
-            {if $product.payment_terms|default:''}<dl>
-              <dt>{$preset_translations.payment_terms}:</dt>
-              <dd>{$product.payment_terms}</dd>
-            </dl>{/if}
-            {if $product.supply_ability|default:''}<dl>
-              <dt>{$preset_translations.supply_ability}:</dt>
-              <dd>{$product.supply_ability}</dd>
-            </dl>{/if}
-            <a href="/contactnow.html" class="Btn" rel="nofollow">{$preset_translations.contact_now}</a>
-          </div>
           <div class="clear"></div>
-        </div>
-        <div class="ConBox ProductIntro">
-          <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.product_description}</h2>
-          <div class="clear"></div>
-          <dl>
-            <dd>
-              <div class="content cur">
-                {$product.description}
-              </div>
-            </dd>
-          </dl>
         </div>
 {include file="sets/brilly/common/inquiryform.tpl"}
         <div class="ConBox">
