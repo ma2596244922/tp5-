@@ -75,8 +75,8 @@
 <!--********************ym_container********************-->
 <div class="ym_mian_list">
     <div class="ym_con_pic">
-        <h1>outside Feature</h1>
-        <p>There are so many reasons to choose outside, here are a few Features:</p>
+        <h1>{$preset_translations.product_categories}</h1>
+        <p>We can provide several types of products, you can choose as follow:</p>
         <div class="ym_con_box">
               <ul class="ym_mian_ul">
                     <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
