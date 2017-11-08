@@ -78,34 +78,15 @@
         <h1>{$preset_translations.product_categories}</h1>
         <p>We can provide several types of products, you can choose as follow:</p>
         <div class="ym_con_box">
-              <ul class="ym_mian_ul">
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Creative and Modern Design</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Easy To Customize</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Faster drag and drop page builder</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>7+ Outside addons</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
+{foreach $groups as $group}{if $group@index>=18}{break}{/if}
+    {-if $group@index%6==0}
+                <ul class="ym_mian_ul">
+    {-/if}
+                    <li><a href="{$group|url:'enterprise_url_product_list'}"><i class="iconfont icon-xiangyoujiantou"></i>{$group.name}</a></li>
+    {-if $group@index%6==5}
                 </ul>
-                
-        
-              <ul class="ym_mian_ul">
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page VariationEasy To CustomizeEasy To CustomizeEasy To Customize</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Creative and Modern Design</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Easy To Customize</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Faster drag and drop page builder</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>7+ Outside addons</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
-                </ul>
-                
-                
-              <ul class="ym_mian_ul">
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Creative and Modern Design</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Easy To Customize</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Faster drag and drop page builder</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>7+ Outside addons</a></li>
-                    <li><a href=""><i class="iconfont icon-xiangyoujiantou"></i>Three Home Page Variation</a></li>
-                </ul>
+    {-/if}
+{/foreach}
         </div>
         
     </div>
