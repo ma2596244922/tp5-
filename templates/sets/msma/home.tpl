@@ -44,7 +44,7 @@
 <div class="ym_container">
    <!--****caidan****-->
     <ul class="ym_con_ul"  id="ym_con_ul">
-{foreach $groups as $group}{if $group@index>=5}{continue}{/if}
+{foreach $groups as $group}{if $group@index>=3}{continue}{/if}
         <li><a href="javascript:;">{$group.name}</a></li>
 {/foreach}
     </ul>
@@ -52,7 +52,7 @@
     <div class="clear"></div>
     
     <div class="ym_con_pic">
-{foreach $groups as $group}{if $group@index>=5}{continue}{/if}
+{foreach $groups as $group}{if $group@index>=3}{continue}{/if}
       <!--****切换图片1****-->
       <div class="ym_con_box ym_con_clear"{if $group@index==0} style="display:block;"{/if}>
     {-foreach $group.products as $product}{if $product@index>=8}{continue}{/if}
