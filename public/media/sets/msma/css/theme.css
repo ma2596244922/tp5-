@@ -46,8 +46,7 @@ src:
 
 #banner{width:100%;	float:left;	height:600px;	overflow:hidden;position:relative;}
 #banner .swiper-slide{	width:100%;	float:left;	height:600px;}
-#banner #swiper-slide1{	background:url(../images/banner1.jpg) no-repeat center;}
-#banner #swiper-slide2{	background:url(../images/banner2.jpg) no-repeat center;}
+
 #banner .arrow-left {position: absolute;left: 20px;top: 55%;margin-top: -35px;width: 70px;height: 70px;z-index:999;}
 #banner .arrow-right {position: absolute;right: 20px;top:55%;margin-top: -35px;width: 70px;height: 70px;z-index:999;}
 #banner .pagination {position: absolute;left: 0;text-align: center;bottom: 5px;width: 100%;z-index:999;}

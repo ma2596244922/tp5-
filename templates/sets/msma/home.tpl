@@ -22,6 +22,7 @@
 {foreach $banners as $banner}
    <!--********************banner1********************-->
     <div class="swiper-slide" id="swiper-slide{$banner@iteration}">
+        <div style="position:absolute;"><img src="http://www.fossilfreeeib.org/media/sets/msma/images/banner1.jpg" alt=""  width="100%" height="600px"  /></div>
         <div class="inner">
             <div id="mainTheme" ><h1 data-swiper-parallax="-1500">{$banner.desc}</h1></div>
             <p data-swiper-parallax="-1500">{$banner.desc}</p>
@@ -138,5 +139,7 @@
   });  
 </script>
 <!--********************banner_js********************-->
+
+
 </body>
 </html>

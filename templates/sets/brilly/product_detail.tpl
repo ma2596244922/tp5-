@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html{$html_attr_dir}>
-<head>
+<html{$html_attr_dir}><head>
   {$site.common_head_fragment}
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=1200, initial-scale=device-width/1200, user-scalable=no, minimal-ui">
   <title>{$title}</title>
   <meta name="keywords" content="{$keywords|escape}" />
@@ -56,7 +56,7 @@
             </ul>
             <button class="PL_prev"><i class="icon arrow_left"></i></button>
             <button class="PL_next"><i class="icon arrow_right"></i></button>
-            <div class="PL_dots">
+            <div class="PL_dots PL_dots_img">
 {-if $product_images}
     {-foreach $product_images as $image_id}
               <img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|default:''|escape}" class="PL_dot{if $image_id@index == 0} cur{/if}">

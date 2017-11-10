@@ -4,7 +4,7 @@
         <h2 class="Til">{$preset_translations.company_profile}</h2>
         <div class="clear"></div>
         <img src="{$corporation.logo|url:'enterprise_url_image'}" class="fl"  alt="{$corporation.name}">
-        <div class="info">
+        <div class="info" >
           <a href="/aboutus.html" title="{$corporation.name|escape}"><h1>{$corporation.name|escape}</h1></a>
           <table>
 {if $contacts[0]|default:[]}
@@ -42,7 +42,7 @@
             {-/if}
         {-/foreach}
         </table>
-        <a href="/contactnow.html" class="btn" rel="nofollow">{$preset_translations.send_inquiry}</a>
+        <a href="/contactnow.html" class="btn" rel="nofollow" style="margin:30px auto 0 auto;">{$preset_translations.send_inquiry}</a>
       </div>
 {/if}
     </div>

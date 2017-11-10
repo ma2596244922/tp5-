@@ -340,7 +340,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
     .Shop li.subList i.icon.arrow_down3  {width: 13px;height: 6px;position: absolute;right:30px;top:19px;background-position: -220px 0px;}
     .Shop li.subList:hover a  {color:#2d56ee;}
     .Shop li.subList:hover i.icon.arrow_down3 {background-position: -200px 0px;}
-    .Shop li.subList .subNav  {position: absolute;left: -2px;top:40px;background: #FFF;border:2px solid #2d56ee;text-align: left;font-size: 14px;padding:10px 35px;width: 170px;border-top: 0;display: none;}
+    .Shop li.subList .subNav  {position: absolute;left: -2px;top:40px;background: #FFF;border:2px solid #2d56ee;text-align: left;font-size: 14px;padding:10px 35px;width: 170px;border-top: 0;display: none; z-index:1000;}
     .Shop li.subList:hover .subNav  {display: block;}
       .Shop li.subList .subNav a  {color:#666;line-height: 20px;padding: 5px 0px;display: block;}
       .Shop li.subList .subNav a:hover  {color: #2d56ee;font-weight: normal;}
@@ -395,7 +395,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 
     .Shop .Right .CompanyProfile .Left  {width: 620px;}
       .Shop .Right .CompanyProfile .Left img.fl {width: 245px;margin-left: 20px;}
-      .Shop .Right .CompanyProfile .Left .info  {margin-left: 20px;}
+      .Shop .Right .CompanyProfile .Left .info  {margin-left: 280px; padding-right:0px;}
       .Shop .Right .CompanyProfile .Left .info.hasPic  {margin-left: 290px;}
       .Shop .Right .CompanyProfile .Left .info table tr>* {padding-top: 0;padding-bottom: 12px;line-height: 1.5;}
     .Shop .Right .CompanyProfile .Right {width: 280px;padding:50px 20px 0 20px;}
@@ -422,3 +422,17 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 .NewsContent  {padding: 20px;line-height: 1.4;}
   .NewsContent img  {margin: 20px auto;}
   .NewsContent a.more {float: right;color:#00F;margin: 20px auto;}
+  
+/*ma 20171109 gai*/
+.Shop .Right .ProductInfo .pics .PL_dots .PL_dot  {width: 60px;height: 60px;margin-left: 4px;margin-right: 4px; display:inline-block;}
+.Shop .Right .ProductInfo .pics .PL_dots .PL_dot.cur  {background-position: -1px -431px;}
+.ProductInfo .pics .PL_dots .PL_dot {float: none;}
+.Shop .Right .ProductInfo .pics .PL_dots_img .PL_dot {width: 40px;height: 40px;margin-left: 0px;margin-right: 0px; display:inline-block;}
+.Shop .Right .ProductInfo .pics .PL_dots_img .PL_dot.cur  {background-position:  -85px -448px;}
+.Right_ma_ul span { margin-left:12px;}
+.Right_ma_ul label { color:#999;}
+.PL_dots_img{width: 260px;overflow: hidden;height: 50px;}
+
+
+
+

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html{$html_attr_dir}>
-<head>
+<html{$html_attr_dir}><head>
   {$site.common_head_fragment}
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=1200, initial-scale=device-width/1200, user-scalable=no, minimal-ui">
   <title>{$title}</title>
   <meta name="keywords" content="{$keywords|escape}" />
@@ -38,10 +38,10 @@
       <div class="Right">
         <div class="ConBox ProductInfo">
           <div class="clear">&nbsp;</div>
-          <h1 class="Til">{$product.caption}</h1>
+          <h1 class="Til"><a href="">{$product.caption}</a></h1>
           <div class="clear"></div>
-          <div class="pics PL">
-            <ul class="picsList PL_List">
+          <div class="pics PL" style="width:600px; float:none; margin:0 auto">
+            <ul class="picsList PL_List" >
 {-if $product_images}
     {-foreach $product_images as $image_id}
               <li class="PL_item" style="display: none; width: 600px; height: 600px;">
@@ -52,9 +52,9 @@
               <li class="PL_item" style="display: none; width: 600px; height: 600px;"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|default:''|escape}"></li>
 {-/if}
             </ul>
-            <button class="PL_prev" style="top: 608px;"><i class="icon arrow_left"></i></button>
-            <button class="PL_next" style="top: 608px;"><i class="icon arrow_right"></i></button>
-            <div class="PL_dots" style="top: 610px;">
+            <button class="PL_prev" style="top: 616px;"><i class="icon arrow_left"></i></button>
+            <button class="PL_next" style="top: 616px;"><i class="icon arrow_right"></i></button>
+            <div class="PL_dots" style="top: 610px; overflow:hidden; height:70px;   text-align:center;vertical-align:middle; width:566px; float: left;">
 {-if $product_images}
     {-foreach $product_images as $image_id}
               <img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|default:''|escape}" class="PL_dot{if $image_id@index == 0} cur{/if}">
