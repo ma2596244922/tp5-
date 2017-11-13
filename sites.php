@@ -345,6 +345,7 @@ $siteInfo = array(
             ),
         159 => array(
                 'original_domain_prefix' => 'leader1997.com',
+                'root_domain_only' => true, // 仅可以通过 http://abc.com/ 方式访问。
             ),
         160 => array(
                 'original_domain_prefix' => 'xgz1996.com',
