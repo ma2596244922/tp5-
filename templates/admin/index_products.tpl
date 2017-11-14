@@ -141,7 +141,7 @@
                                                         <div style="height: auto;" id="accordion1-1" class="accordion collapse">
 
                                                             <form action="?action=index_products" method="POST">
-{for $i=1 to 10}
+{for $i=1 to $smarty.const.ENTERPRISE_MAX_INDEX_PRODUCTS}
                                                                 <label class="control-label">产品{$i} URL</label>
 
                                                                 <input type="text" name="urls[{$i-1}]" placeholder="http://" class="m-wrap span8" value="{$products[$i-1]|default:[]|url:'enterprise_url_product'}" />

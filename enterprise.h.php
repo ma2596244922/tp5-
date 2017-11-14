@@ -50,6 +50,9 @@ define('ENTERPRISE_PRODUCT_PAGE_TYPE_DETAILED', 20);
 define('ENTERPRISE_PRODUCT_PAGE_TYPE_PIC', 30);
 /* }}} */
 
+/** @var int 最大允许的首页产品数 */
+define('ENTERPRISE_MAX_INDEX_PRODUCTS', 20);
+
 /** @var array Product Desc Mapping */
 $productDescMapping = array(// Key 'label' is deprecated.
         'place_of_origin' => array(
@@ -2148,6 +2151,25 @@ function enterprise_get_index_products_from_site($site, $indexProductIdArray = n
     $pidCondition = ' ' . $pidFieldName . ' IN (' . implode(',', $pidArray) . ')';
     $products = $productDAO->getMultiInOrderBy($pidCondition, $fields);
 
+    // Sort products by $indexProductIdArray
+    if (is_array($products)) {
+        $prodMapping = array();
+        foreach ($products as $prod) {
+            $pid = ($prod['id']??($prod['product_id']??null));
+            if (!$pid)
+                continue;
+            $prodMapping[$pid] = $prod;
+        }
+        $products = array();
+        foreach ($pidArray as $pid) {
+            if (!$pid)
+                continue;
+            if (!isset($prodMapping[$pid]))
+                continue;
+            $products[] = $prodMapping[$pid];
+        }
+    }
+
     return enterprise_product_append_group_info($langCode, $products);
 }
 
@@ -2157,7 +2179,7 @@ function enterprise_assign_index_products($smarty, $site, $langCode = 'en', $ind
     if ($indexProducts)
         $smarty->assign('products', $indexProducts);
     else
-        enterprise_assign_product_list($smarty, 'products', $site['site_id'], $langCode, null, 1, 10);
+        enterprise_assign_product_list($smarty, 'products', $site['site_id'], $langCode, null, 1, ENTERPRISE_MAX_INDEX_PRODUCTS);
 }
 
 function enterprise_get_user_voices($smarty, $site)
