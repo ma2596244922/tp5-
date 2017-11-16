@@ -1,3 +1,5 @@
+-- 2017-11-15
+ALTER TABLE `enterprise_groups` ADD COLUMN `desc` text NOT NULL COMMENT '说明文本';
 -- 2017-11-2
 ALTER TABLE `blowjob_tasks` CHANGE COLUMN `details` `details` MEDIUMTEXT NOT NULL COMMENT '任务详情（JSON）' ;
 -- 2017-11-1

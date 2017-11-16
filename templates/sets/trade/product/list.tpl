@@ -11,6 +11,9 @@
                         <a href="/contactnow.html" rel="nofollow">{$preset_translations.contact_now}</a>
                     </div>
                     <div class="product-all{if !$products|default:[]} quality-none{/if}">
+{-if $group|default:[]&&$group.desc|default:''}
+                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$group.desc}</div>
+{-/if}
 {foreach $products as $product}
                         <div class="product-intro">
                             <div class="left-img">

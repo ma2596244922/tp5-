@@ -205,6 +205,8 @@
 
                                                 <a href="?action=edit_group_tdk&group_id={$gid}">TDK</a>
 
+                                                <a href="?action=edit_group_desc&group_id={$gid}">分组说明</a>
+
                                                 <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$gid}" data-group-cnt="{$groups[i].cnt}">删除</a>
 
                                             </td>

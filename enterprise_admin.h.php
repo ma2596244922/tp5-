@@ -1210,6 +1210,47 @@ function enterprise_admin_action_edit_group_tdk($smarty, $site)
 }
 
 /**
+ * Edit Group Desc
+ */
+function enterprise_admin_action_edit_group_desc($smarty, $site)
+{
+    $tplPath = 'admin/edit_group_desc.tpl';
+
+    $groupId = (int)timandes_get_query_data('group_id');
+    if (!$groupId)
+        return header('Location: ?action=group');
+    $smarty->assign('group_id', $groupId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Group Info
+        enterprise_admin_assign_group_info($smarty, 'group', $groupId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $desc = timandes_get_post_data('desc', 'xss_clean, remove_n_r, trim');
+
+    $groupDAO = new \enterprise\daos\Group();
+    // Authentication
+    $originalGroup = $groupDAO->get($groupId);
+    if (!$originalGroup
+            || $originalGroup['site_id'] != $site['site_id'])
+        return enterprise_admin_display_error_msg($smarty, '权限不足');
+
+    // Save groups
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+            'desc' => $desc,
+        );
+    $groupDAO->update($groupId, $values);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '分组管理');
+}
+
+/**
  * Delete Group
  */
 function enterprise_admin_action_delete_group($smarty, $site, $langCode)
