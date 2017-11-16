@@ -1,32 +1,14 @@
     <div class="CompanyProfile">
-      <div class="ConBox Left">
+      <div class="ConBox Left ProductIntro">
         <div class="clear">&nbsp;</div>
         <h2 class="Til">{$preset_translations.company_profile}</h2>
         <div class="clear"></div>
         <img src="{$corporation.logo|url:'enterprise_url_image'}" class="fl"  alt="{$corporation.name}">
-        <div class="info" >
-          <a href="/aboutus.html" title="{$corporation.name|escape}"><h1>{$corporation.name|escape}</h1></a>
-          <table>
-{if $contacts[0]|default:[]}
-            <tr>
-              <th>Email</th>
-              <td>{$contacts[0].email}</td>
-            </tr>
-{/if}
-            <tr>
-              <th>{$preset_translations.address}</th>
-              <td>{$corporation.address}</td>
-            </tr>
-            <tr>
-              <th>{$preset_translations.business_phone}</th>
-              <td>{$corporation.tel_wt}</td>
-            </tr>
-            <tr>
-              <th>{$preset_translations.fax}</th>
-              <td>{$corporation.fax}</td>
-            </tr>
-          </table>
-        </div>
+          <dl>
+            <dd>
+                {$corporation.introduction}
+            </dd>
+          </dl>
       </div>
 {if $contacts[0]|default:[]}
       <div class="Right">
