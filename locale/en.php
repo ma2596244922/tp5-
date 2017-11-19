@@ -177,4 +177,12 @@ $presetTranslations = array(
         'preset_search_html_title' => 'Quality {phrase} for {corporation}',
         'preset_search_meta_keywords' => 'Quality {phrase}，Cheap {phrase}，China {phrase}，{phrase} for sale，{phrase} manufacturer',
         'preset_search_meta_description' => 'Quality {phrase} supplier on sales from {phrase} manufacturer – find China {phrase} factory, suppliers from {corporation}.',
+
+        'preset_news_html_title' => '{news} - {group_1} & {group_2} by {corporation}',
+        'preset_news_meta_keywords' => '{news}, deep industry experience, News about {corporation}',
+        'preset_news_meta_description' => '{news} by {corporation} - we have deep industry experience about {group_1} & {group_2}.',
+
+        'preset_news_list_html_title' => 'Company News - latest information about {corporation}{page_info}',
+        'preset_news_list_meta_keywords' => 'Company News, Latest information, News about {corporation}',
+        'preset_news_list_meta_description' => 'Company News by {corporation}. we provide latest information about the products regularly{page_info}.',
     );

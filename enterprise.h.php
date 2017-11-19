@@ -1916,6 +1916,29 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
 
 
 /**
+ * 设置新闻页TDK
+ */
+function enterprise_assign_tdk_of_news_detail($smarty, $news, $groups, $corporation, $site, $langCode = 'en')
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+
+    $group1Name = (isset($groups[0]['name'])?$groups[0]['name']:'');
+    $group2Name = (isset($groups[1]['name'])?$groups[1]['name']:'');
+
+    $searches = ['{group_1}', '{group_2}', '{corporation}', '{news}'];
+    $replacements = [$group1Name, $group2Name, $corporation['name'], $news['caption']];
+
+    $presetTitle = str_replace($searches, $replacements, $presetTranslations['preset_news_html_title']);
+    $smarty->assign('title', ($presetTitle));
+
+    $presetKeywords = str_replace($searches, $replacements, $presetTranslations['preset_news_meta_keywords']);
+    $smarty->assign('keywords', ($presetKeywords));
+
+    $presetDescription = str_replace($searches, $replacements, $presetTranslations['preset_news_meta_description']);
+    $smarty->assign('description', ($presetDescription));
+}
+
+/**
  * /news-*.html
  *
  * @return string
@@ -1942,11 +1965,11 @@ function enterprise_action_sets_news_detail_proc($smarty, $site, $userAgent, $pl
     // New Products
     enterprise_assign_product_list($smarty, 'new_products', $siteId, $langCode);
 
-
     // TDK
-    $smarty->assign('title', "");
-    $smarty->assign('keywords', "");
-    $smarty->assign('description', "");
+    $corporation = $smarty->getTemplateVars('corporation');
+    $groups = $smarty->getTemplateVars('groups');
+    $news = $smarty->getTemplateVars('news');
+    enterprise_assign_tdk_of_news_detail($smarty, $news, $groups, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }
@@ -2039,6 +2062,26 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     return $smarty->fetch($tplPath);
 }
 
+/**
+ * 设置新闻列表页TDK
+ */
+function enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode = 'en')
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+
+    $searches = ['{corporation}', '{page_info}'];
+    $replacements = [$corporation['name'], $pageInfo];
+
+    $presetTitle = str_replace($searches, $replacements, $presetTranslations['preset_news_list_html_title']);
+    $smarty->assign('title', ($presetTitle));
+
+    $presetKeywords = str_replace($searches, $replacements, $presetTranslations['preset_news_list_meta_keywords']);
+    $smarty->assign('keywords', ($presetKeywords));
+
+    $presetDescription = str_replace($searches, $replacements, $presetTranslations['preset_news_list_meta_description']);
+    $smarty->assign('description', ($presetDescription));
+}
 
 /**
  * /news-*.html
@@ -2067,11 +2110,9 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
     $pagerInfo = enterprise_pager_calculate_key_infos($totalNews, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-
     // TDK
-    $smarty->assign('title', "");
-    $smarty->assign('keywords', "");
-    $smarty->assign('description', "");
+    $corporation = $smarty->getTemplateVars('corporation');
+    enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }
