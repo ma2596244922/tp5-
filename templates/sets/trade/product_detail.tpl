@@ -28,6 +28,7 @@
     <!--container-->
 </div>
 <!--content-->
+{include file="common/quick-inquiry.tpl"}
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 {include file="sets/trade/common/shopscripts.tpl"}
