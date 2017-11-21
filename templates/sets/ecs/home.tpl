@@ -51,14 +51,15 @@
     </div>
     <!--banner-->
     <div class="all-categories">
-        <div class="title"><em><h2>{$preset_translations.all_categories}</h2></em><span><a href="/products.html">{$preset_translations.view_all}&nbsp;&nbsp;&gt;</a></span></div>
+        <div class="title"><em><h2>{$preset_translations.all_categories}</h2></em><span><a href="/news">{$preset_translations.view_all}&nbsp;&nbsp;&gt;</a></span></div>
         <ul>
-{foreach $groups as $group}{if $group@index>=5}{continue}{/if}
+{foreach $news as $n}{if $n@index>=5}{continue}{/if}
             <li>
-                <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
-                    <img src="{$group.products[0].head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" alt="{$group.products[0].caption}" />
+                <a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">
+                    <img src="{$n.head_image_id|url:'enterprise_url_image':$n.caption:'c'}" alt="{$n.caption}" />
                 </a>
-                <i><strong><a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">{$group.products[0].caption}</a></strong></i><span><a href="{$group|url:'enterprise_url_product_list'}">{$preset_translations.see_more}</a><em>&gt;</em></span></li>
+                <i><strong><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">{$n.caption}</a></strong></i><span><a href="{$n|url:'enterprise_url_product_list'}">{$preset_translations.see_more}</a><em>&gt;</em></span>
+            </li>
 {/foreach}
         </ul>
     </div>
