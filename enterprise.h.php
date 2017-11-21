@@ -2317,6 +2317,9 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // TDK
     enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site, $langCode);
 
+    // News
+    enterprise_assign_news_list($smarty, 'news', $siteId, $langCode, 1, 5);
+
     return $smarty->fetch($tplPath);
 }
 
