@@ -238,7 +238,7 @@
                                                                 <label class="control-label">信息说明</label>
 
                                                                 <textarea class="span8 m-wrap" name="desc_4_inquiry_sender" id="textarea-desc_4_inquiry_sender" rows="6">{$site.desc_4_inquiry_sender|default:''}</textarea>
-
+{if $user.advanced}
                                                                 <label class="control-label">联系我们页正文</label>
 
                                                                 <textarea class="span8 m-wrap" name="contact_content" id="textarea-contact_content" rows="6">{$site.contact_content|default:''}</textarea>
@@ -254,7 +254,7 @@
                                                                 <label class="control-label">默认的语言代码</label>
 
                                                                 <input type="text" name="default_lang_code" class="m-wrap span2" value="{$site.default_lang_code}" />
-
+{/if}
                                                                 <div class="submit-btn">
 
                                                                     <input type="hidden" name="submit" value="update">

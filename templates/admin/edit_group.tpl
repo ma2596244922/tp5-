@@ -139,7 +139,7 @@
                                         </div>
 
                                     </div>
-
+{if $user.advanced}
                                     <div class="control-group">
 
                                         <label class="control-label">页面路径</label>
@@ -239,7 +239,7 @@
                                         </div>
 
                                     </div>
-
+{/if}
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_group">

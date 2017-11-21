@@ -242,7 +242,7 @@
                             </a>
 
                         </li>
-
+{if $user.advanced}
                         <li class="start{if $page_name=='index_tdk'} active{/if}">
 
                             <a href="?action=index_tdk">
@@ -254,7 +254,7 @@
                             </a>
 
                         </li>
-
+{/if}
                         <li class="start{if $page_name=='user_voice'} active{/if}">
 
                             <a href="?action=user_voice">
@@ -266,7 +266,7 @@
                             </a>
 
                         </li>
-
+{if $user.advanced}
                         <li class="start{if $page_name=='product_tdk'} active{/if}">
 
                             <a href="?action=product_tdk">
@@ -278,7 +278,7 @@
                             </a>
 
                         </li>
-
+{/if}
                         <li class="start{if $page_name=='product_default_image'} active{/if}">
 
                             <a href="?action=product_default_image">
@@ -290,7 +290,7 @@
                             </a>
 
                         </li>
-
+{if $user.advanced}
                         <li class="start{if $page_name=='main_product'} active{/if}">
 
                             <a href="?action=main_product">
@@ -302,7 +302,7 @@
                             </a>
 
                         </li>
-
+{/if}
                         <li class="start{if $page_name=='common_bg_image'} active{/if}">
 
                             <a href="?action=common_bg_image">

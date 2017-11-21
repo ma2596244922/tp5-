@@ -153,10 +153,10 @@
                                         <a href="?action=replace_keywords" class="btn normal">批量替换关键词</a>
 
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
-{-/if}
-                                        <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
+{-/if}
+                                        <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
                                     </div>
 
@@ -240,11 +240,11 @@
                                             <td>
 
                                                 <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
-
+    {-if $user.advanced}
                                                 <a href="?action=edit_product_tdk&product_id={$products[i].id}">TDK</a>
 
                                                 <a href="?action=edit_product_url&product_id={$products[i].id}">URL</a>
-
+    {-/if}
                                                 <a href="?action=edit_product&source_product_id={$products[i].id}">复制</a>
 
                                                 <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
