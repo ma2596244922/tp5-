@@ -1250,6 +1250,56 @@ function enterprise_admin_action_edit_group_desc($smarty, $site)
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '分组管理');
 }
 
+
+/**
+ * Export Products
+ */
+function enterprise_admin_action_export_group_products($smarty, $site, $langCode = 'en')
+{
+    $tplPath = 'admin/export_group_products.tpl';
+
+    $groupId = (int)timandes_get_query_data('group_id');
+    if (!$groupId)
+        return header('Location: ?action=group');
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $fp = fopen("php://output", 'w');
+
+    $fileName = 'Products.csv';
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=' . $fileName);
+
+    $colList = array(
+            'ID', 'Caption',
+        );
+    $fieldList = array(
+            'id', 'caption',
+        );
+    fputcsv($fp, $colList);
+
+    $size = 100;
+    $page = 1;
+    do {
+        $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, $page, $size);
+        if (!is_array($products))
+            break;
+        if (count($products) <= 0)
+            break;
+
+        foreach ($products as $product) {
+            $valueList = [];
+            foreach ($fieldList as $f)
+                $valueList[] = $product[$f];
+            fputcsv($fp, $valueList);
+        }
+
+        ++$page;
+    } while(true);
+
+    fclose($fp);
+}
+
 /**
  * Delete Group
  */
