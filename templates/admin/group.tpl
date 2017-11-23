@@ -208,6 +208,8 @@
                                                 <a href="?action=edit_group_desc&group_id={$gid}">分组说明</a>
 
                                                 <a href="?action=export_group_products&group_id={$gid}" target="_blank">导出产品</a>
+
+                                                <a href="?action=import_group_products&group_id={$gid}" target="_blank">导入产品信息</a>
     {-/if}
                                                 <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$gid}" data-group-cnt="{$groups[i].cnt}">删除</a>
 

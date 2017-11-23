@@ -110,6 +110,8 @@ retry:
                     return enterprise_admin_action_edit_group_desc($smarty, $site);
                 case 'export_group_products':
                     return enterprise_admin_action_export_group_products($smarty, $site, $langCode);
+                case 'import_group_products':
+                    return enterprise_admin_action_import_group_products($smarty, $site, $langCode);
                 case 'remove_empty_caption_products':
                     return enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode);
                 case 'count_products':

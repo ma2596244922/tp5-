@@ -1256,8 +1256,6 @@ function enterprise_admin_action_edit_group_desc($smarty, $site)
  */
 function enterprise_admin_action_export_group_products($smarty, $site, $langCode = 'en')
 {
-    $tplPath = 'admin/export_group_products.tpl';
-
     $groupId = (int)timandes_get_query_data('group_id');
     if (!$groupId)
         return header('Location: ?action=group');
@@ -1298,6 +1296,54 @@ function enterprise_admin_action_export_group_products($smarty, $site, $langCode
     } while(true);
 
     fclose($fp);
+}
+
+
+/**
+ * Import Products
+ */
+function enterprise_admin_action_import_group_products($smarty, $site, $langCode = 'en')
+{
+    $tplPath = 'admin/import_group_products.tpl';
+
+    $groupId = (int)timandes_get_query_data('group_id');
+    if (!$groupId)
+        return header('Location: ?action=group');
+    $smarty->assign('group_id', $groupId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    if ($_FILES['file']['error'])
+        return enterprise_admin_display_error_msg($smarty, '请选择文件#' . $_FILES['file']['error']);
+
+    $fp = fopen($_FILES['file']['tmp_name'], 'r');
+
+    $headerLine = fgetcsv($fp);
+    if ($headerLine[0] != 'ID'
+            || $headerLine[1] != 'Model Number') {
+        fclose($fp);
+        return enterprise_admin_display_error_msg($smarty, '文件格式不正确');
+    }
+
+    $productDAO = new \enterprise\daos\Product();
+    while ($dataLine = fgetcsv($fp)) {
+        $productId = (int)trim($dataLine[0]);
+        $modelNumber = trim($dataLine[1]);
+        $values = array(
+                'updated' => date('Y-m-d H:i:s'),
+                'model_number' => $modelNumber,
+            );
+        $productDAO->update($productId, $values);
+    }
+
+    fclose($fp);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '分组管理');
 }
 
 /**
