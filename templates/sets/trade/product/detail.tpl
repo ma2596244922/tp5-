@@ -44,7 +44,7 @@
                     {if $product.place_of_origin|default:''}<li><label>{$preset_translations.place_of_origin}:</label><span>{$product.place_of_origin}</span></li>{/if}
                     {if $product.brand_name|default:''}<li><label>{$preset_translations.brand_name}:</label><span>{$product.brand_name}</span></li>{/if}
                     {if $product.certification|default:''}<li><label>{$preset_translations.certification}:</label><span>{$product.certification}</span></li>{/if}
-                    {if $product.model_number|default:''}<li><label>{$preset_translations.model_number}:</label><span>{$product.model_number}</span></li>{/if}
+                    {if $product.model_number|default:''}<li><label>{$preset_translations.model_number}:</label><h2>{$product.model_number}</h2></li>{/if}
 
                     <!-- Payment & Shipping Terms -->
                     <li><label>{$preset_translations.minimum_order_quantity}:</label><span>{$product.min_order_quantity|default:'Negotiation'}</span></li>
