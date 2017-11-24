@@ -2098,7 +2098,7 @@ function enterprise_admin_insert_random_keywords_to_value($value, $separator, $k
  */
 function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt)
 {
-    $words = explode($separator, $value);
+    $words = ($value?explode($separator, $value):[]);
     $wordsCnt = count($words);
     $finalWords = array();
     $minCnt = min($wordsCnt, $targetCnt);
@@ -2120,6 +2120,23 @@ function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKe
 }
 
 /* }}} */
+
+/**
+ * Replace vars in keywords' array with product meta
+ */
+function enterprise_admin_insert_keywords_replace_var($product, $keywordsArray)
+{
+    if (!is_array($keywordsArray))
+        return array();
+
+    $retval = array();
+    $searches = ['[产品型号]'];
+    $replacements = [$product['model_number']];
+    foreach ($keywordsArray as $k) {
+        $retval[] = str_replace($searches, $replacements, $k);
+    }
+    return $retval;
+}
 
 /**
  * Insert keywords proc
@@ -2151,11 +2168,16 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
             break;
 
         foreach ($products as $product) {
+            $replacedKeywords = enterprise_admin_insert_keywords_replace_var($product, $keywordsArray);
             $values = array();
             if ($location == 1)
-                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $keywordsArray, $keywordsCnt, $targetCnt);
+                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt);
             elseif ($location == 2)
-                $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $keywordsArray, $keywordsCnt, $targetCnt);
+                $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
+            elseif ($location == 3) {
+                $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+                $values['model_number'] = $targetKeywords[0]; // Overwrite
+            }
 
             if ($values) {
                 $values['updated'] = date('Y-m-d H:i:s');
@@ -2189,7 +2211,7 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
 
-    $locationRange = array(1, 2);
+    $locationRange = array(1, 2, 3);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$groupId)

@@ -136,7 +136,9 @@
 
                                         <div class="controls">
 
-                                            <textarea class="span4 m-wrap" name="keywords" rows="16"></textarea>
+                                            <textarea class="span4 m-wrap" name="keywords" rows="16" id="textarea-keywords"></textarea>
+
+                                            <button class="btn btn-default" data-role="btn-insert-to-keywords" data-config="[产品型号]" type="button">插入产品型号</button>
 
                                             <span class="help-inline">关键词一行一个，最多不超过50个。</span>
 
@@ -168,7 +170,6 @@
 
                                     </div>
 
-
                                     <div class="control-group">
 
                                         <div class="controls">
@@ -186,6 +187,28 @@
                                             <input type="text" class="span1 m-wrap" name="location_2_cnt" value="5" />
 
                                             个关键词
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                            <input type="radio" name="location" value="3" />
+
+                                            插入型号
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="hidden" name="location_3_cnt" value="1" />
+
+                                            1个关键词
 
                                         </div>
 
@@ -308,6 +331,11 @@
            // initiate layout and plugins
 
            App.init();
+
+           $('[data-role="btn-insert-to-keywords"]').click(function() {
+                var string = $(this).attr('data-config');
+                $('#textarea-keywords').insertAtCaret(string);
+           });
 
         });
 
