@@ -2154,7 +2154,8 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
     $keywordsCnt = 0;
     $keywordsArray = enterprise_admin_insert_keywords_standardize($keywordsArray, $keywordsCnt);
 
-    if ($langCode == 'en')
+    if ($langCode == 'en'
+            || $location == 3)
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = new \enterprise\daos\LangProduct($langCode);
