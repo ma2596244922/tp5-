@@ -1806,6 +1806,7 @@ function enterprise_replace_placeholders_in_tdk($s, $corporation, $product, $pro
     $retval = str_replace('[Tag1]', $productTag1, $retval);
     $retval = str_replace('[Tag2]', $productTag2, $retval);
     $retval = str_replace('[Tag3]', $productTag3, $retval);
+    $retval = str_replace('[产品型号]', $product['model_number'], $retval);
     return $retval;
 }
 

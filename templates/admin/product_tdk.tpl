@@ -160,6 +160,8 @@
 
                                                                 <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#input-html-title" type="button">Tag3</button>
 
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品型号]" data-target="#input-html-title" type="button">产品型号</button>
+
                                                                 <label class="control-label">Meta Keywords</label>
 
                                                                 <textarea class="span8 m-wrap" name="meta_keywords" id="textarea-meta-keywords" rows="6">{$site.product_meta_keywords|default:''}</textarea>
@@ -178,6 +180,8 @@
 
                                                                 <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3], " data-target="#textarea-meta-keywords" type="button">Tag3</button>
 
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品型号]" data-target="#textarea-meta-keywords" type="button">产品型号</button>
+
                                                                 <label class="control-label">Meta Description</label>
 
                                                                 <textarea class="span8 m-wrap" name="meta_description" id="textarea-meta-description" rows="6">{$site.product_meta_description|default:''}</textarea>
@@ -195,6 +199,8 @@
                                                                 <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag2]" data-target="#textarea-meta-description" type="button">Tag2</button>
 
                                                                 <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[Tag3]" data-target="#textarea-meta-description" type="button">Tag3</button>
+
+                                                                <button class="btn btn-default" data-role="btn-insert-to-desc" data-text="[产品型号]" data-target="#textarea-meta-description" type="button">产品型号</button>
 
                                                                 <div class="submit-btn">
 
