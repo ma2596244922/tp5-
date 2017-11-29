@@ -1035,7 +1035,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
 }
 
 function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null
-        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null)
+        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null, $productGiveH1To = null)
 {
     // Language Group
     $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
@@ -1051,6 +1051,8 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
         if ($path)
             $values['path_sum'] = md5($path, true);
     }
+    if (isset($productGiveH1To))
+        $values['product_give_h1_to'] = $productGiveH1To;
     if (!$langGroupDAO) {// English only
         $values['site_id'] = $userSiteId;
         $values['name'] = $groupName;
@@ -1121,11 +1123,12 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     $htmlTitle = timandes_get_post_data('html_title');
     $metaKeywords = timandes_get_post_data('meta_keywords');
     $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
+    $productGiveH1To = (int)timandes_get_post_data('product_give_h1_to');
 
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
-    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription);
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription, $productGiveH1To);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }

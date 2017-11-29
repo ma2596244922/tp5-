@@ -29,6 +29,7 @@ class Group extends \crawler\daos\AbstractDAO
             'meta_keywords' => 'text',
             'meta_description' => 'text',
             'desc' => 'text',
+            'product_give_h1_to' => 'tinyint',
         );
 
     public function getTableName()

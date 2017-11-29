@@ -239,6 +239,28 @@
                                         </div>
 
                                     </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页H1：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="product_give_h1_to" value="0"{if $group.product_give_h1_to|default:'0'=='0'} checked="checked"{/if} />标题
+
+                                            </label>
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="product_give_h1_to" value="1"{if $group.product_give_h1_to|default:'0'=='1'} checked="checked"{/if} />型号
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
 {/if}
                                     <div class="form-actions">
 

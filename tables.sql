@@ -100,6 +100,7 @@ CREATE TABLE `enterprise_groups` (
   `meta_keywords` text NOT NULL COMMENT 'K',
   `meta_description` text NOT NULL COMMENT 'D',
   `desc` text NOT NULL COMMENT '说明文本',
+  `product_give_h1_to` tinyint NOT NULL COMMENT '优先使用H1标签（0-产品标题；1-型号）',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`),
   KEY `idx_lookup` (`site_id`, `path_sum`)
