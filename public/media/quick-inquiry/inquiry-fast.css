@@ -4,7 +4,7 @@
 .float-layer{ width:740px; height:430px; background:#fff; border-radius:3px;box-shadow: 5px 0 12px #777, -5px 0 12px #777, 0 5px 12px #777, 0 -5px 12px #777; position:fixed; left:30%; top:260px; z-index:999; display:none;}
 .float-layer .title{ height:62px; line-height:62px;}
 .float-layer .title span{ float:left; padding-left:23px; font-size:20px; color:#333;}
-.float-layer .title a{ float:right; width:16px; height:16px;background:url('//himg.china.cn/img/env2/main/shop/qiugou.png') -28px -17px no-repeat; display:block; margin:14px 20px 0 0;}
+.float-layer .title a{ float:right; width:16px; height:16px;background:url('/media/quick-inquiry/qiugou.png') -28px -17px no-repeat; display:block; margin:14px 20px 0 0;}
 .float-layer .title a:hover{ background-position:-28px 0;}
 .float-layer .form-main{ margin:11px 0 0 95px;}
 .float-layer .form-main li{ height:30px; margin-bottom:18px; position:relative; width:540px;}
@@ -33,9 +33,9 @@
 .product-show ul li{ float:left; width:180px; line-height:22px; color:#666;}
 .product-show ul li label{ color:#999;}
 .product-show ul li i{ color:#333; font-weight:bold; font-style:normal;}
-.left-product a.prev{ width:12px; height:22px; display:block; background:url('//himg.china.cn/img/env2/main/shop/quick-inquiry.png') 0 0 no-repeat; position:absolute; left:20px; top:187px;}
+.left-product a.prev{ width:12px; height:22px; display:block; background:url('/media/quick-inquiry/quick-inquiry.png') 0 0 no-repeat; position:absolute; left:20px; top:187px;}
 .left-product a.prev.current{background-position:-36px 0;}
-.left-product a.next{ width:12px; height:22px; display:block; background:url('//himg.china.cn/img/env2/main/shop/quick-inquiry.png') -15px 0 no-repeat; position:absolute; left:368px; top:187px;}
+.left-product a.next{ width:12px; height:22px; display:block; background:url('/media/quick-inquiry/quick-inquiry.png') -15px 0 no-repeat; position:absolute; left:368px; top:187px;}
 .left-product a.next.current{background-position:-52px 0;}
 
 .float-layer2 .form{ width:500px; float:left; position:relative;}
@@ -65,12 +65,12 @@
 
 .float-layer2 ul.check-list{padding-left:100px; width:320px; margin:0 auto;}
 .float-layer2 ul.check-list li{ height:24px; line-height:24px; font-size:12px; color:#666; min-height:24px; margin:0;}
-.float-layer2 ul.check-list li .check { float:left; margin-right: 7px; width: 14px; height: 14px; display: block; background: url('//himg.china.cn/img/env2/main/classify.png') 0 -26px no-repeat; cursor: pointer; margin-top:4px;}
+.float-layer2 ul.check-list li .check { float:left; margin-right: 7px; width: 14px; height: 14px; display: block; background: url('/media/quick-inquiry/classify.png') 0 -26px no-repeat; cursor: pointer; margin-top:4px;}
 .float-layer2 ul.check-list li input[type=checkbox] { display:none; }
 .float-layer2 ul.check-list li input[type=checkbox]:checked + label { background-position: -16px -26px; }
 .float-layer2 .form .send-now{ width:160px; height:36px; color:#fff; background:#d41313; text-align:center; line-height:36px; font-size:16px; display:block; margin:16px 0 0 141px; border-radius:3px;}
 .float-layer2 .form .send-now:hover{ background:#c60000;}
-.float-layer2 .form .close-btn2{width: 16px;height: 16px; position:absolute; right:15px; top:14px; background: url('//himg.china.cn/img/env2/main/shop/qiugou.png') -28px -17px no-repeat;display: block;}
+.float-layer2 .form .close-btn2{width: 16px;height: 16px; position:absolute; right:15px; top:14px; background: url('/media/quick-inquiry/qiugou.png') -28px -17px no-repeat;display: block;}
 .float-layer2 .form .close-btn2:hover{background-position:-28px 0;}
 
 .float-layer2 .form-main li .erro_alert1 {top: inherit;bottom: 9px;right: 18px;}
@@ -84,5 +84,5 @@
 .step3{ margin:120px 0 0 0; display:none;}
 .step3 p{ text-align:center; line-height:30px; color:#666; font-size:14px;}
 .step3 p.icon{ height:40px; line-height:40px; font-size:18px; color:#333; margin-bottom:10px;}
-.step3 p.icon span{ width:40px; height:40px; display:inline-block; background:url('//himg.china.cn/img/env2/main/shop/quick-inquiry.png') 0 -29px no-repeat; vertical-align:middle; margin-right:10px;}
+.step3 p.icon span{ width:40px; height:40px; display:inline-block; background:url('/media/quick-inquiry/quick-inquiry.png') 0 -29px no-repeat; vertical-align:middle; margin-right:10px;}
 .float-layer2 .form .step3 a.send-now{ margin:45px auto 0 auto;}

@@ -9,6 +9,7 @@
 <link rel="canonical" href="{$product|url:'enterprise_url_product':$page_no}" />
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
+<link type="text/css" rel="stylesheet" href="/media/quick-inquiry/inquiry-fast.css" />
 </head>
 <body>
 
@@ -32,5 +33,6 @@
 {include file="sets/trade/common/footer.tpl"}
 {include file="sets/trade/common/navbar.tpl" position="fixed"}
 {include file="sets/trade/common/shopscripts.tpl"}
+<script charset="utf-8" language="javascript" type="text/javascript" src="/media/quick-inquiry/quick-inquiry.js"></script>
 </body>
 </html>

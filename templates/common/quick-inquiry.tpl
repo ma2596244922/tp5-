@@ -6,23 +6,16 @@
                 <input type="hidden" class="pro_id"  value='{$product.id}'/>
                 <div class="pro-title"><span>INQUIRY ABOUT {$product.caption}</span><i>{$corporation.name}</i></div>
                 <div class="product-show">
-                    <img src="<?=\common\StatUrl::pic($supply['firstpic'], \common\StatUrl::IMG_SMALL)?>" alt="<?=$supply['caption']?>" />
+                    <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'d'}" alt="{$product.caption}" />
                     <ul>
-                        <li><label>Price :</label><i><?=(isset($supply['price']['low']) && $supply['price']['low'])?('$'.$supply['price']['low'].' - $'.$supply['price']['high'].($supply['unit'] ? " / {$supply['unit']}" : '')):'Negotiable'?></i></li>
-                        <li><label>Min.order :</label><i><?="{$supply['minamount']} {$supply['units']}"?></i></li>
-                        <?php
-                        $count = count($supply['exprops']);
-                        $paged = floor($count/2);
-                        $rand = $count > 2 ? array_splice($supply['exprops'],(rand(1,$paged)-1)*2,2) : (Empty($supply['exprops']) ? array() : $supply['exprops']);
-                        ?>
-                        <?php foreach($rand as $v): ?>
-                            <?php
-                            if(!isset($v['attrname']) || Empty($v['attrname'])) continue;
-                            $attrValue = (isset($v['attrvalue']) && !Empty($v['attrvalue'])) ? ((is_array($v['attrvalue']) ? implode(', ',$v['attrvalue']) : $v['attrvalue'])) : '';
-                            $other = (isset($v['other']) && !Empty($v['other'])) ? $v['other'] : '';
-                            ?>
-                            <li><label><?=$v['attrname']?> :</label><?=implode(', ',array_filter(array($attrValue,$other)))?></li>
-                        <?php endForeach; ?>
+    {-assign var="total_items" value="0"}
+    {-foreach $product_desc as $k => $meta}
+        {-if $total_items>=4}{break}{/if}
+        {-if $product.$k|default:$meta.default}
+                        <li><label>{$meta.label}:</label><i>{$product.$k|default:$meta.default}</i></li>
+            {-assign var="total_items" value=$total_items+1}
+        {-/if}
+    {-/foreach}
                     </ul>
                 </div>
             </div>
@@ -37,6 +30,8 @@
     <div class="form">
         <a href="javascript:void(0);" class="close-btn2"></a>
         <div class="step1">
+            <form action="/contactsave.html" id="form-quick-inquiry" method="POST">
+            <input type="hidden" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" />
             <ul class="form-main">
                 <input type="hidden" data-role="isquick" value="0">
                 <li><label><i>*</i>Email</label><input type="text" class="txt" id="username2" name="email" placeholder="Please Enter your Email Address"><span class="erro_alert" id="username_error2">Please Enter your Email Address</span></li>
@@ -50,11 +45,10 @@
                                 </a>
                                 <span class="selectMenu" id="selectMenu3" style="display: none;">
                         <a href="javascript:void(0)" title="Please select FAQ">Please select FAQ</a>
-                        <a href="javascript:void(0)" title="I'm very interested in your products; could you send me some detail reference information?">I'm very interested in your products; could you send me some detail reference information?</a>
-                        <a href="javascript:void(0)" title="Please send me detail product specification, thank you!">Please send me detail product specification, thank you!</a>
-                        <a href="javascript:void(0)" title="May I be an agency of your products,and what's yourterms?">May I be an agency of your products,and what's yourterms?</a>
-                        <a href="javascript:void(0)" title="We intend to purchase this product, would you please send me the quotation and minimum order quantity?">We intend to purchase this product, would you please send me the quotation and minimum order quantity?</a>
-                    </span>
+{foreach $quick_questions as $q}
+                        <a href="javascript:void(0)" title="{$q|escape}" >{$q}</a>
+{/foreach}
+                                </span>
                             </li>
                         </ul>
                     </div>
@@ -67,10 +61,11 @@ Required specifications and MOQ."></textarea>
                 </li>
             </ul>
             <ul class="check-list">
-                <li><input type="checkbox" value="1" id="checkboxFiveInput" checked="checked" name="" /><label for="checkboxFiveInput"  class="check" num="0"></label>Please reply me within 24 hours. </li>
-                <li><input type="checkbox" value="1" id="checkboxFiveInput2" name="" class="English" /><label for="checkboxFiveInput2" class="check" num="1"></label>Yes! I would like verified suppliers matching service!</li>
+                <li><input type="checkbox" value="1" id="checkboxFiveInput" checked="checked" name="iscontact" /><label for="checkboxFiveInput"  class="check" num="0"></label>Please reply me within 24 hours. </li>
+                <li><input type="checkbox" value="1" id="checkboxFiveInput2" name="newsletter" class="English" /><label for="checkboxFiveInput2" class="check" num="1"></label>Yes! I would like verified suppliers matching service!</li>
             </ul>
-            <a href="javascript:void(0);" class="send-now" onclick="send();">Send Now</a>
+            <a href="javascript:void(0);" class="send-now" onclick="$('#form-quick-inquiry').submit(); return false;">{$preset_translations.send_now}</a>
+            </form>
         </div>
 
         <!--step1-->
