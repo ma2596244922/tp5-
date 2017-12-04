@@ -26,7 +26,6 @@
         <!--crumb-->
         <div class="main-content fl-clr">
             <div class="left-content">
-{include file="sets/trade/common/grouppanel.tpl"}
 {include file="sets/trade/common/contactpanel.tpl"}
             </div>
             <!--left-content-->
@@ -73,7 +72,7 @@
 </div>
 <!--content-->
 {include file="sets/trade/common/footer.tpl"}
-{include file="sets/trade/common/navbar.tpl" position="fixed"}
+{include file="sets/ecs/common/navbar.tpl" position="fixed"}
 {include file="sets/trade/common/shopscripts.tpl"}
 </body>
 </html>

@@ -44,8 +44,8 @@
         <li class="area"><label><i>*</i>{$preset_translations.message}</label><textarea class="area" name="message" id="area" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea><span class="erro_alert erro_alert1" id="area_error">{$preset_translations.please_enter_the_content_for_your_inquiry}</span></li>
     </ul>
     <div class="slide-menu">
-        <div class="title"><span></span><i>{$preset_translations.contact_n_optional_details}</i></div>
-        <div class="slide-form">
+        <div class="title"><span class="current"></span><i class="current">{$preset_translations.contact_n_optional_details}</i></div>
+        <div class="slide-form" style="display: block;">
             <ul>
                 <li><label>{$preset_translations.name}</label>
                     <div class="select fl-clr">
@@ -71,8 +71,8 @@
     </div>
     <!--slide-menu-->
     <div class="slide-menu">
-        <div class="title"><span></span><i>{$preset_translations.each_file_sized_1m_max}. (Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt.)</i></div>
-        <div class="slide-form">
+        <div class="title"><span class="current"></span><i class="current">{$preset_translations.each_file_sized_1m_max}. (Supports jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, txt.)</i></div>
+        <div class="slide-form" style="display: block;">
             <ul>
                 <li><label>File 1</label>
                     <input type="file" name="file1">

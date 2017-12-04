@@ -58,20 +58,7 @@
                 <a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">
                     <img src="{$n.head_image_id|url:'enterprise_url_image':$n.caption:'c'}" alt="{$n.caption}" />
                 </a>
-                <i><strong><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">{$n.caption}</a></strong></i><span><a href="{$n|url:'enterprise_url_product_list'}">{$preset_translations.see_more}</a><em>&gt;</em></span>
-            </li>
-{/foreach}
-        </ul>
-    </div>
-    <!--all-categories-->
-    <div class="all-categories featured">
-        <div class="title"><em><h2>{$preset_translations.featured_products}</h2></em></div>
-        <p>{$preset_translations.china_manufacturer_with_main_products}: {if $groups[0]|default:[]}{$groups[0].name}{if $groups[1]|default:[]}, {$groups[1].name}{if $groups[2]|default:[]}, {$groups[2].name}{/if}{/if}{/if}</p>
-        <ul class="fl-clr">
-{foreach $products as $product}
-            <li>
-                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$groups[0].products[0].caption:'c'}" alt="{$product.caption}" /></a>
-                <i><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></strong></i>
+                <i><strong><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">{$n.caption}</a></strong></i><span><a href="{$n|url:'enterprise_url_news'}">{$preset_translations.see_more}</a><em>&gt;</em></span>
             </li>
 {/foreach}
         </ul>
@@ -144,7 +131,7 @@
     </div>
 </div>
 <!--footer-->
-{include file="sets/trade/common/navbar.tpl" position="fixed"}
+{include file="sets/ecs/common/navbar.tpl" position="fixed"}
 <!--nav--> 
 {include file="sets/trade/common/shopscripts.tpl"}
 <script charset="utf-8" type="text/javascript" src="media/sets/trade/search.js"></script>

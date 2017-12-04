@@ -29,7 +29,7 @@
 </div>
 <!--content-->
 {include file="sets/trade/common/footer.tpl"}
-{include file="sets/trade/common/navbar.tpl" position="fixed"}
+{include file="sets/ecs/common/navbar.tpl" position="fixed"}
 <!--nav--> 
 {include file="sets/trade/common/shopscripts.tpl"}
 </body>
