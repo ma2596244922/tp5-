@@ -433,6 +433,9 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 .Right_ma_ul label { color:#999;}
 .PL_dots_img{width: 260px;overflow: hidden;height: 50px;}
 
-
+/*ma 20171202 gai*/
+.CompanyProfile .Left img.fl  { margin:0 20px 0 0 ;}
+.Shop .Right .CompanyProfile .Left img.fl  { margin-left:0;}
+.Shop.Content.noRoute {padding-top: 10px; margin-top:0}
 
 
