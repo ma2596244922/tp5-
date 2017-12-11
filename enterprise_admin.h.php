@@ -2163,6 +2163,7 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
     else
         $productDAO = new \enterprise\daos\LangProduct($langCode);
     $curProductId = 0;
+    $accProducts = 0;
     do {
         if ($langCode == 'en')
             $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
@@ -2179,8 +2180,12 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
             elseif ($location == 2)
                 $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
             elseif ($location == 3) {
-                $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
-                $values['model_number'] = $targetKeywords[0]; // Overwrite
+                if (false) { // Random
+                    $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+                    $values['model_number'] = $targetKeywords[0]; // Overwrite
+                } else {// By order
+                    $values['model_number'] = $replacedKeywords[$accProducts]??''; // Overwrite
+                }
             }
 
             if ($values) {
@@ -2189,6 +2194,7 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
             }
 
             $curProductId = $product['id'];
+            ++$accProducts;
         }
     } while(true);
 }
