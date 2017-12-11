@@ -15,11 +15,13 @@ function show_inquiry(){
 	var groupid=$("#groupid").val();
 	var $corpname = $('.content .container .header a').attr('title');
 	var $corpde = $('.main-content .right-content .product-box ul.product-img li span:first-child');
-	var $proname = $corpde.find('a:first-child').attr('title');
-	var $prod_img = $corpde.find('a:first-child').children('img').attr('src');
-	var $prise = $corpde.parent().find('.price_dd').html().slice(11);
-	var $minorder = $corpde.parent().find('dd:last-child').html().slice(11);
-	var $prod_id = $corpde.siblings('a').data('role');
+	if ($corpde.length> 0) {
+		var $proname = $corpde.find('a:first-child').attr('title');
+		var $prod_img = $corpde.find('a:first-child').children('img').attr('src');
+		var $prise = $corpde.parent().find('.price_dd').html().slice(11);
+		var $minorder = $corpde.parent().find('dd:last-child').html().slice(11);
+		var $prod_id = $corpde.siblings('a').data('role');
+	}
     
 	var _host= document.domain;
 	console.log(_host);
@@ -102,8 +104,8 @@ function show_inquiry(){
 }
 
 
-/*页面加载完3S执行*/
-setTimeout(function(){show_inquiry()},3000);
+/*页面加载完6S执行*/
+setTimeout(function(){show_inquiry()},6000);
 
 $(".close-btn2").click( function(){
 	$("#float-layer2").hide();
