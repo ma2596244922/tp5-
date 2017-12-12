@@ -9,6 +9,8 @@
 define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country`, `created`, `target_product_id`, `domain`');
 /** @var int Max Images per Product */
 define('ENTERPRISE_MAX_IMAGES_PER_PRODUCT', 5);
+/** @var string Default Language Code */
+define('ENTERPRISE_DEFAULT_LANG_CODE', 'en');
 
 /** @var array 暂存分组信息 */
 $GLOBALS['gaGroupCache'] = array();
@@ -462,6 +464,9 @@ function enterprise_admin_action_info($smarty, $langCode)
     $pUrlPrefix = timandes_get_post_data('purl_prefix');
     $gUrlPrefix = timandes_get_post_data('gurl_prefix');
     $defaultLangCode = timandes_get_post_data('default_lang_code');
+
+    if (!$defaultLangCode)
+        $defaultLangCode = ENTERPRISE_DEFAULT_LANG_CODE;
 
     $pUrlPrefix = preg_replace('/[^a-z]/', '', $pUrlPrefix);
     $gUrlPrefix = preg_replace('/[^a-z]/', '', $gUrlPrefix);
