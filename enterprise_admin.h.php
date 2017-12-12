@@ -2164,6 +2164,7 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
         $productDAO = new \enterprise\daos\LangProduct($langCode);
     $curProductId = 0;
     $accProducts = 0;
+    $accKeywordIndex = 0;
     do {
         if ($langCode == 'en')
             $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
@@ -2184,7 +2185,10 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
                     $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
                     $values['model_number'] = $targetKeywords[0]; // Overwrite
                 } else {// By order
-                    $values['model_number'] = $replacedKeywords[$accProducts]??''; // Overwrite
+                    $values['model_number'] = $replacedKeywords[$accKeywordIndex]; // Overwrite
+                    ++$accKeywordIndex;
+                    if ($accKeywordIndex >= $keywordsCnt)
+                        $accKeywordIndex = 0;
                 }
             }
 
