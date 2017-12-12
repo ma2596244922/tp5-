@@ -2606,7 +2606,7 @@ function enterprise_admin_insert_images_to_array(&$images, &$pendingImages, $upl
     }
 }
 
-function enterprise_admin_insert_images_to_product_images($product, &$pendingImages, $uploadedImages, $targetCnt)
+function enterprise_admin_insert_images_to_product_images($product, &$pendingImages, $uploadedImages, $targetCnt, $overwrite)
 {
     $imageBlackList = array(
             1428754, 1429277
@@ -2616,6 +2616,8 @@ function enterprise_admin_insert_images_to_product_images($product, &$pendingIma
 
     $curImages = json_decode($product['images'], true);
     if (!is_array($curImages))
+        $curImages = array();
+    if ($overwrite)
         $curImages = array();
 
     $images = array();
@@ -2661,6 +2663,7 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
     $uploadedImages = $taskDetails['uploaded_images'];
     $location = $taskDetails['location'];
     $targetCnt = $taskDetails['target_cnt'];
+    $overwrite = $taskDetails['overwrite'];
 
     $targetCnt = min(ENTERPRISE_MAX_IMAGES_PER_PRODUCT, $targetCnt);
 
@@ -2676,7 +2679,7 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
 
         foreach ($products as $product) {
             if ($location == 1)
-                enterprise_admin_insert_images_to_product_images($product, $pendingImages, $uploadedImages, $targetCnt);
+                enterprise_admin_insert_images_to_product_images($product, $pendingImages, $uploadedImages, $targetCnt, $overwrite);
 
             if ($location == 2
                     || $location == 3)
@@ -2721,6 +2724,7 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
 
     $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
+    $overwrite = (int)timandes_get_post_data('location_' . $location . '_overwrite');
 
     $taskDetails = array(
             'uploaded_images' => $uploadedImages,
@@ -2728,6 +2732,7 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
             'location' => $location,
             'lang_code' => $langCode,
             'target_cnt' => $targetCnt,
+            'overwrite' => $overwrite,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_IMAGES, $taskDetails);

@@ -192,6 +192,14 @@
 
                                             张产品图
 
+                                            <label class="checkbox">
+
+                                                <input type="checkbox" name="location_1_overwrite" value="1" />
+
+                                                覆盖原产品图
+
+                                            </label>
+
                                         </div>
 
                                     </div>
