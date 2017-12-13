@@ -591,7 +591,10 @@ function enterprise_extract_product_tags($tagsString)
     $productTags = array();
     $a = explode(',', $tagsString);
     foreach ($a as $tag) {
-        $productTags[] = trim($tag);
+        $t = trim($tag);
+        if (!$t)
+            continue;
+        $productTags[] = $t;
     }
     return $productTags;
 }
