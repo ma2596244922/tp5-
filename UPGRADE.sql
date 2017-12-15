@@ -1,3 +1,14 @@
+-- 2017-12-14
+CREATE TABLE `enterprise_pictures` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `uri` varchar(100) NOT NULL COMMENT 'URI',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户图片表';
 -- 2017-11-24
 ALTER TABLE `enterprise_groups` ADD COLUMN `product_give_h1_to` tinyint NOT NULL COMMENT '优先使用H1标签（0-产品标题；1-型号）';
 -- 2017-11-15

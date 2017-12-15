@@ -146,6 +146,12 @@ retry:
                     return enterprise_admin_action_edit_photo($smarty, $site);
                 case 'delete_photo':
                     return enterprise_admin_action_delete_photo($smarty, $site);
+                case 'picture':
+                    return enterprise_admin_action_picture($smarty);
+                case 'edit_picture':
+                    return enterprise_admin_action_edit_picture($smarty, $site);
+                case 'delete_picture':
+                    return enterprise_admin_action_delete_picture($smarty, $site);
                 case 'certification':
                     return enterprise_admin_action_certification($smarty);
                 case 'edit_certification':

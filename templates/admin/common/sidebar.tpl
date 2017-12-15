@@ -203,7 +203,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -218,7 +218,19 @@
                     </a>
 
                     <ul class="sub-menu">
+{if $user.advanced}
+                        <li class="start{if $page_name=='picture'} active{/if}">
 
+                            <a href="?action=picture">
+
+                            <i class="icon-picture"></i> 
+
+                            <span class="title">图片银行</span>
+
+                            </a>
+
+                        </li>
+{/if}
                         <li class="start{if $page_name=='fragment'} active{/if}">
 
                             <a href="?action=fragment">

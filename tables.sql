@@ -225,6 +225,17 @@ CREATE TABLE `enterprise_photos` (
   KEY `idx_get_by_site` (`site_id`, `type`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户自建照片表';
 
+CREATE TABLE `enterprise_pictures` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `uri` varchar(100) NOT NULL COMMENT 'URI',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户图片表';
+
 CREATE TABLE `enterprise_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `template` varchar(45) NOT NULL COMMENT '模板名称',

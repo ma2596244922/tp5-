@@ -2960,3 +2960,34 @@ function enterprise_assign_main_product_info($smarty, $var, $mainProductId)
 }
 
 /* }}} */
+
+
+/* {{{ Picture */
+/**
+ * Assign Picture List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_picture_list($smarty, $var, $siteId)
+{
+    $siteId = (int)$siteId;
+
+    $pictureDAO = new \enterprise\daos\Picture();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $pictures = $pictureDAO->getMultiInOrderBy($condition);
+    $smarty->assign($var, $pictures);
+
+    return $condition;
+}
+
+/**
+ * Assign picture info
+ */
+function enterprise_assign_picture_info($smarty, $var, $pictureId)
+{
+    $pictureDAO = new \enterprise\daos\Picture();
+    $picture = $pictureDAO->get($pictureId);
+    $smarty->assign($var, $picture);
+}
+
+/* }}} */

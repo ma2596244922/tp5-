@@ -4237,3 +4237,105 @@ function enterprise_admin_action_super_login($smarty)
         $redirectTo = '/admin/';
     header('Location: ' . $redirectTo);
 }
+
+
+
+/* {{{ Picture */
+
+/**
+ * Pictures
+ */
+function enterprise_admin_action_picture($smarty)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $condition = enterprise_assign_picture_list($smarty, 'pictures', $userSiteId);
+
+    $pictureDAO = new \enterprise\daos\Picture();
+    $totalPictures = $pictureDAO->countBy($condition);
+    $totalPages = (int)($totalPictures / $max) + (($totalPictures % $max)?1:0);
+    $smarty->assign('total_pictures', $totalPictures);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    $smarty->display('admin/picture.tpl');
+}
+
+/**
+ * Edit Picture
+ */
+function enterprise_admin_action_edit_picture($smarty, $site)
+{
+    $tplPath = 'admin/edit_picture.tpl';
+
+    $pictureId = (int)timandes_get_query_data('picture_id');
+    $smarty->assign('picture_id', $pictureId);
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        if ($pictureId) 
+            enterprise_assign_picture_info($smarty, 'picture', $pictureId);
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $uri = timandes_get_post_data('uri');
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('');
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择照片');
+
+    $uri = $images[0];
+
+    $pictureDAO = new \enterprise\daos\Picture();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($pictureId) {// Edit
+        // Authentication
+        $originalPicture = $pictureDAO->get($pictureId);
+        if (!$originalPicture
+                || $originalPicture['site_id'] != $site['site_id'])
+            throw new \RuntimeException("权限不足");
+        // Update
+        $pictureDAO->update($pictureId, $values);
+        enterprise_assign_picture_info($smarty, 'picture', $pictureId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $pictureDAO->insert($values);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=picture', '图片银行');
+}
+
+/**
+ * Delete Picture
+ */
+function enterprise_admin_action_delete_picture($smarty, $site)
+{
+    $pictureId = (int)timandes_get_query_data('picture_id');
+
+    $pictureDAO = new \enterprise\daos\Picture();
+    // Authentication
+    $picture = $pictureDAO->get($pictureId);
+    if (!$picture
+            || $picture['site_id'] != $site['site_id'])
+        return header('Location: ?action=picture&error_msg=' . urlencode('权限不足'));
+    // Delete
+    $values = array(
+            'deleted' => 1,
+        );
+    $pictureDAO->update($pictureId, $values);
+    header('Location: ?action=picture&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
