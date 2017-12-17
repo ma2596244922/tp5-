@@ -5,20 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 {include file="sets/trade/group/tdk.tpl"}
 <link rel="canonical" href="{$group|default:[]|url:'enterprise_url_product_list'}" />
-{-if $page_no > 1}
-    {-if $phrase|default:''}
-<link rel="prev" href="{$phrase|url:'enterprise_url_product_search':($page_no-1)}" />
-    {-else}
-<link rel="prev" href="{$group|default:[]|url:'enterprise_url_product_list':($page_no-1)}" />
-    {-/if}
-{-/if}
-{-if $page_no < $total_pages}
-    {-if $phrase|default:''}
-<link rel="next" href="{$phrase|url:'enterprise_url_product_search':($page_no+1)}" />
-    {-else}
-<link rel="next" href="{$group|default:[]|url:'enterprise_url_product_list':($page_no+1)}" />
-    {-/if}
-{-/if}
+{include file="sets/trade/product/link_rel.tpl"}
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 </head>

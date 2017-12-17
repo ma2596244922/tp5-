@@ -5,7 +5,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=1200, initial-scale=device-width/1200, user-scalable=no, minimal-ui">
   {include file="sets/trade/group/tdk.tpl"}
-  <link rel="canonical" href="{$group|url:'enterprise_url_product_list'}" />
+  <link rel="canonical" href="{$group|default:[]|url:'enterprise_url_product_list'}" />
+  {include file="sets/trade/product/link_rel.tpl"}
   {include file="sets/trade/common/definitions.tpl"}
   {include file="sets/brilly/common/styles.tpl"}
 </head>
