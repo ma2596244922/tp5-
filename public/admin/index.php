@@ -132,6 +132,8 @@ retry:
                     return enterprise_admin_action_insert_desc($smarty, $site, $langCode);
                 case 'insert_keywords':
                     return enterprise_admin_action_insert_keywords($smarty, $site, $langCode);
+                case 'replace_desc_pic':
+                    return enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode);
                 case 'replace_keywords':
                     return enterprise_admin_action_replace_keywords($smarty, $site, $langCode);
                 case 'contact':

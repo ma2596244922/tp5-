@@ -2256,6 +2256,172 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+function enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId)
+{
+    $curProductId = 0;
+    do {
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
+        if (!$products)
+            break;
+
+        foreach ($products as $product) {
+            yield $product;
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
+}
+
+
+function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray)
+{
+    $idArrayProcessed = array();
+    foreach ($idArray as $id) {
+        $id = trim($id);
+        if ($id)
+            $idArrayProcessed[] = $id;
+    }
+    if (!$idArrayProcessed)
+        return;
+
+    $idList = implode(', ', $idArrayProcessed);
+
+    if ($langCode == 'en')
+        $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`id` IN ({$idList})", '`id` ASC', '`description`');
+    else
+        $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`product_id` IN ({$idList})", 'elp.`product_id` ASC', 'elp.`description`');
+    if (!$products)
+        return;
+
+    foreach ($products as $product) {
+        yield $product;
+    }
+}
+
+function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray)
+{
+    $pathArrayProcessed = array();
+    foreach ($urlArray as $url) {
+        $url = trim($url);
+        if ($url)
+            $pathArrayProcessed[] = parse_url($url, PHP_URL_PATH);
+    }
+    if (!$pathArrayProcessed)
+        return $description;
+
+    $pathCnt = count($pathArrayProcessed);
+    $document = new \DOMDocument();
+    @$document->loadHTML($description);
+    $imgElements = $document->getElementsByTagName('img');
+    $pathIdx = 0;
+    foreach ($imgElements as $e) {
+        $e->setAttribute('src', $pathArrayProcessed[$pathIdx]);
+        ++$pathIdx;
+        if ($pathIdx >= $pathCnt)
+            $pathIdx = 0;
+    }
+
+    $bodyElementList = $document->getElementsByTagName('body');
+    $retval = '';
+    $childNodes = $bodyElementList->item(0)->childNodes;
+    foreach ($childNodes as $node) {
+        $retval .= $document->saveHTML($node);
+    }
+    return $retval;
+}
+
+/**
+ * Replace desc pic proc
+ */
+function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id'];
+    $urls = $taskDetails['urls'];
+    $ids = $taskDetails['ids'];
+    $type = $taskDetails['type'];
+
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId);
+    else {
+        $idArray = explode("\n", $ids);
+        $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray);
+    }
+
+    foreach ($generator as $product) {
+        $values = array();
+
+        // 替换描述文本
+        $urlArray = explode("\n", $urls);
+        $values['description'] = enterprise_admin_replace_desc_pic_with_urls($product['description'], $urlArray);
+
+        if ($values) {
+            $values['updated'] = date('Y-m-d H:i:s');
+            $productDAO->update($product['id'], $values);
+        }
+    }
+}
+
+/**
+ * Replace Desc Pic
+ */
+function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/replace_desc_pic.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $urls = timandes_get_post_data('urls');
+    $type = (int)timandes_get_post_data('type');
+    $groupId = (int)timandes_get_post_data('group_id');
+    $ids = timandes_get_post_data('ids');
+    $background = (int)timandes_get_post_data('background');
+
+    $typeRange = array(1, 2);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
+    if ($type == 1) {
+        if (!$groupId)
+            throw new \UnexpectedValueException("请选择分组");
+    } elseif ($type == 2) {
+        if (!$ids)
+            throw new \UnderflowException("请给出至少一个产品ID");
+    }
+    if (!$urls)
+        throw new \UnderflowException("请给出至少一个关键词");
+
+    $taskDetails = array(
+            'urls' => $urls,
+            'group_id' => $groupId,
+            'type' => $type,
+            'lang_code' => $langCode,
+            'ids' => $ids,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_DESC_PIC, $taskDetails);
+    } else {
+        enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
 /**
  * Create Task
  */

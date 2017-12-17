@@ -50,6 +50,7 @@ function proc_enterprise_task()
             \blowjob\daos\Task::TYPE_INSERT_IMAGES,
             \blowjob\daos\Task::TYPE_INSERT_DESC,
             \blowjob\daos\Task::TYPE_REPLACE_TERMS,
+            \blowjob\daos\Task::TYPE_REPLACE_DESC_PIC,
         );
 
     $taskDAO = new \blowjob\daos\Task();
@@ -105,6 +106,13 @@ function proc_enterprise_task()
                 $siteId = $task['site_id'];
                 $details = json_decode($task['details'], true);
                 enterprise_admin_replace_terms_proc($siteId, $details);
+
+                $processed = true;
+                break;
+            case \blowjob\daos\Task::TYPE_REPLACE_DESC_PIC:
+                $siteId = $task['site_id'];
+                $details = json_decode($task['details'], true);
+                enterprise_admin_replace_desc_pic_proc($siteId, $details);
 
                 $processed = true;
                 break;

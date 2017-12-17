@@ -155,6 +155,8 @@
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
 
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
+
+                                        <a href="?action=replace_desc_pic" class="btn normal">描述图片替换</a>
 {-/if}
                                         <a href="?action=count_products" class="btn normal">重算产品总数</a>
 

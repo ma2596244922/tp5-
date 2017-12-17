@@ -28,6 +28,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_INSERT_DESC      = 40;
     /** @var int 批量设置商务条款 */
     const TYPE_REPLACE_TERMS    = 50;
+    /** @var int 描述图片替换 */
+    const TYPE_REPLACE_DESC_PIC = 60;
 
     protected $_fields = array(
             'site_id' => 'int',
