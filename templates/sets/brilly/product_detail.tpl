@@ -38,7 +38,14 @@
       <div class="Right">
         <div class="ConBox ProductInfo">
           <div class="clear">&nbsp;</div>
-          <h1 class="Til">{$product.caption}</h1>
+{-if $product_group.product_give_h1_to|default:'0'=='1'}
+    {-assign var="caption_html_element" value="h2"}
+    {-assign var="model_number_html_element" value="h1"}
+{-else}
+    {-assign var="caption_html_element" value="h1"}
+    {-assign var="model_number_html_element" value="h2"}
+{-/if}
+          <{$caption_html_element} class="Til">{$product.caption}</{$caption_html_element}>
           <div class="clear"></div>
           <div class="pics PL">
             <ul class="picsList PL_List">
@@ -82,7 +89,7 @@
             </dl>{/if}
             {if $product.model_number|default:''}<dl>
               <dt>{$preset_translations.model_number}:</dt>
-              <dd>{$product.model_number}</dd>
+              <dd><{$model_number_html_element}>{$product.model_number}</{$model_number_html_element}></dd>
             </dl>{/if}
 
             <!-- Payment & Shipping Terms -->
