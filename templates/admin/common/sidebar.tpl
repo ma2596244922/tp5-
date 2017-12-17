@@ -203,7 +203,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture' || $page_name=='index_keyword'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -326,7 +326,19 @@
                             </a>
 
                         </li>
+{if $user.advanced}
+                        <li class="start{if $page_name=='index_keyword'} active{/if}">
 
+                            <a href="?action=index_keyword">
+
+                            <i class="icon-key"></i> 
+
+                            <span class="title">首页关键词</span>
+
+                            </a>
+
+                        </li>
+{/if}
                     </ul>
 
                 </li>

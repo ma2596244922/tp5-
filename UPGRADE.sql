@@ -1,3 +1,15 @@
+-- 2017-12-17
+CREATE TABLE `enterprise_index_keywords` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关键词ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `keyword` varchar(100) NOT NULL COMMENT '关键词',
+  `url` varchar(255) NOT NULL COMMENT 'URL',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='首页关键词表';
 -- 2017-12-14
 CREATE TABLE `enterprise_pictures` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',

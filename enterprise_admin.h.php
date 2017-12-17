@@ -4505,3 +4505,137 @@ function enterprise_admin_action_delete_picture($smarty, $site)
 }
 
 /* }}} */
+
+
+
+/* {{{ IndexKeyword */
+
+/**
+ * IndexKeyword
+ */
+function enterprise_admin_action_index_keyword($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    enterprise_assign_index_keyword_list($smarty, 'index_keywords', $userSiteId, $langCode, $pageNo, $max);
+
+    $smarty->display('admin/index_keyword.tpl');
+}
+
+/**
+ * Edit IndexKeyword
+ */
+function enterprise_admin_action_edit_index_keyword($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/edit_index_keyword.tpl';
+
+    $indexKeywordId = (int)timandes_get_query_data('index_keyword_id');
+    $smarty->assign('index_keyword_id', $indexKeywordId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($indexKeywordId) 
+            enterprise_assign_index_keyword_info($smarty, 'index_keyword', $indexKeywordId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $keyword = timandes_get_post_data('keyword');
+    $url = timandes_get_post_data('url');
+
+    if (!$keyword)
+        return enterprise_admin_display_error_msg($smarty, '请输入关键词');
+
+    // LangIndexKeywordDAO
+    $langIndexKeywordDAO = (($langCode!='en')?new \enterprise\daos\LangIndexKeyword($langCode):null);
+
+    // Save index_keyword
+    $indexKeywordDAO = new \enterprise\daos\IndexKeyword();
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if (!$langIndexKeywordDAO) {// English
+        $values['site_id'] = $userSiteId;
+        $values['keyword'] = $keyword;
+        $values['url'] = $url;
+    }
+    if ($indexKeywordId) {// Edit
+        // Authentication
+        $originalIndexKeyword = enterprise_get_index_keyword_info($indexKeywordId, $langCode);
+        if (!$originalIndexKeyword
+                || $originalIndexKeyword['site_id'] != $site['site_id'])
+            return enterprise_admin_display_error_msg($smarty, '权限不足');
+        // Update
+        $indexKeywordDAO->update($indexKeywordId, $values);
+        enterprise_assign_index_keyword_info($smarty, 'index_keyword', $indexKeywordId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $newIndexKeywordId = $indexKeywordDAO->insert($values);
+    }
+
+    // Save Language IndexKeyword
+    if ($langIndexKeywordDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'keyword' => $keyword,
+                'url' => $url,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        if ($indexKeywordId) {// Edit
+            $condition = "`index_keyword_id`=" . (int)$indexKeywordId;
+            $langIndexKeywordDAO->updateBy($condition, $values);
+        } else {
+            $values['index_keyword_id'] = $newIndexKeywordId;
+            $values['created'] = $values['updated'];
+            $langIndexKeywordDAO->insert($values);
+        }
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=index_keyword', '首页关键词');
+}
+
+/**
+ * Delete IndexKeyword
+ */
+function enterprise_admin_action_delete_index_keyword($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $indexKeywordId = (int)timandes_get_query_data('index_keyword_id');
+
+    // Get group ID
+    $index_keyword = enterprise_get_index_keyword_info($indexKeywordId, $langCode);
+    if (!$index_keyword) {
+        $msg = '找不到指定的关键词';
+        return header('Location: ?action=index_keyword&error_msg=' . urlencode($msg));
+    }
+    if ($index_keyword['site_id'] != $site['site_id'])
+        return header('Location: ?action=index_keyword&error_msg=' . urlencode('权限不足'));
+    if ($index_keyword['deleted']) 
+        return header('Location: ?action=index_keyword&success_msg=' . urlencode('删除成功'));
+
+    // Delete index_keyword
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($langCode == 'en') {
+        $indexKeywordDAO = new \enterprise\daos\IndexKeyword();
+        $indexKeywordDAO->update($indexKeywordId, $values);
+    } else {
+        $indexKeywordDAO = new \enterprise\daos\LangIndexKeyword($langCode);
+        $condition = "`index_keyword_id`=" . (int)$indexKeywordId;
+        $indexKeywordDAO->updateBy($condition, $values);
+    }
+
+    header('Location: ?action=index_keyword&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

@@ -196,6 +196,12 @@ retry:
                     return enterprise_admin_action_edit_user_voice($smarty, $site, $langCode);
                 case 'delete_user_voice':
                     return enterprise_admin_action_delete_user_voice($smarty, $site, $langCode);
+                case 'index_keyword':
+                    return enterprise_admin_action_index_keyword($smarty, $site, $langCode);
+                case 'edit_index_keyword':
+                    return enterprise_admin_action_edit_index_keyword($smarty, $site, $langCode);
+                case 'delete_index_keyword':
+                    return enterprise_admin_action_delete_index_keyword($smarty, $site, $langCode);
                 case 'main_product':
                     return enterprise_admin_action_main_product($smarty);
                 case 'edit_main_product':

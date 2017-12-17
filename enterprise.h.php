@@ -2991,3 +2991,63 @@ function enterprise_assign_picture_info($smarty, $var, $pictureId)
 }
 
 /* }}} */
+
+
+/* {{{ IndexKeyword */
+
+/**
+ * Assign IndexKeyword List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_index_keyword_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    //if ($langCode == 'en') {
+        $userVoiceDAO = new \enterprise\daos\IndexKeyword();
+        $condition = "`site_id`={$siteId} AND `deleted`=0";
+        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, '`id`, `keyword`, `url`, `created`, `updated`', '`id` DESC', $pageSize, $start);
+    /*} else {
+        $userVoiceDAO = new \enterprise\daos\LangIndexKeyword($langCode);
+        $condition = "eluv.`site_id`={$siteId} AND eluv.`deleted`=0";
+        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, 'euv.`id`, eluv.*', 'eluv.`index_keyword_id` DESC', $pageSize, $start);
+    }*/
+    $smarty->assign($var, $userVoices);
+
+    return $condition;
+}
+
+/**
+ * Assign IndexKeyword info
+ */
+function enterprise_assign_index_keyword_info($smarty, $var, $userVoiceId, $langCode = 'en')
+{
+    $userVoice = enterprise_get_index_keyword_info($userVoiceId, $langCode);
+    $smarty->assign($var, $userVoice);
+}
+
+/**
+ * Get IndexKeyword info
+ */
+function enterprise_get_index_keyword_info($userVoiceId, $langCode = 'en')
+{
+    // IndexKeyword
+    $userVoiceDAO = new \enterprise\daos\IndexKeyword();
+    $userVoice = $userVoiceDAO->get($userVoiceId);
+
+    // Language IndexKeyword
+    /*
+    if ($langCode != 'en') {
+        $langIndexKeywordDAO = new \enterprise\daos\LangIndexKeyword($langCode);
+        $condition = '`index_keyword_id`=' . (int)$userVoiceId;
+        $langIndexKeyword = $langIndexKeywordDAO->getOneBy($condition);
+        if ($langIndexKeyword)
+            $userVoice = array_merge($userVoice, $langUserVoice);
+    }*/
+
+    return $userVoice;
+}
+
+/* }}} */
