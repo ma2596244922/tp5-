@@ -6,7 +6,7 @@
     <meta name="keywords" content="{$keywords|escape}" />
     <meta name="description" content="{$description|escape}" />
 {include file="sets/peony/common/styles.tpl"}
-    <link type="text/css" rel="stylesheet" href="media/lightbox/2.8.1/css/lightbox.min.css" />
+    <link type="text/css" rel="stylesheet" href="/media/lightbox/2.8.1/css/lightbox.min.css" />
 </head>
 <body>
 
@@ -75,8 +75,8 @@
 <!--footer-->
 <!--footer-->
 
-<script charset="utf-8" language="javascript" type="text/javascript" src="https://himg.china.cn/js/env2/common/config.js"></script>
-<script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.base64.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/share.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.cookie.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/en.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/search/search.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/css/env2/store/themes/theme/js/theme-common.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/top_bar_v2.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/ZoomPic/ZoomPic.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/set-13/js/theme.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/lightbox/2.8.1/js/lightbox.min.js"></script>  
+{include file="sets/peony/common/scripts.tpl"}
+<script charset="utf-8" type="text/javascript" src="/media/lightbox/2.8.1/js/lightbox.min.js"></script>  
 
 <script>
         

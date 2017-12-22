@@ -17,26 +17,23 @@
 <!--nav-->
 <div class="banner-block fl-clr">
     <div class="banner" id="banner"> 
-
-                <div class="inner">
-            <a href="javascript:void(0)" class="d1" title="" target="_blank"><img src="https://himg.china.cn/css/env2/store/themes/theme_13/img/banner.png" alt=""></a>
-            <a href="javascript:void(0)" class="d1" title="" target="_blank"><img src="https://himg.china.cn/img/upload/company/banner2.png" alt=""></a>
-            <a href="javascript:void(0)" class="d1" title="" target="_blank"><img src="https://himg.china.cn/css/env2/store/themes/theme_13/img/banner.png" alt=""></a>
-            <a href="javascript:void(0)" class="d1" title="" target="_blank"><img src="https://himg.china.cn/img/upload/company/banner3.png" alt=""></a>
+        <div class="inner">
+{foreach $banners as $banner}
+            <a href="{$banner.link}" class="d1" title="{$banner.desc}" target="_blank"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a>
+{/foreach}
         </div>
          
         <ul class="number" id="banner_id">
-            <li class="nuw current"></li>
-            <li class=""></li>
-            <li class=""></li>
-            
+{foreach $banners as $banner}
+            <li{if $banner@index==0}  class="nuw current"{/if}></li>
+{/foreach}
         </ul>
     </div>
     <!--banner-->
     <div class="banner-right">
-                <span class="title"><img src="https://himg.china.cn/css/env2/store/themes/theme_13/img/banner-right.png" /></span>
-                <p>Qingdao Hizo Bearing Co., Ltd.specializes in Cylindrical roller bearing ,Deep grove ball Bearings ,Augular contact ball Bearings ,Thrust ball bearing ,Spherical roller Bearings,we hope to provide you with the most professional services.</p>
-        <a href="http://user.china.cn/test/hizo.com/company.html" class="see-detail">See Detail</a>
+        <span class="title"><img src="/media/sets/peony/banner-right.png" /></span>
+        <p>{$corporation.introduction|strip_tags}</p>
+        <a href="/aboutus.html" class="see-detail">See Detail</a>
     </div>
     <!--banner-right-->
 </div>
@@ -380,8 +377,7 @@
 <!--footer-->
 <!--footer-->
 
-<script charset="utf-8" language="javascript" type="text/javascript" src="https://himg.china.cn/js/env2/common/config.js"></script>
-<script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.base64.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/share.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/jquery.cookie.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/common/js/en.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/search/search.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/css/env2/store/themes/theme/js/theme-common.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/env2/common/top_bar_v2.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/js/common/ZoomPic/ZoomPic.min.js"></script><script charset="utf-8" type="text/javascript" src="https://himg.china.cn/peony/pc/set-13/js/theme.min.js"></script>  
+{include file="sets/peony/common/scripts.tpl"}
 
 <script>
         

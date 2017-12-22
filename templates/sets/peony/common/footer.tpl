@@ -26,19 +26,13 @@
             <div class="information">
                 <span class="title">Informations</span>
                 <ul>
-                    <li><em class="location"></em><span>No. 192, Zhengyang Road, Chengyang Dist.</span></li>
-                    <li><em class="phone"></em><span>86-0532-67766030</span></li>
+                    <li><em class="location"></em><span>{$corporation.address}</span></li>
+                    <li><em class="phone"></em><span>{$contacts[0].tel}</span></li>
                 </ul>
-                <div class="share">
-                    <a href="#" class="face"></a>
-                    <a href="#" class="twitter"></a>
-                    <a href="#" class="google"></a>
-                    <a href="#" class="linkIn"></a>
-                </div>
             </div>
         </div>
         <div class="copyright">
-            <p>Copyright © 2016 - 2017 hizo.com. All  Rights Reserved.</p>
+{include file="sets/trade/common/copyright.tpl"}
         </div>
     </div>
 </div>
