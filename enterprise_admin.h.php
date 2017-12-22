@@ -2301,7 +2301,7 @@ function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArra
     }
 }
 
-function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray)
+function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray, &$fromIdx = 0)
 {
     $pathArrayProcessed = array();
     foreach ($urlArray as $url) {
@@ -2316,13 +2316,14 @@ function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray)
     $document = new \DOMDocument();
     @$document->loadHTML($description);
     $imgElements = $document->getElementsByTagName('img');
-    $pathIdx = 0;
+    $pathIdx = $fromIdx;
     foreach ($imgElements as $e) {
         $e->setAttribute('src', $pathArrayProcessed[$pathIdx]);
         ++$pathIdx;
         if ($pathIdx >= $pathCnt)
             $pathIdx = 0;
     }
+    $fromIdx = $pathIdx;
 
     $bodyElementList = $document->getElementsByTagName('body');
     $retval = '';
@@ -2356,12 +2357,22 @@ function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
         $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray);
     }
 
+    $urlArray = explode("\n", $urls);
+    $urlArrayProcessed = array();
+    foreach ($urlArray as $url) {
+        $url = trim($url);
+        if ($url)
+            $urlArrayProcessed[] = $url;
+    }
+    if (!$urlArrayProcessed)
+        return;
+
+    $urlIdx = 0;
     foreach ($generator as $product) {
         $values = array();
 
         // 替换描述文本
-        $urlArray = explode("\n", $urls);
-        $values['description'] = enterprise_admin_replace_desc_pic_with_urls($product['description'], $urlArray);
+        $values['description'] = enterprise_admin_replace_desc_pic_with_urls($product['description'], $urlArrayProcessed, $urlIdx);
 
         if ($values) {
             $values['updated'] = date('Y-m-d H:i:s');
