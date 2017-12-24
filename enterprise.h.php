@@ -1157,6 +1157,8 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         return enterprise_action_attachment_proc($guidHex);
     } elseif ($requestPath == '/sitemap/group.xml') {
         enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+    } elseif ($requestPath == '/sitemap/index.xml') {
+        enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
     } elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
         if (isset($matches[2]))
             $no = (int)$matches[2];

@@ -71,9 +71,11 @@ if (isset($pageBlackList[$requestPath])) {
 // ++ Sitemap
 if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     $sitemapLocale = $matches[1];
-    if ($sitemapLocale == 'index')
-        enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
-    elseif ($sitemapLocale == 'product') {} // 仅非抓取站支持
+    if ($sitemapLocale == 'index') {
+        if ($omsSite
+                && $omsSite['crawled'])
+            enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
+    } elseif ($sitemapLocale == 'product') {} // 仅非抓取站支持
     elseif ($sitemapLocale == 'group') {
         if ($omsSite
                 && $omsSite['crawled'])
