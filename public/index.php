@@ -47,6 +47,9 @@ if (!$locale
     exit(1);
 }
 
+$omsSiteDAO = new \oms\daos\Site();
+$omsSite = $omsSiteDAO->get($siteId);
+
 // 优先使用本地存储的页面、图片和资源等
 $requestRelativeURI = enterprise_remove_parameter_dbg($_SERVER['REQUEST_URI']);
 $fakeRequestHost = str_replace($currentDomainSuffix, $originalDomainSuffix, $_SERVER['HTTP_HOST']);
@@ -70,20 +73,15 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     $sitemapLocale = $matches[1];
     if ($sitemapLocale == 'index')
         enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
-    elseif ($sitemapLocale == 'product')
-        enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
-    elseif ($sitemapLocale == 'group')
-        enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
-    elseif ($sitemapLocale == 'core')
+    elseif ($sitemapLocale == 'product') {} // 仅非抓取站支持
+    elseif ($sitemapLocale == 'group') {
+        if ($omsSite
+                && $omsSite['crawled'])
+            enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+    } elseif ($sitemapLocale == 'core')
         enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
-} elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
-    if (isset($matches[2]))
-        $no = (int)$matches[2];
-    else
-        $no = 1;
-    enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
 } elseif(preg_match('/^\/uploaded_images\/([a-z]?)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
     $char = $matches[1];
     $imageId = $matches[2];
@@ -118,8 +116,6 @@ $smarty->loadFilter("pre", 'whitespace_control');
 // + 警告：这个新的Router是来截胡的
 do {
     try {
-        $omsSiteDAO = new \oms\daos\Site();
-        $omsSite = $omsSiteDAO->get($siteId);
         if ($omsSite
                 && $omsSite['crawled']
                 && $subdomain == 'www') {

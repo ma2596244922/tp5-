@@ -1155,6 +1155,14 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif(preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
         $guidHex = $matches[1];
         return enterprise_action_attachment_proc($guidHex);
+    } elseif ($requestPath == '/sitemap/group.xml') {
+        enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+    } elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
+        if (isset($matches[2]))
+            $no = (int)$matches[2];
+        else
+            $no = 1;
+        enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
     } elseif ($requestPath == '/favicon.ico') {
         header('Content-Type: image/x-icon');
         if ($site['favicon'])
