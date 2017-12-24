@@ -13,46 +13,38 @@
 {include file="sets/peony/common/logobar.tpl"}
 {include file="sets/peony/common/navbar.tpl" page_name="news_detail"}
         <div class="crumb">
-                            <p ><a href="https://user.china.cn/test/hizo.com/" data-scode="34101" title="Qingdao Hizo Bearing Co., Ltd.">Home</a>&gt;<a href="https://user.china.cn/test/hizo.com/news.html" title="Company News" data-scode="34101">Company News</a>&gt;<strong>We are  the largest manufacture of yase</strong></p>                    </div>
+            <p ><a href="/" data-scode="34101" title="{$preset_translations.home}">{$preset_translations.home}</a>&gt;<a href="/news" title="{$preset_translations.news}" data-scode="34101">{$preset_translations.news}</a>&gt;<strong>{$news.caption}</strong></p>
+        </div>
         <!--crumb-->
 
 <div class="main-content fl-clr">
     <div class="left-content">
-<div class="menu-list">
-    <dl class="company-dl">
-        <dt>Company Overview</dt>
-        <dd><a href="http://user.china.cn/test/hizo.com/company.html"  title="Company Introduction" data-scode=""><strong>Company Introduction</strong></a></dd>
-        <dd><a href="http://user.china.cn/test/hizo.com/news.html"  class="current" title="Company News" data-scode=""><strong>Company News</strong></a></dd>
-        <dd><a href="http://user.china.cn/test/hizo.com/pictures.html"  title="Photo Gallery" data-scode=""><strong>Photo Gallery</strong></a></dd>
-    </dl>
-</div>
+{include file="sets/peony/common/left_menu.tpl" page_name="news_detail"}
 <!--menu-list-->
-<div class="contact-msg"> <span class="title">Qingdao Hizo Bearing Co., Ltd.</span>
-    <ul>
-                <li><i><em class="address"></em>Address</i>No. 192, Zhengyang Road, Chengyang Dist.</li>
-                        <li><i><em class="contact"></em>Contact</i>HIZO YOUNG</li>
-                        <li><i><em class="phone"></em>Phone</i>86-0532-67766030</li>
-                
-    </ul>
-    <div class="btn"><a href="http://user.china.cn/test/hizo.com/quoteus.html" data-scode="" rel="nofollow" target="_blank" title="Contact Now">Contact Now</a></div>
-</div>
+{include file="sets/peony/common/contact_panel.tpl"}
 </div>
 <!--contact-msg-->
     <!--left-content-->
     <div class="right-content">
         <div class="product-box news-box">
-            <div class="title"><i></i><h1>Company News</h1></div>
+            <div class="title"><i></i><h1>{$preset_translations.company_news}</h1></div>
             <div class="news-detail">
-                <div class="title-news"><span>We are  the largest manufacture of yase</span><i>2017-12-20 17:42:31</i></div>
+                <div class="title-news"><span>{$news.caption}</span><i>{$news.created}</i></div>
                 <div class="news-art">
-                    <div class="imgdiv"><img src="//timg.china.cn/0/1_653_84398_180_150.jpg" alt="We are  the largest manufacture of yase" /></div>
-                    <p><p>We are &nbsp;the largest manufacture of thin-wall bearings and light bearings with the precision degree range to P0~P5 in China. Our strong technical and design capability, advanced production equipment and strict production processing control system, excellent detection and inspection instruments has guaranteed our products quality always in top level of China .With the experienced and skilled technical team, and close cooperation with the China bearing R &amp; D authorities, we have developed more than 1000 kinds of bearing products, among them more than 100 new products obtained applied patents , 5 got scientific and technological achievements. Our products have successfully fulfilled the needs of some large domestic groups, such as Xugong Group and other companies. Meanwhile, we have established long-term cooperation with the United States, Germany, Russia, Ukraine and other 20 countries around world. Our Bote-brand has been well know in more than 10 countries and regions, like in North America, Wester</p></p>
+{if $news.head_image_id}
+                    <div class="imgdiv"><img src="{$news.head_image_id|url:'enterprise_url_image':$news.caption:''}" width="700" alt="{$news.caption}" /></div>
+{/if}
+                    {$news.content}
                 </div>
             </div>
             <div class="next-prev">
                 <ul>
-                    <li><span>Previous page</span><a href="http://user.china.cn/test/hizo.com/news-1690.html" data-scode="34104" title="We are  the largest manufacture of yase">We are  the largest manufacture of yase</a></li>
-                    <li class="next"><span>Next page</span><a href="http://user.china.cn/test/hizo.com/news-1690.html" title="We are  the largest manufacture of yase" data-scode="34105">We are  the largest manufacture of yase</a></li>
+{if $prev_news|default:[]}
+                    <li><span>{$preset_translations.previous_page}</span><a href="{$prev_news|url:'enterprise_url_news'}">{$prev_news.caption}</a></li>
+{/if}
+{if $next_news|default:[]}
+                    <li class="next"><span>{$preset_translations.next_page}</span><a href="{$next_news|url:'enterprise_url_news'}">{$next_news.caption}</a></li>
+{/if}
                 </ul>
                 <i></i>
             </div>

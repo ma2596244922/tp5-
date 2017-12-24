@@ -14,29 +14,42 @@
 {include file="sets/peony/common/navbar.tpl" page_name="contactus"}
 
         <div class="crumb">
-                            <p ><a href="https://user.china.cn/test/hizo.com/" data-scode="37001" title="Qingdao Hizo Bearing Co., Ltd.">Home</a>&gt;<strong>Contacts</strong></p>                    </div>
+            <p ><a href="/" data-scode="37001" title="{$preset_translations.home}">{$preset_translations.home}</a>&gt;<strong>{$corporation.name} Contact Info</strong></p>
+        </div>
         <!--crumb-->
-
-<div class="contact-allinfo fl-clr">
+{if $site.contact_content|default:''}
+    <div class="intro-txt intro-art">
+        {$site.contact_content}
+    </div>
+{else}
+    {-foreach $contacts as $contact}
+    <div class="contact-allinfo fl-clr">
         <div class="contact-communication fl-clr">
             <div class="left-intro">
-                                    <img src="//timg.china.cn/1/1_424_40460_100_100.jpg" />
-                                <span>Mr. HIZO YOUNG</span>
+                <img src="/media/sets/trade/default_photo.jpg" />
+                <span>{$contact.name}</span>
             </div>
             <div class="right-intro">
                 <ul>
-                                            <li><label>Job Title</label>Manager</li>
-                                            <li><label>Telephone</label><h2>86-0532-67766030</h2></li>
-                                            <li><label>Mobile</label><h1>13906426296</h1></li>
-                                            <li><label>Fax</label>86-0532-67766031</li>
-                                            <li><label>Address</label>No. 192, Zhengyang Road, Chengyang Dist.</li>
-                                        <li><label>Showroom</label>http://user.china.cn/test/hizo.com/</li>
-                                            <li><label>Website</label><a href="http://http://www.hizobearing.com" target="_blank" data-scode="37002" rel="nofollow">Click Here</a></li>
-                                    </ul>
+        {-foreach $contact as $f => $v}{if $f=='name'}{continue}{/if}
+            {-if isset($contact_desc.$f) && $contact.$f}
+                {-if $f=='email'}
+                    <li>
+                        <label>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</label>
+                        <a href="mailto:{$v}">{$v}</a>
+                    </li>
+                {-else}
+                    <li><label>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</label>{$v}</li>
+                {-/if}
+            {-/if}
+        {-/foreach}
+                </ul>
             </div>
         </div>
-                <!--contact-communication-->
+        <!--contact-communication-->
     </div>
+    {-/foreach}
+{/if}
 <!--contact-allinfo-->
 <div class="contact-us">
     <div class="title">
@@ -44,57 +57,65 @@
     </div>
     <div class="contact-info fl-clr">
         <div class="left-list">
-                                    <img src="//timg.china.cn/2/1_424_40460_100_100.jpg" alt="Qingdao Hizo Bearing Co., Ltd." />
-                                <dl>
-                    <dt>Qingdao Hizo Bearing Co., Ltd.</dt>
-                                            <dd><span>Contact</span>HIZO YOUNG</dd>
-                                                                <dd><span>Phone</span>86-0532-67766030</dd>
-                                                                <dd><span>Address</span>No. 192, Zhengyang Road, Chengyang Dist.</dd>
-                                    </dl>
+            <img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name}" />
+            <dl>
+                <dt>{$corporation.name}</dt>
+{-if $corporation.address|default:''}
+                <dd><span>{$preset_translations.address}</span>{$corporation.address}</dd>
+{-/if}
+{-if $corporation.factory_address|default:''}
+                <dd><span>{$preset_translations.factory_address}</span>{$corporation.factory_address}</dd>
+{-/if}
+{-if $corporation.worktime|default:''}
+                <dd><span>{$preset_translations.worktime}</span>{$corporation.worktime}</dd>
+{-/if}
+{-if $corporation.tel_wt|default:''}
+                <dd><span>{$preset_translations.business_phone}({$preset_translations.working_time})</span>{$corporation.tel_wt}</dd>
+{-/if}
+{-if $corporation.tel_nwt|default:''}
+                <dd><span>{$preset_translations.business_phone}({$preset_translations.nonworking_time})</span>{$corporation.tel_nwt}</dd>
+{-/if}
+{-if $corporation.fax|default:''}
+                <dd><span>{$preset_translations.fax}</span>{$corporation.fax}</dd>
+{/if}
+            </dl>
             </div>
         <div class="right-list">
             <div class="title"><h2>Contact Us</h2></div>
-            <form action="/successfully.html" method="POST">
-                <input type="hidden"  name="corpindustry" value="3407">
-                <input type="hidden" name ="cid" value="100058201">
-                <input type="hidden" name ="entitytype" value="1">
+            <form action="/contactsave.html" method="POST">
                 <ul class="form-list fl-clr">
-                    <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" placeholder="Enter your email address" />
+                    <li><label><i>*</i>Email</label><input type="text" class="txt1" id="email" name="email" placeholder="{$preset_translations.please_enter_your_email_address}" />
                     <span class="email-error" id="email-error">Please enter your valid email address.</span>
                     </li>
-                    <li><label><i></i>To</label><em class="company-name">Qingdao Hizo Bearing Co., Ltd.</em></li>
-                    <li><label><i>*</i>Subject</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About Qingdao Hizo Bearing Co., Ltd." /><span class="subject-error" id="subject-error">Please enter a subject for your inquiry</span></li>
+                    <li><label><i></i>{$preset_translations.to}</label><em class="company-name">{$corporation.name}</em></li>
+                    <li><label><i>*</i>{$preset_translations.subject}</label><input type="text" class="txt1 txt-val" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}" /><span class="subject-error" id="subject-error">Please enter a subject for your inquiry</span></li>
                     <li class="fl-clr">
-                        <label><i></i>Quick question</label>
+                        <label><i></i>{$preset_translations.quick_question}</label>
                         <div class="select fl-clr">
                             <ul class="fl-clr">
                                 <li class="select">
                                     <a class="select-box" id="slt2" onclick="boxOut(2)" >
-                                        <span class="selectTxt" id="selectTxt2">Quick question</span>
+                                        <span class="selectTxt" id="selectTxt2">{$preset_translations.quick_question}</span>
                                         <i class="select-btn"><a href="javascript:void(0)" class="search-btn"></a></i>
                                     </a>
                                     <span class="selectMenu" id="selectMenu2" style="display:none;">
-                                        <a href="javascript:void(0)" title="Quick question" >Quick question</a>
-                                                                                <a href="javascript:void(0)" title="I would send you order.Please send me e-mail address for our order." >I would send you order.Please send me e-mail address for our order.</a>
-                                                                                <a href="javascript:void(0)" title="I would like to purchase your products. Please contact me" >I would like to purchase your products. Please contact me</a>
-                                                                                <a href="javascript:void(0)" title="I would need some samples.I will pay for them.Please contact me." >I would need some samples.I will pay for them.Please contact me.</a>
-                                                                            </span>   
+                                        <a href="javascript:void(0)" title="{$preset_translations.quick_question}" >{$preset_translations.quick_question}</a>
+{foreach $quick_questions as $q}
+                                        <a href="javascript:void(0)" title="{$q|escape}" >{$q|escape}</a>
+{/foreach}
+                                    </span>
                                 </li>
                             </ul>
                         </div>
-                        <div class="tips">What is this?<em>This feature is Quick question function, select the corresponding question types, automatically enter the corresponding problem, remove your trouble of typing<i></i></em></div>
+                        <div class="tips">{$preset_translations.what_is_this}<em>{$preset_translations.what_is_this_1}<i></i></em></div>
                         <input data-role="isquick" type="hidden" name="isquick" value=""/>
                     </li>
-                    <li class="area-li"><label><i>*</i>Message</label>
-                        <textarea class="area" id="area" name="message" placeholder="For the best results, we recommend including the following details:
-    -Self introduction  
-    -Required specifications 
-    -Inquire about price/MOQ
-                                "></textarea>
+                    <li class="area-li"><label><i>*</i>{$preset_translations.message}</label>
+                        <textarea class="area" id="area" name="message" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea>
                      <span class="area-error" id="area-error">Your inquiry content must be between 20 to 5000 characters.</span>           
                      </li>
                 </ul>
-                <div class="send-btn"><button type="submit">Send Now</button></div>
+                <div class="send-btn"><button type="submit">{$preset_translations.send_now}</button></div>
             </form>
         </div>
     </div>

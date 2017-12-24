@@ -39,59 +39,20 @@
 </div>
 <!--banner-block-->
 <div class="high-quality">
-    <div class="title"><span>Our High Quality Products</span><a href="http://user.china.cn/test/hizo.com/products.html" class="more-btn">More</a></div>
+    <div class="title"><span>Our High Quality Products</span><a href="/products.html" class="more-btn">More</a></div>
     <ul>
-
-        
-        
-          
+{foreach $groups as $group}{if $group@index>=4}{continue}{/if}
         <li>
-            <a href="http://user.china.cn/test/hizo.com/sale-585027-Uniform-cross-section-bearing" title="Uniform cross-section bearing">
-                <img src="//timg.china.cn/2/1_387_40673_800_800.jpg" width="160" height="160" alt="Uniform cross-section bearing"/></a>
+            <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
+                <img src="{$group.products[0].head_image_id|url:'enterprise_url_image':$group.products[0].caption:'c'}" width="160" height="160" alt="{$group.products[0].caption}"/></a>
             <div class="right-intro">
-                <span><a href="http://user.china.cn/test/hizo.com/sale-585027-Uniform-cross-section-bearing" title="Uniform cross-section bearing">
-                    Uniform cross-section bearing                    </a>
+                <span><a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
+                    {$group.products[0].caption|truncate:80}</a>
                 </span>
-                <a href="http://user.china.cn/test/hizo.com/sale-585027-Uniform-cross-section-bearing" class="see-detail">See Detail</a>
+                <a href="{$group|url:'enterprise_url_product_list'}" class="see-detail">See Detail</a>
             </div>
-        </li>  
-        
-          
-        <li>
-            <a href="http://user.china.cn/test/hizo.com/sale-584995-Thrust-bearings" title="Thrust bearings">
-                <img src="//timg.china.cn/2/1_586_40601_800_800.jpg" width="160" height="160" alt="Thrust bearings"/></a>
-            <div class="right-intro">
-                <span><a href="http://user.china.cn/test/hizo.com/sale-584995-Thrust-bearings" title="Thrust bearings">
-                    Thrust bearings                    </a>
-                </span>
-                <a href="http://user.china.cn/test/hizo.com/sale-584995-Thrust-bearings" class="see-detail">See Detail</a>
-            </div>
-        </li>  
-        
-          
-        <li>
-            <a href="http://user.china.cn/test/hizo.com/sale-585005-Tapered-roller-bearings" title="Tapered roller bearings">
-                <img src="//timg.china.cn/2/1_15_40434_800_800.jpg" width="160" height="160" alt="Tapered roller bearings"/></a>
-            <div class="right-intro">
-                <span><a href="http://user.china.cn/test/hizo.com/sale-585005-Tapered-roller-bearings" title="Tapered roller bearings">
-                    Tapered roller bearings                    </a>
-                </span>
-                <a href="http://user.china.cn/test/hizo.com/sale-585005-Tapered-roller-bearings" class="see-detail">See Detail</a>
-            </div>
-        </li>  
-        
-          
-        <li>
-            <a href="http://user.china.cn/test/hizo.com/sale-585001-Spherical-roller-bearings" title="Spherical roller bearings">
-                <img src="//timg.china.cn/2/1_743_40143_800_800.jpg" width="160" height="160" alt="Spherical roller bearings"/></a>
-            <div class="right-intro">
-                <span><a href="http://user.china.cn/test/hizo.com/sale-585001-Spherical-roller-bearings" title="Spherical roller bearings">
-                    Spherical roller bearings                    </a>
-                </span>
-                <a href="http://user.china.cn/test/hizo.com/sale-585001-Spherical-roller-bearings" class="see-detail">See Detail</a>
-            </div>
-        </li>  
-                
+        </li>
+{/foreach}
     </ul>
 </div>
 <!--high-quality-->
@@ -100,22 +61,22 @@
         <li class="item1">
             <span></span>
             <dl>
-                <dt>Extensive main market</dt>
-                <dd>We have been acknowledged in many countries.</dd>
+                <dt>{$preset_translations.all_about_us}</dt>
+                <dd>{$preset_translations.all_about_us_desc}</dd>
             </dl>
         </li>
         <li class="item2">
             <span></span>
             <dl>
-                <dt>Factory Dirct Delivery</dt>
-                <dd>The practical teaching is the main part with.</dd>
+                <dt>{$preset_translations.contact_details}</dt>
+                <dd>{$preset_translations.contact_details_desc}</dd>
             </dl>
         </li>
         <li class="item3">
             <span></span>
             <dl>
-                <dt>Standardized transaction</dt>
-                <dd>Trading process in multi-party certification.</dd>
+                <dt>{$preset_translations.quality_control}</dt>
+                <dd>{$preset_translations.quality_control_desc}</dd>
             </dl>
         </li>
     </ul>
@@ -126,246 +87,48 @@
      <div class="title">
         <ul data-role="update-title">
             <li class="cur">New Updates<span>|</span></li>
-            <li class="">Especially Recommended</li>
+            <!--<li class="">Especially Recommended</li>-->
         </ul>
     </div>
     <div class="update-list" data-role="update-list">
-    
-         <ul class="fl-clr" style="display: block;">
-
+        <ul class="fl-clr" style="display: block;">
             <!--update   pro-->
-                                          <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574381-china-deep-groove-ball-high-efficient-6305-conveyor-bearing.html" class="product-img" title="china deep groove ball high efficient 6305 conveyor bearing">
-                        <img src="//timg.china.cn/2/1_838_40773_800_800.jpg" width="160" height="160" alt="china deep groove ball high efficient 6305 conveyor bearing"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574381-china-deep-groove-ball-high-efficient-6305-conveyor-bearing.html" title="china deep groove ball high efficient 6305 conveyor bearing">china deep groove ball high efficient 6305 conveyor bearing</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574381" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574303-61848M-Size-240*300*28-deep-groove-ball-bearings.html" class="product-img" title="61848M Size 240*300*28 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_173_40401_800_800.jpg" width="160" height="160" alt="61848M Size 240*300*28 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574303-61848M-Size-240*300*28-deep-groove-ball-bearings.html" title="61848M Size 240*300*28 deep groove ball bearings">61848M Size 240*300*28 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574303" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574237-61844-ZZ-Size-220*270*24-deep-groove-ball-bearings.html" class="product-img" title="61844-ZZ Size 220*270*24 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_525_40428_800_800.jpg" width="160" height="160" alt="61844-ZZ Size 220*270*24 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574237-61844-ZZ-Size-220*270*24-deep-groove-ball-bearings.html" title="61844-ZZ Size 220*270*24 deep groove ball bearings">61844-ZZ Size 220*270*24 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574237" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574173-61840-ZZ-Size-200*250*24-deep-groove-ball-bearings.html" class="product-img" title="61840-ZZ Size 200*250*24 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_58_40173_800_800.jpg" width="160" height="160" alt="61840-ZZ Size 200*250*24 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574173-61840-ZZ-Size-200*250*24-deep-groove-ball-bearings.html" title="61840-ZZ Size 200*250*24 deep groove ball bearings">61840-ZZ Size 200*250*24 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-4"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574173" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574117-61830-Size-150*190*20-deep-groove-ball-bearings.html" class="product-img" title="61830 Size 150*190*20 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_459_40392_800_800.jpg" width="160" height="160" alt="61830 Size 150*190*20 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574117-61830-Size-150*190*20-deep-groove-ball-bearings.html" title="61830 Size 150*190*20 deep groove ball bearings">61830 Size 150*190*20 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574117" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127574051-61826M-Size-130*165*18-deep-groove-ball-bearings.html" class="product-img" title="61826M Size 130*165*18 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_58_40173_800_800.jpg" width="160" height="160" alt="61826M Size 130*165*18 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127574051-61826M-Size-130*165*18-deep-groove-ball-bearings.html" title="61826M Size 130*165*18 deep groove ball bearings">61826M Size 130*165*18 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574051" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127573981-61812-Size-60*78*10-deep-groove-ball-bearings.html" class="product-img" title="61812 Size 60*78*10 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_173_40401_800_800.jpg" width="160" height="160" alt="61812 Size 60*78*10 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127573981-61812-Size-60*78*10-deep-groove-ball-bearings.html" title="61812 Size 60*78*10 deep groove ball bearings">61812 Size 60*78*10 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-4"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573981" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127573905-61816-Size-80*100*10-deep-groove-ball-bearings.html" class="product-img" title="61816 Size 80*100*10 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_1004_40482_800_800.jpg" width="160" height="160" alt="61816 Size 80*100*10 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127573905-61816-Size-80*100*10-deep-groove-ball-bearings.html" title="61816 Size 80*100*10 deep groove ball bearings">61816 Size 80*100*10 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-3"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573905" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127573829-61807-2RS-Size-35*47*7-deep-groove-ball-bearings.html" class="product-img" title="61807-2RS Size 35*47*7 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_459_40392_800_800.jpg" width="160" height="160" alt="61807-2RS Size 35*47*7 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127573829-61807-2RS-Size-35*47*7-deep-groove-ball-bearings.html" title="61807-2RS Size 35*47*7 deep groove ball bearings">61807-2RS Size 35*47*7 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-5"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573829" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                             <li>
-                    <a href="http://user.china.cn/test/hizo.com/provide-127573761-61805-2RS-Size-25*37*7-deep-groove-ball-bearings.html" class="product-img" title="61805-2RS Size 25*37*7 deep groove ball bearings">
-                        <img src="//timg.china.cn/2/1_312_40175_800_800.jpg" width="160" height="160" alt="61805-2RS Size 25*37*7 deep groove ball bearings"/>
-                    </a>
-                    <span class="pro-name">
-                        <a href="http://user.china.cn/test/hizo.com/provide-127573761-61805-2RS-Size-25*37*7-deep-groove-ball-bearings.html" title="61805-2RS Size 25*37*7 deep groove ball bearings">61805-2RS Size 25*37*7 deep groove ball bearings</a>
-                    </span>
-                    <div class="star"><span class="star-3"></span></div>
-                    <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573761" class="contact-btn"  rel="nofollow">Contacts</a>
-                    <span class="new-icon"></span>
-                </li>
-                          
-         
-              </ul>
-            <ul class="fl-clr" style="display: none;">
-                <!-- recommend pro first group -->
-                           <!-- recommend other pro -->
-                           
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574381-china-deep-groove-ball-high-efficient-6305-conveyor-bearing.html" class="product-img" title="china deep groove ball high efficient 6305 conveyor bearing">
-                    <img src="//timg.china.cn/2/1_838_40773_800_800.jpg" width="160" height="160"  alt="china deep groove ball high efficient 6305 conveyor bearing">
+{foreach $products as $product}
+            <li>
+                <a href="{$product|url:'enterprise_url_product'}" class="product-img" title="{$product.caption}">
+                    <img src="{$product.head_image_id|url:'enterprise_url_image':$groups[0].products[0].caption:'c'}" width="160" height="160" alt="{$product.caption}"/>
                 </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574381-china-deep-groove-ball-high-efficient-6305-conveyor-bearing.html" title="china deep groove ball high efficient 6305 conveyor bearing">china deep groove ball high efficient 6305 conveyor bearing"></a></span>
+                <span class="pro-name">
+                    <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a>
+                </span>
                 <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574381" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574303-61848M-Size-240*300*28-deep-groove-ball-bearings.html" class="product-img" title="61848M Size 240*300*28 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_173_40401_800_800.jpg" width="160" height="160"  alt="61848M Size 240*300*28 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574303-61848M-Size-240*300*28-deep-groove-ball-bearings.html" title="61848M Size 240*300*28 deep groove ball bearings">61848M Size 240*300*28 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574303" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574237-61844-ZZ-Size-220*270*24-deep-groove-ball-bearings.html" class="product-img" title="61844-ZZ Size 220*270*24 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_525_40428_800_800.jpg" width="160" height="160"  alt="61844-ZZ Size 220*270*24 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574237-61844-ZZ-Size-220*270*24-deep-groove-ball-bearings.html" title="61844-ZZ Size 220*270*24 deep groove ball bearings">61844-ZZ Size 220*270*24 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574237" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574173-61840-ZZ-Size-200*250*24-deep-groove-ball-bearings.html" class="product-img" title="61840-ZZ Size 200*250*24 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_58_40173_800_800.jpg" width="160" height="160"  alt="61840-ZZ Size 200*250*24 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574173-61840-ZZ-Size-200*250*24-deep-groove-ball-bearings.html" title="61840-ZZ Size 200*250*24 deep groove ball bearings">61840-ZZ Size 200*250*24 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-4"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574173" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574117-61830-Size-150*190*20-deep-groove-ball-bearings.html" class="product-img" title="61830 Size 150*190*20 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_459_40392_800_800.jpg" width="160" height="160"  alt="61830 Size 150*190*20 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574117-61830-Size-150*190*20-deep-groove-ball-bearings.html" title="61830 Size 150*190*20 deep groove ball bearings">61830 Size 150*190*20 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574117" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127574051-61826M-Size-130*165*18-deep-groove-ball-bearings.html" class="product-img" title="61826M Size 130*165*18 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_58_40173_800_800.jpg" width="160" height="160"  alt="61826M Size 130*165*18 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127574051-61826M-Size-130*165*18-deep-groove-ball-bearings.html" title="61826M Size 130*165*18 deep groove ball bearings">61826M Size 130*165*18 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127574051" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127573981-61812-Size-60*78*10-deep-groove-ball-bearings.html" class="product-img" title="61812 Size 60*78*10 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_173_40401_800_800.jpg" width="160" height="160"  alt="61812 Size 60*78*10 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127573981-61812-Size-60*78*10-deep-groove-ball-bearings.html" title="61812 Size 60*78*10 deep groove ball bearings">61812 Size 60*78*10 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-4"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573981" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127573905-61816-Size-80*100*10-deep-groove-ball-bearings.html" class="product-img" title="61816 Size 80*100*10 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_1004_40482_800_800.jpg" width="160" height="160"  alt="61816 Size 80*100*10 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127573905-61816-Size-80*100*10-deep-groove-ball-bearings.html" title="61816 Size 80*100*10 deep groove ball bearings">61816 Size 80*100*10 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-3"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573905" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127573829-61807-2RS-Size-35*47*7-deep-groove-ball-bearings.html" class="product-img" title="61807-2RS Size 35*47*7 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_459_40392_800_800.jpg" width="160" height="160"  alt="61807-2RS Size 35*47*7 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127573829-61807-2RS-Size-35*47*7-deep-groove-ball-bearings.html" title="61807-2RS Size 35*47*7 deep groove ball bearings">61807-2RS Size 35*47*7 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-5"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573829" class="contact-btn">Contacts</a>
-             </li>
-             
-             <li>
-                <a href="http://user.china.cn/test/hizo.com/provide-127573761-61805-2RS-Size-25*37*7-deep-groove-ball-bearings.html" class="product-img" title="61805-2RS Size 25*37*7 deep groove ball bearings">
-                    <img src="//timg.china.cn/2/1_312_40175_800_800.jpg" width="160" height="160"  alt="61805-2RS Size 25*37*7 deep groove ball bearings">
-                </a>
-                <span class="pro-name"><a href="http://user.china.cn/test/hizo.com/provide-127573761-61805-2RS-Size-25*37*7-deep-groove-ball-bearings.html" title="61805-2RS Size 25*37*7 deep groove ball bearings">61805-2RS Size 25*37*7 deep groove ball bearings"></a></span>
-                <div class="star"><span class="star-3"></span></div>
-                <a href="http://user.china.cn/test/hizo.com/quoteus.html?pid=127573761" class="contact-btn">Contacts</a>
-             </li>
-                                      </ul>
-
-        
+                <a href="{$product|url:'enterprise_url_product'}" class="contact-btn"  rel="nofollow">Contacts</a>
+                <span class="new-icon"></span>
+            </li>
+{/foreach}
+        </ul>
+        <!--<ul class="fl-clr" style="display: none;">
+        </ul>-->
     </div>
 </div>
 <!--new-update-->
 <div class="company-intro">
     <div class="company-inner">
         <div class="intro">
-            <span><a href="http://user.china.cn/test/hizo.com/company.html">Company Introduction</a></span>
-            <p><a href="http://user.china.cn/test/hizo.com/company.html">We are  the largest manufacture of thin-wall bearings and light bearings with the precision degree range to P0~P5 in China. Our strong technical and design capability, advanced production equipment and strict production processing control system, exc...</a></p>
+            <span><a href="/aboutus.html">{$preset_translations.company_introduction}</a></span>
+            <p><a href="/aboutus.html">{$corporation.introduction|strip_tags|truncate:300}</a></p>
         </div>
         <div class="leave-email">
             <span>Leave Your Intention</span>
-            <form action="/successfully.html" method="POST">
-            <p>
-                <label>Email:</label><input type="text" name="email" class="email" data-role="email" placeholder="Enter a keyword to search products" />
-                <span class="erro_alert" data-role="email_error"></span>
-            </p>
-            <input type="hidden"  name="corpindustry" value="3407">
-            <input type="hidden" name ="cid" value="100058201">
-            <input type="hidden" name ="entitytype" value="1">
-            <input type="hidden" name="subject" value="Inquiry about Qingdao Hizo Bearing Co., Ltd.. ">
-            <input type="hidden" name="message" value="Please contact me as soon as possible and I want to know more about your products.">
-            <a href="javascript:void(0)" class="send-now" data-role="send-now">Send Now</a>
-            
+            <form action="/contactsave.html" method="POST">
+                <p>
+                    <label>Email:</label><input type="text" name="email" class="email" data-role="email" placeholder="Enter a keyword to search products" />
+                    <span class="erro_alert" data-role="email_error"></span>
+                </p>
+                <input type="hidden" name="subject" value="Inquiry About {$corporation.name}">
+                <input type="hidden" name="message" value="Please contact me as soon as possible and I want to know more about your products.">
+                <a href="javascript:void(0)" class="send-now" data-role="send-now">Send Now</a>
+            </form>
         </div>
        
     </div>

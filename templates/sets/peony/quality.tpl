@@ -14,57 +14,61 @@
 {include file="sets/peony/common/logobar.tpl"}
 {include file="sets/peony/common/navbar.tpl" page_name="quality"}
         <div class="crumb">
-                            <p ><a href="https://user.china.cn/test/hizo.com/" data-scode="36001" title="Qingdao Hizo Bearing Co., Ltd.">Home</a>&gt;<strong>Quality Control</strong></p>                    </div>
+            <p ><a href="/" data-scode="36001" title="{$preset_translations.home}">{$preset_translations.home}</a>&gt;<strong>{$corporation.name} {$preset_translations.quality_control}</strong></p>
+        </div>
         <!--crumb-->
 
 <div class="main-content fl-clr">
     <div class="left-content">
-<div class="menu-list">
-    <dl>
-        <dt>Product Groups</dt>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585027-Uniform-cross-section-bearing"  data-scode="" title="Uniform cross-section bearing">Uniform cross-section bearing</a></strong><span>(1)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-584995-Thrust-bearings"  data-scode="" title="Thrust bearings">Thrust bearings</a></strong><span>(56)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585005-Tapered-roller-bearings"  data-scode="" title="Tapered roller bearings">Tapered roller bearings</a></strong><span>(151)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585001-Spherical-roller-bearings"  data-scode="" title="Spherical roller bearings">Spherical roller bearings</a></strong><span>(94)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-584997-set"  data-scode="" title="set">set</a></strong><span>(183)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585031-New-Products"  data-scode="" title="New Products">New Products</a></strong><span>(20)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585025-Needle-bearings"  data-scode="" title="Needle bearings">Needle bearings</a></strong><span>(21)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585029-Linear--motion-bearing"  data-scode="" title="Linear  motion bearing">Linear  motion bearing</a></strong><span>(2)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585019-Insert-bearings"  data-scode="" title="Insert bearings">Insert bearings</a></strong><span>(3)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585003-Angular-contact-ball-bearings"  data-scode="" title="Angular contact ball bearings">Angular contact ball bearings</a></strong><span>(155)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585017-Electric-Insulation-bearings"  data-scode="" title="Electric Insulation bearings">Electric Insulation bearings</a></strong><span>(2)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-584999-Deep-Groove-Ball-Bearing"  data-scode="" title="Deep Groove Ball Bearing">Deep Groove Ball Bearing</a></strong><span>(1000)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585007-Cylindrical-roller-bearings"  data-scode="" title="Cylindrical roller bearings">Cylindrical roller bearings</a></strong><span>(189)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585011-Bearing-for-excavator"  data-scode="" title="Bearing for excavator">Bearing for excavator</a></strong><span>(1)</span></dd>
-                <dd><strong><a href="http://user.china.cn/test/hizo.com/sale-585021-Auto-beairngs"  data-scode="" title="Auto beairngs">Auto beairngs</a></strong><span>(1)</span></dd>
-            </dl>
-</div>
+{include file="sets/peony/common/group_panel.tpl"}
 <!--menu-list-->
-<div class="contact-msg"> <span class="title">Qingdao Hizo Bearing Co., Ltd.</span>
-    <ul>
-                <li><i><em class="address"></em>Address</i>No. 192, Zhengyang Road, Chengyang Dist.</li>
-                        <li><i><em class="contact"></em>Contact</i>HIZO YOUNG</li>
-                        <li><i><em class="phone"></em>Phone</i>86-0532-67766030</li>
-                
-    </ul>
-    <div class="btn"><a href="http://user.china.cn/test/hizo.com/quoteus.html" data-scode="" rel="nofollow" target="_blank" title="Contact Now">Contact Now</a></div>
-</div>
+{include file="sets/peony/common/contact_panel.tpl"}
 </div>
 <!--contact-msg-->
     <!--left-content-->
     <div class="right-content">
         <div class="product-box quality-box quality-none">
-            <div class="title"><i></i><h1>Quality Control</h1></div>
+            <div class="title"><i></i><h1>{$preset_translations.quality_control}</h1></div>
             <div class="quality-list">
-                                    <p><i></i>The user has not provide such information.</p>
-                            </div>
+                {$corporation.qc_profile}
+            </div>
         </div>
         <!--products-box-->
         <div class="product-box certification-box certification-none">
-            <div class="title"><i></i><h2>Certifications</h2></div>
+            <div class="title"><i></i><h2>{$preset_translations.certifications}</h2></div>
             <div class="certification-list fl-clr">
-                                    <p><i></i>The user has not provide such information.</p>
-                            </div>
+{foreach $certifications as $cert}
+                <div class="certification-detail">
+                    <div class="left-img">
+                        <a href="{$cert.uri|url:'enterprise_url_photo'}" title="{$cert.standard|default:''}" data-lightbox="certificate-set">
+                            <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}" width="120" height="168" style="margin: 10px auto;" />
+                        </a>
+                    </div>
+                    <ul>
+    {if $cert.standard|default:''}
+                        <li><label>Standard</label><span>{$cert.standard}</span></li>
+    {/if}
+    {if $cert.number|default:''}
+                        <li><label>Number</label><span>{$cert.number}</span></li>
+    {/if}
+    {if $cert.issue_date|default:''}
+                        <li><label>Issue Date</label><span>{$cert.issue_date}</span></li>
+    {/if}
+    {if $cert.expiry_date|default:''}
+                        <li><label>Expiry Date</label><span>{$cert.expiry_date}</span></li>
+    {/if}
+    {if $cert.scope_n_range|default:''}
+                        <li><label>Scope/Range</label><span>{$cert.scope_n_range}</span></li>
+    {/if}
+    {if $cert.issued_by|default:''}
+                        <li><label>Issued By</label><span>{$cert.issued_by}</span></li>
+    {/if}
+                    </ul>
+                </div>
+{foreachelse}
+                <p><i></i>The user has not provide such information.</p>
+{/foreach}
+            </div>
         </div>
         <!--products-box-->
     </div>

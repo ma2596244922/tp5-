@@ -14,81 +14,64 @@
 {include file="sets/peony/common/navbar.tpl" page_name="aboutus"}
 
         <div class="crumb">
-                            <p ><a href="https://user.china.cn/test/hizo.com/" data-scode="33001" title="Qingdao Hizo Bearing Co., Ltd.">Home</a>&gt;<strong>Company Introduction</strong></p>                    </div>
+            <p ><a href="/" data-scode="33001" title="{$preset_translations.home}">{$preset_translations.home}</a>&gt;<strong>{$corporation.name}</strong></p>
+        </div>
         <!--crumb-->
 
 <!--crumb-->
 <div class="main-content fl-clr">
     <div class="left-content">
-<div class="menu-list">
-    <dl class="company-dl">
-        <dt>Company Overview</dt>
-        <dd><a href="http://user.china.cn/test/hizo.com/company.html"  class="current" title="Company Introduction" data-scode=""><strong>Company Introduction</strong></a></dd>
-        <dd><a href="http://user.china.cn/test/hizo.com/news.html"  title="Company News" data-scode=""><strong>Company News</strong></a></dd>
-        <dd><a href="http://user.china.cn/test/hizo.com/pictures.html"  title="Photo Gallery" data-scode=""><strong>Photo Gallery</strong></a></dd>
-    </dl>
-</div>
+{include file="sets/peony/common/left_menu.tpl" page_name="aboutus"}
 <!--menu-list-->
-<div class="contact-msg"> <span class="title">Qingdao Hizo Bearing Co., Ltd.</span>
-    <ul>
-                <li><i><em class="address"></em>Address</i>No. 192, Zhengyang Road, Chengyang Dist.</li>
-                        <li><i><em class="contact"></em>Contact</i>HIZO YOUNG</li>
-                        <li><i><em class="phone"></em>Phone</i>86-0532-67766030</li>
-                
-    </ul>
-    <div class="btn"><a href="http://user.china.cn/test/hizo.com/quoteus.html" data-scode="" rel="nofollow" target="_blank" title="Contact Now">Contact Now</a></div>
-</div>
+{include file="sets/peony/common/contact_panel.tpl"}
 </div>
 <!--contact-msg-->
     <!--left-content-->
     <div class="right-content">
         <div class="product-box news-box">
             <div class="title"><i></i>
-                <h1>Company Information</h1>
+                <h1>{$preset_translations.company_profile}</h1>
             </div>
             <div class="news-detail">
                 <div class="news-art intro-art">
                     <div class="scrollArea" id="scrollArea">
-                                                                                    <a class="c1"><span><img src="//timg.china.cn/3/1_521_40341_320_190.jpg" alt="Qingdao Hizo Bearing Co., Ltd." /></span></a>
-                                                            <a class="c1"><span><img src="//timg.china.cn/3/1_698_40372_320_191.jpg" alt="Qingdao Hizo Bearing Co., Ltd." /></span></a>
-                                                            <a class="c1"><span><img src="//timg.china.cn/3/1_839_40056_320_211.jpg" alt="Qingdao Hizo Bearing Co., Ltd." /></span></a>
-                                                        <ul class="small-list" id="small-list">
-                                                                    <li class="current"></li>
-                                                                        <li></li>
-                                                                        <li></li>
-                                                                </ul>
-                                            </div>
+{foreach $photos as $photo}
+                        <a class="c1"><span><img src="{$photo.uri|url:'enterprise_url_photo':'':'c'}" alt="{$corporation.name}" /></span></a>
+{/foreach}
+                        <ul class="small-list" id="small-list">
+{foreach $photos as $photo}
+                            <li{if $photo@index==0} class="current"{/if}></li>
+{/foreach}
+                        </ul>
+                    </div>
                     <div class="intro-txt intro-art">
-                        <p>We are  the largest manufacture of thin-wall bearings and light bearings with the precision degree range to P0~P5 in China. Our strong technical and design capability, advanced production equipment and strict production processing control system, excellent detection and inspection instruments has guaranteed our products quality always in top level of China .With the experienced and skilled technical team, and close cooperation with the China bearing R &amp; D authorities, we have developed more than 1000 kinds of bearing products, among them more than 100 new products obtained applied patents , 5 got scientific and technological achievements. Our products have successfully fulfilled the needs of some large domestic groups, such as Xugong Group and other companies. Meanwhile, we have established long-term cooperation with the United States, Germany, Russia, Ukraine and other 20 countries around world. Our Bote-brand has been well know in more than 10 countries and regions, like in North America, Western Europe, Southeast Asia, Africa and so on.
-<br/>Based on integrity, pragmatism and innovative, our business in both the domestic and international markets, has obtained a good reputation. For three consecutive years we are awarded the&quot; Shandong Star Bearing Corporation&quot; by the Shandong Provincial Association. Our thin-walled bearings got the &quot;Shandong famous brand&quot; title as well.</p>
+                        {$corporation.introduction}
                     </div>
                     <div class="intro-txt">
-                        <div class="title"><i></i><h2>Business Information</h2></div>
+                        <div class="title"><i></i><h2>{$preset_translations.company_details}</h2></div>
                         <ul class="fl-clr">
-                            <li><label>Company Name</label><span>Qingdao Hizo Bearing Co., Ltd.</span></li>
-                            <li><label>Business Type</label><span>Manufacturer,Trading Company</span></li>
-                                                            <li><label>We Provide</label><span>Cylindrical roller bearing ,Deep grove ball Bearings ,Augular contact ball Bearings ,Thrust ball bearing ,Spherical roller Bearings</span></li>
-                                                            <li><label>Port of Shipment</label><span>Qingdao ,Shanghai</span></li>
-                                                            <li><label>Year Established</label><span>2015</span></li>
-                                                    </ul>
+                            <li><label>{$preset_translations.business_type}</label><span>{$corporation.business_type}</span></li>
+                            <li><label>{$preset_translations.main_market}</label><span>{$corporation.main_market}</span></li>
+                            <li><label>{$preset_translations.brands}</label><span>{$corporation.brands}</span></li>
+                            <li><label>{$preset_translations.no_of_employees}</label><span>{$corporation.no_of_employees}</span></li>
+                            <li><label>{$preset_translations.annual_sales}</label><span>{$corporation.annual_sales}</span></li>
+                            <li><label>{$preset_translations.year_established}</label><span>{$corporation.year_established}</span></li>
+                            <li><label>{$preset_translations.export_p_c}</label><span>{$corporation.export_p_c}</span></li>
+                        </ul>
                     </div>
-                                            <div class="intro-txt intro-market">
-                            <div class="title"><i></i><h2>Trade & Market</h2></div>
-                            <ul class="fl-clr">
-                                <li><label>Main Markets</label>
-                                    <span>
-                                            Domestic Market , Western Europe , Eastern Europe , Mid East , North America , South America , Southeast Asia , Africa , Eastern Asia , Central America , Southern Europe , South Asia                                        </span>
-                                </li>
-                            </ul>
-                        </div>
-                                                                <div class="intro-txt intro-txt1">
-                            <div class="title"><i></i><h2>Factory Information</h2></div>
-                            <ul class="fl-clr">
-                                                                    <li><label>Factory Size</label><span>Below 1,000 square meters</span></li>
-                                                                    <li><label>Number of Workers</label><span>101 - 200 People</span></li>
-                                                            </ul>
-                        </div>
-                                                        </div>
+                    <div class="intro-txt intro-market">
+                        <div class="title"><i></i><h2>{$preset_translations.history}</h2></div>
+                        {$corporation.history}
+                    </div>
+                    <div class="intro-txt intro-market">
+                        <div class="title"><i></i><h2>{$preset_translations.service}</h2></div>
+                        {$corporation.service}
+                    </div>
+                    <div class="intro-txt intro-market">
+                        <div class="title"><i></i><h2>{$preset_translations.our_team}</h2></div>
+                        {$corporation.our_team}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

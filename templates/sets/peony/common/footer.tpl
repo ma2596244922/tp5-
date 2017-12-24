@@ -11,7 +11,7 @@
             </dl>
             <dl>
                 <dt>Most Popular</dt>
-{foreach $products as $product}{if $product@index>=5}{continue}{/if}
+{foreach $products|default:[] as $product}{if $product@index>=5}{continue}{/if}
                     <dd>
                         <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption|truncate:30}</a>
                     </dd>
