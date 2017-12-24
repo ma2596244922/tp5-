@@ -132,7 +132,7 @@
             <div class="title"><em><h2>POPULAR WORDS</h2></em></div>
             <ul class="">
 {foreach $index_keywords as $ik}
-                <li><em></em><a href="{$ik.url|default:{$ik.keyword|url:'enterprise_url_product_search'}}">{$ik.keyword}</a></li>
+                <li><em></em><a href="{$ik.url|default:{$ik.keyword|url:'enterprise_url_product_search'}}" title="{$ik.keyword}">{$ik.keyword}</a></li>
 {/foreach}
             </ul>
             
