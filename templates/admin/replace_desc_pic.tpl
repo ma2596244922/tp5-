@@ -132,7 +132,7 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">图片URL</label>
+                                        <label class="control-label">图片URL：</label>
 
                                         <div class="controls">
 
@@ -146,7 +146,7 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">分组</label>
+                                        <label class="control-label">分组：</label>
 
                                         <div class="controls">
 
@@ -165,10 +165,10 @@
                                         </div>
 
                                     </div>
-{if $user.advanced}
+
                                     <div class="control-group">
 
-                                        <label class="control-label">产品ID</label>
+                                        <label class="control-label">产品ID：</label>
 
                                         <div class="controls">
 
@@ -186,6 +186,28 @@
 
                                     </div>
 
+                                    <div class="control-group">
+
+                                        <label class="control-label">图片循环方式：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="recycle_type" value="0" />每个产品从头循环
+
+                                            </label>
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="recycle_type" value="1" checked />大循环
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+{if $user.advanced}
                                     <div class="control-group">
 
                                         <label class="control-label">后台处理：</label>

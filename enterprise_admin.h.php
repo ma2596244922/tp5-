@@ -2344,6 +2344,7 @@ function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
     $urls = $taskDetails['urls'];
     $ids = $taskDetails['ids'];
     $type = $taskDetails['type'];
+    $recycleType = $taskDetails['recycle_type'];
 
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
@@ -2370,6 +2371,10 @@ function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
     $urlIdx = 0;
     foreach ($generator as $product) {
         $values = array();
+
+        // URL Index
+        if (!$recycleType)
+            $urlIdx = 0;
 
         // 替换描述文本
         $values['description'] = enterprise_admin_replace_desc_pic_with_urls($product['description'], $urlArrayProcessed, $urlIdx);
@@ -2402,6 +2407,7 @@ function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
     $type = (int)timandes_get_post_data('type');
     $groupId = (int)timandes_get_post_data('group_id');
     $ids = timandes_get_post_data('ids');
+    $recycleType = (int)timandes_get_post_data('recycle_type');
     $background = (int)timandes_get_post_data('background');
 
     $typeRange = array(1, 2);
@@ -2423,6 +2429,7 @@ function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
             'type' => $type,
             'lang_code' => $langCode,
             'ids' => $ids,
+            'recycle_type' => $recycleType,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_DESC_PIC, $taskDetails);
