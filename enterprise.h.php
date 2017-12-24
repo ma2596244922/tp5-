@@ -2333,6 +2333,9 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // News
     enterprise_assign_news_list($smarty, 'news', $siteId, $langCode, 1, 5);
 
+    // Index Keyword
+    enterprise_assign_index_keyword_list($smarty, 'index_keywords', $siteId, $langCode, 1, 24);
+
     return $smarty->fetch($tplPath);
 }
 
