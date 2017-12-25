@@ -2138,4 +2138,15 @@ CREATE TABLE `oms_tasks` (
   KEY `idx_get_pending` (`deleted`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='抓取任务表';
 
+CREATE TABLE `oms_threatening_targets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁目标ID',
+  `email` varchar(100) NOT NULL COMMENT 'Email',
+  `ip_addr` varchar(15) NOT NULL COMMENT 'IP地址',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='封禁目标表';
+
 /* }}} */

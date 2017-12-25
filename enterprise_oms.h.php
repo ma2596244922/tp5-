@@ -70,6 +70,10 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_vps($smarty);
                 case 'vps':
                     return enterprise_oms_action_vps($smarty);
+                case 'edit_threatening_target':
+                    return enterprise_oms_action_edit_threatening_target($smarty);
+                case 'threatening_target':
+                    return enterprise_oms_action_threatening_target($smarty);
                 case 'edit_industry':
                     return enterprise_oms_action_edit_industry($smarty);
                 case 'industry':
@@ -1276,5 +1280,79 @@ function enterprise_oms_action_edit_task($smarty)
     }
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=task', '任务管理');
+}
+/* }}} */
+
+
+/* {{{ ThreateningTargets */
+/**
+ * Assign ThreateningTarget List
+ */
+function enterprise_oms_assign_threatening_target_list($smarty, $var)
+{
+    $threateningTargetDAO = new \oms\daos\ThreateningTarget();
+    $condition = "`deleted`=0";
+    $threateningTargets = $threateningTargetDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $threateningTargets);
+}
+
+/**
+ * Assign ThreateningTarget Info
+ */
+function enterprise_oms_assign_threatening_target_info($smarty, $var, $threateningTargetId)
+{
+    $threateningTargetDAO = new \oms\daos\ThreateningTarget();
+    $threateningTarget = $threateningTargetDAO->get($threateningTargetId);
+    $smarty->assign($var, $threateningTarget);
+}
+
+/**
+ * ThreateningTargets
+ */
+function enterprise_oms_action_threatening_target($smarty)
+{
+    enterprise_oms_assign_threatening_target_list($smarty, 'threatening_targets');
+
+    $smarty->display('oms/threatening_target.tpl');
+}
+
+/**
+ * Edit ThreateningTarget
+ */
+function enterprise_oms_action_edit_threatening_target($smarty)
+{
+    $threateningTargetId = (int)timandes_get_query_data('threatening_target_id');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($threateningTargetId)
+            enterprise_oms_assign_threatening_target_info($smarty, 'threatening_target', $threateningTargetId);
+
+        $smarty->assign('threatening_target_id', $threateningTargetId);
+
+        return $smarty->display('oms/edit_threatening_target.tpl');
+    }
+
+    $email = timandes_get_post_data('email');
+    $ipAddr = timandes_get_post_data('ip_addr');
+
+    if (!$email
+            && !$ipAddr)
+        throw new \RuntimeException("Email或IP地址不能为空");
+
+    $values = array(
+            'email' => $email,
+            'ip_addr' => $ipAddr,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $threateningTargetDAO = new \oms\daos\ThreateningTarget();
+    if ($threateningTargetId) {
+        $threateningTargetDAO->update($threateningTargetId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $threateningTargetId = $threateningTargetDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=threatening_target', '询盘黑名单');
 }
 /* }}} */
