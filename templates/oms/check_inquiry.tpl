@@ -31,6 +31,8 @@
                             <input type="hidden" name="submitted" value="1" id="inputSubmit">
                             <button type="button" class="btn btn-primary" id="btnProve">通过</button>
                             <button type="button" class="btn btn-default" id="btnReject">拒绝</button>
+                            <a class="btn btn-default" href="?action=reject_pending_inquiries_with&pending_inquiry_id={$pending_inquiry_id}&with=1">按邮箱批量删除</a>
+                            <a class="btn btn-default" href="?action=reject_pending_inquiries_with&pending_inquiry_id={$pending_inquiry_id}&with=2">按IP批量删除</a>
                         </div>
                     </div>
                 </form>

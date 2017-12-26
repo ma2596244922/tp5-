@@ -80,6 +80,8 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_industry($smarty);
                 case 'industry':
                     return enterprise_oms_action_industry($smarty);
+                case 'reject_pending_inquiries_with':
+                    return enterprise_oms_action_reject_pending_inquiries_with($smarty);
                 case 'check_inquiry':
                     return enterprise_oms_action_check_inquiry($smarty);
                 case 'inquiry_stats':
@@ -408,6 +410,59 @@ function enterprise_oms_action_inquiry_stats($smarty)
     $smarty->display('oms/inquiry_stats.tpl');
 }
 
+function enterprise_oms_get_pending_inquiries_generator()
+{
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+    $batchSize = 10;
+
+    $pos = 0;
+    while ($pendingInquiries = $pendingInquiryDAO->getMultiInOrderBy('`deleted`=0', '`id`, `data`', '`id` ASC', $batchSize, $pos)) {
+        if (!is_array($pendingInquiries))
+            return;
+
+        foreach ($pendingInquiries as $pi)
+            yield $pi;
+
+        $pos += count($pendingInquiries);
+    }
+}
+
+/**
+ * Reject Pending Inquiries with ...
+ */
+function enterprise_oms_action_reject_pending_inquiries_with($smarty)
+{
+    $pendingInquiryId = (int)timandes_get_query_data('pending_inquiry_id');
+    $with = (int)timandes_get_query_data('with');
+
+    if (!in_array($with, [1, 2]))
+        throw new \RuntimeException('Illegal parameter \'with\'');
+    if ($with == 1)
+        $withField = 'email';
+    else
+        $withField = 'ip';
+
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+    $pendingInquiry = $pendingInquiryDAO->get($pendingInquiryId);
+    if (!$pendingInquiry)
+        throw new \RuntimeException("No that pending inquiry #{$pendingInquiryId} was found");
+    $inquiryData = json_decode($pendingInquiry['data'], true);
+
+    $generator = enterprise_oms_get_pending_inquiries_generator();
+    foreach ($generator as $pi) {
+        $i = json_decode($pi['data'], true);
+        if ($i[$withField] != $inquiryData[$withField])
+            continue;
+
+        // Reject
+        $values = array(
+                'deleted' => 1,
+            );
+        $pendingInquiryDAO->update($pi['id'], $values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '操作成功', '?action=check_inquiry', '询盘审核');
+}
 
 /**
  * Check Inquiry
