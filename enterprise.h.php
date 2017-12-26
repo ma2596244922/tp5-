@@ -767,6 +767,27 @@ function enterprise_upload_attachments_from_post_data()
     return $attachments;
 }
 
+function enterprise_in_threatening_targets($email, $remoteAddr = null)
+{
+    if (!$remoteAddr)
+        $remoteAddr = timandes_get_remote_addr();
+
+    $threateningTargetDAO = new \oms\daos\ThreateningTarget();
+    $condition = "`email`='" . $threateningTargetDAO->escape($email) . "'";
+    $tt = $threateningTargetDAO->getOneBy($condition);
+    if ($tt
+            && !$tt['deleted'])
+        return true;
+
+    $condition = "`ip_addr`='" . $threateningTargetDAO->escape($remoteAddr) . "'";
+    $tt = $threateningTargetDAO->getOneBy($condition);
+    if ($tt
+            && !$tt['deleted'])
+        return true;
+
+    return false;
+}
+
 /**
  * 从POST表单获取数据保存至询盘表
  *
@@ -779,6 +800,11 @@ function enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix, $ty
     $subject = timandes_get_post_data('subject');
     $message = timandes_get_post_data('message', 'trim, xss_clean');
     $email = timandes_get_post_data('email');
+
+    // Ignore Threatening Targets
+    $r = enterprise_in_threatening_targets($email);
+    if ($r)
+        throw new \RuntimeException("Forbidden #1", 111);
 
     $messageType = timandes_get_post_data('message_type');
     if ($messageType == 'text/plain')
@@ -917,15 +943,24 @@ function enterprise_action_save_inquiry_proc($smarty, $siteId, $platform, $origi
         $smarty->assign('site_root_domain', $currentDomainSuffix);
     }
 
+    $threateningSource = false;// 危险源
     try {
         list($subject, $message, $email) = enterprise_save_inquiry_from_post_data($site, $currentDomainSuffix);
+    } catch (\RuntimeException $e) {
+        if ($e->getCode() == 111) 
+            $threateningSource = true;
+        else {
+            header('Location: /contactnow.html');
+            exit(0);
+        }
     } catch (\Exception $e) {
         header('Location: /contactnow.html');
         exit(0);
     }
 
     // Send Email
-    if (!$site['enable_inquiry_checking']) {// 不需要审核
+    if (!$threateningSource
+            && !$site['enable_inquiry_checking']) {// 不需要审核
         enterprise_send_inquiry_email_to_user($siteId, $subject, $message, $email);
     }
 

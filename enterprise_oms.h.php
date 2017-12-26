@@ -70,6 +70,8 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_vps($smarty);
                 case 'vps':
                     return enterprise_oms_action_vps($smarty);
+                case 'remove_threatening_target':
+                    return enterprise_oms_action_remove_threatening_target($smarty);
                 case 'edit_threatening_target':
                     return enterprise_oms_action_edit_threatening_target($smarty);
                 case 'threatening_target':
@@ -1352,6 +1354,23 @@ function enterprise_oms_action_edit_threatening_target($smarty)
         $values['created'] = $values['updated'];
         $threateningTargetId = $threateningTargetDAO->insert($values);
     }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=threatening_target', '询盘黑名单');
+}
+
+/**
+ * Remove ThreateningTarget
+ */
+function enterprise_oms_action_remove_threatening_target($smarty)
+{
+    $threateningTargetId = (int)timandes_get_query_data('threatening_target_id');
+
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $threateningTargetDAO = new \oms\daos\ThreateningTarget();
+    $threateningTargetDAO->update($threateningTargetId, $values);
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=threatening_target', '询盘黑名单');
 }

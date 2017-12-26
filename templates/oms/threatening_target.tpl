@@ -38,6 +38,7 @@
                         <td>{$i.ip_addr|escape}</td>
                         <td>
                             <a href="?action=edit_threatening_target&threatening_target_id={$i.id}">修改</a>
+                            <a href="?action=remove_threatening_target&threatening_target_id={$i.id}">删除</a>
                         </td>
                     </tr>
 {/foreach}

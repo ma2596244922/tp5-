@@ -2146,7 +2146,9 @@ CREATE TABLE `oms_threatening_targets` (
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
   PRIMARY KEY (`id`),
-  KEY `idx_deleted` (`deleted`)
+  KEY `idx_deleted` (`deleted`),
+  KEY `idx_q1` (`email`),
+  KEY `idx_q2` (`ip_addr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='封禁目标表';
 
 /* }}} */

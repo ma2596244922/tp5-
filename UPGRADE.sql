@@ -1,3 +1,16 @@
+-- 2017-12-26
+CREATE TABLE `oms_threatening_targets` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁目标ID',
+  `email` varchar(100) NOT NULL COMMENT 'Email',
+  `ip_addr` varchar(15) NOT NULL COMMENT 'IP地址',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`),
+  KEY `idx_q1` (`email`),
+  KEY `idx_q2` (`ip_addr`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='封禁目标表';
 -- 2017-12-17
 CREATE TABLE `enterprise_index_keywords` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关键词ID',
