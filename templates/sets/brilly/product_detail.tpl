@@ -121,6 +121,17 @@
           </div>
           <div class="clear"></div>
         </div>
+{-if $product.embedded_video|default:''}
+        <div class="ConBox ProductIntro">
+          <dl>
+            <dd>
+              <div class="content cur">
+                {$product.embedded_video}
+              </div>
+            </dd>
+          </dl>
+        </div>
+{-/if}
         <div class="ConBox ProductIntro">
           <div class="clear">&nbsp;</div>
           <h2 class="Til">{$preset_translations.product_description}</h2>

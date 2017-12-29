@@ -426,7 +426,19 @@
                                         </div>
 
                                     </div>
+{if $user.advanced}
+                                    <div class="control-group">
 
+                                        <label class="control-label">嵌入视频代码</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span12 m-wrap" name="embedded_video" rows="6">{$product.embedded_video|default:''}</textarea>
+
+                                        </div>
+
+                                    </div>
+{/if}
                                     <div class="form-actions">
 
                                         <input type="hidden" name="submit" value="edit_product">

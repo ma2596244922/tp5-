@@ -1643,7 +1643,7 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Save Products
  */
-function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null)
+function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null, $embeddedVideo = null)
 {
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -1681,6 +1681,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
         $values['specifications'] = $specificationsArray;
         $values['tags'] = $tags;
         $values['source_url'] = $sourceUrl;
+        $values['embedded_video'] = $embeddedVideo;
     }
     if ($productId) {// Edit
         // Authentication
@@ -1730,6 +1731,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
                 'specifications' => $specificationsArray,
                 'tags' => $tags,
                 'source_url' => $sourceUrl,
+                'embedded_video' => $embeddedVideo,
             );
         if ($productId) {// Edit
             $values['product_id'] = $productId;
@@ -1807,6 +1809,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $deliveryTime = timandes_get_post_data('delivery_time');
     $packagingDetails = timandes_get_post_data('packaging_details');
     $specificationsQueryString = timandes_get_post_data('specifications');
+    $embeddedVideo = timandes_get_post_data('embedded_video', 'remove_n_r, trim');
 
     parse_str($specificationsQueryString, $specificationsCellArray);
 
@@ -1827,7 +1830,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
 
-    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags);
+    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, null, null, null, $embeddedVideo);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }

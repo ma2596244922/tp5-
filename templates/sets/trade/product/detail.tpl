@@ -66,6 +66,11 @@
         </div>
         <!--produce-show-->
 {include file="sets/trade/product/specifications.tpl"}
+    {-if $product.embedded_video|default:''}
+        <div class="product-description">
+            {$product.embedded_video}
+        </div>
+    {-/if}
         <!--product-detail-->
         <div class="product-description">
             <div class="title"><i></i><h2>{$preset_translations.product_description}</h2></div>

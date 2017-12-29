@@ -1,3 +1,21 @@
+-- 2017-12-29
+ALTER TABLE `enterprise_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_fr_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_pt_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_es_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_zh_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_ar_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_ru_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_el_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_id_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_th_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_uk_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_de_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_it_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_sq_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_sv_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_tr_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
+ALTER TABLE `enterprise_ja_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
 -- 2017-12-26
 CREATE TABLE `oms_threatening_targets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '封禁目标ID',
