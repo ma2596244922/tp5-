@@ -156,13 +156,35 @@
 
                                                 <input type="radio" name="location" value="1" checked />
 
-                                                插入标题
+                                                插入标题后部
 
                                             </label>
 
                                             单个产品插入
 
                                             <input type="text" class="span1 m-wrap" name="location_1_cnt" value="5" />
+
+                                            个关键词
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="location" value="4" />
+
+                                                插入标题前部
+
+                                            </label>
+
+                                            单个产品插入
+
+                                            <input type="text" class="span1 m-wrap" name="location_4_cnt" value="5" />
 
                                             个关键词
 

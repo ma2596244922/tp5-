@@ -2096,10 +2096,10 @@ function enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $t
  *
  * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
  */
-function enterprise_admin_insert_random_keywords_to_value($value, $separator, $keywords, $keywordsCnt, $targetCnt)
+function enterprise_admin_insert_random_keywords_to_value($value, $separator, $keywords, $keywordsCnt, $targetCnt, $prepend = false)
 {
     $targetKeywords = enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $targetCnt);
-    return enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt);
+    return enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $prepend);
 }
 
 /**
@@ -2107,7 +2107,7 @@ function enterprise_admin_insert_random_keywords_to_value($value, $separator, $k
  *
  * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
  */
-function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt)
+function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $prepend = false)
 {
     $words = ($value?explode($separator, $value):[]);
     $wordsCnt = count($words);
@@ -2119,11 +2119,19 @@ function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKe
     }
     if ($wordsCnt > $targetCnt) {
         for (; $i<$wordsCnt; ++$i) {
-            $finalWords[] = trim($words[$i]);
+            $w = trim($words[$i]);
+            if ($prepend)
+                array_unshift($finalWords, $w);
+            else
+                $finalWords[] = $w;
         }
     } else {
         for (; $i<$targetCnt; ++$i) {
-            $finalWords[] = trim($targetKeywords[$i]);
+            $w = trim($targetKeywords[$i]);
+            if ($prepend)
+                array_unshift($finalWords, $w);
+            else
+                $finalWords[] = $w;
         }
     }
 
@@ -2186,6 +2194,8 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
             $values = array();
             if ($location == 1)
                 $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt);
+            elseif ($location == 4)
+                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt, true);
             elseif ($location == 2)
                 $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
             elseif ($location == 3) {
@@ -2233,7 +2243,7 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
 
-    $locationRange = array(1, 2, 3);
+    $locationRange = array(1, 2, 3, 4);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$groupId)
