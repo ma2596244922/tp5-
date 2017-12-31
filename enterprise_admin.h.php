@@ -909,15 +909,20 @@ function enterprise_admin_assign_inquiry_detail($smarty, $inquiry)
         $inquiryAttachments = json_decode($inquiry['attachments'], true);
     $smarty->assign('inquiry_attachments', $inquiryAttachments);
 
+    $ipv4 = $inquiry['ip'];
     // Country of Inquiry
     $inquiryCountry = $inquiry['country'];
-    $ipv4 = $inquiry['ip'];
     $ipv4Addrs = array($ipv4);
     $r = enterprise_admin_iplookup_get_info_from_addrs($ipv4Addrs);
     if (isset($r[$ipv4])
             && $r[$ipv4])
         $inquiryCountry = $r[$ipv4]['country'] . ' ' . $r[$ipv4]['province'] . ' ' . $r[$ipv4]['city'];
     $smarty->assign('inquiry_country', $inquiryCountry);
+    // Country of Inquiry V2
+    $r = enterprise_admin_iparea_get_info_from_addr($ipv4);
+    if ($r)
+        $inquiryCountryV2 = $r['province'] . ' ' . $r['city'];
+    $smarty->assign('inquiry_country_v2', $inquiryCountryV2);
 
     // Target product
     if ($inquiry['target_product_id'])
@@ -3592,6 +3597,22 @@ function enterprise_admin_iplookup_get_info_from_addrs($aAddrs, $sFields = '`cou
 }
 /* }}} */
 
+function enterprise_admin_iparea_get_info_from_addr($ipv4Addr)
+{
+    $db = \DbFactory::create('crawler');
+
+    $ipv4AddrLong = ip2long($ipv4Addr);
+
+    $sql = "SELECT * FROM `enterprise_iparea` WHERE `ip`<{$ipv4AddrLong} ORDER BY `ip` DESC LIMIT 1";
+    $r = $db->query($sql);
+    if (!$r)
+        return false;
+
+    $retval = $r->fetch_assoc();
+    $r->free();
+
+    return $retval;
+}
 
 /* {{{ CustomPage */
 

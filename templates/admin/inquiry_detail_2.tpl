@@ -137,7 +137,10 @@
 
                                     <ul class="unstyled span10">
 {if $inquiry_country}
-                                        <li><span>国家:</span> {$inquiry_country}</li>
+                                        <li><span>国家1:</span> {$inquiry_country}</li>
+{/if}
+{if $inquiry_country_v2}
+                                        <li><span>国家2:</span> {$inquiry_country_v2}</li>
 {/if}
 {if $inquiry.ip}
                                         <li><span>IP地址:</span> <a href="http://www.ip138.com/ips138.asp?ip={$inquiry.ip|call:'urlencode'}" target="_blank">{$inquiry.ip}</a></li>
