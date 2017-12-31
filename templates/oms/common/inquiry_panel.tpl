@@ -12,7 +12,10 @@
                         <h3 class="media-heading">{$inquiry.subject}</h3>
                         <ul>
 {if $inquiry_country}
-                            <li>国家: {$inquiry_country}</li>
+                            <li>国家1: {$inquiry_country}</li>
+{/if}
+{if $inquiry_country_v2}
+                            <li>国家2: {$inquiry_country_v2}</li>
 {/if}
 {if $inquiry.ip}
                             <li>IP: <a href="http://www.ip138.com/ips138.asp?ip={$inquiry.ip|call:'urlencode'}" target="_blank">{$inquiry.ip}</a></li>
