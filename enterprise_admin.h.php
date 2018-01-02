@@ -3602,6 +3602,8 @@ function enterprise_admin_iparea_get_info_from_addr($ipv4Addr)
     $db = \DbFactory::create('crawler');
 
     $ipv4AddrLong = ip2long($ipv4Addr);
+    if (!$ipv4Addr)
+        return false;
 
     $sql = "SELECT * FROM `enterprise_iparea` WHERE `ip`<{$ipv4AddrLong} ORDER BY `ip` DESC LIMIT 1";
     $r = $db->query($sql);
