@@ -11,6 +11,8 @@ define('ENTERPRISE_INQUIRY_FIELDS_FOR_LIST', '`id`, `subject`, `email`, `country
 define('ENTERPRISE_MAX_IMAGES_PER_PRODUCT', 5);
 /** @var string Default Language Code */
 define('ENTERPRISE_DEFAULT_LANG_CODE', 'en');
+/** @var array 商务条款涉及的产品字段 */
+define('ENTERPRISE_PRODUCT_TERM_FIELDS', ['brand_name', 'model_number', 'certification', 'place_of_origin', 'min_order_quantity', 'price', 'payment_terms', 'supply_ability', 'delivery_time', 'packaging_details']);
 
 /** @var array 暂存分组信息 */
 $GLOBALS['gaGroupCache'] = array();
@@ -2620,6 +2622,11 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             // Description
             if ($location == 3)
                 $values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
+            // Terms
+            if ($location == 4) {
+                foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
+                    $values[$f] = str_ireplace($oldPhrase, $newPhrase, $product[$f]);
+            }
 
             // Update
             if ($values) {
@@ -2658,7 +2665,7 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     if ($removePhrase)
         $newPhrase = '';
 
-    $locationRange = array(0, 1, 2, 3);
+    $locationRange = array(0, 1, 2, 3, 4);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$oldPhrase)
@@ -2685,7 +2692,6 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
-
 /**
  * Replace terms proc
  */
@@ -2694,7 +2700,7 @@ function enterprise_admin_replace_terms_proc($userSiteId, $taskDetails)
     $langCode = $taskDetails['lang_code'];
     $groupId = ($taskDetails['group_id']?$taskDetails['group_id']:null);
     $overwrite = $taskDetails['overwrite'];
-    $fields = ['brand_name', 'model_number', 'certification', 'place_of_origin', 'min_order_quantity', 'price', 'payment_terms', 'supply_ability', 'delivery_time', 'packaging_details'];
+    $fields = ENTERPRISE_PRODUCT_TERM_FIELDS;
 
     $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
 
