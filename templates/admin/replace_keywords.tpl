@@ -228,7 +228,7 @@
 
                                             <input type="radio" name="location" value="4" />
 
-                                            仅商务条款
+                                            商务条款和属性
 
                                             </label>
 

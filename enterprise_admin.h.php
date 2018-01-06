@@ -2595,9 +2595,9 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`');
         if (!$products)
             break;
 
@@ -2626,10 +2626,21 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             // Description
             if ($location == 3)
                 $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
-            // Terms
+            // Terms & Specifications
             if ($location == 4) {
+                // Terms
                 foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
                     $values[$f] = str_ireplace($oldPhrase, $productNewPhrase, $product[$f]);
+                // Specifications
+                $productSpecifications = array();
+                if ($product['specifications']) {
+                    $productSpecifications = json_decode($product['specifications'], true);
+                    $newProductSpecifications = array();
+                    if (is_array($productSpecifications)) foreach ($productSpecifications as $k => $v) {
+                        $newProductSpecifications[$k] = str_ireplace($oldPhrase, $productNewPhrase, $v);
+                    }
+                    $values['specifications'] = $newProductSpecifications;
+                }
             }
 
             // Update
