@@ -2582,11 +2582,11 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
     $newPhrase = $taskDetails['new_phrase'];
     $location = $taskDetails['location'];
 
+    if ($groupId < 0)
+        $groupId = null;
+
     $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
     $newPhrase = str_replace('[公司名称]', $corporation['name'], $newPhrase);
-
-    $group = enterprise_get_group_info($groupId, $langCode);
-    $newPhrase = str_replace('[产品分组]', $group['name'], $newPhrase);
 
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
@@ -2602,11 +2602,15 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             break;
 
         foreach ($products as $product) {
-            $newPhrase = str_replace('[产品标题]', $product['caption'], $newPhrase);
+            $productNewPhrase = $newPhrase;
+            $productNewPhrase = str_replace('[产品标题]', $product['caption'], $productNewPhrase);
+            $productGroup = enterprise_get_group_info($product['group_id'], $langCode, true);
+            $productNewPhrase = str_replace('[产品分组]', $productGroup['name'], $productNewPhrase);
+
             $values = array();
             // Caption
             if (in_array($location, [0, 1])) {
-                $values['caption'] = str_ireplace($oldPhrase, $newPhrase, $product['caption']);
+                $values['caption'] = str_ireplace($oldPhrase, $productNewPhrase, $product['caption']);
             }
             // Tags
             if (in_array($location, [0, 2])) {
@@ -2614,18 +2618,18 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
                 $newTags = array();
                 foreach ($oldTags as $tag) {
                     $tag = trim($tag);
-                    $tag = str_ireplace($oldPhrase, $newPhrase, $tag);
+                    $tag = str_ireplace($oldPhrase, $productNewPhrase, $tag);
                     $newTags[] = $tag;
                 }
                 $values['tags'] = implode(',', $newTags);
             }
             // Description
             if ($location == 3)
-                $values['description'] = str_ireplace($oldPhrase, $newPhrase, $product['description']);
+                $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
             // Terms
             if ($location == 4) {
                 foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
-                    $values[$f] = str_ireplace($oldPhrase, $newPhrase, $product[$f]);
+                    $values[$f] = str_ireplace($oldPhrase, $productNewPhrase, $product[$f]);
             }
 
             // Update

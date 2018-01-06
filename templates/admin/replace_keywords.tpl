@@ -259,6 +259,7 @@
                                         <div class="controls">
 
                                             <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+                                                <option value="-1">（所有分组）</option>
 {section name=i loop=$groups}
                                                 <option value="{$groups[i].id}">{$groups[i].name}</option>
 {/section}
