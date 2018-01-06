@@ -31,5 +31,7 @@
                                                     <li class="{if $profile_page_name=='product_default_image'}active{/if}"><a href="?action=product_default_image"><i class="icon-picture"></i> 产品默认图片</a></li>
 
                                                     <li class="{if $profile_page_name=='common_bg_image'}active{/if}"><a href="?action=common_bg_image"><i class="icon-picture"></i> 全站背景图片</a></li>
-
+{if $user.advanced}
+                                                    <li class="{if $profile_page_name=='hide'}active{/if}"><a href="?action=hide"><i class="icon-ban-circle"></i> 屏蔽配置</a></li>
+{/if}
                                                 </ul>

@@ -1,3 +1,29 @@
+-- 2018-1-2
+CREATE TABLE `hide_sites` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `enabled` tinyint NOT NULL COMMENT '功能开启？(0/1)',
+  `hide_by_ipaddr` tinyint NOT NULL COMMENT '启用IP限制？(0/1)',
+  `hide_by_browser` tinyint NOT NULL COMMENT '启用浏览器限制？(0/1)',
+  `hide_by_os` tinyint NOT NULL COMMENT '启用操作系统限制？(0/1)',
+  `ipaddr_black_list` text NOT NULL COMMENT 'IP黑名单',
+  `ipaddr_white_list` text NOT NULL COMMENT 'IP白名单',
+  `target_page` tinyint NOT NULL COMMENT '目标页类型(0-默认页；10-自定义URL)',
+  `target_page_url` varchar(255) NOT NULL COMMENT '目标页URL',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点的屏蔽配置表';
+CREATE TABLE `hide_tracks` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `ipaddr` int(10) unsigned NOT NULL COMMENT '访客IP',
+  `ua` varchar(255) NOT NULL COMMENT 'UA',
+  `path` varchar(100) NOT NULL COMMENT '受访页面',
+  `hit` tinyint NOT NULL COMMENT '命中的策略(10-IP；20-浏览器；30-操作系统)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_site` (`site_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点屏蔽记录';
 -- 2017-12-29
 ALTER TABLE `enterprise_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';
 ALTER TABLE `enterprise_fr_products` ADD COLUMN `embedded_video` text NOT NULL COMMENT '嵌入视频代码';

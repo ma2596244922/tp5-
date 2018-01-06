@@ -203,7 +203,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture' || $page_name=='index_keyword'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture' || $page_name=='index_keyword' || $page_name=='hide'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -338,6 +338,18 @@
                             </a>
 
                         </li>
+
+                        <li class="start{if $page_name=='hide'} active{/if}">
+
+                            <a href="?action=hide">
+
+                            <i class="icon-ban-circle"></i> 
+
+                            <span class="title">屏蔽配置</span>
+
+                            </a>
+
+                        </li>
 {/if}
                     </ul>
 
@@ -354,7 +366,19 @@
                     </a>
 
                 </li>
+{if $user.advanced}
+                <li class="start{if $page_name=='hide_track'} active{/if}">
 
+                    <a href="?action=hide_track">
+
+                    <i class="icon-book"></i> 
+
+                    <span class="title">屏蔽记录</span>
+
+                    </a>
+
+                </li>
+{/if}
             </ul>
 
             <!-- END SIDEBAR MENU -->

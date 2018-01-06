@@ -88,6 +88,10 @@ retry:
                     return enterprise_admin_action_favicon($smarty);
                 case 'logo':
                     return enterprise_admin_action_logo($smarty);
+                case 'hide':
+                    return enterprise_admin_action_hide($smarty, $langCode);
+                case 'hide_track':
+                    return enterprise_admin_action_hide_track($smarty, $langCode);
                 case 'info':
                     return enterprise_admin_action_info($smarty, $langCode);
                 case 'password':

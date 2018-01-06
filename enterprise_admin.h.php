@@ -564,6 +564,101 @@ function enterprise_admin_action_info($smarty, $langCode)
     $smarty->display($tplPath);
 }
 
+/* {{{ Hide */
+/**
+ * Hide
+ */
+function enterprise_admin_action_hide($smarty, $langCode)
+{
+    $tplPath = 'admin/hide.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        $hideSite = enterprise_get_hide_site_info($userSiteId);
+        $smarty->assign('hide_site', $hideSite);
+        return $smarty->display($tplPath);
+    }
+
+    $enabled = (int)timandes_get_post_data('enabled');
+    $hide_by_ipaddr = (int)timandes_get_post_data('hide_by_ipaddr');
+    $hide_by_browser = (int)timandes_get_post_data('hide_by_browser');
+    $hide_by_os = (int)timandes_get_post_data('hide_by_os');
+    $ipaddr_black_list = timandes_get_post_data('ipaddr_black_list');
+    $ipaddr_white_list = timandes_get_post_data('ipaddr_white_list');
+    $target_page = timandes_get_post_data('target_page');
+    $target_page_url = timandes_get_post_data('target_page_url');
+
+    $hideSiteDAO = new \hide\daos\Site();
+    $values = array(
+            'enabled' => $enabled,
+            'hide_by_ipaddr' => $hide_by_ipaddr,
+            'hide_by_browser' => $hide_by_browser,
+            'hide_by_os' => $hide_by_os,
+            'ipaddr_black_list' => $ipaddr_black_list,
+            'ipaddr_white_list' => $ipaddr_white_list,
+            'target_page' => $target_page,
+            'target_page_url' => $target_page_url,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $hideSite = enterprise_get_hide_site_info($userSiteId);
+    if ($hideSite) {// Update
+        $condition = "`site_id`=" . (int)$userSiteId;
+        $hideSiteDAO->updateBy($condition, $values);
+
+        $values['site_id'] = $hideSite['site_id'];
+        $values['created'] = $hideSite['created'];
+    } else {// Insert
+        $values['site_id'] = $userSiteId;
+        $values['created'] = $values['updated'];
+        $hideSiteDAO->insert($values);
+    }
+    $hideSite = $values;
+
+    $smarty->assign('hide_site', $hideSite);
+    
+    $smarty->assign('success_msg', '修改成功');
+    $smarty->display($tplPath);
+}
+
+/**
+ * Tracks
+ */
+function enterprise_admin_action_hide_track($smarty, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $keywords = timandes_get_query_data('keywords');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    $hideTrackDAO = new \hide\daos\Track();
+    $condition = "`site_id`={$userSiteId}";
+    if ($keywords) {
+        $escapedKeywords = $hideTrackDAO->escape($keywords);
+        $ipAddr = ip2long($keywords);
+        $ipAddrCondition = ($ipAddr?" OR `ipaddr`='{$ipAddr}'":'');
+        $condition .= " AND (`ua` LIKE '%{$escapedKeywords}%' OR `path` LIKE '%{$escapedKeywords}%'{$ipAddrCondition})";
+    }
+    $start = ($pageNo - 1) * $max;
+    $sql = "SELECT * FROM `hide_tracks` WHERE {$condition} ORDER BY `id` DESC LIMIT {$start}, {$max}";
+    $hideTracks = $hideTrackDAO->getMultiBySql($sql);
+    $smarty->assign('hide_tracks', $hideTracks);
+
+    $totalTracks = 1000;
+    $smarty->assign('total_hide_tracks', $totalTracks);
+    $smarty->assign('page_size', $max);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalTracks, $max, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->display('admin/hide_track.tpl');
+}
+
+/* }}} */
+
 /**
  * Change password
  */
@@ -919,7 +1014,7 @@ function enterprise_admin_assign_inquiry_detail($smarty, $inquiry)
         $inquiryCountry = $r[$ipv4]['country'] . ' ' . $r[$ipv4]['province'] . ' ' . $r[$ipv4]['city'];
     $smarty->assign('inquiry_country', $inquiryCountry);
     // Country of Inquiry V2
-    $r = enterprise_admin_iparea_get_info_from_addr($ipv4);
+    $r = enterprise_iparea_get_info_from_addr($ipv4);
     if ($r)
         $inquiryCountryV2 = $r['province'] . ' ' . $r['city'];
     $smarty->assign('inquiry_country_v2', $inquiryCountryV2);
@@ -3596,25 +3691,6 @@ function enterprise_admin_iplookup_get_info_from_addrs($aAddrs, $sFields = '`cou
     return $aRetval;
 }
 /* }}} */
-
-function enterprise_admin_iparea_get_info_from_addr($ipv4Addr)
-{
-    $db = \DbFactory::create('crawler');
-
-    $ipv4AddrLong = ip2long($ipv4Addr);
-    if (!$ipv4Addr)
-        return false;
-
-    $sql = "SELECT * FROM `enterprise_iparea` WHERE `ip`<{$ipv4AddrLong} ORDER BY `ip` DESC LIMIT 1";
-    $r = $db->query($sql);
-    if (!$r)
-        return false;
-
-    $retval = $r->fetch_assoc();
-    $r->free();
-
-    return $retval;
-}
 
 /* {{{ CustomPage */
 

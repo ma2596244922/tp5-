@@ -317,4 +317,45 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
         $actual = enterprise_remove_parameter_dbg($requestUri);
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * enterprise_match_ipaddr_with_wildcard()
+     */
+    public function test11()
+    {
+        $needle = '127.0.0.1';
+        $haystack = '127.0.0.1';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertTrue($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '127.0.0.*';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertTrue($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '127.0.*.*';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertTrue($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '127.2.0.1';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertFalse($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '127.2.0.*';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertFalse($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '127.2.*.*';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertFalse($actual);
+
+        $needle = '127.0.0.1';
+        $haystack = '';
+        $actual = enterprise_match_ipaddr_with_wildcard($needle, $haystack);
+        $this->assertFalse($actual);
+    }
 }

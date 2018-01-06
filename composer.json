@@ -15,6 +15,7 @@
     },
     "autoload": {
         "psr-4": {
+            "hide\\": "src/hide/",
             "oms\\": "src/oms/",
             "blowjob\\": "src/blowjob/",
             "enterprise\\": "src/",

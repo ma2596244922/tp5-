@@ -241,6 +241,15 @@ function enterprise_remove_parameter_dbg($requestUri)
     return $uri->__toString();
 }
 
+function enterprise_match_ipaddr_with_wildcard($needle, $haystack)
+{
+    if (!$haystack)
+        return false;
+
+    $prefix = str_replace('.*', '', $haystack);
+    return (strpos($needle, $prefix) === 0);
+}
+
 /**
  * Generate GUID
  *
@@ -1113,6 +1122,40 @@ function enterprise_assign_preset_translations($smarty, $langCode)
     $smarty->assign('preset_translations', $presetTranslations);
 }
 
+
+function enterprise_get_hide_site_info($siteId)
+{
+    $hideSiteDAO = new \hide\daos\Site();
+    $condition = "`site_id`=" . (int)$siteId;
+    return $hideSiteDAO->getOneBy($condition);
+}
+
+function enterprise_assign_hide_site_info($smarty, $var, $siteId)
+{
+    $hideSite = enterprise_get_hide_site_info($siteId);
+    $smarty->assign($var, $hideSite);
+}
+
+
+function enterprise_iparea_get_info_from_addr($ipv4Addr)
+{
+    $db = \DbFactory::create('crawler');
+
+    $ipv4AddrLong = ip2long($ipv4Addr);
+    if (!$ipv4Addr)
+        return false;
+
+    $sql = "SELECT * FROM `enterprise_iparea` WHERE `ip`<{$ipv4AddrLong} ORDER BY `ip` DESC LIMIT 1";
+    $r = $db->query($sql);
+    if (!$r)
+        return false;
+
+    $retval = $r->fetch_assoc();
+    $r->free();
+
+    return $retval;
+}
+
 /**
  * Router V2
  *
@@ -1125,6 +1168,8 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         $guidHex = $matches[1];
         return enterprise_action_attachment_proc($guidHex);
     }
+
+    enterprise_assign_hide_site_info($smarty, 'hide_site', $siteId);
 
     if ($requestPath == '/') {
         return enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
