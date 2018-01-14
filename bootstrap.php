@@ -30,3 +30,5 @@ if (timandes_get_query_data('dbg'))
     define('DBG_MODE', true);
 else
     define('DBG_MODE', false);
+
+define('GOOGLE_CLOUD_API_KEY', 'AIzaSyD3GUlgQ46MRarVcE70OWcrqnHAcyDCy5E');

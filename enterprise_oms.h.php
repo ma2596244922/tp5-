@@ -88,6 +88,8 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_inquiry_stats($smarty);
                 case 'site_stats':
                     return enterprise_oms_action_site_stats($smarty);
+                case 'translate':
+                    return enterprise_oms_action_translate($smarty);
                 case 'new_site':
                     return enterprise_oms_action_new_site($smarty);
                 case 'dashboard':
@@ -1430,3 +1432,45 @@ function enterprise_oms_action_remove_threatening_target($smarty)
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=threatening_target', '询盘黑名单');
 }
 /* }}} */
+
+function enterprise_translate_get_target_languages()
+{
+    $jsonFilePath = __DIR__ . '/languages.json';
+    $jsonString = file_get_contents($jsonFilePath);
+    if (!$jsonString)
+        return false;
+
+    $apiResponseArray = json_decode($jsonString, true);
+    if (!isset($apiResponseArray['data']['languages']))
+        return false;
+
+    return $apiResponseArray['data']['languages'];
+}
+
+/**
+ * Translate
+ */
+function enterprise_oms_action_translate($smarty)
+{
+    $tplPath = 'oms/translate.tpl';
+
+    $targetLanguages = enterprise_translate_get_target_languages();
+    $smarty->assign('target_languages', $targetLanguages);
+
+    $source_text = timandes_get_post_data('source_text', 'xss_clean, remove_n_r, trim');
+    $smarty->assign('source_text', $source_text);
+
+    $target_language = timandes_get_post_data('target_language');
+    $smarty->assign('target_language', $target_language);
+
+    $target_text = '';
+    if ($source_text
+            && $target_language) {
+        $translateClient = new Google\Cloud\Translate\TranslateClient(['key' => GOOGLE_CLOUD_API_KEY]);
+        $translation = $translateClient->translate($source_text, ['target' => $target_language]);
+        $target_text = $translation['text'];
+    }
+    $smarty->assign('target_text', $target_text);
+
+    $smarty->display($tplPath);
+}
