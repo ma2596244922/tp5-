@@ -272,6 +272,7 @@ CREATE TABLE `enterprise_sites` (
   `enable_floating_widget` tinyint unsigned NOT NULL COMMENT '是否启用漂浮框(0/1)',
   `floating_widget_url` varchar(45) NOT NULL COMMENT '漂浮框URL',
   `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)',
+  `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
@@ -473,6 +474,15 @@ CREATE TABLE `enterprise_fr_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='法语-用户新发产品表';
 
+CREATE TABLE `enterprise_fr_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-待翻译产品表';
+
 CREATE TABLE `enterprise_fr_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -577,6 +587,15 @@ CREATE TABLE `enterprise_pt_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='葡语-用户新发产品表';
 
+CREATE TABLE `enterprise_pt_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-待翻译产品表';
+
 CREATE TABLE `enterprise_pt_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -680,6 +699,15 @@ CREATE TABLE `enterprise_es_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='西班牙语-用户新发产品表';
+
+CREATE TABLE `enterprise_es_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西班牙语-待翻译产品表';
 
 CREATE TABLE `enterprise_es_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -786,6 +814,15 @@ CREATE TABLE `enterprise_zh_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='中文-用户新发产品表';
 
+CREATE TABLE `enterprise_zh_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='中文-待翻译产品表';
+
 CREATE TABLE `enterprise_zh_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -890,6 +927,15 @@ CREATE TABLE `enterprise_ar_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='阿拉伯语-用户新发产品表';
+
+CREATE TABLE `enterprise_ar_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿拉伯语-待翻译产品表';
 
 CREATE TABLE `enterprise_ar_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -996,6 +1042,15 @@ CREATE TABLE `enterprise_ru_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='俄语-用户新发产品表';
 
+CREATE TABLE `enterprise_ru_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='俄语-待翻译产品表';
+
 CREATE TABLE `enterprise_ru_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -1101,6 +1156,15 @@ CREATE TABLE `enterprise_el_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='希腊语-用户新发产品表';
 
+CREATE TABLE `enterprise_el_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='希腊语-待翻译产品表';
+
 CREATE TABLE `enterprise_el_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -1204,6 +1268,15 @@ CREATE TABLE `enterprise_id_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='印尼语-用户新发产品表';
+
+CREATE TABLE `enterprise_id_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='印尼语-待翻译产品表';
 
 CREATE TABLE `enterprise_id_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -1310,6 +1383,15 @@ CREATE TABLE `enterprise_th_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='泰语-用户新发产品表';
 
+CREATE TABLE `enterprise_th_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='泰语-待翻译产品表';
+
 CREATE TABLE `enterprise_th_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -1414,6 +1496,15 @@ CREATE TABLE `enterprise_uk_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='乌克兰语-用户新发产品表';
+
+CREATE TABLE `enterprise_uk_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='乌克兰语-待翻译产品表';
 
 CREATE TABLE `enterprise_uk_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -1520,6 +1611,15 @@ CREATE TABLE `enterprise_de_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='德语-用户新发产品表';
 
+CREATE TABLE `enterprise_de_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-待翻译产品表';
+
 CREATE TABLE `enterprise_de_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -1624,6 +1724,15 @@ CREATE TABLE `enterprise_it_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='意大利语-用户新发产品表';
+
+CREATE TABLE `enterprise_it_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='意大利语-待翻译产品表';
 
 CREATE TABLE `enterprise_it_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -1730,6 +1839,15 @@ CREATE TABLE `enterprise_sq_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='阿尔巴尼亚语-用户新发产品表';
 
+CREATE TABLE `enterprise_sq_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿尔巴尼亚语-待翻译产品表';
+
 CREATE TABLE `enterprise_sq_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -1834,6 +1952,15 @@ CREATE TABLE `enterprise_sv_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='瑞典语-用户新发产品表';
+
+CREATE TABLE `enterprise_sv_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='瑞典语-待翻译产品表';
 
 CREATE TABLE `enterprise_sv_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
@@ -1940,6 +2067,15 @@ CREATE TABLE `enterprise_tr_products` (
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='土耳其语-用户新发产品表';
 
+CREATE TABLE `enterprise_tr_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='土耳其语-待翻译产品表';
+
 CREATE TABLE `enterprise_tr_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
@@ -2044,6 +2180,15 @@ CREATE TABLE `enterprise_ja_products` (
   KEY `idx_list` (`site_id`, `deleted`, `group_id`, `updated`),
   KEY `idx_iteration` (`site_id`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPRESSED COMMENT='日语-用户新发产品表';
+
+CREATE TABLE `enterprise_ja_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日语-待翻译产品表';
 
 CREATE TABLE `enterprise_ja_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',

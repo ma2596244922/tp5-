@@ -104,3 +104,24 @@ function enterprise_product_transform_field_list_for_lang_site($fieldList)
 
     return implode(',', $transformedFieldArray);
 }
+
+function enterprise_product_save_pending_product($siteId, $productId)
+{
+    $site = enterprise_get_site_info($siteId);
+    if (!$site['translation_targets'])
+        return;
+    $translationTargets = json_decode($site['translation_targets'], true);
+    if (!$translationTargets)
+        return;
+    if (!is_array($translationTargets))
+        return;
+
+    $values = array(
+            'pending' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    foreach ($translationTargets as $target => $v) {
+        $langPendingProductDAO = new \enterprise\daos\LangPendingProduct($target);
+        $langPendingProductDAO->upsert($productId, $values);
+    }
+}

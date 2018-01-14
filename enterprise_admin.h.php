@@ -1850,6 +1850,14 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
         }
     }
 
+    // Save pending product
+    if (!$langProductDAO) {
+        if ($productId)
+            enterprise_product_save_pending_product($userSiteId, $productId);
+        else
+            enterprise_product_save_pending_product($userSiteId, $newProductId);
+    }
+
     // Save lang product
     if ($langProductDAO) {
         $values = array(

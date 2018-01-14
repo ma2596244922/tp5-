@@ -1,3 +1,133 @@
+-- 2018-1-14
+ALTER TABLE `enterprise_sites` ADD COLUMN `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）';
+CREATE TABLE `enterprise_fr_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-待翻译产品表';
+CREATE TABLE `enterprise_pt_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-待翻译产品表';
+CREATE TABLE `enterprise_es_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西班牙语-待翻译产品表';
+CREATE TABLE `enterprise_zh_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='中文-待翻译产品表';
+CREATE TABLE `enterprise_ar_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿拉伯语-待翻译产品表';
+CREATE TABLE `enterprise_ru_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='俄语-待翻译产品表';
+CREATE TABLE `enterprise_el_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='希腊语-待翻译产品表';
+CREATE TABLE `enterprise_id_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='印尼语-待翻译产品表';
+CREATE TABLE `enterprise_th_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='泰语-待翻译产品表';
+CREATE TABLE `enterprise_uk_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='乌克兰语-待翻译产品表';
+CREATE TABLE `enterprise_de_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-待翻译产品表';
+CREATE TABLE `enterprise_it_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='意大利语-待翻译产品表';
+CREATE TABLE `enterprise_sq_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿尔巴尼亚语-待翻译产品表';
+CREATE TABLE `enterprise_sv_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='瑞典语-待翻译产品表';
+CREATE TABLE `enterprise_tr_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='土耳其语-待翻译产品表';
+CREATE TABLE `enterprise_ja_pending_products` (
+  `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
+  `pending` tinyint NOT NULL COMMENT '待处理(0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  PRIMARY KEY (`product_id`),
+  KEY `idx_pending` (`pending`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日语-待翻译产品表';
 -- 2018-1-2
 CREATE TABLE `hide_sites` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
