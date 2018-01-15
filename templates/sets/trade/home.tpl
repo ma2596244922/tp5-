@@ -108,6 +108,7 @@
         </div>
     </div>
     <!--all-categories-->
+{-if $index_keywords|default:[]}
     <!--guanjianci-->
     <style>{literal}
     .gjc_div { background:#f1f2f4; width:100%; padding-bottom:50px;}
@@ -143,6 +144,7 @@
          </div>
     </div>
     <!--guanjianci-->
+{-/if}
    <div class="fl-clr"></div> 
 </div>
 <!--content-->
