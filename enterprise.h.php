@@ -2398,7 +2398,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
     // Users' voices
-    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, $langCode, 1, 5);
+    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, $langCode, 1, 3);
 
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
