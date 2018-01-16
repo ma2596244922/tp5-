@@ -2429,7 +2429,11 @@ function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray, &$
 
     $pathCnt = count($pathArrayProcessed);
     $document = new \DOMDocument();
-    @$document->loadHTML($description);
+    // See:
+    //  - http://php.net/manual/en/class.domdocument.php#118509
+    //  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+    $convertedDescription = mb_convert_encoding($description, 'HTML-ENTITIES', 'UTF-8');
+    @$document->loadHTML($convertedDescription);
     $imgElements = $document->getElementsByTagName('img');
     $pathIdx = $fromIdx;
     foreach ($imgElements as $e) {
