@@ -111,6 +111,8 @@ function enterprise_oms_action_dashboard_2($smarty)
     $smarty->assign('disk_free_space', disk_free_space('/'));
     $smarty->assign('disk_total_space', disk_total_space('/'));
 
+    $smarty->assign('imagecreatefromjpeg', function_exists('imagecreatefromjpeg')?'OK':'Err');
+
     $smarty->display('oms/dashboard2.tpl');
 }
 

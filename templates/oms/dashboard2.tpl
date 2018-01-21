@@ -53,6 +53,14 @@
                         <td>{$disk_free_space|size_format}</td>
                     </tr>
                 </table>
+
+                <h2>环境监测</h2>
+                <table class="table table-striped table-bordered table-hover">
+                    <tr>
+                        <th>jpeg</th>
+                        <td>{$imagecreatefromjpeg}</td>
+                    </tr>
+                </table>
                 <!-- End Content -->
             </div>
             <!-- End Page -->
