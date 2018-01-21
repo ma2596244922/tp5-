@@ -223,7 +223,9 @@
            App.init();
 
             var additionalConfig = {
-                filebrowserUploadUrl: '?action=upload_image'
+                filebrowserUploadUrl: '?action=upload_image',
+                extraPlugins: 'videoembed',
+                extraAllowedContent: 'iframe[*]'
             };
            $('#textarea-desc').ckeditor(additionalConfig);
 

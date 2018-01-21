@@ -18,6 +18,19 @@ define('ENTERPRISE_PRODUCT_TERM_FIELDS', ['brand_name', 'model_number', 'certifi
 $GLOBALS['gaGroupCache'] = array();
 
 /**
+ * XSS Clean For Site Owner
+ *
+ * @return string
+ */
+function xss_clean_4_site_owner($s)
+{
+    $antiXss = new voku\helper\AntiXSS();
+    $antiXss->removeEvilAttributes(array('style'));
+    $antiXss->removeEvilHtmlTags(array('iframe'));
+    return $antiXss->xss_clean($s);
+}
+
+/**
  * Grant permission
  */
 function enterprise_admin_grant_permission($targetSiteId)
@@ -1341,7 +1354,7 @@ function enterprise_admin_action_edit_group_desc($smarty, $site)
     }
 
     // Save
-    $desc = timandes_get_post_data('desc', 'xss_clean, remove_n_r, trim');
+    $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
 
     $groupDAO = new \enterprise\daos\Group();
     // Authentication
