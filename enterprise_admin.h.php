@@ -2198,10 +2198,10 @@ function enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $t
  *
  * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
  */
-function enterprise_admin_insert_random_keywords_to_value($value, $separator, $keywords, $keywordsCnt, $targetCnt, $prepend = false)
+function enterprise_admin_insert_random_keywords_to_value($value, $separator, $keywords, $keywordsCnt, $targetCnt, $reverse = false)
 {
     $targetKeywords = enterprise_admin_insert_keywords_get_random($keywords, $keywordsCnt, $targetCnt);
-    return enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $prepend);
+    return enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $reverse);
 }
 
 /**
@@ -2209,20 +2209,29 @@ function enterprise_admin_insert_random_keywords_to_value($value, $separator, $k
  *
  * @param string $separator 分隔符（标题使用空格，关键词使用英文半角逗号）
  */
-function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $prepend = false)
+function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKeywords, $targetCnt, $reverse = false)
 {
     $words = ($value?explode($separator, $value):[]);
+    if ($reverse)
+        $words = array_reverse($words);
+
     $wordsCnt = count($words);
     $finalWords = array();
     $minCnt = min($wordsCnt, $targetCnt);
     for ($i=0; $i<$minCnt; ++$i) {
-        $finalWords[] = trim($words[$i]);
-        $finalWords[] = $targetKeywords[$i];
+        $w = trim($words[$i]);
+        if ($reverse) {
+            array_unshift($finalWords, $w);
+            array_unshift($finalWords, $targetKeywords[$i]);
+        } else {
+            $finalWords[] = $w;
+            $finalWords[] = $targetKeywords[$i];
+        }
     }
     if ($wordsCnt > $targetCnt) {
         for (; $i<$wordsCnt; ++$i) {
             $w = trim($words[$i]);
-            if ($prepend)
+            if ($reverse)
                 array_unshift($finalWords, $w);
             else
                 $finalWords[] = $w;
@@ -2230,7 +2239,7 @@ function enterprise_admin_insert_keywords_to_value($value, $separator, $targetKe
     } else {
         for (; $i<$targetCnt; ++$i) {
             $w = trim($targetKeywords[$i]);
-            if ($prepend)
+            if ($reverse)
                 array_unshift($finalWords, $w);
             else
                 $finalWords[] = $w;
