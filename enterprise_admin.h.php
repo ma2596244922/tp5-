@@ -2307,7 +2307,13 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
                 $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt);
             elseif ($location == 4)
                 $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt, true);
-            elseif ($location == 2)
+            elseif ($location == 5) {
+                $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+                $values['caption'] = $targetKeywords[0] . ' ' . $product['caption'];
+            } elseif ($location == 6) {
+                $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+                $values['caption'] = $product['caption'] . ' ' . $targetKeywords[0];
+            } elseif ($location == 2)
                 $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
             elseif ($location == 3) {
                 if (false) { // Random
@@ -2354,7 +2360,7 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
 
-    $locationRange = array(1, 2, 3, 4);
+    $locationRange = array(1, 2, 3, 4, 5, 6);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$groupId)
