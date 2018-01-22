@@ -72,3 +72,31 @@ function enterprise_product_iteration($siteId, $langCode, $pageNo = 1, $pageSize
 
     return enterprise_product_append_group_info($langCode, $products);
 }
+
+
+function enterprise_product_transform_field_for_lang_site($field)
+{
+    switch ($field) {
+        case 'description':
+            return 'elp.`description`';
+        case 'images':
+            return 'ep.`images`';
+    }
+
+    throw new \DomainException("Unsupported field '{$field}'");
+}
+
+function enterprise_product_transform_field_list_for_lang_site($fieldList)
+{
+    if (!$fieldList)
+        throw new \LogicException("Empty field list was found");
+
+    $fieldArray = explode(',', $fieldList);
+    $transformedFieldArray = [];
+    foreach ($fieldArray as $f) {
+        $f = trim($f, ' `');
+        $transformedFieldArray[] = enterprise_product_transform_field_for_lang_site($f);
+    }
+
+    return implode(',', $transformedFieldArray);
+}

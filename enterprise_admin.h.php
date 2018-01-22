@@ -2399,14 +2399,15 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
-function enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId)
+function enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, $extraFieldList = '`description`')
 {
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', $extraFieldList);
+        else {
+            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', enterprise_product_transform_field_list_for_lang_site($extraFieldList));
+        }
         if (!$products)
             break;
 
@@ -2419,13 +2420,13 @@ function enterprise_admin_get_group_products_generator($userSiteId, $langCode, $
 }
 
 
-function enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray)
+function enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, $extraFieldList = '`description`')
 {
     foreach ($groupIdArray as $groupId) {
         if (!$groupId)
             continue;
 
-        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId);
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, $extraFieldList);
         foreach ($generator as $product)
             yield $product;
     }
@@ -3026,35 +3027,32 @@ function enterprise_admin_insert_images_to_product_desc($product, &$pendingImage
 function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
 {
     $langCode = $taskDetails['lang_code'];
-    $groupId = $taskDetails['group_id'];
+    $groupId = $taskDetails['group_id']??null;
     $uploadedImages = $taskDetails['uploaded_images'];
     $location = $taskDetails['location'];
     $targetCnt = $taskDetails['target_cnt'];
     $overwrite = $taskDetails['overwrite'];
+    $type = $taskDetails['type'];
+    $groupIdArray = $taskDetails['group_id_array']??[];
 
     $targetCnt = min(ENTERPRISE_MAX_IMAGES_PER_PRODUCT, $targetCnt);
 
-    $curProductId = 0;
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`images`, `description`');
+    elseif ($type == 3) {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`images`, `description`');
+    }
+
     $pendingImages = $uploadedImages;
-    do {
-        if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`images`, `description`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'ep.`images`, elp.`description`');
-        if (!$products)
-            break;
+    foreach ($generator as $product) {
+        if ($location == 1)
+            enterprise_admin_insert_images_to_product_images($product, $pendingImages, $uploadedImages, $targetCnt, $overwrite);
 
-        foreach ($products as $product) {
-            if ($location == 1)
-                enterprise_admin_insert_images_to_product_images($product, $pendingImages, $uploadedImages, $targetCnt, $overwrite);
-
-            if ($location == 2
-                    || $location == 3)
-                enterprise_admin_insert_images_to_product_desc($product, $pendingImages, $uploadedImages, $targetCnt, $location);
-
-            $curProductId = $product['id'];
-        }
-    } while(true);
+        if ($location == 2
+                || $location == 3)
+            enterprise_admin_insert_images_to_product_desc($product, $pendingImages, $uploadedImages, $targetCnt, $location);
+    }
 }
 
 
@@ -3076,14 +3074,20 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 
     // Save
     $location = (int)timandes_get_post_data('location');
-    $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
+    $type = (int)timandes_get_post_data('type');
+    $groupIdArray = timandes_get_post_data('group_id_array');
 
+    $typeRange = array(3, 1);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
     $locationRange = array(1, 2, 3);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
+    if ($type == 3) {
+        if (!$groupIdArray)
+            throw new \UnexpectedValueException("请选择分组");
+    }
 
     // Upload images
     $uploadedImages = enterprise_admin_upload_post_images();
@@ -3095,11 +3099,12 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 
     $taskDetails = array(
             'uploaded_images' => $uploadedImages,
-            'group_id' => $groupId,
+            'group_id_array' => $groupIdArray,
             'location' => $location,
             'lang_code' => $langCode,
             'target_cnt' => $targetCnt,
             'overwrite' => $overwrite,
+            'type' => $type,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_IMAGES, $taskDetails);
