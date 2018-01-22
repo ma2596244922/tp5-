@@ -2419,6 +2419,19 @@ function enterprise_admin_get_group_products_generator($userSiteId, $langCode, $
 }
 
 
+function enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray)
+{
+    foreach ($groupIdArray as $groupId) {
+        if (!$groupId)
+            continue;
+
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId);
+        foreach ($generator as $product)
+            yield $product;
+    }
+}
+
+
 function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray)
 {
     $idArrayProcessed = array();
@@ -2487,11 +2500,12 @@ function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray, &$
 function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
 {
     $langCode = $taskDetails['lang_code'];
-    $groupId = $taskDetails['group_id'];
+    $groupId = $taskDetails['group_id']??0;
     $urls = $taskDetails['urls'];
     $ids = $taskDetails['ids'];
     $type = $taskDetails['type'];
     $recycleType = $taskDetails['recycle_type'];
+    $groupIdArray = $taskDetails['group_id_array']??[];
 
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
@@ -2500,9 +2514,12 @@ function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
 
     if ($type == 1)
         $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId);
-    else {
+    elseif ($type == 2) {
         $idArray = explode("\n", $ids);
         $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray);
+    } else {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray);
     }
 
     $urlArray = explode("\n", $urls);
@@ -2552,16 +2569,16 @@ function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
     // Save
     $urls = timandes_get_post_data('urls');
     $type = (int)timandes_get_post_data('type');
-    $groupId = (int)timandes_get_post_data('group_id');
     $ids = timandes_get_post_data('ids');
     $recycleType = (int)timandes_get_post_data('recycle_type');
     $background = (int)timandes_get_post_data('background');
+    $groupIdArray = timandes_get_post_data('group_id_array');
 
-    $typeRange = array(1, 2);
+    $typeRange = array(3, 2);
     if (!in_array($type, $typeRange))
         throw new \RangeException("非法的类型");
-    if ($type == 1) {
-        if (!$groupId)
+    if ($type == 3) {
+        if (!$groupIdArray)
             throw new \UnexpectedValueException("请选择分组");
     } elseif ($type == 2) {
         if (!$ids)
@@ -2572,7 +2589,7 @@ function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
 
     $taskDetails = array(
             'urls' => $urls,
-            'group_id' => $groupId,
+            'group_id_array' => $groupIdArray,
             'type' => $type,
             'lang_code' => $langCode,
             'ids' => $ids,
