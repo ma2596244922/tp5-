@@ -2627,11 +2627,13 @@ function enterprise_admin_create_task($userSiteId, $type, $details)
 function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
 {
     $langCode = $taskDetails['lang_code'];
-    $groupId = $taskDetails['group_id'];
+    $groupId = $taskDetails['group_id']??null;
     $oldPhrase = $taskDetails['old_phrase'];
     $newPhrase = $taskDetails['new_phrase'];
     $location = $taskDetails['location'];
     $treat_as_multi_old_phrases = $taskDetails['treat_as_multi_old_phrases']??0;
+    $type = $taskDetails['type'];
+    $groupIdArray = $taskDetails['group_id_array']??[];
 
     if ($treat_as_multi_old_phrases) {
         $a = explode("\n", $oldPhrase);
@@ -2653,70 +2655,66 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = new \enterprise\daos\LangProduct($langCode);
-    $curProductId = 0;
-    do {
-        if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`, `description`, `specifications`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`, elp.`description`, elp.`specifications`');
-        if (!$products)
-            break;
 
-        foreach ($products as $product) {
-            $productNewPhrase = $newPhrase;
-            $productNewPhrase = str_replace('[产品标题]', $product['caption'], $productNewPhrase);
-            $productGroup = enterprise_get_group_info($product['group_id'], $langCode, true);
-            $productNewPhrase = str_replace('[产品分组]', $productGroup['name'], $productNewPhrase);
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`tags`, `description`, `specifications`');
+    elseif ($type == 3) {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`tags`, `description`, `specifications`');
+    }
 
-            if ($treat_as_multi_old_phrases) {
-                $productNewPhrase = array_fill(0, count($oldPhrase), $productNewPhrase);
-            }
+    foreach ($generator as $product) {
+        $productNewPhrase = $newPhrase;
+        $productNewPhrase = str_replace('[产品标题]', $product['caption'], $productNewPhrase);
+        $productGroup = enterprise_get_group_info($product['group_id'], $langCode, true);
+        $productNewPhrase = str_replace('[产品分组]', $productGroup['name'], $productNewPhrase);
 
-            $values = array();
-            // Caption
-            if (in_array($location, [0, 1, 5])) {
-                $values['caption'] = str_ireplace($oldPhrase, $productNewPhrase, $product['caption']);
-            }
-            // Tags
-            if (in_array($location, [0, 2, 5])) {
-                $oldTags = explode(',', $product['tags']);
-                $newTags = array();
-                foreach ($oldTags as $tag) {
-                    $tag = trim($tag);
-                    $tag = str_ireplace($oldPhrase, $productNewPhrase, $tag);
-                    $newTags[] = $tag;
-                }
-                $values['tags'] = implode(',', $newTags);
-            }
-            // Description
-            if (in_array($location, [3, 5]))
-                $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
-            // Terms & Specifications
-            if (in_array($location, [4, 5])) {
-                // Terms
-                foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
-                    $values[$f] = str_ireplace($oldPhrase, $productNewPhrase, $product[$f]);
-                // Specifications
-                $productSpecifications = array();
-                if ($product['specifications']) {
-                    $productSpecifications = json_decode($product['specifications'], true);
-                    $newProductSpecifications = array();
-                    if (is_array($productSpecifications)) foreach ($productSpecifications as $k => $v) {
-                        $newProductSpecifications[$k] = str_ireplace($oldPhrase, $productNewPhrase, $v);
-                    }
-                    $values['specifications'] = $newProductSpecifications;
-                }
-            }
-
-            // Update
-            if ($values) {
-                $values['updated'] = date('Y-m-d H:i:s');
-                $productDAO->update($product['id'], $values);
-            }
-
-            $curProductId = $product['id'];
+        if ($treat_as_multi_old_phrases) {
+            $productNewPhrase = array_fill(0, count($oldPhrase), $productNewPhrase);
         }
-    } while(true);
+
+        $values = array();
+        // Caption
+        if (in_array($location, [0, 1, 5])) {
+            $values['caption'] = str_ireplace($oldPhrase, $productNewPhrase, $product['caption']);
+        }
+        // Tags
+        if (in_array($location, [0, 2, 5])) {
+            $oldTags = explode(',', $product['tags']);
+            $newTags = array();
+            foreach ($oldTags as $tag) {
+                $tag = trim($tag);
+                $tag = str_ireplace($oldPhrase, $productNewPhrase, $tag);
+                $newTags[] = $tag;
+            }
+            $values['tags'] = implode(',', $newTags);
+        }
+        // Description
+        if (in_array($location, [3, 5]))
+            $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
+        // Terms & Specifications
+        if (in_array($location, [4, 5])) {
+            // Terms
+            foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
+                $values[$f] = str_ireplace($oldPhrase, $productNewPhrase, $product[$f]);
+            // Specifications
+            $productSpecifications = array();
+            if ($product['specifications']) {
+                $productSpecifications = json_decode($product['specifications'], true);
+                $newProductSpecifications = array();
+                if (is_array($productSpecifications)) foreach ($productSpecifications as $k => $v) {
+                    $newProductSpecifications[$k] = str_ireplace($oldPhrase, $productNewPhrase, $v);
+                }
+                $values['specifications'] = $newProductSpecifications;
+            }
+        }
+
+        // Update
+        if ($values) {
+            $values['updated'] = date('Y-m-d H:i:s');
+            $productDAO->update($product['id'], $values);
+        }
+    }
 }
 
 /**
@@ -2738,7 +2736,6 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     // Save
     $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean');
     $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
-    $groupId = (int)timandes_get_post_data('group_id');
     $location = (int)timandes_get_post_data('location');
     $background = (int)timandes_get_post_data('background');
     $removePhrase = (int)timandes_get_post_data('remove_phrase');
@@ -2747,7 +2744,12 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     $treat_as_multi_old_phrases = (int)timandes_get_post_data('treat_as_multi_old_phrases');
     if (!$treat_as_multi_old_phrases)
         $oldPhrase = remove_n_r($oldPhrase);
+    $type = (int)timandes_get_post_data('type');
+    $groupIdArray = timandes_get_post_data('group_id_array');
 
+    $typeRange = array(3, 1);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
     $locationRange = array(0, 1, 2, 3, 4, 5);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
@@ -2756,16 +2758,19 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     if (!$removePhrase
             && !$newPhrase)
         throw new \UnderflowException("新关键词不能为空");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
+    if ($type == 3) {
+        if (!$groupIdArray)
+            throw new \UnexpectedValueException("请选择分组");
+    }
 
     $taskDetails = array(
             'old_phrase' => $oldPhrase,
             'new_phrase' => $newPhrase,
-            'group_id' => $groupId,
+            'group_id_array' => $groupIdArray,
             'location' => $location,
             'lang_code' => $langCode,
             'treat_as_multi_old_phrases' => $treat_as_multi_old_phrases,
+            'type' => $type,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS, $taskDetails);

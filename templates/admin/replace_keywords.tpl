@@ -26,6 +26,8 @@
 
     <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
 
+    <link rel="stylesheet" type="text/css" href="media/css/multi-select-metro.css" />
+
     <!-- END PAGE LEVEL STYLES -->
 
     <link rel="shortcut icon" href="media/image/favicon.ico" />
@@ -276,12 +278,33 @@
 
                                     <div class="control-group">
 
+                                        <label class="control-label">全站</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="1" />
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
                                         <label class="control-label">分组</label>
 
                                         <div class="controls">
 
-                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
-                                                <option value="-1">（所有分组）</option>
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="3" checked />
+
+                                            </label>
+
+                                            <select class="span6 m-wrap" multiple="multiple" name="group_id_array[]" id="multi-select-group-id" data-placeholder="请选择产品分组" tabindex="1">
 {section name=i loop=$groups}
                                                 <option value="{$groups[i].id}">{$groups[i].name}</option>
 {/section}
@@ -379,6 +402,8 @@
 
     <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
 
+    <script type="text/javascript" src="media/js/jquery.multi-select.js"></script>  
+
     <!-- END PAGE LEVEL PLUGINS -->
 
     <script src="media/js/app.js"></script>      
@@ -401,6 +426,14 @@
            $('#input-remove-phrase').click(function() {
                 $('#textarea-new-phrase').prop('disabled', $(this).prop('checked'));
            });
+
+           var options = {
+                'afterInit': function() {
+                    this.$selectableUl.height(500);
+                    this.$selectionUl.height(500);
+                }
+           }
+           $('#multi-select-group-id').multiSelect(options);
 
         });
 
