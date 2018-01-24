@@ -40,6 +40,7 @@ class Site extends \crawler\daos\AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'crawled' => 'tinyint',
+            'enable_translator' => 'tinyint',
         );
 
     public function getTableName()

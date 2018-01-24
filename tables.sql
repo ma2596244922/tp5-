@@ -336,6 +336,7 @@ CREATE TABLE `oms_sites` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `crawled` tinyint NOT NULL COMMENT '是否抓取站点（0/1）',
+  `enable_translator` tinyint NOT NULL COMMENT '启用翻译器？（0/1）',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='（服务器级别）站点表';
 

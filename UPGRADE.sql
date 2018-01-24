@@ -1,3 +1,5 @@
+-- 2018-1-24
+ALTER TABLE `oms_sites` ADD COLUMN `enable_translator` tinyint NOT NULL COMMENT '启用翻译器？（0/1）';
 -- 2018-1-14
 ALTER TABLE `enterprise_sites` ADD COLUMN `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）';
 CREATE TABLE `enterprise_fr_pending_products` (

@@ -201,6 +201,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">是否翻译：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="enable_translator" value="0"{if $site.enable_translator|default:'0'=='0'} checked{/if}>自营
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="enable_translator" value="1"{if $site.enable_translator|default:'0'=='1'} checked{/if}>翻译
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-lg-1 control-label">是否抓取站：</label>
                         <div class="col-lg-4">
                             <label class="radio-inline">

@@ -823,6 +823,7 @@ function enterprise_oms_action_client_info($smarty)
     $floating_widget_url = timandes_get_post_data('floating_widget_url');
     $crawled = (int)timandes_get_post_data('crawled');
     $disable_group_dk = (int)timandes_get_post_data('disable_group_dk');
+    $enable_translator = (int)timandes_get_post_data('enable_translator');
 
     $values = array(
             'desc' => $desc,
@@ -838,6 +839,7 @@ function enterprise_oms_action_client_info($smarty)
             'key' => $key,
             'updated' => date('Y-m-d H:i:s'),
             'crawled' => $crawled,
+            'enable_translator' => $enable_translator,
         );
     $omsSiteDAO = new \oms\daos\Site();
     $omsSiteDAO->update($siteId, $values);
