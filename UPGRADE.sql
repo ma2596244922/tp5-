@@ -1,4 +1,14 @@
 -- 2018-1-24
+CREATE TABLE `oms_translation_progresses` (
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `lang_code` char(2) NOT NULL DEFAULT 'en' COMMENT '语言代码',
+  `status` tinyint NOT NULL COMMENT '进度状态',
+  `initialized` tinyint NOT NULL COMMENT '已完成初始化？（0/1)',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`site_id`, `lang_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='翻译进度表';
 ALTER TABLE `oms_sites` ADD COLUMN `enable_translator` tinyint NOT NULL COMMENT '启用翻译器？（0/1）';
 -- 2018-1-14
 ALTER TABLE `enterprise_sites` ADD COLUMN `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）';
