@@ -138,7 +138,13 @@
 
                                             <textarea class="span6 m-wrap" name="old_phrase" rows="6"></textarea>
 
-                                            <span class="help-inline"></span>
+                                            <label class="checkbox">
+
+                                                <input type="checkbox" name="treat_as_multi_old_phrases" value="1" />
+
+                                                每行视为一个关键词
+
+                                            </label>
 
                                         </div>
 

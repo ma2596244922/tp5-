@@ -2631,6 +2631,17 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
     $oldPhrase = $taskDetails['old_phrase'];
     $newPhrase = $taskDetails['new_phrase'];
     $location = $taskDetails['location'];
+    $treat_as_multi_old_phrases = $taskDetails['treat_as_multi_old_phrases']??0;
+
+    if ($treat_as_multi_old_phrases) {
+        $a = explode("\n", $oldPhrase);
+        $a = array_unique($a);
+        $oldPhrase = [];
+        foreach ($a as $p) {
+            $p = trim($p);
+            $oldPhrase[] = $p;
+        }
+    }
 
     if ($groupId < 0)
         $groupId = null;
@@ -2656,6 +2667,10 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             $productNewPhrase = str_replace('[产品标题]', $product['caption'], $productNewPhrase);
             $productGroup = enterprise_get_group_info($product['group_id'], $langCode, true);
             $productNewPhrase = str_replace('[产品分组]', $productGroup['name'], $productNewPhrase);
+
+            if ($treat_as_multi_old_phrases) {
+                $productNewPhrase = array_fill(0, count($oldPhrase), $productNewPhrase);
+            }
 
             $values = array();
             // Caption
@@ -2721,7 +2736,7 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     }
 
     // Save
-    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean, remove_n_r');
+    $oldPhrase = timandes_get_post_data('old_phrase', 'xss_clean');
     $newPhrase = timandes_get_post_data('new_phrase', 'xss_clean, remove_n_r, trim');
     $groupId = (int)timandes_get_post_data('group_id');
     $location = (int)timandes_get_post_data('location');
@@ -2729,6 +2744,9 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     $removePhrase = (int)timandes_get_post_data('remove_phrase');
     if ($removePhrase)
         $newPhrase = '';
+    $treat_as_multi_old_phrases = (int)timandes_get_post_data('treat_as_multi_old_phrases');
+    if (!$treat_as_multi_old_phrases)
+        $oldPhrase = remove_n_r($oldPhrase);
 
     $locationRange = array(0, 1, 2, 3, 4);
     if (!in_array($location, $locationRange))
@@ -2747,6 +2765,7 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
             'group_id' => $groupId,
             'location' => $location,
             'lang_code' => $langCode,
+            'treat_as_multi_old_phrases' => $treat_as_multi_old_phrases,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REPLACE_KEYWORDS, $taskDetails);
