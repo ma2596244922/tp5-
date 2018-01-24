@@ -29,7 +29,7 @@
                 <!-- BEGIN TOP NAVIGATION MENU -->              
 
                 <ul class="nav pull-right">
-{if $user.advanced}
+{if $user.advanced && !$oms_site.enable_translator}
                     <!-- BEGIN LANG DROPDOWN -->
 
                     <li class="dropdown">
