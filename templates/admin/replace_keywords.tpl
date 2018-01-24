@@ -260,6 +260,22 @@
 
                                     <div class="control-group">
 
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                            <input type="radio" name="location" value="5" />
+
+                                            标题+Tag+描述+商务条款+属性+张磊不要脸
+
+                                            </label>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
                                         <label class="control-label">分组</label>
 
                                         <div class="controls">

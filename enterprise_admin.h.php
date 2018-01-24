@@ -2674,11 +2674,11 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
 
             $values = array();
             // Caption
-            if (in_array($location, [0, 1])) {
+            if (in_array($location, [0, 1, 5])) {
                 $values['caption'] = str_ireplace($oldPhrase, $productNewPhrase, $product['caption']);
             }
             // Tags
-            if (in_array($location, [0, 2])) {
+            if (in_array($location, [0, 2, 5])) {
                 $oldTags = explode(',', $product['tags']);
                 $newTags = array();
                 foreach ($oldTags as $tag) {
@@ -2689,10 +2689,10 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
                 $values['tags'] = implode(',', $newTags);
             }
             // Description
-            if ($location == 3)
+            if (in_array($location, [3, 5]))
                 $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
             // Terms & Specifications
-            if ($location == 4) {
+            if (in_array($location, [4, 5])) {
                 // Terms
                 foreach (ENTERPRISE_PRODUCT_TERM_FIELDS as $f)
                     $values[$f] = str_ireplace($oldPhrase, $productNewPhrase, $product[$f]);
@@ -2748,7 +2748,7 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     if (!$treat_as_multi_old_phrases)
         $oldPhrase = remove_n_r($oldPhrase);
 
-    $locationRange = array(0, 1, 2, 3, 4);
+    $locationRange = array(0, 1, 2, 3, 4, 5);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
     if (!$oldPhrase)
