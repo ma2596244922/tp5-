@@ -824,6 +824,7 @@ function enterprise_oms_action_client_info($smarty)
     $crawled = (int)timandes_get_post_data('crawled');
     $disable_group_dk = (int)timandes_get_post_data('disable_group_dk');
     $enable_translator = (int)timandes_get_post_data('enable_translator');
+    $retranslate_whole_site = (int)timandes_get_post_data('retranslate_whole_site');
 
     $values = array(
             'desc' => $desc,
@@ -913,6 +914,47 @@ function enterprise_oms_action_client_info($smarty)
                     'portal' => 'http://www.' . $domain . '/',
                 );
             $crawlerTranslationDAO->insert($values);
+        }
+    }
+
+    // Enable Translator
+    if ($enable_translator) {
+        $translationProgressDAO = new \oms\daos\TranslationProgress();
+        if (is_array($langCodes)) foreach ($langCodes as $lc => $v) {
+            $condition = "`site_id`={$siteId} AND `lang_code`='" . $translationProgressDAO->escape($lc) . "'";
+            $translationProgress = $translationProgressDAO->getOneBy($condition);
+            if (!$translationProgress) {// Non-existing
+                $values = array(
+                        'site_id' => $siteId,
+                        'lang_code' => $lc,
+                        'created' => date('Y-m-d H:i:s'),
+                        'updated' => date('Y-m-d H:i:s'),
+                    );
+                $translationProgressDAO->insert($values);
+            } elseif ($translationProgress['deleted']) {// Deleted
+                $values = array(
+                        'updated' => date('Y-m-d H:i:s'),
+                        'deleted' => 0,
+                    );
+                $translationProgressDAO->updateBy($condition, $values);
+            }
+        }
+
+        if ($retranslate_whole_site) {
+            $condition = "`site_id`={$siteId}";
+            $translationProgresses = $translationProgressDAO->getMultiBy($condition);
+            if (is_array($translationProgresses)) foreach ($translationProgresses as $tp) {
+                if ($tp['deleted'])
+                    continue;
+                if ($tp['status'] != \oms\daos\TranslationProgress::STATUS_FINISHED)
+                    continue;
+
+                $values = array(
+                        'updated' => date('Y-m-d H:i:s'),
+                        'status' => \oms\daos\TranslationProgress::STATUS_PENDING,
+                    );
+                $translationProgressDAO->updateBy($condition . " AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'", $values);
+            }
         }
     }
 

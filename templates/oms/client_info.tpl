@@ -207,7 +207,10 @@
                                 <input type="radio" name="enable_translator" value="0"{if $site.enable_translator|default:'0'=='0'} checked{/if}>自营
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="enable_translator" value="1"{if $site.enable_translator|default:'0'=='1'} checked{/if}>翻译
+                                <input type="radio" name="enable_translator" value="1"{if $site.enable_translator|default:'0'=='1'} checked{/if} id="radio-enable-translator-1">翻译
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="retranslate_whole_site" value="1" id="checkbox-retranslate-whole-site">立即全站重翻
                             </label>
                         </div>
                     </div>
@@ -248,5 +251,16 @@
     </div>
 
 {include file="oms/common/scripts.tpl"}
+
+    <script type="text/javascript">{literal}
+        $(document).ready(function() {
+            var checkRetranslateWholeSiteCheckBox = function() {
+                $('#checkbox-retranslate-whole-site').prop('disabled', !$('#radio-enable-translator-1').prop('checked'));
+            };
+
+            checkRetranslateWholeSiteCheckBox();
+            $('[name=enable_translator]').click(checkRetranslateWholeSiteCheckBox);
+        });
+    </script>{/literal}
 </body>
 </html>
