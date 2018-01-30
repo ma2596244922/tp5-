@@ -31,6 +31,7 @@ function usage()
     fprintf(STDOUT, $usage);
 
     $options = "OPTIONS:" . PHP_EOL;
+    $options .= "\t-t <type>                    task type (enterprise, oms, translation, default: enterprise+oms)" . PHP_EOL;
     $options .= "\t-v                           output warning/errors" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
@@ -191,6 +192,97 @@ function proc_oms_task()
         fprintf(STDOUT, "Finish oms task processing" . PHP_EOL);
 }
 
+function proc_translation_get_translation_progress_generator($maxBatches = null)
+{
+    if (!isset($maxBatches))
+        $maxBatches = 3;
+
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $condition = "`deleted`=0 AND `status`=" . \oms\daos\TranslationProgress::STATUS_PENDING;
+    $batchSize = 5;
+    $accBatches = 0;
+    do {
+        $entities = $translationProgressDAO->getMultiBy($condition, $batchSize);
+        if (!$entities)
+            break;
+
+        foreach ($entities as $entity)
+            yield $entity;
+
+        ++$accBatches;
+    } while($accBatches < $maxBatches);
+}
+
+function proc_translation_implode_fields(...$fields)
+{
+    $splitter = '!1,1!';
+    return implode($splitter, $fields);
+}
+
+function proc_translation_explode_fields($string)
+{
+    $splitter = '!1,1!';
+    return explode($splitter);
+}
+
+function proc_translation_progress()
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
+
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $translateClient = new Google\Cloud\Translate\TranslateClient(['key' => GOOGLE_CLOUD_API_KEY]);
+
+    $tpGenerator = proc_translation_get_translation_progress_generator();
+    foreach ($tpGenerator as $tp) {
+        if ($verbose >= 2)
+            fprintf(STDOUT, "Processing {$tp['lang_code']} of site {$tp['site_id']} ...");
+
+        $langProductDAO = new \enterprise\daos\LangProduct($tp['lang_code']);
+
+        $condition = "`site_id`={$tp['site_id']} AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'";
+        $values = array(
+                'status' => \oms\daos\TranslationProgress::STATUS_IN_PROGRESS,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $translationProgressDAO->updateBy($condition, $values);
+
+        $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], 'en', null);
+        foreach ($productGenerator as $product) {
+            $srcText = proc_translation_implode_fields($product['catpion'], $product['description']);
+            $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+            $targetText = $translation['text'];
+            list($caption, $description) = proc_translation_explode_fields($targetText);
+
+            $values = array(
+                    'caption' => $caption,
+                    'description' => $description,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $c = "`product_id`={$product['id']}";
+            $p = $langProductDAO->getOneBy($c);
+            if ($p)
+                $langProductDAO->update($product['id'], $values);
+            else
+                $langProductDAO->insert($values);
+
+            if ($verbose >= 2)
+                fprintf(STDOUT, ".");
+        }
+
+        $values = array(
+                'status' => \oms\daos\TranslationProgress::STATUS_FINISHED,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $translationProgressDAO->updateBy($condition, $values);
+
+        if ($verbose >= 2)
+            fprintf(STDOUT, "DONE" . PHP_EOL);
+    }
+
+    if ($verbose >= 2)
+        fprintf(STDOUT, "Finish translation progress processing" . PHP_EOL);
+}
+
 function main($argc, $argv)
 {
     $type = '';
@@ -198,12 +290,15 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("v", array());
+    $params = getopt("vt:", array());
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
             case 'v':
                 $GLOBALS['gaSettings']['verbose'] = count($v);
+                break;
+            case 't':
+                $type = $v;
                 break;
         }
     } else {
@@ -212,8 +307,16 @@ function main($argc, $argv)
     }
 
     try {
-        proc_enterprise_task();
-        proc_oms_task();
+        switch ($type) {
+            case 'translation':
+                //proc_translation_task();
+                proc_translation_progress();
+                break;
+            default:
+                proc_enterprise_task();
+                proc_oms_task();
+                break;
+        }
     } catch (\Exception $e) {
         $rc = new \ReflectionClass($e);
         fprintf(STDERR, "%s#%d %s" . PHP_EOL, $rc->getName(), $e->getCode(), $e->getMessage());
