@@ -85,6 +85,10 @@ function enterprise_product_transform_field_for_lang_site($field)
             return 'elp.`specifications`';
         case 'tags':
             return 'elp.`tags`';
+        case 'created':
+            return 'elp.`created`';
+        case 'embedded_video':
+            return 'elp.`embedded_video`';
     }
 
     throw new \DomainException("Unsupported field '{$field}'");

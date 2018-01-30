@@ -215,14 +215,14 @@ function proc_translation_get_translation_progress_generator($maxBatches = null)
 
 function proc_translation_implode_fields(...$fields)
 {
-    $splitter = '!1,1!';
+    $splitter = '<!--TIMANDES-->';
     return implode($splitter, $fields);
 }
 
 function proc_translation_explode_fields($string)
 {
-    $splitter = '!1,1!';
-    return explode($splitter);
+    $splitter = '<!--TIMANDES-->';
+    return explode($splitter, $string);
 }
 
 function proc_translation_progress()
@@ -246,24 +246,34 @@ function proc_translation_progress()
             );
         $translationProgressDAO->updateBy($condition, $values);
 
-        $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], 'en', null);
+        $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], 'en', null, '`description`, `tags`, `specifications`, `embedded_video`, `created`');
         foreach ($productGenerator as $product) {
-            $srcText = proc_translation_implode_fields($product['catpion'], $product['description']);
+            $srcText = proc_translation_implode_fields($product['caption'], $product['description'], $product['tags'], $product['specifications']);
             $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
             $targetText = $translation['text'];
-            list($caption, $description) = proc_translation_explode_fields($targetText);
+            list($caption, $description, $tags, $specifications) = proc_translation_explode_fields($targetText);
 
             $values = array(
+                    'site_id' => $tp['site_id'],
                     'caption' => $caption,
                     'description' => $description,
+                    'tags' => $tags,
+                    'specifications' => $specifications,
+                    'group_id' => $product['group_id'],
                     'updated' => date('Y-m-d H:i:s'),
                 );
+            $duplicatedFields = ['group_id', 'min_order_quantity', 'delivery_time', 'packaging_details', 'embedded_video'];
+            foreach ($duplicatedFields as $f)
+                $values[$f] = $product[$f];
             $c = "`product_id`={$product['id']}";
             $p = $langProductDAO->getOneBy($c);
             if ($p)
                 $langProductDAO->update($product['id'], $values);
-            else
+            else {
+                $values['product_id'] = $product['id'];
+                $values['created'] = $product['created'];
                 $langProductDAO->insert($values);
+            }
 
             if ($verbose >= 2)
                 fprintf(STDOUT, ".");
