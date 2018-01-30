@@ -30,6 +30,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_REPLACE_TERMS    = 50;
     /** @var int 描述图片替换 */
     const TYPE_REPLACE_DESC_PIC = 60;
+    /** @var int 删除空标题产品 */
+    const TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS = 70;
 
     protected $_fields = array(
             'site_id' => 'int',
@@ -122,6 +124,12 @@ class Task extends \crawler\daos\AbstractDAO
                 return '批量插入产品图';
             case self::TYPE_INSERT_DESC:
                 return '批量插入产品描述';
+            case self::TYPE_REPLACE_TERMS:
+                return '批量设置商务条款';
+            case self::TYPE_REPLACE_DESC_PIC:
+                return '描述图片替换';
+            case self::TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS:
+                return '删除空标题产品';
             default:
                 return '未知';
         }

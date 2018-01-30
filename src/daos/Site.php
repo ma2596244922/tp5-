@@ -105,8 +105,15 @@ class Site extends \crawler\daos\AbstractDAO
             $setsString = '`product_cnt`=`product_cnt`' . $incr;
 
         $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `site_id`={$siteId}";
-        $r = $db->query($sql);
-        if (!$r)
+        try {
+            $r = $db->query($sql);
+        } catch (\mysqli_sql_exception $mse) {
+            if ($mse->getCode() != 1690) // BIGINT UNSIGNED value is out of range
+                throw $mse;
+            $r = true;
+        }
+        if (!$r
+                && $db->errno != 1690)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
 }

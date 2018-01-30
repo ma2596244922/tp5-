@@ -1568,11 +1568,11 @@ function enterprise_admin_action_count_products($smarty, $site, $langCode)
 }
 
 /**
- * Count Products
+ * Remove empty-caption products proc
  */
-function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode)
+function enterprise_admin_remove_empty_caption_products_proc($userSiteId, $taskDetails)
 {
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $langCode = $taskDetails['lang_code'];
 
     if ($langCode == 'en') {
         $productDAO = new \enterprise\daos\Product();
@@ -1586,9 +1586,9 @@ function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $
 
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`caption`=''", '`id` ASC');
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`caption`=''", '`id` ASC');
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`caption`=''", 'elp.`product_id` ASC');
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`caption`=''", 'elp.`product_id` ASC');
         if (!$products)
             break;
 
@@ -1605,6 +1605,24 @@ function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $
             $siteDAO->incrProductCnt($userSiteId, -1);
         }
     } while(true);
+}
+
+/**
+ * Count Products
+ */
+function enterprise_admin_action_remove_empty_caption_products($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $background = 1;
+
+    $taskDetails = array(
+            'lang_code' => $langCode,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS, $taskDetails);
+    } else {
+        enterprise_admin_remove_empty_caption_products_proc($userSiteId, $taskDetails);
+    }
 
     header('Location: ?action=product&success_msg=' . urlencode('操作成功'));
 }
