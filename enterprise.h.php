@@ -1524,7 +1524,7 @@ function enterprise_assign_group_list($smarty, $var, $siteId, $max = null, $skip
 /**
  * Get Group List
  */
-function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $additionalConditions = '')
+function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $additionalConditions = '', $orderBy = null, $additionalFields = '')
 {
     if ($langCode == 'en') {
         $groupDAO = new \enterprise\daos\Group();
@@ -1535,8 +1535,11 @@ function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $addi
         $fields = 'lg.*, g.`id`, g.`path`, g.`purl_prefix`, g.`product_give_h1_to`';
         $condition = "lg.`site_id`={$siteId} AND lg.`deleted`=0";
     }
+    if ($additionalFields)
+        $fields .= ", {$additionalFields}";
+
     $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
-    return $groupDAO->getMultiInOrderBy($condition, $fields, null, $max);
+    return $groupDAO->getMultiInOrderBy($condition, $fields, $orderBy, $max);
 }
 
 /**
