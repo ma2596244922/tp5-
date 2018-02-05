@@ -2836,38 +2836,63 @@ function enterprise_assign_comment_info($smarty, $var, $commentId)
 /**
  * Assign News List
  *
- * @return string Condition
+ * @return int Total
  */
 function enterprise_assign_news_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10, $returnTotal = false)
 {
+    if ($returnTotal)
+        $retval = 0;
+    else
+        $retval = null;
+    $news = enterprise_get_news_list($siteId, $langCode, $pageSize, '', null, '', $pageNo, $retval);
+
+    $smarty->assign($var, $news);
+
+    return $retval;
+}
+
+/**
+ * Get News List
+ *
+ * @return array
+ */
+function enterprise_get_news_list($siteId, $langCode = 'en', $pageSize = 10, $additionalConditions = '', $orderBy = null, $additionalFields = '', $pageNo = 1, &$total = null)
+{
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
-    $retval = 0;
 
     $newsDAO = new \enterprise\daos\News();
     if ($langCode == 'en') {
         $condition = "`site_id`={$siteId} AND `deleted`=0";
-        $news = $newsDAO->getMultiInOrderBy($condition, '`id`, `caption`, `head_image_id`, `created`, `updated`, `content`', '`id` DESC', $pageSize, $start);
-        if ($returnTotal)
-            $retval = $newsDAO->countBy($condition);
+        $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
+        $fields = '`id`, `caption`, `head_image_id`, `created`, `updated`, `content`';
+        if ($additionalFields)
+            $fields .= ", {$additionalFields}";
+        $news = $newsDAO->getMultiInOrderBy($condition, $fields, ($orderBy??'`id` DESC'), $pageSize, $start);
+        if (isset($total))
+            $total = $newsDAO->countBy($condition);
     } else {
         $langNewsDAO = new \enterprise\daos\LangNews($langCode);
         $tableName = $langNewsDAO->getTableName();
         $newsTableName = $newsDAO->getTableName();
         $condition = "ln.`site_id`={$siteId} AND ln.`deleted`=0";
+        $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
         $fields = ENTERPRISE_NEWS_FIELDS_FOR_INFO;
+        if ($additionalFields)
+            $fields .= ", {$additionalFields}";
         $sql = "SELECT {$fields} FROM `{$tableName}` ln
 LEFT JOIN `{$newsTableName}` n ON n.`id`=ln.`news_id`
 WHERE {$condition}";
+        if ($orderBy)
+            $sql = ' ORDER BY ' . $orderBy;
         $news = $langNewsDAO->getMultiBySql($sql);
-        if ($returnTotal) {
+        if (isset($total)) {
             $strippedCondition = str_replace('ln.', '', $condition);
-            $retval = $langNewsDAO->countBy($strippedCondition);
+            $total = $langNewsDAO->countBy($strippedCondition);
         }
     }
-    $smarty->assign($var, $news);
 
-    return $retval;
+    return $news;
 }
 
 /**
@@ -2954,10 +2979,19 @@ ORDER BY ln.`news_id` DESC";
 
 /**
  * Assign UserVoice List
- *
- * @return string Condition
  */
 function enterprise_assign_user_voice_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10)
+{
+    $userVoices = enterprise_get_user_voice_list($siteId, $langCode, $pageSize, $pageNo);
+    $smarty->assign($var, $userVoices);
+}
+
+/**
+ * Assign UserVoice List
+ *
+ * @return array
+ */
+function enterprise_get_user_voice_list($siteId, $langCode = 'en', $pageSize = 10, $additionalConditions = '', $orderBy = null, $additionalFields = '', $pageNo = 1)
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
@@ -2965,15 +2999,20 @@ function enterprise_assign_user_voice_list($smarty, $var, $siteId, $langCode = '
     if ($langCode == 'en') {
         $userVoiceDAO = new \enterprise\daos\UserVoice();
         $condition = "`site_id`={$siteId} AND `deleted`=0";
-        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, '`id`, `title`, `avatar_image_id`, `created`, `updated`, `voice`', '`id` DESC', $pageSize, $start);
+        $fields = '`id`, `title`, `avatar_image_id`, `created`, `updated`, `voice`';
+        $orderBy = $orderBy??'`id` DESC';
     } else {
         $userVoiceDAO = new \enterprise\daos\LangUserVoice($langCode);
         $condition = "eluv.`site_id`={$siteId} AND eluv.`deleted`=0";
-        $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, 'euv.`id`, euv.`avatar_image_id`, eluv.*', 'eluv.`user_voice_id` DESC', $pageSize, $start);
+        $fields = 'euv.`id`, euv.`avatar_image_id`, eluv.*';
+        $orderBy = $orderBy??'eluv.`user_voice_id` DESC';
     }
-    $smarty->assign($var, $userVoices);
+    $condition .= ($additionalConditions?(' AND ' . $additionalConditions):'');
+    if ($additionalFields)
+        $fields .= ", {$additionalFields}";
 
-    return $condition;
+    $userVoices = $userVoiceDAO->getMultiInOrderBy($condition, $fields, $orderBy, $pageSize, $start);
+    return $userVoices;
 }
 
 /**

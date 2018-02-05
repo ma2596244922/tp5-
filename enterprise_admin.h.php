@@ -4326,7 +4326,7 @@ function enterprise_admin_action_user_voice($smarty, $site, $langCode)
         $pageNo = 1;
     $max = 20;
 
-    $condition = enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $langCode, $pageNo, $max);
+    enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $langCode, $pageNo, $max);
     // Need import?
     $userVoices = $smarty->getTemplateVars('user_voices');
     if (!$userVoices

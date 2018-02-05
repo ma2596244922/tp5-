@@ -192,6 +192,171 @@ function proc_oms_task()
         fprintf(STDOUT, "Finish oms task processing" . PHP_EOL);
 }
 
+function proc_translation_translate_corporation($translateClient, $tp)
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
+
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $langCorporationDAO = new \enterprise\daos\LangCorporation($tp['lang_code']);
+
+    $condition = "`site_id`={$tp['site_id']}";
+    $corporation = $corporationDAO->getOneBy($condition);
+    if (!$corporation) {
+        if ($verbose >= 1)
+            fprintf(STDOUT, "Fail to find corporation info of site {$tp['site_id']}, skipping ..." . PHP_EOL);
+        return;
+    }
+
+    $srcText = proc_translation_implode_fields($corporation['address'], $corporation['factory_address'], $corporation['qc_profile'], $corporation['main_market'], $corporation['introduction'], $corporation['history'], $corporation['service'], $corporation['our_team']);
+    $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+    $targetText = $translation['text'];
+    list($address, $factory_address, $qc_profile, $main_market, $introduction, $history, $service, $our_team) = proc_translation_explode_fields($targetText);
+
+    $values = array(
+            'site_id' => $tp['site_id'],
+            'address' => $address,
+            'factory_address' => $factory_address,
+            'qc_profile' => $qc_profile,
+            'main_market' => $main_market,
+            'introduction' => $introduction,
+            'history' => $history,
+            'service' => $service,
+            'our_team' => $our_team,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $g = $langCorporationDAO->get($corporation['site_id']);
+    if ($g)
+        $langCorporationDAO->update($corporation['site_id'], $values);
+    else {
+        $langCorporationDAO->insert($values);
+    }
+}
+
+function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
+
+    $siteDAO = new \enterprise\daos\Site();
+
+    $condition = "`site_id`={$tp['site_id']}";
+    $site = $siteDAO->getOneBy($condition);
+    if (!$site) {
+        if ($verbose >= 1)
+            fprintf(STDOUT, "Fail to find site info of site {$tp['site_id']}, skipping ..." . PHP_EOL);
+        return;
+    }
+
+    $srcText = proc_translation_implode_fields($site['index_html_title'], $site['index_meta_keywords'], $site['index_meta_description'], $site['desc_4_inquiry_sender'], $site['product_html_title'], $site['product_meta_keywords'], $site['product_meta_description'], $site['contact_content']);
+    $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+    $targetText = $translation['text'];
+    list($index_html_title, $index_meta_keywords, $index_meta_description, $desc_4_inquiry_sender, $product_html_title, $product_meta_keywords, $product_meta_description, $contact_content) = proc_translation_explode_fields($targetText);
+
+    $values = array(
+            'site_id' => $tp['site_id'],
+            'index_html_title' => $index_html_title,
+            'index_meta_keywords' => $index_meta_keywords,
+            'index_meta_description' => $index_meta_description,
+            'desc_4_inquiry_sender' => $desc_4_inquiry_sender,
+            'product_html_title' => $product_html_title,
+            'product_meta_keywords' => $product_meta_keywords,
+            'product_meta_description' => $product_meta_description,
+            'contact_content' => $contact_content,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $g = $langSiteDAO->get($site['site_id']);
+    if ($g)
+        $langSiteDAO->update($site['site_id'], $values);
+    else {
+        $langSiteDAO->insert($values);
+    }
+}
+
+function proc_translation_get_uvs_generator($userSiteId, $langCode)
+{
+    $curUserVoiceId = 0;
+    do {
+        if ($langCode == 'en')
+            $uvs = enterprise_get_user_voice_list($userSiteId, $langCode, 10, "`id`>{$curUserVoiceId}", '`id` ASC');
+        else {
+            $uvs = enterprise_get_user_voice_list($userSiteId, $langCode, 10, "eluv.`user_voice_id`>{$curUserVoiceId}", 'eluv.`user_voice_id` ASC');
+        }
+        if (!$uvs)
+            break;
+
+        foreach ($uvs as $uv) {
+            yield $uv;
+
+            $curUserVoiceId = $uv['id'];
+        }
+    } while(true);
+}
+
+function proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uv)
+{
+    $srcText = proc_translation_implode_fields($uv['title'], $uv['voice']);
+    $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+    $targetText = $translation['text'];
+    list($title, $voice) = proc_translation_explode_fields($targetText);
+
+    $values = array(
+            'site_id' => $tp['site_id'],
+            'title' => $title,
+            'voice' => $voice,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $g = $langUserVoiceDAO->get($uv['id']);
+    if ($g)
+        $langUserVoiceDAO->update($uv['id'], $values);
+    else {
+        $values['uv_id'] = $uv['id'];
+        $values['created'] = $uv['created'];
+        $langUserVoiceDAO->insert($values);
+    }
+}
+
+function proc_translation_get_news_array_generator($userSiteId, $langCode)
+{
+    $curNewsId = 0;
+    do {
+        if ($langCode == 'en')
+            $news_array = enterprise_get_news_list($userSiteId, $langCode, 10, "`id`>{$curNewsId}", '`id` ASC');
+        else {
+            $news_array = enterprise_get_news_list($userSiteId, $langCode, 10, "ln.`news_id`>{$curNewsId}", 'ln.`news_id` ASC');
+        }
+        if (!$news_array)
+            break;
+
+        foreach ($news_array as $news) {
+            yield $news;
+
+            $curNewsId = $news['id'];
+        }
+    } while(true);
+}
+
+function proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news)
+{
+    $srcText = proc_translation_implode_fields($news['caption'], $news['content']);
+    $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+    $targetText = $translation['text'];
+    list($caption, $content) = proc_translation_explode_fields($targetText);
+
+    $values = array(
+            'site_id' => $tp['site_id'],
+            'caption' => $caption,
+            'content' => $content,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $g = $langNewsDAO->get($news['id']);
+    if ($g)
+        $langNewsDAO->update($news['id'], $values);
+    else {
+        $values['news_id'] = $news['id'];
+        $values['created'] = $news['created'];
+        $langNewsDAO->insert($values);
+    }
+}
+
 function proc_translation_get_groups_generator($userSiteId, $langCode)
 {
     $curGroupId = 0;
@@ -317,6 +482,8 @@ function proc_translation_progress()
 
         $langProductDAO = new \enterprise\daos\LangProduct($tp['lang_code']);
         $langGroupDAO = new \enterprise\daos\LangGroup($tp['lang_code']);
+        $langNewsDAO = new \enterprise\daos\LangNews($tp['lang_code']);
+        $langUserVoiceDAO = new \enterprise\daos\LangUserVoice($tp['lang_code']);
         $langSiteDAO = new \enterprise\daos\LangSite($tp['lang_code']);
 
         $condition = "`site_id`={$tp['site_id']} AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'";
@@ -326,10 +493,27 @@ function proc_translation_progress()
             );
         $translationProgressDAO->updateBy($condition, $values);
 
-        // TODO: proc_translation_translate_corporation($translateClient, $tp);
-        // TODO: proc_translation_translate_site($translateClient, $tp);
-        // TODO: translate_news
-        // TODO: translate_user_voice
+        proc_translation_translate_corporation($translateClient, $tp);
+
+        proc_translation_translate_site($translateClient, $tp, $langSiteDAO);
+
+        // translate_user_voice
+        $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], 'en');
+        foreach ($uvsGenerator as $uvs) {
+            proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uvs);
+
+            if ($verbose >= 2)
+                fprintf(STDOUT, "#");
+        }
+
+        // translate_news
+        $newsGenerator = proc_translation_get_news_array_generator($tp['site_id'], 'en');
+        foreach ($newsGenerator as $news) {
+            proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news);
+
+            if ($verbose >= 2)
+                fprintf(STDOUT, "*");
+        }
 
         $groupGenerator = proc_translation_get_groups_generator($tp['site_id'], 'en');
         foreach ($groupGenerator as $group) {
