@@ -130,7 +130,7 @@
         <!--new-products-->
 {if count($product_tags)>0}
         <div class="search-product">
-        <div class="hot-search">
+        <div class="hot-search" style=" margin-top:-5px">
             <dl>
                 <dt>{$preset_translations.tags}:</dt>
     {foreach $product_tags as $tag}

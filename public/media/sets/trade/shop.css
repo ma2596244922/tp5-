@@ -647,3 +647,20 @@ h1,h2{ display:inline;}
 .recom-product .slide-more a:hover{ color:#6c7c93;}
 .recom-product .slide-more i{ width:12px; height:6px; display:inline-block; background-position:0 -212px; margin-left:10px; vertical-align:2px;}
 .recom-product .slide-more i.less{ width:12px; height:6px; display:inline-block; background-position:-18px -212px; margin-left:10px; vertical-align:2px;}
+
+
+/*20180204gai_mal*/
+.product-description,.product-categories { padding-bottom:15px;}
+.container{  padding-bottom:30px;}
+.main-content .right-content .product-all .product-intro .msg-detail table td{  overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.recom-product ul li{ height:22px; }
+.crumb{margin-bottom:-6px;}
+.intro-art .scrollArea{ margin-top:15px; margin-bottom:5px;}
+.news-detail .news-art p{ line-height:28px; margin-top:15px}
+
+
+
+
+
+
+

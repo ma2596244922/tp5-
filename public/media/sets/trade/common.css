@@ -102,3 +102,14 @@ strong, th { font-weight:bold; }
 .crumb .select-flag{top:1px;}
 .crumb .select-flag.current{ top:0;}
 .crumb .select-flag .select-box{margin-bottom:-4px;}
+
+
+/*20180204gai_mal*/
+.select-flag .selectMenu a{  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+
+
+
+
+
+
+

@@ -144,3 +144,12 @@ i{ font-style:normal;}
 .footer .foot{ width:980px; height:38px; line-height:38px; border-top:solid 1px #787b80;}
 .footer .foot p{ text-align:left; float:left; color:#787b80;}
 
+
+/*20180204gai_mal*/
+.nav li ul {max-height:402px; overflow-y:scroll; }
+.nav li ul.nav-list1{overflow-y:auto;  }
+
+
+
+
+
