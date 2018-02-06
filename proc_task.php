@@ -468,6 +468,34 @@ function proc_translation_translate_group($translateClient, $tp, $langGroupDAO, 
     }
 }
 
+function proc_translation_check_progress_terminated($translationProgressDAO, $siteId, $langCode)
+{
+    $verbose = $GLOBALS['gaSettings']['verbose'];
+
+    $condition = "`site_id`=" . (int)$siteId . " AND `lang_code`='" . $translationProgressDAO->escape($langCode) . "'";
+    $translationProgress = $translationProgressDAO->getOneBy($condition);
+    if (!$translationProgress) {
+        if ($verbose >= 1)
+            fprintf(STDERR, "Progress of {$langCode} of site {$siteId} is missing, stopping whole process ..." . PHP_EOL);
+        return true;
+    }
+
+    $interestingStatusList = [\oms\daos\TranslationProgress::STATUS_PENDING, \oms\daos\TranslationProgress::STATUS_FINISHED];
+    if (in_array($translationProgress['status'], $interestingStatusList)) {
+        if ($verbose >= 1)
+            fprintf(STDERR, "Interesting status#{$translationProgress['status']} of progress of {$langCode} of site {$siteId} was found, stopping whole process ..." . PHP_EOL);
+        return true;
+    }
+
+    if ($translationProgress['status'] == \oms\daos\TranslationProgress::STATUS_TERMINATED) {
+        if ($verbose >= 1)
+            fprintf(STDOUT, "Translation process of {$langCode} of site {$siteId} is terminated by user, stopping whole process ..." . PHP_EOL);
+        return true;
+    }
+
+    return false;
+}
+
 function proc_translation_progress()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
@@ -497,10 +525,20 @@ function proc_translation_progress()
 
         proc_translation_translate_site($translateClient, $tp, $langSiteDAO);
 
+        $counter = 0;
+        $checkPoint = 10;
+
         // translate_user_voice
         $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], 'en');
         foreach ($uvsGenerator as $uvs) {
             proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uvs);
+
+            ++$counter;
+            if ($counter >= $checkPoint) {
+                $counter = 0;
+                if (proc_translation_check_progress_terminated($translationProgressDAO, $tp['site_id'], $tp['lang_code']))
+                    break 2;
+            }
 
             if ($verbose >= 2)
                 fprintf(STDOUT, "#");
@@ -511,6 +549,13 @@ function proc_translation_progress()
         foreach ($newsGenerator as $news) {
             proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news);
 
+            ++$counter;
+            if ($counter >= $checkPoint) {
+                $counter = 0;
+                if (proc_translation_check_progress_terminated($translationProgressDAO, $tp['site_id'], $tp['lang_code']))
+                    break 2;
+            }
+
             if ($verbose >= 2)
                 fprintf(STDOUT, "*");
         }
@@ -519,6 +564,13 @@ function proc_translation_progress()
         foreach ($groupGenerator as $group) {
             proc_translation_translate_group($translateClient, $tp, $langGroupDAO, $group);
 
+            ++$counter;
+            if ($counter >= $checkPoint) {
+                $counter = 0;
+                if (proc_translation_check_progress_terminated($translationProgressDAO, $tp['site_id'], $tp['lang_code']))
+                    break 2;
+            }
+
             if ($verbose >= 2)
                 fprintf(STDOUT, "_");
         }
@@ -526,6 +578,13 @@ function proc_translation_progress()
         $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], 'en', null, '`description`, `tags`, `specifications`, `embedded_video`, `created`');
         foreach ($productGenerator as $product) {
             proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product);
+
+            ++$counter;
+            if ($counter >= $checkPoint) {
+                $counter = 0;
+                if (proc_translation_check_progress_terminated($translationProgressDAO, $tp['site_id'], $tp['lang_code']))
+                    break 2;
+            }
 
             if ($verbose >= 2)
                 fprintf(STDOUT, ".");

@@ -54,6 +54,10 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_user($smarty, $site);
                 case 'user':
                     return enterprise_oms_action_user($smarty, $site);
+                case 'stop_translation':
+                    return enterprise_oms_action_stop_translation($smarty, $site);
+                case 'translation_progress':
+                    return enterprise_oms_action_translation_progress($smarty, $site);
                 case 'site_dashboard':
                     return enterprise_oms_action_site_dashboard($smarty);
                 case 'input_inquiry':
@@ -946,7 +950,8 @@ function enterprise_oms_action_client_info($smarty)
             if (is_array($translationProgresses)) foreach ($translationProgresses as $tp) {
                 if ($tp['deleted'])
                     continue;
-                if ($tp['status'] != \oms\daos\TranslationProgress::STATUS_FINISHED)
+                $resettableStatusList = [\oms\daos\TranslationProgress::STATUS_TERMINATED, \oms\daos\TranslationProgress::STATUS_FINISHED];
+                if (!in_array($tp['status'], $resettableStatusList))
                     continue;
 
                 $values = array(
@@ -991,6 +996,42 @@ function enterprise_oms_action_monthly_report($smarty, $site)
     $smarty->assign('report', $report);
 
     $smarty->display('oms/monthly_report.tpl');
+}
+
+/**
+ * Stop translation
+ */
+function enterprise_oms_action_stop_translation($smarty, $site)
+{
+    $langCode = timandes_get_query_data('lang_code');
+    $siteId = (int)$site['site_id'];
+
+    $stoppableStatusList = [\oms\daos\TranslationProgress::STATUS_PENDING, \oms\daos\TranslationProgress::STATUS_IN_PROGRESS];
+
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $condition = "`site_id`=" . $siteId . " AND `status` in (" . implode(', ', $stoppableStatusList) . ")";
+    if ($langCode)
+        $condition .= " AND `lang_code`='" . $translationProgressDAO->escape($langCode) . "'";
+    $values = array(
+            'status' => \oms\daos\TranslationProgress::STATUS_TERMINATED,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $translationProgress = $translationProgressDAO->updateBy($condition, $values);
+
+    enterprise_oms_display_success_msg($smarty, '操作成功', '?action=translation_progress&site_id=' . $siteId, '翻译进度');
+}
+
+/**
+ * Translation Progress
+ */
+function enterprise_oms_action_translation_progress($smarty, $site)
+{
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $condition = "`site_id`=" . (int)$site['site_id'];
+    $translationProgresses = $translationProgressDAO->getMultiBy($condition);
+    $smarty->assign('translation_progresses', $translationProgresses);
+
+    $smarty->display('oms/translation_progress.tpl');
 }
 
 /**

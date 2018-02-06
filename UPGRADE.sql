@@ -14,7 +14,7 @@ CREATE TABLE `oms_translation_tasks` (
 CREATE TABLE `oms_translation_progresses` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `lang_code` char(2) NOT NULL DEFAULT 'en' COMMENT '语言代码',
-  `status` tinyint NOT NULL COMMENT '进度状态',
+  `status` tinyint unsigned NOT NULL COMMENT '进度状态',
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
