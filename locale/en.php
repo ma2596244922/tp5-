@@ -21,7 +21,7 @@ $presetTranslations = array(
         'address' => 'Address',
         'factory_address' => 'Factory Address',
         'worktime' => 'Worktime',
-        'business_phone' => 'Business Phone',
+        'business_phone' => 'Phone',
         'contact_person' => 'Contact Person',
         'job_title' => 'Job Title',
 
