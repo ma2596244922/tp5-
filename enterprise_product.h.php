@@ -112,7 +112,8 @@ function enterprise_product_transform_field_list_for_lang_site($fieldList)
 function enterprise_product_save_pending_product($siteId, $productId)
 {
     $site = enterprise_get_site_info($siteId);
-    if (!$site['translation_targets'])
+    if (!isset($site['translation_targets'])
+            || !$site['translation_targets'])
         return;
     $translationTargets = json_decode($site['translation_targets'], true);
     if (!$translationTargets)
