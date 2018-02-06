@@ -8,18 +8,15 @@
 namespace enterprise\daos;
 
 /**
- * LangNews DAO
+ * LangPendingProduct DAO
  */
-class LangNews extends \crawler\daos\AbstractDAO
+class LangPendingProduct extends \crawler\daos\AbstractDAO
 {
     protected $_fields = array(
-            'news_id' => 'int',
-            'site_id' => 'int',
-            'caption' => 'text',
-            'content' => 'text',
+            'product_id' => 'int',
+            'pending' => 'tinyint',
             'created' => 'text',
             'updated' => 'text',
-            'deleted' => 'tinyint',
         );
 
     private $_langCode = '';
@@ -35,20 +32,12 @@ class LangNews extends \crawler\daos\AbstractDAO
 
     public function getTableName()
     {
-        return 'enterprise_' . $this->_langCode . '_news';
+        return 'enterprise_' . $this->_langCode . '_pending_products';
     }
 
     public function getDbName()
     {
         return 'crawler';
-    }
-
-    // Override
-    public function get($id)
-    {
-        $id = (int)$id;
-        $condition = "`news_id`={$id}";
-        return $this->getOneBy($condition);
     }
 
     public function insert($values)
@@ -76,33 +65,27 @@ class LangNews extends \crawler\daos\AbstractDAO
         $id = (int)$id;
         $sets = $this->buildSetList($db, $values);
         $setsString = implode(',', $sets);
-        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `news_id`={$id}";
+        $sql = "UPDATE `{$tableName}` SET {$setsString} WHERE `product_id`={$id}";
         $r = $db->query($sql);
         if (!$r)
             throw new \RuntimeException("Fail to query: {$sql}");
     }
 
-    // Override
-    public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
+    public function upsert($id, $values)
     {
         $tableName = $this->getTableName();
+        $dbName = $this->getDbName();
 
-        $limit = '';
-        if (null !== $max) {
-            $start = (int)$start;
-            $max = (int)$max;
-            $limit = " LIMIT {$start}, {$max}";
-        }
-        if ($orderBy)
-            $orderBy = ' ORDER BY ' . $orderBy;
-        if ($condition)
-            $condition = ' WHERE ' . $condition;
-        if ($forceIndex)
-            $forceIndex = ' FORCE INDEX (' . $forceIndex . ')';
+        $db = \DbFactory::create($dbName);
 
-        $sql = "SELECT {$fields} FROM `{$tableName}` AS eln{$forceIndex}
-        LEFT JOIN `enterprise_news` AS en ON en.`id`=eln.`news_id`
-        {$condition}{$orderBy}{$limit}";
-        return $this->getMultiBySql($sql);
+        unset($values['created']);
+
+        $id = (int)$id;
+        $sets = $this->buildSetList($db, $values);
+        $setsString = implode(',', $sets);
+        $sql = "INSERT INTO `{$tableName}` SET `product_id`={$id}, `created`='{$values['updated']}', {$setsString} ON DUPLICATE KEY UPDATE {$setsString}";
+        $r = $db->query($sql);
+        if (!$r)
+            throw new \RuntimeException("Fail to query: {$sql}");
     }
 }

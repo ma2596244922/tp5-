@@ -1850,6 +1850,14 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
         }
     }
 
+    // Save pending product
+    if (!$langProductDAO) {
+        if ($productId)
+            enterprise_product_save_pending_product($userSiteId, $productId);
+        else
+            enterprise_product_save_pending_product($userSiteId, $newProductId);
+    }
+
     // Save lang product
     if ($langProductDAO) {
         $values = array(
@@ -4318,7 +4326,7 @@ function enterprise_admin_action_user_voice($smarty, $site, $langCode)
         $pageNo = 1;
     $max = 20;
 
-    $condition = enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $langCode, $pageNo, $max);
+    enterprise_assign_user_voice_list($smarty, 'user_voices', $userSiteId, $langCode, $pageNo, $max);
     // Need import?
     $userVoices = $smarty->getTemplateVars('user_voices');
     if (!$userVoices

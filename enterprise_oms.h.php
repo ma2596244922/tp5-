@@ -54,6 +54,10 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_user($smarty, $site);
                 case 'user':
                     return enterprise_oms_action_user($smarty, $site);
+                case 'stop_translation':
+                    return enterprise_oms_action_stop_translation($smarty, $site);
+                case 'translation_progress':
+                    return enterprise_oms_action_translation_progress($smarty, $site);
                 case 'site_dashboard':
                     return enterprise_oms_action_site_dashboard($smarty);
                 case 'input_inquiry':
@@ -823,6 +827,8 @@ function enterprise_oms_action_client_info($smarty)
     $floating_widget_url = timandes_get_post_data('floating_widget_url');
     $crawled = (int)timandes_get_post_data('crawled');
     $disable_group_dk = (int)timandes_get_post_data('disable_group_dk');
+    $enable_translator = (int)timandes_get_post_data('enable_translator');
+    $retranslate_whole_site = (int)timandes_get_post_data('retranslate_whole_site');
 
     $values = array(
             'desc' => $desc,
@@ -838,6 +844,7 @@ function enterprise_oms_action_client_info($smarty)
             'key' => $key,
             'updated' => date('Y-m-d H:i:s'),
             'crawled' => $crawled,
+            'enable_translator' => $enable_translator,
         );
     $omsSiteDAO = new \oms\daos\Site();
     $omsSiteDAO->update($siteId, $values);
@@ -914,6 +921,48 @@ function enterprise_oms_action_client_info($smarty)
         }
     }
 
+    // Enable Translator
+    if ($enable_translator) {
+        $translationProgressDAO = new \oms\daos\TranslationProgress();
+        if (is_array($langCodes)) foreach ($langCodes as $lc => $v) {
+            $condition = "`site_id`={$siteId} AND `lang_code`='" . $translationProgressDAO->escape($lc) . "'";
+            $translationProgress = $translationProgressDAO->getOneBy($condition);
+            if (!$translationProgress) {// Non-existing
+                $values = array(
+                        'site_id' => $siteId,
+                        'lang_code' => $lc,
+                        'created' => date('Y-m-d H:i:s'),
+                        'updated' => date('Y-m-d H:i:s'),
+                    );
+                $translationProgressDAO->insert($values);
+            } elseif ($translationProgress['deleted']) {// Deleted
+                $values = array(
+                        'updated' => date('Y-m-d H:i:s'),
+                        'deleted' => 0,
+                    );
+                $translationProgressDAO->updateBy($condition, $values);
+            }
+        }
+
+        if ($retranslate_whole_site) {
+            $condition = "`site_id`={$siteId}";
+            $translationProgresses = $translationProgressDAO->getMultiBy($condition);
+            if (is_array($translationProgresses)) foreach ($translationProgresses as $tp) {
+                if ($tp['deleted'])
+                    continue;
+                $resettableStatusList = [\oms\daos\TranslationProgress::STATUS_TERMINATED, \oms\daos\TranslationProgress::STATUS_FINISHED];
+                if (!in_array($tp['status'], $resettableStatusList))
+                    continue;
+
+                $values = array(
+                        'updated' => date('Y-m-d H:i:s'),
+                        'status' => \oms\daos\TranslationProgress::STATUS_PENDING,
+                    );
+                $translationProgressDAO->updateBy($condition . " AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'", $values);
+            }
+        }
+    }
+
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=site_dashboard&site_id=' . $siteId, '网站管理');
 }
 
@@ -947,6 +996,42 @@ function enterprise_oms_action_monthly_report($smarty, $site)
     $smarty->assign('report', $report);
 
     $smarty->display('oms/monthly_report.tpl');
+}
+
+/**
+ * Stop translation
+ */
+function enterprise_oms_action_stop_translation($smarty, $site)
+{
+    $langCode = timandes_get_query_data('lang_code');
+    $siteId = (int)$site['site_id'];
+
+    $stoppableStatusList = [\oms\daos\TranslationProgress::STATUS_PENDING, \oms\daos\TranslationProgress::STATUS_IN_PROGRESS];
+
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $condition = "`site_id`=" . $siteId . " AND `status` in (" . implode(', ', $stoppableStatusList) . ")";
+    if ($langCode)
+        $condition .= " AND `lang_code`='" . $translationProgressDAO->escape($langCode) . "'";
+    $values = array(
+            'status' => \oms\daos\TranslationProgress::STATUS_TERMINATED,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $translationProgress = $translationProgressDAO->updateBy($condition, $values);
+
+    enterprise_oms_display_success_msg($smarty, '操作成功', '?action=translation_progress&site_id=' . $siteId, '翻译进度');
+}
+
+/**
+ * Translation Progress
+ */
+function enterprise_oms_action_translation_progress($smarty, $site)
+{
+    $translationProgressDAO = new \oms\daos\TranslationProgress();
+    $condition = "`site_id`=" . (int)$site['site_id'];
+    $translationProgresses = $translationProgressDAO->getMultiBy($condition);
+    $smarty->assign('translation_progresses', $translationProgresses);
+
+    $smarty->display('oms/translation_progress.tpl');
 }
 
 /**

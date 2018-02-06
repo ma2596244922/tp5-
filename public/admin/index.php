@@ -37,6 +37,10 @@ retry:
                         'site_id' => $userSiteId,
                     );
             }
+            // ++ OMS Site Info
+            $omsSiteDAO = new \oms\daos\Site();
+            $omsSite = $omsSiteDAO->get($userSiteId);
+            $smarty->assign('oms_site', $omsSite);
 
             if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
                 enterprise_set_default_lang_code($site['default_lang_code']);

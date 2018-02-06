@@ -44,6 +44,22 @@ class LangUserVoice extends \oms\daos\AbstractDAO
     }
 
     // Override
+    public function get($id)
+    {
+        $id = (int)$id;
+        $condition = "`user_voice_id`={$id}";
+        return $this->getOneBy($condition);
+    }
+
+    // Override
+    public function update($id, $values)
+    {
+        $id = (int)$id;
+        $condition = "`user_voice_id`={$id}";
+        return $this->updateBy($condition, $values);
+    }
+
+    // Override
     public function getMultiInOrderBy($condition = null, $fields = '*', $orderBy = null, $max = null, $start = 0, $forceIndex = null)
     {
         $tableName = $this->getTableName();

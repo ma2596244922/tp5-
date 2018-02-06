@@ -48,7 +48,15 @@ class LangSite extends \crawler\daos\AbstractDAO
     {
         return 'crawler';
     }
-    
+
+    // Override
+    public function get($id)
+    {
+        $id = (int)$id;
+        $condition = "`site_id`={$id}";
+        return $this->getOneBy($condition);
+    }
+
     public function insert($values)
     {
         $tableName = $this->getTableName();
