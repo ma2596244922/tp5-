@@ -4945,3 +4945,177 @@ function enterprise_admin_action_delete_index_keyword($smarty, $site, $langCode)
 }
 
 /* }}} */
+
+
+/* {{{ Keyword */
+
+/**
+ * Keyword
+ */
+function enterprise_admin_action_keyword($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+
+    enterprise_assign_keyword_list($smarty, 'keywords', $userSiteId, $langCode, $pageNo, $max);
+
+    $smarty->display('admin/keyword.tpl');
+}
+
+function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword, $desc)
+{
+    // LangKeywordDAO
+    $langKeywordDAO = (($langCode!='en')?new \enterprise\daos\LangKeyword($langCode):null);
+
+    // Save keyword
+    $keywordDAO = new \enterprise\daos\Keyword();
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if (!$langKeywordDAO) {// English
+        $values['site_id'] = $userSiteId;
+        $values['keyword'] = $keyword;
+        $values['desc'] = $desc;
+    }
+    if ($keywordId) {// Edit
+        // Authentication
+        $originalKeyword = enterprise_get_keyword_info($keywordId, $langCode);
+        if (!$originalKeyword
+                || $originalKeyword['site_id'] != $site['site_id'])
+            throw new \RuntimeException('权限不足');
+        // Update
+        $keywordDAO->update($keywordId, $values);
+        enterprise_assign_keyword_info($smarty, 'keyword', $keywordId);
+    } else {// Create
+        $values['created'] = $values['updated'];
+        $newKeywordId = $keywordDAO->insert($values);
+    }
+
+    // Save Language Keyword
+    if ($langKeywordDAO) {
+        $values = array(
+                'site_id' => $userSiteId,
+                'keyword' => $keyword,
+                'desc' => $desc,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        if ($keywordId) {// Edit
+            $condition = "`keyword_id`=" . (int)$keywordId;
+            $langKeywordDAO->updateBy($condition, $values);
+        } else {
+            $values['keyword_id'] = $newKeywordId;
+            $values['created'] = $values['updated'];
+            $langKeywordDAO->insert($values);
+        }
+    }
+
+    if (isset($newKeywordId))
+        return $newKeywordId;
+}
+
+/**
+ * Create Keywords
+ */
+function enterprise_admin_action_create_keywords($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/create_keywords.tpl';
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($tplPath);
+    }
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $keywordLines = timandes_get_post_data('keyword_lines');
+    $descTemplate = timandes_get_post_data('desc_template', 'xss_clean_4_site_owner, remove_n_r, trim');
+
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+
+    $keywordLineArray = explode("\n", $keywordLines);
+    foreach ($keywordLineArray as $k) {
+        $k = trim($k);
+
+        $desc = $descTemplate;
+        $desc = str_replace('[公司名称]', $corporation['name'], $desc);
+        $desc = str_replace('[关键词]', $k, $desc);
+
+        enterprise_admin_save_keyword($userSiteId, $langCode, 0, $k, $desc);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词');
+}
+
+/**
+ * Edit Keyword
+ */
+function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
+{
+    $tplPath = 'admin/edit_keyword.tpl';
+
+    $keywordId = (int)timandes_get_query_data('keyword_id');
+    $smarty->assign('keyword_id', $keywordId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($keywordId) 
+            enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $keyword = timandes_get_post_data('keyword');
+    $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
+
+    if (!$keyword)
+        return enterprise_admin_display_error_msg($smarty, '请输入关键词');
+
+    enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword, $desc);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词');
+}
+
+/**
+ * Delete Keyword
+ */
+function enterprise_admin_action_delete_keyword($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $keywordId = (int)timandes_get_query_data('keyword_id');
+
+    // Get group ID
+    $keyword = enterprise_get_keyword_info($keywordId, $langCode);
+    if (!$keyword) {
+        $msg = '找不到指定的关键词';
+        return header('Location: ?action=keyword&error_msg=' . urlencode($msg));
+    }
+    if ($keyword['site_id'] != $site['site_id'])
+        return header('Location: ?action=keyword&error_msg=' . urlencode('权限不足'));
+    if ($keyword['deleted']) 
+        return header('Location: ?action=keyword&success_msg=' . urlencode('删除成功'));
+
+    // Delete keyword
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    if ($langCode == 'en') {
+        $keywordDAO = new \enterprise\daos\Keyword();
+        $keywordDAO->update($keywordId, $values);
+    } else {
+        $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
+        $condition = "`keyword_id`=" . (int)$keywordId;
+        $keywordDAO->updateBy($condition, $values);
+    }
+
+    header('Location: ?action=keyword&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */

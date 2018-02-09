@@ -204,6 +204,14 @@ retry:
                     return enterprise_admin_action_edit_user_voice($smarty, $site, $langCode);
                 case 'delete_user_voice':
                     return enterprise_admin_action_delete_user_voice($smarty, $site, $langCode);
+                case 'keyword':
+                    return enterprise_admin_action_keyword($smarty, $site, $langCode);
+                case 'create_keywords':
+                    return enterprise_admin_action_create_keywords($smarty, $site, $langCode);
+                case 'edit_keyword':
+                    return enterprise_admin_action_edit_keyword($smarty, $site, $langCode);
+                case 'delete_keyword':
+                    return enterprise_admin_action_delete_keyword($smarty, $site, $langCode);
                 case 'index_keyword':
                     return enterprise_admin_action_index_keyword($smarty, $site, $langCode);
                 case 'edit_index_keyword':

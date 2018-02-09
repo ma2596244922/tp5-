@@ -1,3 +1,16 @@
+-- 2018-2-9
+CREATE TABLE `enterprise_keywords` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关键词ID',
+  `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
+  `keyword` varchar(100) NOT NULL COMMENT '关键词',
+  `has_desc` tinyint NOT NULL COMMENT '包含说明文本？',
+  `desc` text NOT NULL COMMENT '说明文本',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_get_by_site` (`site_id`, `deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='关键词表';
 -- 2018-1-25
 CREATE TABLE `oms_translation_tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
