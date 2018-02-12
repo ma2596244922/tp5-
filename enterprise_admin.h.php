@@ -35,21 +35,32 @@ function xss_clean_4_site_owner($s)
  */
 function enterprise_admin_grant_permission($targetSiteId)
 {
+    $retval = enterprise_admin_check_permission($targetSiteId);
+    if ($retval)
+        return $retval;
+
+    header('Location: /admin/?action=login');
+    exit;
+}
+
+/**
+ * Check permission
+ *
+ * @return array User Info
+ */
+function enterprise_admin_check_permission($targetSiteId)
+{
     $userId = (int)timandes_get_session_data(SESSION_FIELD_USER_ID);
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     if (!$userId
-            || $userSiteId != $targetSiteId) {
-        header('Location: /admin/?action=login');
-        exit;
-    }
+            || $userSiteId != $targetSiteId)
+        return null;
 
     $userDAO = new \enterprise\daos\User();
     $user = $userDAO->get($userId);
     if (!$user
-            || $user['site_id'] != $targetSiteId) {
-        header('Location: /admin/?action=login');
-        exit;
-    }
+            || $user['site_id'] != $targetSiteId)
+        return null;
 
     return $user;
 }
@@ -4965,8 +4976,10 @@ function enterprise_admin_action_keyword($smarty, $site, $langCode)
     $smarty->display('admin/keyword.tpl');
 }
 
-function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword, $desc)
+function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword = null, $desc = null)
 {
+    $hasDesc = ((isset($desc) && $desc)?1:0);
+
     // LangKeywordDAO
     $langKeywordDAO = (($langCode!='en')?new \enterprise\daos\LangKeyword($langCode):null);
 
@@ -4977,18 +4990,21 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
         );
     if (!$langKeywordDAO) {// English
         $values['site_id'] = $userSiteId;
-        $values['keyword'] = $keyword;
-        $values['desc'] = $desc;
+        if (isset($keyword))
+            $values['keyword'] = $keyword;
+        if (isset($desc)) {
+            $values['has_desc'] = $hasDesc;
+            $values['desc'] = $desc;
+        }
     }
     if ($keywordId) {// Edit
         // Authentication
         $originalKeyword = enterprise_get_keyword_info($keywordId, $langCode);
         if (!$originalKeyword
-                || $originalKeyword['site_id'] != $site['site_id'])
+                || $originalKeyword['site_id'] != $userSiteId)
             throw new \RuntimeException('权限不足');
         // Update
         $keywordDAO->update($keywordId, $values);
-        enterprise_assign_keyword_info($smarty, 'keyword', $keywordId);
     } else {// Create
         $values['created'] = $values['updated'];
         $newKeywordId = $keywordDAO->insert($values);
@@ -4998,10 +5014,14 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
     if ($langKeywordDAO) {
         $values = array(
                 'site_id' => $userSiteId,
-                'keyword' => $keyword,
-                'desc' => $desc,
                 'updated' => date('Y-m-d H:i:s'),
             );
+        if (isset($keyword))
+            $values['keyword'] = $keyword;
+        if (isset($desc)) {
+            $values['has_desc'] = $hasDesc;
+            $values['desc'] = $desc;
+        }
         if ($keywordId) {// Edit
             $condition = "`keyword_id`=" . (int)$keywordId;
             $langKeywordDAO->updateBy($condition, $values);
@@ -5038,6 +5058,8 @@ function enterprise_admin_action_create_keywords($smarty, $site, $langCode)
     $keywordLineArray = explode("\n", $keywordLines);
     foreach ($keywordLineArray as $k) {
         $k = trim($k);
+        if (!$k)
+            continue;
 
         $desc = $descTemplate;
         $desc = str_replace('[公司名称]', $corporation['name'], $desc);
@@ -5046,7 +5068,7 @@ function enterprise_admin_action_create_keywords($smarty, $site, $langCode)
         enterprise_admin_save_keyword($userSiteId, $langCode, 0, $k, $desc);
     }
 
-    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词');
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词列表');
 }
 
 /**
@@ -5071,15 +5093,11 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
     }
 
     // Save
-    $keyword = timandes_get_post_data('keyword');
     $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
 
-    if (!$keyword)
-        return enterprise_admin_display_error_msg($smarty, '请输入关键词');
+    enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, null, $desc);
 
-    enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword, $desc);
-
-    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词');
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词列表');
 }
 
 /**
