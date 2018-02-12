@@ -19,6 +19,8 @@ define('PATTERN_PRODUCT_DIRECTORY', '/^\/directory(-([0-9]+))?\.html$/');
 define('PATTERN_NEWS_LIST', '/^\/news(-([0-9]+))?$/');
 /** @var string Pattern of News Page */
 define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Keywords List */
+define('PATTERN_KEYWORDS_LIST', '/^\/keywords(-([0-9]+))?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -1251,6 +1253,13 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             return $site['favicon'];
         else
             return file_get_contents(__DIR__ . '/favicon.ico');
+    } elseif(preg_match(PATTERN_KEYWORDS_LIST, $requestPath, $matches)) {
+        if (isset($matches[2])
+                && $matches[2])
+            $pageNo = (int)$matches[2];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
     }
 
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -2210,6 +2219,45 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
     // TDK
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * /keywords-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo = 1)
+{
+    $pageSize = 10;
+    $siteId = $site['site_id'];
+
+    $templateName = $site['template'];
+
+    $tplPath = 'sets/' . $templateName . '/keyword_list.tpl';
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    $condition = enterprise_assign_keyword_list($smarty, 'site_keywords', $siteId, $langCode, $pageNo, $pageSize);
+
+    if ($langCode == 'en')
+        $keywordDAO = new \enterprise\daos\Keyword();
+    else
+        $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
+    $totalKeywords = $keywordDAO->countBy($condition);
+    $smarty->assign('total_keywords', $totalKeywords);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    // TODO: TDK
+    //$corporation = $smarty->getTemplateVars('corporation');
+    //enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }
