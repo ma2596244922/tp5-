@@ -418,6 +418,7 @@ CREATE TABLE `enterprise_keywords` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关键词ID',
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `keyword` varchar(100) NOT NULL COMMENT '关键词',
+  `has_desc` tinyint NOT NULL COMMENT '包含说明文本？',
   `desc` text NOT NULL COMMENT '说明文本',
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
