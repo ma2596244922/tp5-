@@ -1,3 +1,7 @@
+-- 2018-2-13
+ALTER TABLE `enterprise_keywords` 
+  ADD COLUMN `alphabet` tinyint NOT NULL COMMENT '字母表类型' AFTER `has_desc`,
+  ADD INDEX `idx_alphabet` (`site_id`, `deleted`, `alphabet`);
 -- 2018-2-9
 CREATE TABLE `enterprise_keywords` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '关键词ID',

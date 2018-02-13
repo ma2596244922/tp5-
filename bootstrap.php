@@ -32,3 +32,9 @@ else
     define('DBG_MODE', false);
 
 define('GOOGLE_CLOUD_API_KEY', 'AIzaSyD3GUlgQ46MRarVcE70OWcrqnHAcyDCy5E');
+
+$alphabet = ['0'];
+for ($i=97; $i<=122; ++$i)
+    $alphabet[] = chr($i);
+$alphabet = array_flip($alphabet);
+define('KEYWORD_ALPHABET', $alphabet);

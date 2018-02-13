@@ -57,20 +57,6 @@
             </div>
 {/if}
         </div> 
-        <!--product-map-->
-        <div class="product-map product-map1">
-            <div class="title"><span></span><h2>{$preset_translations.all_categories}</h2></div>
-            <div class="product-list">
-                <ul class="fl-clr">
-{foreach $groups as $g}
-                    <li><em></em><a href="{$g|url:'enterprise_url_product_list'}" title="{$g.name|escape}">{$g.name}</a></li>
-{/foreach}
-                </ul>
-            </div>
-            <!--product-list-->
-        </div> 
-        <!--product-map-->
-{include file="sets/trade/common/main_products.tpl"}
     </div>
     <!--container-->
 </div>

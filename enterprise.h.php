@@ -20,7 +20,7 @@ define('PATTERN_NEWS_LIST', '/^\/news(-([0-9]+))?$/');
 /** @var string Pattern of News Page */
 define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Keywords List */
-define('PATTERN_KEYWORDS_LIST', '/^\/keywords(-([0-9]+))?\.html$/');
+define('PATTERN_KEYWORDS_LIST', '/^\/keywords-([a-z0])(-([0-9]+))?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -1254,12 +1254,13 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
         else
             return file_get_contents(__DIR__ . '/favicon.ico');
     } elseif(preg_match(PATTERN_KEYWORDS_LIST, $requestPath, $matches)) {
-        if (isset($matches[2])
-                && $matches[2])
-            $pageNo = (int)$matches[2];
+        if (isset($matches[3])
+                && $matches[3])
+            $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo);
+        $firstChar = $matches[1];
+        return enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo);
     }
 
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -2228,7 +2229,7 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
  *
  * @return string
  */
-function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $pageNo = 1)
+function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
 {
     $pageSize = 10;
     $siteId = $site['site_id'];
@@ -2242,7 +2243,9 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     // Site
     $smarty->assign('site', $site);
 
-    $condition = enterprise_assign_keyword_list($smarty, 'site_keywords', $siteId, $langCode, $pageNo, $pageSize);
+    $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
+
+    $condition = enterprise_assign_keyword_list($smarty, 'site_keywords', $siteId, $langCode, $pageNo, $pageSize, $alphabet);
 
     if ($langCode == 'en')
         $keywordDAO = new \enterprise\daos\Keyword();
@@ -3243,7 +3246,7 @@ function enterprise_get_index_keyword_info($userVoiceId, $langCode = 'en')
  *
  * @return string Condition
  */
-function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10)
+function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10, $alphabet = null)
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
@@ -3251,6 +3254,8 @@ function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en'
     //if ($langCode == 'en') {
         $keywordDAO = new \enterprise\daos\Keyword();
         $condition = "`site_id`={$siteId} AND `deleted`=0";
+        if (isset($alphabet))
+            $condition .= " AND `alphabet`=" . (int)$alphabet;
         $keywords = $keywordDAO->getMultiInOrderBy($condition, '`id`, `keyword`, `has_desc`, `created`, `updated`', '`id` DESC', $pageSize, $start);
     /*} else {
         $keywordDAO = new \enterprise\daos\LangKeyword($langCode);

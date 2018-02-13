@@ -20,6 +20,7 @@ class Keyword extends AbstractDAO
             'created' => 'text',
             'updated' => 'text',
             'deleted' => 'tinyint',
+            'alphabet' => 'tinyint',
         );
 
     public function getTableName()

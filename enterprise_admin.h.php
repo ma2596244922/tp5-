@@ -4979,6 +4979,11 @@ function enterprise_admin_action_keyword($smarty, $site, $langCode)
 function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword = null, $desc = null)
 {
     $hasDesc = ((isset($desc) && $desc)?1:0);
+    if (isset($keyword)) {
+        $firstChar = substr($keyword, 0, 1);
+        $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
+    } else
+        $alphabet = null;
 
     // LangKeywordDAO
     $langKeywordDAO = (($langCode!='en')?new \enterprise\daos\LangKeyword($langCode):null);
@@ -4990,8 +4995,10 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
         );
     if (!$langKeywordDAO) {// English
         $values['site_id'] = $userSiteId;
-        if (isset($keyword))
+        if (isset($keyword)) {
             $values['keyword'] = $keyword;
+            $values['alphabet'] = $alphabet;
+        }
         if (isset($desc)) {
             $values['has_desc'] = $hasDesc;
             $values['desc'] = $desc;
@@ -5016,8 +5023,10 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
                 'site_id' => $userSiteId,
                 'updated' => date('Y-m-d H:i:s'),
             );
-        if (isset($keyword))
+        if (isset($keyword)) {
             $values['keyword'] = $keyword;
+            $values['alphabet'] = $alphabet;
+        }
         if (isset($desc)) {
             $values['has_desc'] = $hasDesc;
             $values['desc'] = $desc;

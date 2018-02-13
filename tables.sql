@@ -423,8 +423,10 @@ CREATE TABLE `enterprise_keywords` (
   `created` datetime NOT NULL COMMENT '创建时间',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `alphabet` tinyint NOT NULL COMMENT '字母表类型',
   PRIMARY KEY (`id`),
-  KEY `idx_get_by_site` (`site_id`, `deleted`)
+  KEY `idx_get_by_site` (`site_id`, `deleted`),
+  KEY `idx_alphabet` (`site_id`, `deleted`, `alphabet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='关键词表';
 
 /* {{{ French */
