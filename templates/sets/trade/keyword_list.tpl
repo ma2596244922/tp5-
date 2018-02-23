@@ -34,7 +34,7 @@
                 </ul>
                 <ul class="fl-clr">
     {-/if}
-                    <li><em></em><a href="{$keyword|url:'enterprise_url_product_search'}" title="{$keyword.keyword|escape}">{$keyword.keyword}</a></li>
+                    <li><em></em><a href="{$keyword.keyword|url:'enterprise_url_product_search'}" title="{$keyword.keyword|escape}">{$keyword.keyword}</a></li>
 {foreachelse}
                     <li>{$preset_translations.sorry_no_matches_were_found}</li>
 {/foreach}
@@ -45,13 +45,13 @@
             <div class="page">
                 <div class="page-show">
     {-if isset($pager_info['prev_page'])}
-                    <a href="{$pager_info['prev_page']|url:'enterprise_url_product_directory'}" rel="nofollow" class="prev" title="Prev"></a>
+                    <a href="{$first_char|url:'enterprise_url_keyword_list':$pager_info['prev_page']}" rel="nofollow" class="prev" title="Prev"></a>
     {-/if}
     {-for $i=$pager_info['min_page'] to $pager_info['max_page']}
-                    <a{if $i==$page_no} class="default"{else} href="{$i|url:'enterprise_url_product_directory'}" title="{$i}"{/if}>{$i}</a>
+                    <a{if $i==$page_no} class="default"{else} href="{$first_char|url:'enterprise_url_keyword_list':$i}" title="{$i}"{/if}>{$i}</a>
     {-/for}
     {-if isset($pager_info['next_page'])}
-                    <a href="{$pager_info['next_page']|url:'enterprise_url_product_directory'}" rel="nofollow" class="next" title="Next">Next</a>
+                    <a href="{$first_char|url:'enterprise_url_keyword_list':$pager_info['next_page']}" rel="nofollow" class="next" title="Next">Next</a>
     {-/if}
                 </div>
             </div>
