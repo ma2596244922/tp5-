@@ -2225,6 +2225,27 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
 }
 
 /**
+ * 设置关键词列表页TDK
+ */
+function enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode = 'en')
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+
+    $searches = ['{corporation}', '{first_char}', '{page_info}'];
+    $replacements = [$corporation['name'], $firstChar, $pageInfo];
+
+    $presetTitle = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_html_title']);
+    $smarty->assign('title', ($presetTitle));
+
+    $presetKeywords = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_meta_keywords']);
+    $smarty->assign('keywords', ($presetKeywords));
+
+    $presetDescription = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_meta_description']);
+    $smarty->assign('description', ($presetDescription));
+}
+
+/**
  * /words-*.html
  *
  * @return string
@@ -2264,9 +2285,9 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
 
     $smarty->assign('first_char', $firstChar);
 
-    // TODO: TDK
-    //$corporation = $smarty->getTemplateVars('corporation');
-    //enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode);
+    // TDK
+    $corporation = $smarty->getTemplateVars('corporation');
+    enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }

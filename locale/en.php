@@ -185,4 +185,8 @@ $presetTranslations = array(
         'preset_news_list_html_title' => 'Company News - latest information about {corporation}{page_info}',
         'preset_news_list_meta_keywords' => 'Company News, Latest information, News about {corporation}',
         'preset_news_list_meta_description' => 'Company News by {corporation}. we provide latest information about the products regularly{page_info}.',
+
+        'preset_keyword_list_html_title' => 'ALL words of {first_char} - words of {first_char} list',
+        'preset_keyword_list_meta_keywords' => '{first_char}, Words of {first_char}, Hot words of{first_char}',
+        'preset_keyword_list_meta_description' => 'Words of {first_char} - we provide the most popular words of {first_char} and you can find hot products by the words on China Suppliers.',
     );
