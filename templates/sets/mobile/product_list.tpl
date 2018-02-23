@@ -11,7 +11,6 @@
 {include file="sets/mobile/common/styles.tpl"}
     </head>
 <body>
-<body>
 <div class="content">
 {include file="sets/mobile/common/logobar.tpl"}
 {include file="sets/mobile/common/navbar.tpl" page_name="product_list"}
