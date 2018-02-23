@@ -20,13 +20,13 @@
         <div class="crumb">
             <p>
                 <a href="/">{$preset_translations.home}</a>&gt;
-                <span>{$preset_translations.site_map}</span>
+                <span>{$first_char} Keyword List</span>
             </p>
 {include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="product-map">
-            <div class="title"><span></span><h1>A Keyword List Page {$page_no}</h1></div>
+            <div class="title"><span></span><h1>{$first_char} Keyword List Page {$page_no}</h1></div>
             <div class="product-list">
                 <ul class="fl-clr">
 {foreach $site_keywords as $keyword}
