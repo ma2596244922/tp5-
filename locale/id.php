@@ -136,5 +136,5 @@ $presetTranslations = array(
     'your_inquiry_is_sent_successfully' => 'Permintaan Anda Berhasil Dikirim',
     'send_your_inquiry_directly_to_us' => 'Mengirimkan Permintaan Anda Secara Langsung Kepada Kami',
     'all_categories' => 'Semua Kategori',
-    'sorry_no_matches_were_found.' => 'Maaf! Tidak Ada Kecocokan Yang Ditemukan.',
+    'sorry_no_matches_were_found' => 'Maaf! Tidak Ada Kecocokan Yang Ditemukan.',
     );

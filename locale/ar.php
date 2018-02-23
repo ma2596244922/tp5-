@@ -137,5 +137,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'تم إرسال استفسارك بنجاح',
         'send_your_inquiry_directly_to_us' => 'إرسال استفسارك مباشرة لنا',
         'all_categories' => 'جميع الفئات',
-        'sorry_no_matches_were_found.' => 'معذرة! لم يتم العثور على أية تطابقات.',
+        'sorry_no_matches_were_found' => 'معذرة! لم يتم العثور على أية تطابقات.',
     );

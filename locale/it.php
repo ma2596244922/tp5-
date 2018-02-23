@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'La tua richiesta viene inviata correttamente',
         'send_your_inquiry_directly_to_us' => 'Invia la tua richiesta direttamente a noi',
         'all_categories' => 'tutte le categorie',
-        'sorry_no_matches_were_found.' => 'Scusate! Nessuna corrispondenza trovata.',
+        'sorry_no_matches_were_found' => 'Scusate! Nessuna corrispondenza trovata.',
     );

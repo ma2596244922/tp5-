@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Ihre Anfrage wird erfolgreich gesendet',
         'send_your_inquiry_directly_to_us' => 'Senden Sie Ihre Anfrage direkt an uns',
         'all_categories' => 'Alle Kategorien',
-        'sorry_no_matches_were_found.' => 'Es tut uns leid! Es wurden keine Streichhölzer gefunden.',
+        'sorry_no_matches_were_found' => 'Es tut uns leid! Es wurden keine Streichhölzer gefunden.',
     );

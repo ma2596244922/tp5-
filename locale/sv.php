@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Din förfrågan skickas framgångsrikt',
         'send_your_inquiry_directly_to_us' => 'Skicka din förfrågan direkt till oss',
         'all_categories' => 'alla kategorier',
-        'sorry_no_matches_were_found.' => 'Förlåt! Inga träffar hittades.',
+        'sorry_no_matches_were_found' => 'Förlåt! Inga träffar hittades.',
     );

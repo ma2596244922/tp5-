@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Soruşunuz başarıyla gönderildi',
         'send_your_inquiry_directly_to_us' => 'Sorunuzu bize gönderin',
         'all_categories' => 'Tüm Kategoriler',
-        'sorry_no_matches_were_found.' => 'Afedersiniz! Hiçbir eşleşme bulunamadı.',
+        'sorry_no_matches_were_found' => 'Afedersiniz! Hiçbir eşleşme bulunamadı.',
     );
