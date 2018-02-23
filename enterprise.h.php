@@ -2225,7 +2225,7 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
 }
 
 /**
- * /keywords-*.html
+ * /words-*.html
  *
  * @return string
  */
@@ -2235,8 +2235,12 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $siteId = $site['site_id'];
 
     $templateName = $site['template'];
+    $tplFile = 'keyword_list.tpl';
 
-    $tplPath = 'sets/' . $templateName . '/keyword_list.tpl';
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/' . $tplFile;
+    else
+        $tplPath = 'sets/mobile/' . $tplFile;
     if (!$smarty->templateExists($tplPath))
         return null;
 
@@ -2257,6 +2261,8 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $smarty->assign('page_no', $pageNo);
     $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->assign('first_char', $firstChar);
 
     // TODO: TDK
     //$corporation = $smarty->getTemplateVars('corporation');
