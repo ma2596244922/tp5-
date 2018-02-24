@@ -2932,6 +2932,8 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
     $groupId = $taskDetails['group_id'];
     $desc = $taskDetails['desc'];
     $location = $taskDetails['location'];
+    $ids = $taskDetails['ids']??[];
+    $type = $taskDetails['type']??1;
 
     $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
     $desc = str_replace('[公司名称]', $corporation['name'], $desc);
@@ -2943,28 +2945,24 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = new \enterprise\daos\LangProduct($langCode);
-    $curProductId = 0;
-    do {
-        if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`description`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
-        if (!$products)
-            break;
 
-        foreach ($products as $product) {
-            $fragment = str_replace('[产品标题]', $product['caption'], $desc);
-            $fragmentHtml = $fragment;
-            $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
-            $values = array(
-                    'description' => $newDescription,
-                    'updated' => date('Y-m-d H:i:s'),
-                );
-            $productDAO->update($product['id'], $values);
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId);
+    else {
+        $idArray = explode("\n", $ids);
+        $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray);
+    }
 
-            $curProductId = $product['id'];
-        }
-    } while(true);
+    foreach ($generator as $product) {
+        $fragment = str_replace('[产品标题]', $product['caption'], $desc);
+        $fragmentHtml = $fragment;
+        $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
+        $values = array(
+                'description' => $newDescription,
+                'updated' => date('Y-m-d H:i:s'),
+            );
+        $productDAO->update($product['id'], $values);
+    }
 }
 
 /**
@@ -2988,20 +2986,32 @@ function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
     $location = (int)timandes_get_post_data('location');
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
+    $type = (int)timandes_get_post_data('type');
+    $ids = timandes_get_post_data('ids');
 
+    $typeRange = array(1, 2);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
     $locationRange = array(1, 2);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
     if (!$desc)
         throw new \UnderflowException("请给出至少一个关键词");
+    if ($type == 1) {
+        if (!$groupId)
+            throw new \UnexpectedValueException("请选择分组");
+    } elseif ($type == 2) {
+        if (!$ids)
+            throw new \UnderflowException("请给出至少一个产品ID");
+    }
 
     $taskDetails = array(
             'desc' => $desc,
             'group_id' => $groupId,
             'location' => $location,
             'lang_code' => $langCode,
+            'type' => $type,
+            'ids' => $ids,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_DESC, $taskDetails);
