@@ -2472,16 +2472,21 @@ function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArra
 
     $idList = implode(', ', $idArrayProcessed);
 
-    if ($langCode == 'en')
-        $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`id` IN ({$idList})", '`id` ASC', '`description`');
-    else
-        $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`product_id` IN ({$idList})", 'elp.`product_id` ASC', 'elp.`description`');
-    if (!$products)
-        return;
+    $curProductId = 0;
+    do {
+        if ($langCode == 'en')
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`id` IN ({$idList}) AND `id`>{$curProductId}", '`id` ASC', '`description`');
+        else
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`product_id` IN ({$idList}) AND elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
+        if (!$products)
+            break;
 
-    foreach ($products as $product) {
-        yield $product;
-    }
+        foreach ($products as $product) {
+            yield $product;
+
+            $curProductId = $product['id'];
+        }
+    } while(true);
 }
 
 function enterprise_admin_replace_desc_pic_with_urls($description, $urlArray, &$fromIdx = 0)
