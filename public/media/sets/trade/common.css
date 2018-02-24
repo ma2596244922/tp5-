@@ -107,8 +107,8 @@ strong, th { font-weight:bold; }
 /*20180204gai_mal*/
 .select-flag .selectMenu a{  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
 
-
-
+/*20180209gai_mal*/
+.select-flag{z-index: 99; }
 
 
 

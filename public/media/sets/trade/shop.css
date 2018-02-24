@@ -658,9 +658,9 @@ h1,h2{ display:inline;}
 .intro-art .scrollArea{ margin-top:15px; margin-bottom:5px;}
 .news-detail .news-art p{ line-height:28px; margin-top:15px}
 
-
-
-
+/*20180209gai_mal*/
+.contact-us,.new-products,.recom-product,.search-product { margin:10px auto 0 auto; }
+.div_height1 { height:24px; width:100%; }
 
 
 

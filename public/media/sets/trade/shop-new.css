@@ -149,7 +149,7 @@ i{ font-style:normal;}
 .nav li ul {max-height:402px; overflow-y:scroll; }
 .nav li ul.nav-list1{overflow-y:auto;  }
 
-
-
+/*20180209gai_mal*/
+.banner{z-index: 9; }
 
 
