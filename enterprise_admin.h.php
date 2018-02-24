@@ -1381,7 +1381,7 @@ function enterprise_admin_action_export_group_products($smarty, $site, $langCode
 {
     $groupId = (int)timandes_get_query_data('group_id');
     if (!$groupId)
-        return header('Location: ?action=group');
+        $groupId = null;
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -1392,10 +1392,10 @@ function enterprise_admin_action_export_group_products($smarty, $site, $langCode
     header('Content-Disposition: attachment; filename=' . $fileName);
 
     $colList = array(
-            'ID', 'Caption',
+            'ID', 'Caption', 'Group ID',
         );
     $fieldList = array(
-            'id', 'caption',
+            'id', 'caption', 'group_id',
         );
     fputcsv($fp, $colList);
 

@@ -157,6 +157,8 @@
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
 
                                         <a href="?action=replace_desc_pic" class="btn normal">描述图片替换</a>
+
+                                        <a href="?action=export_group_products" class="btn normal" target="_blank">导出全站产品</a>
 {-/if}
                                         <a href="?action=count_products" class="btn normal">重算产品总数</a>
 
