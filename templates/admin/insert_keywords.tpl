@@ -286,11 +286,37 @@
 
                                         <div class="controls">
 
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="1" checked />
+
+                                            </label>
+
                                             <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
 {section name=i loop=$groups}
                                                 <option value="{$groups[i].id}">{$groups[i].name}</option>
 {/section}
                                             </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品ID：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="2" />
+
+                                            </label>
+
+                                            <textarea class="span4 m-wrap" name="ids" rows="12"></textarea>
+
+                                            <span class="help-inline">产品ID一行一个，最多不超过50个。</span>
 
                                         </div>
 

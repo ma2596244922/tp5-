@@ -2317,6 +2317,8 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
     $keywords = $taskDetails['keywords'];
     $location = $taskDetails['location'];
     $targetCnt = $taskDetails['target_cnt'];
+    $ids = $taskDetails['ids']??[];
+    $type = $taskDetails['type']??1;
 
     $keywordsArray = explode("\n", $keywords);
 
@@ -2328,53 +2330,50 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
         $productDAO = new \enterprise\daos\Product();
     else
         $productDAO = new \enterprise\daos\LangProduct($langCode);
-    $curProductId = 0;
+
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`tags`');
+    else {
+        $idArray = explode("\n", $ids);
+        $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray, '`tags`');
+    }
+
     $accProducts = 0;
     $accKeywordIndex = 0;
-    do {
-        if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "`id`>{$curProductId}", '`id` ASC', '`tags`');
-        else
-            $products = enterprise_get_product_list($userSiteId, $langCode, $groupId, false, 1, 100, "elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`tags`');
-        if (!$products)
-            break;
-
-        foreach ($products as $product) {
-            $replacedKeywords = enterprise_admin_insert_keywords_replace_var($product, $keywordsArray);
-            $values = array();
-            if ($location == 1)
-                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt);
-            elseif ($location == 4)
-                $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt, true);
-            elseif ($location == 5) {
+    foreach ($generator as $product) {
+        $replacedKeywords = enterprise_admin_insert_keywords_replace_var($product, $keywordsArray);
+        $values = array();
+        if ($location == 1)
+            $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt);
+        elseif ($location == 4)
+            $values['caption'] = enterprise_admin_insert_random_keywords_to_value($product['caption'], ' ', $replacedKeywords, $keywordsCnt, $targetCnt, true);
+        elseif ($location == 5) {
+            $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+            $values['caption'] = $targetKeywords[0] . ' ' . $product['caption'];
+        } elseif ($location == 6) {
+            $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
+            $values['caption'] = $product['caption'] . ' ' . $targetKeywords[0];
+        } elseif ($location == 2)
+            $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
+        elseif ($location == 3) {
+            if (false) { // Random
                 $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
-                $values['caption'] = $targetKeywords[0] . ' ' . $product['caption'];
-            } elseif ($location == 6) {
-                $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
-                $values['caption'] = $product['caption'] . ' ' . $targetKeywords[0];
-            } elseif ($location == 2)
-                $values['tags'] = enterprise_admin_insert_random_keywords_to_value($product['tags'], ',', $replacedKeywords, $keywordsCnt, $targetCnt);
-            elseif ($location == 3) {
-                if (false) { // Random
-                    $targetKeywords = enterprise_admin_insert_keywords_get_random($replacedKeywords, $keywordsCnt, $targetCnt);
-                    $values['model_number'] = $targetKeywords[0]; // Overwrite
-                } else {// By order
-                    $values['model_number'] = $replacedKeywords[$accKeywordIndex]; // Overwrite
-                    ++$accKeywordIndex;
-                    if ($accKeywordIndex >= $keywordsCnt)
-                        $accKeywordIndex = 0;
-                }
+                $values['model_number'] = $targetKeywords[0]; // Overwrite
+            } else {// By order
+                $values['model_number'] = $replacedKeywords[$accKeywordIndex]; // Overwrite
+                ++$accKeywordIndex;
+                if ($accKeywordIndex >= $keywordsCnt)
+                    $accKeywordIndex = 0;
             }
-
-            if ($values) {
-                $values['updated'] = date('Y-m-d H:i:s');
-                $productDAO->update($product['id'], $values);
-            }
-
-            $curProductId = $product['id'];
-            ++$accProducts;
         }
-    } while(true);
+
+        if ($values) {
+            $values['updated'] = date('Y-m-d H:i:s');
+            $productDAO->update($product['id'], $values);
+        }
+
+        ++$accProducts;
+    }
 }
 
 /**
@@ -2398,15 +2397,24 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     $location = (int)timandes_get_post_data('location');
     $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
+    $type = (int)timandes_get_post_data('type');
+    $ids = timandes_get_post_data('ids');
 
+    $typeRange = array(1, 2);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
     $locationRange = array(1, 2, 3, 4, 5, 6);
     if (!in_array($location, $locationRange))
         throw new \RangeException("非法的位置值");
-    if (!$groupId)
-        throw new \UnexpectedValueException("请选择分组");
     if (!$keywords)
         throw new \UnderflowException("请给出至少一个关键词");
-
+    if ($type == 1) {
+        if (!$groupId)
+            throw new \UnexpectedValueException("请选择分组");
+    } elseif ($type == 2) {
+        if (!$ids)
+            throw new \UnderflowException("请给出至少一个产品ID");
+    }
     $targetCnt = (int)timandes_get_post_data('location_' . $location . '_cnt');
 
     $taskDetails = array(
@@ -2415,6 +2423,8 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
             'location' => $location,
             'lang_code' => $langCode,
             'target_cnt' => $targetCnt,
+            'type' => $type,
+            'ids' => $ids,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_KEYWORDS, $taskDetails);
@@ -2459,7 +2469,7 @@ function enterprise_admin_get_multi_group_products_generator($userSiteId, $langC
 }
 
 
-function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray)
+function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray, $extraFieldList = '`description`')
 {
     $idArrayProcessed = array();
     foreach ($idArray as $id) {
@@ -2475,9 +2485,9 @@ function enterprise_admin_get_products_generator($userSiteId, $langCode, $idArra
     $curProductId = 0;
     do {
         if ($langCode == 'en')
-            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`id` IN ({$idList}) AND `id`>{$curProductId}", '`id` ASC', '`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "`id` IN ({$idList}) AND `id`>{$curProductId}", '`id` ASC', $extraFieldList);
         else
-            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`product_id` IN ({$idList}) AND elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', 'elp.`description`');
+            $products = enterprise_get_product_list($userSiteId, $langCode, null, false, 1, 100, "elp.`product_id` IN ({$idList}) AND elp.`product_id`>{$curProductId}", 'elp.`product_id` ASC', enterprise_product_transform_field_list_for_lang_site($extraFieldList));
         if (!$products)
             break;
 
