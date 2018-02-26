@@ -3109,6 +3109,7 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
     $overwrite = $taskDetails['overwrite'];
     $type = $taskDetails['type'];
     $groupIdArray = $taskDetails['group_id_array']??[];
+    $ids = $taskDetails['ids']??[];
 
     $targetCnt = min(ENTERPRISE_MAX_IMAGES_PER_PRODUCT, $targetCnt);
 
@@ -3117,6 +3118,9 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
     elseif ($type == 3) {
         $groupIdArray = array_unique($groupIdArray);
         $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`images`, `description`');
+    } else {
+        $idArray = explode("\n", $ids);
+        $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray, '`images`, `description`');
     }
 
     $pendingImages = $uploadedImages;
@@ -3152,8 +3156,9 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
     $background = (int)timandes_get_post_data('background');
     $type = (int)timandes_get_post_data('type');
     $groupIdArray = timandes_get_post_data('group_id_array');
+    $ids = timandes_get_post_data('ids');
 
-    $typeRange = array(3, 1);
+    $typeRange = array(3, 2, 1);
     if (!in_array($type, $typeRange))
         throw new \RangeException("非法的类型");
     $locationRange = array(1, 2, 3);
@@ -3162,6 +3167,9 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
     if ($type == 3) {
         if (!$groupIdArray)
             throw new \UnexpectedValueException("请选择分组");
+    } elseif ($type == 2) {
+        if (!$ids)
+            throw new \UnderflowException("请给出至少一个产品ID");
     }
 
     // Upload images
@@ -3180,6 +3188,7 @@ function enterprise_admin_action_insert_images($smarty, $site, $langCode)
             'target_cnt' => $targetCnt,
             'overwrite' => $overwrite,
             'type' => $type,
+            'ids' => $ids,
         );
     if ($background) {
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_IMAGES, $taskDetails);

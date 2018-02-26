@@ -291,6 +291,26 @@
                                         </div>
 
                                     </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品ID：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="2" />
+
+                                            </label>
+
+                                            <textarea class="span4 m-wrap" name="ids" rows="12"></textarea>
+
+                                            <span class="help-inline">产品ID一行一个，最多不超过50个。</span>
+
+                                        </div>
+
+                                    </div>
 {if $user.advanced}
                                     <div class="control-group">
 
