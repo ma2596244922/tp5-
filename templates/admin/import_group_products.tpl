@@ -128,13 +128,35 @@
 
                                     <div class="control-group">
 
-                                        <label class="control-label">CSV文件</label>
+                                        <label class="control-label">CSV文件：</label>
 
                                         <div class="controls">
 
                                             <input type="file" class="span6 m-wrap" name="file" />
 
                                             <span class="help-inline">请选择存有产品信息的文件</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">类型：</label>
+
+                                        <div class="controls">
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="0" checked />型号
+
+                                            </label>
+
+                                            <label class="radio">
+
+                                                <input type="radio" name="type" value="10" />标题
+
+                                            </label>
 
                                         </div>
 

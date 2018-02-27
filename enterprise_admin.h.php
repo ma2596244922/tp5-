@@ -1441,6 +1441,19 @@ function enterprise_admin_action_import_group_products($smarty, $site, $langCode
         return $smarty->display($tplPath);
     }
 
+    $type = (int)timandes_get_post_data('type');
+
+    switch ($type) {
+        case 10:
+            $columnName = 'Caption';
+            $fieldName = 'caption';
+            break;
+        default:
+            $columnName = 'Model Number';
+            $fieldName = 'model_number';
+            break;
+    }
+
     if ($_FILES['file']['error'])
         return enterprise_admin_display_error_msg($smarty, '请选择文件#' . $_FILES['file']['error']);
 
@@ -1448,7 +1461,7 @@ function enterprise_admin_action_import_group_products($smarty, $site, $langCode
 
     $headerLine = fgetcsv($fp);
     if ($headerLine[0] != 'ID'
-            || $headerLine[1] != 'Model Number') {
+            || $headerLine[1] != $columnName) {
         fclose($fp);
         return enterprise_admin_display_error_msg($smarty, '文件格式不正确');
     }
@@ -1459,7 +1472,7 @@ function enterprise_admin_action_import_group_products($smarty, $site, $langCode
         $modelNumber = trim($dataLine[1]);
         $values = array(
                 'updated' => date('Y-m-d H:i:s'),
-                'model_number' => $modelNumber,
+                $fieldName => $modelNumber,
             );
         $productDAO->update($productId, $values);
     }
