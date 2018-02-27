@@ -1447,10 +1447,15 @@ function enterprise_admin_action_import_group_products($smarty, $site, $langCode
         case 10:
             $columnName = 'Caption';
             $fieldName = 'caption';
+            if ($langCode == 'en')
+                $productDAO = new \enterprise\daos\Product();
+            else
+                $productDAO = new \enterprise\daos\LangProduct($langCode);
             break;
         default:
             $columnName = 'Model Number';
             $fieldName = 'model_number';
+            $productDAO = new \enterprise\daos\Product();
             break;
     }
 
@@ -1466,7 +1471,6 @@ function enterprise_admin_action_import_group_products($smarty, $site, $langCode
         return enterprise_admin_display_error_msg($smarty, '文件格式不正确');
     }
 
-    $productDAO = new \enterprise\daos\Product();
     while ($dataLine = fgetcsv($fp)) {
         $productId = (int)trim($dataLine[0]);
         $modelNumber = trim($dataLine[1]);
