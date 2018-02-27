@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Votre demande est envoyée avec succès',
         'send_your_inquiry_directly_to_us' => 'Envoyez-nous votre demande directement à nous',
         'all_categories' => 'toutes catégories',
-        'sorry_no_matches_were_found.' => 'Pardon! Aucun résultat n\'a été trouvé.',
+        'sorry_no_matches_were_found' => 'Pardon! Aucun résultat n\'a été trouvé.',
     );

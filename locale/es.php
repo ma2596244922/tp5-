@@ -135,5 +135,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Su consulta se envía correctamente',
         'send_your_inquiry_directly_to_us' => 'Envíe su pregunta directamente a nosotros',
         'all_categories' => 'Todas las categorias',
-        'sorry_no_matches_were_found.' => '¡Lo siento! No se encontraron coincidencias.',
+        'sorry_no_matches_were_found' => '¡Lo siento! No se encontraron coincidencias.',
     );

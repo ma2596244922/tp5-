@@ -1,3 +1,4 @@
+{include file="sets/trade/common/alphabet.tpl"}
 <div class="footer">
     <div class="foot">
         <ul>

@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Hetimi yt dërgohet me sukses',
         'send_your_inquiry_directly_to_us' => 'Dërgo kërkesën tuaj direkt tek ne',
         'all_categories' => 'Të gjitha kategoritë',
-        'sorry_no_matches_were_found.' => 'Na vjen keq! Nuk u gjetën asnjë ndeshje.',
+        'sorry_no_matches_were_found' => 'Na vjen keq! Nuk u gjetën asnjë ndeshje.',
     );

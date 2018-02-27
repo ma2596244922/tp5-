@@ -19,6 +19,8 @@ define('PATTERN_PRODUCT_DIRECTORY', '/^\/directory(-([0-9]+))?\.html$/');
 define('PATTERN_NEWS_LIST', '/^\/news(-([0-9]+))?$/');
 /** @var string Pattern of News Page */
 define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
+/** @var string Pattern of Keywords List */
+define('PATTERN_KEYWORDS_LIST', '/^\/words-([A-Z]|number)(-([0-9]+))?\.html$/');
 
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
@@ -1251,6 +1253,14 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
             return $site['favicon'];
         else
             return file_get_contents(__DIR__ . '/favicon.ico');
+    } elseif(preg_match(PATTERN_KEYWORDS_LIST, $requestPath, $matches)) {
+        if (isset($matches[3])
+                && $matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        $firstChar = $matches[1];
+        return enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo);
     }
 
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -2210,6 +2220,74 @@ function enterprise_action_sets_news_list_proc($smarty, $site, $userAgent, $plat
     // TDK
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_news_list($smarty, $pageNo, $corporation, $site, $langCode);
+
+    return $smarty->fetch($tplPath);
+}
+
+/**
+ * 设置关键词列表页TDK
+ */
+function enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode = 'en')
+{
+    $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
+    $pageInfo = (($pageNo > 1)?" of page {$pageNo}":'');
+
+    $searches = ['{corporation}', '{first_char}', '{page_info}'];
+    $replacements = [$corporation['name'], $firstChar, $pageInfo];
+
+    $presetTitle = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_html_title']);
+    $smarty->assign('title', ($presetTitle));
+
+    $presetKeywords = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_meta_keywords']);
+    $smarty->assign('keywords', ($presetKeywords));
+
+    $presetDescription = str_replace($searches, $replacements, $presetTranslations['preset_keyword_list_meta_description']);
+    $smarty->assign('description', ($presetDescription));
+}
+
+/**
+ * /words-*.html
+ *
+ * @return string
+ */
+function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
+{
+    $pageSize = 120;
+    $siteId = $site['site_id'];
+
+    $templateName = $site['template'];
+    $tplFile = 'keyword_list.tpl';
+
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        $tplPath = 'sets/' . $templateName . '/' . $tplFile;
+    else
+        $tplPath = 'sets/mobile/' . $tplFile;
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
+
+    $condition = enterprise_assign_keyword_list($smarty, 'site_keywords', $siteId, $langCode, $pageNo, $pageSize, $alphabet);
+
+    if ($langCode == 'en')
+        $keywordDAO = new \enterprise\daos\Keyword();
+    else
+        $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
+    $totalKeywords = $keywordDAO->countBy($condition);
+    $smarty->assign('total_keywords', $totalKeywords);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
+    $smarty->assign('pager_info', $pagerInfo);
+
+    $smarty->assign('first_char', $firstChar);
+
+    // TDK
+    $corporation = $smarty->getTemplateVars('corporation');
+    enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
 
     return $smarty->fetch($tplPath);
 }
@@ -3183,6 +3261,81 @@ function enterprise_get_index_keyword_info($userVoiceId, $langCode = 'en')
     }*/
 
     return $userVoice;
+}
+
+/* }}} */
+
+
+/* {{{ Keyword */
+
+/**
+ * Assign Keyword List
+ *
+ * @return string Condition
+ */
+function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10, $alphabet = null)
+{
+    $siteId = (int)$siteId;
+    $start = ($pageNo - 1) * $pageSize;
+
+    //if ($langCode == 'en') {
+        $keywordDAO = new \enterprise\daos\Keyword();
+        $condition = "`site_id`={$siteId} AND `deleted`=0";
+        if (isset($alphabet))
+            $condition .= " AND `alphabet`=" . (int)$alphabet;
+        $keywords = $keywordDAO->getMultiInOrderBy($condition, '`id`, `keyword`, `has_desc`, `created`, `updated`', '`id` DESC', $pageSize, $start);
+    /*} else {
+        $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
+        $condition = "eluv.`site_id`={$siteId} AND eluv.`deleted`=0";
+        $keywords = $keywordDAO->getMultiInOrderBy($condition, 'euv.`id`, eluv.*', 'eluv.`keyword_id` DESC', $pageSize, $start);
+    }*/
+    $smarty->assign($var, $keywords);
+
+    return $condition;
+}
+
+/**
+ * Assign Keyword info
+ */
+function enterprise_assign_keyword_info($smarty, $var, $keywordId, $langCode = 'en')
+{
+    $keyword = enterprise_get_keyword_info($keywordId, $langCode);
+    $smarty->assign($var, $keyword);
+}
+
+/**
+ * Get Keyword info
+ */
+function enterprise_get_keyword_info($keywordId, $langCode = 'en')
+{
+    // Keyword
+    $keywordDAO = new \enterprise\daos\Keyword();
+    $keyword = $keywordDAO->get($keywordId);
+
+    // Language Keyword
+    /*
+    if ($langCode != 'en') {
+        $langIndexKeywordDAO = new \enterprise\daos\LangIndexKeyword($langCode);
+        $condition = '`index_keyword_id`=' . (int)$keywordId;
+        $langIndexKeyword = $langIndexKeywordDAO->getOneBy($condition);
+        if ($langIndexKeyword)
+            $keyword = array_merge($keyword, $langUserVoice);
+    }*/
+
+    return $keyword;
+}
+
+/**
+ * URL - Keyword List
+ *
+ * @return string
+ */
+function enterprise_url_keyword_list($firstChar, $pageNo = 1)
+{
+    $pageString = '';
+    if ($pageNo > 1)
+        $pageString = '-' . $pageNo;
+    return enterprise_url_prefix() . '/words-' . $firstChar . $pageString . '.html';
 }
 
 /* }}} */

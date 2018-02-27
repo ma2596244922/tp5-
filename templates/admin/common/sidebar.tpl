@@ -203,7 +203,7 @@
 
                 </li>
 {/if}
-                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture' || $page_name=='index_keyword' || $page_name=='hide'} class="active"{/if}>
+                <li{if $page_name=='fragment' || $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_tdk' || $page_name=='product_tdk' || $page_name=='picture' || $page_name=='index_keyword' || $page_name=='hide' || $page_name=='keyword'} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -334,6 +334,18 @@
                             <i class="icon-key"></i> 
 
                             <span class="title">首页关键词</span>
+
+                            </a>
+
+                        </li>
+
+                        <li class="start{if $page_name=='keyword'} active{/if}">
+
+                            <a href="?action=keyword">
+
+                            <i class="icon-key"></i> 
+
+                            <span class="title">关键词列表</span>
 
                             </a>
 

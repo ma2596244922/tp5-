@@ -5,10 +5,7 @@
  * @package timandes\enterprise
  */
 
-define('SESSION_FIELD_USER_ID', 'user_id');
-define('SESSION_FIELD_CAPTCHA_PHRASE', 'captcha_phrase');
-
-require_once realpath(__DIR__ . '/../../') . '/bootstrap.php';
+require_once __DIR__ . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../../') . '/config_admin.php';
 
 function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix)
@@ -27,11 +24,11 @@ function enterprise_admin_route($smarty, $siteId, $platform, $locale, $langCode,
             // Current User
             $user = enterprise_admin_grant_permission($siteId);
             $smarty->assign('user', $user);
+/* {{{ 重复代码段 */
 retry:
             // Site Info
             $userSiteId = (int)timandes_get_session_data('user_site_id');
-            enterprise_assign_site_info($smarty, 'site', $userSiteId, $langCode);
-            $site = $smarty->getTemplateVars('site');
+            $site = enterprise_get_site_info($userSiteId, $langCode);
             if (!$site) {// 复制的站点通常没有`enterprise_sites`表记录
                 $site = array(
                         'site_id' => $userSiteId,
@@ -40,7 +37,6 @@ retry:
             // ++ OMS Site Info
             $omsSiteDAO = new \oms\daos\Site();
             $omsSite = $omsSiteDAO->get($userSiteId);
-            $smarty->assign('oms_site', $omsSite);
 
             if ($site['default_lang_code'] != $GLOBALS['gsDefaultLangCode']) {
                 enterprise_set_default_lang_code($site['default_lang_code']);
@@ -49,9 +45,11 @@ retry:
                 goto retry;
             }
 
-            $smarty->assign('default_lang_code', $GLOBALS['gsDefaultLangCode']);
-
             enterprise_define_url_pattern_constants($site);
+/* }}} */
+            $smarty->assign('site', $site);
+            $smarty->assign('oms_site', $omsSite);
+            $smarty->assign('default_lang_code', $GLOBALS['gsDefaultLangCode']);
 
             // Supported Language Codes
             $supportedLangCodes = \enterprise\daos\LangProduct::getSupportedLangCodes();
@@ -204,6 +202,14 @@ retry:
                     return enterprise_admin_action_edit_user_voice($smarty, $site, $langCode);
                 case 'delete_user_voice':
                     return enterprise_admin_action_delete_user_voice($smarty, $site, $langCode);
+                case 'keyword':
+                    return enterprise_admin_action_keyword($smarty, $site, $langCode);
+                case 'create_keywords':
+                    return enterprise_admin_action_create_keywords($smarty, $site, $langCode);
+                case 'edit_keyword':
+                    return enterprise_admin_action_edit_keyword($smarty, $site, $langCode);
+                case 'delete_keyword':
+                    return enterprise_admin_action_delete_keyword($smarty, $site, $langCode);
                 case 'index_keyword':
                     return enterprise_admin_action_index_keyword($smarty, $site, $langCode);
                 case 'edit_index_keyword':

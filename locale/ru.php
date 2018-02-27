@@ -135,5 +135,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'Ваш запрос отправляется правильно',
         'send_your_inquiry_directly_to_us' => 'Вышлите ваш заказ прямо на нас',
         'all_categories' => 'Все категории',
-        'sorry_no_matches_were_found.' => 'Мне очень жаль! Не были найдены.',
+        'sorry_no_matches_were_found' => 'Мне очень жаль! Не были найдены.',
     );

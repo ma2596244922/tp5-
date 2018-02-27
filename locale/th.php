@@ -136,5 +136,5 @@ $presetTranslations = array(
         'your_inquiry_is_sent_successfully' => 'ส่งคำถามของคุณเรียบร้อยแล้ว',
     'send_your_inquiry_directly_to_us' => 'ส่งคำถามของคุณกับเราโดยตรง',
         'all_categories' => 'ทุกประเภท',
-        'sorry_no_matches_were_found.' => 'ขออภัย! ไม่พบรายการที่ตรงกัน',
+        'sorry_no_matches_were_found' => 'ขออภัย! ไม่พบรายการที่ตรงกัน',
     );

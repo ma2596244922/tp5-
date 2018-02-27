@@ -136,5 +136,5 @@ $presetTranslations = array(
           'your_inquiry_is_sent_successfully' => '您的询盘已经发送成功',
           'send_your_inquiry_directly_to_us' => '向我们直接发送您的询盘',
           'all_categories' => '所有类别',
-          'sorry_no_matches_were_found.' => '抱歉!没有找到匹配结果。',
+          'sorry_no_matches_were_found' => '抱歉!没有找到匹配结果。',
     );

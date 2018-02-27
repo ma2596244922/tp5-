@@ -1,0 +1,345 @@
+@charset "utf-8";
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+pre,
+fieldset,
+lengend,
+button,
+input,
+textarea,
+form,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #f9f9f9;
+  font-size: 0.26rem;
+  font-family: "Arial, Helvetica, sans-serif";
+  min-width: 320px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+address,
+cite,
+dfn,
+em,
+var {
+  font-style: normal;
+}
+strong,
+b {
+  font-weight: normal;
+}
+ul,
+ol {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+.fl-clr {
+  zoom: 1;
+}
+.fl-clr:after {
+  display: block;
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
+i {
+  font-style: normal;
+}
+/*ios form style*/
+::-webkit-input-placeholder {
+  color: #999;
+}
+input[type="text"],
+input[type="password"] {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border-radius: 0;
+}
+/*placeholder style*/
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: #ccc;
+}
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: #ccc;
+}
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: #ccc;
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: #ccc;
+}
+/* 初始化font-size*/
+@media screen and (min-width: 640px) {
+  html {
+    font-size: 100px;
+  }
+}
+@media screen and (min-width: 601px) and (max-width: 639px) {
+  html {
+    font-size: 93.9063px;
+  }
+}
+@media screen and (min-width: 551px) and (max-width: 600px) {
+  html {
+    font-size: 86.0938px;
+  }
+}
+@media screen and (min-width: 501px) and (max-width: 550px) {
+  html {
+    font-size: 78.2813px;
+  }
+}
+@media screen and (min-width: 451px) and (max-width: 500px) {
+  html {
+    font-size: 70.4688px;
+  }
+}
+@media screen and (min-width: 414px) and (max-width: 450px) {
+  html {
+    font-size: 64.6875px;
+  }
+}
+@media screen and (min-width: 375px) and (max-width: 413px) {
+  html {
+    font-size: 58.5938px;
+  }
+}
+@media screen and (min-width: 360px) and (max-width: 374px) {
+  html {
+    font-size: 56.25px;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 359px) {
+  html {
+    font-size: 50px;
+  }
+}
+/*header style*/
+header {
+  width: 100%;
+  height: 0.8rem;
+  background: #d41313;
+}
+header .logo {
+  margin: 0.2rem 0 0 0.2rem;
+  float: left;
+}
+header .logo h1 {
+  font-size: inherit;
+}
+header .logo h1 img {
+  width: 1.78rem;
+  height: 0.4rem;
+}
+header .logo a img {
+  width: 1.78rem;
+  height: 0.4rem;
+}
+header .search {
+  float: right;
+  margin: 0.13rem 0.2rem 0 0;
+  position: relative;
+}
+header .search .txt {
+  width: 3.13rem;
+  height: 0.54rem;
+  border: none;
+  border-radius: 0.03rem;
+  font-size: 0.24rem;
+  padding: 0 0.7rem 0 0.19rem;
+  color: #666666;
+}
+header .search .search-btn {
+  width: 0.7rem;
+  height: 0.54rem;
+  display: block;
+  background: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-radius: 0 3px 3px 0;
+}
+header .search .search-btn span {
+  width: 0.27rem;
+  height: 0.26rem;
+  display: block;
+  background: url(//himg.china.cn/img/env2/mobile/search.png) no-repeat 0 0;
+  background-size: 100%;
+  margin: 0.14rem 0 0 0.2rem;
+}
+header.title-header {
+  position: relative;
+  text-align: center;
+  line-height: 0.8rem;
+}
+header.title-header .back {
+  width: 0.18rem;
+  height: 0.34rem;
+  display: block;
+  background: url(//himg.china.cn/img/env2/mobile/back.png) no-repeat 0 0;
+  background-size: 100%;
+  position: absolute;
+  left: 0.2rem;
+  top: 0.22rem;
+}
+header.title-header span {
+  font-size: 0.3rem;
+  color: #fff;
+}
+footer {
+  border-top: 1px solid #eeeeee;
+  background: #fff;
+  padding: 0.22rem 0 0.2rem;
+}
+footer p {
+  text-align: center;
+  line-height: 0.36rem;
+  font-size: 0.2rem;
+  color: #999999;
+}
+footer p a {
+  color: #666666;
+  margin: 0 0.26rem;
+  font-size: 0.24rem;
+}
+footer p.links {
+  color: #ddd;
+}
+footer p.links1 {
+  margin: 0.15rem 0;
+}
+.product-list {
+  background: #fff;
+}
+.product-list ul > li {
+  width: 100%;
+  height: 0.72rem;
+  line-height: 0.72rem;
+  position: relative;
+}
+.product-list ul > li a {
+  font-size: 0.3rem;
+  color: #333333;
+  width: 6.2rem;
+  height: 0.72rem;
+  display: block;
+  padding: 0 0 0 0.2rem;
+}
+.product-list ul > li a i {
+  width: 0.12rem;
+  height: 0.22rem;
+  display: block;
+  position: absolute;
+  right: 0.2rem;
+  top: 0.25rem;
+  background: url(//himg.china.cn/img/env2/mobile/icon-in.png) left top no-repeat;
+  background-size: 100%;
+}
+.page {
+  width: 100%;
+  height: 0.9rem;
+  border-top: 1px solid #eeeeee;
+}
+.page li {
+  width: 33.33333333%;
+  float: left;
+  text-align: center;
+  line-height: 0.9rem;
+  border-left: 1px solid #eeeeee;
+  margin: 0 0 0 -1px;
+  font-size: 0.3rem;
+  color: #999999;
+  font-family: "Arial, Helvetica, sans-serif";
+}
+.page li.pagenum {
+  background: #fff;
+}
+.page li.pagenum span.current {
+  color: #333333;
+}
+.page li a {
+  color: #333333;
+}
+.tab-key {
+  width: 100%;
+  height: 0.7rem;
+  border-bottom: 1px solid #eeeeee;
+  font-family: "Arial, Helvetica, sans-serif";
+}
+.tab-key li {
+  width: 25%;
+  float: left;
+  text-align: center;
+  line-height: 0.7rem;
+  font-size: 0.3rem;
+  color: #666666;
+}
+.tab-key li a {
+  color: #666666;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.tab-key li a.current {
+  border-bottom: solid 2px #d41313;
+  color: #333333;
+}
+.key-word {
+  margin: 1px 0 0 0;
+  font-family: "Arial, Helvetica, sans-serif";
+}
+.key-word span.initials {
+  width: 96%;
+  height: 0.8rem;
+  display: block;
+  line-height: 0.8rem;
+  padding: 0 0 0 4%;
+  font-size: 0.3rem;
+  color: #333333;
+  background: #fff;
+}
+.key-word .detail-list {
+  padding: 0.2rem 0 0 0;
+  background: #f5f5f5;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+.key-word .detail-list a {
+  padding: 0 0.2rem;
+  height: 0.52rem;
+  line-height: 0.52rem;
+  color: #666666;
+  border: 1px solid #eeeeee;
+  float: left;
+  margin: 0 0 0.2rem 0.2rem;
+  background: #fff;
+}
+.key-word .detail-list:last-child {
+  border-bottom: none;
+}
