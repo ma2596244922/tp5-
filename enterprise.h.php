@@ -1073,11 +1073,12 @@ function enterprise_route($smarty, $siteId, $platform, $originalDomainSuffix, $c
 /**
  * 移动跳转
  */
-function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix)
+function enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode = 'en')
 {
     if ($userAgent->isMobile()
             && $platform == ENTERPRISE_PLATFORM_PC) {
-        header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://m.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
+        $host = enterprise_build_alternate_mobile_host($langCode, $currentDomainSuffix);
+        header('Location: ' . $_SERVER['REQUEST_SCHEME'] . '://' . $host . $_SERVER['REQUEST_URI']);
         exit(1);
     }
 }
@@ -1826,7 +1827,7 @@ function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $plat
 
     $siteId = $site['site_id'];
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $tplPath = enterprise_decide_template_path($smarty, $site, $platform, '/contactus.tpl');
     if (!$tplPath)
@@ -1857,7 +1858,7 @@ function enterprise_action_sets_contactus_proc($smarty, $site, $userAgent, $plat
  */
 function enterprise_action_sets_aboutus_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $siteId = $site['site_id'];
 
@@ -1974,7 +1975,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     $siteId = $site['site_id'];
 
     if ($pageType != ENTERPRISE_PRODUCT_PAGE_TYPE_PIC)// No mobile page for /pic-*
-        enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+        enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $templateName = $site['template'];
 
@@ -2141,7 +2142,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     $siteId = $site['site_id'];
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $templateName = $site['template'];
 
@@ -2301,7 +2302,7 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 {
     $siteId = $site['site_id'];
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $templateName = $site['template'];
 
@@ -2461,7 +2462,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
 {
     $siteId = $site['site_id'];
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $templateName = $site['template'];
 
@@ -2553,7 +2554,7 @@ function enterprise_action_sets_contactnow_proc($smarty, $site, $userAgent, $pla
 
     $siteId = $site['site_id'];
 
-    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix);
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
 
     $tplPath = enterprise_decide_template_path($smarty, $site, $platform, '/contactnow.tpl');
     if (!$tplPath)
