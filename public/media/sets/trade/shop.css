@@ -662,5 +662,6 @@ h1,h2{ display:inline;}
 .contact-us,.new-products,.recom-product,.search-product { margin:10px auto 0 auto; }
 .div_height1 { height:24px; width:100%; }
 
-
-
+/*20180227gai_mal*/
+.product-map{ margin-bottom:6px;}
+.mal_clear { clear:both; height:0; width:0px; line-height:0; font-size:0;}
