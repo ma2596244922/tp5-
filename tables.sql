@@ -273,6 +273,7 @@ CREATE TABLE `enterprise_sites` (
   `floating_widget_url` varchar(45) NOT NULL COMMENT '漂浮框URL',
   `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)',
   `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 
@@ -513,6 +514,7 @@ CREATE TABLE `enterprise_fr_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='法语-站点表';
 
@@ -626,6 +628,7 @@ CREATE TABLE `enterprise_pt_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='葡语-站点表';
 
@@ -739,6 +742,7 @@ CREATE TABLE `enterprise_es_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='西班牙语-站点表';
 
@@ -853,6 +857,7 @@ CREATE TABLE `enterprise_zh_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='中文-站点表';
 
@@ -967,6 +972,7 @@ CREATE TABLE `enterprise_ar_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿拉伯语-站点表';
 
@@ -1081,6 +1087,7 @@ CREATE TABLE `enterprise_ru_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='俄语-站点表';
 
@@ -1195,6 +1202,7 @@ CREATE TABLE `enterprise_el_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='希腊语-站点表';
 
@@ -1308,6 +1316,7 @@ CREATE TABLE `enterprise_id_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='印尼语-站点表';
 
@@ -1422,6 +1431,7 @@ CREATE TABLE `enterprise_th_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='泰语-站点表';
 
@@ -1536,6 +1546,7 @@ CREATE TABLE `enterprise_uk_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='乌克兰语-站点表';
 
@@ -1650,6 +1661,7 @@ CREATE TABLE `enterprise_de_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='德语-站点表';
 
@@ -1764,6 +1776,7 @@ CREATE TABLE `enterprise_it_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='意大利语-站点表';
 
@@ -1878,6 +1891,7 @@ CREATE TABLE `enterprise_sq_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='阿尔巴尼亚语-站点表';
 
@@ -1992,6 +2006,7 @@ CREATE TABLE `enterprise_sv_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='瑞典语-站点表';
 
@@ -2106,6 +2121,7 @@ CREATE TABLE `enterprise_tr_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='土耳其语-站点表';
 
@@ -2220,6 +2236,7 @@ CREATE TABLE `enterprise_ja_sites` (
   `product_meta_description` text NOT NULL COMMENT '产品页D',
   `contact_content` text NOT NULL COMMENT '联系页替代正文',
   `index_products` text NOT NULL COMMENT '首页推荐产品ID清单（JSON）',
+  `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日语-站点表';
 

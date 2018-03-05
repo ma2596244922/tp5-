@@ -26,6 +26,8 @@
 
     <link href="media/css/profile.css" rel="stylesheet" type="text/css" />
 
+    <link rel="stylesheet" type="text/css" href="media/css/multi-select-metro.css" />
+
     <!-- END PAGE LEVEL STYLES -->
 
     <link rel="shortcut icon" href="media/image/favicon.ico" />
@@ -254,6 +256,14 @@
                                                                 <label class="control-label">默认的语言代码</label>
 
                                                                 <input type="text" name="default_lang_code" class="m-wrap span2" value="{$site.default_lang_code}" />
+
+                                                                <label class="control-label">隐藏分组</label>
+
+                                                                <select class="span8 m-wrap" multiple="multiple" name="hidden_group_id_array[]" id="multi-select-group-id" data-placeholder="请选择产品分组">
+    {-section name=i loop=$groups}
+                                                                    <option value="{$groups[i].id}"{if array_key_exists($groups[i].id, $hidden_groups)} selected{/if}>{$groups[i].name}</option>
+    {-/section}
+                                                                </select>
 {/if}
                                                                 <div class="submit-btn">
 
@@ -331,6 +341,8 @@
 
     <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
 
+    <script type="text/javascript" src="media/js/jquery.multi-select.js"></script>  
+
     <!-- END PAGE LEVEL PLUGINS -->
 
     <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -359,6 +371,13 @@
            $('#textarea-desc_4_inquiry_sender').ckeditor(additionalConfig);
            $('#textarea-contact_content').ckeditor(additionalConfig);
 
+           var options = {
+                'afterInit': function() {
+                    this.$selectableUl.height(500);
+                    this.$selectionUl.height(500);
+                }
+           }
+           $('#multi-select-group-id').multiSelect(options);
         });
 
     </script>{/literal}

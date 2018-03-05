@@ -27,6 +27,7 @@
         <!--product-detail-->
 {include file="sets/trade/common/contactform.tpl"}
 {include file="sets/trade/common/main_products.tpl"}
+{include file="sets/trade/common/hidden_groups.tpl"}
     </div>
     <!--container-->
 </div>

@@ -47,6 +47,7 @@ class Site extends \crawler\daos\AbstractDAO
             'enable_floating_widget' => 'tinyint',
             'floating_widget_url' => 'text',
             'disable_group_dk' => 'tinyint',
+            'hidden_groups' => 'json',
         );
 
     public function getTableName()

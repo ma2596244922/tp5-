@@ -95,7 +95,7 @@ retry:
                 case 'hide_track':
                     return enterprise_admin_action_hide_track($smarty, $langCode);
                 case 'info':
-                    return enterprise_admin_action_info($smarty, $langCode);
+                    return enterprise_admin_action_info($smarty, $site, $langCode);
                 case 'password':
                     return enterprise_admin_action_password($smarty);
                 case 'inquiry':

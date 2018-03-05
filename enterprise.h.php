@@ -1627,6 +1627,23 @@ function enterprise_response_replace_group_list($smarty, $siteId, $response)
 /* }}} */
 
 /* {{{ Site Info */
+
+/**
+ * Extract hidden groups from site info
+ *
+ * @return array
+ */
+function enterprise_extract_hidden_groups($site)
+{
+    if (!array_key_exists('hidden_groups', $site))
+        return [];
+    $retval = json_decode($site['hidden_groups'], true);
+    if (!$retval)
+        return [];
+
+    return $retval;
+}
+
 /**
  * Site Info - Get characteristic of group list
  */
@@ -1781,6 +1798,9 @@ function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentD
     // Site lang codes
     $siteLangCodes = ($site['lang_codes']?json_decode($site['lang_codes'], true):array());
     $smarty->assign('site_lang_codes', $siteLangCodes);
+
+    $hiddenGroupIdMapping = enterprise_extract_hidden_groups($site);
+    $smarty->assign('hidden_groups', $hiddenGroupIdMapping);
 
     // Language Code
     $smarty->assign('lang_code', $langCode);

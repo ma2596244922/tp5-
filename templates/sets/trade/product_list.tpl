@@ -46,6 +46,7 @@
         </div>
         <!--main-content--> 
 {include file="sets/trade/common/main_products.tpl"}
+{include file="sets/trade/common/hidden_groups.tpl"}
     </div>
     <!--container--> 
 </div>

@@ -665,3 +665,11 @@ h1,h2{ display:inline;}
 /*20180227gai_mal*/
 .product-map{ margin-bottom:6px;}
 .mal_clear { clear:both; height:0; width:0px; line-height:0; font-size:0;}
+/*跑马灯*/
+.newsticker{width: 100%; height: 28px; position: relative; top: 15px;}
+.newsticker .marquee-sibling{font-size: 16px; font-weight: bold; color: #333; line-height: 28px; float: left; width: 85px; margin-right: 17px; padding-left: 20px; background: url(/media/sets/trade/newstickericon.png) left 6px no-repeat;}
+.wrapper{white-space: nowrap; overflow: hidden; width: 825px; float: left;}
+.inner{overflow:hidden;}
+.inner .marquee-links{font-size: 14px; line-height: 28px; color: #666; display:inline-block; box-sizing: content-box;}
+.inner .marquee-links a{color: #666; text-decoration: none; padding-right: 22px;}
+.inner .marquee-links a:hover{color: #546277;}

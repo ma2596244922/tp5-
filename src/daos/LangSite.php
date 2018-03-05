@@ -26,6 +26,7 @@ class LangSite extends \crawler\daos\AbstractDAO
             'contact_content' => 'text',
             'index_products' => 'json',
             'product_cnt' => 'int',
+            'hidden_groups' => 'json',
         );
 
     private $_langCode = '';

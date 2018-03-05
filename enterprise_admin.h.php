@@ -447,14 +447,20 @@ function enterprise_admin_action_favicon($smarty)
     $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);
 }
+
 /**
  * Change info
  */
-function enterprise_admin_action_info($smarty, $langCode)
+function enterprise_admin_action_info($smarty, $site, $langCode)
 {
     $tplPath = 'admin/info.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+    $hiddenGroupIdMapping = enterprise_extract_hidden_groups($site);
+    $smarty->assign('hidden_groups', $hiddenGroupIdMapping);
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
@@ -490,6 +496,7 @@ function enterprise_admin_action_info($smarty, $langCode)
     $pUrlPrefix = timandes_get_post_data('purl_prefix');
     $gUrlPrefix = timandes_get_post_data('gurl_prefix');
     $defaultLangCode = timandes_get_post_data('default_lang_code');
+    $roughHiddenGroupIdArray = timandes_get_post_data('hidden_group_id_array');
 
     if (!$defaultLangCode)
         $defaultLangCode = ENTERPRISE_DEFAULT_LANG_CODE;
@@ -499,6 +506,16 @@ function enterprise_admin_action_info($smarty, $langCode)
 
     if (!$name)
         throw new \RuntimeException("公司名称不能为空");
+
+    // Filter hidden_group_id_array
+    if (!is_array($roughHiddenGroupIdArray))
+        $roughHiddenGroupIdArray[] = $roughHiddenGroupIdArray;
+    $hiddenGroupIdMapping = array();
+    foreach ($roughHiddenGroupIdArray as $id) {
+        $id = (int)$id;
+        if ($id)
+            $hiddenGroupIdMapping[$id] = true;
+    }
 
     $langCorporationDAO = (($langCode == 'en')?null:new \enterprise\daos\LangCorporation($langCode));
 
@@ -564,6 +581,7 @@ function enterprise_admin_action_info($smarty, $langCode)
     $values = array(
             'desc_4_inquiry_sender' => $desc4InquirySender,
             'contact_content' => $contactContent,
+            'hidden_groups' => $hiddenGroupIdMapping,
             'updated' => date('Y-m-d H:i:s'),
         );
     $siteDAO->update($userSiteId, $values);
@@ -585,6 +603,8 @@ function enterprise_admin_action_info($smarty, $langCode)
     $site['gurl_prefix'] = $gUrlPrefix;
     $site['default_lang_code'] = $defaultLangCode;
     $smarty->assign('site', $site);
+
+    $smarty->assign('hidden_groups', $hiddenGroupIdMapping);
     
     $smarty->assign('success_msg', '修改成功');
     $smarty->display($tplPath);

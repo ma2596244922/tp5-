@@ -1,3 +1,21 @@
+-- 2018-3-5
+ALTER TABLE `enterprise_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_fr_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_pt_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_es_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_zh_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_ar_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_ru_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_el_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_id_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_th_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_uk_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_de_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_it_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_sq_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_sv_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_tr_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
+ALTER TABLE `enterprise_ja_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
 -- 2018-2-13
 ALTER TABLE `enterprise_keywords` 
   ADD COLUMN `alphabet` tinyint NOT NULL COMMENT '字母表类型' AFTER `has_desc`,

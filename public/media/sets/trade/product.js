@@ -625,3 +625,48 @@ $(".recom-product .slide-more a").click(function(){
             $(this).siblings("i").removeClass("less");
             }
 })
+
+
+//跑马灯
+if ($('.newsticker').length>0) {
+    var wrapper = document.getElementById('wrapper');
+    var inner = wrapper.getElementsByTagName('div')[0];
+    var links = document.getElementsByTagName('p')[0];
+    var links_w = links.offsetWidth;
+    inner.style.width = links_w*2+'px';
+    console.log(inner.style.width);
+    console.log('links_w=' + links_w);
+    var wrapper_w = wrapper.offsetWidth;
+    console.log('wrapper_w=' + wrapper_w);
+    inner.innerHTML+=inner.innerHTML;
+    function Marquee(){
+      if(wrapper_w > links_w){ return false;}
+      // setTimeout("Marquee1()",0); 
+      if(links_w > wrapper.scrollLeft){
+        wrapper.scrollLeft++;
+        // setTimeout("Marquee1()",10);
+      }
+      else{
+        // setTimeout("Marquee2()",0);
+        wrapper.scrollLeft=0;
+      } 
+    }
+    // function Marquee1(){    
+    //   // console.log(wrapper.scrollLeft);
+    //   if(links_w > wrapper.scrollLeft){
+    //     wrapper.scrollLeft++;
+    //     setTimeout("Marquee1()",10);
+    //   }
+    //   else{
+    //     setTimeout("Marquee2()",0);
+    //   }
+    // }
+    // function Marquee2(){
+    //   wrapper.scrollLeft=0;
+    //   Marquee1();
+    // }
+    // Marquee();
+    var MyMar = setInterval(Marquee,10); 
+    inner.onmouseover = function(){clearInterval(MyMar)}  
+    inner.onmouseout = function(){MyMar = setInterval(Marquee,10)}
+}
