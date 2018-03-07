@@ -493,6 +493,48 @@ function enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $origin
     exit(0);
 }
 
+function enterprise_get_keywords_generator($userSiteId, $langCode, $alphabet)
+{
+    $curKeywordId = 0;
+    do {
+        //if ($langCode == 'en')
+            $keywords = enterprise_get_keyword_list($userSiteId, $langCode, $alphabet, 1, 100, "`id`>{$curKeywordId}", '`id` ASC');
+        //else {
+            //$keywords = enterprise_get_keyword_list($userSiteId, $langCode, $alphabet, 1, 100, "elp.`keyword_id`>{$curKeywordId}", 'elp.`keyword_id` ASC', enterprise_keyword_transform_field_list_for_lang_site($extraFieldList));
+        //}
+        if (!$keywords)
+            break;
+
+        foreach ($keywords as $keyword) {
+            yield $keyword;
+
+            $curKeywordId = $keyword['id'];
+        }
+    } while(true);
+}
+
+/**
+ * 展示Sitemap页面
+ */
+function enterprise_action_sitemap_keyword_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $no = 1)
+{
+    $site = enterprise_get_site_info($siteId, $langCode);
+    enterprise_define_url_pattern_constants($site);
+
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset();
+
+    $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
+    $keywords = enterprise_get_keyword_list($siteId, $langCode, $alphabet, $no, ENTERPRISE_SITEMAP_MAX_URLS_PER_FILE, null, '`id` ASC');
+    if ($keywords) foreach ($keywords as $keyword) {
+        $loc = enterprise_url_product_search($keyword['keyword']);
+        $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
+        $urlSet->addUrl($url);
+    }
+
+    header('Content-Type: text/xml; utf-8');
+    echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($urlSet);
+    exit(0);
+}
 
 /**
  * 以Sitemap格式输出全部分组的URL
@@ -1258,6 +1300,13 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
         else
             $no = 1;
         enterprise_action_sitemap_proc_2($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $no);// Terminated
+    } elseif (preg_match('/^\/sitemap\/keywords-([A-Z]|number)(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
+        $firstChar = $matches[1];
+        if (isset($matches[3]))
+            $no = (int)$matches[3];
+        else
+            $no = 1;
+        enterprise_action_sitemap_keyword_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $no);// Terminated
     } elseif ($requestPath == '/favicon.ico') {
         header('Content-Type: image/x-icon');
         if ($site['favicon'])
@@ -3306,6 +3355,20 @@ function enterprise_get_index_keyword_info($userVoiceId, $langCode = 'en')
  */
 function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en', $pageNo = 1, $pageSize = 10, $alphabet = null)
 {
+    $condition = '';
+    $keywords = enterprise_get_keyword_list($siteId, $langCode, $alphabet, $pageNo, $pageSize, null, '`id` DESC', $condition);
+    $smarty->assign($var, $keywords);
+
+    return $condition;
+}
+
+/**
+ * Get Keyword List
+ *
+ * @return array
+ */
+function enterprise_get_keyword_list($siteId, $langCode, $alphabet, $pageNo, $pageSize, $extraCondition = null, $orderBy = null, &$condition = '')
+{
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
 
@@ -3314,15 +3377,15 @@ function enterprise_assign_keyword_list($smarty, $var, $siteId, $langCode = 'en'
         $condition = "`site_id`={$siteId} AND `deleted`=0";
         if (isset($alphabet))
             $condition .= " AND `alphabet`=" . (int)$alphabet;
-        $keywords = $keywordDAO->getMultiInOrderBy($condition, '`id`, `keyword`, `has_desc`, `created`, `updated`', '`id` DESC', $pageSize, $start);
+        if (isset($extraCondition))
+            $condition .= ' AND ' . $extraCondition;
+        $keywords = $keywordDAO->getMultiInOrderBy($condition, '`id`, `keyword`, `has_desc`, `created`, `updated`', $orderBy, $pageSize, $start);
     /*} else {
         $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
         $condition = "eluv.`site_id`={$siteId} AND eluv.`deleted`=0";
         $keywords = $keywordDAO->getMultiInOrderBy($condition, 'euv.`id`, eluv.*', 'eluv.`keyword_id` DESC', $pageSize, $start);
     }*/
-    $smarty->assign($var, $keywords);
-
-    return $condition;
+    return $keywords;
 }
 
 /**
