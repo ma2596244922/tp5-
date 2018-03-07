@@ -74,7 +74,7 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
     if ($sitemapLocale == 'index') {
         if ($omsSite
                 && $omsSite['crawled'])
-            enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
+            enterprise_action_sitemap_index_proc($siteId, $omsSite, $platform, $langCode, $currentDomainSuffix);// Terminated
     } elseif ($sitemapLocale == 'product') {} // 仅非抓取站支持
     elseif ($sitemapLocale == 'group') {
         if ($omsSite
@@ -158,7 +158,7 @@ retry:
         $attrDir = ($dir=='rtl'?' dir="rtl"':'');
         $smarty->assign('html_attr_dir', $attrDir);
 
-        $response = enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
+        $response = enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $pathSum);
         if (null === $response) {
             if (DBG_MODE)
                 echo '<p>Continue routing ... (#EmptyResponse)</p>';

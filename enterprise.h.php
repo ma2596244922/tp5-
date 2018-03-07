@@ -382,7 +382,7 @@ function enterprise_set_default_lang_code($langCode)
 /**
  * 展示Sitemap Index页面
  */
-function enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix)
+function enterprise_action_sitemap_index_proc($siteId, $omsSite, $platform, $langCode, $currentDomainSuffix)
 {
     $translationDAO = new \crawler\daos\Translation();
     $sitemapIndex = new \Thepixeldeveloper\Sitemap\SitemapIndex(); 
@@ -418,6 +418,16 @@ function enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $cu
     $loc = enterprise_url_sitemap($currentDomainSuffix, 'group');
     $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
     $sitemapIndex->addSitemap($sitemap);
+
+    // Keyword List
+    if (!$omsSite
+                || !$omsSite['crawled']) {// 非爬取
+        foreach (KEYWORD_ALPHABET as $char => $v) {
+            $loc = enterprise_url_sitemap($currentDomainSuffix, 'keywords-' . $char);
+            $sitemap = (new \Thepixeldeveloper\Sitemap\Sitemap($loc));
+            $sitemapIndex->addSitemap($sitemap);
+        }
+    }
 
     header('Content-Type: text/xml; utf-8');
     echo (new \Thepixeldeveloper\Sitemap\Output())->getOutput($sitemapIndex);
@@ -1164,7 +1174,7 @@ function enterprise_iparea_get_info_from_addr($ipv4Addr)
  *
  * @return string Response
  */
-function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $requestPathSum)
+function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $requestPathSum)
 {
     // Non-pages
     if (preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
@@ -1241,7 +1251,7 @@ function enterprise_route_2($smarty, $site, $userAgent, $siteId, $platform, $lan
     } elseif ($requestPath == '/sitemap/group.xml') {
         enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     } elseif ($requestPath == '/sitemap/index.xml') {
-        enterprise_action_sitemap_index_proc($siteId, $platform, $langCode, $currentDomainSuffix);// Terminated
+        enterprise_action_sitemap_index_proc($siteId, $omsSite, $platform, $langCode, $currentDomainSuffix);// Terminated
     } elseif (preg_match('/^\/sitemap\/product(-([0-9]+))?\.xml$/', $requestPath, $matches)) {
         if (isset($matches[2]))
             $no = (int)$matches[2];
