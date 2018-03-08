@@ -26,7 +26,7 @@ function xss_clean_4_site_owner($s)
 {
     $antiXss = new voku\helper\AntiXSS();
     $antiXss->removeEvilAttributes(array('style'));
-    $antiXss->removeEvilHtmlTags(array('iframe'));
+    $antiXss->removeEvilHtmlTags(array('iframe', 'video'));
     return $antiXss->xss_clean($s);
 }
 

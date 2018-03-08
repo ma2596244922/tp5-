@@ -224,7 +224,7 @@
 
             var additionalConfig = {
                 filebrowserUploadUrl: '?action=upload_image',
-                extraPlugins: 'videoembed',
+                extraPlugins: 'videoembed,html5video',
                 extraAllowedContent: 'iframe[*]'
             };
            $('#textarea-desc').ckeditor(additionalConfig);
