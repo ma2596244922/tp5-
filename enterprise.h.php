@@ -2491,20 +2491,7 @@ function enterprise_assign_user_voices($smarty, $var, $site, $userVoices = null)
     if (!$userVoices)
         $userVoices = enterprise_get_user_voices($smarty, $site);
     if (!$userVoices)
-        $userVoices = array(
-                array(
-                        'title' => 'Victor',
-                        'voice' => 'I want to say that your products very good. Thank you for all your suggestion, also good after sales service.',
-                    ),
-                array(
-                        'title' => 'Ms. Smith',
-                        'voice' => 'The company considerate after-sales service ,And try their best to meet the requirement of customers. We will be a long-term cooperation.',
-                    ),
-                array(
-                        'title' => 'Mr. Johnifere',
-                        'voice' => 'We trust the quality of your products. It always the best. Keep this going, and we will establish a long-term trade relationship with you.',
-                    ),
-            );
+        $userVoices = enterprise_get_default_user_voice_list();
 
     $smarty->assign($var, $userVoices);
 }
@@ -2559,7 +2546,10 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     enterprise_assign_banner_list($smarty, 'banners', $siteId);
 
     // Users' voices
-    enterprise_assign_user_voice_list($smarty, 'user_voices', $siteId, $langCode, 1, 3);
+    $userVoices = enterprise_get_user_voice_list($siteId, $langCode, 3, 1);
+    if (!$userVoices)
+        $userVoices = enterprise_get_default_user_voice_list();
+    $smarty->assign('user_voices', $userVoices);
 
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
@@ -3135,6 +3125,28 @@ ORDER BY ln.`news_id` DESC";
 
 /* {{{ UserVoice */
 
+/**
+ * Get default user-voice list
+ *
+ * @return array
+ */
+function enterprise_get_default_user_voice_list()
+{
+    return array(
+            array(
+                    'title' => 'Victor',
+                    'voice' => 'I want to say that your products very good. Thank you for all your suggestion, also good after sales service.',
+                ),
+            array(
+                    'title' => 'Ms. Smith',
+                    'voice' => 'The company considerate after-sales service ,And try their best to meet the requirement of customers. We will be a long-term cooperation.',
+                ),
+            array(
+                    'title' => 'Mr. Johnifere',
+                    'voice' => 'We trust the quality of your products. It always the best. Keep this going, and we will establish a long-term trade relationship with you.',
+                ),
+        );
+}
 /**
  * Assign UserVoice List
  */
