@@ -29,7 +29,7 @@
                         <th>域名</th>
                         <th>&nbsp;</th>
                     </tr>
-{foreach $supported_lang_codes as $lc => $meta}
+{foreach $supported_lang_codes as $lc => $meta}{if $site_lang_codes.$lc|default:'0'=='0'}{continue}{/if}
                     <tr data-role="lang-site" data-domain="{$lc}.{$site_mappings[0].domain}">
                         <td>{$meta.label}</td>
                         <td>{$lc}.{$site_mappings[0].domain}</td>
