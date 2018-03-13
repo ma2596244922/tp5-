@@ -150,9 +150,15 @@ function proc_oms_task()
 
     $baseDateTime = date('Y-m-d H:i:s');
 
+    $tdkTemplateDAO = new \oms\daos\TDKTemplate();
+    $condition = "`deleted`=0";
+    $tdkTemplates = $tdkTemplateDAO->getMultiBy($condition);
+    $tdkTemplateCnt = count($tdkTemplates);
+
     $taskDAO = new \oms\daos\Task();
     $condition = "`deleted`=0 AND `status`=" . \oms\daos\Task::STATUS_PENDING . " AND `delay_until`<='{$baseDateTime}'";
     $batchSize = 1;
+    $tdkTemplateCounter = 0;
     do {
         $tasks = $taskDAO->getMultiBy($condition, $batchSize);
         if (!$tasks)
@@ -176,7 +182,12 @@ function proc_oms_task()
             $id = trim($id);
             if (!$id)
                 continue;
-            duplicate_product_source_group($id, $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0, (bool)$details['update_purl_prefix']);
+
+            $tdkTpl = ((isset($details['random_tdk']) && $details['random_tdk'])?$tdkTemplates[$tdkTemplateCounter++]:null);var_dump($tdkTpl);
+            duplicate_product_source_group($id, $details['source_lang_code'], $details['target_site_id'], $details['target_group_id'], $details['target_lang_code'], 0, (bool)$details['update_purl_prefix'], $tdkTpl);
+
+            if ($tdkTemplateCounter >= $tdkTemplateCnt)
+                $tdkTemplateCounter = 0; // Reset counter
         }
 
 

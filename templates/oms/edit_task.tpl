@@ -89,6 +89,18 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">TDK随机变更：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="random_tdk" value="1"{if $task_details.random_tdk|default:'1'=='1'} checked{/if}>随机更换TDK
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="random_tdk" value="0"{if $task_details.random_tdk|default:'1'=='0'} checked{/if}>保持不变
+                            </label>
+                            <a href="?action=tdk_template" target="_blank" class="btn btn-link">点击增加TDK模板</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

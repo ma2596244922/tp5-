@@ -1367,6 +1367,7 @@ function enterprise_oms_action_edit_task($smarty)
     $target_lang_code = timandes_get_post_data('target_lang_code');
     $delay_until = timandes_get_post_data('delay_until');
     $update_purl_prefix = (int)timandes_get_post_data('update_purl_prefix');
+    $random_tdk = (int)timandes_get_post_data('random_tdk');
 
     if ($taskId) // Edit
         $target_site_id = (int)$target_site_id;
@@ -1412,6 +1413,7 @@ function enterprise_oms_action_edit_task($smarty)
             'target_site_id' => $target_site_id,
             'target_lang_code' => $target_lang_code,
             'update_purl_prefix' => $update_purl_prefix,
+            'random_tdk' => $random_tdk,
         );
 
     $values = array(

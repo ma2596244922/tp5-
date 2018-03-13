@@ -9,7 +9,7 @@
 /**
  * 复制源分组
  */
-function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $targetSiteId, $targetGroupId, $targetLangCode, $fromProductId, $updatePUrlPrefix = true)
+function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $targetSiteId, $targetGroupId, $targetLangCode, $fromProductId, $updatePUrlPrefix = true, $tdkTemplate = null)
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
 
@@ -40,8 +40,13 @@ function duplicate_product_source_group($sourceGroupId, $sourceLangCode, $target
         // Product URL Prefix
         $pUrlPrefix = ($updatePUrlPrefix?'happy':$sourceGroup['purl_prefix']);
 
+        // Product TDK
+        $productHtmlTitle = (isset($tdkTemplate['html_title'])?$tdkTemplate['html_title']:$sourceGroup['product_html_title']);
+        $productMetaKeywords = (isset($tdkTemplate['meta_keywords'])?$tdkTemplate['meta_keywords']:$sourceGroup['product_meta_keywords']);
+        $productMetaDescription = (isset($tdkTemplate['meta_description'])?$tdkTemplate['meta_description']:$sourceGroup['product_meta_description']);
+
         // Duplicate Group
-        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path'], $pUrlPrefix, $sourceGroup['product_html_title'], $sourceGroup['product_meta_keywords'], $sourceGroup['product_meta_description']);
+        $targetGroupId = enterprise_admin_save_group($targetLangCode, 0, $sourceGroup['name'], $targetSiteId, $sourceGroup['path'], $pUrlPrefix, $productHtmlTitle, $productMetaKeywords, $productMetaDescription);
         if ($verbose >= 2)
             fprintf(STDOUT, "Target group #{$targetGroupId} created" . PHP_EOL);
     } else {// Use Existing Group
