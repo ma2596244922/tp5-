@@ -80,6 +80,12 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_threatening_target($smarty);
                 case 'threatening_target':
                     return enterprise_oms_action_threatening_target($smarty);
+                case 'remove_tdk_template':
+                    return enterprise_oms_action_remove_tdk_template($smarty);
+                case 'edit_tdk_template':
+                    return enterprise_oms_action_edit_tdk_template($smarty);
+                case 'tdk_template':
+                    return enterprise_oms_action_tdk_template($smarty);
                 case 'edit_industry':
                     return enterprise_oms_action_edit_industry($smarty);
                 case 'industry':
@@ -1517,6 +1523,100 @@ function enterprise_oms_action_remove_threatening_target($smarty)
     $threateningTargetDAO->update($threateningTargetId, $values);
 
     enterprise_oms_display_success_msg($smarty, '保存成功', '?action=threatening_target', '询盘黑名单');
+}
+/* }}} */
+
+
+/* {{{ TDKTemplates */
+/**
+ * Assign TDKTemplate List
+ */
+function enterprise_oms_assign_tdk_template_list($smarty, $var)
+{
+    $tdkTemplateDAO = new \oms\daos\TDKTemplate();
+    $condition = "`deleted`=0";
+    $tdkTemplates = $tdkTemplateDAO->getMultiInOrderBy($condition, '*', '`id` DESC');
+    $smarty->assign($var, $tdkTemplates);
+}
+
+/**
+ * Assign TDKTemplate Info
+ */
+function enterprise_oms_assign_tdk_template_info($smarty, $var, $tdkTemplateId)
+{
+    $tdkTemplateDAO = new \oms\daos\TDKTemplate();
+    $tdkTemplate = $tdkTemplateDAO->get($tdkTemplateId);
+    $smarty->assign($var, $tdkTemplate);
+}
+
+/**
+ * TDKTemplates
+ */
+function enterprise_oms_action_tdk_template($smarty)
+{
+    enterprise_oms_assign_tdk_template_list($smarty, 'tdk_templates');
+
+    $smarty->display('oms/tdk_template.tpl');
+}
+
+/**
+ * Edit TDKTemplate
+ */
+function enterprise_oms_action_edit_tdk_template($smarty)
+{
+    $tdkTemplateId = (int)timandes_get_query_data('tdk_template_id');
+
+    $submitted = (int)timandes_get_post_data('submit');
+    if (!$submitted) {
+        if ($tdkTemplateId)
+            enterprise_oms_assign_tdk_template_info($smarty, 'tdk_template', $tdkTemplateId);
+
+        $smarty->assign('tdk_template_id', $tdkTemplateId);
+
+        return $smarty->display('oms/edit_tdk_template.tpl');
+    }
+
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
+
+    if (!$htmlTitle
+            && !$metaKeywords
+            && !$metaDescription)
+        throw new \RuntimeException("TDK请至少填写一项");
+
+    $values = array(
+            'html_title' => $htmlTitle,
+            'meta_keywords' => $metaKeywords,
+            'meta_description' => $metaDescription,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $tdkTemplateDAO = new \oms\daos\TDKTemplate();
+    if ($tdkTemplateId) {
+        $tdkTemplateDAO->update($tdkTemplateId, $values);
+    } else {
+        $values['created'] = $values['updated'];
+        $tdkTemplateId = $tdkTemplateDAO->insert($values);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=tdk_template', 'TDK模板');
+}
+
+/**
+ * Remove TDKTemplate
+ */
+function enterprise_oms_action_remove_tdk_template($smarty)
+{
+    $tdkTemplateId = (int)timandes_get_query_data('tdk_template_id');
+
+    $values = array(
+            'deleted' => 1,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $tdkTemplateDAO = new \oms\daos\TDKTemplate();
+    $tdkTemplateDAO->update($tdkTemplateId, $values);
+
+    enterprise_oms_display_success_msg($smarty, '保存成功', '?action=tdk_template', 'TDK模板');
 }
 /* }}} */
 

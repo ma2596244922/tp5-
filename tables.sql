@@ -2369,6 +2369,18 @@ CREATE TABLE `oms_translation_tasks` (
   KEY `idx_get_pending` (`deleted`, `status`, `type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='翻译任务表';
 
+CREATE TABLE `oms_tdk_templates` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `html_title` text NOT NULL COMMENT '产品页T',
+  `meta_keywords` text NOT NULL COMMENT '产品页K',
+  `meta_description` text NOT NULL COMMENT '产品页D',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='TDK模板表';
+
 /* }}} */
 
 /* {{{ Hide */

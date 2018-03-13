@@ -16,6 +16,7 @@
                                 <li{if $page_name|default:''=="task"} class="active"{/if}><a href="?action=task">任务管理</a></li>
                                 <li{if $page_name|default:''=="threatening_target"} class="active"{/if}><a href="?action=threatening_target">询盘黑名单</a></li>
                                 <li{if $page_name|default:''=="translate"} class="active"{/if}><a href="?action=translate">翻译工具</a></li>
+                                <li{if $page_name|default:''=="tdk_template"} class="active"{/if}><a href="?action=tdk_template">TDK模板</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="?action=dashboard1">旧主面板</a></li>

@@ -1,3 +1,15 @@
+-- 2018-3-13
+CREATE TABLE `oms_tdk_templates` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `html_title` text NOT NULL COMMENT '产品页T',
+  `meta_keywords` text NOT NULL COMMENT '产品页K',
+  `meta_description` text NOT NULL COMMENT '产品页D',
+  `created` datetime NOT NULL COMMENT '创建时间',
+  `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`),
+  KEY `idx_deleted` (`deleted`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='TDK模板表';
 -- 2018-3-5
 ALTER TABLE `enterprise_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
 ALTER TABLE `enterprise_fr_sites` ADD COLUMN `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）';
