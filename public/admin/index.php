@@ -51,6 +51,10 @@ retry:
             $smarty->assign('oms_site', $omsSite);
             $smarty->assign('default_lang_code', $GLOBALS['gsDefaultLangCode']);
 
+            // Enabled functions
+            $siteEnabledFunctions = (isset($site['enabled_functions'])?json_decode($site['enabled_functions'], true):array());
+            $smarty->assign('site_enabled_functions', $siteEnabledFunctions);
+
             // Supported Language Codes
             $supportedLangCodes = \enterprise\daos\LangProduct::getSupportedLangCodes();
             $smarty->assign('supported_lang_codes', $supportedLangCodes);

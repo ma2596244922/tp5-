@@ -1,3 +1,5 @@
+-- 2018-3-14
+ALTER TABLE `enterprise_sites` ADD COLUMN `enabled_functions` text NOT NULL COMMENT '开启功能清单（JSON）';
 -- 2018-3-13
 CREATE TABLE `oms_tdk_templates` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',

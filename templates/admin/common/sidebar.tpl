@@ -190,7 +190,7 @@
                     </a>
 
                 </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.task|default:''}
                 <li class="start{if $page_name=='task'} active{/if}">
 
                     <a href="?action=task">
@@ -218,7 +218,7 @@
                     </a>
 
                     <ul class="sub-menu">
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.picture|default:''}
                         <li class="start{if $page_name=='picture'} active{/if}">
 
                             <a href="?action=picture">
@@ -254,7 +254,7 @@
                             </a>
 
                         </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.index_tdk|default:''}
                         <li class="start{if $page_name=='index_tdk'} active{/if}">
 
                             <a href="?action=index_tdk">
@@ -278,7 +278,7 @@
                             </a>
 
                         </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.product_tdk|default:''}
                         <li class="start{if $page_name=='product_tdk'} active{/if}">
 
                             <a href="?action=product_tdk">
@@ -302,7 +302,7 @@
                             </a>
 
                         </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.main_product|default:''}
                         <li class="start{if $page_name=='main_product'} active{/if}">
 
                             <a href="?action=main_product">
@@ -326,7 +326,7 @@
                             </a>
 
                         </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.index_keyword|default:''}
                         <li class="start{if $page_name=='index_keyword'} active{/if}">
 
                             <a href="?action=index_keyword">
@@ -338,7 +338,8 @@
                             </a>
 
                         </li>
-
+{/if}
+{if $user.advanced || $site_enabled_functions.keyword|default:''}
                         <li class="start{if $page_name=='keyword'} active{/if}">
 
                             <a href="?action=keyword">
@@ -350,7 +351,8 @@
                             </a>
 
                         </li>
-
+{/if}
+{if $user.advanced || $site_enabled_functions.hide|default:''}
                         <li class="start{if $page_name=='hide'} active{/if}">
 
                             <a href="?action=hide">
@@ -378,7 +380,7 @@
                     </a>
 
                 </li>
-{if $user.advanced}
+{if $user.advanced || $site_enabled_functions.hide_track|default:''}
                 <li class="start{if $page_name=='hide_track'} active{/if}">
 
                     <a href="?action=hide_track">

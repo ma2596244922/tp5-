@@ -237,6 +237,16 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">高级功能：</label>
+                        <div class="col-lg-4">
+{foreach $advanced_functions as $action => $meta}
+                            <label class="checkbox-inline">
+                                <input type="checkbox" name="enabled_functions[{$action}]" value="1"{if $site_enabled_functions.$action|default:'0'=='1'} checked{/if}>{$meta}
+                            </label>
+{/foreach}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

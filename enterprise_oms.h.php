@@ -5,6 +5,30 @@
  * @package timandes\enterprise
  */
 
+/** @var array 高级功能清单 */
+define('ENTERPRISE_ADVANCED_FUNCTIONS', array (
+        'edit_group_tdk' => '修改分组TDK',
+        'edit_group_desc' => '修改分组说明',
+        'export_group_products' => '导出分组产品',
+        'import_group_products' => '导入产品信息',
+        'task' => '我的任务',
+        'picture' => '图片银行',
+        'index_tdk' => '首页TDK',
+        'product_tdk' => 'TDK自行设计',
+        'main_product' => '全局主推产品',
+        'index_keyword' => '首页关键词',
+        'keyword' => '关键词列表',
+        'hide' => '屏蔽配置',
+        'hide_track' => '屏蔽记录',
+        'insert_images' => '批量插入产品图',
+        'insert_desc' => '批量插入产品描述',
+        'insert_keywords' => '批量插入关键词',
+        'replace_keywords' => '批量替换关键词',
+        'replace_terms' => '批量设置商务条款',
+        'remove_empty_caption_products' => '删除空标题产品',
+        'replace_desc_pic' => '描述图片替换',
+        'export_group_products' => '导出全站产品',
+    ));
 
 function enterprise_oms_route_2($smarty)
 {
@@ -802,6 +826,8 @@ function enterprise_oms_action_client_info($smarty)
     $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
     $smarty->assign('supported_lang_codes', $supportedLangCodes);
 
+    $smarty->assign('advanced_functions', ENTERPRISE_ADVANCED_FUNCTIONS);
+
     $submitted = (int)timandes_get_post_data('submit');
     if (!$submitted) {
         return $smarty->display('oms/client_info.tpl');
@@ -835,6 +861,7 @@ function enterprise_oms_action_client_info($smarty)
     $disable_group_dk = (int)timandes_get_post_data('disable_group_dk');
     $enable_translator = (int)timandes_get_post_data('enable_translator');
     $retranslate_whole_site = (int)timandes_get_post_data('retranslate_whole_site');
+    $enabled_functions = timandes_get_post_data('enabled_functions');
 
     $values = array(
             'desc' => $desc,
@@ -865,6 +892,7 @@ function enterprise_oms_action_client_info($smarty)
             'enable_floating_widget' => $enable_floating_widget,
             'floating_widget_url' => $floating_widget_url,
             'disable_group_dk' => $disable_group_dk,
+            'enabled_functions' => $enabled_functions,
             'updated' => date('Y-m-d H:i:s'),
         );
     $entSiteDAO = new \enterprise\daos\Site();
@@ -1109,6 +1137,9 @@ function enterprise_oms_assign_common($smarty)
 
         $siteLangCodes = ($site['lang_codes']?json_decode($site['lang_codes'], true):array());
         $smarty->assign('site_lang_codes', $siteLangCodes);
+
+        $siteEnabledFunctions = ($site['enabled_functions']?json_decode($site['enabled_functions'], true):array());
+        $smarty->assign('site_enabled_functions', $siteEnabledFunctions);
     }
 
     $types = \oms\daos\Site::getTypes();

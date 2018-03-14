@@ -274,6 +274,7 @@ CREATE TABLE `enterprise_sites` (
   `disable_group_dk` tinyint unsigned NOT NULL COMMENT '是否禁用分组页D/K(0/1)',
   `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）',
   `hidden_groups` text NOT NULL COMMENT '隐藏的分组清单（JSON）',
+  `enabled_functions` text NOT NULL COMMENT '开启功能清单（JSON）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

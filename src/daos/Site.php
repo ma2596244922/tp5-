@@ -48,6 +48,7 @@ class Site extends \crawler\daos\AbstractDAO
             'floating_widget_url' => 'text',
             'disable_group_dk' => 'tinyint',
             'hidden_groups' => 'json',
+            'enabled_functions' => 'json',
         );
 
     public function getTableName()

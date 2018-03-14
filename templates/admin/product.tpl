@@ -143,21 +143,28 @@
                                             发布新产品 <i class="icon-plus"></i>
 
                                         </a>
-{-if $user.advanced}
+{-if $user.advanced || $site_enabled_functions.insert_images|default:''}
                                         <a href="?action=insert_images" class="btn normal">批量插入产品图</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.insert_desc|default:''}
                                         <a href="?action=insert_desc" class="btn normal">批量插入产品描述</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.insert_keywords|default:''}
                                         <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.replace_keywords|default:''}
                                         <a href="?action=replace_keywords" class="btn normal">批量替换关键词</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.replace_terms|default:''}
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.remove_empty_caption_products|default:''}
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.replace_desc_pic|default:''}
                                         <a href="?action=replace_desc_pic" class="btn normal">描述图片替换</a>
-
+{-/if}
+{-if $user.advanced || $site_enabled_functions.export_group_products|default:''}
                                         <a href="?action=export_group_products" class="btn normal" target="_blank">导出全站产品</a>
 {-/if}
                                         <a href="?action=count_products" class="btn normal">重算产品总数</a>
