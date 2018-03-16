@@ -15,6 +15,7 @@
                             <div class="intro-txt">
                                 {$corporation.introduction}
                             </div>
+                            <div class="shop_clear"><div>
                             <div class="intro-txt">
                                 <div class="title"><i></i><h2>{$preset_translations.company_details}</h2></div>
                                 <ul class="fl-clr">
@@ -27,6 +28,7 @@
                                     <li><label>{$preset_translations.export_p_c}</label><span>{$corporation.export_p_c}</span></li>
                                 </ul>
                             </div>
+                            <div class="shop_clear"><div>
                             <div class="intro-txt">
                                 <div class="title"><i></i><h2>{$preset_translations.history}</h2></div>
                                 {$corporation.history}
