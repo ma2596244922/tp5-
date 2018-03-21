@@ -15,6 +15,12 @@ define('EXIT_FAILURE', 1);
 
 $GLOBALS['gaSettings'] = array(
         'verbose' => 3,
+        'stats-only' => false,
+        'site-id' => null,
+        'language' => null,
+    );
+$GLOBALS['gaStats'] = array(
+        'stats-total-chars' => 0,
     );
 
 require_once __DIR__ . '/bootstrap.php';
@@ -33,6 +39,9 @@ function usage()
     $options = "OPTIONS:" . PHP_EOL;
     $options .= "\t-t <type>                    task type (enterprise, oms, translation, default: enterprise+oms)" . PHP_EOL;
     $options .= "\t-v                           output warning/errors" . PHP_EOL;
+    $options .= "\t--stats-only                 skip translation process, count characters only(need -t translation)" . PHP_EOL;
+    $options .= "\t--site-id=<ID>               translate given site(need -t translation)" . PHP_EOL;
+    $options .= "\t--language=<code>            translate given site to given language(need -t translation)" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
 
@@ -203,6 +212,11 @@ function proc_oms_task()
         fprintf(STDOUT, "Finish oms task processing" . PHP_EOL);
 }
 
+function proc_stats_acc_total_chars($cnt)
+{
+    $GLOBALS['gaStats']['stats-total-chars'] += $cnt;
+}
+
 function proc_translation_translate_corporation($translateClient, $tp)
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
@@ -219,6 +233,13 @@ function proc_translation_translate_corporation($translateClient, $tp)
     }
 
     $srcText = proc_translation_implode_fields($corporation['address'], $corporation['factory_address'], $corporation['qc_profile'], $corporation['main_market'], $corporation['introduction'], $corporation['history'], $corporation['service'], $corporation['our_team']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($address, $factory_address, $qc_profile, $main_market, $introduction, $history, $service, $our_team) = proc_translation_explode_fields($targetText);
@@ -258,6 +279,13 @@ function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
     }
 
     $srcText = proc_translation_implode_fields($site['index_html_title'], $site['index_meta_keywords'], $site['index_meta_description'], $site['desc_4_inquiry_sender'], $site['product_html_title'], $site['product_meta_keywords'], $site['product_meta_description'], $site['contact_content']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($index_html_title, $index_meta_keywords, $index_meta_description, $desc_4_inquiry_sender, $product_html_title, $product_meta_keywords, $product_meta_description, $contact_content) = proc_translation_explode_fields($targetText);
@@ -305,6 +333,13 @@ function proc_translation_get_uvs_generator($userSiteId, $langCode)
 function proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uv)
 {
     $srcText = proc_translation_implode_fields($uv['title'], $uv['voice']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($title, $voice) = proc_translation_explode_fields($targetText);
@@ -348,6 +383,13 @@ function proc_translation_get_news_array_generator($userSiteId, $langCode)
 function proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news)
 {
     $srcText = proc_translation_implode_fields($news['caption'], $news['content']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($caption, $content) = proc_translation_explode_fields($targetText);
@@ -424,6 +466,13 @@ function proc_translation_explode_fields($string)
 function proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product)
 {
     $srcText = proc_translation_implode_fields($product['caption'], $product['description'], $product['tags'], $product['specifications']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s(#%d): %d characters" . PHP_EOL, __FUNCTION__, $product['id'], $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($caption, $description, $tags, $specifications) = proc_translation_explode_fields($targetText);
@@ -456,6 +505,13 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
 function proc_translation_translate_group($translateClient, $tp, $langGroupDAO, $group)
 {
     $srcText = proc_translation_implode_fields($group['name'], $group['desc'], $group['product_html_title'], $group['product_meta_keywords'], $group['product_meta_description']);
+    if (!$translateClient) {
+        $totalChars = mb_strlen($srcText, 'UTF-8');
+        proc_stats_acc_total_chars($totalChars);
+        fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
+        return;
+    }
+
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
     list($name, $desc, $product_html_title, $product_meta_keywords, $product_meta_description) = proc_translation_explode_fields($targetText);
@@ -482,6 +538,10 @@ function proc_translation_translate_group($translateClient, $tp, $langGroupDAO, 
 function proc_translation_check_progress_terminated($translationProgressDAO, $siteId, $langCode)
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
+    $statsOnly = $GLOBALS['gaSettings']['stats-only'];
+
+    if ($statsOnly)
+        return false;
 
     $condition = "`site_id`=" . (int)$siteId . " AND `lang_code`='" . $translationProgressDAO->escape($langCode) . "'";
     $translationProgress = $translationProgressDAO->getOneBy($condition);
@@ -510,11 +570,30 @@ function proc_translation_check_progress_terminated($translationProgressDAO, $si
 function proc_translation_progress()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
+    $statsOnly = $GLOBALS['gaSettings']['stats-only'];
 
     $translationProgressDAO = new \oms\daos\TranslationProgress();
-    $translateClient = new Google\Cloud\Translate\TranslateClient(['key' => GOOGLE_CLOUD_API_KEY]);
+    if (!$statsOnly)
+        $translateClient = new Google\Cloud\Translate\TranslateClient(['key' => GOOGLE_CLOUD_API_KEY]);
+    else
+        $translateClient = null;
 
-    $tpGenerator = proc_translation_get_translation_progress_generator();
+    if ($GLOBALS['gaSettings']['site-id']
+            && $GLOBALS['gaSettings']['language']) {
+        $tpGenerator = array(
+                array(
+                        'site_id' => $GLOBALS['gaSettings']['site-id'],
+                        'lang_code' => $GLOBALS['gaSettings']['language'],
+                        'status' => \oms\daos\TranslationProgress::STATUS_PENDING,
+                        'created' => date('Y-m-d H:i:s'),
+                        'updated' => date('Y-m-d H:i:s'),
+                        'deleted' => 0,
+                    ),
+            );
+    } else {
+        $maxBatches = ($statsOnly?1:null);
+        $tpGenerator = proc_translation_get_translation_progress_generator($maxBatches);
+    }
     foreach ($tpGenerator as $tp) {
         if ($verbose >= 2)
             fprintf(STDOUT, "Processing {$tp['lang_code']} of site {$tp['site_id']} ...");
@@ -525,12 +604,14 @@ function proc_translation_progress()
         $langUserVoiceDAO = new \enterprise\daos\LangUserVoice($tp['lang_code']);
         $langSiteDAO = new \enterprise\daos\LangSite($tp['lang_code']);
 
-        $condition = "`site_id`={$tp['site_id']} AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'";
-        $values = array(
-                'status' => \oms\daos\TranslationProgress::STATUS_IN_PROGRESS,
-                'updated' => date('Y-m-d H:i:s'),
-            );
-        $translationProgressDAO->updateBy($condition, $values);
+        if (!$statsOnly) {
+            $condition = "`site_id`={$tp['site_id']} AND `lang_code`='" . $translationProgressDAO->escape($tp['lang_code']) . "'";
+            $values = array(
+                    'status' => \oms\daos\TranslationProgress::STATUS_IN_PROGRESS,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $translationProgressDAO->updateBy($condition, $values);
+        }
 
         proc_translation_translate_corporation($translateClient, $tp);
 
@@ -601,11 +682,13 @@ function proc_translation_progress()
                 fprintf(STDOUT, ".");
         }
 
-        $values = array(
-                'status' => \oms\daos\TranslationProgress::STATUS_FINISHED,
-                'updated' => date('Y-m-d H:i:s'),
-            );
-        $translationProgressDAO->updateBy($condition, $values);
+        if (!$statsOnly) {
+            $values = array(
+                    'status' => \oms\daos\TranslationProgress::STATUS_FINISHED,
+                    'updated' => date('Y-m-d H:i:s'),
+                );
+            $translationProgressDAO->updateBy($condition, $values);
+        }
 
         if ($verbose >= 2)
             fprintf(STDOUT, "DONE" . PHP_EOL);
@@ -613,6 +696,11 @@ function proc_translation_progress()
 
     if ($verbose >= 2)
         fprintf(STDOUT, "Finish translation progress processing" . PHP_EOL);
+    if ($statsOnly) {
+        $pricePerK = 0.02;
+        $costs = floor($GLOBALS['gaStats']['stats-total-chars'] / 1000) * $pricePerK;
+        fprintf(STDOUT, "Total Chars=%d, Total Costs=$%.2f" . PHP_EOL, $GLOBALS['gaStats']['stats-total-chars'], $costs);
+    }
 }
 
 function main($argc, $argv)
@@ -622,7 +710,7 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("vt:", array());
+    $params = getopt("vt:", array('stats-only', 'site-id:', 'language:'));
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
@@ -631,6 +719,15 @@ function main($argc, $argv)
                 break;
             case 't':
                 $type = $v;
+                break;
+            case 'stats-only':
+                $GLOBALS['gaSettings']['stats-only'] = true;
+                break;
+            case 'site-id':
+                $GLOBALS['gaSettings']['site-id'] = $v;
+                break;
+            case 'language':
+                $GLOBALS['gaSettings']['language'] = $v;
                 break;
         }
     } else {
