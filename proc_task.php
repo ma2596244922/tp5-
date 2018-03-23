@@ -505,6 +505,9 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
         $optimizedTotalChars = mb_strlen($optimizedSrcText, 'UTF-8');
         proc_stats_acc_total_chars_after_optimizing($optimizedTotalChars);
         fprintf(STDOUT, "%s(#%d): %d characters(%d characters after optimizing)" . PHP_EOL, __FUNCTION__, $product['id'], $totalChars, $optimizedTotalChars);
+        // ++ Pretend all translations are done(should be saved to cache)
+        foreach ($sentences as $s)
+            enterprise_translate_cache_set($s, $s);
         return;
     }
 
