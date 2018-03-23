@@ -5,6 +5,8 @@
  * @package timandes\enterprise
  */
 
+$GLOBALS['gaTranslationCache'] = [];
+
 function enterprise_translate_split_html($html, &$references, &$affectedNodes) : DOMDocument
 {
     $document = new \DOMDocument();
@@ -111,3 +113,22 @@ function enterprise_translate_combine_fragments($document, $fragments, $affected
     else
         return '';
 }
+
+/* {{{ Cache */
+
+function enterprise_translate_cache_set($sentence, $translation)
+{
+    $GLOBALS['gaTranslationCache'][$sentence] = $translation;
+}
+
+function enterprise_translate_cache_get($sentence)
+{
+    return $GLOBALS['gaTranslationCache'][$sentence]??null;
+}
+
+function enterprise_translate_cache_clear()
+{
+    $GLOBALS['gaTranslationCache'] = [];
+}
+
+/* }}} */

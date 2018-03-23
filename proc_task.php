@@ -482,7 +482,21 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
     $references = [];
     $affectedNodes = [];
     $document = enterprise_translate_split_html($product['description'], $references, $affectedNodes);
-    $optimizedDescription = implode('<p>', $references);
+    // + Skip entries already in cache
+    $sentences = [];
+    $sentenceIndexes = [];
+    $translations = [];
+    foreach ($references as $idx => $ref) {
+        $tr = enterprise_translate_cache_get($ref);
+        if ($tr)
+            $translations[$idx] = $tr;
+        else {
+            $sentences[] = $ref;
+            $sentenceIndexes[] = $idx;
+        }
+    }
+    // + Rebuild & Translate
+    $optimizedDescription = implode('<p>', $sentences);
     $optimizedSrcText = proc_translation_implode_fields($product['caption'], $optimizedDescription, $product['tags'], $product['specifications']);
 //if ($product['id']==101) {var_dump($product['description'], $optimizedDescription);exit;}
     if (!$translateClient) {
@@ -500,7 +514,14 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
 
     // Recover description
     $fragments = explode('<p>', $translatedDescription);
-    $description = enterprise_translate_combine_fragments($document, $fragments, $affectedNodes);
+    // + Fill translations
+    foreach ($fragments as $i => $translation) {
+        $idx = $sentenceIndexes[$i];
+        $translations[$idx] = $translation;
+        enterprise_translate_cache_set($sentences[$i], $translation);
+    }
+    // + Recover
+    $description = enterprise_translate_combine_fragments($document, $translations, $affectedNodes);
 
     $values = array(
             'site_id' => $tp['site_id'],
@@ -623,6 +644,8 @@ function proc_translation_progress()
     foreach ($tpGenerator as $tp) {
         if ($verbose >= 2)
             fprintf(STDOUT, "Processing {$tp['lang_code']} of site {$tp['site_id']} ...");
+
+        enterprise_translate_cache_clear();
 
         $langProductDAO = new \enterprise\daos\LangProduct($tp['lang_code']);
         $langGroupDAO = new \enterprise\daos\LangGroup($tp['lang_code']);
