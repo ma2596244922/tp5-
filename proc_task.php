@@ -21,11 +21,13 @@ $GLOBALS['gaSettings'] = array(
     );
 $GLOBALS['gaStats'] = array(
         'stats-total-chars' => 0,
+        'stats-total-chars-after-optimizing' => 0,
     );
 
 require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/config_admin.php';
 require_once __DIR__ . '/duplicate_product.h.php';
+require_once __DIR__ . '/enterprise_translate.h.php';
 
 function usage()
 {
@@ -217,6 +219,11 @@ function proc_stats_acc_total_chars($cnt)
     $GLOBALS['gaStats']['stats-total-chars'] += $cnt;
 }
 
+function proc_stats_acc_total_chars_after_optimizing($cnt)
+{
+    $GLOBALS['gaStats']['stats-total-chars-after-optimizing'] += $cnt;
+}
+
 function proc_translation_translate_corporation($translateClient, $tp)
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
@@ -236,6 +243,7 @@ function proc_translation_translate_corporation($translateClient, $tp)
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
+        proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
         return;
     }
@@ -282,6 +290,7 @@ function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
+        proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
         return;
     }
@@ -336,6 +345,7 @@ function proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO,
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
+        proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
         return;
     }
@@ -386,6 +396,7 @@ function proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $n
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
+        proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
         return;
     }
@@ -466,16 +477,30 @@ function proc_translation_explode_fields($string)
 function proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product)
 {
     $srcText = proc_translation_implode_fields($product['caption'], $product['description'], $product['tags'], $product['specifications']);
+
+    // Optimize description
+    $references = [];
+    $affectedNodes = [];
+    $document = enterprise_translate_split_html($product['description'], $references, $affectedNodes);
+    $optimizedDescription = implode('<p>', $references);
+    $optimizedSrcText = proc_translation_implode_fields($product['caption'], $optimizedDescription, $product['tags'], $product['specifications']);
+//if ($product['id']==101) {var_dump($product['description'], $optimizedDescription);exit;}
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
-        fprintf(STDOUT, "%s(#%d): %d characters" . PHP_EOL, __FUNCTION__, $product['id'], $totalChars);
+        $optimizedTotalChars = mb_strlen($optimizedSrcText, 'UTF-8');
+        proc_stats_acc_total_chars_after_optimizing($optimizedTotalChars);
+        fprintf(STDOUT, "%s(#%d): %d characters(%d characters after optimizing)" . PHP_EOL, __FUNCTION__, $product['id'], $totalChars, $optimizedTotalChars);
         return;
     }
 
-    $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
+    $translation = $translateClient->translate($optimizedSrcText, ['target' => $tp['lang_code']]);
     $targetText = $translation['text'];
-    list($caption, $description, $tags, $specifications) = proc_translation_explode_fields($targetText);
+    list($caption, $translatedDescription, $tags, $specifications) = proc_translation_explode_fields($targetText);
+
+    // Recover description
+    $fragments = explode('<p>', $translatedDescription);
+    $description = enterprise_translate_combine_fragments($document, $fragments, $affectedNodes);
 
     $values = array(
             'site_id' => $tp['site_id'],
@@ -508,6 +533,7 @@ function proc_translation_translate_group($translateClient, $tp, $langGroupDAO, 
     if (!$translateClient) {
         $totalChars = mb_strlen($srcText, 'UTF-8');
         proc_stats_acc_total_chars($totalChars);
+        proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
         return;
     }
@@ -700,6 +726,8 @@ function proc_translation_progress()
         $pricePerK = 0.02;
         $costs = floor($GLOBALS['gaStats']['stats-total-chars'] / 1000) * $pricePerK;
         fprintf(STDOUT, "Total Chars=%d, Total Costs=$%.2f" . PHP_EOL, $GLOBALS['gaStats']['stats-total-chars'], $costs);
+        $costsAfterOptimizing = floor($GLOBALS['gaStats']['stats-total-chars-after-optimizing'] / 1000) * $pricePerK;
+        fprintf(STDOUT, "[O]Total Chars=%d, Total Costs=$%.2f" . PHP_EOL, $GLOBALS['gaStats']['stats-total-chars-after-optimizing'], $costsAfterOptimizing);
     }
 }
 

@@ -16,7 +16,8 @@ function enterprise_translate_split_html($html, &$references, &$affectedNodes) :
 
     $bodyElementList = $document->getElementsByTagName('body');
     $bodyElement = $bodyElementList->item(0);
-    enterprise_translate_split_node($document, $bodyElement, $references, $affectedNodes);
+    if ($bodyElement)
+        enterprise_translate_split_node($document, $bodyElement, $references, $affectedNodes);
     return $document;
 }
 
@@ -105,5 +106,8 @@ function enterprise_translate_combine_fragments($document, $fragments, $affected
 
     $bodyElementList = $document->getElementsByTagName('body');
     $bodyElement = $bodyElementList->item(0);
-    return enterprise_translate_dom_get_inner_html($document, $bodyElement);
+    if ($bodyElement)
+        return enterprise_translate_dom_get_inner_html($document, $bodyElement);
+    else
+        return '';
 }
