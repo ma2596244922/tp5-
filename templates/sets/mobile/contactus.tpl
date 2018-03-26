@@ -7,7 +7,7 @@
         <meta name="keywords" content="{$keywords|escape}">
         <meta name="description" content="{$description|escape}">
 {include file="sets/mobile/common/meta.tpl"}
-{include file="sets/mobile/common/definitions.tpl"}
+{include file="sets/mobile/common/definitions.tpl" page_name="contactus"}
 {include file="sets/mobile/common/styles.tpl"}
     </head>
 <body class="bj-fff">

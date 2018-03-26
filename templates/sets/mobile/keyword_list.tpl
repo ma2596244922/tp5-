@@ -7,7 +7,7 @@
         <meta name="keywords" content="{$keywords|default:''|escape}">
         <meta name="description" content="{$description|default:''|escape}">
 {include file="sets/mobile/common/meta.tpl"}
-{include file="sets/mobile/common/definitions.tpl"}
+{include file="sets/mobile/common/definitions.tpl" page_name="keyword_list"}
 {include file="sets/mobile/common/styles.tpl"}
         <link type="text/css" rel="stylesheet" href="/media/sets/mobile/product.css">
     </head>
