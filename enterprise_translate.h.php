@@ -67,9 +67,11 @@ function enterprise_translate_dom_find_node_with_min_text($document, $node)
 
 function enterprise_translate_split_node($document, $node, &$references, &$affectedNodes)
 {
+    $finalLabels = ['p', 'td', 'th'];
+
     if ($node->nodeType != XML_ELEMENT_NODE)
         return;
-    if (strtolower($node->nodeName) == 'p'
+    if (in_array(strtolower($node->nodeName), $finalLabels)
             && trim($node->textContent)) {
         $targetNode = enterprise_translate_dom_find_node_with_min_text($document, $node);
         $idx = count($references);
