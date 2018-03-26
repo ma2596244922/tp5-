@@ -1850,6 +1850,9 @@ function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentD
     // Main Products
     enterprise_assign_main_product_list($smarty, 'main_products', $siteId);
 
+    // Default Language Code
+    $smarty->assign('default_lang_code', $GLOBALS['gsDefaultLangCode']);
+
     // Supported lang codes
     $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
     $smarty->assign('supported_lang_codes', $supportedLangCodes);
