@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="{$lang_code}"{$html_attr_dir}>
 <head>
 <meta charset="utf-8">
 <title>{$title}</title>
