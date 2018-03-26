@@ -6,7 +6,7 @@
 <title>{$title}</title>
 <meta name="keywords" content="{$keywords|escape}" />
 <meta name="description" content="{$description|escape}" />
-{include file="sets/trade/common/definitions.tpl"}
+{include file="sets/trade/common/definitions.tpl" page_name="contactus"}
 {include file="sets/trade/common/shopstyles.tpl"}
 </head>
 
