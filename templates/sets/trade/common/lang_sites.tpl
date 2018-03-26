@@ -4,9 +4,9 @@
                 <i></i>
             </div>
             <div class="selectMenu" style="display:none;" data-role="ListType">
-                <a href="http://www.{$site_root_domain}/" rel="nofollow"><img src="/media/langflags/en.png" width="16" height="11" />English</a>
+                <a href="http://www.{$site_root_domain}/"><img src="/media/langflags/en.png" width="16" height="11" />English</a>
 {foreach $supported_lang_codes as $lc => $meta}{if $site_lang_codes.$lc|default:'0'=='0'}{continue}{/if}
-                <a href="http://{$lc}.{$site_root_domain}/" rel="nofollow"><img src="/media/langflags/{$lc}.png" width="16" height="11" />{$meta.locale_label}</a>
+                <a href="http://{$lc}.{$site_root_domain}/"><img src="/media/langflags/{$lc}.png" width="16" height="11" />{$meta.locale_label}</a>
 {/foreach}
             </div>
         </div>
