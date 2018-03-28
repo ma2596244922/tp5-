@@ -6,7 +6,6 @@
                 <dd><a href="/aboutus.html">{$preset_translations.about_us}</a></dd>
                 <dd><a href="/contactus.html">{$preset_translations.contact_us}</a></dd>
                 <dd><a href="/quality.html">{$preset_translations.quality_control}</a></dd>
-                <dd><a href="/directory.html">{$preset_translations.site_map}</a></dd>
                 <dd><a href="//{$alternate_mobile_host}" title="Mobile">Mobile</a></dd>
             </dl>
             <dl>
