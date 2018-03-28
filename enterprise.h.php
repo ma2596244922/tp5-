@@ -1620,6 +1620,19 @@ function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $addi
 function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en', $max = null, $additionalConditions = '', $skipEmpty = true,
         $appendFirstProducts = false, $maxAppendedProducts = 1)
 {
+    $groups = enterprise_get_group_list_ex($siteId, $langCode, $max, $additionalConditions, $skipEmpty, $appendFirstProducts, $maxAppendedProducts);
+    $smarty->assign($var, $groups);
+    return $groups;
+}
+
+/**
+ * Get Group List Ext
+ *
+ * @return array Group Array
+ */
+function enterprise_get_group_list_ex($siteId, $langCode = 'en', $max = null, $additionalConditions = '', $skipEmpty = true,
+        $appendFirstProducts = false, $maxAppendedProducts = 1)
+{
     $maxGroupsFromDb = ($appendFirstProducts?null:$max);
     $cntString = ($skipEmpty?($langCode!='en'?'lg.':'') . '`cnt`>0':'');
 
@@ -1649,8 +1662,6 @@ function enterprise_assign_group_list_ex($smarty, $var, $siteId, $langCode = 'en
         }
         $groups = $retval;
     }
-
-    $smarty->assign($var, $groups);
     return $groups;
 }
 
