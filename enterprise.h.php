@@ -2129,7 +2129,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                 ),
             "offers" => array(
                     "@type" => "Offer",
-                    "price" => ($product['price']??'Negotiation'),
+                    "price" => ($product['price']?$product['price']:'Negotiation'),
                 ),
             "aggregateRating" => array(
                     "@type" => "AggregateRating",
