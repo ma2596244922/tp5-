@@ -2130,10 +2130,6 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                     "name" => $product['brand_name'],
                     "logo" => enterprise_url_image($corporation['logo']),
                 ),
-            "offers" => array(
-                    "@type" => "Offer",
-                    "price" => ($product['price']?$product['price']:'Negotiation'),
-                ),
         );
     $structuredData[] = $productData;
     // + Video Object
