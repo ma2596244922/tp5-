@@ -825,6 +825,8 @@ function enterprise_oms_action_client_info($smarty)
     // Supported lang codes
     $supportedLangCodes = \enterprise\LangCode::getSupportedLangCodes();
     $smarty->assign('supported_lang_codes', $supportedLangCodes);
+    // Template Metas
+    $smarty->assign('template_metas', $GLOBALS['gaTemplates']);
 
     $smarty->assign('advanced_functions', ENTERPRISE_ADVANCED_FUNCTIONS);
 
