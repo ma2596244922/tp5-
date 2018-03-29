@@ -10,6 +10,9 @@
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/quick-inquiry/inquiry-fast.css" />
+<script type="application/ld+json">
+{$google_structured_data|json_encode}
+</script>
 </head>
 <body>
 

@@ -2112,6 +2112,45 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     // TDK
     enterprise_assign_tdk_of_product_detail($smarty, $pageType, $site, $corporation, $product, $productGroup, $langCode);
 
+    $productImages = $smarty->getTemplateVars('product_images');
+
+    // Google Structured Data
+    $structuredData = array(
+            array(
+                    "@context" => "http://schema.org",
+                    "@type" => "Product",
+                    "name" => $product['caption'],
+                    "image" => enterprise_url_image($productImages[0]??0, $product['caption'], 'c'),
+                    "brand" => array(
+                            "@type" => "Brand",
+                            "name" => $product['brand_name'],
+                            "logo" => enterprise_url_image($corporation['logo']),
+                        ),
+                    "offers" => array(
+                            "@type" => "Offer",
+                            "price" => $product['price'],
+                        ),
+                    "aggregateRating" => array(
+                            "@type" => "AggregateRating",
+                            "ratingCount" => $product['supply_ability'],
+                        ),
+                ),
+        );
+    // + Video Object
+    if ($currentDomainSuffix == 'hrcusa.org') {
+        $structuredData[] = array(
+                "@context" => "http://schema.org",
+                "@type" => "VideoObject",
+                "name" => $product['caption'],
+                "description" => $product['description'],
+                "thumbnailUrl" => "/uploaded_images/c1947410-professional-drying-equipment-vegetable-dehydration-for-vegetables-dehydrator-with-competitive-price-digital-printer.jpg",
+                "uploadDate" => "8/3/2018",
+                "duration" => "21",
+                "contentUrl" => "/tea_leaf_dryer.mp4"
+            );
+    }
+    $smarty->assign('google_structured_data', $structuredData);
+
     return $smarty->fetch($tplPath);
 }
 
