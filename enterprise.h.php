@@ -2129,7 +2129,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                 ),
             "offers" => array(
                     "@type" => "Offer",
-                    "price" => $product['price']??'Negotiation',
+                    "price" => ($product['price']??'Negotiation'),
                 ),
             "aggregateRating" => array(
                     "@type" => "AggregateRating",
@@ -2145,7 +2145,7 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                 "name" => $product['caption'],
                 "description" => $product['description'],
                 "thumbnailUrl" => enterprise_url_prefix() . "/uploaded_images/c1947410-professional-drying-equipment-vegetable-dehydration-for-vegetables-dehydrator-with-competitive-price-digital-printer.jpg",
-                "uploadDate" => "8/3/2018",
+                "uploadDate" => "3/8/2018",
                 "duration" => "21",
                 "contentUrl" => enterprise_url_prefix() . "/tea_leaf_dryer.mp4"
             );
