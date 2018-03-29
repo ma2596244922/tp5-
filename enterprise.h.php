@@ -2553,6 +2553,9 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     if (!$smarty->templateExists($tplPath))
         return null;
 
+    // Template Meta
+    $templateMeta = $GLOBALS['gaTemplates'][$templateName];
+
     // Site
     $smarty->assign('site', $site);
 
@@ -2568,7 +2571,7 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // Products
     enterprise_assign_index_products($smarty, $site, $langCode);
 
-    enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix, true, 3);
+    enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix, true, $templateMeta['home_max_appended_products_to_group']??3);
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
 
