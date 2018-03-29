@@ -2109,6 +2109,9 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     $product = $smarty->getTemplateVars('product');
     $productGroup = $smarty->getTemplateVars('product_group');
 
+    if (DBG_MODE)
+        var_dump($product);
+
     // TDK
     enterprise_assign_tdk_of_product_detail($smarty, $pageType, $site, $corporation, $product, $productGroup, $langCode);
 
