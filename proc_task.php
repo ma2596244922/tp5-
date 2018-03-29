@@ -676,7 +676,7 @@ function proc_translation_progress()
         $checkPoint = 10;
 
         // translate_user_voice
-        $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], $fromLangCode);
+        $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], 'en');
         foreach ($uvsGenerator as $uvs) {
             proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uvs);
 
