@@ -692,7 +692,7 @@ function proc_translation_progress()
         }
 
         // translate_news
-        $newsGenerator = proc_translation_get_news_array_generator($tp['site_id'], $fromLangCode);
+        $newsGenerator = proc_translation_get_news_array_generator($tp['site_id'], 'en');
         foreach ($newsGenerator as $news) {
             proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news);
 
