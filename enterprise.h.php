@@ -2134,10 +2134,6 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                     "@type" => "Offer",
                     "price" => ($product['price']?$product['price']:'Negotiation'),
                 ),
-            "aggregateRating" => array(
-                    "@type" => "AggregateRating",
-                    "ratingCount" => $product['supply_ability'],
-                ),
         );
     $structuredData[] = $productData;
     // + Video Object
