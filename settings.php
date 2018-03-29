@@ -28,3 +28,23 @@ $GLOBALS['gaUrlPatterns'] = array(
 $GLOBALS['gsDefaultLangCode'] = 'en';
 /** @var string 默认的语言 */
 $GLOBALS['gsDefaultLocale'] = 'English';
+
+/** @var array 模板配置 */
+$GLOBALS['gaTemplates'] = array(
+        'trade' => array(
+                'label' => 'M1',
+            ),
+        'brilly' => array(
+                'label' => 'M2',
+            ),
+        'msma' => array(
+                'label' => 'M3',
+                'home_max_appended_products_to_group' => 8,
+            ),
+        'peony' => array(
+                'label' => 'M4',
+            ),
+        'ecs' => array(
+                'label' => '企信',
+            ),
+    );

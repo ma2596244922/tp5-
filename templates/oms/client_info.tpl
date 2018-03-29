@@ -182,11 +182,9 @@
                         <div class="col-lg-4">
                             <select class="form-control" name="template">
                                 <option value="">（待分配）</option>
-                                <option value="trade"{if $site.template=='trade'} selected{/if}>M1</option>
-                                <option value="brilly"{if $site.template=='brilly'} selected{/if}>M2</option>
-                                <option value="msma"{if $site.template=='msma'} selected{/if}>M3</option>
-                                <option value="peony"{if $site.template=='peony'} selected{/if}>M4</option>
-                                <option value="ecs"{if $site.template=='ecs'} selected{/if}>企信</option>
+{foreach $template_metas as $name => $meta}
+                                <option value="{$name}"{if $site.template==$name} selected{/if}>{$meta.label}</option>
+{/foreach}
                             </select>
                         </div>
                     </div>
