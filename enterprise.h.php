@@ -2115,27 +2115,28 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     $productImages = $smarty->getTemplateVars('product_images');
 
     // Google Structured Data
-    $structuredData = array(
-            array(
-                    "@context" => "http://schema.org",
-                    "@type" => "Product",
-                    "name" => $product['caption'],
-                    "image" => enterprise_url_image($productImages[0]??0, $product['caption'], 'c'),
-                    "brand" => array(
-                            "@type" => "Brand",
-                            "name" => $product['brand_name'],
-                            "logo" => enterprise_url_image($corporation['logo']),
-                        ),
-                    "offers" => array(
-                            "@type" => "Offer",
-                            "price" => $product['price'],
-                        ),
-                    "aggregateRating" => array(
-                            "@type" => "AggregateRating",
-                            "ratingCount" => $product['supply_ability'],
-                        ),
+    $structuredData = [];
+    // + Product
+    $productData = array(
+            "@context" => "http://schema.org",
+            "@type" => "Product",
+            "name" => $product['caption'],
+            "image" => enterprise_url_image($productImages[0]??0, $product['caption'], 'c'),
+            "brand" => array(
+                    "@type" => "Brand",
+                    "name" => $product['brand_name'],
+                    "logo" => enterprise_url_image($corporation['logo']),
+                ),
+            "offers" => array(
+                    "@type" => "Offer",
+                    "price" => $product['price']??'Negotiation',
+                ),
+            "aggregateRating" => array(
+                    "@type" => "AggregateRating",
+                    "ratingCount" => $product['supply_ability'],
                 ),
         );
+    $structuredData[] = $productData;
     // + Video Object
     if ($currentDomainSuffix == 'hrcusa.org') {
         $structuredData[] = array(
@@ -2143,10 +2144,10 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                 "@type" => "VideoObject",
                 "name" => $product['caption'],
                 "description" => $product['description'],
-                "thumbnailUrl" => "/uploaded_images/c1947410-professional-drying-equipment-vegetable-dehydration-for-vegetables-dehydrator-with-competitive-price-digital-printer.jpg",
+                "thumbnailUrl" => enterprise_url_prefix() . "/uploaded_images/c1947410-professional-drying-equipment-vegetable-dehydration-for-vegetables-dehydrator-with-competitive-price-digital-printer.jpg",
                 "uploadDate" => "8/3/2018",
                 "duration" => "21",
-                "contentUrl" => "/tea_leaf_dryer.mp4"
+                "contentUrl" => enterprise_url_prefix() . "/tea_leaf_dryer.mp4"
             );
     }
     $smarty->assign('google_structured_data', $structuredData);
