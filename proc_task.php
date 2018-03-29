@@ -18,6 +18,7 @@ $GLOBALS['gaSettings'] = array(
         'stats-only' => false,
         'site-id' => null,
         'language' => null,
+        'from-language' => 'en',
     );
 $GLOBALS['gaStats'] = array(
         'stats-total-chars' => 0,
@@ -44,6 +45,7 @@ function usage()
     $options .= "\t--stats-only                 skip translation process, count characters only(need -t translation)" . PHP_EOL;
     $options .= "\t--site-id=<ID>               translate given site(need -t translation)" . PHP_EOL;
     $options .= "\t--language=<code>            translate given site to given language(need -t translation)" . PHP_EOL;
+    $options .= "\t--from-language=<code>       translate given site from given language(need -t translation, default is 'en')" . PHP_EOL;
     fprintf(STDOUT, $options);
 }
 
@@ -621,6 +623,7 @@ function proc_translation_progress()
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
     $statsOnly = $GLOBALS['gaSettings']['stats-only'];
+    $fromLangCode = $GLOBALS['gaSettings']['from-language'];// FIXME: 并没有覆盖全部待翻译部分（如：公司）
 
     $translationProgressDAO = new \oms\daos\TranslationProgress();
     if (!$statsOnly)
@@ -673,7 +676,7 @@ function proc_translation_progress()
         $checkPoint = 10;
 
         // translate_user_voice
-        $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], 'en');
+        $uvsGenerator = proc_translation_get_uvs_generator($tp['site_id'], $fromLangCode);
         foreach ($uvsGenerator as $uvs) {
             proc_translation_translate_uv($translateClient, $tp, $langUserVoiceDAO, $uvs);
 
@@ -689,7 +692,7 @@ function proc_translation_progress()
         }
 
         // translate_news
-        $newsGenerator = proc_translation_get_news_array_generator($tp['site_id'], 'en');
+        $newsGenerator = proc_translation_get_news_array_generator($tp['site_id'], $fromLangCode);
         foreach ($newsGenerator as $news) {
             proc_translation_translate_news($translateClient, $tp, $langNewsDAO, $news);
 
@@ -704,7 +707,7 @@ function proc_translation_progress()
                 fprintf(STDOUT, "*");
         }
 
-        $groupGenerator = proc_translation_get_groups_generator($tp['site_id'], 'en');
+        $groupGenerator = proc_translation_get_groups_generator($tp['site_id'], $fromLangCode);
         foreach ($groupGenerator as $group) {
             proc_translation_translate_group($translateClient, $tp, $langGroupDAO, $group);
 
@@ -719,7 +722,7 @@ function proc_translation_progress()
                 fprintf(STDOUT, "_");
         }
 
-        $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], 'en', null, '`description`, `tags`, `specifications`, `embedded_video`, `created`');
+        $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], $fromLangCode, null, '`description`, `tags`, `specifications`, `embedded_video`, `created`');
         foreach ($productGenerator as $product) {
             proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product);
 
@@ -764,7 +767,7 @@ function main($argc, $argv)
 
     software_info();
 
-    $params = getopt("vt:", array('stats-only', 'site-id:', 'language:'));
+    $params = getopt("vt:", array('stats-only', 'site-id:', 'language:', 'from-language:'));
     if(is_array($params)
             && count($params) > 0) foreach($params as $k => &$v) {
         switch($k) {
@@ -782,6 +785,9 @@ function main($argc, $argv)
                 break;
             case 'language':
                 $GLOBALS['gaSettings']['language'] = $v;
+                break;
+            case 'from-language':
+                $GLOBALS['gaSettings']['from-language'] = $v;
                 break;
         }
     } else {
