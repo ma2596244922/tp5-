@@ -134,3 +134,15 @@ function enterprise_translate_cache_clear()
 }
 
 /* }}} */
+
+function enterprise_translate_implode_fields(...$fields)
+{
+    $splitter = '<!--TIMANDES-->';
+    return implode($splitter, $fields);
+}
+
+function enterprise_translate_explode_fields($string)
+{
+    $splitter = '<!--TIMANDES-->';
+    return explode($splitter, $string);
+}

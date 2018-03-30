@@ -466,37 +466,22 @@ function proc_translation_get_translation_progress_generator($maxBatches = null)
 
 function proc_translation_implode_fields(...$fields)
 {
-    $splitter = '<!--TIMANDES-->';
-    return implode($splitter, $fields);
+    return enterprise_translate_implode_fields(...$fields);
 }
 
 function proc_translation_explode_fields($string)
 {
-    $splitter = '<!--TIMANDES-->';
-    return explode($splitter, $string);
+    return enterprise_translate_explode_fields($string);
 }
 
 function proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product)
 {
     $srcText = proc_translation_implode_fields($product['caption'], $product['description'], $product['tags'], $product['specifications']);
 
+    $htmlOptimizer = new \enterprise\translate\HtmlOptimizer($product['description']);
     // Optimize description
-    $references = [];
-    $affectedNodes = [];
-    $document = enterprise_translate_split_html($product['description'], $references, $affectedNodes);
-    // + Skip entries already in cache
-    $sentences = [];
-    $sentenceIndexes = [];
-    $translations = [];
-    foreach ($references as $idx => $ref) {
-        $tr = enterprise_translate_cache_get($ref);
-        if ($tr)
-            $translations[$idx] = $tr;
-        else {
-            $sentences[] = $ref;
-            $sentenceIndexes[] = $idx;
-        }
-    }
+    $sentences = $htmlOptimizer->split();
+
     // + Rebuild & Translate
     $optimizedDescription = implode('<p>', $sentences);
     $optimizedSrcText = proc_translation_implode_fields($product['caption'], $optimizedDescription, $product['tags'], $product['specifications']);
@@ -519,14 +504,7 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
 
     // Recover description
     $fragments = explode('<p>', $translatedDescription);
-    // + Fill translations
-    foreach ($fragments as $i => $translation) {
-        $idx = $sentenceIndexes[$i];
-        $translations[$idx] = $translation;
-        enterprise_translate_cache_set($sentences[$i], $translation);
-    }
-    // + Recover
-    $description = enterprise_translate_combine_fragments($document, $translations, $affectedNodes);
+    $description = $htmlOptimizer->combine($sentences, $fragments);
 
     $values = array(
             'site_id' => $tp['site_id'],

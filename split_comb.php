@@ -1,7 +1,7 @@
 #! /bin/env php
 <?php
 /**
- * 翻以前的拆解与翻译后的还原
+ * 翻译前的拆解与翻译后的还原
  *
  * @package timandes\enterprise
  */
