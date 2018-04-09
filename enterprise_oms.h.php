@@ -449,6 +449,12 @@ function enterprise_oms_action_rejected_inquiries($smarty)
     }
     $smarty->assign('rejected_inquiries', $extracedInquiries);
 
+    $queries = array(
+            'action' => 'rejected_inquiries',
+        );
+    $queryString = http_build_query($queries);
+    $smarty->assign('query_string', $queryString);
+
     $smarty->display('oms/rejected_inquiries.tpl');
 }
 
