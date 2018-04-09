@@ -22,7 +22,7 @@
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
-                <h2>询盘详情</h2>
+                <h2>询盘详情{if $deleted|default:false}【快照】{/if}</h2>
 {include file="oms/common/inquiry_panel.tpl"}
                 <!-- End Content -->
             </div>

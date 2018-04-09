@@ -114,6 +114,8 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_industry($smarty);
                 case 'industry':
                     return enterprise_oms_action_industry($smarty);
+                case 'rejected_inquiries':
+                    return enterprise_oms_action_rejected_inquiries($smarty);
                 case 'reject_pending_inquiries_with':
                     return enterprise_oms_action_reject_pending_inquiries_with($smarty);
                 case 'check_inquiry':
@@ -362,9 +364,20 @@ function enterprise_oms_action_site_stats($smarty)
 function enterprise_oms_action_view_inquiry($smarty)
 {
     $inquiryId = (int)timandes_get_query_data('inquiry_id');
+    $pendingInquiryId = (int)timandes_get_query_data('pending_inquiry_id');
 
-    $inquiryDAO = new \enterprise\daos\Inquiry();
-    $inquiry = $inquiryDAO->get($inquiryId);
+    if ($inquiryId) {
+        $inquiryDAO = new \enterprise\daos\Inquiry();
+        $inquiry = $inquiryDAO->get($inquiryId);
+    } elseif ($pendingInquiryId) {
+        $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+        $inquiry = $pendingInquiryDAO->get($pendingInquiryId);
+        $i = json_decode($inquiry['data'], true);
+        $i['id'] = $inquiry['id'];
+        $inquiry = $i;
+
+        $smarty->assign('deleted', true);
+    }
 
     $smarty->assign('inquiry', $inquiry);
 
@@ -410,6 +423,33 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
     $start = ($pageNo - 1) * $max;
     $inquiries = $inquiryDAO->getMultiInOrderBy($condition, ENTERPRISE_INQUIRY_FIELDS_FOR_LIST, '`id` DESC', $max, $start);
     $smarty->assign($var, $inquiries);
+}
+
+/**
+ * Rejected Inquiries
+ */
+function enterprise_oms_action_rejected_inquiries($smarty)
+{
+    $pageNo = (int)timandes_get_query_data('page');
+    if ($pageNo <= 0)
+        $pageNo = 1;
+    $max = 20;
+    $start = ($pageNo - 1) * $max;
+
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+
+    $condition = "`deleted`=1";
+    $rejectedInquiries = $pendingInquiryDAO->getMultiInOrderBy($condition, '*', '`id` DESC', $max, $start);
+
+    $extracedInquiries = [];
+    if (is_array($rejectedInquiries)) foreach ($rejectedInquiries as $ri) {
+        $i = json_decode($ri['data'], true);
+        $i['id'] = $ri['id'];
+        $extracedInquiries[] = $i;
+    }
+    $smarty->assign('rejected_inquiries', $extracedInquiries);
+
+    $smarty->display('oms/rejected_inquiries.tpl');
 }
 
 /**
