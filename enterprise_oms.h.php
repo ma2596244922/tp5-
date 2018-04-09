@@ -114,6 +114,11 @@ function enterprise_oms_route_2($smarty)
                     return enterprise_oms_action_edit_industry($smarty);
                 case 'industry':
                     return enterprise_oms_action_industry($smarty);
+                // + Inquiry
+                case 'approve_inquiries':
+                    return enterprise_oms_action_approve_inquiries($smarty);
+                case 'pending_inquiries':
+                    return enterprise_oms_action_pending_inquiries($smarty);
                 case 'rejected_inquiries':
                     return enterprise_oms_action_rejected_inquiries($smarty);
                 case 'reject_pending_inquiries_with':
@@ -426,6 +431,30 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
 }
 
 /**
+ * Pending Inquiries
+ */
+function enterprise_oms_action_pending_inquiries($smarty)
+{
+    $max = 20;
+    $start = 0;
+
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+
+    $condition = "`deleted`=0";
+    $pendingInquiries = $pendingInquiryDAO->getMultiInOrderBy($condition, '*', '`id`', $max, $start);
+
+    $extracedInquiries = [];
+    if (is_array($pendingInquiries)) foreach ($pendingInquiries as $ri) {
+        $i = json_decode($ri['data'], true);
+        $i['id'] = $ri['id'];
+        $extracedInquiries[] = $i;
+    }
+    $smarty->assign('pending_inquiries', $extracedInquiries);
+
+    $smarty->display('oms/pending_inquiries.tpl');
+}
+
+/**
  * Rejected Inquiries
  */
 function enterprise_oms_action_rejected_inquiries($smarty)
@@ -512,6 +541,32 @@ function enterprise_oms_get_pending_inquiries_generator()
 }
 
 /**
+ * Approve Pending Inquiries
+ */
+function enterprise_oms_action_approve_inquiries($smarty)
+{
+    $pendingInquiryDAO = new \enterprise\daos\PendingInquiry();
+
+    $pendingInquiries = timandes_get_post_data('pending_inquiries');
+
+    $selectedPendingInquiries = timandes_get_post_data('selected_pending_inquiries');
+    $selectedPendingInquiryIdArray = ($selectedPendingInquiries?array_keys($selectedPendingInquiries):[]);
+
+    if ($selectedPendingInquiryIdArray) foreach ($selectedPendingInquiryIdArray as $pid) {
+        enterprise_oms_process_pending_inquiry($pendingInquiryDAO, $pid, 1);
+    }
+
+    // Reject others
+    if ($pendingInquiries) foreach ($pendingInquiries as $pid) {
+        if (array_key_exists($pid, $selectedPendingInquiries))
+            continue; // Skip selected
+        enterprise_oms_process_pending_inquiry($pendingInquiryDAO, $pid, 2);
+    }
+
+    enterprise_oms_display_success_msg($smarty, '操作成功', '?action=pending_inquiries', '询盘审核');
+}
+
+/**
  * Reject Pending Inquiries with ...
  */
 function enterprise_oms_action_reject_pending_inquiries_with($smarty)
@@ -548,6 +603,32 @@ function enterprise_oms_action_reject_pending_inquiries_with($smarty)
     enterprise_oms_display_success_msg($smarty, '操作成功', '?action=check_inquiry', '询盘审核');
 }
 
+function enterprise_oms_process_pending_inquiry($pendingInquiryDAO, $pendingInquiryId, $submitted)
+{
+    $pendingInquiry = $pendingInquiryDAO->get($pendingInquiryId);
+    if (!$pendingInquiry)
+        return;
+
+    if ($submitted == 1) {// 通过
+        // Save to inquiry table
+        $inquiryData = json_decode($pendingInquiry['data'], true);
+        $inquiryData['guid'] = enterprise_generate_guid();
+        $inquiryDAO = new \enterprise\daos\Inquiry();
+        $inquiryDAO->insert($inquiryData);
+    }
+
+    $values = array(
+            'deleted' => 1,
+        );
+    $pendingInquiryDAO->update($pendingInquiryId, $values);
+
+    if ($submitted == 1) {// 通过
+        // Send email
+        // 代码放在这里确保相关SQL已执行
+        enterprise_send_inquiry_email_to_user($inquiryData['site_id'], $inquiryData['subject'], $inquiryData['message'], $inquiryData['email']);
+    }
+}
+
 /**
  * Check Inquiry
  */
@@ -560,37 +641,29 @@ function enterprise_oms_action_check_inquiry($smarty)
             || $submitted == 2) {
         $pendingInquiryId = (int)timandes_get_post_data('pending_inquiry_id');
         if ($pendingInquiryId) {
-            $pendingInquiry = $pendingInquiryDAO->get($pendingInquiryId);
-            if ($pendingInquiry) {
-                if ($submitted == 1) {// 通过
-                    // Save to inquiry table
-                    $inquiryData = json_decode($pendingInquiry['data'], true);
-                    $inquiryData['guid'] = enterprise_generate_guid();
-                    $inquiryDAO = new \enterprise\daos\Inquiry();
-                    $inquiryDAO->insert($inquiryData);
-                }
-
-                $values = array(
-                        'deleted' => 1,
-                    );
-                $pendingInquiryDAO->update($pendingInquiryId, $values);
-
-                if ($submitted == 1) {// 通过
-                    // Send email
-                    // 代码放在这里确保相关SQL已执行
-                    enterprise_send_inquiry_email_to_user($inquiryData['site_id'], $inquiryData['subject'], $inquiryData['message'], $inquiryData['email']);
-                }
-            }
+            enterprise_oms_process_pending_inquiry($pendingInquiryDAO, $pendingInquiryId, $submitted);
         }
     }
 
-    $pendingInquiries = $pendingInquiryDAO->getMultiInOrderBy('`deleted`=0', '`id`, `data`', '`id` ASC', 1);
-    if (!$pendingInquiries)
-        return enterprise_oms_display_success_msg($smarty, '所有询盘已全部审核完成', '?action=dashboard', '运营管理');
+    $pendingInquiryId = (int)timandes_get_query_data('pending_inquiry_id');
 
-    $inquiry = json_decode($pendingInquiries[0]['data'], true);
+    if ($pendingInquiryId) {
+        $pendingInquiry = $pendingInquiryDAO->getOneBy('`id`=' . $pendingInquiryId);
+        if ($pendingInquiry['deleted'])
+            return enterprise_oms_display_success_msg($smarty, '该询盘已审核完成', '?action=pending_inquiries', '询盘审核');
+
+        $inquiry = json_decode($pendingInquiry['data'], true);
+    } else {
+        $pendingInquiries = $pendingInquiryDAO->getMultiInOrderBy('`deleted`=0', '`id`, `data`', '`id` ASC', 1);
+        if (!$pendingInquiries)
+            return enterprise_oms_display_success_msg($smarty, '所有询盘已全部审核完成', '?action=dashboard', '运营管理');
+
+        $inquiry = json_decode($pendingInquiries[0]['data'], true);
+        $pendingInquiryId = $pendingInquiries[0]['id'];
+    }
+
     $smarty->assign('inquiry', $inquiry);
-    $smarty->assign('pending_inquiry_id', $pendingInquiries[0]['id']);
+    $smarty->assign('pending_inquiry_id', $pendingInquiryId);
 
     enterprise_admin_assign_inquiry_detail($smarty, $inquiry);
 
