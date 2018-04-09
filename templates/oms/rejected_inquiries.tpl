@@ -18,7 +18,7 @@
             <!-- Begin Page -->
             <div class="col-lg-10">
                 <!-- Begin Nav -->
-{include file="oms/common/mainnav.tpl"}
+{include file="oms/common/mainnav.tpl" page_name="rejected_inquiries"}
                 <!-- End Nav -->
 
                 <!-- Begin Content -->
