@@ -2284,6 +2284,8 @@ CREATE TABLE `enterprise_pending_inquiries` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
   `data` text NOT NULL COMMENT '提交的询盘数据（JSON）',
   `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `inquiry_guid` binary(16) NOT NULL COMMENT '过审询盘的全局唯一ID',
+  `status` tinyint NOT NULL COMMENT '状态（10-通过；20-拒绝）',
   PRIMARY KEY (`id`),
   KEY `idx_get_pending` (`deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='待审核询盘表';

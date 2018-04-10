@@ -503,6 +503,8 @@ function enterprise_oms_action_rejected_inquiries($smarty)
     if (is_array($rejectedInquiries)) foreach ($rejectedInquiries as $ri) {
         $i = json_decode($ri['data'], true);
         $i['id'] = $ri['id'];
+        $i['guid'] = $ri['inquiry_guid'];
+        $i['verify_result'] = $ri['status'];
         $extracedInquiries[] = $i;
     }
     $smarty->assign('rejected_inquiries', $extracedInquiries);
@@ -639,16 +641,20 @@ function enterprise_oms_process_pending_inquiry($pendingInquiryDAO, $pendingInqu
         return;
 
     if ($submitted == 1) {// 通过
+        $inquiryGUID = enterprise_generate_guid();
         // Save to inquiry table
         $inquiryData = json_decode($pendingInquiry['data'], true);
-        $inquiryData['guid'] = enterprise_generate_guid();
+        $inquiryData['guid'] = $inquiryGUID;
         $inquiryDAO = new \enterprise\daos\Inquiry();
         $inquiryDAO->insert($inquiryData);
     }
 
     $values = array(
             'deleted' => 1,
+            'status' => ($submitted == 1)?\enterprise\daos\PendingInquiry::STATUS_APPROVED:\enterprise\daos\PendingInquiry::STATUS_REJECTED,
         );
+    if ($submitted == 1) // 通过
+        $values['inquiry_guid'] = $inquiryGUID;
     $pendingInquiryDAO->update($pendingInquiryId, $values);
 
     if ($submitted == 1) {// 通过

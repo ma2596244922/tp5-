@@ -1,3 +1,7 @@
+-- 2018-4-10
+ALTER TABLE `enterprise_pending_inquiries`
+  ADD COLUMN `inquiry_guid` binary(16) NOT NULL COMMENT '过审询盘的全局唯一ID',
+  ADD COLUMN `status` tinyint NOT NULL COMMENT '状态（10-通过；20-拒绝）';
 -- 2018-3-14
 ALTER TABLE `enterprise_sites` ADD COLUMN `enabled_functions` text NOT NULL COMMENT '开启功能清单（JSON）';
 -- 2018-3-13

@@ -41,7 +41,15 @@
                     </tr>
 {foreach $rejected_inquiries as $i}
                     <tr>
-                        <td>{$i.subject}</td>
+                        <td>
+    {-if $i.verify_result==\enterprise\daos\PendingInquiry::STATUS_APPROVED}
+                            <span class="label label-success">通过</span>
+    {-/if}
+    {-if $i.verify_result==\enterprise\daos\PendingInquiry::STATUS_REJECTED}
+                            <span class="label label-danger">拒绝</span>
+    {-/if}
+                            {$i.subject}
+                        </td>
                         <td>
                             <a href="?action=view_inquiry&pending_inquiry_id={$i.id}" target="_blank">查看</a>
                         </td>
