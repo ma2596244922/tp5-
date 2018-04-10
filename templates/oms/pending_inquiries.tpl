@@ -42,7 +42,10 @@
                                 <input type="checkbox" name="selected_pending_inquiries[{$i.id}]" value="1" data-role="tr-checkbox"/>
                                 <input type="hidden" name="pending_inquiries[]" value="{$i.id}"/>
                             </td>
-                            <td>{$i.subject}</td>
+                            <td>
+                                {foreach $i.verifying_tags as $tag}<span class="label label-danger">{$tag}</span>{/foreach}
+                                {$i.subject}
+                            </td>
                             <td>
                                 <a href="?action=check_inquiry&pending_inquiry_id={$i.id}" target="_blank">查看</a>
                             </td>

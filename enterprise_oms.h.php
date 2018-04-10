@@ -430,6 +430,34 @@ function enterprise_oms_assign_inquiry_list($smarty, $var, $siteId = null, $max 
     $smarty->assign($var, $inquiries);
 }
 
+function enterprise_oms_generate_tags_of_inquiry($message)
+{
+    $retval = [];
+
+    $document = new \DOMDocument();
+    // See:
+    //  - http://php.net/manual/en/class.domdocument.php#118509
+    //  - https://stackoverflow.com/questions/8218230/php-domdocument-loadhtml-not-encoding-utf-8-correctly
+    $convertedMessage = mb_convert_encoding($message, 'HTML-ENTITIES', 'UTF-8');
+    @$document->loadHTML($convertedMessage);
+
+    $imgElements = $document->getElementsByTagName('img');
+    if ($imgElements->length > 0)
+        $retval[] = 'IMG';
+
+    $anchorElements = $document->getElementsByTagName('a');
+    if ($anchorElements->length > 0)
+        $retval[] = 'A';
+
+    if (mb_strlen($message, 'UTF-8') >= 600)
+        $retval[] = '600';
+
+    if (preg_match("/[\x{4e00}-\x{9fa5}]/u", $message))
+        $retval[] = 'CHS';
+
+    return $retval;
+}
+
 /**
  * Pending Inquiries
  */
@@ -447,6 +475,7 @@ function enterprise_oms_action_pending_inquiries($smarty)
     if (is_array($pendingInquiries)) foreach ($pendingInquiries as $ri) {
         $i = json_decode($ri['data'], true);
         $i['id'] = $ri['id'];
+        $i['verifying_tags'] = enterprise_oms_generate_tags_of_inquiry($i['message']);
         $extracedInquiries[] = $i;
     }
     $smarty->assign('pending_inquiries', $extracedInquiries);
