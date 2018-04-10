@@ -2144,6 +2144,19 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
                 "duration" => "21",
                 "contentUrl" => enterprise_url_prefix() . "/tea_leaf_dryer.mp4"
             );
+    } elseif ($productGroup['product_video_uri']
+            && $productGroup['product_video_duration']
+            && $productGroup['product_video_cover_uri']) {
+        $structuredData[] = array(
+                "@context" => "http://schema.org",
+                "@type" => "VideoObject",
+                "name" => $product['caption'],
+                "description" => $product['description'],
+                "thumbnailUrl" => enterprise_url_photo($productGroup['product_video_cover_uri']),
+                "uploadDate" => date('n/j/Y', strtotime($productGroup['updated'])),
+                "duration" => $productGroup['product_video_duration'],
+                "contentUrl" => $productGroup['product_video_uri']
+            );
     }
     $smarty->assign('google_structured_data', $structuredData);
 

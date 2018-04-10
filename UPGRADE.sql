@@ -1,4 +1,8 @@
 -- 2018-4-10
+ALTER TABLE `enterprise_groups`
+  ADD COLUMN `product_video_uri` varchar(100) NOT NULL COMMENT '产品页视频地址',
+  ADD COLUMN `product_video_cover_uri` varchar(100) NOT NULL COMMENT '产品页视频封面图',
+  ADD COLUMN `product_video_duration` int(10) unsigned NOT NULL COMMENT '产品页视频时长';
 ALTER TABLE `enterprise_pending_inquiries`
   ADD COLUMN `inquiry_guid` binary(16) NOT NULL COMMENT '过审询盘的全局唯一ID',
   ADD COLUMN `status` tinyint NOT NULL COMMENT '状态（10-通过；20-拒绝）';

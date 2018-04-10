@@ -1186,7 +1186,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
 }
 
 function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null
-        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null, $productGiveH1To = null)
+        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null, $productGiveH1To = null, $product_video_uri = null, $product_video_cover_uri = null, $product_video_duration = null)
 {
     // Language Group
     $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
@@ -1210,6 +1210,9 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
         $values['product_html_title'] = $htmlTitle;
         $values['product_meta_keywords'] = $metaKeywords;
         $values['product_meta_description'] = $metaDescription;
+        $values['product_video_uri'] = $product_video_uri;
+        $values['product_video_cover_uri'] = $product_video_cover_uri;
+        $values['product_video_duration'] = $product_video_duration;
     }
     if ($groupId) {// Edit
         // Authentication
@@ -1275,11 +1278,17 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
     $metaKeywords = timandes_get_post_data('meta_keywords');
     $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
     $productGiveH1To = (int)timandes_get_post_data('product_give_h1_to');
+    $product_video_uri = timandes_get_post_data('product_video_uri');
+    $product_video_duration = timandes_get_post_data('product_video_duration');
 
     if (!$groupName)
         return enterprise_admin_display_error_msg($smarty, '请输入分组名称');
 
-    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription, $productGiveH1To);
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('video_cover');
+    $product_video_cover_uri = $images?$images[0]:null;
+
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription, $productGiveH1To, $product_video_uri, $product_video_cover_uri, $product_video_duration);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }

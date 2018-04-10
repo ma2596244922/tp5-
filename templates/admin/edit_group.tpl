@@ -24,6 +24,8 @@
 
     <!-- END PAGE LEVEL STYLES -->
 
+    <link rel="stylesheet" type="text/css" href="media/css/bootstrap-fileupload.css" />
+
     <link rel="shortcut icon" href="media/image/favicon.ico" />
 
 </head>
@@ -124,7 +126,7 @@
 
                                 <!-- BEGIN FORM-->
 
-                                <form action="?action=edit_group&group_id={$group_id}" method="POST" class="form-horizontal">
+                                <form action="?action=edit_group&group_id={$group_id}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 
                                     <div class="control-group">
 
@@ -261,6 +263,78 @@
                                         </div>
 
                                     </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页视频封面图</label>
+
+                                        <div class="controls">
+
+                                            <div class="fileupload fileupload-{if $group.product_video_cover_uri|default:''}exists{else}new{/if}" data-provides="fileupload">
+
+                                                <input type="hidden" name="product_video_cover_uri" value="{$group.product_video_cover_uri|default:''}">
+
+                                                <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+
+                                                    <img src="media/image/no_image.png" alt="" />
+
+                                                </div>
+
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 150px; padding: 4px;">
+
+                                                    <img src="{$group.product_video_cover_uri|default:''|url:'enterprise_url_photo'}" alt="" style="max-height: 150px;" />
+
+                                                </div>
+
+                                                <div>
+
+                                                    <span class="btn btn-file">
+                                                        <span class="fileupload-new">选择图片</span>
+
+                                                        <span class="fileupload-exists">更换</span>
+
+                                                        <input type="file" class="default" name="product_video_cover_uri" />
+                                                    </span>
+
+                                                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">删除</a>
+
+                                                </div>
+
+                                            </div>
+
+                                            <span class="help-block">推荐图片尺寸177x67。</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页视频时长</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span1 m-wrap" name="product_video_duration" value="{$group.product_video_duration|default:''}" />
+
+                                            <span class="help-inline">如：13</span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="control-group">
+
+                                        <label class="control-label">产品页视频地址</label>
+
+                                        <div class="controls">
+
+                                            <input type="text" class="span6 m-wrap" name="product_video_uri" value="{$group.product_video_uri|default:''}" />
+
+                                            <span class="help-inline">如：https://www.youtube.com/watch?v=EOIvnRUa3ik</span>
+
+                                        </div>
+
+                                    </div>
 {/if}
                                     <div class="form-actions">
 
@@ -315,6 +389,8 @@
     <!-- END CORE PLUGINS -->
 
     <script src="media/js/app.js"></script>      
+
+    <script type="text/javascript" src="media/js/bootstrap-fileupload.js"></script>
 
     <script>{literal}
 

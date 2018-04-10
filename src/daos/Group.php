@@ -30,6 +30,9 @@ class Group extends \crawler\daos\AbstractDAO
             'meta_description' => 'text',
             'desc' => 'text',
             'product_give_h1_to' => 'tinyint',
+            'product_video_uri' => 'text',
+            'product_video_cover_uri' => 'text',
+            'product_video_duration' => 'int',
         );
 
     public function getTableName()

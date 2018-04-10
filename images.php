@@ -18,6 +18,7 @@ $maxWidthInfo = array(
         'banner' => IMAGE_MAX_WIDTH_4_BANNER,
         'bg_image' => IMAGE_MAX_WIDTH_4_BANNER,
         'picture' => 960,
+        'video_cover' => 177,
     );
 
 /** @var array 缩略图配置 */
