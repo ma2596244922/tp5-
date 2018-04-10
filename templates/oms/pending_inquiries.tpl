@@ -45,9 +45,12 @@
                             <td>
                                 {foreach $i.verifying_tags as $tag}<span class="label label-danger">{$tag}</span>{/foreach}
                                 {$i.subject}
+                                <hr>
+                                {$i.message|truncate:250}
                             </td>
                             <td>
                                 <a href="?action=check_inquiry&pending_inquiry_id={$i.id}" target="_blank">查看</a>
+                                <!--<a data-toggle="tooltip" data-placement="bottom" title="{$i.message|truncate:250|escape}">预览</a>-->
                             </td>
                             <td>{$i.created}</td>
                             <td>{$i.email}</td>
@@ -68,7 +71,10 @@
     <script type="text/javascript">
         $('#check-all').click(function() {
             $('[data-role="tr-checkbox"]').prop('checked', $(this).prop('checked'));
-        })
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 </body>
 </html>
