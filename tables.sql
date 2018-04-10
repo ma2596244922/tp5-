@@ -103,7 +103,7 @@ CREATE TABLE `enterprise_groups` (
   `product_give_h1_to` tinyint NOT NULL COMMENT '优先使用H1标签（0-产品标题；1-型号）',
   `product_video_uri` varchar(100) NOT NULL COMMENT '产品页视频地址',
   `product_video_cover_uri` varchar(100) NOT NULL COMMENT '产品页视频封面图',
-  `product_video_duration` int(10) unsigned NOT NULL COMMENT '产品页视频时长',
+  `product_video_duration` varchar(10) NOT NULL COMMENT '产品页视频时长',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`),
   KEY `idx_lookup` (`site_id`, `path_sum`)

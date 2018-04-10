@@ -316,7 +316,7 @@
 
                                             <input type="text" class="span1 m-wrap" name="product_video_duration" value="{$group.product_video_duration|default:''}" />
 
-                                            <span class="help-inline">如：13</span>
+                                            <span class="help-inline">如：00:13</span>
 
                                         </div>
 
