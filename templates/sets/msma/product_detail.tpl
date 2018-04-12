@@ -11,7 +11,6 @@
 <link type="text/css" rel="stylesheet" href="/media/sets/msma/css/common.css" />
 <link type="text/css" rel="stylesheet" href="/media/sets/msma/css/shop.css" />
 {include file="sets/msma/common/styles.tpl"}
-<link type="text/css" rel="stylesheet" href="/media/quick-inquiry/inquiry-fast.css" />
 </head>
 
 <body>
@@ -31,9 +30,7 @@
 <!--content-->
 {include file="sets/msma/common/links.tpl"}
 {include file="sets/msma/common/copyright.tpl"}
-{include file="common/quick-inquiry.tpl"}
 {include file="sets/msma/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/msma/js/product.js"></script>
-<script charset="utf-8" language="javascript" type="text/javascript" src="/media/quick-inquiry/quick-inquiry.js"></script>
 </body>
 </html>
