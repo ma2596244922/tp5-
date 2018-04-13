@@ -63,6 +63,10 @@ retry:
             // Domain suffix
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
+            // Template Dir
+            if ($omsSite['type'] != \oms\daos\Site::TYPE_SELF)
+                $GLOBALS['gsAdminTemplateDir'] = 'simple';
+
             switch ($action) {
                 case 'replace_terms':
                     return enterprise_admin_action_replace_terms($smarty, $site, $langCode);

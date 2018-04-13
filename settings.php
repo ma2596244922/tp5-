@@ -48,3 +48,6 @@ $GLOBALS['gaTemplates'] = array(
                 'label' => '企信',
             ),
     );
+
+/** @var string admin后台模板目录 */
+$GLOBALS['gsAdminTemplateDir'] = 'admin';

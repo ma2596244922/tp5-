@@ -115,13 +115,13 @@ function enterprise_admin_display_success_msg($smarty, $msg, $url = null, $text 
                 'text' => $text,
             ));
     }
-    $smarty->display('admin/message.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/message.tpl');
 }
 
 function enterprise_admin_display_error_msg($smarty, $msg)
 {
     $smarty->assign('error_msg', $msg);
-    $smarty->display('admin/message.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/message.tpl');
 }
 
 /* }}} */
@@ -188,7 +188,7 @@ function enterprise_admin_action_dashboard($smarty)
     $total = $trackDAO->countBy($condition, '`ipv4`');
     $smarty->assign('uv', $total);
 
-    $smarty->display('admin/index.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/index.tpl');
 }
 
 /**
@@ -206,7 +206,7 @@ function enterprise_admin_action_message($smarty)
             ));
         $smarty->assign('success_msg', '这是一条成功消息');
     }
-    $smarty->display('admin/message.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/message.tpl');
 }
 
 /* {{{ Log-in Log-out */
@@ -225,7 +225,7 @@ function enterprise_admin_register_user_session($siteId, $userId)
  */
 function enterprise_admin_action_login($smarty, $targetSiteId)
 {
-    $tplPath = 'admin/login.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/login.tpl';
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) // No form data
@@ -297,7 +297,7 @@ function enterprise_admin_action_captcha($smarty)
  */
 function enterprise_admin_action_profile($smarty)
 {
-    $tplPath = 'admin/profile.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/profile.tpl';
 
     $userId = (int)timandes_get_session_data(SESSION_FIELD_USER_ID);
 
@@ -326,7 +326,7 @@ function enterprise_admin_action_profile($smarty)
  */
 function enterprise_admin_action_fragment($smarty)
 {
-    $tplPath = 'admin/fragment.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/fragment.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -361,7 +361,7 @@ function enterprise_admin_action_fragment($smarty)
  */
 function enterprise_admin_action_logo($smarty)
 {
-    $tplPath = 'admin/logo.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/logo.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -411,7 +411,7 @@ function enterprise_admin_parse_base64_data($s, &$meta = array())
  */
 function enterprise_admin_action_favicon($smarty)
 {
-    $tplPath = 'admin/favicon.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/favicon.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -453,7 +453,7 @@ function enterprise_admin_action_favicon($smarty)
  */
 function enterprise_admin_action_info($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/info.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/info.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -616,7 +616,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
  */
 function enterprise_admin_action_hide($smarty, $langCode)
 {
-    $tplPath = 'admin/hide.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/hide.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -700,7 +700,7 @@ function enterprise_admin_action_hide_track($smarty, $langCode)
     $pagerInfo = enterprise_pager_calculate_key_infos($totalTracks, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-    $smarty->display('admin/hide_track.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/hide_track.tpl');
 }
 
 /* }}} */
@@ -710,7 +710,7 @@ function enterprise_admin_action_hide_track($smarty, $langCode)
  */
 function enterprise_admin_action_password($smarty)
 {
-    $tplPath = 'admin/password.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/password.tpl';
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) // No form data
         return $smarty->display($tplPath);
@@ -751,7 +751,7 @@ function enterprise_admin_action_password($smarty)
  */
 function enterprise_admin_action_index_products($smarty, $site, $langCode = 'en')
 {
-    $tplPath = 'admin/index_products.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/index_products.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -801,7 +801,7 @@ function enterprise_admin_action_index_products($smarty, $site, $langCode = 'en'
  */
 function enterprise_admin_action_user_voices($smarty, $site)
 {
-    $tplPath = 'admin/user_voices.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/user_voices.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -836,7 +836,7 @@ function enterprise_admin_action_user_voices($smarty, $site)
  */
 function enterprise_admin_action_index_tdk($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/index_tdk.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/index_tdk.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -891,7 +891,7 @@ function strip_rn($s)
  */
 function enterprise_admin_action_product_tdk($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/product_tdk.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/product_tdk.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -945,7 +945,7 @@ function enterprise_admin_action_product_tdk($smarty, $site, $langCode)
  */
 function enterprise_admin_action_product_default_image($smarty)
 {
-    $tplPath = 'admin/product_default_image.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/product_default_image.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -982,7 +982,7 @@ function enterprise_admin_action_product_default_image($smarty)
  */
 function enterprise_admin_action_common_bg_image($smarty)
 {
-    $tplPath = 'admin/common_bg_image.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/common_bg_image.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -1038,7 +1038,7 @@ function enterprise_admin_action_inquiry($smarty)
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
 
-    $smarty->display('admin/inquiry.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/inquiry.tpl');
 }
 
 function enterprise_admin_assign_inquiry_detail($smarty, $inquiry)
@@ -1086,7 +1086,7 @@ function enterprise_admin_action_inquiry_detail($smarty)
 
     enterprise_admin_assign_inquiry_detail($smarty, $inquiry);
 
-    $smarty->display('admin/inquiry_detail_2.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/inquiry_detail_2.tpl');
 }
 
 /**
@@ -1145,7 +1145,7 @@ function enterprise_admin_action_group($smarty, $site, $langCode)
 
     enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, $keywordsCondition, false);
 
-    $smarty->display('admin/group.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/group.tpl');
 }
 
 /**
@@ -1255,7 +1255,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
  */
 function enterprise_admin_action_edit_group($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_group.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_group.tpl';
 
     $groupId = (int)timandes_get_query_data('group_id');
     $smarty->assign('group_id', $groupId);
@@ -1298,7 +1298,7 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_group_tdk($smarty, $site)
 {
-    $tplPath = 'admin/edit_group_tdk.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_group_tdk.tpl';
 
     $groupId = (int)timandes_get_query_data('group_id');
     if (!$groupId)
@@ -1377,7 +1377,7 @@ function enterprise_admin_action_edit_group_tdk($smarty, $site)
  */
 function enterprise_admin_action_edit_group_desc($smarty, $site)
 {
-    $tplPath = 'admin/edit_group_desc.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_group_desc.tpl';
 
     $groupId = (int)timandes_get_query_data('group_id');
     if (!$groupId)
@@ -1467,7 +1467,7 @@ function enterprise_admin_action_export_group_products($smarty, $site, $langCode
  */
 function enterprise_admin_action_import_group_products($smarty, $site, $langCode = 'en')
 {
-    $tplPath = 'admin/import_group_products.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/import_group_products.tpl';
 
     $groupId = (int)timandes_get_query_data('group_id');
     if (!$groupId)
@@ -1759,7 +1759,7 @@ function enterprise_admin_action_product($smarty, $langCode)
     $pagerInfo = enterprise_pager_calculate_key_infos($totalProducts, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-    $smarty->display('admin/product.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/product.tpl');
 }
 
 /**
@@ -1968,7 +1968,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
  */
 function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_product.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_product.tpl';
 
     $productId = (int)timandes_get_query_data('product_id');
     $smarty->assign('product_id', $productId);
@@ -2087,7 +2087,7 @@ function enterprise_admin_action_delete_product($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_product_tdk($smarty, $site)
 {
-    $tplPath = 'admin/edit_product_tdk.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_product_tdk.tpl';
 
     $productId = (int)timandes_get_query_data('product_id');
     if (!$productId)
@@ -2154,7 +2154,7 @@ function enterprise_admin_action_edit_product_tdk($smarty, $site)
  */
 function enterprise_admin_action_edit_product_url($smarty, $site)
 {
-    $tplPath = 'admin/edit_product_url.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_product_url.tpl';
 
     $productId = (int)timandes_get_query_data('product_id');
     if (!$productId)
@@ -2201,7 +2201,7 @@ function enterprise_admin_action_edit_product_url($smarty, $site)
  */
 function enterprise_admin_action_duplicate_products($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/duplicate_products.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/duplicate_products.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     $productId = (int)timandes_get_query_data('product_id');
@@ -2438,7 +2438,7 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/insert_keywords.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/insert_keywords.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -2654,7 +2654,7 @@ function enterprise_admin_replace_desc_pic_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/replace_desc_pic.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/replace_desc_pic.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -2820,7 +2820,7 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/replace_keywords.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/replace_keywords.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -2938,7 +2938,7 @@ function enterprise_admin_replace_terms_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_replace_terms($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/replace_terms.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/replace_terms.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -3037,7 +3037,7 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_insert_desc($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/insert_desc.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/insert_desc.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -3197,7 +3197,7 @@ function enterprise_admin_insert_images_proc($userSiteId, $taskDetails)
  */
 function enterprise_admin_action_insert_images($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/insert_images.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/insert_images.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
@@ -3268,7 +3268,7 @@ function enterprise_admin_action_contact($smarty)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_assign_contact_list($smarty, 'contacts', $userSiteId);
 
-    $smarty->display('admin/contact.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/contact.tpl');
 }
 
 /**
@@ -3276,7 +3276,7 @@ function enterprise_admin_action_contact($smarty)
  */
 function enterprise_admin_action_edit_contact($smarty, $site)
 {
-    $tplPath = 'admin/edit_contact.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_contact.tpl';
 
     $contactId = (int)timandes_get_query_data('contact_id');
     $smarty->assign('contact_id', $contactId);
@@ -3387,7 +3387,7 @@ function enterprise_admin_action_photo($smarty)
 
     $smarty->assign('predefined_photo_types', \enterprise\daos\Photo::getPredefinedTypes());
 
-    $smarty->display('admin/photo.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/photo.tpl');
 }
 
 function enterprise_admin_upload_post_images($thumbnailFor = 'product')
@@ -3424,7 +3424,7 @@ function enterprise_admin_upload_post_images($thumbnailFor = 'product')
  */
 function enterprise_admin_action_edit_photo($smarty, $site)
 {
-    $tplPath = 'admin/edit_photo.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_photo.tpl';
 
     $photoId = (int)timandes_get_query_data('photo_id');
     $smarty->assign('photo_id', $photoId);
@@ -3516,7 +3516,7 @@ function enterprise_admin_action_certification($smarty)
 
     $condition = enterprise_assign_certification_list($smarty, 'certifications', $userSiteId);
 
-    $smarty->display('admin/certification.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/certification.tpl');
 }
 
 /**
@@ -3524,7 +3524,7 @@ function enterprise_admin_action_certification($smarty)
  */
 function enterprise_admin_action_edit_certification($smarty, $site)
 {
-    $tplPath = 'admin/edit_certification.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_certification.tpl';
 
     $certificationId = (int)timandes_get_query_data('certification_id');
     $smarty->assign('certification_id', $certificationId);
@@ -3663,7 +3663,7 @@ function enterprise_admin_action_task($smarty)
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
 
-    $smarty->display('admin/task.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/task.tpl');
 }
 
 /**
@@ -3671,7 +3671,7 @@ function enterprise_admin_action_task($smarty)
  */
 function enterprise_admin_action_edit_task($smarty, $site)
 {
-    $tplPath = 'admin/edit_task.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_task.tpl';
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_admin_assign_group_list($smarty, 'groups', $userSiteId);
@@ -3754,7 +3754,7 @@ function enterprise_admin_action_banner($smarty)
 
     $condition = enterprise_assign_banner_list($smarty, 'banners', $userSiteId);
 
-    $smarty->display('admin/banner.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/banner.tpl');
 }
 
 /**
@@ -3762,7 +3762,7 @@ function enterprise_admin_action_banner($smarty)
  */
 function enterprise_admin_action_edit_banner($smarty, $site)
 {
-    $tplPath = 'admin/edit_banner.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_banner.tpl';
 
     $bannerId = (int)timandes_get_query_data('banner_id');
     $smarty->assign('banner_id', $bannerId);
@@ -3918,7 +3918,7 @@ function enterprise_admin_action_custom_page($smarty)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
     enterprise_assign_custom_page_list($smarty, 'custom_pages', $userSiteId);
 
-    $smarty->display('admin/custom_page.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/custom_page.tpl');
 }
 
 /**
@@ -3926,7 +3926,7 @@ function enterprise_admin_action_custom_page($smarty)
  */
 function enterprise_admin_action_edit_custom_page($smarty, $site)
 {
-    $tplPath = 'admin/edit_custom_page.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_custom_page.tpl';
 
     $customPageId = (int)timandes_get_query_data('custom_page_id');
     $smarty->assign('custom_page_id', $customPageId);
@@ -4035,7 +4035,7 @@ function enterprise_admin_action_comment($smarty)
 
     enterprise_assign_comment_list($smarty, 'comments', $userSiteId, $productId);
 
-    $smarty->display('admin/comment.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/comment.tpl');
 }
 
 function enterprise_admin_source_inquiry_2_comment($sourceInquiryId)
@@ -4061,7 +4061,7 @@ function enterprise_admin_source_inquiry_2_comment($sourceInquiryId)
  */
 function enterprise_admin_action_edit_comment($smarty, $site)
 {
-    $tplPath = 'admin/edit_comment.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_comment.tpl';
 
     $commentId = (int)timandes_get_query_data('comment_id');
     $smarty->assign('comment_id', $commentId);
@@ -4180,7 +4180,7 @@ function enterprise_admin_action_email_template($smarty, $site, $langCode, $curr
             $smarty->assign('success_msg', '发送成功');
 
             $smarty->assign('content', $message);
-            $tplPath = 'admin/email_template_step_2.tpl';
+            $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/email_template_step_2.tpl';
             break;
         case 2:
             $groupIdArray = timandes_get_post_data('group_id_array');
@@ -4215,13 +4215,13 @@ function enterprise_admin_action_email_template($smarty, $site, $langCode, $curr
 
             enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix);
 
-            $templateContent = $smarty->fetch('admin/emails/edm.tpl');
+            $templateContent = $smarty->fetch($GLOBALS['gsAdminTemplateDir'] . '/emails/edm.tpl');
             $smarty->assign('content', $templateContent);
 
-            $tplPath = 'admin/email_template_step_2.tpl';
+            $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/email_template_step_2.tpl';
             break;
         default:
-            $tplPath = 'admin/email_template_step_1.tpl';
+            $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/email_template_step_1.tpl';
             enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
             break;
     }
@@ -4250,7 +4250,7 @@ function enterprise_admin_action_news($smarty, $site, $langCode)
     $pagerInfo = enterprise_pager_calculate_key_infos($totalNews, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-    $smarty->display('admin/news.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/news.tpl');
 }
 
 /**
@@ -4258,7 +4258,7 @@ function enterprise_admin_action_news($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_news($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_news.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_news.tpl';
 
     $newsId = (int)timandes_get_query_data('news_id');
     $smarty->assign('news_id', $newsId);
@@ -4428,7 +4428,7 @@ function enterprise_admin_action_user_voice($smarty, $site, $langCode)
             $smarty->assign('user_voices', $userVoices);
     }
 
-    $smarty->display('admin/user_voice.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/user_voice.tpl');
 }
 
 /**
@@ -4436,7 +4436,7 @@ function enterprise_admin_action_user_voice($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_user_voice($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_user_voice.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_user_voice.tpl';
 
     $userVoiceId = (int)timandes_get_query_data('user_voice_id');
     $smarty->assign('user_voice_id', $userVoiceId);
@@ -4603,7 +4603,7 @@ function enterprise_admin_action_main_product($smarty)
     $pagerInfo = enterprise_pager_calculate_key_infos($totalMainProduct, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
-    $smarty->display('admin/main_product.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/main_product.tpl');
 }
 
 /**
@@ -4611,7 +4611,7 @@ function enterprise_admin_action_main_product($smarty)
  */
 function enterprise_admin_action_edit_main_product($smarty, $site)
 {
-    $tplPath = 'admin/edit_main_product.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_main_product.tpl';
 
     $mainProductId = (int)timandes_get_query_data('main_product_id');
     $smarty->assign('main_product_id', $mainProductId);
@@ -4775,7 +4775,7 @@ function enterprise_admin_action_picture($smarty)
     $smarty->assign('page_no', $pageNo);
     $smarty->assign('total_pages', $totalPages);
 
-    $smarty->display('admin/picture.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/picture.tpl');
 }
 
 /**
@@ -4783,7 +4783,7 @@ function enterprise_admin_action_picture($smarty)
  */
 function enterprise_admin_action_edit_picture($smarty, $site)
 {
-    $tplPath = 'admin/edit_picture.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_picture.tpl';
 
     $pictureId = (int)timandes_get_query_data('picture_id');
     $smarty->assign('picture_id', $pictureId);
@@ -4869,7 +4869,7 @@ function enterprise_admin_action_index_keyword($smarty, $site, $langCode)
 
     enterprise_assign_index_keyword_list($smarty, 'index_keywords', $userSiteId, $langCode, $pageNo, $max);
 
-    $smarty->display('admin/index_keyword.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/index_keyword.tpl');
 }
 
 /**
@@ -4877,7 +4877,7 @@ function enterprise_admin_action_index_keyword($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_index_keyword($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_index_keyword.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_index_keyword.tpl';
 
     $indexKeywordId = (int)timandes_get_query_data('index_keyword_id');
     $smarty->assign('index_keyword_id', $indexKeywordId);
@@ -5002,7 +5002,7 @@ function enterprise_admin_action_keyword($smarty, $site, $langCode)
 
     enterprise_assign_keyword_list($smarty, 'keywords', $userSiteId, $langCode, $pageNo, $max);
 
-    $smarty->display('admin/keyword.tpl');
+    $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/keyword.tpl');
 }
 
 function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyword = null, $desc = null)
@@ -5079,7 +5079,7 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
  */
 function enterprise_admin_action_create_keywords($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/create_keywords.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/create_keywords.tpl';
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
@@ -5114,7 +5114,7 @@ function enterprise_admin_action_create_keywords($smarty, $site, $langCode)
  */
 function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
 {
-    $tplPath = 'admin/edit_keyword.tpl';
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_keyword.tpl';
 
     $keywordId = (int)timandes_get_query_data('keyword_id');
     $smarty->assign('keyword_id', $keywordId);
