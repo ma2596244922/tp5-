@@ -390,6 +390,33 @@ function enterprise_admin_action_logo($smarty)
     $smarty->display($tplPath);
 }
 
+
+/**
+ * Change logo new by webuploader
+ */
+function enterprise_admin_action_logo_corp_upload($smarty)
+{
+   
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    // Upload logo
+    $images = enterprise_admin_upload_post_images('');
+    if ($images)
+        $logo = $images[0];
+    else
+        $logo = 0;
+
+    $corporationDAO = new \enterprise\daos\Corporation();
+    $values = array(
+            'logo' => $logo,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+    $corporationDAO->update($userSiteId, $values);
+  
+}
+
+
+
 function enterprise_admin_parse_base64_data($s, &$meta = array())
 {
     if (!$s)
@@ -454,7 +481,7 @@ function enterprise_admin_action_favicon($smarty)
 function enterprise_admin_action_info($smarty, $site, $langCode)
 {
     $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/info.tpl';
-
+    
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
@@ -464,6 +491,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
+        enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type=0);
         enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
         return $smarty->display($tplPath);
     }
@@ -3407,6 +3435,7 @@ function enterprise_admin_upload_post_images($thumbnailFor = 'product')
 
             $body = null;
             $maxWidth = (isset($maxWidthInfo[$thumbnailFor])?$maxWidthInfo[$thumbnailFor]:IMAGE_MAX_WIDTH_4_PRODUCT);
+
             $id = enterprise_admin_save_image($imageDAO, $userSiteId, $imageManager, $meta['tmp_name'], $body, $maxWidth);
             // Thumbnail
             if ($thumbnailFor)
@@ -3481,6 +3510,41 @@ function enterprise_admin_action_edit_photo($smarty, $site)
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=photo', '公司图片');
 }
 
+/**
+enterprise_admin_action_photo_corp_upload
+*/
+function enterprise_admin_action_photo_corp_upload($smarty, $site)
+{
+   
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $uri = timandes_get_post_data('uri');
+    $desc = timandes_get_post_data('desc');
+    $type = (int)timandes_get_post_data('type');
+    // Upload Images
+    $images = enterprise_admin_upload_post_images();
+
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择照片');
+
+    $uri = $images[0];
+
+    $photoDAO = new \enterprise\daos\Photo();
+    $values = array(
+            'site_id' => $userSiteId,
+            'uri' => $uri,
+            'desc' => $desc,
+            'type' => $type,
+            'updated' => date('Y-m-d H:i:s'),
+        );
+   
+    $values['created'] = $values['updated'];
+
+    $photo_id = $photoDAO->insert($values);
+    
+    echo json_encode(array('photo_id'=>$photo_id));
+    
+}
 /**
  * Delete Photo
  */
@@ -4014,11 +4078,37 @@ function enterprise_admin_action_upload_image($smarty)
     }
 
     $uri = 'image://' . $images[0];
-    $imageUrl = enterprise_url_photo($uri, '', '', '', true);
+    $imageUrl = enterprise_url_photo($uri, '', '', '');
     $responseJS = "window.parent.CKEDITOR.tools.callFunction( {$funcNum}, '{$imageUrl}' );";
     echo '<script type="text/javascript">' . $responseJS . '</script>';
 }
 /* }}} */
+/**
+ * Upload Image by wangeditor
+ */
+function enterprise_admin_action_upload_image_wang($smarty)
+{
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('');
+    if (!$images) {
+
+        $res = array();
+        $res['errno'] = -1;
+        $res['data'] = array();
+        echo json_encode($res);
+        return;
+    }
+
+    $uri = 'image://' . $images[0];
+    $imageUrl = enterprise_url_photo($uri, '', '', '', true);
+    $res = array();
+    $res['errno'] = 0;
+    $res['data'] = array($imageUrl);
+    echo json_encode($res);
+
+}
+/* }}} */
+
 
 
 /* {{{ Comment */

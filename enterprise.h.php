@@ -1368,7 +1368,8 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
 
 function enterprise_url_prefix()
 {
-    return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+    //return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+    return 'http://' . $_SERVER['HTTP_HOST'];
 }
 
 /**
@@ -1750,7 +1751,6 @@ function enterprise_get_corporation_info($siteId, $langCode = 'en')
     $condition = "`site_id`=" . (int)$siteId;
     $corporation = $corporationDAO->getOneBy($condition);
 
-    // Language Corporation
     if ($langCode != 'en') {
         $langCorporationDAO = new \enterprise\daos\LangCorporation($langCode);
         $condition = '`site_id`=' . (int)$siteId;
