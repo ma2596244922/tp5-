@@ -90,6 +90,8 @@ retry:
                     return enterprise_admin_action_email_template($smarty, $site, $langCode, $currentDomainSuffix);
                 case 'upload_image':
                     return enterprise_admin_action_upload_image($smarty);
+                case 'upload_image_wang':
+                    return enterprise_admin_action_upload_image_wang($smarty);
                 case 'profile':
                     return enterprise_admin_action_profile($smarty);
                 case 'fragment':
@@ -98,6 +100,8 @@ retry:
                     return enterprise_admin_action_favicon($smarty);
                 case 'logo':
                     return enterprise_admin_action_logo($smarty);
+                case 'logo_corp_upload':
+                    return enterprise_admin_action_logo_corp_upload($smarty);
                 case 'hide':
                     return enterprise_admin_action_hide($smarty, $langCode);
                 case 'hide_track':
@@ -160,6 +164,8 @@ retry:
                     return enterprise_admin_action_photo($smarty);
                 case 'edit_photo':
                     return enterprise_admin_action_edit_photo($smarty, $site);
+                case 'photo_corp_upload':
+                    return enterprise_admin_action_photo_corp_upload($smarty, $site);
                 case 'delete_photo':
                     return enterprise_admin_action_delete_photo($smarty, $site);
                 case 'picture':

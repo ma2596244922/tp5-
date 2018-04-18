@@ -4,7 +4,6 @@
  *
  * @package timandes\enterprise
  */
-
 require_once realpath(__DIR__ . '/../') . '/bootstrap.php';
 require_once realpath(__DIR__ . '/../') . '/config.php';
 

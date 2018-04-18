@@ -1,0 +1,219 @@
+/* Date 2017-02-24
+ * By Ravens
+ * Email:342636236@qq.com
+ */
+*{font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;margin: 0;padding:0;}
+html,body{color: #414141;font-size:14px;line-height:1;background:#F5F5F5;min-width: 1230px;}
+table {border-collapse: collapse;border-spacing: 0;}
+ol,ul {list-style: none;}
+a{text-decoration: none;}
+a{color:#414141;}
+a:hover{color: #2d56ee;}
+input,button,input[type="button"] {outline: none;border:;}
+button,input[type="button"] {cursor: pointer;border:none;}
+img {border:none;display: block;max-width: 100%;max-height: 100%;}
+strong {font-weight: normal;}
+::-webkit-input-placeholder { /* WebKit browsers */
+color:#CCC;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+color:#CCC;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+color:#CCC;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+color:#CCC;
+　　}
+/**/
+.Page {width: 1200px;margin:auto;}
+.clear{width: 0px;height: 0px;overflow: hidden;clear: both;}
+.fb{font-weight: bold;}
+.fl,.Left{float: left;}.fr,.Right{float: right;}
+.tc{text-align: center;}.tr{text-align: right;}
+.blue {color: #3183FF}.red{color:#FF6969;}
+i.icon  {display: inline-block;background:url(./images/icons.png) no-repeat;}
+i.icon.quest  {width: 20px;height: 20px;}
+i.icon.quest:hover  {background-position: -50px 0;}
+i.icon.quest div {width: 110px;top:32px;border:1px solid #DDD;background-color: #F5F5F5;font-style: normal;padding:5px 10px;line-height: 1.5;position: absolute;right: -20px;display: none;border-radius: 3px;}
+i.icon.quest:hover div {display: block;}
+  i.icon.quest div strong {width: 20px;height: 10px;position: absolute;top:-10px;right: 20px;display: block;background: url(./images/tips_a.png);}
+
+/*nice_select*/
+.SelectDL {border:1px solid #DDD;height: 34px;background: #FFF;cursor: default;text-indent: 15px;position: relative;width: 200px;margin-right: 20px;line-height: 34px;}
+.SelectDL:hover,.SelectDL.cur{box-shadow:0 0 3px #00baf2;}
+  .SelectDL dt  {padding-right: 36px;background: url(./images/select_tips.png) no-repeat right center;color:#666; }
+    .SelectDL dt p  {color: #CCC;}
+    .SelectDL dt p,.SelectDL dd li  {text-overflow:ellipsis; white-space:nowrap; overflow:hidden;word-wrap:normal;}
+  .SelectDL dd  {position: absolute;left: -1px;top:35px;background: #FFF;border:1px solid #DDD;width: 100%;display: none;overflow: hidden;z-index: 100;margin-top: -1px;}
+    .SelectDL dd ul {max-height: 240px;}
+      .SelectDL dd ul li:hover  {background: #F5F5F5;border:1px solid #DDD;border-left:0;border-right:0;margin: -1px 0;}
+      .SelectDL dd ul li.disabled,.SelectDL dd ul li.disabled:hover {background: #CCC;}
+      .SelectDL i.icon.arrow_down{background-position: 0px -150px;width: 8px;height: 5px;position: absolute;right: 10px;top:13px;}
+
+/**/
+.Top  {height: 60px;width: 100%;background:#FFF;margin-bottom: 20px;}
+  .Top h1.logo  {width: 200px;height: 100%;background: url(./images/logo.png) no-repeat;overflow: hidden;}
+    .Top h1.logo a{display: block;height: 60px;width: 100%;}
+  .Top .userInfo  {line-height: 60px;}
+    .Top .userInfo *  {float: right;}
+    .Top .userInfo img  {width: 48px;height: 48px;border:1px solid #DBE0E6;border-radius: 100%;margin:5px;margin-left: 35px;}
+
+.Content  {}
+  .Content .Left  {width: 160px;background: #303033;margin-right: 20px;padding:0px 20px 20px 20px;}
+    .Content .Left a  {display: block;line-height: 55px;color: #6F6F71;margin: 0 -20px;padding-left: 50px;position: relative;}
+    .Content .Left a:hover,.Content .Left a.cur {color:#FFF;background: #606066;}
+      .Content .Left a i  {display: block;width: 16px;height: 16px;background: url(./images/icons.png) no-repeat;position: absolute;left: 20px;top:20px;}
+      .Content .Left a.s1 i  {background-position: 0px -50px;}
+      .Content .Left a.s2 i  {background-position: -50px -50px;}
+      .Content .Left a.s3 i  {background-position: -100px -50px;}
+      .Content .Left a.s4 i  {background-position: -150px -50px;}
+      .Content .Left a.s5 i  {background-position: -200px -50px;}
+      .Content .Left a.s6 i  {background-position: -250px -50px;}
+      .Content .Left a.s7 i  {background-position: -300px -50px;}
+      .Content .Left a.s8 i  {background-position: -350px -50px;}
+      .Content .Left a.s9 i  {background-position: -400px -50px;}
+      .Content .Left a.s10 i  {background-position: -450px -50px;}
+      .Content .Left a i.more {background-position: -500px -50px;left:170px;top: 21px;}
+      .Content .Left a:hover i,.Content .Left a.cur i {background-position-y:-100px;}
+    .Content .Left div.qrcode  {color: #6F6F71;margin-top: 200px;line-height: 3;}
+    .Content .Left div.line {width: 100%;height: 1px;background:#6F6F71;margin: 10px 0;}
+  .Content .Right {width: 140px;background: #FFF;padding: 20px;}
+    .Content .Right ul.Integrity  {margin-bottom: 10px;}
+      .Content .Right ul.Integrity li {overflow: hidden;line-height: 35px;color:#CCC;padding-left: 20px;background: url(./images/right_icon_no.png) no-repeat left center;}
+      .Content .Right ul.Integrity li span  {float: right;}
+      .Content .Right ul.Integrity li.cur {color: #414141;background-image: url(./images/right_icon_yes.png)}
+    .Content .Right p {line-height: 20px;}
+  .Content .Main  {width: 720px;background: #FFF;padding: 20px 30px;float: left;}
+  .Content div h2.BoxTil {font-size: 16px;font-weight: normal;line-height: 1;margin-bottom: 10px;}
+  .MainBox  {margin-top: 25px;}
+    .MainBox dt {margin-bottom: 15px;}
+    .MainBox dt span.f12  {color: #CCC;margin-left: 10px;font-size: 12px;}
+    .MainBox .Tr {height: 36px;margin-bottom: 22px;line-height: 36px;position: relative;}
+      .MainBox .Tr .Btn {line-height: 34px;border:1px solid #DDD;background:#F5F5F5;text-align: center;padding: 0 35px;float: left;cursor:pointer;}
+      .MainBox .Tr .Btn.add {text-indent: 15px;background: #F5F5F5 url(./images/add_icon.png) no-repeat 30px center;}
+      .MainBox .Tr .Btn:hover {background-color: #EEE;}
+      .MainBox .Tr .BtnTips {margin-left: 20px;color: #CCC;}
+      .Tr p.ph {margin-bottom: -36px;padding-left: 15px;color:#CCC;line-height: 36px;}
+      .Tr input {height: 34px;line-height: 34px;border:1px solid #DDD;width: 718px;text-indent: 85px;background: transparent;}
+      .Tr p.error {line-height: 18px;font-size: 12px;color:#FF6969;display: none;}
+      .Tr.font6 input  {text-indent: 120px}
+      .MainBox.font2 .Tr input,.MainBox .Tr.font2 input  {text-indent: 60px}
+      .MainBox .Tr.font5 input  {text-indent: 100px}
+      .MainBox .Tr.font3 input  {text-indent: 75px}
+      .MainBox .Tr.error p.error {display: block;}
+      .MainBox .Tr.error input {border-color: #FF6969;}
+      .MainBox .Tr i.icon.quest {position: absolute;right:20px;top:8px;}
+      .MainBox .Tr .name  {width: 240px;margin-right: 10px;}
+        .MainBox .Tr .name input  {width: 238px;}
+      .MainBox .Tr .value {width: 410px;margin-right: 20px;}
+        .MainBox .Tr .value input  {width: 408px;}
+      .MainBox .Tr button.del {float: left;width: 36px;height: 36px;background: url(./images/icons.png) no-repeat -40px -140px;}
+      .MainBox .Tr button:hover.del {background-position: -90px -140px;}
+
+
+      .MainBox .Tr .SelectDL  {float: left;margin-right: 20px;}
+      .MainBox .checkboxList  {overflow: hidden;}
+        .MainBox .checkboxList li {float: left;padding-left: 20px;line-height: 16px;margin-bottom: 16px;background: url(./images/check.png) no-repeat left center;margin-right: 20px;width: 182px;cursor: default;}
+        .MainBox .checkboxList li:hover {opacity: 0.8;}
+        .MainBox .checkboxList li.ed  {background-image: url(./images/checked.png);}
+
+      .MainBox .Tr.pics {height: 120px;}
+        .MainBox .Tr.pics img {width: 100%;height: 100%;display: block;}
+        .MainBox .Tr.pics .pic {margin-right: 20px;width: 200px;height: 120px;position: relative;}
+        .MainBox .Tr.pics2 .pic  {width: 120px;}
+        .MainBox .Tr.pics .pic div  {display: none;width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: url(./images/bg20.png);}
+        .MainBox .Tr.pics .pic:hover div  {display: block;}
+          .MainBox .Tr.pics .pic div button {float: right;margin: 0;padding: 0;border:none;background: url(./images/icons.png) no-repeat 4px -146px;width: 20px;height: 20px;}
+
+      .editorDiv  {height: 390px;background-color: #F5F5F5;}
+    .Main button.submit {width: 200px;height: 42px;line-height: 1;padding: 0;color:#FFF;background-color: #227AFF;border:none;display: block;margin: 40px auto;}
+    .Main button:hover.submit {background-color: #0062F6;}
+
+.mask {position: fixed;width: 100%;height: 100%;background: url(./images/bg20.png);top: 0;left: 0;}
+#appendGroupDiv {display: none;}
+#appendGroupDiv .main {width: 460px;padding: 20px;line-height: 16px;background: #FFF;margin: 10% auto;box-shadow: 0px 0px 5px #666;}
+  #appendGroupDiv .main .Tr {margin: 40px 30px;}
+    #appendGroupDiv .main .Tr input {width: 398px;}
+  #appendGroupDiv .main .btns {text-align: center;}
+    #appendGroupDiv .main .btns button  {height: 36px;width: 100px;margin:0 20px ;}
+    #appendGroupDiv .main .btns button:hover  {opacity: 0.8;}
+    #appendGroupDiv .main .btns button.cancel {background: #FFF;border:1px solid #CCC;}
+    #appendGroupDiv .main .btns button.submit {border:1px solid #227AFF;background: #227AFF;color:#FFF;}
+
+
+.MaxMain  {background: #FFF;width: 980px;float: right;}
+  .MaxMainBox {padding: 20px 30px;}
+    .MaxMain .MaxMainBox h2.BoxTil  {line-height: 20px;margin-bottom: 0;}
+    .MaxMainBox div.rightTag {line-height: 20px;}
+      .MaxMainBox div.rightTag span {margin-right: 10px;}
+    .retrieval  {}
+      .retrieval .SelectDL  {height: 28px;line-height: 28px;text-indent: 10px;}
+        .retrieval .SelectDL dt {padding-right: 29px;background-image: url(./images/select_tips2.png);}
+        .retrieval .SelectDL dd {top: 29px;}
+      .retrieval input.searchName {height: 28px;border:1px solid #DDD;width: 300px;line-height: 28px;zoom:1;z-index: 5;background: #FFF;text-indent: 10px;}
+      .retrieval button.searchNameBtn {height: 30px;width: 30px;padding:0;border:none;background: url(./images/search.png) no-repeat center center;zoom:1;z-index: 6;margin-left: -30px;}
+      .retrieval a.addOne {color: #FFF;line-height: 30px;padding: 0 20px;margin-left: 20px;background:#227AFF}
+      .retrieval a:hover.addOne {background: #2d56ee;}
+      .retrieval .checkALL  {padding-left: 20px;background: url(./images/check.png) no-repeat left center;line-height: 24px;cursor: pointer;}
+      .retrieval .checkALL.on {background-image: url(./images/checked.png);}
+      .retrieval .cancelALL  {line-height: 24px;margin-left: 20px;margin-right: 30px;cursor: pointer;}
+      .retrieval2 p:hover {color: #999;}
+      .retrieval2 button  {height: 22px;line-height: 1;padding: 0 10px;background: #FFF;}
+      .retrieval .del  {border:1px solid #666;color:#666;margin: 0 15px;display: inline-block;}
+      .retrieval .del:hover {background: #EBEBEB;}
+      .retrieval .edit  {border:1px solid #227AFF;color:#227AFF;}
+      .retrieval .edit:hover {background: #227AFF;color:#FFF;}
+
+  .GoodsListTb  {text-align: center;width: 100%;}
+    .GoodsListTb td {padding: 20px 10px;}
+    .GoodsListTb thead,.GoodsListTb tr.bgfa  {background: #FAFAFA;}
+      .GoodsListTb thead td {padding: 10px;line-height: 16px;}
+      .GoodsListTb thead .sortTD p {background: url(./images/save.png) no-repeat right center;display: inline-block;padding-right: 16px;cursor: pointer;}
+    .GoodsListTb tbody  {font-size:12px;line-height: 1.4;}
+    .GoodsListTb .pic  {padding-left: 60px;width:80px;position: relative;}
+      .GoodsListTb img.gp  {width: 80px;height:80px;border:1px solid #DDD;}
+      .GoodsListTb img.status {position: absolute;left: 0px;top: 0;z-index: 5}
+      .GoodsListTb .pic i.icon,.GroupListTb tbody .gName i.icon  {z-index:6;width: 14px;height:14px;background: url(./images/check.png);position: absolute;left: 30px;top:50%;margin-top: -7px;}
+    .GoodsListTb .name  {text-align: left;}
+      .GoodsListTb .name a  {margin-bottom: 5px;display: block;color:#666;max-height: 32px;overflow: hidden;}
+      .GoodsListTb .name a:hover  {color: #227aff;}
+      .GoodsListTb .name p  {color:#999;}
+      .GoodsListTb .name p.error  {color:#ff6969;}
+    .GoodsListTb td.time,.GoodsListTb td.time2  {width:120px;}
+    .GoodsListTb td.acts  {width: 70px;}
+      .GoodsListTb td.acts a  {color:#666;}
+      .GoodsListTb td.acts a:hover  {color:#227aff;}
+      .GoodsListTb td.acts a.btn  {width: 70px;border:1px solid #227aff;color:#227aff;display: inline-block;line-height: 22px;margin:0 0 10px 0;}
+      .GoodsListTb td.acts a.btn:hover  {background: #227aff;color: #FFF;}
+    .GoodsListTb td.sortTD  {width:100px;display: none;}
+    .GoodsListTb.sort td.sortTD {display: table-cell;}
+      .GoodsListTb td.sortTD input  {width: 40px;text-align: center;height:30px;line-height: 30px;border:1px solid #DDD;}
+
+    .GoodsListTb tr.on  {}
+      .GoodsListTb tr.on .pic i.icon,.GroupListTb tr.on .gName i.icon  {background-image: url(./images/checked.png);}
+
+    .GroupListTb .gName {padding-left: 60px;position: relative;}
+    .GroupListTb tbody .gName  {text-align: left;}
+      .GroupListTb tbody .gName i.icon  {}
+    .GroupListTb td.acts  {padding-right: 40px;}
+      .GroupListTb td.acts a {display: block;}
+    .GroupListTb .nums  {width: 60px;}
+    .GroupListTb td.sortTD  {display: table-cell;}
+    .GroupListTb td.sortTD input,.GroupListTb td.sortTD.edit span  {display: none;}
+    .GroupListTb td.sortTD.edit input {display: inline-block;}
+
+
+.Pager  {height: 36px;padding: 18px 0px;}
+  .Pager .lists  {overflow: hidden;}
+    .Pager .lists>* {line-height: 34px;padding:0px 12px;display: inline-block;}
+    .Pager .lists>* {*display: inline;}
+    .Pager .lists span  {padding:0;}
+    .Pager .lists a {border:1px solid #DDD;margin:0px 5px;color: #666;position: relative;}
+    .Pager .lists a.cur,.Pager .lists a:hover {background-color: #2d56ee;color: #FFF;border-color: #2d56ee;}
+    .Pager .lists a.disabled  {color: #CCC;background-color: #FFF;border-color: #DDD;}
+    .Pager .lists a.left,.Pager .lists a.right  {font-weight: bold;font-family: '宋体'}
+  .Pager button {height: 36px;width: 36px;padding: 0;}
+  .Pager button:hover {color: #FFF;background: #2d56ee;}
+  .Pager input  {height: 34px;border:1px solid #DDD;width: 40px;}
+  .Pager span.fr  {line-height: 36px;margin-left: 50px;margin-right: 20px;font-size: 12px;color: #999;}
