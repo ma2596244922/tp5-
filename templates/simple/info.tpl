@@ -120,7 +120,7 @@
               {else}
                  业务员数量
               {/if}
-            </p><input type="hidden" name="no_of_employees"></dt>
+            </p><input type="hidden" name="no_of_employees" value="{$corporation.no_of_employees}"></dt>
             <dd>
               <ul>
                 <li val="">请选择业务员数量</li>
@@ -175,7 +175,7 @@
 
           {if $photos neq false}
               {foreach $photos as $photo}
-                 <div class="fl pic"><img src="{$photo.uri|url:'enterprise_url_photo':'':'t'}"><div class="pMask"><button></button></div></div> 
+                 <div class="fl pic"><img src="{$photo.uri|url:'enterprise_url_photo':'':'t'}"><div class="pMask" value="{$photo.id}"><button></button></div></div> 
               {/foreach}
           {else}
             <div class="fl pic default"><img src="simple/images/default_pic.png"><div class="pMask"><button></button></div></div>
@@ -200,7 +200,7 @@
     <dl class="MainBox">
       <dt><span class="red">*</span> 公司简介</dt>
         <div id="editor">
-        <p>请填写公司简介</p>
+        <p>{$corporation.introduction}</p>
     </div>
      <textarea id="intro" name="introduction" style="display:none;"></textarea>
 
@@ -238,6 +238,29 @@
 
 
 <script type="text/javascript">
+
+
+ var main_market = '{$corporation.main_market}';
+
+  if(main_market !="")
+  {
+        main_market = JSON.parse(main_market);
+        var hidden_main_market=Array();
+        $(".checkboxList li").each(function(){
+          var this_text = $(this).text();
+            
+            if(main_market.indexOf(this_text)!=-1)
+            {
+             $(this).addClass('ed');
+              hidden_main_market.push($(this).text());
+            }
+        });
+         $('#main_market').val(JSON.stringify( hidden_main_market ));
+
+  }
+
+
+
 $(".checkboxList li").click(function(){
   $(this).toggleClass('ed')
   var main_market=Array();
@@ -253,6 +276,9 @@ $(".checkboxList li").click(function(){
   console.log($('#main_market').val());
   
 })
+
+
+
 </script>
 <script type="text/javascript">
   
@@ -375,6 +401,29 @@ $('.webuploader-pick').css('color','#000');
 
 $('.Btn').css('line-height','20px');
 
+</script>
+
+<script type="text/javascript">
+ {literal} 
+  $(".pMask").on('click',function(){
+       var photo_id =$(this).attr('value');
+    
+      $.ajax({
+          url: "?action=delete_photo_ajax",
+          dataType: 'json',
+          method: 'POST',
+          data: {"photo_id": photo_id},
+          success:function(result){
+            if(result.code==1)
+            {
+              alert("删除成功");
+              window.location.reload();
+
+            }
+          }
+      })
+  })
+  {/literal}
 </script>
 </body>
 </html>

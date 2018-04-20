@@ -168,6 +168,8 @@ retry:
                     return enterprise_admin_action_photo_corp_upload($smarty, $site);
                 case 'delete_photo':
                     return enterprise_admin_action_delete_photo($smarty, $site);
+                case 'delete_photo_ajax':
+                    return enterprise_admin_action_delete_photo_ajax($smarty, $site);
                 case 'picture':
                     return enterprise_admin_action_picture($smarty);
                 case 'edit_picture':

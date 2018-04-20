@@ -601,6 +601,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
         $langCorporationDAO->update($userSiteId, $values);
     }
     enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
+    enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type=0);
 
     if ($langCode == 'en')
         $siteDAO = new \enterprise\daos\Site();
@@ -3564,6 +3565,29 @@ function enterprise_admin_action_delete_photo($smarty, $site)
         );
     $photoDAO->update($photoId, $values);
     header('Location: ?action=photo&success_msg=' . urlencode('删除成功'));
+}
+
+/* }}} */
+
+/**
+ * Delete Photo
+ */
+function enterprise_admin_action_delete_photo_ajax($smarty, $site)
+{
+    $photoId = (int)timandes_get_query_data('photo_id');
+
+    $photoDAO = new \enterprise\daos\Photo();
+    // Authentication
+    $photo = $photoDAO->get($photoId);
+    if (!$photo
+            || $photo['site_id'] != $site['site_id'])
+        echo json_encode(['code'=>-1,'msg'=>'权限不足']);
+    // Delete
+    $values = array(
+            'deleted' => 1,
+        );
+    $photoDAO->update($photoId, $values);
+    echo json_encode(['code'=>1,'msg'=>'删除成功']);
 }
 
 /* }}} */
