@@ -104,6 +104,7 @@ CREATE TABLE `enterprise_groups` (
   `product_video_uri` varchar(100) NOT NULL COMMENT '产品页视频地址',
   `product_video_cover_uri` varchar(100) NOT NULL COMMENT '产品页视频封面图',
   `product_video_duration` varchar(10) NOT NULL COMMENT '产品页视频时长',
+  `ranking` tinyint unsigned NOT NULL COMMENT '排序',
   PRIMARY KEY (`id`),
   KEY `idx_get_by_site` (`site_id`, `deleted`),
   KEY `idx_lookup` (`site_id`, `path_sum`)
@@ -194,6 +195,7 @@ CREATE TABLE `enterprise_corporations` (
   `qc_profile` text NOT NULL COMMENT 'QC Profile',
   `slogan` varchar(100) NOT NULL COMMENT '口号',
   `updated` datetime NOT NULL COMMENT '最近修改时间',
+  `overseas_offices` tinyint NOT NULL COMMENT '海外办事处(0/1)',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司表';
 

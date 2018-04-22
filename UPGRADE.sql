@@ -1,3 +1,6 @@
+-- 2018-4-22
+ALTER TABLE `enterprise_groups` ADD COLUMN `ranking` tinyint unsigned NOT NULL COMMENT '排序';
+ALTER TABLE `enterprise_corporations` ADD COLUMN `overseas_offices` tinyint NOT NULL COMMENT '海外办事处(0/1)';
 -- 2018-4-10
 ALTER TABLE `enterprise_groups`
   ADD COLUMN `product_video_uri` varchar(100) NOT NULL COMMENT '产品页视频地址',
