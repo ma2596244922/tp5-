@@ -1641,6 +1641,7 @@ function enterprise_get_group_list_ex($siteId, $langCode = 'en', $max = null, $a
         $additionalConditions .= $cntString;
     else
         $additionalConditions = $cntString;
+    
     $groups = enterprise_get_group_list($siteId, $langCode, $maxGroupsFromDb, $additionalConditions);
 
     if ($appendFirstProducts) {
