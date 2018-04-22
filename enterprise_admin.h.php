@@ -18,6 +18,10 @@ define('ENTERPRISE_PRODUCT_TERM_FIELDS', ['brand_name', 'model_number', 'certifi
 $GLOBALS['gaGroupCache'] = array();
 
 /**
+* corp info
+*/
+
+/**
  * XSS Clean For Site Owner
  *
  * @return string
@@ -513,6 +517,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
     $annualSales = timandes_get_post_data('annual_sales');
     $yearEstablished = timandes_get_post_data('year_established');
     $exportPC = timandes_get_post_data('export_p_c');
+    $overseasOffices = timandes_get_post_data('overseas_offices');
     $introduction = timandes_get_post_data('introduction', 'xss_clean, remove_n_r, trim');
     $history = timandes_get_post_data('history', 'xss_clean, remove_n_r, trim');
     $service = timandes_get_post_data('service', 'xss_clean, remove_n_r, trim');
@@ -569,6 +574,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
         $values['annual_sales'] = $annualSales;
         $values['year_established'] = $yearEstablished;
         $values['export_p_c'] = $exportPC;
+        $values['overseas_offices']= $overseasOffices;
         $values['introduction'] = $introduction;
         $values['history'] = $history;
         $values['service'] = $service;
@@ -590,6 +596,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
                 'annual_sales' => $annualSales,
                 'year_established' => $yearEstablished,
                 'export_p_c' => $exportPC,
+                'overseas_offices'=>$overseasOffices,
                 'introduction' => $introduction,
                 'history' => $history,
                 'service' => $service,
@@ -1172,8 +1179,22 @@ function enterprise_admin_action_group($smarty, $site, $langCode)
         $keywordsCondition = '(' . $groupTablePrefix . '`purl_prefix` ' . $likeKeywordsPart . ' OR ' . $langGroupTablePrefix . '`name` ' . $likeKeywordsPart . ')';
     }
 
-    enterprise_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode, null, $keywordsCondition, false);
+    $groups = enterprise_get_group_list_ex($userSiteId, $langCode , $max = null, $additionalConditions = '', $skipEmpty = false,
+         false,  1);
+    
+    $cur_page_num = (int)timandes_get_query_data('page');
+    $cur_page_num = !empty($cur_page_num)?$cur_page_num:1;
+    $page_limit = 10;
 
+    $total_pages = ceil(count($groups)/$page_limit);
+
+    $groups = array_slice($groups, ($cur_page_num-1)*$page_limit,$page_limit);
+    
+    $page_str = getPageHtml($cur_page_num,$total_pages,"/admin/?action=group",$page_limit);
+
+    $smarty->assign('groups', $groups);
+
+    $smarty->assign('page_str', $page_str);
     $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/group.tpl');
 }
 
@@ -1215,7 +1236,7 @@ function enterprise_admin_assign_group_info($smarty, $var, $groupId, $langCode =
 }
 
 function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path = null, $pUrlPrefix = null
-        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null, $productGiveH1To = null, $product_video_uri = null, $product_video_cover_uri = null, $product_video_duration = null)
+        , $htmlTitle = null, $metaKeywords = null, $metaDescription = null, $productGiveH1To = null, $product_video_uri = null, $product_video_cover_uri = null, $product_video_duration = null,$groupRanking=0)
 {
     // Language Group
     $langGroupDAO = (($langCode == 'en')?null:new \enterprise\daos\LangGroup($langCode));
@@ -1236,6 +1257,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
     if (!$langGroupDAO) {// English only
         $values['site_id'] = $userSiteId;
         $values['name'] = $groupName;
+        $values['ranking'] = $groupRanking;
         $values['product_html_title'] = $htmlTitle;
         $values['product_meta_keywords'] = $metaKeywords;
         $values['product_meta_description'] = $metaDescription;
@@ -1252,6 +1274,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
         // Update
         $groupDAO->update($groupId, $values);
     } else {// Create
+       
         $values['created'] = $values['updated'];
         $newGroupId = $groupDAO->insert($values);
     }
@@ -1261,6 +1284,7 @@ function enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteI
         $values = array(
                 'site_id' => $userSiteId,
                 'name' => $groupName,
+                'ranking'=>$groupRanking,
                 'product_html_title' => $htmlTitle,
                 'product_meta_keywords' => $metaKeywords,
                 'product_meta_description' => $metaDescription,
@@ -1321,6 +1345,48 @@ function enterprise_admin_action_edit_group($smarty, $site, $langCode)
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=group', '产品分组');
 }
+
+/**
+ * Edit Group by ajax
+ */
+function enterprise_admin_action_edit_group_ajax($smarty, $site, $langCode)
+{
+    $groupId = (int)timandes_get_query_data('group_id');
+    $smarty->assign('group_id', $groupId);
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $groupName = timandes_get_post_data('name');
+    $groupRanking = (int)timandes_get_post_data('ranking');
+
+    $path = timandes_get_post_data('path');
+    if ($path)
+        $path = '/' . ltrim($path, '/');
+    $pUrlPrefix = timandes_get_post_data('purl_prefix');
+    $htmlTitle = timandes_get_post_data('html_title');
+    $metaKeywords = timandes_get_post_data('meta_keywords');
+    $metaDescription = timandes_get_post_data('meta_description', 'strip_tags, strip_rn, trim');
+    $productGiveH1To = (int)timandes_get_post_data('product_give_h1_to');
+    $product_video_uri = timandes_get_post_data('product_video_uri');
+    $product_video_duration = timandes_get_post_data('product_video_duration');
+
+    if (!$groupName)
+    {
+        echo json_encode(['code'=>-1,'msg'=>'请输入分组名称']);
+        exit();
+    }
+        
+
+    // Upload Images
+    $images = enterprise_admin_upload_post_images('video_cover');
+    $product_video_cover_uri = $images?$images[0]:null;
+
+    enterprise_admin_save_group($langCode, $groupId, $groupName, $userSiteId, $path, $pUrlPrefix, $htmlTitle, $metaKeywords, $metaDescription, $productGiveH1To, $product_video_uri, $product_video_cover_uri, $product_video_duration,$groupRanking);
+    
+    echo json_encode(['code'=>1,'msg'=>'保存成功']);
+    exit();
+    
+}
+
 
 /**
  * Edit Group TDK
@@ -1788,6 +1854,14 @@ function enterprise_admin_action_product($smarty, $langCode)
     $pagerInfo = enterprise_pager_calculate_key_infos($totalProducts, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
+    //page
+    $cur_page_num = $pageNo;
+    $page_limit = $max;
+    $total_pages = ceil(count($totalProducts)/$page_limit);
+    $page_str = getPageHtml($cur_page_num,$total_pages,"/admin/?action=product",$page_limit);
+    $smarty->assign('page_str', $page_str);
+
+
     $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/product.tpl');
 }
 
@@ -2007,6 +2081,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
+
         // Editing?
         if ($productId) 
             enterprise_admin_assign_product_info($smarty, 'product', $productId, $langCode);
@@ -2035,15 +2110,25 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $supplyAbility = timandes_get_post_data('supply_ability');
     $deliveryTime = timandes_get_post_data('delivery_time');
     $packagingDetails = timandes_get_post_data('packaging_details');
-    $specificationsQueryString = timandes_get_post_data('specifications');
+    //$specificationsQueryString = timandes_get_post_data('specifications');
     $embeddedVideo = timandes_get_post_data('embedded_video', 'remove_n_r, trim');
 
-    parse_str($specificationsQueryString, $specificationsCellArray);
+    //parse_str($specificationsQueryString, $specificationsCellArray);
 
+    //$specificationsArray = array();
+    //if (isset($specificationsCellArray['s'])
+    //        && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
+    //    $specificationsArray[$row['key']] = $row['val'];
+    //}
+    $attr_keys = timandes_get_post_data('attr_keys');
+    $attr_values = timandes_get_post_data('attr_values');
     $specificationsArray = array();
-    if (isset($specificationsCellArray['s'])
-            && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
-        $specificationsArray[$row['key']] = $row['val'];
+    foreach($attr_keys as $_k=> $attr_key)
+    {
+        if(isset($attr_values[$_k]))
+        {
+            $specificationsArray[$attr_key] = $attr_values[$_k];
+        }
     }
 
     if (!$caption)
@@ -2052,7 +2137,8 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         return enterprise_admin_display_error_msg($smarty, '请选择所属分组');
 
     // Upload images
-    $images = enterprise_admin_upload_post_images();
+    //$images = enterprise_admin_upload_post_images();
+    $images = timandes_get_post_data('images');
     if (!$images)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
@@ -3572,22 +3658,27 @@ function enterprise_admin_action_delete_photo($smarty, $site)
 /**
  * Delete Photo
  */
-function enterprise_admin_action_delete_photo_ajax($smarty, $site)
+function enterprise_admin_action_delete_photo_ajax()
 {
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
     $photoId = (int)timandes_get_query_data('photo_id');
 
     $photoDAO = new \enterprise\daos\Photo();
     // Authentication
     $photo = $photoDAO->get($photoId);
-    if (!$photo
-            || $photo['site_id'] != $site['site_id'])
-        echo json_encode(['code'=>-1,'msg'=>'权限不足']);
-    // Delete
-    $values = array(
-            'deleted' => 1,
-        );
-    $photoDAO->update($photoId, $values);
-    echo json_encode(['code'=>1,'msg'=>'删除成功']);
+
+    if (!$photo|| $photo['site_id'] != $userSiteId)
+    {
+        return array('code'=>-1,'msg'=>'权限不足');
+    }else{
+        // Delete
+        $values = array(
+                'deleted' => 1,
+            );
+        $photoDAO->update($photoId, $values);
+        return array('code'=>1,'msg'=>'删除成功');
+    }
+    
 }
 
 /* }}} */
@@ -5289,3 +5380,71 @@ function enterprise_admin_action_delete_keyword($smarty, $site, $langCode)
 }
 
 /* }}} */
+
+/**
+* 获取分页的HTML内容
+* @param integer $page 当前页
+* @param integer $pages 总页数
+* @param string $url 跳转url地址    最后的页数以 '&page=x' 追加在url后面
+* 
+* @return string HTML内容;
+*/
+function getPageHtml($page, $pages, $url,$_pageNum){
+  //最多显示多少个页码
+  //$_pageNum ;
+  //当前页面小于1 则为1
+  $page = $page<1?1:$page;
+  //当前页大于总页数 则为总页数
+  $page = $page > $pages ? $pages : $page;
+  //页数小当前页 则为当前页
+  $pages = $pages < $page ? $page : $pages;
+
+  //计算开始页
+  $_start = $page - floor($_pageNum/2);
+  $_start = $_start<1 ? 1 : $_start;
+  //计算结束页
+  $_end = $page + floor($_pageNum/2);
+  $_end = $_end>$pages? $pages : $_end;
+
+  //当前显示的页码个数不够最大页码数，在进行左右调整
+  $_curPageNum = $_end-$_start+1;
+  //左调整
+  if($_curPageNum<$_pageNum && $_start>1){  
+   $_start = $_start - ($_pageNum-$_curPageNum);
+   $_start = $_start<1 ? 1 : $_start;
+   $_curPageNum = $_end-$_start+1;
+  }
+  //右边调整
+  if($_curPageNum<$_pageNum && $_end<$pages){ 
+   $_end = $_end + ($_pageNum-$_curPageNum);
+   $_end = $_end>$pages? $pages : $_end;
+  }
+
+
+  $_pageHtml = '<div class="lists">';
+  /*if($_start == 1){
+   $_pageHtml .= '<li><a title="第一页">«</a></li>';
+  }else{
+   $_pageHtml .= '<li><a  title="第一页" href="'.$url.'&page=1">«</a></li>';
+  }*/
+  if($page>1){
+   $_pageHtml .= '<a  title="上一页" class="left" href="'.$url.'&page='.($page-1).'">&lt;</a>';
+  }
+  for ($i = $_start; $i <= $_end; $i++) {
+   if($i == $page){
+    $_pageHtml .= '<a>'.$i.'</a>';
+   }else{
+    $_pageHtml .= '<a href="'.$url.'&page='.$i.'">'.$i.'</a>';
+   }
+  }
+  /*if($_end == $pages){
+   $_pageHtml .= '<li><a title="最后一页">»</a></li>';
+  }else{
+   $_pageHtml .= '<li><a  title="最后一页" href="'.$url.'&page='.$pages.'">»</a></li>';
+  }*/
+  if($page<$_end){
+   $_pageHtml .= '<a  title="下一页" class="right" href="'.$url.'&page='.($page+1).'">&gt;</a>';
+  }
+  $_pageHtml .= '</div>';
+  return  $_pageHtml;
+}

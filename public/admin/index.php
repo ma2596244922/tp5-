@@ -120,6 +120,8 @@ retry:
                     return enterprise_admin_action_group($smarty, $site, $langCode);
                 case 'edit_group':
                     return enterprise_admin_action_edit_group($smarty, $site, $langCode);
+                case 'edit_group_ajax':
+                    return enterprise_admin_action_edit_group_ajax($smarty, $site, $langCode);
                 case 'delete_group':
                     return enterprise_admin_action_delete_group($smarty, $site, $langCode);
                 case 'edit_group_tdk':
@@ -138,6 +140,9 @@ retry:
                     return enterprise_admin_action_product($smarty, $langCode);
                 case 'edit_product':
                     return enterprise_admin_action_edit_product($smarty, $site, $langCode);
+                case 'product_photo_upload_ajax':
+                    echo json_encode(enterprise_admin_upload_post_images());
+                    exit();
                 case 'delete_product':
                     return enterprise_admin_action_delete_product($smarty, $site, $langCode);
                 case 'edit_product_tdk':
@@ -169,7 +174,8 @@ retry:
                 case 'delete_photo':
                     return enterprise_admin_action_delete_photo($smarty, $site);
                 case 'delete_photo_ajax':
-                    return enterprise_admin_action_delete_photo_ajax($smarty, $site);
+                    echo json_encode(enterprise_admin_action_delete_photo_ajax());
+                    exit();
                 case 'picture':
                     return enterprise_admin_action_picture($smarty);
                 case 'edit_picture':

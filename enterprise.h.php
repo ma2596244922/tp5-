@@ -1763,7 +1763,7 @@ function enterprise_get_corporation_info($siteId, $langCode = 'en')
         if ($langCorporation)
             $corporation = array_merge($corporation, $langCorporation);
     }
-
+    
     return $corporation;
 }
 

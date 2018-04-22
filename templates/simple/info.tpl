@@ -58,8 +58,12 @@
             <dd>
               <ul>
                 <li val="">请选择公司类型</li>
-                <li val="1">Trading Company </li>
-                <li val="2">Agent</li>
+                <li val="Manufacturer">Manufacturer</li>
+                <li val="Trading Company">Trading Company </li>
+                <li val="Buying Office">Buying Office</li>
+                <li val="Business Service">Business Service</li>
+                <li val="Other">Other</li>
+                         
               </ul>
             </dd>
           </dl>
@@ -74,24 +78,31 @@
             <dd>
               <ul>
                 <li val="">请选择成立时间</li>
-                <li val="1991">1991</li>
-                <li val="1992">1992</li>
+                {$years = range(1951,2018)}
+                {foreach $years as $year}
+                <li val="{$year}">{$year}</li>
+                {/foreach}
               </ul>
             </dd>
           </dl>
           <dl class="SelectDL">
             <dt><p>
-               {if $corporation.export_p_c neq ''}
-                 {$corporation.export_p_c}
+               {if $corporation.overseas_offices neq ''}
+                 {if $corporation.overseas_offices eq 1}
+                   Yes
+
+                 {else}
+                   No
+                 {/if}
               {else}
                   海外办事处
               {/if}
-            </p><input type="hidden" name="export_p_c" value="{$corporation.export_p_c}"></dt>
+            </p><input type="hidden" name="overseas_offices" value="{$corporation.overseas_offices}"></dt>
             <dd>
               <ul>
                 <li val="">请选择海外办事处</li>
-                <li val="usa_">usa_</li>
-                <li val="india_">india_</li>
+                <li val="0">No</li>
+                <li val="1">Yes</li>
               </ul>
             </dd>
           </dl>
@@ -107,9 +118,14 @@
             </p><input type="hidden" name="annual_sales" value="{$corporation.annual_sales}"> </dt>
             <dd>
               <ul>
+
                 <li val="">请选择年出口总额</li>
-                <li val="10-100 ton">10-100 ton</li>
-                <li val="20-100 ton">20-100 ton</li>
+                <li val="0 - $1 Million">0 - $1 Million</li>
+                <li val="$1 Million - $5 Million">$1 Million - $5 Million</li>
+                <li val="$5 Million - $20 Million">$5 Million - $20 Million</li>
+                <li val="$20 Million - $100 Million">$20 Million - $100 Million</li>
+                <li val="Above $100 Million">Above $100 Million</li>
+                
               </ul>
             </dd>
           </dl>
@@ -124,8 +140,10 @@
             <dd>
               <ul>
                 <li val="">请选择业务员数量</li>
-                <li val="10-50">10-50</li>
-                <li val="50-150">50-150</li>
+                <li val="1-15 People">1-15 People</li>
+                <li val="15-50 People">15-50 People</li>
+                <li val="50-100 People">50-100 People</li>
+                <li val="Above 100 People">Above 100 People</li>
               </ul>
             </dd>
           </dl>
@@ -137,15 +155,11 @@
          <dd>
           <input type="hidden" name="main_market" id="main_market">
         <ul class="checkboxList">
-          <li>Molluscicide</li>
-          <li>CCTV Accessorise</li>
-          <li>Molluscicide</li>
-          <li>CCTV Accessorise</li>
-          <li>Molluscicide</li>
-          <li>CCTV Accessorise</li>
-          <li>Molluscicide</li>
-          <li>CCTV Accessorise</li>
-
+          <li>usa</li>
+          <li>asia</li>
+          <li>Africa</li>
+          <li>eu</li>
+          <li>japan</li>
         </ul>
       </dd>
     </dl>
@@ -361,6 +375,7 @@ $('.Btn').css('line-height','24px');
         desc: 'corp desc'
 
     },
+    fileNumLimit:3-{count($photos)},
 
     // 只允许选择图片文件。
     accept: {
@@ -387,7 +402,7 @@ uploader1.on( 'fileQueued', function( file ) {
     // 创建缩略图
     // 如果为非图片文件，可以不用调用此方法。
     // thumbnailWidth x thumbnailHeight 为 100 x 100
-    uploader.makeThumb( file, function( error, src ) {
+    uploader1.makeThumb( file, function( error, src ) {
         if ( error ) {
             $img.replaceWith('<span>不能预览</span>');
             return;
@@ -411,9 +426,10 @@ $('.Btn').css('line-height','20px');
       $.ajax({
           url: "?action=delete_photo_ajax",
           dataType: 'json',
-          method: 'POST',
+          type:"GET",  
           data: {"photo_id": photo_id},
           success:function(result){
+            console.log(result);
             if(result.code==1)
             {
               alert("删除成功");
