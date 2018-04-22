@@ -1,4 +1,5 @@
 -- 2018-4-22
+ALTER TABLE `enterprise_groups` ADD COLUMN `ranking` tinyint unsigned NOT NULL COMMENT '排序';
 ALTER TABLE `enterprise_corporations` ADD COLUMN `overseas_offices` tinyint NOT NULL COMMENT '海外办事处(0/1)';
 -- 2018-4-10
 ALTER TABLE `enterprise_groups`

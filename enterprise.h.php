@@ -1601,10 +1601,14 @@ function enterprise_get_group_list($siteId, $langCode = 'en', $max = null, $addi
         $groupDAO = new \enterprise\daos\Group();
         $fields = '*';
         $condition = "`site_id`={$siteId} AND `deleted`=0";
+        if (!isset($orderBy))
+            $orderBy = '`ranking` DESC';
     } else {
         $groupDAO = new \enterprise\daos\LangGroup($langCode);
         $fields = 'lg.*, g.`id`, g.`path`, g.`purl_prefix`, g.`product_give_h1_to`';
         $condition = "lg.`site_id`={$siteId} AND lg.`deleted`=0";
+        if (!isset($orderBy))
+            $orderBy = 'g.`ranking` DESC';
     }
     if ($additionalFields)
         $fields .= ", {$additionalFields}";
