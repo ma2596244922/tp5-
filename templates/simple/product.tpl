@@ -42,7 +42,7 @@
     <div class="MaxMainBox">
       <h2 class="BoxTil fl">产品管理</h2>
       <div class="fr rightTag">
-        <span>当前显示产品：200</span>
+        <span>当前显示产品：{$total_products}</span>
         <i class="icon quest"><div>Tips提示信息<strong></strong></div></i>
       </div>
       <div class="clear"></div>
@@ -58,7 +58,17 @@
           </dd>
         </dl>
         <dl class="SelectDL fl">
-          <dt><p>选择分组</p><input type="hidden" id="select-group" ></dt>
+          <dt><p>
+            {if !empty($smarty.get.group_id)}
+               {foreach $groups as $group}
+                  {if $group.id==$smarty.get.group_id}
+                    {$group.name}
+                  {/if}
+                {/foreach}
+            {else}
+            选择分组
+            {/if}
+          </p><input type="hidden" id="select-group" ></dt>
           <dd tabindex="0" style="overflow: hidden; outline: none;">
             <ul>
               <li val="0">全部</li>
@@ -69,16 +79,15 @@
             </ul>
           </dd>
         </dl>
-        <input type="text" class="searchName fl" placeholder="请输入产品名称">
+        <input type="text" class="searchName fl" placeholder="请输入产品名称"  value="{$smarty.get.keywords|default:''|escape}"  id="input-keywords">
         <button class="searchNameBtn fl"></button>
-        <a class="addOne fl" href="">发布新产品</a>
+        <a class="addOne fl" href="?action=edit_product">发布新产品</a>
         <div class="clear"></div>
       </div>
       <div class="MainBox retrieval retrieval2">
         <p class="checkALL fl">全选</p>
         <p class="cancelALL fl">取消</p>
-        <button class="del fl">删除分组</button>
-        <button class="edit fl" id="appendGroup">调整分组</button>
+        
         <div class="clear"></div>
       </div>
     </div>
@@ -99,7 +108,7 @@
 
         <tr class="bgfa">
           <td class="pic">
-            <img class="gp" src="simple/images/tmp/class1.jpg">
+            <img class="gp" src="{$products[i].head_image_id|default:''|url:'enterprise_url_image':{$product.caption|default:''}:'c'}">
             <img src="simple/images/s1.png" class="status">
             <i class="icon check"></i>
           </td>
@@ -228,6 +237,14 @@ $('#goto').on('click',function(){
 $('#select-group').change(function() {
                 console.log(222);
                 location.href = '?action=product&group_id=' + $(this).val();
+           });
+
+ $('#input-keywords').keypress(function (e) {
+                if (e.which != 13)
+                    return;
+
+                var keywords = $(this).val();
+                location.href = '?action=product&keywords=' + encodeURIComponent(keywords);
            });
 
 {/literal} 

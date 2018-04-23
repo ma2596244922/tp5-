@@ -1797,7 +1797,7 @@ function enterprise_admin_action_product($smarty, $langCode)
     if ($langCode == 'en') {
         $productDAO = new \enterprise\daos\Product();
         $leftJoin1 = '';
-        $diffFields = 'p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`';
+        $diffFields = 'p.`caption`, p.`created`, p.`updated`, p.`source_url`, p.`group_id`,p.head_image_id';
         $tableAlias = 'p';
         $orderByFields = 'p.`updated`';
         $groupDAO = new \enterprise\daos\Group();

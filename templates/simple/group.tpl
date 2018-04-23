@@ -85,7 +85,7 @@
           <td class="time2">{$groups[i].updated}</td>
           <td class="acts">
             <a href="" class="edit btn">修改</a>
-            <a href="" class="">修改产品排序</a>
+            <a href="javascript:void(0);" class="edit_sort" onclick="edit_sort(this,{$groups[i].id},{$groups[i].ranking},'{$groups[i].name}')">修改产品排序</a>
             <a href="javascript:void(0);" class="clean">清空分组</a>
           </td>
         </tr>
@@ -219,6 +219,34 @@ $('#goto').on('click',function(){
         return false;
     }
 })
+
+function edit_sort (obj,id,ranking,name) {
+ var new_ranking = $(obj).parent().parent().find('input').val();
+ if(new_ranking==ranking)
+ {
+  return false;
+ }else{
+   $.ajax({
+          url: "?action=edit_group_ajax&group_id="+id,
+          dataType: 'json',
+          type: 'POST',
+          data: {"name":name,"submit":"edit_group_ajax","ranking":new_ranking},
+          success:function(result){
+            if(result.code==1)
+            {
+              alert(result.msg);
+            
+            }else{
+              alert(result.msg);
+            }
+           
+          }
+      })
+ }
+
+}
+
+
 
 {/literal}
 </script>
