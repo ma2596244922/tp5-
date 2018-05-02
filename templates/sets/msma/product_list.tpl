@@ -3,9 +3,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{$title}</title>
-<meta name="keywords" content="{$keywords|escape}" />
-<meta name="description" content="{$description|escape}" />
+{include file="sets/trade/group/tdk.tpl"}
 {include file="sets/trade/product/link_rel.tpl"}
 {include file="sets/trade/common/definitions.tpl"}
 <link type="text/css" rel="stylesheet" href="/media/sets/msma/css/common.css" />
