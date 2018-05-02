@@ -2,9 +2,7 @@
 <html lang="{$lang_code}"{$html_attr_dir}>
 <head>
 <meta charset="utf-8">
-<title>{$title}</title>
-<meta name="keywords" content="{$keywords|escape}" />
-<meta name="description" content="{$description|escape}" />
+{include file="sets/trade/common/tdk.tpl"}
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/msma/common/styles.tpl"}
 <link href="/media/sets/msma/css/swiper.min.css" rel="stylesheet" type="text/css" />

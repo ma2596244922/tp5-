@@ -3,9 +3,7 @@
 <head>
 {$site.common_head_fragment}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{$title}</title>
-<meta name="keywords" content="{$keywords|escape}" />
-<meta name="description" content="{$description|escape}" />
+{include file="sets/trade/common/tdk.tpl"}
 <link rel="canonical" href="{$product|url:'enterprise_url_product':$page_no}" />
 {include file="sets/trade/common/definitions.tpl"}
 {include file="sets/trade/common/shopstyles.tpl"}
