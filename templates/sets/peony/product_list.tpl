@@ -2,9 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$lang_code}"{$html_attr_dir}>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{$title}</title>
-    <meta name="keywords" content="{$keywords|escape}" />
-    <meta name="description" content="{$description|escape}" />
+{include file="sets/trade/group/tdk.tpl"}
 {include file="sets/peony/common/styles.tpl"}
 </head>
 <body>

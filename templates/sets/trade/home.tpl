@@ -3,9 +3,7 @@
 <head>
 {$site.common_head_fragment}
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>{$title}</title>
-<meta name="keywords" content="{$keywords|escape}" />
-<meta name="description" content="{$description|escape}" />
+{include file="sets/trade/common/tdk.tpl"}
 {include file="sets/trade/common/definitions.tpl" page_name="home"}
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/common.css?t=201707191624" />
 <link type="text/css" rel="stylesheet" href="/media/sets/trade/shop-new.css" />

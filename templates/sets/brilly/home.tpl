@@ -4,9 +4,7 @@
   {$site.common_head_fragment}
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=1200, initial-scale=device-width/1200, user-scalable=no, minimal-ui">
-  <title>{$title}</title>
-  <meta name="keywords" content="{$keywords|escape}" />
-  <meta name="description" content="{$description|escape}" />
+  {include file="sets/trade/common/tdk.tpl"}
   {include file="sets/trade/common/definitions.tpl"}
   {include file="sets/brilly/common/styles.tpl"}
 </head>
