@@ -2081,6 +2081,76 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
+        // Editing?
+        if ($productId) 
+            enterprise_admin_assign_product_info($smarty, 'product', $productId, $langCode);
+
+        // Copying?
+        $sourceProductId = (int)timandes_get_query_data('source_product_id');
+        if ($sourceProductId)
+            enterprise_admin_assign_product_info($smarty, 'product', $sourceProductId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+
+    // Save
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $caption = timandes_get_post_data('caption');
+    $description = timandes_get_post_data('description', 'xss_clean, remove_n_r, trim');
+    $groupId = timandes_get_post_data('group_id');
+    $tags = timandes_get_post_data('tags');
+    $brandName = timandes_get_post_data('brand_name');
+    $modelNumber = timandes_get_post_data('model_number');
+    $certification = timandes_get_post_data('certification');
+    $placeOfOrigin = timandes_get_post_data('place_of_origin');
+    $minOrderQuantity = timandes_get_post_data('min_order_quantity');
+    $price = timandes_get_post_data('price');
+    $paymentTerms = timandes_get_post_data('payment_terms');
+    $supplyAbility = timandes_get_post_data('supply_ability');
+    $deliveryTime = timandes_get_post_data('delivery_time');
+    $packagingDetails = timandes_get_post_data('packaging_details');
+    $specificationsQueryString = timandes_get_post_data('specifications');
+    $embeddedVideo = timandes_get_post_data('embedded_video', 'remove_n_r, trim');
+
+    parse_str($specificationsQueryString, $specificationsCellArray);
+
+    $specificationsArray = array();
+    if (isset($specificationsCellArray['s'])
+            && is_array($specificationsCellArray['s'])) foreach ($specificationsCellArray['s'] as $row) {
+        $specificationsArray[$row['key']] = $row['val'];
+    }
+
+    if (!$caption)
+        return enterprise_admin_display_error_msg($smarty, '请输入产品名称');
+    if (!$groupId)
+        return enterprise_admin_display_error_msg($smarty, '请选择所属分组');
+
+    // Upload images
+    $images = enterprise_admin_upload_post_images();
+    if (!$images)
+        return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
+    $headImageId = $images[0];
+
+    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, null, null, null, $embeddedVideo);
+
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
+}
+
+/**
+ * Edit Product new
+ */
+function enterprise_admin_action_edit_product1($smarty, $site, $langCode)
+{
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_product.tpl';
+
+    $productId = (int)timandes_get_query_data('product_id');
+    $smarty->assign('product_id', $productId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
 
         // Editing?
         if ($productId) 
