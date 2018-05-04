@@ -1182,19 +1182,23 @@ function enterprise_admin_action_group($smarty, $site, $langCode)
     $groups = enterprise_get_group_list_ex($userSiteId, $langCode , $max = null, $additionalConditions = '', $skipEmpty = false,
          false,  1);
     
-    $cur_page_num = (int)timandes_get_query_data('page');
-    $cur_page_num = !empty($cur_page_num)?$cur_page_num:1;
-    $page_limit = 10;
+    if(isset($GLOBALS['gsAdminTemplateDir'])&&$GLOBALS['gsAdminTemplateDir']=="simple")
+    {
+         $cur_page_num = (int)timandes_get_query_data('page');
+        $cur_page_num = !empty($cur_page_num)?$cur_page_num:1;
+        $page_limit = 10;
 
-    $total_pages = ceil(count($groups)/$page_limit);
+        $total_pages = ceil(count($groups)/$page_limit);
 
-    $groups = array_slice($groups, ($cur_page_num-1)*$page_limit,$page_limit);
-    
-    $page_str = getPageHtml($cur_page_num,$total_pages,"/admin/?action=group",$page_limit);
+        $groups = array_slice($groups, ($cur_page_num-1)*$page_limit,$page_limit);
+        
+        $page_str = getPageHtml($cur_page_num,$total_pages,"/admin/?action=group",$page_limit);
+        $smarty->assign('page_str', $page_str);
+    }
 
     $smarty->assign('groups', $groups);
 
-    $smarty->assign('page_str', $page_str);
+    
     $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/group.tpl');
 }
 
