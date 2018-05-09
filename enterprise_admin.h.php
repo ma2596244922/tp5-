@@ -1797,6 +1797,7 @@ function enterprise_admin_action_product($smarty, $langCode)
     if ($pageNo <= 0)
         $pageNo = 1;
     $max = 20;
+    $maxProducts = 600;
 
     if ($langCode == 'en') {
         $productDAO = new \enterprise\daos\Product();
@@ -1851,17 +1852,16 @@ function enterprise_admin_action_product($smarty, $langCode)
     $groupCondition = str_replace($tableAlias . '.', '', $groupCondition);
     $keywordsCondition = str_replace($tableAlias . '.', '', $keywordsCondition);
     $condition = "`site_id`={$userSiteId} AND `deleted`=0{$groupCondition}{$keywordsCondition}";
-    $totalProducts = $productDAO->countBy($condition);
-    $smarty->assign('total_products', $totalProducts);
     $smarty->assign('page_size', $max);
     $smarty->assign('page_no', $pageNo);
-    $pagerInfo = enterprise_pager_calculate_key_infos($totalProducts, $max, $pageNo);
+    $smarty->assign('max_products', $maxProducts);
+    $pagerInfo = enterprise_pager_calculate_key_infos($maxProducts, $max, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
     //page
     $cur_page_num = $pageNo;
     $page_limit = $max;
-    $total_pages = ceil(count($totalProducts)/$page_limit);
+    $total_pages = ceil(count($maxProducts)/$page_limit);
     $page_str = getPageHtml($cur_page_num,$total_pages,"/admin/?action=product",$page_limit);
     $smarty->assign('page_str', $page_str);
 
