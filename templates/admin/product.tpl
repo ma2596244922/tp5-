@@ -282,7 +282,7 @@
 
                                     <div class="span6">
 
-                                        <div class="dataTables_info" id="sample_1_info">共有{$total_products}条产品。当前展示{$page_no}/{$pager_info['pages']}页</div>
+                                        <div class="dataTables_info" id="sample_1_info">最多展示{$max_products}条产品。当前展示{$page_no}/{$pager_info['pages']}页</div>
 
                                     </div>
 
