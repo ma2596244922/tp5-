@@ -36,6 +36,8 @@ retry:
 
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
+        if ($site['enable_https'])
+            $GLOBALS['gsHTTPScheme'] = 'https';
 
         enterprise_define_url_pattern_constants($site);
 /* }}} */

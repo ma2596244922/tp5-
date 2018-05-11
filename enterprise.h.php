@@ -1368,8 +1368,7 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
 
 function enterprise_url_prefix()
 {
-    //return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
-    return 'http://' . $_SERVER['HTTP_HOST'];
+    return $GLOBALS['gsHTTPScheme'] . '://' . $_SERVER['HTTP_HOST'];
 }
 
 /**
