@@ -674,3 +674,9 @@ h1, h2 {display: inline;}
 .product-map1 ul li{ width:292px; height:26px;display: block;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;-o-text-overflow: ellipsis;overflow: hidden;}
 
 .container{ width:980px; margin:0 auto; padding-bottom:40px;}
+
+
+
+/*20180419mal_gai*/
+.footer .foot .service dl{ float:left; margin:22px 76px 0 0;}
+
