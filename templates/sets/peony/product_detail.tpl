@@ -101,7 +101,7 @@
         
     <div class="right-msg">
         <!--produce-show-->
-{include file="sets/trade/product/specifications.tpl"}
+{include file="sets/trade/product/specifications.tpl" specification_columns=2}
     {-if $product.embedded_video|default:''}
         <div class="product-description">
             {$product.embedded_video}
