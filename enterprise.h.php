@@ -22,6 +22,15 @@ define('PATTERN_NEWS_PAGE', '/^\/news-([0-9]+)((-[0-9a-z]+)+)?\.html$/');
 /** @var string Pattern of Keywords List */
 define('PATTERN_KEYWORDS_LIST', '/^\/words-([A-Z]|number)(-([0-9]+))?\.html$/');
 
+/** amp html home*/
+define('PATTERN_MOBILE_AMP_HOME', '/^\/amp\/$/');
+/* amp product detail*/
+define('PATTERN_MOBILE_AMP_PRODUCT_DETAIL', '/^\/amp\/([a-z]+)-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?\.html$/');
+/* amp group list*/
+define('PATTERN_MOBILE_AMP_PRODUCT_GROUP', '/^\/amp\/' . $GLOBALS['gaUrlPrefixes']['group'] . '-([0-9]+)(p([0-9]+))?((-[0-9a-z]+)+)?$/');
+/* amp search list*/
+define('PATTERN_MOBILE_AMP_PRODUCT_SEARCH', '/^\/amp\/s((-[0-9a-z]+)+)?\.html$/');
+
 /** @var string Fields of Product for List */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
 define('ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST', 'ep.`id`, elp.`caption`, ep.`head_image_id`, elp.`group_id`, ep.`brand_name`, ep.`model_number`, ep.`certification`, ep.`place_of_origin`, elp.`min_order_quantity`, ep.`price`, ep.`payment_terms`, ep.`supply_ability`, elp.`delivery_time`, elp.`packaging_details`, ep.`path`');
@@ -1097,6 +1106,57 @@ function enterprise_match_url_product($requestPath, &$productId = null, &$pageNo
     return $r;
 }
 
+/** 
+ * 尝试匹配amp产品页URL
+ */
+function enterprise_match_url_product_amp($requestPath, &$productId = null, &$pageNo = null, $langCode = null, $site = null)
+{
+    $r = preg_match(PATTERN_MOBILE_AMP_PRODUCT_DETAIL, $requestPath, $matches);
+    if (!$r)
+        return false;
+
+    $prefix = $matches[1];
+    $productId = $matches[2];
+
+    if (isset($matches[4])
+            && $matches[4])
+        $pageNo = (int)$matches[4];
+    else
+        $pageNo = 1;
+
+    $prefixMatched = false;
+
+    // group.purl_prefix
+    if ($langCode) {
+        $product = enterprise_get_product_info($productId, $langCode);
+        if ($product
+                && $product['group']
+                && $product['group']['purl_prefix']) {
+            if ($prefix != $product['group']['purl_prefix'])
+                return false;
+            else
+                $prefixMatched = true;
+        }
+    }
+
+    // site.purl_prefix
+    if (!$prefixMatched
+            && $site
+            && $site['purl_prefix']) {
+        if ($prefix != $site['purl_prefix'])
+            return false;
+        else
+            $prefixMatched = true;
+    }
+
+    // sell-
+    if (!$prefixMatched
+            && $prefix != 'sell')
+        return false;
+
+    return $r;
+}
+
 /**
  * Router
  */
@@ -1228,7 +1288,13 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
 
     if ($requestPath == '/') {
         return enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
-    }// Skip 'Common queries'
+    }
+    if ($requestPath == '/amp/') {
+        return enterprise_action_sets_home_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
+    }
+
+
+    // Skip 'Common queries'
 
     // Common queries
     enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix);
@@ -1322,6 +1388,33 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
         $firstChar = $matches[1];
         return enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo);
     }
+
+    /* amp product page*/
+    if(enterprise_match_url_product_amp($requestPath, $productId, $pageNo, $langCode, $site)) {
+        return enterprise_action_sets_product_detail_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId, ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo);
+    }
+     /* amp product search page*/
+    if(preg_match(PATTERN_MOBILE_AMP_PRODUCT_SEARCH, $requestPath, $matches)) {
+        $urlKey = $matches[1];
+        $pageNo = (int)enterprise_get_query_by_server_request('p');
+        if ($pageNo <= 0)
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
+    }
+
+    /* amp product group */
+    if(preg_match(PATTERN_MOBILE_AMP_PRODUCT_GROUP, $requestPath, $matches)) {
+        $groupId = $matches[1];
+        if (isset($matches[3])
+                && $matches[3])
+            $pageNo = (int)$matches[3];
+        else
+            $pageNo = 1;
+        return enterprise_action_sets_product_list_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+    } 
+
+
+
 
     $langProductDAO = (($langCode&&$langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
@@ -2167,6 +2260,111 @@ function enterprise_action_sets_product_detail_proc($smarty, $site, $userAgent, 
     return $smarty->fetch($tplPath);
 }
 
+/**
+ * /amp/sell-*.html pc null
+ *
+ * @return string
+ */
+function enterprise_action_sets_product_detail_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $productId, $pageType = ENTERPRISE_PRODUCT_PAGE_TYPE_DEFAULT, $pageNo = 1)
+{
+    global $productDescMapping;
+
+    $siteId = $site['site_id'];
+
+    if ($pageType != ENTERPRISE_PRODUCT_PAGE_TYPE_PIC)// No mobile page for /pic-*
+        enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
+
+    $templateName = $site['template'];
+
+    if ($platform == ENTERPRISE_PLATFORM_PC) {
+       return null;
+    } else {
+        $tplPath = 'sets/mobile/amp_product_detail.tpl';
+    }
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    enterprise_assign_action_product_detail($smarty, $siteId, $langCode, $productId);
+
+    // Comments
+    $pageSize = 10;
+    $condition = enterprise_assign_comment_list($smarty, 'comments', $siteId, $productId, $pageNo, $pageSize);
+    // Total comments
+    $commentDAO = new \enterprise\daos\Comment();
+    $totalComments = $commentDAO->countBy($condition);
+    $totalPages = (int)($totalComments / $pageSize) + (($totalComments % $pageSize)?1:0);
+    $smarty->assign('total_comments', $totalComments);
+    $smarty->assign('page_size', $pageSize);
+    $smarty->assign('page_no', $pageNo);
+    $smarty->assign('total_pages', $totalPages);
+
+    $smarty->assign('product_desc', $productDescMapping);
+
+    $corporation = $smarty->getTemplateVars('corporation');
+    $product = $smarty->getTemplateVars('product');
+    $productGroup = $smarty->getTemplateVars('product_group');
+
+    if (DBG_MODE)
+        var_dump($product);
+
+    // TDK
+    enterprise_assign_tdk_of_product_detail($smarty, $pageType, $site, $corporation, $product, $productGroup, $langCode);
+
+    $productImages = $smarty->getTemplateVars('product_images');
+
+    // Google Structured Data
+    $structuredData = [];
+    // + Product
+    $productData = array(
+            "@context" => "http://schema.org",
+            "@type" => "Product",
+            "name" => $product['caption'],
+            "image" => enterprise_url_image($productImages[0]??0, $product['caption'], 'c'),
+            "brand" => array(
+                    "@type" => "Brand",
+                    "name" => $product['brand_name'],
+                    "logo" => enterprise_url_image($corporation['logo']),
+                ),
+        );
+    $structuredData[] = $productData;
+    // + Video Object
+    if ($currentDomainSuffix == 'hrcusa.org') {
+        $structuredData[] = array(
+                "@context" => "http://schema.org",
+                "@type" => "VideoObject",
+                "name" => $product['caption'],
+                "description" => $product['description'],
+                "thumbnailUrl" => enterprise_url_prefix() . "/uploaded_images/c1947410-professional-drying-equipment-vegetable-dehydration-for-vegetables-dehydrator-with-competitive-price-digital-printer.jpg",
+                "uploadDate" => "3/8/2018",
+                "duration" => "21",
+                "contentUrl" => enterprise_url_prefix() . "/tea_leaf_dryer.mp4"
+            );
+    } elseif ($productGroup['product_video_uri']
+            && $productGroup['product_video_duration']
+            && $productGroup['product_video_cover_uri']) {
+        $structuredData[] = array(
+                "@context" => "http://schema.org",
+                "@type" => "VideoObject",
+                "name" => $product['caption'],
+                "description" => $product['description'],
+                "thumbnailUrl" => enterprise_url_photo($productGroup['product_video_cover_uri']),
+                "uploadDate" => date('n/j/Y', strtotime($productGroup['updated'])),
+                "duration" => $productGroup['product_video_duration'],
+                "contentUrl" => $productGroup['product_video_uri']
+            );
+    }
+    $smarty->assign('google_structured_data', $structuredData);
+
+     //amp test 
+    $amp_style="<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>";
+
+    $smarty->assign('amp_style', $amp_style);
+
+    return $smarty->fetch($tplPath);
+}
 
 /**
  * 设置新闻页TDK
@@ -2314,6 +2512,47 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     return $smarty->fetch($tplPath);
 }
+
+/* amp group */
+function enterprise_action_sets_product_list_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId = null, $pageNo = 1, $tplFile = 'amp_product_list.tpl', $pageSize = 10)
+{
+    global $productDescMapping;
+
+    $siteId = $site['site_id'];
+
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
+
+    $templateName = $site['template'];
+
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        return null;
+    else
+        $tplPath = 'sets/mobile/' . $tplFile;
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Site
+    $smarty->assign('site', $site);
+
+    enterprise_assign_action_product_list($smarty, $siteId, $langCode, $groupId, $pageNo, $pageSize);
+
+    $smarty->assign('product_desc', $productDescMapping);
+
+    $corporation = $smarty->getTemplateVars('corporation');
+    $phrase = $smarty->getTemplateVars('phrase');
+    $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
+
+    // TDK
+    enterprise_assign_tdk_of_product_list($smarty, $corporation, $pageNo, $langCode, $groupId, $group, $phrase, $tplFile);
+
+      //amp test 
+    $amp_style="<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>";
+
+    $smarty->assign('amp_style', $amp_style);
+
+    return $smarty->fetch($tplPath);
+}
+
 
 /**
  * 设置新闻列表页TDK
@@ -2638,6 +2877,66 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
 
     return $smarty->fetch($tplPath);
 }
+
+/**
+ * /amp/ pc null
+ *
+ * @return string
+ */
+function enterprise_action_sets_home_proc_amp($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix)
+{
+    $siteId = $site['site_id'];
+
+    enterprise_adapt_platform($userAgent, $platform, $currentDomainSuffix, $langCode);
+
+    $templateName = $site['template'];
+
+    if ($platform == ENTERPRISE_PLATFORM_PC)
+        return null;
+    else
+        $tplPath = "sets/mobile/amp_home.tpl";
+    if (!$smarty->templateExists($tplPath))
+        return null;
+
+    // Template Meta
+    $templateMeta = $GLOBALS['gaTemplates'][$templateName];
+
+    // Site
+    $smarty->assign('site', $site);
+
+    // Banners
+    enterprise_assign_banner_list($smarty, 'banners', $siteId);
+
+    // Users' voices
+    $userVoices = enterprise_get_user_voice_list($siteId, $langCode, 3, 1);
+    if (!$userVoices)
+        $userVoices = enterprise_get_default_user_voice_list();
+    $smarty->assign('user_voices', $userVoices);
+
+    // Products
+    enterprise_assign_index_products($smarty, $site, $langCode);
+
+    enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentDomainSuffix, true, $templateMeta['home_max_appended_products_to_group']??3);
+    $corporation = $smarty->getTemplateVars('corporation');
+    $groups = $smarty->getTemplateVars('groups');
+
+    // TDK
+    enterprise_assign_tdk_of_home($smarty, $groups, $corporation, $site, $langCode);
+
+    // News
+    enterprise_assign_news_list($smarty, 'news', $siteId, $langCode, 1, 5);
+
+    // Index Keyword
+    enterprise_assign_index_keyword_list($smarty, 'index_keywords', $siteId, $langCode, 1, 24);
+
+    //amp test 
+    $amp_style="<style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>";
+
+    $smarty->assign('amp_style', $amp_style);
+    
+    return $smarty->fetch($tplPath);
+}
+
 
 function enterprise_generate_inquiry_subject_by_product_id($productId, $langCode)
 {
