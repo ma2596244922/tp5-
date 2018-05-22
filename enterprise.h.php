@@ -3166,6 +3166,8 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         }
         $fields = ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST;
     }
+    if (!empty($extraValues['phrase'])) // Using index condition
+        $forceIndex = '`idx_search`';
     if ($additionalFields)
         $fields .= ", {$additionalFields}";
 

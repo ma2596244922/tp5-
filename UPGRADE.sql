@@ -1,3 +1,21 @@
+-- 2018-5-15
+ALTER TABLE `enterprise_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_fr_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_pt_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_es_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_zh_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_ar_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_ru_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_el_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_id_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_th_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_uk_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_de_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_it_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_sq_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_sv_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_tr_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
+ALTER TABLE `enterprise_ja_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
 -- 2018-4-22
 ALTER TABLE `enterprise_groups` ADD COLUMN `ranking` tinyint unsigned NOT NULL COMMENT '排序';
 ALTER TABLE `enterprise_corporations` ADD COLUMN `overseas_offices` tinyint NOT NULL COMMENT '海外办事处(0/1)';
