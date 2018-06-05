@@ -18,24 +18,24 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="pro-detail fl-clr">
-            <span class="pro-title" id="proName">{$product.caption}</span>
+            <h1 class="pro-title" id="proName">{$product.caption}</h1>
             <div class="left-show">
                 <ul class="big-show">
                     {-if $product_images}
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} style="display:block;"{/if}><a href="{$product|url:'enterprise_url_product_pic'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}"  alt="{$product.caption|default:''|escape}"/></a></li>
+                    <li{if $image_id@index==0} style="display:block;"{/if}><a href="{$product|url:'enterprise_url_product_pic'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}"  alt="{$product.caption|default:''|escape}"/></a></li>
                     {-/foreach}
                     {-else}
-                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}"  alt="{$product.caption|default:''|escape}"/></li>
+                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}"/></li>
                     {-/if}
                 </ul>
                 <ul class="small-list">
                     {-if $product_images}
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} class="current"{/if}><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
+                    <li{if $image_id@index==0} class="current"{/if}><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}" /></li>
                     {-/foreach}
                     {-else}
-                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
+                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}" /></li>
                     {-/if}
                 </ul>
             </div>

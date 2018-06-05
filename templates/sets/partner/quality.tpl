@@ -20,7 +20,7 @@
     <div class="left-content">
         <div class="company-intro quality-info">
             <div class="intro-box">
-                <span>Quality Control</span>
+                <h1>Quality Control</h1>
                 <p>{$corporation.qc_profile}</p>
             </div>
             <div class="intro-box">
@@ -31,7 +31,7 @@
                         <div class="left-img">
                                 <span>
                                     <a href="{$cert.uri|url:'enterprise_url_photo'}" data-lightbox="certificate-set" data-title="{$cert.standard|default:''}">
-                                        <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}">
+                                        <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" title="{$cert.standard|default:''}" alt="{$cert.standard|default:''}">
                                     </a>
                                 </span>
                         </div>

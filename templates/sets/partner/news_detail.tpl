@@ -18,9 +18,9 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="news-info">
-            <img src="{$news.head_image_id|url:'enterprise_url_image':$news.caption:''}" />
+            <img src="{$news.head_image_id|url:'enterprise_url_image':$news.caption:''}" title="{$news.caption}" alt="{$news.caption}" />
             <div class="intro-box">
-                <span>{$news.caption} {$news.created}</span>
+                <h1>{$news.caption} {$news.created}</h1>
                 <p>{$news.content}</p>
             </div>
             {include file="sets/partner/common/latest_product.tpl"}

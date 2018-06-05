@@ -18,14 +18,14 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="title-left">
-            <span>ALL Products</span>
+            <h1>ALL Products</h1>
             <i></i>
         </div>
         <div class="product-list">
             <ul class="fl-clr">
                 {foreach $products as $product}
                 <li>
-                    <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" /></a>
+                    <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption}" alt="{$product.caption}" /></a>
                     <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
                 </li>
                 {/foreach}

@@ -18,16 +18,16 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="pro-big">
-            <span id="proName">{$product.caption} image</span>
+            <h1 id="proName">{$product.caption} image</h1>
             <div class="tab fl-clr">
                 <ul class="big-show">
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} style="display:block;"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" alt="{$product.caption|escape} #{$image_id@iteration} image"  /></li>
+                    <li{if $image_id@index==0} style="display:block;"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" title="{$product.caption|escape}" alt="{$product.caption|escape} #{$image_id@iteration} image"  /></li>
                     {-/foreach}
                 </ul>
                 <ul class="small-list">
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" /></li>
+                    <li{if $image_id@index==0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" title="{$product.caption|escape}" alt="{$product.caption|escape}" /></li>
                     {-/foreach}
                 </ul>
             </div>

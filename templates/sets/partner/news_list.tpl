@@ -18,14 +18,14 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="title-left">
-            <span>ALL News</span>
+            <h1>ALL News</h1>
             <i></i>
         </div>
         <div class="product-list">
             <ul class="fl-clr">
                 {foreach $news as $n}
                 <li>
-                    <a href="{$n|url:'enterprise_url_news'}"><img src="{$n.head_image_id|url:'enterprise_url_image':$news.caption:''}" /></a>
+                    <a href="{$n|url:'enterprise_url_news'}"><img src="{$n.head_image_id|url:'enterprise_url_image':$news.caption:''}" title="{$n.caption}" alt="{$n.caption}" /></a>
                     <span><a href="{$n|url:'enterprise_url_news'}">{$n.caption}</a></span>
                 </li>
                 {/foreach}

@@ -20,7 +20,7 @@
             <div>
                 <ul>
                     {foreach $banners as $banner}
-                    <li{if $banner@first || $banner@last} class="clone"{/if}><a href="{$banner.link}"  target="_blank" title="{$banner.desc}"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a></li>
+                    <li{if $banner@first || $banner@last} class="clone"{/if}><a href="{$banner.link}"  target="_blank" title="{$banner.desc}"><img src="{$banner.uri|url:'enterprise_url_photo'}" title="{$banner.desc}" alt="{$banner.desc}"></a></li>
                     {/foreach}
                 </ul>
             </div>
@@ -33,7 +33,7 @@
 <!--banner-slide-->
 <div class="main-category">
     <div class="h2-title">
-        <span>Main Category</span>
+        <h1>Main Category</h1>
         <i></i>
     </div>
     <div class="cate-content fl-clr">
@@ -52,14 +52,14 @@
 <div class="new-product">
     {if $products|default:[]}
     <div class="title-left">
-        <span>New Product</span>
+        <h2>New Product</h2>
         <i></i>
     </div>
     <div class="product-list">
         <ul class="fl-clr">
             {foreach $products as $product}
             <li>
-                <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" /></a>
+                <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption}" alt="{$product.caption}"/></a>
                 <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
             </li>
             {/foreach}
