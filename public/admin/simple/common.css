@@ -1,0 +1,94 @@
+/* Date 2017-02-24
+ * By Ravens
+ * Email:342636236@qq.com
+ */
+ *{font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;margin: 0;padding:0;}
+ html,body{color: #414141;font-size:14px;line-height:1;background:#F5F5F5;min-width: 1230px;}
+ table {border-collapse: collapse;border-spacing: 0;}
+ ol,ul {list-style: none;}
+ a{text-decoration: none;}
+ a{color:#414141;}
+ a:hover{color: #2d56ee;}
+ input,button,input[type="button"] {outline: none;border:;}
+ button,input[type="button"] {cursor: pointer;border:none;}
+ img {border:none;display: block;max-width: 100%;max-height: 100%;}
+ strong {font-weight: normal;}
+ .fl-clear{clear:both}
+.fl-clr{zoom:1}
+.fl-clr:after{display:block;clear:both;height:0;content:"\0020"}
+ ::-webkit-input-placeholder { /* WebKit browsers */
+ color:#CCC;
+ }
+ :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+ color:#CCC;
+ }
+ ::-moz-placeholder { /* Mozilla Firefox 19+ */
+ color:#CCC;
+ }
+ :-ms-input-placeholder { /* Internet Explorer 10+ */
+ color:#CCC;
+ 　　}
+ /**/
+.Page {width: 1200px;margin:auto;}
+.clear{width: 0px;height: 0px;overflow: hidden;clear: both;}
+.fb{font-weight: bold;}
+.fl,.Left{float: left;}.fr,.Right{float: right;}
+.tc{text-align: center;}.tr{text-align: right;}
+.blue {color: #3183FF}.red{color:#FF6969;}
+i.icon  {display: inline-block;background:url(./images/icons.png) no-repeat;}
+i.icon.quest  {width: 20px;height: 20px;}
+i.icon.quest:hover  {background-position: -50px 0;}
+i.icon.quest div {width: 110px;top:32px;border:1px solid #DDD;background-color: #F5F5F5;font-style: normal;padding:5px 10px;line-height: 1.5;position: absolute;right: -20px;display: none;border-radius: 3px;}
+i.icon.quest:hover div {display: block;}
+i.icon.quest div strong {width: 20px;height: 10px;position: absolute;top:-10px;right: 20px;display: block;background: url(./images/tips_a.png);}
+
+/*nice_select*/
+.SelectDL {border:1px solid #DDD;height: 34px;background: #FFF;cursor: default;text-indent: 15px;position: relative;width: 200px;margin-right: 20px;line-height: 34px;}
+.SelectDL:hover,.SelectDL.cur{box-shadow:0 0 3px #00baf2;}
+.SelectDL dt  {padding-right: 36px;background: url(./images/select_tips.png) no-repeat right center;color:#666; }
+.SelectDL dt p  {color: #CCC;}
+.SelectDL dt p,.SelectDL dd li  {text-overflow:ellipsis; white-space:nowrap; overflow:hidden;word-wrap:normal;}
+.SelectDL dd  {position: absolute;left: -1px;top:35px;background: #FFF;border:1px solid #DDD;width: 100%;display: none;overflow: hidden;z-index: 100;margin-top: -1px;}
+.SelectDL dd ul {max-height: 240px;}
+.SelectDL dd ul li:hover  {background: #F5F5F5;border:1px solid #DDD;border-left:0;border-right:0;margin: -1px 0;}
+.SelectDL dd ul li.disabled,.SelectDL dd ul li.disabled:hover {background: #CCC;}
+.SelectDL i.icon.arrow_down{background-position: 0px -150px;width: 8px;height: 5px;position: absolute;right: 10px;top:13px;}
+
+/**/
+.Top  {height: 60px;width: 100%;background:#FFF;margin-bottom: 20px;}
+.Top h1.logo  {width: 200px;height: 100%;background: url(./images/logo.png) no-repeat;overflow: hidden;}
+.Top h1.logo a{display: block;height: 60px;width: 100%;}
+.Top .userInfo  {line-height: 60px;float: right;}
+.Top .userInfo img  {width: 44px;height: 44px; float: right; display:block; border:2px solid #DBE0E6;border-radius: 100%;margin:0 18px 5px 18px;}
+.user-login{ float: right; position:relative; margin-left: 15px; width:84px;}
+.user-login i{ width: 84px; height: 61px; display: block; padding-top: 5px; }
+.user-login i.cur{ background: #f7fafc;}
+.user-login ul{ position: absolute; top: 66px; width: 84px; display: none; background: #fff;}
+.user-login ul li{ height: 32px; line-height: 32px; text-align: center;}
+.user-login ul li a{ color: #606066; font-size: 14px;}
+.user-login ul li:hover{ background: #f7fafc;}
+ 
+.Content .Left  {width: 160px;background: #303033;margin-right: 20px;padding:0px 20px 20px 20px;}
+.Content .Left a  {display: block;line-height: 55px;color: #6F6F71;margin: 0 -20px;padding-left: 50px;position: relative;}
+.Content .Left ul{ display: none;}
+.Content .Left ul li{ height: 30px; line-height: 30px;}
+.Content .Left ul li a{ font-size: 12px; color: #909099; height: 30px; line-height: 30px;}
+.Content .Left a:hover,.Content .Left a.cur {color:#FFF;background: #606066;}
+.Content .Left a i  {display: block;width: 16px;height: 16px;background: url(./images/icons.png) no-repeat;position: absolute;left: 20px;top:20px;}
+
+.Content .Left a.s1 i  {background-position: 0px -50px;}
+.Content .Left a.s2 i  {background-position: -50px -50px;}
+.Content .Left a.s3 i  {background-position: -100px -50px;}
+.Content .Left a.s4 i  {background-position: -150px -50px;}
+.Content .Left a.s5 i  {background-position: -200px -50px;}
+.Content .Left a.s6 i  {background-position: -250px -50px;}
+.Content .Left a.s7 i  {background-position: -300px -50px;}
+.Content .Left a.s8 i  {background-position: -350px -50px;}
+.Content .Left a.s9 i  {background-position: -400px -50px;}
+.Content .Left a.s10 i  {background-position: -450px -50px;}
+.Content .Left a.s11 i  {background-position: 0px -50px;}
+.Content .Left a i.more {background-position: -500px -50px;left:170px;top: 21px;}
+.Content .Left a.cur i.more{ background: url(./images/slide-cur.png) left top no-repeat; top: 24px;}
+.Content .Left a:hover i,.Content .Left a.cur i {background-position-y:-100px;}
+.Content .Left div.qrcode  {color: #6F6F71;margin-top: 200px;line-height: 3;}
+.Content .Left div.line {width: 100%;height: 1px;background:#6F6F71;margin: 10px 0;}
