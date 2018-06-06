@@ -44,6 +44,9 @@ $GLOBALS['gaTemplates'] = array(
         'peony' => array(
                 'label' => 'M4',
             ),
+        'partner' => array(
+                'label' => 'M5',
+            ),
         'ecs' => array(
                 'label' => '企信',
             ),
