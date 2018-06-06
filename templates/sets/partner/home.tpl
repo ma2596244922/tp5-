@@ -75,7 +75,7 @@
     <p>Nunc ac dignissim nunc. Aenean vel pellentesque lectus. Fusce nibh orci, porttitor nec odio sit amet.</p>
 </div>
 <!-- trusted-partner -->
-{if $user_voices||default:[]}
+{if $user_voices|default:[]}
 <div class="our-testimonials">
     <div class="h2-title">
         <span>{$preset_translations.our_customer_say}</span>
