@@ -11,9 +11,9 @@
         <div class="widget">
             <div class="fotterTitle">NAVIGATION</div>
             <ul class="navigation">
-                <li><a href="/">Home</a></li>
-                <li><a href="/aboutus.html">About Company</a></li>
-                <li><a href="/contactus.html">Contact</a></li>
+                <li><a href="/">{$preset_translations.home}</a></li>
+                <li><a href="/aboutus.html">{$preset_translations.company_profile}</a></li>
+                <li><a href="/contactus.html">{$preset_translations.contact_us}</a></li>
             </ul>
         </div>
         <div class="widget">

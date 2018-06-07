@@ -88,14 +88,14 @@
                 {foreach $user_voices as $uv}
                     <div class="singleTest">
                         <p>
-                            {$uv@iteration}
+                            {$uv['voice']}
                         </p>
                         <div class="testmonialinner">
-                            <span class="h2">{$uv['title']}</span>
-                            <p>{$uv['voice']}</p>
+                            <span class="h2">daniel amokachi</span>
+                            <p>{$uv['title']}</p>
                         </div>
                     </div>
-                    {if $uv@index/2 == 0}
+                    {if $uv@index/2 % 1}
                     </div>
                     <div class="swiper-slide">
                     {/if}

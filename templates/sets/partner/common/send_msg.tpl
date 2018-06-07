@@ -1,4 +1,4 @@
-<div class="send-msg{if isset($send_style)}' send1'{/if}">
+<div class="send-msg{if isset($send_style)} send1{/if}">
     <span>White a Message</span>
     <div class="form fl-clr">
         <div class="left-input">
@@ -13,5 +13,5 @@
             <span id="area-error">此项必填</span>
         </div>
     </div>
-    <div class="send-btn"><a href="#">Send Message</a></div>
+    <div class="send-btn"><a href="javascript:void(0)" onclick="boxOut(2)" class="search-btn" title="{$preset_translations.quick_question}">Send Message</a></div>
 </div>

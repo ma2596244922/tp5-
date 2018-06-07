@@ -60,7 +60,7 @@
         <!-- pro-detail -->
         <div class="detail-intro">
             <span>More Product Details</span>
-            <p>{$preset_translations.contact_now}</p>
+            <p>{$product.description}</p>
         </div>
         <!-- intro-box -->
         {include file="sets/partner/common/send_msg.tpl" send_style="1"}
