@@ -41,7 +41,7 @@ if (DBG_MODE) {
 if (!$locale
         && (!isset($siteInfo[$siteId]['root_domain_only']) || !$siteInfo[$siteId]['root_domain_only'])) {
     $targetSubdomain = ($userAgent->isMobile()?'m':'www');
-    header('Location: http://' . $targetSubdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    header('Location: http://' . $targetSubdomain . '.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
     http_response_code(301);
     exit(1);
 }
@@ -148,7 +148,8 @@ retry:
 
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
-        if ($site['enable_https'])
+        if ($site['enable_https']
+                && in_array($subdomain, ['www', 'm']))
             $GLOBALS['gsHTTPScheme'] = 'https';
 
         enterprise_define_url_pattern_constants($site);
