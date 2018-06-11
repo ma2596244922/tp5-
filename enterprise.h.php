@@ -46,6 +46,8 @@ define('ENTERPRISE_NEWS_FIELDS_FOR_INFO', 'n.`id`, ln.`caption`, n.`head_image_i
 define('ENTERPRISE_IMAGE_ID_IN_BLOB_LEN_THRESHOLD', 20);
 
 /* {{{ ENTERPRISE_PLATFORM_* */
+/** @var int 无法识别 */
+define('ENTERPRISE_PLATFORM_KNOWN', 0);
 /** @var int PC端 */
 define('ENTERPRISE_PLATFORM_PC', 10);
 /** @var int 移动端 */
@@ -190,11 +192,19 @@ function enterprise_extract_host_meta($host)
         $a = explode('.', $subdomain);
         if ($a[0] == 'origin')
             array_shift($a);
-        if (count($a) > 1)
-            $locale = enterprise_decide_locale_by_subdomain($a[1]);
-        else
-            $locale = enterprise_decide_locale_by_subdomain($a[0]);
-        $platform = enterprise_decide_platform_by_subdomain($a[0]);
+        $n = count($a);
+        if ($n > 2
+                || ($n == 2
+                        && $a[0] != 'm')) {
+            $locale = '';
+            $platform = ENTERPRISE_PLATFORM_KNOWN;
+        } else {
+            if ($n > 1)
+                $locale = enterprise_decide_locale_by_subdomain($a[1]);
+            else
+                $locale = enterprise_decide_locale_by_subdomain($a[0]);
+            $platform = enterprise_decide_platform_by_subdomain($a[0]);
+        }
     }
 
     return array(

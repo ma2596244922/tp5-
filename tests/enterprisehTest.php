@@ -176,6 +176,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_PC,
+                'subdomain' => 'www',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -185,6 +186,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_MOBILE,
+                'subdomain' => 'm',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -194,6 +196,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'french',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_PC,
+                'subdomain' => 'french',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -203,6 +206,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'french',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_MOBILE,
+                'subdomain' => 'm.french',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -212,6 +216,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_PC,
+                'subdomain' => 'origin.www',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -221,6 +226,7 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'English',
                 'root_domain' => 'seamlesssteel-tube.com',
                 'platform' => ENTERPRISE_PLATFORM_MOBILE,
+                'subdomain' => 'origin.m',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);
@@ -230,6 +236,57 @@ class enterprisehTest extends PHPUnit_Framework_TestCase
                 'locale' => 'Portuguese',
                 'root_domain' => 'ktorrent.org',
                 'platform' => ENTERPRISE_PLATFORM_PC,
+                'subdomain' => 'pt',
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'www.www.ww.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => '',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_KNOWN,
+                'subdomain' => 'www.www.ww',
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'm.m.ww.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => '',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_KNOWN,
+                'subdomain' => 'm.m.ww',
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'www.ww.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => '',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_KNOWN,
+                'subdomain' => 'www.ww',
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'ww.www.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => '',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_KNOWN,
+                'subdomain' => 'ww.www',
+            );
+        $actual = enterprise_extract_host_meta($host);
+        $this->assertEquals($expected, $actual);
+
+        $host = 'ww.m.seamlesssteel-tube.com';
+        $expected = array(
+                'locale' => '',
+                'root_domain' => 'seamlesssteel-tube.com',
+                'platform' => ENTERPRISE_PLATFORM_KNOWN,
+                'subdomain' => 'ww.m',
             );
         $actual = enterprise_extract_host_meta($host);
         $this->assertEquals($expected, $actual);

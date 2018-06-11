@@ -41,7 +41,7 @@ if (DBG_MODE) {
 if (!$locale
         && (!isset($siteInfo[$siteId]['root_domain_only']) || !$siteInfo[$siteId]['root_domain_only'])) {
     $targetSubdomain = ($userAgent->isMobile()?'m':'www');
-    header('Location: http://' . $targetSubdomain . '.' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    header('Location: http://' . $targetSubdomain . '.' . $currentDomainSuffix . $_SERVER['REQUEST_URI']);
     http_response_code(301);
     exit(1);
 }
