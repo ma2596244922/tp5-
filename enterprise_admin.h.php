@@ -2559,12 +2559,16 @@ function enterprise_admin_insert_keywords_replace_var($product, $keywordsArray)
 function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
 {
     $langCode = $taskDetails['lang_code'];
-    $groupId = $taskDetails['group_id'];
+    $groupId = $taskDetails['group_id']??null;
     $keywords = $taskDetails['keywords'];
     $location = $taskDetails['location'];
     $targetCnt = $taskDetails['target_cnt'];
     $ids = $taskDetails['ids']??[];
     $type = $taskDetails['type']??1;
+    $groupIdArray = $taskDetails['group_id_array']??[];
+
+    if ($groupId < 0)
+        $groupId = null;
 
     $keywordsArray = explode("\n", $keywords);
 
@@ -2579,7 +2583,10 @@ function enterprise_admin_insert_keywords_proc($userSiteId, $taskDetails)
 
     if ($type == 1)
         $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`tags`');
-    else {
+    elseif ($type == 3) {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`tags`');
+    } else {
         $idArray = explode("\n", $ids);
         $generator = enterprise_admin_get_products_generator($userSiteId, $langCode, $idArray, '`tags`');
     }
@@ -2641,12 +2648,12 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
     // Save
     $keywords = timandes_get_post_data('keywords');
     $location = (int)timandes_get_post_data('location');
-    $groupId = (int)timandes_get_post_data('group_id');
     $background = (int)timandes_get_post_data('background');
     $type = (int)timandes_get_post_data('type');
     $ids = timandes_get_post_data('ids');
+    $groupIdArray = timandes_get_post_data('group_id_array');
 
-    $typeRange = array(1, 2);
+    $typeRange = array(3, 2, 1);
     if (!in_array($type, $typeRange))
         throw new \RangeException("非法的类型");
     $locationRange = array(1, 2, 3, 4, 5, 6);
@@ -2654,8 +2661,8 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
         throw new \RangeException("非法的位置值");
     if (!$keywords)
         throw new \UnderflowException("请给出至少一个关键词");
-    if ($type == 1) {
-        if (!$groupId)
+    if ($type == 3) {
+        if (!$groupIdArray)
             throw new \UnexpectedValueException("请选择分组");
     } elseif ($type == 2) {
         if (!$ids)
@@ -2665,7 +2672,7 @@ function enterprise_admin_action_insert_keywords($smarty, $site, $langCode)
 
     $taskDetails = array(
             'keywords' => $keywords,
-            'group_id' => $groupId,
+            'group_id_array' => $groupIdArray,
             'location' => $location,
             'lang_code' => $langCode,
             'target_cnt' => $targetCnt,
