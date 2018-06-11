@@ -9,8 +9,6 @@
             <li><a href="/contactnow.html">{$preset_translations.request_a_quote}</a></li>
         </ul>
         <div class="search">
-            <input type="text" class="search-txt" placeholder="{$supported_lang_codes[$lang_code].locale_label|default:'English'}" />
-            <span class="search-icon" data-role="SearchShow"></span>
         </div>
         <div class="select-flag current" data-role="selectParent">
             <div class="select-box fl-clr" data-role="ShowParent">

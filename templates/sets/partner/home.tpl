@@ -40,7 +40,7 @@
         {foreach $groups as $group}{if $group@index>=3}{continue}{/if}
         <div class="cate-detail">
                 <span>
-                    <i class="icon{$group@index}"></i>
+                    <i class="icon{$group@index+1}"></i>
                     <em>{$group.products[0].caption}</em>
                 </span>
             <P>{$preset_translations.see_more}</P>
