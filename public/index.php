@@ -148,7 +148,8 @@ retry:
 
         if ($site['product_default_image'])
             $GLOBALS['gsProductDefaultImageUrl'] = enterprise_url_image($site['product_default_image']);
-        if ($site['enable_https'])
+        if ($site['enable_https']
+                && in_array($subdomain, ['www', 'm']))
             $GLOBALS['gsHTTPScheme'] = 'https';
 
         enterprise_define_url_pattern_constants($site);
