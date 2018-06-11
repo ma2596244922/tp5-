@@ -20,7 +20,7 @@
         <div class="company-intro">
             <div class="company-img">
                 {foreach $photos as $photo}
-                <img src="{$photo.uri|url:'enterprise_url_photo':'':'c'}" title="{$preset_translations.company_profile}" alt="{$preset_translations.company_profile}" />
+                <img src="{$photo.uri|url:'enterprise_url_photo':'':'c'}" alt="{$preset_translations.company_profile}" />
                 {/foreach}
             </div>
             <div class="intro-box">

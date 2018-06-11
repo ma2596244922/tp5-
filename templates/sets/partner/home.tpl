@@ -20,7 +20,7 @@
             <div>
                 <ul>
                     {foreach $banners as $banner}
-                    <li{if $banner@first || $banner@last} class="clone"{/if}><a href="{$banner.link}"  target="_blank" title="{$banner.desc}"><img src="{$banner.uri|url:'enterprise_url_photo'}" title="{$banner.desc}" alt="{$banner.desc}"></a></li>
+                    <li{if $banner@first || $banner@last} class="clone"{/if}><a href="{$banner.link}"  target="_blank" title="{$banner.desc}"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a></li>
                     {/foreach}
                 </ul>
             </div>
@@ -38,13 +38,15 @@
     </div>
     <div class="cate-content fl-clr">
         {foreach $groups as $group}{if $group@index>=3}{continue}{/if}
-        <div class="cate-detail">
-                <span>
-                    <i class="icon{$group@index+1}"></i>
-                    <em>{$group.products[0].caption}</em>
-                </span>
-            <P>{$preset_translations.see_more}</P>
-        </div>
+        <a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">
+            <div class="cate-detail">
+                    <span>
+                        <i class="icon{$group@index+1}"></i>
+                        <em>{$group.name}</em>
+                    </span>
+                <P>{$preset_translations.see_more}</P>
+            </div>
+        </a>
         {/foreach}
     </div>
 </div>
@@ -59,8 +61,8 @@
         <ul class="fl-clr">
             {foreach $products as $product}
             <li>
-                <a href="{$product|url:'enterprise_url_product'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption}" alt="{$product.caption}"/></a>
-                <span><a href="{$product|url:'enterprise_url_product'}">{$product.caption}</a></span>
+                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption}"/></a>
+                <span><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></span>
             </li>
             {/foreach}
         </ul>
@@ -75,43 +77,7 @@
     <p>Nunc ac dignissim nunc. Aenean vel pellentesque lectus. Fusce nibh orci, porttitor nec odio sit amet.</p>
 </div>
 <!-- trusted-partner -->
-{if $user_voices|default:[]}
-<div class="our-testimonials">
-    <div class="h2-title">
-        <span>{$preset_translations.our_customer_say}</span>
-        <i></i>
-    </div>
-    <div class="test-inner fl-clr">
-        <div class="swiper-container">
-            <div class="swiper-wrapper" style=" width:1000%">
-                <div class="swiper-slide">
-                {foreach $user_voices as $uv}
-                    <div class="singleTest">
-                        <p>
-                            {$uv['voice']}
-                        </p>
-                        <div class="testmonialinner">
-                            <span class="h2">daniel amokachi</span>
-                            <p>{$uv['title']}</p>
-                        </div>
-                    </div>
-                    {if $uv@index/2 % 1}
-                    </div>
-                    <div class="swiper-slide">
-                    {/if}
-                {/foreach}
-                </div>
-            </div>
-            <!-- swiper-wrapper -->
-            <div class="swiper-pagination"></div>
-            <!-- swiper-pagination -->
-        </div>
-        <!-- swiper-container -->
-    </div>
-    <!-- test-inner -->
-</div>
-{/if}
-<!-- our-testimonials -->
+
 {include file="sets/partner/common/footer.tpl"}
 <!-- footer -->
 

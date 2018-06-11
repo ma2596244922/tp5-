@@ -17,14 +17,15 @@
             </ul>
         </div>
         <div class="widget">
-            {foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index==2&&$main_products|default:[]}{break}{/if}{if $group@index>=2}{break}{/if}
+            {if $latest_products|default:[]}
             <div class="fotterTitle">Latest Twitter</div>
-            {foreach $group.products as $product}
+            {foreach latest_products as $product}
+            {if $product@index >= 3}{break}{/if}
             <p class="twitter_text">
-                <a href="{$product|url:'enterprise_url_product'}">{$product.caption} </a>&rlm; {$product.tags}
+                <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption} </a>&rlm; {$product.tags}
             </p>
             {/foreach}
-            {/foreach}
+            {/if}
         </div>
         <div class="widget">
             <div class="fotterTitle">Our Newslatter</div>

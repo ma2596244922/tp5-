@@ -30,8 +30,8 @@
                     <div class="certification-detail">
                         <div class="left-img">
                                 <span>
-                                    <a href="{$cert.uri|url:'enterprise_url_photo'}" data-lightbox="certificate-set" data-title="{$cert.standard|default:''}">
-                                        <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" title="{$cert.standard|default:''}" alt="{$cert.standard|default:''}">
+                                    <a href="{$cert.uri|url:'enterprise_url_photo'}" title="{$cert.standard|default:''}" data-lightbox="certificate-set" data-title="{$cert.standard|default:''}">
+                                        <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}">
                                     </a>
                                 </span>
                         </div>

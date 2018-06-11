@@ -22,16 +22,16 @@
             <div class="tab fl-clr">
                 <ul class="big-show">
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} style="display:block;"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}" title="{$product.caption|escape}" alt="{$product.caption|escape} #{$image_id@iteration} image"  /></li>
+                    <li{if $image_id@index==0} style="display:block;"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'t'}"  alt="{$product.caption|escape} #{$image_id@iteration} image"  /></li>
                     {-/foreach}
                 </ul>
                 <ul class="small-list">
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" title="{$product.caption|escape}" alt="{$product.caption|escape}" /></li>
+                    <li{if $image_id@index==0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|escape}" /></li>
                     {-/foreach}
                 </ul>
             </div>
-            <div class="send-btn"><a href="#">Send Message</a></div>
+            <div class="send-btn"><a href="/contactnow.html">Send Message</a></div>
         </div>
         {include file="sets/partner/common/send_msg.tpl"  send_style="1"}
         <!-- send-msg -->

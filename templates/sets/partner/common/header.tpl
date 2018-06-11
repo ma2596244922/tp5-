@@ -9,14 +9,22 @@
                 <i class="email"></i>
                 <dl>
                     <dt>EMAIL</dt>
+                    {if $contacts[0]|default:[]}
+                    <dd>{$contacts[0].email}</dd>
+                    {else}
                     <dd>{$preset_translations.please_enter_your_email_address}</dd>
+                    {/if}
                 </dl>
             </div>
             <div class="menu phone">
                 <i class="phone"></i>
                 <dl>
+                    {if $contacts[0]|default:[]}
+                    <dd>{$contacts[0].tel}</dd>
+                    {else}
                     <dt>PHONE</dt>
                     <dd>{$preset_translations.business_phone}</dd>
+                    {/if}
                 </dl>
             </div>
         </div>

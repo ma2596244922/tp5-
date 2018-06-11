@@ -23,19 +23,19 @@
                 <ul class="big-show">
                     {-if $product_images}
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} style="display:block;"{/if}><a href="{$product|url:'enterprise_url_product_pic'}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}"  alt="{$product.caption|default:''|escape}"/></a></li>
+                    <li{if $image_id@index==0} style="display:block;"{/if}><a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape}"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}"  alt="{$product.caption|default:''|escape}"/></a></li>
                     {-/foreach}
                     {-else}
-                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}"/></li>
+                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}"/></li>
                     {-/if}
                 </ul>
                 <ul class="small-list">
                     {-if $product_images}
                     {-foreach $product_images as $image_id}
-                    <li{if $image_id@index==0} class="current"{/if}><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}" /></li>
+                    <li{if $image_id@index==0} class="current"{/if}><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}"  alt="{$product.caption|default:''|escape}" /></li>
                     {-/foreach}
                     {-else}
-                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" title="{$product.caption|default:''|escape}" alt="{$product.caption|default:''|escape}" /></li>
+                    <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
                     {-/if}
                 </ul>
             </div>
@@ -54,7 +54,7 @@
                     {if $product.payment_terms|default:''}<li><label>{$preset_translations.payment_terms}:</label><span>{$product.payment_terms}</span></li>{/if}
                     {if $product.supply_ability|default:''}<li><label>{$preset_translations.supply_ability}:</label><span>{$product.supply_ability}</span></li>{/if}
                 </ul>
-                <a href="#" class="send">Send Message</a>
+                <a href="/contactnow.html" class="send">Send Message</a>
             </div>
         </div>
         <!-- pro-detail -->

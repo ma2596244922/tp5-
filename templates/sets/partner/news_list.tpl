@@ -25,8 +25,8 @@
             <ul class="fl-clr">
                 {foreach $news as $n}
                 <li>
-                    <a href="{$n|url:'enterprise_url_news'}"><img src="{$n.head_image_id|url:'enterprise_url_image':$news.caption:''}" title="{$n.caption}" alt="{$n.caption}" /></a>
-                    <span><a href="{$n|url:'enterprise_url_news'}">{$n.caption}</a></span>
+                    <a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}" ><img src="{$n.head_image_id|url:'enterprise_url_image':$news.caption:''}" alt="{$n.caption}" /></a>
+                    <span><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}">{$n.caption}</a></span>
                 </li>
                 {/foreach}
             </ul>
@@ -35,10 +35,10 @@
         {if $total_news > $page_size}
         <div class="page">
             {-if isset($pager_info['prev_page'])}
-            <a href="{$pager_info['prev_page']|url:'enterprise_url_news_list'}" class="prev">&lt;&nbsp;Prev</a>
+            <a href="{$pager_info['prev_page']|url:'enterprise_url_news_list'}" title="Prev" class="prev">&lt;&nbsp;Prev</a>
             {-/if}
             {-if isset($pager_info['next_page'])}
-            <a href="{$pager_info['next_page']|url:'enterprise_url_news_list'}" class="next">Next&nbsp;&gt;</a>
+            <a href="{$pager_info['next_page']|url:'enterprise_url_news_list'}" title="Next" class="next">Next&nbsp;&gt;</a>
             {-/if}
         </div>
         {/if}
