@@ -19,10 +19,10 @@
             <div class="menu phone">
                 <i class="phone"></i>
                 <dl>
+                    <dt>PHONE</dt>
                     {if $contacts[0]|default:[]}
                     <dd>{$contacts[0].tel}</dd>
                     {else}
-                    <dt>PHONE</dt>
                     <dd>{$preset_translations.business_phone}</dd>
                     {/if}
                 </dl>

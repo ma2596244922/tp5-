@@ -19,7 +19,7 @@
         <div class="widget">
             {if $latest_products|default:[]}
             <div class="fotterTitle">Latest Twitter</div>
-            {foreach latest_products as $product}
+            {foreach $latest_products as $product}
             {if $product@index >= 3}{break}{/if}
             <p class="twitter_text">
                 <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption} </a>&rlm; {$product.tags}
