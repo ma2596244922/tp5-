@@ -54,7 +54,7 @@
                     {if $product.payment_terms|default:''}<li><label>{$preset_translations.payment_terms}:</label><span>{$product.payment_terms}</span></li>{/if}
                     {if $product.supply_ability|default:''}<li><label>{$preset_translations.supply_ability}:</label><span>{$product.supply_ability}</span></li>{/if}
                 </ul>
-                <a href="/contactnow.html" class="send">Send Message</a>
+                <a href="/contactnow.html?about_product={$product.id}" class="send">Send Message</a>
             </div>
         </div>
         <!-- pro-detail -->

@@ -22,7 +22,7 @@
     <!-- left-content -->
     <div class="right-contact">
         <div class="contact-info">
-            <h1 class="title">Contact Info</h1>
+            <h1 class="title">{$preset_translations.contact_info}</h1>
             <p>{$site.contact_content} </p>
             {-foreach $contacts as $contact}
             <ul>
