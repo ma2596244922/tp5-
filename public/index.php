@@ -154,6 +154,18 @@ retry:
 
         enterprise_define_url_pattern_constants($site);
 /* }}} */
+
+        // HTTP ==301=> HTTPs
+        if ($_SERVER['REQUEST_SCHEME'] == 'http'
+                && $GLOBALS['gsHTTPScheme'] == 'https') {
+            $redirectUrl = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $_SERVER['REQUEST_URI'];
+            if (DBG_MODE)
+                echo "<p>Redirect URL: {$redirectUrl}</p>";
+            else
+                header('Location: ' . $redirectUrl);
+            exit(0);
+        }
+
         enterprise_assign_preset_translations($smarty, $langCode);
 
         $dir = \enterprise\LangCode::getLangDir($langCode);
