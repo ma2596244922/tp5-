@@ -26,6 +26,11 @@ $('[data-role="ShowParent"]').click(function(){
         }
     });
 })
+$('[data-role="ListType"] a').click(function(){
+	var this_val=$(this).html();
+	$('[data-role="SearchShow"]').html(this_val); 
+	$('[data-role="ListType"]').slideUp('fast');
+})
 // 验证
 function valideEmail(objName) {
 	var i, strDomain, cChar;
@@ -79,11 +84,10 @@ $("#email").blur(function() {
 	}
 })
 var pro_name=$("#proName").text();
-console.log(pro_name);
 if(pro_name==undefined||pro_name==""||pro_name==null){
 	pro_name=$(".logo span").text();
 }
-$("#subject").val(pro_name);
+$("#subject").val("Inquiry About:"+pro_name);
 $("#subject").blur(function() {
 	var username = $(this);
 	if (username.val() == "") {

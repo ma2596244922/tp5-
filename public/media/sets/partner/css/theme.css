@@ -67,7 +67,7 @@ input[type="password"] {
 .slideBox{  width: 100%; height:540px;overflow:hidden; position:relative;}
 .slideBox .bd{ width: 1920px; height:540px; position: absolute; left: 50%; margin-left: -960px; }
 .slideBox .bd li{ zoom:1; vertical-align:middle;}
-.slideBox .bd img{display:block;}
+.slideBox .bd img{display:block; width: 1920px; height:540px;}
 .slideBox .prev,
 .slideBox .next{ position:absolute; left:3%; top:50%; margin-top:-30px; display:block; width:32px; height:61px; background:url(../images/prev-defaulticon.png) 0 0 no-repeat;}
 .slideBox .next{ left:auto; right:3%; background:url(../images/next-defaulticon.png) 0 0 no-repeat;}
@@ -85,8 +85,8 @@ input[type="password"] {
 .h2-title i{ width: 75px; height: 2px; display: block; background: #23c783; margin: 10px auto 0;}
 
 .cate-content{ width: 1190px; margin: 50px auto 60px;}
-.cate-content .cate-detail{ width: 380px; height: 300px; margin-right: 25px; float: left; background:#fff; padding-top: 70px; }
-.cate-content .cate-detail:last-child{ margin-right: 0;}
+.cate-content a{ width: 380px; height: 300px; display: block; margin-right: 25px; float: left; background:#fff; padding-top: 70px; }
+.cate-content a:last-child{ margin-right: 0;}
 .cate-content .cate-detail:hover{ background: #23c783;}
 .cate-content .cate-detail i{ display: block; margin: 0 auto 20px;}
 .cate-content .cate-detail i.icon1{ width:58px; height: 56px; background: url(../images/service1.png) left top no-repeat; }
@@ -101,7 +101,7 @@ input[type="password"] {
 
 .new-product{ width: 100%; padding: 50px 0;}
 .title-left{ width: 1190px; text-align: left; margin: 0 auto;}
-.title-left span{ font-size: 26px; color: #333;}
+.title-left span,.title-left h1{ font-size: 26px; color: #333;}
 .title-left i{ width: 75px; height: 2px; display: block; background: #23c783; margin: 10px 0 0 0;}
 .new-product .product-list{ width: 1190px; margin: 20px auto 0;}
 .new-product .product-list li{ width: 210px; float: left; margin: 0 25px 30px 0;}
@@ -182,7 +182,7 @@ input[type="password"] {
 .content .right-list{ width:290px; margin-left: 10px; float: left; margin-top: 45px; }
 .content .right-list .search-box{ width: 290px; height: 50px; position: relative;}
 .content .right-list .search-box .txt{ width: 285px; height: 50px; border: none; background: #eee; border-radius:3px; padding-left: 5px;}
-.content .right-list .search-box .search-btn{ width: 50px; height: 50px; display:block; background: #23c783; position: absolute; right: 0; top: 0; border-radius:3px;}
+.content .right-list .search-box .search-btn{ width: 50px; height: 50px; display:block;background: #23c783 url(../images/search.png) center center no-repeat; position: absolute; right: 0; top: 0; border-radius:3px;}
 .right-list .categories{ margin-top: 25px;}
 .right-list .categories span{ font-size: 18px; height: 58px; line-height: 58px; margin-bottom: 5px; display:block; color: #333; font-weight: bold;}
 .right-list .categories ul li{ height: 58px; border-bottom: solid 2px #f3f3f3; line-height: 58px; padding-left: 2px;}
@@ -193,12 +193,12 @@ input[type="password"] {
 /* 公司信息 */
 .company-intro{ width: 860px;}
 .company-intro .intro-box{ margin-bottom: 20px; padding-bottom: 20px; border-bottom: solid 1px #f3f3f3;}
-.company-intro .intro-box span{ font-size: 22px; color: #333; font-weight: bold; display: block; margin-bottom: 10px;}
+.company-intro .intro-box span,.company-intro .intro-box h1{ font-size: 22px; color: #333; font-weight: bold; display: block; margin-bottom: 10px;}
 .company-intro .intro-box:last-child{ border-bottom: none;}
 .company-intro .intro-box p{ font-size: 14px; color: #696969; line-height: 26px;}
 .company-intro .intro-box ul li{ height: 32px; line-height: 32px; color: #696969; font-size: 14px;}
-.company-img{ width: 860px; height: 240px; margin-bottom: 20px;}
-.company-img img{ width: 100%; height: 240px;}
+.company-img{ width: 860px; margin-bottom: 20px;}
+.company-img img{display: block;margin: 0 auto 10px;}
 
 .send-msg span{ font-size: 22px; color: #333; font-weight: bold; display: block; margin-bottom: 15px;}
 .send-msg .left-input{ width: 300px; float: left; margin-right: 15px;}
@@ -207,8 +207,8 @@ input[type="password"] {
 .send-msg .left-input li span{ position: absolute; right: 8px; top: 13px; color: #e60000; font-size: 12px; font-weight: normal; display: none;}
 .send-msg .left-input li .txt{ width: 293px; height: 40px; border: solid 1px #dfdfdf; font-style: normal; background: #fff; padding-left: 5px; color: #696969; font-size: 14px;    white-space: nowrap;
   text-overflow: ellipsis; -o-text-overflow: ellipsis; overflow: hidden;display: block;}
-.send-msg .right-area{ width: 310px; height: 111px; float: left; position:relative;}
-.send-msg .right-area .area{ width: 298px; height: 129px; border: solid 1px #dfdfdf; padding: 5px; color: #696969;}
+.send-msg .right-area{ width: 460px; height: 111px; float: left; position:relative;}
+.send-msg .right-area .area{ width: 458px; height: 129px; border: solid 1px #dfdfdf; padding: 5px; color: #696969;}
 .send-msg .right-area span{ position: absolute; font-size: 12px; font-weight: normal; right: 8px; bottom: -37px; color: #e60000; display: none;}
 .send-btn{ width: 154px; height: 50px; margin: 20px 0 0 0;}
 .send-btn a{ background: #23c783; width: 154px; height: 50px; display: block; border-radius:3px; text-align: center; line-height: 50px; color: #fff; font-size: 16px;}
@@ -228,8 +228,8 @@ input[type="password"] {
 .contact-info span.title{ font-size: 22px; font-weight: bold;}
 .contact-info p{ font-size: 14px; color: #999; line-height: 30px; margin:20px 0 0 20px;}
 
-.left-contact{ width: 700px; float: left; margin: 45px 30px 0 0;}
-.right-contact{ float: left; width: 400px; margin-top: 45px;}
+.left-contact{ width: 850px; float: left; margin: 45px 30px 0 0;}
+.right-contact{ float: left; width: 300px; margin-top: 45px;}
 .right-contact ul{ margin: 10px 0 0 20px;}
 .right-contact ul li{line-height: 28px; color: #999; font-size: 14px;}
 .right-contact ul li em{ color: #696969;}
