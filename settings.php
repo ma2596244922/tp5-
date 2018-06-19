@@ -47,6 +47,9 @@ $GLOBALS['gaTemplates'] = array(
         'partner' => array(
                 'label' => 'M5',
             ),
+        'apus' => array(
+                'label' => 'B1',
+            ),
         'ecs' => array(
                 'label' => '企信',
             ),
