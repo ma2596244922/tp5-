@@ -88,6 +88,11 @@ if(pro_name==undefined||pro_name==""||pro_name==null){
 	pro_name=$(".logo span").text();
 }
 $("#subject").val("Inquiry About:"+pro_name);
+var pro_name=$("#proName").text();
+if(pro_name==undefined||pro_name==""||pro_name==null){
+	pro_name=$(".logo span").text();
+}
+$("#subject").val("Inquiey about:"+pro_name);
 $("#subject").blur(function() {
 	var username = $(this);
 	if (username.val() == "") {
@@ -135,7 +140,6 @@ $(".send-btn a").click(function() {
         return false;
     }
     $('#form-inquiry').submit();
-    return false;
 })
 
 
@@ -148,4 +152,10 @@ $(function() {
         $($(".big-show li")[c]).siblings().hide();
         $($(".big-show li")[c]).fadeIn();
     })
+})
+
+$(".nav-inner li").hover(function(){
+	$(this).children("dl").slideDown();
+},function(){
+	$(this).children("dl").hide();
 })
