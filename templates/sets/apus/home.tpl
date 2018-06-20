@@ -29,8 +29,8 @@
             {foreach $products as $product}
             <li class="fl-clr">
                 <div class="nwlf">
-                    {product.created}|strtotime|date:"d"
-                    <span>{product.created}|strtotime|date:"Y/m"</span>
+                    {$product.created|date_format:'%d'}
+                    <span>{$product.created|date_format:'%Y/%m'}</span>
                 </div>
                 <div class="nwrt">
                     <div class="nwtit"><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></div>
