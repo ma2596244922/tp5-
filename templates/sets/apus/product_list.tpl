@@ -15,11 +15,16 @@
         <img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}">
     {/foreach}
 </div>
-
 <div class="place bw_1190" id="place">
     <div class="here fl-left">
         <span><a href="/" title="{$preset_translations.home}">{$preset_translations.home}</a>&nbsp;&gt;&nbsp;</span>
-        <div class="fl-bold">{$preset_translations.site_map}</div>
+        {-if $group|default:[]}
+        <a href="/products.html">{$preset_translations.products}</a>&gt;<div class="fl-bold">{$group.name}</div>
+        {-elseif $phrase|default:''}
+        <a href="/products.html">{$preset_translations.products}</a>&gt;<div class="fl-bold">{$phrase}</div>
+        {-else}
+        <div class="fl-bold">{$preset_translations.products}</div>
+        {-/if}
     </div>
 </div>
 
@@ -42,7 +47,17 @@
 
         </div>
         <div class="content_right">
-            <div class="section"><span class="gorth2">{$preset_translations.all_products} Page {$page_no}</span> </div>
+            <div class="section">
+                <span class="gorth2">
+                    {-if $group|default:[]}
+                    {$group.name}
+                    {-elseif $phrase|default:''}
+                    {$phrase}
+                    {-else}
+                    {$preset_translations.all_products}
+                    {-/if}
+                </span>
+            </div>
             <ul class="cp_dt fl-clr">
                 {foreach $products as $product}
                 <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}" target="_blank"><span></span>{$product.caption|escape}</a></li>
@@ -53,12 +68,12 @@
                 <div id="Pagination" class="pagination">
                     <div class="resultNum"></div>
                     <div class="pagearea">
-                        {-if isset($pager_info['prev_page'])}
-                        <a href='{$pager_info['prev_page']|url:'enterprise_url_product_directory'}' class='rollPage' rel='nofollow' title='Prev' >Prev Page</a>
+                        {-if $page_no > 1}
+                        <a href='{$group|default:[]|url:'enterprise_url_product_list':($page_no-1)}' class='rollPage' rel='nofollow' title='Prev' >Prev Page</a>
                         {-/if}
 
-                        {-if isset($pager_info['next_page'])}
-                        <a href='{$pager_info['next_page']|url:'enterprise_url_product_directory'}' class='rollPage' rel='nofollow' title='Next' >Next Page</a>
+                        {-if $page_no < $total_pages}
+                        <a href='{$group|default:[]|url:'enterprise_url_product_list':($page_no+1)}' class='rollPage' rel='nofollow' title='Next' >Next Page</a>
                         {-/if}
                     </div>
                 </div>

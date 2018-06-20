@@ -1,7 +1,7 @@
 <div class="foot_0">
     <div class="foot fl-clr">
         <dl class="fl-clr">
-            <dt>{$preset_translations.home}</dt>
+            <dt>{$corporation.name|escape}</dt>
             {if $contacts[0]|default:[]}
             <dd>Mobile : {$contacts[0].tel}</dd>
             <dd class="lst">Mail : {$contacts[0].email}</dd>
