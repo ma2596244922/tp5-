@@ -1,7 +1,7 @@
 <div class="right-list">
     <div class="search-box">
-        <input type="text" class="txt" id="selectTxt1" placeholder="Search..." />
-        <a href="javascript:void(0)"  onclick="boxOut(1)" class="search-btn"></a>
+        <input type="text" class="txt" placeholder="Search..." id="search-txt" />
+        <a href="javascript:void(0)" class="search-btn" id="search-btn"></a>
     </div>
     <div class="categories">
         <h2>{$preset_translations.all_categories}</h2>

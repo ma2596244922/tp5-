@@ -213,7 +213,7 @@ input[type="password"] {
  padding: 5px; color: #696969;}
 .send-msg .right-area span{ position: absolute; font-size: 12px; font-weight: normal; right: 8px; bottom: -37px; color: #e60000; display: none;}
 .send-btn{ width: 154px; height: 50px; float: right;margin: 20px 94px 0 0;}
-send1 .send-btn{ margin: 20px 110px 0 0;}
+.send1 .send-btn{ margin: 20px 122px 0 0;}
 .send-btn a{ background: #23c783; width: 154px; height: 50px; display: block; border-radius:3px; text-align: center; line-height: 50px; color: #fff; font-size: 16px;}
 .send-btn a:hover{ background: #1fb476;}
 
