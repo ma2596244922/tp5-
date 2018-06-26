@@ -1,17 +1,18 @@
-<div class="send-msg{if isset($send_style)} send1{/if}">
+<div class="fl-clr send-msg{if isset($send_style)} send1{/if}">
     <span>Writing a Message</span>
+<div class="fl-clr send-msg{if isset($send_style)} send1{/if}">
     <form action="/contactsave.html" id="form1" method="POST" enctype="multipart/form-data">
     <div class="form fl-clr">
         <div class="left-input">
             <ul>
-                <li><input type="text" class="txt" id="subject" name="subject" placeholder="{$subject|escape}" /><span id="subject-error">此项必填</span></li>
-                <li><input type="text" class="txt" id="email" name="email" placeholder="{$preset_translations.please_enter_your_email_address}" /><span id="email-error">请输入有效的邮箱信息</span></li>
+                <li><input type="text" class="txt txt1" id="subject" name="subject" placeholder="{$subject|escape}" /><span id="subject-error">Please Enter your Subject.</span></li>
+                <li><input type="text" class="txt txt1" id="email" name="email" placeholder="{$preset_translations.please_enter_your_email_address}" /><span id="email-error">Please enter Your valid email address.</span></li>
                 <li><input type="text" class="txt" name="name" placeholder="First Name  Last Name" /></li>
             </ul>
         </div>
         <div class="right-area">
-            <textarea class="area" name="message" id="area"></textarea>
-            <span id="area-error">此项必填</span>
+            <textarea class="area" name="message" id="area" placeholder="Your inquiry content..."></textarea>
+            <span id="area-error">Your inquiry content must be between 20 to 5000 characters.</span>
         </div>
     </div>
     <div class="send-btn"><a href="javascript:void(0)" onclick="submit()" class="search-btn" title="{$preset_translations.quick_question}">Send Message</a></div>
@@ -20,33 +21,31 @@
 
 <script>
     function submit() {
-        $(".txt").each(function() {
+        $(".txt1").each(function() {
             if ($(this).val() == "") {
-                $(this).siblings("span").addClass("is-visible");
+                $(this).siblings("span").css("display", "block");
                 $(this).css("border-color", "#d41313");
                 return false;
             }
         })
         var area_value = $("#area").val();
         if (area_value == "") {
-            $("#area_error").addClass("is-visible");
+            $("#area-error").css("display", "block");
             $("#area").css("border-color", "#d41313");
             return false;
         }
         var subject_value = $("#subject").val();
         if (subject_value == "") {
-            $("#subject_error").addClass("is-visible");
+            $("#subject-error").addClass("is-visible");
             $("#subject").css("border-color", "#d41313");
             return false;
         }
-        var username = $("#username");
+        var username = $("#email");
         if (!valideEmail(username)) {
-            $("#username_error").addClass("is-visible");
-            $("#username_error").text("Please enter your valid email address.");
-            $("#username").css("border-color", "#d41313");
+            $("#email-error").css("display", "block");
+            $(this).css("border-color", "#d41313");
             return false;
         }
-
         $('#form1').submit();
     }
 </script>
