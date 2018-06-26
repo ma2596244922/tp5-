@@ -41,5 +41,5 @@
 </div>
 <!-- footer -->
 <div class="copyright">
-    <p>© {$site.start_year} - {$smarty.now|date_format:'%Y'} <a href="http://www.{$site_root_domain}/">{$preset_translations.pc_sites}</a> {$preset_translations.all_rights_reserved}</p>
+    <p>© {$site.start_year} - {$smarty.now|date_format:'%Y'} <a href="http://{$lang_code}.{$site_root_domain}/">{$preset_translations.pc_sites}</a> {$preset_translations.all_rights_reserved}</p>
 </div>

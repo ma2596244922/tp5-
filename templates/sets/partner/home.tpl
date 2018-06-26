@@ -38,13 +38,12 @@
     </div>
     <div class="cate-content fl-clr">
         {foreach $groups as $group}{if $group@index>=3}{continue}{/if}
-        <a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">
+        <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
             <div class="cate-detail">
                     <span>
                         <i class="icon{$group@index+1}"></i>
-                        <em>{$group.name}</em>
+                        <em>{$group.products[0].caption}</em>
                     </span>
-                <P>{$preset_translations.see_more}</P>
             </div>
         </a>
         {/foreach}
@@ -54,7 +53,7 @@
 <div class="new-product">
     {if $products|default:[]}
     <div class="title-left">
-        <h2>New Product</h2>
+        <h2>{$preset_translations.new_products}</h2>
         <i></i>
     </div>
     <div class="product-list">
