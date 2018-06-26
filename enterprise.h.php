@@ -1289,6 +1289,7 @@ function enterprise_iparea_get_info_from_addr($ipv4Addr)
 function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $requestURL, $requestPath, $requestPathSum)
 {
     $productListPageSize = 20;
+    $productListPageTpl = 'product_list.tpl';
 
     // Non-pages
     if (preg_match('/^\/attachments\/([0-9a-f]{32})$/', $requestPath, $matches)) {
@@ -1330,20 +1331,20 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo, $productListPageSize);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo, $productListPageTpl, $productListPageSize);
     } elseif(preg_match(PATTERN_PRODUCT_SEARCH, $requestPath, $matches)) {
         $urlKey = $matches[1];
         $pageNo = (int)enterprise_get_query_by_server_request('p');
         if ($pageNo <= 0)
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo, $productListPageSize);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo, $productListPageTpl, $productListPageSize);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, $productListPageSize);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, $productListPageTpl, $productListPageSize);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
