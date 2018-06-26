@@ -1,6 +1,5 @@
 <div class="fl-clr send-msg{if isset($send_style)} send1{/if}">
     <span>Writing a Message</span>
-<div class="fl-clr send-msg{if isset($send_style)} send1{/if}">
     <form action="/contactsave.html" id="form1" method="POST" enctype="multipart/form-data">
     <div class="form fl-clr">
         <div class="left-input">
