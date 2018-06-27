@@ -1,0 +1,23 @@
+.pro_wrap{ width: 155px; margin-left: 15px; margin-top: 10px; float: left; display: inline;}
+.pro_wrap table{width: 100px; height: 100px;table-layout: fixed;}
+.pro_wrap table td{ line-height:normal;}
+
+.pro_wrap .pro_tit{ width: 100%; clear: both; font-size: 11px; text-align: center; line-height: 18px;}
+
+.pro_wrap{ width: 155px; margin-left: 15px; margin-top: 10px; float: left; display: inline;}
+.pro_wrap table{width: 100px; height: 100px;table-layout: fixed;}
+.pro_wrap table td{ line-height:normal;}
+.pro_wrap .pro_pic{ ;width: 100px; height: 100px;  border: #d2d2d2 solid 1px; float: left; display: inline; margin-left: 28px; overflow: hidden;}
+
+
+.prolist_wrap{ width: 690px; margin: 0 auto; padding-bottom: 15px; border-bottom: #dcdcdc dotted 1px; }
+.prolist_wrap p{ margin: 0; padding: 0;}
+.prolist_wrap .pro_tit{ padding:0px 0px 5px 0; font-weight: bold}
+.prolist_wrap .pro_pic{ width: 100px; height: 100px; border: #d2d2d2 solid 1px; float: left; display: inline;  overflow: hidden;}
+.prolist_wrap .pro_pic  table{width: 100px; height: 100px;table-layout: fixed;}
+.prolist_wrap .pro_con{ width: 425px; height:100px; overflow: hidden; position: relative; padding-left: 5px; text-align: left;}
+.prolist_wrap .pro_con p{ color: #555; font-size: 12px; line-height: 20px;}
+.prolist_wrap .pro_con p.time{ position: absolute; left: 5px; bottom: 0;}
+
+
+.content_box{ border: #dbdbdb solid 1px;  width: 725px}
