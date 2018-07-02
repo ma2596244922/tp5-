@@ -53,6 +53,9 @@ $GLOBALS['gaTemplates'] = array(
         'ecs' => array(
                 'label' => '企信',
             ),
+		'june' => array(
+                'label' => 'June',
+            ),
     );
 
 /** @var string admin后台模板目录 */
