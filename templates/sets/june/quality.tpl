@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$lang_code}"{$html_attr_dir}>
 <head>
+    {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{$title}</title>
     <meta name="keywords" content="{$keywords|escape}">
     <meta name="description" content="{$description|escape}">
+    {include file="sets/trade/common/definitions.tpl"}
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/cmopany_detail.css" rel="stylesheet" type="text/css" />
 </head>
@@ -20,7 +22,7 @@
     </div>
     <div class="content_wrap">
         <div class="content_box">
-            <div class="box_title">{$preset_translations.quality_control}</div>
+            <div class="box_title"><h1>{$preset_translations.quality_control}</h1></div>
             <div class="box_content">
                 <div class="text_font_light">
                     <p>{$corporation.qc_profile}</p>
@@ -30,7 +32,7 @@
         </div>
         <div class="cb_10"></div>
         <div class="content_box">
-            <div class="box_title">{$preset_translations.certifications}</div>
+            <div class="box_title"><h2>{$preset_translations.certifications}</h2></div>
             <div class="box_content">
                 <div class="control_wrap">
                 {foreach $certifications as $cert}    
@@ -39,7 +41,7 @@
                                 <th><img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}" width="90" height="103"></th>
                                 <td>
                                     <table width="100%">
-                                        <tbody><tr><td>Standard:</td> <td>{$cert.standard}</td></tr>
+                                        <tbody><tr><td width="88px">Standard:</td> <td>{$cert.standard}</td></tr>
                                             <tr><td>Number:</td><td>{$cert.number}</td></tr>
                                             <tr><td>Issue Date:</td> <td>{$cert.issue_date}</td></tr>
                                             <tr><td>Expiry Date:</td> <td>{$cert.expiry_date}</td></tr>
@@ -59,7 +61,7 @@
         </div>
         <div class="cb_10"></div>
         <div class="message_warp">
-            <div class="title">{$preset_translations.contact_us}</div>
+            <div class="title"><h2>{$preset_translations.contact_us}</h2></div>
             <div class="mess_con_wrap">
                 <div class="mess_contact">
                     <div class="mess_icon">

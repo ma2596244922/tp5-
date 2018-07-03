@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$lang_code}"{$html_attr_dir}>
 <head>
+    {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{$title}</title>
     <meta name="keywords" content="{$keywords|escape}">
     <meta name="description" content="{$description|escape}">
+    {include file="sets/trade/common/definitions.tpl" page_name="home"}
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/cmopany_detail.css" rel="stylesheet" type="text/css" />
 </head>
@@ -24,6 +26,12 @@
             <div class="box_content">
                 <div class="cb_10"></div>
                 <div class="text_font_light r_pro">
+                    {if $site.contact_content|default:''}
+                    <div class="conh">
+                        {$site.contact_content}
+                    </div>
+                    {/if}
+
                     <div class="conh">
                         <form action="/contactsave.html" method="POST" data-role="inquiry-form" onsubmit="return jsSubmit(this);">
                         <input type="hidden" id="subject" name="subject" value="{$preset_translations.can_you_provide_me_a_quote}">
@@ -33,9 +41,9 @@
 
                                 <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.address} : </th><td style="text-align:left;"> {$corporation.address}</td></tr>
 
-                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.worktime} : </th><td style="text-align:left;"> {$corporation.worktime}</td></tr>
+                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.worktime} : </th><td style="text-align:left;">{$corporation.worktime}</h1></td></tr>
 
-                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.business_phone} : </th><td style="text-align:left;">{$corporation.tel_wt}({$preset_translations.working_time})</td></tr>
+                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.business_phone} : </th><td style="text-align:left;"> <h1>{$corporation.tel_wt}({$preset_translations.working_time})</h1></td></tr>
 
                                 <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.fax} : </th><td style="text-align:left;"> {$corporation.fax}</td></tr>
 
@@ -67,8 +75,6 @@
                                         <input type="submit" class="btn1" value="">
                                     </td>
                                 </tr>
-
-
                                 
                             </tbody>
                         </table>

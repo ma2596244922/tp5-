@@ -17,7 +17,7 @@
 <body>
 {include file="sets/june/common/header.tpl"}
 <!-- header -->
-<div class="guide_wrap"><a href="/">{$preset_translations.home}</a>{$preset_translations.products}</div>
+<div class="guide_wrap"><a href="/">{$preset_translations.home}</a> <a href="/products.html">{$preset_translations.products}</a> <a href="{$product_group|default:[]|url:'enterprise_url_product_list'}">{$product_group.name|default:''}</a> </div>
 <div class="main_wrap">
     <div class="sider_wrap fl">
         {include file="sets/june/common/left.tpl"}
@@ -26,30 +26,46 @@
     </div>
     <div class="content_wrap">
         <div class="content_box">
-            <div class="box_title">{$product.caption}</div>
-            <div class="box_content">
-                <div class="photo_box">
-                    <div class="big_box">
-                        <table cellpadding="0" cellspacing="0" width="100%">
-                            <tbody><tr>
-                                <td height="100%" align="center" valign="middle">
-                                    {-foreach $product_images as $image_id}
-                                    {if $image_id@index==0}
-                                    <a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape} image" target="_blank">
-                                        <img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" width="258" />
-                                    </a>
-                                    {/if}
-                                    {-/foreach}
-                                </td>
-                            </tr>
-                        </tbody></table>
-                    </div>
-                    <div class="photo_text">
-                        <a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape} image" target="_blank">{$product.caption} images</a>
+            <div class="box_title"><h1>{$product.caption}</h1></div>
+            <div class="box_content produce-show ">
+                <div class="img-show">
+                    <div class="tabContent">
+                        <div class="big-img">
+                            <ul>
+    {-if $product_images}
+        {-foreach $product_images as $image_id}
+                            <li>
+                                <a href="{$product|url:'enterprise_url_product_pic'}" title="{$product.caption|default:''|escape} image" target="_blank">
+                                    <img src="{$image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" />
+                                </a>
+                            </li>
+        {-/foreach}
+    {-else}
+                            <li><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption|default:''|escape}" /></li>
+    {-/if}
+                            </ul>
+                        </div>
+                        <div class="small-img">
+                            <div class="scroll">
+                                    <ul>
+    {-if $product_images}
+        {-foreach $product_images as $image_id}
+                                    <li{if $image_id@index == 0} class="current"{/if}><img src="{$image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|default:''|escape}" /></li>
+        {-/foreach}
+    {-else}
+                                    <li class="current"><img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'m'}" alt="{$product.caption|default:''|escape}" /></li>
+    {-/if}
+                                    </ul>
+                            </div>
+                            <div class="prev-next">
+                            <a href="javascript:void(0);" class="prev"></a>
+                            <a href="javascript:void(0);" class="next"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="fram_box">
-                    <div class="fram_tit">{$preset_translations.product_details}:</div>
+                    <div class="fram_tit"><h2>{$preset_translations.product_details}</h2></div>
                     <table cellpadding="0" cellspacing="0">
                         <tbody>
                             <tr><th>{$preset_translations.place_of_origin}:</th><td>{$product.place_of_origin}</td></tr>
@@ -59,7 +75,7 @@
                         </tbody>
                     </table>
                     <div class="cb_10 mt_5"></div>
-                    <div class="fram_tit">{$preset_translations.payment_terms}:</div>
+                    <div class="fram_tit"><h2>{$preset_translations.payment_terms}</h2></div>
                     <table cellpadding="0" cellspacing="0">
                         <tbody>
                             <tr><th>{$preset_translations.minimum_order_quantity}:</th><td>{$product.min_order_quantity|default:'Negotiation'}</td></tr>
@@ -83,7 +99,7 @@
             </div>
 
             <div class="pro_detail">
-                <div class="title">{$preset_translations.product_description}</div>
+                <div class="title"><h2>{$preset_translations.product_description}</h2></div>
                 <div class="con_wrap">
                     {$product.description}
                 </div>
@@ -91,15 +107,35 @@
             <div class="cb_10"></div>
         </div>
         <div class="cb_10"></div>
+        {if count($product_tags)>0}
         <div class="content_box">
-            <div class="box_title">Other about <strong>More {$product.group.name}</strong></div>
+            <div class="box_title"><h2>{$preset_translations.tags}</h2></div>
+            <div class="box_content">
+                <div class="list_ul_li">
+                    <table width="100%" cellspacing="0" cellpadding="0">
+                        <tbody>
+                        {foreach $product_tags as $tag}{if $tag@index>=5}{break}{/if}
+                        {if $tag@index%2==0}<tr>{/if}
+                            <td width="50%"><h2><a href="{$tag|call:'enterprise_url_product_search'}">{$tag}</a></h2></td>
+                        {if $tag@index%2==1}</tr>{/if}
+                        {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="cb_10"></div>
+        {/if}
+
+        <div class="content_box">
+            <div class="box_title"><h2>Other about More {$product.group.name}</h2></div>
             <div class="box_content">
                 <div class="list_ul_li">
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tbody>
                         {foreach $new_products as $product}{if $product@index>=5}{break}{/if}
                         {if $product@index%2==0}<tr>{/if}
-                            <td width="50%"><h2><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}">{$product.caption}</a></h2></td>
+                            <td width="50%"><h2><a href="{$product|url:'enterprise_url_product'}" target="_blank" title="{$product.caption|escape}">{$product.caption}</a></h2></td>
                         {if $product@index%2==1}</tr>{/if}
                         {/foreach}
                         </tbody>
@@ -109,7 +145,7 @@
         </div>
         <div class="cb_10"></div>
         <div class="message_warp">
-            <div class="title">{$preset_translations.contact_us}</div>
+            <div class="title"><h2>{$preset_translations.contact_us}</h2></div>
             <div class="mess_con_wrap">
                 <div class="mess_contact">
                     <div class="mess_icon">
@@ -122,7 +158,7 @@
                     </div>
                 </div>
                 <div class="inquiry_wrap">
-                    <form action="/contactsave.html" method="POST" data-role="inquiry-form">
+                    <form action="/contactsave.html" method="POST" data-role="inquiry-form" onsubmit="return jsSubmit(this);">
                     <input type="hidden" id="subject" name="subject" value="Inquiry About {if $product.caption|default:''}{$product.caption}{else}{$corporation.name}{/if}">
                         <table cellspacing="0" cellpadding="0" class="RM83">
                             <tbody>
@@ -130,7 +166,7 @@
                                     <th style="padding-top: 13px;" class="M1152"><span class="na87">From:</span></th>
                                     <td>
                                         <div class="S293">
-                                            <input type="text" id="request_email" name="email" style="width: 170px; margin-top: 5px;" class="J789">
+                                            <input type="text" id="email" name="email" style="width: 170px; margin-top: 5px;" class="J789">
                                             <div class="xH8f">{$preset_translations.please_enter_your_email_address}</div>
                                         </div>
                                     </td>
@@ -164,5 +200,6 @@
 {include file="sets/june/common/footer.tpl"}
 
 {include file="sets/june/common/scripts.tpl"}
+<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/june/product.js"></script>
 </body>
 </html>

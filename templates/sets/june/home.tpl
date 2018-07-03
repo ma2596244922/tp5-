@@ -6,6 +6,7 @@
     <title>{$title}</title>
     <meta name="keywords" content="{$keywords|escape}">
     <meta name="description" content="{$description|escape}">
+    {include file="sets/trade/common/definitions.tpl" page_name="home"}
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/index.css" rel="stylesheet" type="text/css" />
 </head>
@@ -21,7 +22,7 @@
             </div>
             <div class="fl" style="width: 402px; margin-left: 10px;">
                 <div class="box_400">
-                    <div class="box_title">{$preset_translations.hot_products}</div>
+                    <div class="box_title"><h2>{$preset_translations.hot_products}</h2></div>
                     <div class="box_content" >
                     {foreach $products as $product}
                     {if $product@index eq 0}
@@ -36,8 +37,8 @@
                                 </table>
                             </div>
                             <div class="pro_con" style="width: 215px;">
-                                <div class="pro_tit"><h2 class="f14"><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></h2></div>
-                                <p>{$product.description|strip_tags|truncate:130:""}...<a href="{$product|url:'enterprise_url_product'}" >{$preset_translations.view_more}&gt;&gt;</a></p>
+                                <div class="pro_tit"> <strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</a></strong></div>
+                                <p>{$product.description|strip_tags|truncate:230:""}...<a href="{$product|url:'enterprise_url_product'}" rel="nofollow">{$preset_translations.view_more}&gt;&gt;</a></p>
                             </div>
                         </div>
                     {elseif $product@index lt 4}
@@ -51,8 +52,8 @@
                                 </table>
                             </div>
                             <div class="pro_con">
-                                <div class="pro_tit"><h2><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></h2></div>
-                                <p>{$product.description|strip_tags|truncate:130:""}...</p>
+                                <div class="pro_tit"><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</a></strong></h2></div>
+                                <p>{$product.description|strip_tags|truncate:180:""}...</p>
                             </div>
                         </div>
                     {/if}
@@ -66,27 +67,27 @@
 
             <div class="fr" style="width: 210px;">
                 <div class="box_315">
-                    <div class="box_title">{$preset_translations.about_us}</div>
+                    <div class="box_title"><h2>{$preset_translations.about_us}</h2></div>
                     <div class="cb_5"></div>
                     <div class="box_content">
                         <div class="flash_wrap">
                             <img src="{$corporation.logo|url:'enterprise_url_image'}" width="160" height="105" />
                         </div>
                         <div class="flash_text">
-                            <strong class="f_3">{$corporation.name}</strong>
-                            <div class="f_5">{$corporation.introduction|truncate:130:"..."} <a href="/aboutus.html">{$preset_translations.see_more}&gt;&gt;</a></div>
+                            <h1>{$corporation.name}</h1>
+                            <div class="f_5">{$corporation.introduction|truncate:130:"..."} <a href="/aboutus.html" rel="nofollow">{$preset_translations.see_more}&gt;&gt;</a></div>
                         </div>
                     </div>
                     <div class="cb_10"></div>
                 </div>
                 <div class="cb_10"></div>
                 <div class="box_315" >
-                    <div class="box_title">{$preset_translations.new_products}</div>
+                    <div class="box_title"><h2>{$preset_translations.new_products}</h2></div>
                     <div class="box_content">
                         <ul class="new_pro">
                             {foreach $products as $product}
                             {if $product@index gt 3 and $product@index lt 9}
-                                <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a></li>
+                                <li><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</strong></a></li>
                             {/if}
                             {/foreach}
                         </ul>
@@ -95,22 +96,7 @@
                 </div>
             </div>
             <div class="cb"></div>
-            <!-- <div class="box_315" style="width: 948px;" >
-                <div class="box_title">{$preset_translations.top_products}</div>
-                <div class="cb"></div>
-                <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="padding: 8px 10px">
-                            {if $main_products|default:[]}
-                                {foreach $main_products as $mp}
-                                        <a href="{$mp.url}">{$mp.label}</a>&nbsp;&nbsp;&nbsp;
-                                {/foreach}
-                            {/if}
-                        </td>
-                    </tr>
-                </table>
-                <div class="cb"></div>
-            </div> -->
+
         </div>
         {include file="sets/june/common/footer.tpl"}
         

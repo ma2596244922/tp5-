@@ -1,10 +1,10 @@
 <div class="box_210" >
-    <div class="box_title">Products Categories</div>
+    <div class="box_title"><h2>{$preset_translations.product_categories}</h2></div>
     <div class="box_content">
         <div class="sider_list">
             <ul>
             {foreach $groups as $group}{if array_key_exists($group.id, $hidden_groups)}{continue}{/if}
-            <li><a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">{$group.name}</a>({$group.cnt})</li>
+            <li><strong><a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">{$group.name}</a></strong></li>
             {/foreach}
 
             </ul>
@@ -14,7 +14,7 @@
 </div>
 <div class="cb_10"></div>
 <div class="box_210">
-    <div class="box_title">Contact Us</div>
+    <div class="box_title">{$preset_translations.contact_us}</div>
     <div class="box_content">
         <div class="address_wrap">
             <table>

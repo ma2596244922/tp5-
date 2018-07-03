@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$lang_code}"{$html_attr_dir}>
 <head>
+    {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{$title}</title>
     <meta name="keywords" content="{$keywords|escape}">
     <meta name="description" content="{$description|escape}">
+    {include file="sets/trade/common/definitions.tpl" page_name="product_directory"}
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/cmopany_detail.css" rel="stylesheet" type="text/css" />
 </head>
@@ -38,14 +40,14 @@
         </div>
         <div class="cb_10"></div>
         <div class="content_box">
-            <div class="box_title">{$preset_translations.all_products} Page {$page_no}</div>
+            <div class="box_title"><h1>{$preset_translations.all_products} Page {$page_no}</h1></div>
             <div class="box_content">
                 <div class="cb_10"></div>
                 <div class="sitemap_cat_list">
                     <div class="sitemap_box">
                         <ul>
                             {foreach $products as $product}
-                            <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}">{$product.caption}</a></li>
+                            <li><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}">{$product.caption}</a></strong></li>
                             {/foreach}
                         </ul>
                     </div>

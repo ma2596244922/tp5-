@@ -6,21 +6,21 @@
                     <td><div class="logo"><a href="/" title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" style="max-height: 50px;" alt="{$corporation.name|escape}"></a></div></td>
                     <td class="head_title">
                         <div><strong style="font-size: 18px;">{$corporation.name}</strong></div>
-                        <p style="line-height: 18px;">{$corporation_slogan}</p>
+                        <p>{$corporation_slogan}</p>
                     </td>
                     <td width="225">
                         <div class="lan_wrap">
                             <div class="sel">{$supported_lang_codes[$lang_code].locale_label|default:'English'}<a href="#" class="col" onclick="open_img(this,event)"></a></div>
                             <div class="cb_5"></div>
-                            <p><a href="/contactnow.html">{$preset_translations.request_a_quote}</a></p>
+                            <p><a href="/contactnow.html" rel="nofollow">{$preset_translations.request_a_quote}</a></p>
                             <div class="cb_5"></div>
                             <p>{$preset_translations.contact_us} {$corporation.tel_wt}</p>
                         </div>
 
                         <dl id="p_l">
-                            <dt><a href="http://www.{$site_root_domain}/"><img src="/media/langflags/en.png" width="16" height="11" />English</a></dt>
+                            <dt><a href="http://www.{$site_root_domain}/" rel="nofollow"><img src="/media/langflags/en.png" width="16" height="11" />English</a></dt>
                         {foreach $supported_lang_codes as $lc => $meta}{if $site_lang_codes.$lc|default:'0'=='0'}{continue}{/if}
-                            <dt><a href="http://{$lc}.{$site_root_domain}/"><img src="/media/langflags/{$lc}.png" width="16" height="11" />{$meta.locale_label}</a></dt>
+                            <dt><a href="http://{$lc}.{$site_root_domain}/" rel="nofollow"><img src="/media/langflags/{$lc}.png" width="16" height="11" />{$meta.locale_label}</a></dt>
                         {/foreach}
                         </dl>
                     </td>

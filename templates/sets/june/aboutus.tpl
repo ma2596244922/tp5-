@@ -1,10 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{$lang_code}"{$html_attr_dir}>
 <head>
+    {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>{$title}</title>
     <meta name="keywords" content="{$keywords|escape}">
     <meta name="description" content="{$description|escape}">
+    {include file="sets/trade/common/definitions.tpl"}
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/cmopany_detail.css" rel="stylesheet" type="text/css" />
 </head>
@@ -20,7 +22,7 @@
     </div>
     <div class="content_wrap">
         <div class="content_box">
-            <div class="box_title">{$preset_translations.about_us}</div>
+            <div class="box_title"><h2>{$preset_translations.about_us}</h2></div>
             <div class="box_content">
                 <div class="text_font_light">
                     <div class="pic_box fr">
@@ -29,7 +31,7 @@
                                 <td align="center" valign="middle">
                                     {foreach $photos as $photo}
                                     {if $photo@index==0}
-                                    <img src="{$photo.uri|url:'enterprise_url_photo':'':'c'}" alt="" width="300" height="190" />
+                                    <img src="{$photo.uri|url:'enterprise_url_photo':'':'c'}" alt="{$corporation.name}" width="300" height="190" />
                                     {/if}
                                     {/foreach}
                                 </td>
@@ -37,12 +39,12 @@
                         </table>
                     </div>
                     <dl>
-                        <dt class="fa"> {$corporation.name}</dt>
+                        <dt class="fa"> <h1>{$corporation.name}</h1></dt>
                         <dd class="fa"> {$corporation.introduction}</dd>
                     </dl>
                     <div class="cb"></div>
                     <div class="bas_wrap">
-                        <div class="tit">{$preset_translations.company_details}</div>
+                        <div class="tit"><h2>{$preset_translations.company_details}</h2></div>
                         <table cellspacing="0" cellpadding="0" class="detail_wrap_border">
                             <tbody>
                                 <tr><th>{$preset_translations.address}:</th><td>{$corporation.address}</td></tr>
@@ -58,26 +60,31 @@
                         </table>
                         <div class="cb"></div>
                     </div>
-                    <!-- <div class="bas_wrap">
-                        <div class="tit">Trade & Market</div>
-                        <table cellspacing="0" cellpadding="0" class="detail_wrap_border">
-                            <tbody>
-                                <tr style="text-align: left;"><th>Place of Origin:</th><td>Jiangsu.China</td></tr>
-                                <tr style="text-align: left;"><th>Brand Name:</th><td>UNISUN</td></tr>
-                                <tr style="text-align: left;"><th>Model Number:</th><td>Depends on customers</td></tr>
 
-
-                            </tbody>
-                        </table>
+                    <div class="bas_wrap">
+                        <div class="tit"><h2>{$preset_translations.history}</h2></div>
+                        {$corporation.history}
                         <div class="cb"></div>
-                    </div> -->
+                    </div>
+
+                    <div class="bas_wrap">
+                        <div class="tit"><h2>{$preset_translations.service}</h2></div>
+                        {$corporation.service}
+                        <div class="cb"></div>
+                    </div>
+
+                    <div class="bas_wrap">
+                        <div class="tit"><h2>{$preset_translations.our_team}</h2></div>
+                        {$corporation.our_team}
+                        <div class="cb"></div>
+                    </div>
 
                 </div>
             </div>
         </div>
         <div class="cb_10"></div>
         <div class="message_warp">
-            <div class="title">{$preset_translations.contact_us}</div>
+            <div class="title"><h2>{$preset_translations.contact_us}</h2></div>
             <div class="mess_con_wrap">
                 <div class="mess_contact">
                     <div class="mess_icon">
