@@ -72,9 +72,8 @@
 
 <!-- new-product -->
 <div class="trusted-partner">
-    <span>We are trusted partner</span>
-    <p>Sed ultrices porta cursus. Aenean nec sagittis augue. Integer fringilla nunc non leo blandit efficitur. Aenean vel sodales felis. </p>
-    <p>Nunc ac dignissim nunc. Aenean vel pellentesque lectus. Fusce nibh orci, porttitor nec odio sit amet.</p>
+    <span>{$corporation.name|escape}</span>
+    <p>{$corporation.our_team}</p>
 </div>
 <!-- trusted-partner -->
 

@@ -26,10 +26,10 @@
             </div>
             <div class="intro-box">
                 <h1>{$preset_translations.company_profile}</h1>
-                <p>{$preset_translations.company_details}</p>
+                <p>{$corporation.introduction}</p>
             </div>
             <div class="intro-box">
-                <span>Company Details</span>
+                <span>{$preset_translations.company_details}</span>
                 <ul>
                     <li>{$preset_translations.business_type}:{$corporation.business_type}</li>
                     <li>{$preset_translations.main_market}:{$corporation.main_market}</li>

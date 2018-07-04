@@ -3,9 +3,7 @@
         <div class="widget">
             <div class="fotterTitle">ABOUT US</div>
             <p class="fotinfo">
-                Vivamus nisi purus, luctus sit amet scelerisque volutpat,
-                malesuada in quam. Morbi vehicula, ligula et consectetur dictum,
-                lectus elit ultricies est, ut congue augue risus ac turpis.
+                {$corporation.introduction|truncate:100}
             </p>
         </div>
         <div class="widget">
@@ -41,5 +39,7 @@
 </div>
 <!-- footer -->
 <div class="copyright">
-    <p>© {$site.start_year} - {$smarty.now|date_format:'%Y'} <a href="http://{$lang_code}.{$site_root_domain}/">{$preset_translations.pc_sites}</a> {$preset_translations.all_rights_reserved}</p>
+    <p>© {$site.start_year} - {$smarty.now|date_format:'%Y'}
+        <a href="http://{if $lang_code == 'en'}www{else}{$lang_code}{/if}.{$site_root_domain}/">{$preset_translations.pc_sites}</a>
+        {$preset_translations.all_rights_reserved}</p>
 </div>
