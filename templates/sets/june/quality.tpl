@@ -45,7 +45,6 @@
                                             <tr><td>Number:</td><td>{$cert.number}</td></tr>
                                             <tr><td>Issue Date:</td> <td>{$cert.issue_date}</td></tr>
                                             <tr><td>Expiry Date:</td> <td>{$cert.expiry_date}</td></tr>
-                                            {* <tr><td>Scope/Range:</td> <td>{$cert.scope_n_range}</td></tr> *}
                                             <tr><td>Issued By:</td> <td>{$cert.issued_by}</td></tr>
                                         </tbody></table>
                                 </td>
@@ -115,7 +114,5 @@
 <!-- content -->
 {include file="sets/june/common/footer.tpl"}
 {include file="sets/june/common/scripts.tpl"}
-
-
 </body>
 </html>

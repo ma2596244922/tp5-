@@ -5,7 +5,7 @@
                 <tr>
                     <td><div class="logo"><a href="/" title="{$corporation.name|escape}"><img src="{$corporation.logo|url:'enterprise_url_image'}" style="max-height: 50px;" alt="{$corporation.name|escape}"></a></div></td>
                     <td class="head_title">
-                        <div><strong style="font-size: 18px;">{$corporation.name}</strong></div>
+                        <div>{if isset($ishome)}<h1>{$corporation.name}</h1>{else}<strong>{$corporation.name}</strong>{/if}</div>
                         <p>{$corporation_slogan}</p>
                     </td>
                     <td width="225">

@@ -17,7 +17,7 @@
 <body>
 {include file="sets/june/common/header.tpl"}
 <!-- header -->
-<div class="guide_wrap"><a href="/">{$preset_translations.home}</a> <a href="/products.html">{$preset_translations.products}</a> <a href="{$product_group|default:[]|url:'enterprise_url_product_list'}">{$product_group.name|default:''}</a> </div>
+<div class="guide_wrap"><a href="/">{$preset_translations.home}</a> <a href="/products.html">{$preset_translations.products}</a> <span>{$product_group.name|default:''}</span> </div>
 <div class="main_wrap">
     <div class="sider_wrap fl">
         {include file="sets/june/common/left.tpl"}
@@ -111,13 +111,13 @@
         <div class="content_box">
             <div class="box_title"><h2>{$preset_translations.tags}</h2></div>
             <div class="box_content">
-                <div class="list_ul_li">
+                <div class="list_ul_li li_tags">
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tbody>
-                        {foreach $product_tags as $tag}{if $tag@index>=5}{break}{/if}
-                        {if $tag@index%2==0}<tr>{/if}
-                            <td width="50%"><h2><a href="{$tag|call:'enterprise_url_product_search'}">{$tag}</a></h2></td>
-                        {if $tag@index%2==1}</tr>{/if}
+                        {foreach $product_tags as $tag}{if $tag@index>=3}{break}{/if}
+                        {if $tag@index%3==0}<tr>{/if}
+                            <td width="33.3%"><strong><a href="{$tag|call:'enterprise_url_product_search'}" title="{$tag}">{$tag}</a></strong></td>
+                        {if $tag@index%3==2}</tr>{/if}
                         {/foreach}
                         </tbody>
                     </table>
@@ -135,7 +135,7 @@
                         <tbody>
                         {foreach $new_products as $product}{if $product@index>=5}{break}{/if}
                         {if $product@index%2==0}<tr>{/if}
-                            <td width="50%"><h2><a href="{$product|url:'enterprise_url_product'}" target="_blank" title="{$product.caption|escape}">{$product.caption}</a></h2></td>
+                            <td width="50%"><strong><a href="{$product|url:'enterprise_url_product'}" target="_blank" title="{$product.caption|escape}">{$product.caption}</a></strong></td>
                         {if $product@index%2==1}</tr>{/if}
                         {/foreach}
                         </tbody>
@@ -198,7 +198,6 @@
 </div>
 <!-- content -->
 {include file="sets/june/common/footer.tpl"}
-
 {include file="sets/june/common/scripts.tpl"}
 <script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/june/product.js"></script>
 </body>

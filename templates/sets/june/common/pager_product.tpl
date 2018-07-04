@@ -3,7 +3,7 @@
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
                 <td>
-                    <strong>Page {$page_no} of {$total_pages} :</strong>&nbsp;&nbsp;
+                    Page {$page_no} of {$total_pages} :&nbsp;&nbsp;
                     {-if $phrase|default:''}
                         <a href="{$phrase|url:'enterprise_url_product_search':1}">|&lt;</a>
                     {-else}

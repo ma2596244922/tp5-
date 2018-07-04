@@ -15,9 +15,9 @@
 <!-- header -->
 <div class="guide_wrap"><a href="/">{$preset_translations.home}</a>
 {-if $group|default:[]}
-                <a href="/products.html">{$preset_translations.products}</a><span>{$group.name}</span>
+                <span>{$group.name}</span>
 {-elseif $phrase|default:''}
-                <a href="/products.html">{$preset_translations.products}</a><span>{$phrase}</span>
+                <span>{$phrase}</span>
 {-else}
                 <span>{$preset_translations.products}</span>
 {-/if}</div>

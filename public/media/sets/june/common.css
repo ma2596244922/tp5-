@@ -41,7 +41,13 @@
 	-webkit-box-orient: vertical;
 }
 
-.new_pro li a,.pro_tit a,.sitemap_box a,.list_ul_li h2 a,.sider_list ul a {
+.head_title strong,.head_title h1 {
+	font-size: 18px;
+	margin: 0;
+	padding: 0;
+}
+
+.new_pro li a,.pro_tit a,.sitemap_box a,.list_ul_li h2 a,.list_ul_li strong a,.sider_list ul a {
 	width: 100%;
 	white-space: nowrap;
 	overflow: hidden;
@@ -49,15 +55,38 @@
 	display: block;
 }
 
-.list_ul_li h2 a {
+.list_ul_li strong a {
 	width: 340px;
 }
 
-.fa h1,.flash_text h1 {
+.li_tags strong a {
+	width: 230px;
+	font-weight:normal;
+}
+
+.fa h1,.flash_text strong {
 	display: block;
 	padding-bottom: 4px;
 	line-height: 18px;
 	font-size: 11px;
+}
+
+.flash_text p{
+	display: block;
+	max-height: 130px;
+	overflow: hidden;
+}
+
+.pro_con .p_small {
+	display: block;
+	max-height: 70px;
+	overflow: hidden;
+}
+
+.pro_con .p_big{
+	display: block;
+	max-height: 120px;
+	overflow: hidden;
 }
 
 .title h2,.fram_tit h2,.pro_tit h2,.tit h2,.box_title h2,.box_title h1, .box_content h1 {
@@ -211,3 +240,22 @@
 .floating_box .title_t span {
 	border: 6px solid #36963e !important;
 }
+
+.control_wrap table {word-wrap: break-word; word-break: break-all;}
+
+.menu-list ul {
+	max-height: 270px;
+    overflow: hidden;
+} 
+
+.menu-list ul.current {
+    height: auto;
+    max-height: inherit;
+    overflow: inherit;
+}
+
+.menu-list .see-more{ height:40px; background:#fafafa; line-height:40px; display:none;}
+.menu-list .see-more a{ font-size:16px; font-weight:bold; color:#666; margin-left:15px;}
+.menu-list .see-more a:hover{ color:#414141;}
+.menu-list .see-more i{ display:inline-block; width:10px; height:10px; background: url(/media/sets/june/product-icon.png) 0 0 no-repeat;background-position:-62px -231px;margin-left:6px;}
+.menu-list .see-more i.less{ background-position:-83px -235px;vertical-align: -4px;}

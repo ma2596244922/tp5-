@@ -137,7 +137,6 @@
 </div>
 <!-- content -->
 {include file="sets/june/common/footer.tpl"}
-
 {include file="sets/june/common/scripts.tpl"}
 </body>
 </html>

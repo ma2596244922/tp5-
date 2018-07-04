@@ -1,6 +1,6 @@
 <script charset="utf-8" type="text/javascript" src="media/sets/june/jquery.min.js"></script>
-<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/jquery.cookie.min.js"></script> 
-<script charset="utf-8" language="javascript" type="text/javascript" src="/media/sets/trade/jquery.base64.min.js"></script> 
+<script charset="utf-8" type="text/javascript" src="/media/sets/trade/jquery.cookie.min.js"></script> 
+<script charset="utf-8" type="text/javascript" src="/media/sets/trade/jquery.base64.min.js"></script> 
 
 <script type="text/javascript">
 function checknum(c, b, a) {
@@ -30,6 +30,23 @@ function checknum(c, b, a) {
 
     return true;
 }
+
+var li_length=$(".menu-list ul li").length;
+if(li_length>=10){
+    $(".menu-list .see-more").css("display","block");
+}
+$(".menu-list .see-more a").click(function(){
+    var a_text=$(this).html();
+    if(a_text=="see more"){
+        $(".menu-list ul").addClass("current");
+        $(this).html("less");
+        $(this).siblings("i").addClass("less");
+    }else if(a_text=="less"){
+        $(".menu-list ul").removeClass("current");
+        $(this).html("see more");
+        $(this).siblings("i").removeClass("less");
+    }
+})
 </script>
 {if $site.enable_floating_widget|default:'0'}
 <input type="hidden" id="input-floating-widget-url" value="{$site.floating_widget_url|default:''|escape}">

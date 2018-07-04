@@ -3,7 +3,7 @@
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
         <tbody><tr>
                 <td>
-                    <strong>Page {$page_no} of {$total_pages} :</strong>&nbsp;&nbsp;
+                    Page {$page_no} of {$total_pages} :&nbsp;&nbsp;
                     <a href="{1|url:'enterprise_url_news_list'}"> |&lt; </a>
                     {-if isset($pager_info['prev_page'])}
                     <a href="{$pager_info['prev_page']|url:'enterprise_url_news_list'}" class="prev"> &lt;&lt; </a>

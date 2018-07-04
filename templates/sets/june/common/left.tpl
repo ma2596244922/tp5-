@@ -1,13 +1,13 @@
 <div class="box_210" >
     <div class="box_title"><h2>{$preset_translations.product_categories}</h2></div>
     <div class="box_content">
-        <div class="sider_list">
+        <div class="menu-list sider_list">
             <ul>
             {foreach $groups as $group}{if array_key_exists($group.id, $hidden_groups)}{continue}{/if}
             <li><strong><a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">{$group.name}</a></strong></li>
             {/foreach}
-
             </ul>
+            <div class="see-more" style="display: none;"><a href="javascript:void(0);">see more</a><i class=""></i></div>
             <div class="cb_10"></div>
         </div>
     </div>

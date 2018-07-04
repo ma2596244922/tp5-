@@ -41,7 +41,7 @@
 
                                 <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.address} : </th><td style="text-align:left;"> {$corporation.address}</td></tr>
 
-                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.worktime} : </th><td style="text-align:left;">{$corporation.worktime}</h1></td></tr>
+                                <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.worktime} : </th><td style="text-align:left;">{$corporation.worktime}</td></tr>
 
                                 <tr style="text-align:right;"><th valign="Top" nowrap="nowrap" style="width:120px;">{$preset_translations.business_phone} : </th><td style="text-align:left;"> <h1>{$corporation.tel_wt}({$preset_translations.working_time})</h1></td></tr>
 
