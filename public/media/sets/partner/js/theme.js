@@ -159,3 +159,20 @@ $(".nav-inner li").hover(function(){
 },function(){
 	$(this).children("dl").hide();
 })
+
+var li_length=$(".categories ul li").length;
+if(li_length>=10){
+    $(".categories .see-more").css("display","block");
+}
+$(".categories .see-more a").click(function(){
+    var a_text=$(this).html();
+    if(a_text=="see more"){
+        $(".categories ul").addClass("current");
+        $(this).html("less");
+        $(this).siblings("i").addClass("less");
+    }else if(a_text=="less"){
+        $(".categories ul").removeClass("current");
+        $(this).html("see more");
+        $(this).siblings("i").removeClass("less");
+    }
+})

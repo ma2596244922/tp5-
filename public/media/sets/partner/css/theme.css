@@ -319,3 +319,12 @@ position: absolute; left: 44%; top: -10px;}
 
 /*首页公司名H1*/
 .head-inner .logo h1 {float: left;margin-left: 20px;font-size: 24px;color: #333;width: 600px;display: block;height: 50px;margin-top: 40px;line-height: 50px;}
+
+/*右侧分类默认显示10条*/
+.categories ul {max-height: 600px;overflow: hidden;} 
+.categories ul.current {height: auto;max-height: inherit;overflow: inherit;}
+.categories .see-more{ height:40px; background:#fafafa; line-height:40px; display:none;}
+.categories .see-more a{ font-size:16px; font-weight:bold; color:#666; margin-left:15px;}
+.categories .see-more a:hover{ color:#414141;}
+.categories .see-more i{ display:inline-block; width:10px; height:10px; background: url(/media/sets/june/product-icon.png) 0 0 no-repeat;background-position:-62px -231px;margin-left:6px;}
+.categories .see-more i.less{ background-position:-83px -235px;vertical-align: -4px;}
