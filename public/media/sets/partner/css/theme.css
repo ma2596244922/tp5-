@@ -308,3 +308,14 @@ position: absolute; left: 44%; top: -10px;}
 .select-flag .selectMenu a{ height:22px; width:110px; display:block; overflow: hidden; line-height:22px; color:#666666; padding-left:8px; font-size:12px;}
 .select-flag .selectMenu a:hover{ color:#6c7c93; background: #fff;}
 .select-flag .selectMenu a img{ margin-right:8px;vertical-align: -1px;}
+
+/*首页最早三产品*/
+.home-product{ width: 1190px; margin: 50px auto 60px;}
+.home-product a{ width: 380px; height: 380px; display: block; margin-right: 25px; float: left; background:#fff; }
+.home-product a:last-child{ margin-right: 0;}
+.home-product a img{ width: 380px; height: 380px;}
+.home-product a div{color: #fff;display: none;background: #52d19c;width: 380px;text-align: center;height: 40px;line-height: 40px;overflow: hidden;margin-top: -40px;position: absolute;}
+.home-product a:hover div{display: block;}
+
+/*首页公司名H1*/
+.head-inner .logo h1 {float: left;margin-left: 20px;font-size: 24px;color: #333;width: 600px;display: block;height: 50px;margin-top: 40px;line-height: 50px;}

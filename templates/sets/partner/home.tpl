@@ -11,7 +11,7 @@
 </head>
 <body>
 
-{include file="sets/partner/common/header.tpl"}
+{include file="sets/partner/common/header.tpl" ishome="1"}
 <!-- header -->
 {include file="sets/partner/common/navbar.tpl"}
 <!-- nav -->
@@ -34,20 +34,20 @@
 <!--banner-slide-->
 <div class="main-category">
     <div class="h2-title">
-        <h1>Main Category</h1>
+        <h2>Main Products</h2>
         <i></i>
     </div>
-    <div class="cate-content fl-clr">
-        {foreach $groups as $group}{if $group@index>=3}{continue}{/if}
-        <a href="{$group.products[0]|url:'enterprise_url_product'}" title="{$group.products[0].caption}">
-            <div class="cate-detail">
-                    <span>
-                        <i class="icon{$group@index+1}"></i>
-                        <em>{$group.products[0].caption}</em>
-                    </span>
-            </div>
+    <div class="home-product fl-clr">
+        {if $groups[0]|default:[]}
+        {assign var="products_group1" value=enterprise_get_product_list($site.site_id,$default_lang_code,$groups[0].id,false,1,3,'', ($default_lang_code == 'en') ? '`updated` ASC' : 'elp.`updated` ASC') }
+        {foreach $products_group1 as $product}
+        <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">
+            <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption}">
+            <div>{$product.caption}</div>
         </a>
         {/foreach}
+        {/if}
+        
     </div>
 </div>
 <!-- main-category -->
@@ -73,15 +73,13 @@
 <!-- new-product -->
 <div class="trusted-partner">
     <span>{$corporation.name|escape}</span>
-    <p>{$corporation.our_team}</p>
+    <p>{$corporation_slogan}</p>
 </div>
 <!-- trusted-partner -->
 
 {include file="sets/partner/common/footer.tpl"}
 <!-- footer -->
 
-<script charset="utf-8" type="text/javascript" src="media/sets/partner/js/jquery.SuperSlide.min.js"></script>
-<script charset="utf-8" type="text/javascript" src="media/sets/partner/js/swiper.jquery.min.js"></script>
-{include file="sets/partner/common/scripts.tpl"  search="fixed"}
+{include file="sets/partner/common/scripts.tpl"  search="fixed" ishome="1"}
 </body>
 </html>

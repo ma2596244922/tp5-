@@ -2,7 +2,11 @@
     <div class="head-inner">
         <div class="logo">
             <a href="/" class="logo"><img src="{$corporation.logo|url:'enterprise_url_image'}" alt="{$corporation.name|escape}" /></a>
+            {if $ishome|default:"0"}
+            <h1>{$corporation.name|escape}</h1>
+            {else}
             <span>{$corporation.name|escape}</span>
+            {/if}
         </div>
         <div class="head-right">
             <div class="menu email">
