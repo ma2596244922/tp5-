@@ -19,7 +19,7 @@
 <div class="content fl-clr">
     <div class="left-content">
         <div class="title-left">
-            <h1>ALL Products</h1>
+            <h1>{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}</h1>
             <i></i>
         </div>
         <div class="product-list">
