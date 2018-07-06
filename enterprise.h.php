@@ -66,6 +66,9 @@ define('ENTERPRISE_PRODUCT_PAGE_TYPE_PIC', 30);
 /** @var int 最大允许的首页产品数 */
 define('ENTERPRISE_MAX_INDEX_PRODUCTS', 20);
 
+/** @var int 产品列表页面默认每页产品数 */
+define('ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE', 20);
+
 /** @var array Product Desc Mapping */
 $productDescMapping = array(// Key 'label' is deprecated.
         'place_of_origin' => array(
@@ -1328,20 +1331,20 @@ function enterprise_route_2($smarty, $omsSite, $site, $userAgent, $siteId, $plat
             $pageNo = (int)$matches[3];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $groupId, $pageNo, 'product_list.tpl', ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE);
     } elseif(preg_match(PATTERN_PRODUCT_SEARCH, $requestPath, $matches)) {
         $urlKey = $matches[1];
         $pageNo = (int)enterprise_get_query_by_server_request('p');
         if ($pageNo <= 0)
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, array('url_key' => $urlKey), $pageNo, 'product_list.tpl', ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE);
     } elseif(preg_match(PATTERN_PRODUCT_INDEX, $requestPath, $matches)) {
         if (isset($matches[2])
                 && $matches[2])
             $pageNo = (int)$matches[2];
         else
             $pageNo = 1;
-        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo);
+        return enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, null, $pageNo, 'product_list.tpl', ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE);
     } elseif ($requestPath == '/quality.html') {
         return enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix);
     } elseif ($requestPath == '/contactnow.html') {
