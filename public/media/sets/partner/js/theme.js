@@ -161,7 +161,7 @@ $(".nav-inner li").hover(function(){
 })
 
 var li_length=$(".categories ul li").length;
-if(li_length>=10){
+if(li_length>=20){
     $(".categories .see-more").css("display","block");
 }
 $(".categories .see-more a").click(function(){
