@@ -80,9 +80,8 @@
 {include file="sets/partner/common/footer.tpl"}
 <!-- footer -->
 
-<script charset="utf-8" type="text/javascript" src="media/sets/partner/js/jquery.min.js"></script>
 <script charset="utf-8" type="text/javascript" src="media/sets/partner/js/jquery.SuperSlide.min.js"></script>
 <script charset="utf-8" type="text/javascript" src="media/sets/partner/js/swiper.jquery.min.js"></script>
-<script charset="utf-8" type="text/javascript" src="media/sets/partner/js/theme.js"></script>
+{include file="sets/partner/common/scripts.tpl"  search="fixed"}
 </body>
 </html>
