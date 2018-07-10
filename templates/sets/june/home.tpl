@@ -26,6 +26,7 @@
                     {if $groups[0]|default:[]}
                     {assign var="products_1" value=enterprise_get_product_list($site.site_id,$default_lang_code,$groups[0].id) }
                     {foreach $products_1 as $product}
+                    {assign var="products_info" value=enterprise_get_product_info($product.id,$default_lang_code) }
                     {if $product@index eq 0}
                         <div class="pro_wrap">
                             <div class="pro_pic pic_big" style="width: 250px; height: 175px;">
@@ -37,9 +38,10 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="pro_con" style="width: 215px;">
                                 <div class="pro_tit"> <strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</a></strong></div>
-                                <p class="p_big">{$product.description|strip_tags|truncate:220:""}...<a href="{$product|url:'enterprise_url_product'}" rel="nofollow">{$preset_translations.view_more}&gt;&gt;</a></p>
+                                <p class="p_big">{$products_info.description|strip_tags|truncate:220:""}...<a href="{$product|url:'enterprise_url_product'}" rel="nofollow">{$preset_translations.view_more}&gt;&gt;</a></p>
                             </div>
                         </div>
                     {else}
@@ -54,7 +56,7 @@
                             </div>
                             <div class="pro_con">
                                 <div class="pro_tit"><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</a></strong></div>
-                                <p class="p_small">{$product.description|strip_tags|truncate:180:""}...</p>
+                                <p class="p_small">{$products_info.description|strip_tags|truncate:180:""}...</p>
                             </div>
                         </div>
                     {/if}

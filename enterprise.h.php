@@ -32,8 +32,8 @@ define('PATTERN_MOBILE_AMP_PRODUCT_GROUP', '/^\/amp\/' . $GLOBALS['gaUrlPrefixes
 define('PATTERN_MOBILE_AMP_PRODUCT_SEARCH', '/^\/amp\/s((-[0-9a-z]+)+)?\.html$/');
 
 /** @var string Fields of Product for List */
-define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`,`description`, `head_image_id`, `group_id`, `updated`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
-define('ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST', 'ep.`id`, elp.`caption`, elp.`description`, ep.`head_image_id`, elp.`group_id`, elp.`updated`, ep.`brand_name`, ep.`model_number`, ep.`certification`, ep.`place_of_origin`, elp.`min_order_quantity`, ep.`price`, ep.`payment_terms`, ep.`supply_ability`, elp.`delivery_time`, elp.`packaging_details`, ep.`path`');
+define('ENTERPRISE_PRODUCT_FIELDS_FOR_LIST', '`id`, `caption`, `head_image_id`, `group_id`, `updated`, `brand_name`, `model_number`, `certification`, `place_of_origin`, `min_order_quantity`, `price`, `payment_terms`, `supply_ability`, `delivery_time`, `packaging_details`, `path`');
+define('ENTERPRISE_LANG_PRODUCT_FIELDS_FOR_LIST', 'ep.`id`, elp.`caption`, ep.`head_image_id`, elp.`group_id`, elp.`updated`, ep.`brand_name`, ep.`model_number`, ep.`certification`, ep.`place_of_origin`, elp.`min_order_quantity`, ep.`price`, ep.`payment_terms`, ep.`supply_ability`, elp.`delivery_time`, elp.`packaging_details`, ep.`path`');
 /** @var string Fields of Custom Page for List */
 define('ENTERPRISE_CUSTOM_PAGE_FIELDS_FOR_LIST', '`id`, `path`, `desc`, `created`, `updated`');
 /** @var int Max Urls per File */

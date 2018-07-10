@@ -34,6 +34,7 @@
             <div class="box_content">
                 <div class="cb_10"></div>
                 {foreach $products as $product}
+                {assign var="products_info" value=enterprise_get_product_info($product.id,$default_lang_code) }
                 <div class="prolist_wrap">
                     <div class="pro_tit"><h2><a href="{$product|url:'enterprise_url_product'}" target="_blank" title="{$product.caption}">{$product.caption}</a></h2></div>
                     <table width="100%" cellpadding="0" cellspacing="0">
@@ -49,7 +50,7 @@
                             </td>
                             <td valign="top" width="435">
                                 <div class="pro_con">
-                                    <p class="con">{$product.description|strip_tags|truncate:180:"..."}<a href="{$product|url:'enterprise_url_product'}" target="_blank" title="Read More about {$product.caption}" rel="nofollow">[read more]</a></p>
+                                    <p class="con">{$products_info.description|strip_tags|truncate:180:"..."}<a href="{$product|url:'enterprise_url_product'}" target="_blank" title="Read More about {$product.caption}" rel="nofollow">[read more]</a></p>
                                     <p class="time">{$product.updated}</p>
                                 </div>
                             </td>
