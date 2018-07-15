@@ -3828,3 +3828,20 @@ function enterprise_url_keyword_list($firstChar, $pageNo = 1)
 }
 
 /* }}} */
+
+
+/**
+ * Certification List
+ *
+ * @return array
+ */
+function enterprise_get_certification_list($siteId, $pageNo = 0, $pageSize = 10)
+{
+    $siteId = (int)$siteId;
+
+    $certificationDAO = new \enterprise\daos\Certification();
+    $condition = "`site_id`={$siteId} AND `deleted`=0";
+    $certifications = $certificationDAO->getMultiInOrderBy($condition);
+
+    return $certifications;
+}
