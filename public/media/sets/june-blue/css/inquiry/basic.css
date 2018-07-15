@@ -1,0 +1,110 @@
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, samp, strike, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{font-family:inherit;font-size:100%;font-style:inherit;font-weight:inherit;margin:0;outline:0 none;padding:0;border:0 none;}
+body { background:#FFFFFF; color:#000000;  line-height: 18px; text-align: left; font-family: verdana,Arial;font-size:12px; }
+table{border-collapse:collapse;}
+li,ul{ list-style: none}
+
+/*clear 清除高度*/
+.cb,.cb_10{clear: both; width: auto; height: 0; overflow: hidden;}
+.cl{ clear: left}
+.cr{ clear: right}
+.cb_10{ height:8px;}
+
+/*float 左浮动右浮动*/
+.fl{ float: left; display:inline;}
+.fr{ float: right;}
+.fn{ float: none;}
+
+/*position 决对相对定位值*/
+.pr{ position: relative;}
+.pa{ position: absolute;}
+
+/*margin padding 内边距外边距*/
+.ml_10{ margin-left: 10px }
+.mr_10{margin-right:10px}
+.mt_10{margin-top:10px}
+.mb_10{margin-bottom:10px}
+
+.pl_10{padding-left:10px}
+.pr_10{padding-right:10px}
+.pt_10{padding-top:10px}
+.pb_10{padding-bottom:10px}
+
+.mg_10{margin:10px;}
+.pd_10{padding:10px;}
+
+
+.bs_1,.bs_2{border:0;}
+
+/*文字超连接 Hyperlinks 文字对齐*/
+.hl_0{color:#333}
+.hl_0 a:link{ color:#333; text-decoration: none}
+.hl_0 a:visited{ color:#333;  text-decoration: none}
+.hl_0 a:hover{ color:#FF6000; text-decoration: underline}
+
+
+.hl_1{color:#fff}
+.hl_1 a:link{ color:#fff; text-decoration: none}
+.hl_1 a:visited{ color:#fff;  text-decoration: none}
+.hl_1 a:hover{ color:#fff; text-decoration: none}
+
+.hl_2{color:#FF6000}
+.hl_2 a:link{ color:#FF6000; text-decoration: none}
+.hl_2 a:visited{ color:#FF6000;  text-decoration: none}
+.hl_2 a:hover{ color:#FF6000; text-decoration: underline}
+
+
+.hl_3{color:#555}
+.hl_3 a:link{ color:#555; text-decoration: none}
+.hl_3 a:visited{ color:#555;  text-decoration: none}
+.hl_3 a:hover{ color:#555; text-decoration: underline}
+
+.hl_4{color:#919191}
+.hl_4 a:link{ color:#919191; text-decoration: none}
+.hl_4 a:visited{ color:#919191;  text-decoration: none}
+.hl_4 a:hover{ color:#919191; text-decoration: underline}
+
+.hl_8{color:#004499}
+.hl_8 a:link{ color:#004499; text-decoration: none}
+.hl_8 a:visited{ color:#004499;  text-decoration: none}
+.hl_8 a:hover{ color:#004499; text-decoration: underline}
+
+.hl_12 a:link{ color:#0033CC; text-decoration: none}
+.hl_12 a:visited{ color:#0033CC;  text-decoration: none}
+.hl_12 a:hover{ color:#ff6600; text-decoration: underline}
+
+.breadcrumb_wrap{;font-size:11px;height:20px;line-height:20px;}
+.breadcrumb_wrap a,.breadcrumb_wrap h1{ float: left; display: inline;}
+.breadcrumb_wrap a{ background: url(../../images/inquiry/index_45.gif) no-repeat right -123px; padding-right: 8px; margin-right: 1px;}
+.reserved_cntr{color:#3C3C3C;height:20px;text-align:right; width: 100%; font-size: 11px;}
+
+/*header*/
+.header_wrap{width: 950px; height: 74px;}
+.top{ width:950px; margin:8px auto 0 auto;text-align:left;}
+.top_left{ width:189px; height:38px;}
+.top_right{ width:720px;}
+.top_rightA{ font-size:20px; color:#000; font-weight:bold;text-transform:capitalize; }
+.fontSize{ font-size:14px; font-family:Verdana; font-weight:bold; color:#ff9900; text-transform:capitalize; padding-top:4px;}
+.fontSize span{ margin:0 0 0 10px;}
+.fontSize span img{margin:0;padding:0;vertical-align: middle;}
+
+
+.search_wrap{ width: 260px; height: 25px; margin-right: 15px; }
+.search_wrap input.text{ width: 200px; margin-right: 5px; height: 14px;}
+.search_wrap input.search{ font-size: 10px; font-family: Arial}
+
+
+.footer_line{ width: 100%; height: 50px; margin-top: 20px; text-align: center;}
+.footer_text{ font-size: 12px; height: 16px; line-height: 16px; margin-top: 10px; text-align: center;}
+.footer_text a{ font-size: 11px; padding: 0px 25px; color: #666; border-right: #d1d1d1 solid 1px;}
+.footer_cy{ width: 100%; color: #666; font-size: 10px; line-height: 30px; text-align: center;}
+.iphone_wrap{ padding-left: 38px; height: 22px; line-height: 22px; background: url(../images/index_002.gif) no-repeat 0 -199px;}
+
+.footer-wrap{font: 12px/1.6 verdana; color:#999; line-height:19px; font-size:12px;}
+.footer_text a,.footer_cy a{ text-decoration:none;}
+.footer_text a:hover,.footer_cy a:hover{ text-decoration:underline;}
+.footer_text,.footer_cy{ line-height:19px; font-size:12px;}
+.footer_text{ font-size:12px; color:#999; height:auto}
+.footer_text a{ padding:0 5px; color:#666; border:none; font-size:12px;}
+.footer_cy a{ color:#999; font-size:12px;}
+.footer_cy{ color:#999; padding-bottom:20px;}
