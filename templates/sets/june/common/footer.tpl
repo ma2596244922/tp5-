@@ -10,5 +10,3 @@
     Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'} <span class="company-name">{$corporation.name}</span> {$preset_translations.all_rights_reserved}
     </div>
 </div>
-{debug}
-{convert(memory_get_usage())}
