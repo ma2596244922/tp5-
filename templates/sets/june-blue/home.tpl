@@ -44,7 +44,7 @@
                 </table>
                 <div class="cb"></div>
                 <div class="title_wrap"><h2>Our product range includes:</h2></div>
-                {assign var="products_new" value=enterprise_get_product_list($site.site_id, $default_lang_code, '', '', 1, 24) }
+                {assign var="products_new" value=enterprise_product_append_group_info( $default_lang_code, enterprise_get_product_list($site.site_id, $default_lang_code, '', '', 1, 16) )}
                 <div class="list_ul_li">
                     <table width="100%" cellspacing="0" cellpadding="0">
                         <tbody>
@@ -57,8 +57,8 @@
                     </table>
                 </div>
                 <div class="cb_10"></div>
-                {foreach $products_new as $product}
-                {if $product@index>=16}
+                {foreach $products as $product}
+                {if $product@index<8}
                 <div class="pro_wrap">
                     <div class="pro_pic">
                         <table cellspacing="0" cellpadding="0">
@@ -69,7 +69,7 @@
                     </div>
                     <div class="pro_tit"><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</strong></a></div>
                 </div>
-                {if $product@index == 19}<div class="cb_10"></div>{/if}
+                {if $product@index == 3}<div class="cb_10"></div>{/if}
                 {/if}
                 {/foreach}
                 
