@@ -8,9 +8,6 @@
             </i>
             <ul>
                 <li><a href="?action=profile">帐号配置</a></li>
-                <li><a href="?action=info">公司信息</a></li>
-                <li><a href="?action=logo">公司LOGO</a></li>
-                <li><a href="?action=favicon">收藏夹小图标</a></li>
                 <li><a href="?action=password">修改密码</a></li>
                 <li><a href="?action=logout">退出</a></li>
             </ul>

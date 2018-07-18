@@ -1,6 +1,6 @@
 <div class="Left">
     <a href="/admin/" class="s1"><i></i>首页</a>
-    <a href="" class="s2"><i></i>询盘中心</a>
+    <a href="?action=inquiry" class="s2"><i></i>询盘中心</a>
     <a href="javascript:void(0)" class="s3"><i></i>产品管理<i class="more"></i></a>
     <ul>
         <li><a href="admin/?action=group">产品分组管理</a></li>
