@@ -1,8 +1,7 @@
 <div class="footer">
     <div class="foot-inner">
         <ul>
-            <li>主办单位:中国互联网新闻中心 网络传播视听节目许可证号:0105123 京ICP证 040089号</li>
-            <li>版权所有 中国互联网新闻中心 中国供应商(trade.china.cn)</li>
+            <li>2016-2017 &copy; M1.0</li>
         </ul>
     </div>
 </div>
