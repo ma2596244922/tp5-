@@ -182,6 +182,8 @@
 
                                             <th>标题</th>
 
+                                            <th>邮箱</th>
+
                                             <th>国家</th>
 
                                             <th>发布时间(+8)</th>
@@ -202,6 +204,8 @@
                                                 <a href="?action=inquiry_detail&inquiry_id={$inquiries[i].id}">{$inquiries[i].subject}</a>
 
                                             </td>
+
+                                            <td>{$inquiries[i].email}</td>
 
                                             <td>{$inquiries[i].country}</td>
 

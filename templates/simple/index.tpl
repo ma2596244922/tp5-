@@ -15,14 +15,15 @@
   <div class="right-content">
       <div class="daily-update">
           <ul class="fl-clr">
-              <li>
-                  <span class="icon1"></span>
-                  <dl>
-                      <dt>2</dt>
-                      <dd>今日UV</dd>
-                  </dl>
-              </li>
-              <li>
+            <li>
+                <span class="icon1"></span>
+                <dl>
+                    <dt>{$uv}</dt>
+                    <dd>昨日UV</dd>
+                </dl>
+            </li>
+<!-- 无数据
+            <li>
                 <span class="icon2"></span>
                 <dl>
                     <dt>55</dt>
@@ -43,9 +44,11 @@
                     <dd>今日发布产品</dd>
                 </dl>
             </li>
+-->
           </ul>
       </div>
       <!-- daily-update -->
+<!-- 无数据
       <div class="home-chart">
           <div class="tab-title">
               <ul class="fl-clr">
@@ -62,7 +65,9 @@
               </div>
           </div>
       </div>
+-->
       <!-- home-chart -->
+<!-- 无数据
       <div class="msg-collect">
           <div class="title">信息汇总</div>
           <div class="msg-classify fl-clr">
@@ -90,8 +95,8 @@
                 <a href="#">查看详情</a>
             </div>
           </div>
-          <!-- msg-calssify -->
       </div>
+-->
       <!-- msg-collect -->
       <div class="new-inquiry">
           <div class="title">最新询盘</div>
@@ -105,24 +110,16 @@
                   </tr>
               </thead>
               <tbody>
+{section name=i loop=$inquiries}
                   <tr>
-                      <td>Embroidery Patches</td>
-                      <td>l****@flomousa.com</td>
-                      <td>2017-05-15 23:32:32</td>
-                      <td><a href="#" class="see">查看</a></td>
+                      <td>
+                        {$inquiries[i].subject}
+                      </td>
+                      <td>{$inquiries[i].email}</td>
+                      <td>{$inquiries[i].created}</td>
+                      <td><a href="?action=inquiry_detail&inquiry_id={$inquiries[i].id}" class="see">查看</a></td>
                   </tr>
-                  <tr>
-                      <td>Embroidery Patches</td>
-                      <td>l****@flomousa.com</td>
-                      <td>2017-05-15 23:32:32</td>
-                      <td><a href="#" class="see">查看</a></td>
-                  </tr>
-                  <tr>
-                      <td>Embroidery Patches</td>
-                      <td>l****@flomousa.com</td>
-                      <td>2017-05-15 23:32:32</td>
-                      <td><a href="#" class="see">查看</a></td>
-                  </tr>
+{/section}
               </tbody>
           </table>
       </div>

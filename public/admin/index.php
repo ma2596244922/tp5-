@@ -64,7 +64,8 @@ retry:
             $smarty->assign('site_root_domain', $currentDomainSuffix);
 
             // Template Dir
-            if (/*$omsSite['type'] != \oms\daos\Site::TYPE_SELF*/'lldpestretch-film.com' == $currentDomainSuffix) // FIXME: 这里是临时测试方案
+            if (/*$omsSite['type'] != \oms\daos\Site::TYPE_SELF*/'lldpestretch-film.com' == $currentDomainSuffix
+                    || timandes_get_query_data('tpl') == 'simple') // FIXME: 这里是临时测试方案
                 $GLOBALS['gsAdminTemplateDir'] = 'simple';
 
             switch ($action) {
