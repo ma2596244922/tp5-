@@ -4758,6 +4758,7 @@ function enterprise_admin_action_edit_user_voice($smarty, $site, $langCode)
     $values = array(
             'updated' => date('Y-m-d H:i:s'),
             'avatar_image_id' => $avatarImageId,
+            'deleted' => 0,
         );
     if (!$langUserVoiceDAO) {// English
         $values['site_id'] = $userSiteId;
@@ -4785,6 +4786,7 @@ function enterprise_admin_action_edit_user_voice($smarty, $site, $langCode)
                 'title' => $title,
                 'voice' => $voice,
                 'updated' => date('Y-m-d H:i:s'),
+                'deleted' => 0,
             );
         if ($userVoiceId) {// Edit
             $condition = "`user_voice_id`=" . (int)$userVoiceId;

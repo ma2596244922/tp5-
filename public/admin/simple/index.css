@@ -49,3 +49,12 @@
 .footer .foot-inner{ width: 1200px; margin: 0 auto;}
 .footer .foot-inner li{ float: left; color: #aaa; font-size: 14px;}
 .footer .foot-inner li:last-child{ float: right;}
+
+.client-msg{ margin: 20px 0 30px 30px; min-height: 905px;}
+.client-msg .form-group{ margin-bottom: 20px;}
+.client-msg span.client-img{width: 144px; height: 144px; display: block; float: left; margin-right: 20px;}
+.client-msg span.client-img img{ width: 140px; height: 140px; padding:1px; border: solid 1px #ddd;}
+.input-group{ position: relative;}
+.input-group .txt{ width: 680px; height: 36px; border: solid 1px #ddd; padding-left: 74px; margin-bottom: 20px;}
+.input-group .area1{ width: 670px; height: 64px; padding: 10px 10px 10px 74px; border: solid 1px #ddd;}
+.input-group em{ position: absolute; left: 174px; top: 13px; font-size: 14px; color: #ccc; font-style: normal;}

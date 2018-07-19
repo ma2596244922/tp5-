@@ -110,12 +110,13 @@ i.icon.quest div strong {width: 20px;height: 10px;position: absolute;top:-10px;r
       .MainBox .Tr .BtnTips {margin-left: 20px;color: #CCC;}
       .Tr p.ph {margin-bottom: -36px;padding-left: 15px;color:#CCC;line-height: 36px;}
       .Tr input {height: 34px;line-height: 34px;border:1px solid #DDD;width: 718px;text-indent: 85px;background: transparent;}
-      .Tr p.error {line-height: 18px;font-size: 12px;color:#FF6969;}
+      .Tr p.error {line-height: 18px;font-size: 12px;color:#FF6969;display: none;}
       .Tr.font6 input  {text-indent: 120px}
       .MainBox.font2 .Tr input,.MainBox .Tr.font2 input  {text-indent: 60px}
       .MainBox .Tr.font5 input  {text-indent: 100px}
       .MainBox .Tr.font3 input  {text-indent: 75px}
-      .Tr .inputError{border-color: #FF6969;}
+      .MainBox .Tr.error p.error {display: block;}
+      .MainBox .Tr.error input {border-color: #FF6969;}
       .MainBox .Tr i.icon.quest {position: absolute;right:20px;top:8px;}
       .MainBox .Tr .name  {width: 240px;margin-right: 10px;}
         .MainBox .Tr .name input  {width: 238px;}

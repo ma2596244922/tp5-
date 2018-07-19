@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>首页</title>
-  <link rel="stylesheet" type="text/css" href="simple/common.css">
-  <link rel="stylesheet" type="text/css" href="simple/index.css">
+{include file="simple/common/stylesheets.tpl"}
 </head>
 <body>
 {include file="simple/common/top.tpl"}
@@ -129,5 +128,18 @@
 </div>
 <!-- Content -->
 {include file="simple/common/footer.tpl"}
+<script type="text/javascript">
+$(function(){
+    var c
+    $(".tab-content .tab-detail:first").show();
+    $(".tab-title li").click(function(){
+        $(this).addClass("cur");
+        $(this).siblings().removeClass("cur");
+        c =  $(this).index();
+        $($(".tab-content .tab-detail")[c]).siblings().hide();
+        $($(".tab-content .tab-detail")[c]).show();
+    })  
+})
+</script>
 </body>
 </html>
