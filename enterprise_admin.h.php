@@ -4683,6 +4683,7 @@ function enterprise_admin_import_user_voices($site)
                 'created' => $dateString,
                 'updated' => $dateString,
                 'avatar_image_id' => 0,
+                'deleted' => 0,
             );
         $values['id'] = $userVoiceDAO->insert($values);
 
