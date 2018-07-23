@@ -1,4 +1,7 @@
 <script type="text/javascript" src="simple/js/jquery.min.js"></script>
+<script type="text/javascript" src="simple/js/prototype_create.js"></script>
+<script type="text/javascript" src="simple/js/jquery.nicescroll.min.js"></script>
+<script type="text/javascript" src="simple/js/plugins.js"></script>
 <script type="text/javascript">
 $(function(){
     $(".Left a.s3").click(function(){

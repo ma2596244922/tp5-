@@ -1,34 +1,30 @@
-<!DOCTYPE html>
+{assign var=page_title value="产品管理"}<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>产品管理</title>
-    <link rel="stylesheet" type="text/css" href="simple/style.css">
-  <script type="text/javascript" src="simple/js/jquery.min.js"></script>
-  <script type="text/javascript" src="simple/js/prototype_create.js"></script>
-  <script type="text/javascript" src="simple/js/jquery.nicescroll.min.js"></script>
-  <script type="text/javascript" src="simple/js/plugins.js"></script>
+  <title>{$page_title}</title>
+{include file="simple/common/stylesheets.tpl"}
 </head>
 <body>
-
-<div class="Top">
-  <div class="Page">
-    <h1 class="logo fl"><a href=""></a></h1>
-    <div class="userInfo fr">
-      <img src="./images/tmp/head1.jpg">
-      <span>Hello,David</span>
-    </div>
-  </div>
-</div>
+{include file="simple/common/top.tpl"}
 <div class="Content Page">
   {include file="simple/common/left.tpl"}
   <div class="MaxMain">
     <div class="MaxMainBox">
-      <h2 class="BoxTil fl">产品管理</h2>
+      <h2 class="BoxTil fl">{$page_title}</h2>
       <div class="fr rightTag">
-        <span>当前显示产品：{$total_products}</span>
+{if $group|default:[]}
+        <span>分组：{$group.name}</span>
+{elseif $smarty.get.keywords|default:''}
+        <span>关键词：{$smarty.get.keywords}</span>
+{else}
+        <span>全部产品({$site.product_cnt})</span>
+{/if}
+<!-- 无功能
         <i class="icon quest"><div>Tips提示信息<strong></strong></div></i>
+-->
       </div>
+<!-- 无功能
       <div class="clear"></div>
       <div class="MainBox retrieval">
         <dl class="SelectDL fl">
@@ -74,6 +70,7 @@
         
         <div class="clear"></div>
       </div>
+-->
     </div>
 
     <table class="GoodsListTb">
@@ -84,41 +81,45 @@
           <td>创建时间</td>
           <td>更新时间</td>
           <td>操作</td>
+<!-- 无功能
           <td class="sortTD"><p>分组排序</p></td>
+-->
         </tr>
       </thead>
       <tbody>
-{section name=i loop=$products}
-
-        <tr class="bgfa">
+{foreach $products as $product}
+        <tr class="{if $product@index % 2}bgfa{else}on{/if}">
           <td class="pic">
-            <img class="gp" src="{$products[i].head_image_id|default:''|url:'enterprise_url_image':{$product.caption|default:''}:'c'}">
+            <img class="gp" src="{$product.head_image_id|default:''|url:'enterprise_url_image':{$product.caption|default:''}:'m'}">
+<!-- 无功能
             <img src="simple/images/s1.png" class="status">
             <i class="icon check"></i>
+-->
           </td>
           <td class="name">
-            <a href="{$products[i]|url:'enterprise_url_product'}">{$products[i].caption}</a>
-            <p>分组：{$products[i].group_name}</p>
+            <a href="{$product|url:'enterprise_url_product'}" target="_blank">{$product.caption}</a>
+            <p>分组：{$product.group_name}</p>
           </td>
-          <td class="time">{$products[i].created}</td>
-          <td class="time2">{$products[i].updated}</td>
+          <td class="time">{$product.created}</td>
+          <td class="time2">{$product.updated}</td>
           <td class="acts">
-            <a href="?action=edit_product&product_id={$products[i].id}" class="edit btn">编辑</a>
-            <a href="{$products[i]|url:'enterprise_url_product'}" class="fl">查看</a>
+            <a href="?action=edit_product&product_id={$product.id}" class="edit btn">编辑</a>
+            <a href="{$product|url:'enterprise_url_product'}" class="fl" target="_blank">查看</a>
+<!-- 无功能
             <a href="javascript:void(0);" class="sort fr">排序</a>
+-->
           </td>
+<!-- 无功能
           <td class="sortTD">
             <input type="text">
           </td>
+-->
         </tr>
-
-{sectionelse}
+{foreachelse}
         <tr>
-
-            <td colspan="6">暂无任何产品</td>
-
+            <td colspan="5">暂无任何产品</td>
         </tr>
-{/section}  
+{/foreach}  
       </tbody>
     </table>
     
@@ -127,16 +128,28 @@
 
     <div class="MaxMainBox">
       <div class="Pager ConBox tr">
+<!-- 无功能
         <button class="fr" id="goto">Go</button>
         <input class="fr tc" type="" id="goto_input">
         <span class="fr">Go to Page</span>
-        {$page_str}
+-->
+        <div class="lists">
+{-if isset($pager_info['prev_page'])}
+          <a href="?action=product&tpl=simple&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$pager_info['prev_page']}" class="left">&lt;</a>
+{-/if}
+{-for $i=$pager_info['min_page'] to $pager_info['max_page']}
+          <a href="?action=product&tpl=simple&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$i}"{if $i==$page_no} class="cur"{/if}>{$i}</a>
+{-/for}
+{-if isset($pager_info['next_page'])}
+          <a href="?action=product&tpl=simple&group_id={$smarty.get.group_id|default:''}&keywords={$smarty.get.keywords|default:''|urlencode}&page={$pager_info['next_page']}" class="right">&gt;</a>
+{-/if}
+        </div>
       </div>
     </div>
   </div>
   <div class="clear"></div>
 </div>
-
+<!-- 无功能
 <div class="mask" id="appendGroupDiv">
   <div class="main">
     <p class="tit fl">添加分组</p>
@@ -153,7 +166,8 @@
     </div>
   </div>
 </div>
-
+-->
+{include file="simple/common/footer.tpl"}
 <script type="text/javascript" src="simple/js/nice_select.js"></script>
 <script type="text/javascript">
 {literal} 
