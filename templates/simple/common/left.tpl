@@ -20,7 +20,7 @@
     </ul>
     <div class="line"></div>
     <a href="" class="s8"><i></i>Webmaster验证</a>
-    <a href="" class="s9"><i></i>页面代码</a>
+    <a href="?action=fragment&tpl=simple" class="s9"><i></i>页面代码</a>
     <a href="" class="s10"><i></i>SEO设置</a>
     <div class="qrcode tc">
       <p>创业不易·我要打赏</p>
