@@ -16,7 +16,7 @@
         <li><a href="">首页banner</a></li>
         <li><a href="?action=index_products_new&tpl=simple">首页产品</a></li>
         <li><a href="?action=user_voice&tpl=simple">客户赠言</a></li>
-        <li><a href="">首页关键词</a></li>
+        <li><a href="?action=index_tdk&tpl=simple">首页关键词</a></li>
     </ul>
     <div class="line"></div>
     <a href="" class="s8"><i></i>Webmaster验证</a>
