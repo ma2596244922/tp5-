@@ -1,47 +1,18 @@
-<!DOCTYPE html>
+{assign var=page_title value="产品分组"-}<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>产品发布</title>
-
-  <link rel="stylesheet" type="text/css" href="simple/style.css">
-  <script type="text/javascript" src="simple/js/jquery.min.js"></script>
-  <script type="text/javascript" src="simple/js/prototype_create.js"></script>
-  <script type="text/javascript" src="simple/js/jquery.nicescroll.min.js"></script>
-  <script type="text/javascript" src="simple/js/plugins.js"></script>
+  <title>{$page_title}</title>
+{include file="simple/common/stylesheets.tpl"}
 </head>
 <body>
-
-<div class="Top">
-  <div class="Page">
-    <h1 class="logo fl"><a href="">　　　　　　　　　　　</a></h1>
-    <div class="userInfo fr">
-      <img src="./images/tmp/head1.jpg">
-      <span>Hello,David</span>
-    </div>
-  </div>
-</div>
+{include file="simple/common/top.tpl"}
 <div class="Content Page">
-  <div class="Left">
-    <a href="" class="s1"><i></i>首页</a>
-    <a href="" class="s2"><i></i>询盘中心</a>
-    <a href="" class="s3 cur"><i></i>产品管理<i class="more"></i></a>
-    <a href="" class="s4"><i></i>公司管理</a>
-    <a href="" class="s5"><i></i>新闻中心</a>
-    <a href="" class="s6"><i></i>图片中心</a>
-    <a href="" class="s7"><i></i>Banner管理</a>
-    <div class="line"></div>
-    <a href="" class="s8"><i></i>Webmaster验证</a>
-    <a href="" class="s9"><i></i>页面代码</a>
-    <a href="" class="s10"><i></i>SEO设置</a>
-    <div class="qrcode tc">
-      <p>创业不易·我要打赏</p>
-      <img src="./images/qrcode.png">
-    </div>
-  </div>
+  {include file="simple/common/left.tpl"}
   <div class="MaxMain">
     <div class="MaxMainBox">
-      <h2 class="BoxTil fl">分组管理</h2>
+      <h2 class="BoxTil fl">{$page_title}</h2>
+<!-- 无功能
       <div class="clear"></div>
       <div class="MainBox retrieval retrieval2">
         <p class="checkALL fl">全选</p>
@@ -50,6 +21,7 @@
         <button class="edit fl" id="appendGroup">新建分组</button>
         <div class="clear"></div>
       </div>
+-->
     </div>
 
     <table class="GoodsListTb GroupListTb">
@@ -64,48 +36,42 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          {section name=i loop=$groups}{assign var="gid" value={$groups[i].id|default:$groups[i].group_id}}
+{foreach $groups as $group}{assign var="gid" value={$group.id|default:$group.group_id}}
+        <tr class="{if $group@index % 2}bgfa{else}on{/if}">
           <td class="gName">
-            {if $groups[i].cnt > 0}
-            <a href="{$groups[i]|url:'enterprise_url_product_list'}" target="_blank">{$groups[i].name}</a>
-            {else}
-                                                {$groups[i].name}
-            {/if}
+  {-if $group.cnt > 0}
+            <a href="{$group|url:'enterprise_url_product_list'}" target="_blank">{$group.name}</a>
+  {-else}
+            {$group.name}
+  {-/if}
+<!-- 无功能
             <i class="icon check"></i>
+-->
           </td>
-
-          <td>{$groups[i].cnt}</td>
+          <td>{$group.cnt}</td>
           <td class="sortTD">
-            <input type="text" value="{$groups[i].ranking}">
-            <span>{$groups[i].ranking}</span>
+            <input type="text" value="{$group.ranking}">
+            <span>{$group.ranking}</span>
           </td>
-          <td class="time">{$groups[i].created}</td>
-          <td class="time2">{$groups[i].updated}</td>
+          <td class="time">{$group.created}</td>
+          <td class="time2">{$group.updated}</td>
           <td class="acts">
-            <a href="" class="edit btn">修改</a>
-            <a href="javascript:void(0);" class="edit_sort" onclick="edit_sort(this,{$groups[i].id},{$groups[i].ranking},'{$groups[i].name}')">修改产品排序</a>
-            <a href="javascript:void(0);" class="clean">清空分组</a>
+            <a href="?action=edit_group&tpl=simple&group_id={$gid}">修改</a>
+            <a href="javascript:void(0);" class="edit_sort" onclick="edit_sort(this,{$group.id},{$group.ranking},'{$group.name}')">修改产品排序</a>
+            <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$gid}" data-group-cnt="{$groups[i].cnt}">删除</a>
+            <a href="?action=count_products&group_id={$gid}">重算产品数</a>
           </td>
         </tr>
-        
-        {/section}
+{foreachelse}
+        <tr>
+          <td colspan="6">暂无任何分组</td>
+        </tr>
+{/foreach}
        
         
       </tbody>
     </table>
-    
-    <table class="gList">
-    </table>
 
-    <div class="MaxMainBox">
-      <div class="Pager ConBox tr">
-        <button class="fr" id="goto">Go</button>
-        <input class="fr tc" type="" id="goto_input">
-        <span class="fr">Go to Page</span>
-        {$page_str}
-      </div>
-    </div>
   </div>
   <div class="clear"></div>
 </div>
@@ -134,6 +100,7 @@
   </div>
 </div>
 
+{include file="simple/common/footer.tpl"}
 <script type="text/javascript" src="simple/js/nice_select.js"></script>
 <script type="text/javascript">
 
