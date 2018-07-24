@@ -13,7 +13,7 @@
     <div class="MaxMainBox">
       <h2 class="BoxTil fl">{$page_title}</h2>
     </div>
-    <a href="?action=edit_user_voice">录入赠言</a>
+    <a href="?action=edit_user_voice&tpl=simple">录入赠言</a>
     <table class="GoodsListTb home-list">
       <thead>
         <tr>
@@ -36,7 +36,7 @@
           <td class="time">{$uv.created}</td>
           <td class="time2">{$uv.updated}</td>
           <td class="acts">
-            <a href="?action=edit_user_voice&user_voice_id={$uv.id}">修改</a>
+            <a href="?action=edit_user_voice&tpl=simple&user_voice_id={$uv.id}">修改</a>
 
             <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_user_voice&user_voice_id={$uv.id}">删除</a>
 
