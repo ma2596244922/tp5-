@@ -18,7 +18,7 @@
     <div class="client-msg fl-clr">
       <div class="msg-list">
           <div class="form-group fl-clr">
-            <span class="client-img"><img src="simple/images/client.png" /></span>
+            <span class="client-img"><img src="{$user_voice.avatar_image_id|default:''|url:'enterprise_url_image':{$user_voice.title|default:''}:'c'}" /></span>
             <div class="input-group">
                 <em>客户姓名：</em>
                 <input type="text" class="txt" id="clientname0" name="title" value="{$user_voice.title|default:''}"/>
