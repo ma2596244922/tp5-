@@ -24,7 +24,7 @@
                     <div class="box_title"><h2>{$preset_translations.hot_products}</h2></div>
                     <div class="box_content">
                     {if $groups[0]|default:[]}
-                    {assign var="products_1" value=enterprise_get_product_list($site.site_id,$default_lang_code,$groups[0].id) }
+                    {assign var="products_1" value=enterprise_product_append_group_info( $default_lang_code, enterprise_get_product_list($site.site_id, $default_lang_code, $groups[0].id) )}
                     {foreach $products_1 as $product}
                     {assign var="products_info" value=enterprise_get_product_info($product.id,$default_lang_code) }
                     {if $product@index eq 0}
@@ -90,7 +90,7 @@
                     <div class="box_title"><h2>{$preset_translations.new_products}</h2></div>
                     <div class="box_content">
                         <ul class="new_pro">
-                            {assign var="products_new" value=enterprise_get_product_list($site.site_id,$default_lang_code,'','',1,20) }
+                            {assign var="products_new" value=enterprise_product_append_group_info( $default_lang_code, enterprise_get_product_list($site.site_id, $default_lang_code, '','',1,20) )}
                             {foreach $products_new as $product}
                                 <li><strong><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">{$product.caption}</strong></a></li>
                             {/foreach}
