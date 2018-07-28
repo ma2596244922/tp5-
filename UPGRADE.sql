@@ -81,6 +81,13 @@ ALTER TABLE `enterprise_corporations`
   ALTER COLUMN `slogan` SET DEFAULT '',
   CHANGE COLUMN `updated` `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近修改时间',
   ALTER COLUMN `overseas_offices` SET DEFAULT '0';
+ALTER TABLE `enterprise_users`
+  CHANGE COLUMN `created` `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  CHANGE COLUMN `updated` `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近修改时间',
+  CHANGE COLUMN `last_log_in` `last_log_in` datetime COMMENT '最近登录时间',
+  ALTER COLUMN `email` SET DEFAULT '',
+  ALTER COLUMN `advanced` SET DEFAULT '0',
+  ALTER COLUMN `deleted` SET DEFAULT '0';
 -- 2018-5-15
 ALTER TABLE `enterprise_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);
 ALTER TABLE `enterprise_fr_products` ADD KEY `idx_search` (`site_id`, `deleted`, `caption`);

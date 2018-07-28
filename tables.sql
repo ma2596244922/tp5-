@@ -72,12 +72,12 @@ CREATE TABLE `enterprise_users` (
   `site_id` int(10) unsigned NOT NULL COMMENT '站点ID',
   `name` varchar(30) NOT NULL COMMENT '登录名',
   `password` char(32) NOT NULL COMMENT '密码（MD5）',
-  `created` datetime NOT NULL COMMENT '创建时间',
-  `updated` datetime NOT NULL COMMENT '最近修改时间',
-  `last_log_in` datetime NOT NULL COMMENT '最近登录时间',
-  `email` varchar(100) NOT NULL COMMENT '通知用Email',
-  `advanced` tinyint NOT NULL COMMENT '可使用高级功能(0/1)',
-  `deleted` tinyint NOT NULL COMMENT '已删除？',
+  `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近修改时间',
+  `last_log_in` datetime COMMENT '最近登录时间',
+  `email` varchar(100) NOT NULL DEFAULT '' COMMENT '通知用Email',
+  `advanced` tinyint NOT NULL DEFAULT '0' COMMENT '可使用高级功能(0/1)',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '已删除？',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_log_in` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
