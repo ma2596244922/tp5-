@@ -136,7 +136,7 @@ function enterprise_oms_add_records_for_related_tables($siteId, $domain)
             $userDAO->insert($values);
             break;
         } catch (\mysqli_sql_exception $mse) {
-            if (!$mse->getCode() == 1062)
+            if ($mse->getCode() != 1062)
                 throw $mse;
 
             $values['name'] = $name . $i;
