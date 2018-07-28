@@ -46,7 +46,7 @@ ALTER TABLE `enterprise_sites`
   ALTER COLUMN `enable_floating_widget` SET DEFAULT '0',
   ALTER COLUMN `floating_widget_url` SET DEFAULT '',
   ALTER COLUMN `disable_group_dk` SET DEFAULT '0',
-  CHANGE COLUMN `translation_targets` `translation_targets` text COMMENT '翻译目标语种清单（JSON）',
+  #CHANGE COLUMN `translation_targets` `translation_targets` text COMMENT '翻译目标语种清单（JSON）',
   CHANGE COLUMN `hidden_groups` `hidden_groups` text COMMENT '隐藏的分组清单（JSON）',
   CHANGE COLUMN `enabled_functions` `enabled_functions` text COMMENT '开启功能清单（JSON）';
 ALTER TABLE `oms_operators`
@@ -190,7 +190,7 @@ CREATE TABLE `oms_translation_progresses` (
   KEY `idx_get_pending` (`deleted`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='翻译进度表';
 ALTER TABLE `oms_sites` ADD COLUMN `enable_translator` tinyint NOT NULL COMMENT '启用翻译器？（0/1）';
--- 2018-1-14
+-- 2018-1-14（注：这一批次的变更并未在生产环境实施）
 ALTER TABLE `enterprise_sites` ADD COLUMN `translation_targets` text NOT NULL COMMENT '翻译目标语种清单（JSON）';
 CREATE TABLE `enterprise_fr_pending_products` (
   `product_id` int(10) unsigned NOT NULL COMMENT '产品ID',
