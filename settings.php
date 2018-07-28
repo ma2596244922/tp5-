@@ -59,6 +59,9 @@ $GLOBALS['gaTemplates'] = array(
         'june-blue' => array(
                 'label' => 'June-blue',
             ),
+        'blogdemo' => array(
+                'label' => '博客测试',
+            ),
     );
 
 /** @var string admin后台模板目录 */
