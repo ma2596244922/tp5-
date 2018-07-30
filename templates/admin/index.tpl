@@ -32,7 +32,7 @@
 
 <!-- BEGIN BODY -->
 
-<body class="page-header-fixed page-boxed">
+<body class="page-header-fixed">
 
     <!-- BEGIN HEADER -->
 
