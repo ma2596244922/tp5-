@@ -39,7 +39,9 @@
 {include file="admin/common/header.tpl"}
 
     <!-- END HEADER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    <div class="container">
+{/if}
     <!-- BEGIN CONTAINER -->
 
     <div class="page-container row-fluid">
@@ -199,20 +201,21 @@
 
                                             <td>
 
-                                                <a href="?action=count_products&group_id={$gid}">重算产品数</a>
-
                                                 <a href="?action=edit_group&group_id={$gid}">修改</a>
-    {-if $user.advanced || $site_enabled_functions.edit_group_tdk|default:''}
+    {-if $tpl_style == 'default'}
+                                                <a href="?action=count_products&group_id={$gid}">重算产品数</a>
+        {-if $user.advanced || $site_enabled_functions.edit_group_tdk|default:''}
                                                 <a href="?action=edit_group_tdk&group_id={$gid}">TDK</a>
-    {-/if}
-    {-if $user.advanced || $site_enabled_functions.edit_group_desc|default:''}
+        {-/if}
+        {-if $user.advanced || $site_enabled_functions.edit_group_desc|default:''}
                                                 <a href="?action=edit_group_desc&group_id={$gid}">分组说明</a>
-    {-/if}
-    {-if $user.advanced || $site_enabled_functions.export_group_products|default:''}
+        {-/if}
+        {-if $user.advanced || $site_enabled_functions.export_group_products|default:''}
                                                 <a href="?action=export_group_products&group_id={$gid}" target="_blank">导出产品</a>
-    {-/if}
-    {-if $user.advanced || $site_enabled_functions.import_group_products|default:''}
+        {-/if}
+        {-if $user.advanced || $site_enabled_functions.import_group_products|default:''}
                                                 <a href="?action=import_group_products&group_id={$gid}" target="_blank">导入产品信息</a>
+        {-/if}
     {-/if}
                                                 <a href="javascript:void(0);" data-role="btn-delete-group" data-group-id="{$gid}" data-group-cnt="{$groups[i].cnt}">删除</a>
 
@@ -253,7 +256,9 @@
     </div>
 
     <!-- END CONTAINER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    </div>
+{/if}
     <!-- BEGIN FOOTER -->
 
 {include file="admin/common/footer.tpl"}

@@ -41,7 +41,9 @@
 {include file="admin/common/header.tpl"}
 
     <!-- END HEADER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    <div class="container">
+{/if}
     <!-- BEGIN CONTAINER -->
 
     <div class="page-container row-fluid">
@@ -143,32 +145,34 @@
                                             发布新产品 <i class="icon-plus"></i>
 
                                         </a>
-{-if $user.advanced || $site_enabled_functions.insert_images|default:''}
+{if $tpl_style == 'default'}
+    {-if $user.advanced || $site_enabled_functions.insert_images|default:''}
                                         <a href="?action=insert_images" class="btn normal">批量插入产品图</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.insert_desc|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.insert_desc|default:''}
                                         <a href="?action=insert_desc" class="btn normal">批量插入产品描述</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.insert_keywords|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.insert_keywords|default:''}
                                         <a href="?action=insert_keywords" class="btn normal">批量插入关键词</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.replace_keywords|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.replace_keywords|default:''}
                                         <a href="?action=replace_keywords" class="btn normal">批量替换关键词</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.replace_terms|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.replace_terms|default:''}
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.remove_empty_caption_products|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.remove_empty_caption_products|default:''}
                                         <a href="?action=remove_empty_caption_products" class="btn normal">删除空标题产品</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.replace_desc_pic|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.replace_desc_pic|default:''}
                                         <a href="?action=replace_desc_pic" class="btn normal">描述图片替换</a>
-{-/if}
-{-if $user.advanced || $site_enabled_functions.export_group_products|default:''}
+    {-/if}
+    {-if $user.advanced || $site_enabled_functions.export_group_products|default:''}
                                         <a href="?action=export_group_products" class="btn normal" target="_blank">导出全站产品</a>
-{-/if}
-                                        <a href="?action=count_products" class="btn normal">重算产品总数</a>
+    {-/if}
 
+                                        <a href="?action=count_products" class="btn normal">重算产品总数</a>
+{/if}
                                     </div>
 
                                     <div class="control-group">
@@ -250,19 +254,21 @@
 
                                             <td>
 
-                                                <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
-    {-if $user.advanced}
-                                                <a href="?action=edit_product_tdk&product_id={$products[i].id}">TDK</a>
-
-                                                <a href="?action=edit_product_url&product_id={$products[i].id}">URL</a>
-    {-/if}
                                                 <a href="?action=edit_product&source_product_id={$products[i].id}">复制</a>
 
                                                 <a href="?action=edit_product&product_id={$products[i].id}">修改</a>
 
                                                 <a href="javascript:void(0);" data-role="btn-delete" data-href="?action=delete_product&product_id={$products[i].id}">删除</a>
-    {-if $smarty.get.group_id|default:'' && $user.advanced}
+    {-if $tpl_style == 'default'}
+                                                <a href="?action=comment&product_id={$products[i].id}">查看留言</a>
+        {-if $user.advanced}
+                                                <a href="?action=edit_product_tdk&product_id={$products[i].id}">TDK</a>
+
+                                                <a href="?action=edit_product_url&product_id={$products[i].id}">URL</a>
+        {-/if}
+        {-if $smarty.get.group_id|default:'' && $user.advanced}
                                                 <a href="?action=duplicate_products&product_id={$products[i].id}">批量复制产品</a>
+        {-/if}
     {-/if}
                                             </td>
 
@@ -331,7 +337,9 @@
     </div>
 
     <!-- END CONTAINER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    </div>
+{/if}
     <!-- BEGIN FOOTER -->
 
 {include file="admin/common/footer.tpl"}

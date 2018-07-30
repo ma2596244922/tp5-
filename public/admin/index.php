@@ -67,8 +67,10 @@ retry:
             if (/*$omsSite['type'] != \oms\daos\Site::TYPE_SELF*/'lldpestretch-film.com' == $currentDomainSuffix
                     || timandes_get_query_data('tpl') == 'simple') // FIXME: 这里是临时测试方案
                 $GLOBALS['gsAdminTemplateDir'] = 'simple';
-            if (timandes_get_query_data('style') == 'tight')
-                $GLOBALS['gsAdminTemplateStyle'] = 'tight'; // FIXME: 这里是临时测试方案
+            // Template Style
+            if (/*$omsSite['type'] != oms\daos\Site::TYPE_SELF*/'huimindada.com' == $currentDomainSuffix) // FIXME: 这里是临时测试方案
+                $GLOBALS['gsAdminTemplateStyle'] = 'tight';
+            $smarty->assign('tpl_style', $GLOBALS['gsAdminTemplateStyle']);
 
             switch ($action) {
                 case 'replace_terms':

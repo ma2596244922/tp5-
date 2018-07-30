@@ -43,7 +43,9 @@
 {include file="admin/common/header.tpl"}
 
     <!-- END HEADER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    <div class="container">
+{/if}
     <!-- BEGIN CONTAINER -->
 
     <div class="page-container row-fluid">
@@ -239,7 +241,9 @@
     </div>
 
     <!-- END CONTAINER -->
-
+{if $tpl_style|default:'default'=='tight'}
+    </div>
+{/if}
     <!-- BEGIN FOOTER -->
 
 {include file="admin/common/footer.tpl"}

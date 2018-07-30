@@ -1,5 +1,7 @@
     <div class="footer">
-
+{if $tpl_style|default:'default'=='tight'}
+        <div class="container">
+{/if}
         <div class="footer-inner">
 
             2016-2017 &copy; M1.0
@@ -15,5 +17,7 @@
             </span>
 
         </div>
-
+{if $tpl_style|default:'default'=='tight'}
+        </div>
+{/if}
     </div>

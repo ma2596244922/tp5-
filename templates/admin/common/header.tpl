@@ -4,7 +4,7 @@
 
         <div class="navbar-inner">
 
-            <div class="container-fluid">
+            <div class="container{if $tpl_style|default:'default'=='default'}-fluid{/if}">
 
                 <!-- BEGIN LOGO -->
 
@@ -69,15 +69,13 @@
                         </a>
 
                         <ul class="dropdown-menu">
-
+{if $tpl_style == 'default'}
                             <li><a href="?action=profile"><i class="icon-cog"></i> 帐号配置</a></li>
-
-                            <li><a href="?action=info"><i class="icon-cogs"></i> 公司信息</a></li>
 
                             <li><a href="?action=logo"><i class="icon-picture"></i> 公司LOGO</a></li>
 
                             <li><a href="?action=favicon"><i class="icon-star"></i> 收藏夹小图标</a></li>
-
+{/if}
                             <li><a href="?action=password"><i class="icon-user"></i> 修改密码</a></li>
 
                             <li class="divider"></li>
