@@ -24,6 +24,7 @@
     </div>
     
     <!--  浮动层    -->
+    {if $site.enable_floating_widget|default:'0'}
     <div class="sideBar" id="1">
         <span class="close">online service</span>
         <div class="txt">
@@ -39,3 +40,4 @@
             <a class="top" id="back-to-top" href="javascript:;">Top</a>
         </div>
     </div>
+    {/if}
