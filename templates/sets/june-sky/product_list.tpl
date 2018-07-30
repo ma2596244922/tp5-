@@ -23,11 +23,11 @@
             {include file="sets/june-sky/common/product_left.tpl"}
         </div>
         <div class="content_right">
-            <div class="section"> <span class="gorth2">{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}&nbsp;({$total_products})</span></div>
+            <div class="section"> <span class="gorth2">{-if $group|default:[]}<h1>{$group.name}</h1>{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}&nbsp;({$total_products})</span></div>
             <ul class="product_ul fl-clr">
                 {foreach $products as $product}
                 <li> <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"> <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption}" title="{$product.caption}" width="250" height="250"> </a>
-                    <p class="jg">{if $product.price}￥<span>{$product.price}</span>{/if}</p>
+                    <p class="jg">{if $product.price}$<span>{$product.price}</span>{else}Negotiation{/if}</p>
                     <p class="a"> <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}">{$product.caption}</a> </p>
                 </li>
                 {foreachelse}

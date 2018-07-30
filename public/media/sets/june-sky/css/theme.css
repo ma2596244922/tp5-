@@ -755,7 +755,7 @@ border-radius: 20px;-moz-border-radius: 20px; -webkit-border-radius: 20px; text-
 
 
 .product_right ul{ margin-top:15px;}
-.product_right ul li{ color:#999; line-height:28px; font-size:12px; display:block; min-height:28px; position:relative;}
+.product_right ul li{ color:#999; line-height:28px; font-size:12px; display:block; min-height:28px; position:relative;overflow: hidden;}
 .product_right ul li label{ width:120px; float:left; display:block; }
 .product_right ul li span{ display:block; float:left; width:390px; color:#333;}
 .product_right ul li span strong{ font-weight:normal;}

@@ -20,7 +20,7 @@
     <div class="con bw_1190 fl-clr">
         <div class="detail-region item">
             <div class="kind-detail-head fl-clr">
-                <h2>{$news.caption}</h2>
+                <h1>{$news.caption}</h1>
                 <div class="mark fl-clr"><span>{$n.created}</span></div>
             </div>
             <div class="kind-detail-body fl-clr"> 

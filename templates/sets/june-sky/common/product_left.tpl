@@ -16,7 +16,7 @@
     <div class="txt">
         <p>Mobile : {$contacts[0].tel}</p>
         <p>Tel : {$corporation.tel_wt}</p>
-        <p><a href="/contactus.html" rel="nofollow" rel="nofollow" target="_blank" class="a a2"><span>{$preset_translations.contact_now}</span></a></p>
+        <p><a href="/contactnow.html{if $product}?about_product={$product.id}{/if}" rel="nofollow" rel="nofollow" target="_blank" class="a a2"><span>{$preset_translations.request_a_quote}</span></a></p>
     </div>
     <div class="tt">Address：{$corporation.address}</div>
 </div>

@@ -32,8 +32,8 @@
                 <p>{$corporation.tel_wt}</p>
             </div>
             <div class="pa_10_15">
-                <a href="/contactus.html" rel="nofollow" target="_blank" class="a xp">
-                    <span>{$preset_translations.contact_now}</span>
+                <a href="/contactnow.html{if $cur=='product_detail'}?about_product={$product.id}{/if}" rel="nofollow" target="_blank" class="a xp">
+                    <span>{$preset_translations.request_a_quote}</span>
                 </a>
             </div>
             <a class="top" id="back-to-top" href="javascript:;">Top</a>

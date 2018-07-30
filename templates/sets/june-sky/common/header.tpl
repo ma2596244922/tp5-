@@ -18,16 +18,14 @@
             <li>
                 <a href="/aboutus.html" title="{$preset_translations.company_profile}" {if $cur=='aboutus'} class="cut"{/if}>{$preset_translations.company_profile}</a>
             </li>
-            
-             <li>
-            <a href="/directory.html" title="{$preset_translations.site_map}" {if $cur=='sitemap'} class="cut"{/if}>{$preset_translations.site_map}</a>
-            </li>
-
             <li>
                 <a href="/news" title="{$preset_translations.company_news}" {if $cur=='news'} class="cut"{/if}>{$preset_translations.company_news}</a>
             </li>
             <li>
                 <a href="/contactus.html" title="{$preset_translations.contact_us}" {if $cur=='contactus'} class="cut"{/if}>{$preset_translations.contact_us}</a>
+            </li>
+            <li>
+                <a href="/directory.html" title="{$preset_translations.site_map}" {if $cur=='sitemap'} class="cut"{/if}>{$preset_translations.site_map}</a>
             </li>
            
         </ul>

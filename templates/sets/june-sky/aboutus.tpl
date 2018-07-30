@@ -35,9 +35,7 @@
                 <li><span class="t">{$preset_translations.year_established}：</span>{$corporation.year_established} </li>
                 <li><span class="t">{$preset_translations.address}：</span>{$corporation.address} </li>
                 <li><span class="t">{$preset_translations.export_p_c}：</span>{$corporation.export_p_c} </li>
-                <li><span class="t">{$preset_translations.main_market}：</span> <span class="title">{$corporation.main_market|truncate:40:"..."}</span> <span class="more">See More&gt;
-                    <div class="txt" style="display: none;"> {$corporation.main_market} </div>
-                    </span> </li>
+
             </ul>
             
         </div>

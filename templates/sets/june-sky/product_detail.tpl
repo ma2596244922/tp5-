@@ -187,7 +187,7 @@
         
         {include file="sets/june-sky/common/hidden_groups.tpl"}
     </div>
-    {include file="sets/june-sky/common/footer.tpl"}
+    {include file="sets/june-sky/common/footer.tpl" cur="product_detail"}
     {include file="sets/june-sky/common/scripts.tpl" page_name="product"}
 </body>
 
