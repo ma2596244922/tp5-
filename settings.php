@@ -70,5 +70,8 @@ $GLOBALS['gaTemplates'] = array(
 /** @var string admin后台模板目录 */
 $GLOBALS['gsAdminTemplateDir'] = 'admin';
 
+/** @var string admin后台模板风格 */
+$GLOBALS['gsAdminTemplateStyle'] = 'default';
+
 /** @var string HTTP协议头 */
 $GLOBALS['gsHTTPScheme'] = 'http';
