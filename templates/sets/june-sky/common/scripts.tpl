@@ -10,7 +10,7 @@
 <script charset="utf-8" type="text/javascript" src="/media/sets/june-sky/js/productdetail.js"></script>
 
 {/if}
-<script charset="utf-8" type="text/javascript" src="/media/sets/june-sky/js/theme.js"></script>
+<script charset="utf-8" type="text/javascript" src="/media/sets/june-sky/js/theme.js?v=073003"></script>
 {$site.common_fragment}
 {if $site.common_bg_image}
 <script type="text/javascript">

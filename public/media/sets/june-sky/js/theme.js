@@ -146,3 +146,21 @@ $(".close_i").click(function() {
 	$(".album_box,.album_box .imgs-list-contact,.album_box .no_picture").fadeOut();
 	$("body,html").css({"overflow":"auto"});
 });
+
+
+$(".hidden_group .more span").click(function() {
+	var a_text=$(this).html();
+    if(a_text=="see more"){
+        $(".hidden_group dl").addClass("current");
+        $(this).html("less");
+        $(".hidden_group .more").addClass("hover");
+    }else if(a_text=="less"){
+        $(".hidden_group dl").removeClass("current");
+        $(this).html("see more");
+        $(".hidden_group .more").removeClass("hover");
+    }
+});
+
+if($(".hidden_groups dd").outerHeight()<=60){
+	$(".hidden_group .more").hide();
+}
