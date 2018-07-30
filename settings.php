@@ -59,6 +59,9 @@ $GLOBALS['gaTemplates'] = array(
         'june-blue' => array(
                 'label' => 'June-blue',
             ),
+		'june-sky' => array(
+                'label' => 'June-sky',
+            ),
         'blogdemo' => array(
                 'label' => '博客测试',
             ),
