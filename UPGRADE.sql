@@ -1,21 +1,21 @@
 -- 2018-7-30
-ALTER TABLE `enterprise_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_fr_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_pt_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_es_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_zh_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_ar_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_ru_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_el_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_id_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_th_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_uk_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_de_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_it_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_sq_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_sv_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_tr_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
-ALTER TABLE `enterprise_ja_products` ADD COLUMN `summary` varchar(100) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_fr_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_pt_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_es_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_zh_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_ar_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_ru_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_el_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_id_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_th_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_uk_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_de_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_it_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_sq_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_sv_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_tr_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
+ALTER TABLE `enterprise_ja_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
 -- 2018-7-28 #2
 ALTER TABLE `enterprise_groups`
   CHANGE COLUMN `created` `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
