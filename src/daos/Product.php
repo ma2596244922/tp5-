@@ -42,6 +42,7 @@ class Product extends \crawler\daos\AbstractDAO
             'path' => 'text',
             'path_sum' => 'text',
             'embedded_video' => 'text',
+            'summary' => 'text',
         );
 
     public function getTableName()

@@ -29,6 +29,7 @@ require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/config_admin.php';
 require_once __DIR__ . '/duplicate_product.h.php';
 require_once __DIR__ . '/enterprise_translate.h.php';
+require_once __DIR__ . '/enterprise_product.h.php';
 
 function usage()
 {
@@ -510,6 +511,7 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
             'site_id' => $tp['site_id'],
             'caption' => $caption,
             'description' => $description,
+            'summary' => enterprise_product_description_2_summary($description),
             'tags' => $tags,
             'specifications' => $specifications,
             'group_id' => $product['group_id'],

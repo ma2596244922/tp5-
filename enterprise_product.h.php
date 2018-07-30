@@ -8,6 +8,11 @@
 /** @var string Fields of Product for URL-Generating */
 define('ENTERPRISE_PRODUCT_FIELDS_FOR_URL_GENERATING', '`id`, `caption`, `path`, `group_id`');
 
+/** @var string Max Characters of Field 'summary' */
+define('ENTERPRISE_PRODUCT_SUMMARY_MAX_CHARS', 300);
+
+require_once __DIR__ . '/vendor/smarty/smarty/libs/plugins/modifier.truncate.php';
+
 /**
  * Append group info to product list
  *
@@ -129,4 +134,12 @@ function enterprise_product_save_pending_product($siteId, $productId)
         $langPendingProductDAO = new \enterprise\daos\LangPendingProduct($target);
         $langPendingProductDAO->upsert($productId, $values);
     }
+}
+
+function enterprise_product_description_2_summary($description)
+{
+    if (!$description)
+        return '';
+
+    return smarty_modifier_truncate(strip_tags($description), ENTERPRISE_PRODUCT_SUMMARY_MAX_CHARS, '');
 }

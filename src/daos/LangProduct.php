@@ -28,6 +28,7 @@ class LangProduct extends \crawler\daos\AbstractDAO
             'specifications' => 'json',
             'source_url' => 'text',
             'embedded_video' => 'text',
+            'summary' => 'text',
         );
 
     private $_langCode = '';

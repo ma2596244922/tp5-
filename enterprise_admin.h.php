@@ -17,6 +17,8 @@ define('ENTERPRISE_PRODUCT_TERM_FIELDS', ['brand_name', 'model_number', 'certifi
 /** @var array 暂存分组信息 */
 $GLOBALS['gaGroupCache'] = array();
 
+require_once __DIR__ . '/enterprise_product.h.php';
+
 /**
 * corp info
 */
@@ -1942,6 +1944,8 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
  */
 function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null, $embeddedVideo = null)
 {
+    $summary = enterprise_product_description_2_summary($description);
+
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
 
@@ -1971,6 +1975,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
         $values['site_id'] = $userSiteId;
         $values['caption'] = $caption;
         $values['description'] = $description;
+        $values['summary'] = $summary;
         $values['group_id'] = $groupId;
         $values['min_order_quantity'] = $minOrderQuantity;
         $values['delivery_time'] = $deliveryTime;
@@ -2028,6 +2033,7 @@ function enterprise_admin_save_product($langCode, $productId, $brandName, $model
                 'site_id' => $userSiteId,
                 'caption' => $caption,
                 'description' => $description,
+                'summary' => $summary,
                 'group_id' => $groupId,
                 'updated' => $updated,
                 'min_order_quantity' => $minOrderQuantity,
@@ -2984,8 +2990,10 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
             $values['tags'] = implode(',', $newTags);
         }
         // Description
-        if (in_array($location, [3, 5]))
+        if (in_array($location, [3, 5])) {
             $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
+            $values['summary'] = enterprise_product_description_2_summary($values['description']);
+        }
         // Terms & Specifications
         if (in_array($location, [4, 5])) {
             // Terms
@@ -3222,6 +3230,7 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
         $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
         $values = array(
                 'description' => $newDescription,
+                'summary' => enterprise_product_description_2_summary($newDescription),
                 'updated' => date('Y-m-d H:i:s'),
             );
         $productDAO->update($product['id'], $values);
