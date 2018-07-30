@@ -773,3 +773,4 @@ border-radius: 20px;-moz-border-radius: 20px; -webkit-border-radius: 20px; text-
 .product_right ul li table th{ background:#f5f5f5; font-weight:normal;}
 
 .link_1{ margin-top: -35px;}
+.hidden_groups {max-height: 60px;overflow: hidden;}

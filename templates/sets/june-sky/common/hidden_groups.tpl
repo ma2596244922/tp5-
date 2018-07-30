@@ -3,7 +3,7 @@
     <div class="link">
         <dl class=" fl-clr">
             <dt>All Groups</dt>
-            <dd>
+            <dd class="hidden_groups">
                 {-foreach $groups as $group}{if !array_key_exists($group.id, $hidden_groups)}{continue}{/if}
                         <a href="{$group|url:'enterprise_url_product_list'}" title="{$group.name}">{$group.name}</a>
                 {-/foreach}
