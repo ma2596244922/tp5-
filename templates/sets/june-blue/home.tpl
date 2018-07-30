@@ -3,9 +3,7 @@
 <head>
     {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>{$title}</title>
-    <meta name="keywords" content="{$keywords|escape}">
-    <meta name="description" content="{$description|escape}">
+    {include file="sets/june-blue/common/tdk.tpl"}
     {include file="sets/trade/common/definitions.tpl" page_name="home"}
     {include file="sets/june-blue/common/styles.tpl"}
     <link href="/media/sets/june-blue/css/index.css" rel="stylesheet" type="text/css" />
