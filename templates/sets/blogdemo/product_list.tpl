@@ -20,7 +20,7 @@
             <div class="section">
                 <h2>{$product.caption}</h2>
                 <div class="info">{$product.updated}</div>
-                <div class="content">{$product.caption}</div>
+                <div class="content">{$product.summary}</div>
                 <a href="{$product|url:'enterprise_url_product'}" class="read">Continue Reading >></a>
             </div>
 {/foreach}
