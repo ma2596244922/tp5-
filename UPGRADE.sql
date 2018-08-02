@@ -1,5 +1,6 @@
 -- 2018-8-2
 ALTER TABLE `enterprise_sites` ADD COLUMN `blog_site` tinyint NOT NULL DEFAULT '0' COMMENT '是否博客站点（0/1）';
+ALTER TABLE `enterprise_sites` ADD COLUMN `disable_auto_summary` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用自动产品描述摘要(0/1)';
 -- 2018-7-30
 ALTER TABLE `enterprise_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';
 ALTER TABLE `enterprise_fr_products` ADD COLUMN `summary` varchar(300) NOT NULL DEFAULT '' COMMENT '描述摘要';

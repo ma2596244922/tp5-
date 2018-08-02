@@ -256,6 +256,17 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-lg-1 control-label">禁用自动产品描述摘要：</label>
+                        <div class="col-lg-4">
+                            <label class="radio-inline">
+                                <input type="radio" name="disable_auto_summary" value="0"{if $site.disable_auto_summary|default:'0'=='0'} checked{/if}>启用
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="disable_auto_summary" value="1"{if $site.disable_auto_summary|default:'0'=='1'} checked{/if}>禁用
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-lg-offset-1 col-lg-4">
                             <input type="hidden" name="submit" value="1">
                             <button type="submit" class="btn btn-primary">保存</button>

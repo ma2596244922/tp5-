@@ -145,7 +145,19 @@
                                         </div>
 
                                     </div>
+{if !$auto_summary_enabled}
+                                    <div class="control-group">
 
+                                        <label class="control-label">摘要</label>
+
+                                        <div class="controls">
+
+                                            <textarea class="span12 m-wrap" name="summary" id="textarea-summary" rows="2">{$product.summary|default:''}</textarea>
+
+                                        </div>
+
+                                    </div>
+{/if}
                                     <div class="control-group">
 
                                         <label class="control-label">描述</label>
@@ -542,6 +554,8 @@
                 var val = specifications.join('&');
                 $(this).find('[name="specifications"]').val(val);
             });
+
+            $('#textarea-summary').ckeditor();
 
             $('#textarea-description').ckeditor({
                 filebrowserUploadUrl: '?action=upload_image'

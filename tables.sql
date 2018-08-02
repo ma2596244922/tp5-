@@ -283,6 +283,7 @@ CREATE TABLE `enterprise_sites` (
   `hidden_groups` text COMMENT '隐藏的分组清单（JSON）',
   `enabled_functions` text COMMENT '开启功能清单（JSON）',
   `blog_site` tinyint NOT NULL DEFAULT '0' COMMENT '是否博客站点（0/1）',
+  `disable_auto_summary` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用自动产品描述摘要(0/1)',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站点表';
 

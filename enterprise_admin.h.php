@@ -17,6 +17,7 @@ define('ENTERPRISE_PRODUCT_TERM_FIELDS', ['brand_name', 'model_number', 'certifi
 /** @var array 暂存分组信息 */
 $GLOBALS['gaGroupCache'] = array();
 
+require_once __DIR__ . '/enterprise.h.php';
 require_once __DIR__ . '/enterprise_product.h.php';
 
 /**
@@ -1942,9 +1943,10 @@ function enterprise_admin_save_thumbs($thumbnailDAO, $id, $imageManager, $body, 
 /**
  * Save Products
  */
-function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null, $embeddedVideo = null)
+function enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, $customPath = null, $sourceUrl = null, $updated = null, $embeddedVideo = null, $summary = null)
 {
-    $summary = enterprise_product_description_2_summary($description);
+    if (!isset($summary))
+        $summary = enterprise_product_description_2_summary($description);
 
     // LangProductDAO
     $langProductDAO = (($langCode!='en')?new \enterprise\daos\LangProduct($langCode):null);
@@ -2083,6 +2085,9 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
 {
     $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_product.tpl';
 
+    $autoSummaryEnabled = empty($site['disable_auto_summary']);
+    $smarty->assign('auto_summary_enabled', $autoSummaryEnabled);
+
     $productId = (int)timandes_get_query_data('product_id');
     $smarty->assign('product_id', $productId);
 
@@ -2121,6 +2126,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
     $packagingDetails = timandes_get_post_data('packaging_details');
     $specificationsQueryString = timandes_get_post_data('specifications');
     $embeddedVideo = timandes_get_post_data('embedded_video', 'remove_n_r, trim');
+    $summary = ($autoSummaryEnabled?null:timandes_get_post_data('summary', 'xss_clean, remove_n_r, trim'));
 
     parse_str($specificationsQueryString, $specificationsCellArray);
 
@@ -2141,7 +2147,7 @@ function enterprise_admin_action_edit_product($smarty, $site, $langCode)
         return enterprise_admin_display_error_msg($smarty, '请选择至少一张图片');
     $headImageId = $images[0];
 
-    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, null, null, null, $embeddedVideo);
+    enterprise_admin_save_product($langCode, $productId, $brandName, $modelNumber, $certification, $placeOfOrigin, $price, $paymentTerms, $supplyAbility, $headImageId, $images, $userSiteId, $caption, $description, $groupId, $minOrderQuantity, $deliveryTime, $packagingDetails, $specificationsArray, $tags, null, null, null, $embeddedVideo, $summary);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=product', '产品管理');
 }
@@ -2427,7 +2433,7 @@ function enterprise_admin_action_duplicate_products($smarty, $site, $langCode)
     $product['specifications'] = ($product['specifications']?json_decode($product['specifications'], true):[]);
 
     for ($i=0; $i<$cnt; ++$i) {
-        enterprise_admin_save_product($langCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $groupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags']);
+        enterprise_admin_save_product($langCode, 0, $product['brand_name'], $product['model_number'], $product['certification'], $product['place_of_origin'], $product['price'], $product['payment_terms'], $product['supply_ability'], $product['head_image_id'], $product['images'], $product['site_id'], $product['caption'], $product['description'], $groupId, $product['min_order_quantity'], $product['delivery_time'], $product['packaging_details'], $product['specifications'], $product['tags'], null, null, null, null, $product['summary']);
     }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
@@ -2992,7 +2998,7 @@ function enterprise_admin_replace_keywords_proc($userSiteId, $taskDetails)
         // Description
         if (in_array($location, [3, 5])) {
             $values['description'] = str_ireplace($oldPhrase, $productNewPhrase, $product['description']);
-            $values['summary'] = enterprise_product_description_2_summary($values['description']);
+            $values['summary'] = str_ireplace($oldPhrase, $productNewPhrase, $product['summary']);
         }
         // Terms & Specifications
         if (in_array($location, [4, 5])) {
@@ -3206,6 +3212,9 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
     $ids = $taskDetails['ids']??[];
     $type = $taskDetails['type']??1;
 
+    $site = enterprise_get_site_info($userSiteId, $langCode);
+    $autoSummaryEnabled = empty($site['disable_auto_summary']);
+
     $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
     $desc = str_replace('[公司名称]', $corporation['name'], $desc);
 
@@ -3230,9 +3239,10 @@ function enterprise_admin_insert_desc_proc($userSiteId, $taskDetails)
         $newDescription = ($location==1?($fragmentHtml . $product['description']):($product['description'] . $fragmentHtml));
         $values = array(
                 'description' => $newDescription,
-                'summary' => enterprise_product_description_2_summary($newDescription),
                 'updated' => date('Y-m-d H:i:s'),
             );
+        if ($autoSummaryEnabled)
+            $values['summary'] = enterprise_product_description_2_summary($newDescription);
         $productDAO->update($product['id'], $values);
     }
 }

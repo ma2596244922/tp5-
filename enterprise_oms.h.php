@@ -1019,6 +1019,7 @@ function enterprise_oms_action_client_info($smarty)
     $retranslate_whole_site = (int)timandes_get_post_data('retranslate_whole_site');
     $enabled_functions = timandes_get_post_data('enabled_functions');
     $blog_site = (int)timandes_get_post_data('blog_site');
+    $disable_auto_summary = (int)timandes_get_post_data('disable_auto_summary');
 
     $values = array(
             'desc' => $desc,
@@ -1052,6 +1053,7 @@ function enterprise_oms_action_client_info($smarty)
             'enabled_functions' => $enabled_functions,
             'updated' => date('Y-m-d H:i:s'),
             'blog_site' => $blog_site,
+            'disable_auto_summary' => $disable_auto_summary,
         );
     $entSiteDAO = new \enterprise\daos\Site();
     $condition = "`site_id`=" . (int)$siteId;

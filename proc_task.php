@@ -275,6 +275,9 @@ function proc_translation_translate_corporation($translateClient, $tp)
     }
 }
 
+/**
+ * @return array
+ */
 function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
 {
     $verbose = $GLOBALS['gaSettings']['verbose'];
@@ -286,7 +289,7 @@ function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
     if (!$site) {
         if ($verbose >= 1)
             fprintf(STDOUT, "Fail to find site info of site {$tp['site_id']}, skipping ..." . PHP_EOL);
-        return;
+        return null;
     }
 
     $srcText = proc_translation_implode_fields($site['index_html_title'], $site['index_meta_keywords'], $site['index_meta_description'], $site['desc_4_inquiry_sender'], $site['product_html_title'], $site['product_meta_keywords'], $site['product_meta_description'], $site['contact_content']);
@@ -295,7 +298,7 @@ function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
         proc_stats_acc_total_chars($totalChars);
         proc_stats_acc_total_chars_after_optimizing($totalChars);
         fprintf(STDOUT, "%s: %d characters" . PHP_EOL, __FUNCTION__, $totalChars);
-        return;
+        return $site;
     }
 
     $translation = $translateClient->translate($srcText, ['target' => $tp['lang_code']]);
@@ -320,6 +323,8 @@ function proc_translation_translate_site($translateClient, $tp, $langSiteDAO)
     else {
         $langSiteDAO->insert($values);
     }
+
+    return array_merge($site, $values);
 }
 
 function proc_translation_get_uvs_generator($userSiteId, $langCode)
@@ -475,7 +480,7 @@ function proc_translation_explode_fields($string)
     return enterprise_translate_explode_fields($string);
 }
 
-function proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product)
+function proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $site, $product)
 {
     $srcText = proc_translation_implode_fields($product['caption'], $product['description'], $product['tags'], $product['specifications']);
 
@@ -507,16 +512,19 @@ function proc_translation_translate_product($translateClient, $tp, $langSiteDAO,
     $fragments = explode('<p>', $translatedDescription);
     $description = $htmlOptimizer->combine($sentences, $fragments);
 
+    $autoSummaryEnabled = empty($site['disable_auto_summary']);
+
     $values = array(
             'site_id' => $tp['site_id'],
             'caption' => $caption,
             'description' => $description,
-            'summary' => enterprise_product_description_2_summary($description),
             'tags' => $tags,
             'specifications' => $specifications,
             'group_id' => $product['group_id'],
             'updated' => date('Y-m-d H:i:s'),
         );
+    if ($autoSummaryEnabled)
+        $values['summary'] = enterprise_product_description_2_summary($description);
     $duplicatedFields = ['group_id', 'min_order_quantity', 'delivery_time', 'packaging_details', 'embedded_video'];
     foreach ($duplicatedFields as $f)
         $values[$f] = $product[$f];
@@ -650,7 +658,7 @@ function proc_translation_progress()
 
         proc_translation_translate_corporation($translateClient, $tp);
 
-        proc_translation_translate_site($translateClient, $tp, $langSiteDAO);
+        $site = proc_translation_translate_site($translateClient, $tp, $langSiteDAO);
 
         $counter = 0;
         $checkPoint = 10;
@@ -704,7 +712,7 @@ function proc_translation_progress()
 
         $productGenerator = enterprise_admin_get_group_products_generator($tp['site_id'], $fromLangCode, null, '`description`, `tags`, `specifications`, `embedded_video`, `created`');
         foreach ($productGenerator as $product) {
-            proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $product);
+            proc_translation_translate_product($translateClient, $tp, $langSiteDAO, $langGroupDAO, $langProductDAO, $site, $product);
 
             ++$counter;
             if ($counter >= $checkPoint) {
