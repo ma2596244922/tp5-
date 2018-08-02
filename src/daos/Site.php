@@ -49,6 +49,7 @@ class Site extends \crawler\daos\AbstractDAO
             'disable_group_dk' => 'tinyint',
             'hidden_groups' => 'json',
             'enabled_functions' => 'json',
+            'blog_site' => 'tinyint',
         );
 
     public function getTableName()
