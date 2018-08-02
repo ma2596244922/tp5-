@@ -592,15 +592,34 @@ function enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $or
     exit(0);
 }
 
+function enterprise_is_blog_site($siteId, $omsSite, $langCode)
+{
+    if (!$omsSite)
+        return false;
+
+    if ($omsSite['crawled'])
+        return false;
+
+    $site = enterprise_get_site_info($siteId, $langCode);
+    if (!$site)
+        return false;
+
+    return ($site['blog_site']?true:false);
+}
+
 
 /**
  * 以Sitemap格式输出核心页面的URL
  */
-function enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix)
+function enterprise_action_sitemap_core_proc($siteId, $omsSite, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
-    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset(); 
+    $urlSet = new \Thepixeldeveloper\Sitemap\Urlset();
 
-    foreach (['/', '/products.html', '/aboutus.html', '/quality.html', '/contactus.html'] as $path) {
+    $pathArray = ['/'];
+    if (!enterprise_is_blog_site($siteId, $omsSite, $langCode))
+        $pathArray = array_merge($pathArray, ['/products.html', '/aboutus.html', '/quality.html', '/contactus.html']);
+
+    foreach ($pathArray as $path) {
         $loc = enterprise_url_prefix() . $path;
         $url = (new \Thepixeldeveloper\Sitemap\Url($loc));
         $urlSet->addUrl($url);

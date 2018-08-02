@@ -80,7 +80,7 @@ if (preg_match('/^\/sitemap\/([a-z]+)\.xml$/', $requestPath, $matches)) {
                 && $omsSite['crawled'])
             enterprise_action_sitemap_group_proc($siteId, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
     } elseif ($sitemapLocale == 'core')
-        enterprise_action_sitemap_core_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, 1);// Terminated
+        enterprise_action_sitemap_core_proc($siteId, $omsSite, $langCode, $originalDomainSuffix, $currentDomainSuffix);// Terminated
     else
         enterprise_action_sitemap_proc($siteId, $originalDomainSuffix, $currentDomainSuffix, $sitemapLocale);// Terminated
 } elseif(preg_match('/^\/uploaded_images\/([a-z]?)([0-9]+)(-[0-9a-z]+)*\.jpg$/', $requestPath, $matches)) {
