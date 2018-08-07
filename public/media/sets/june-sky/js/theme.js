@@ -164,3 +164,24 @@ $(".hidden_group .more span").click(function() {
 if($(".hidden_groups dd").outerHeight()<=60){
 	$(".hidden_group .more").hide();
 }
+
+// 语言选择
+$('[data-role="ShowParent"]').click(function(){
+    var listA=$('[data-role="ListType"]').children("a");
+    var val_menu = $('[data-role="SearchShow"]').html();
+    $('[data-role="selectParent"]').toggleClass('current');
+    $('[data-role="ListType"]').slideToggle('fast');
+    listA.each(function(i) {
+        var val = $(this).html();
+        if (val_menu == val) {
+            $(this).css("display", "none");
+            $(this).siblings().css("display", "block");
+        }
+    });
+})
+$(document).bind("click",function(e){
+    var target  = $(e.target);
+    if(target.closest('[data-role="selectParent"]').length == 0){
+        $('[data-role="ListType"]').slideUp('fast');
+    }
+})
