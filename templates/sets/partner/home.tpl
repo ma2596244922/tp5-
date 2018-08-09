@@ -39,7 +39,7 @@
     </div>
     <div class="home-product fl-clr">
         {if $groups[0]|default:[]}
-        {assign var="products_group1" value=enterprise_get_product_list($site.site_id,$default_lang_code,$groups[0].id,false,1,3,'', ($default_lang_code == 'en') ? '`updated` ASC' : 'elp.`updated` ASC') }
+        {assign var="products_group1" value=enterprise_product_append_group_info( $default_lang_code, enterprise_get_product_list($site.site_id,$default_lang_code,$groups[0].id,false,1,3,'', ($default_lang_code == 'en') ? '`updated` ASC' : 'elp.`updated` ASC') ) }
         {foreach $products_group1 as $product}
         <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}" target="_blank">
             <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption}">
