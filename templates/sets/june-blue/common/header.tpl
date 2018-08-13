@@ -34,7 +34,7 @@
         <ul>
             <li{if $cur=='home'} class="cur"{/if}><span><a href="/">{$preset_translations.home}</a></span></li>
             <li{if $cur=='product'} class="cur"{/if}><span><a href="/products.html">{$preset_translations.products}</a></span></li>
-            <li{if $cur=='aboutus'} class="cur"{/if}><span><a href="/aboutus.html">About Us</a></span></li>
+            <li{if $cur=='aboutus'} class="cur"{/if}><span><a href="/aboutus.html">{$preset_translations.about_us}</a></span></li>
             <li{if $cur=='news'} class="cur"{/if}><span><a href="/news">{$preset_translations.company_news}</a></span></li>
             <li{if $cur=='quality'} class="cur"{/if}><span><a href="/quality.html">{$preset_translations.quality_control}</a></span></li>
             <li{if $cur=='sitemap'} class="cur"{/if}><span><a href="/directory.html" title="{$preset_translations.site_map}">{$preset_translations.site_map}</a></span></li>
