@@ -31,27 +31,13 @@
         </ul>
         <div class="select-flag current" data-role="selectParent">
             <div class="select-box fl-clr" data-role="ShowParent">
-                <span class="selectTxt" data-role="SearchShow"><img src="/media/sets/june-sky/img/langflags/en.png" width="16" height="11">English</span>
+                <span class="selectTxt" data-role="SearchShow"><img src="/media/sets/june-sky/img/langflags/{$lang_code|default:'en'}.png" width="16" height="11">{$supported_lang_codes[$lang_code].locale_label|default:'English'}</span>
                 <i></i>
             </div>
             <div class="selectMenu" style="display:none;" data-role="ListType">
-                <a href="#" style="display: none;"><img src="/media/sets/june-sky/img/langflags/en.png" width="16" height="11">English</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/ar.png" width="16" height="11">العربية</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/de.png" width="16" height="11">Deutsch</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/el.png" width="16" height="11">Ελληνικά</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/es.png" width="16" height="11">Español</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/fr.png" width="16" height="11">Français</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/id.png" width="16" height="11">Bahasa Indonesia</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/it.png" width="16" height="11">Italiano</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/ja.png" width="16" height="11">日本語</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/pt.png" width="16" height="11">Português</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/ru.png" width="16" height="11">Русский язык</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/sq.png" width="16" height="11">Shqip</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/sv.png" width="16" height="11">Svenska</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/th.png" width="16" height="11">ไทย</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/tr.png" width="16" height="11">Türkçe</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/uk.png" width="16" height="11">Українська</a>
-                <a href="#" style="display: block;"><img src="/media/sets/june-sky/img/langflags/zh.png" width="16" height="11">中文</a>
+            {foreach $supported_lang_codes as $lc => $meta}{if $site_lang_codes.$lc|default:'0'=='0'}{continue}{/if}
+                <a href="http://{$lc}.{$site_root_domain}/" rel="nofollow"><img src="/media/sets/june-sky/img/langflags/{$lc}.png" width="16" height="11" />{$meta.locale_label}</a>
+            {/foreach}
             </div>
         </div>
     </div>
