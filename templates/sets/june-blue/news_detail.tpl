@@ -11,7 +11,7 @@
     <link href="/media/sets/june-blue/css/cmopany_detail.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-{include file="sets/june-blue/common/header.tpl" cur="news"}}
+{include file="sets/june-blue/common/header.tpl" cur="news"}
 <!-- header -->
 
 <div class="main_wrap">
