@@ -55,7 +55,7 @@
             <tbody><tr>
                 {assign var="certification_left" value=enterprise_get_certification_list($site.site_id,1,2) }
                 
-                {foreach $certification_left as $cert}{if $cert@index>2}{continue}{/if}
+                {foreach $certification_left as $cert}{if $cert@index>=2}{continue}{/if}
                     <td align="center">
                         <img src="{$cert.uri|url:'enterprise_url_photo':'':'t'}" alt="{$cert.standard|default:''}" width="75" height="100" />
                     </td>
