@@ -47,6 +47,7 @@
                                         </td>
                                     </tr>
                                 </tbody></table>
+                        {if $cert@index%2==1}<div class="cb_10"></div>{/if}
                         {/foreach}
                         <div class="cb_10"></div>
                     </div>
