@@ -21,17 +21,16 @@
         <div class="cb_10"></div>
     </div>
     <div class="main_right_wrap_box">
+    {if $site.contact_content|default:''}
+        <div class="conh">
+            {$site.contact_content}
+        </div>
+    {else}
         <div class="main_right_wrap">
             <div class="main_right_box">
                 <div class="title_wrap">{$corporation.name}</div>
                 <div class="cb_10"></div>
                 <div class="text_font_light r_pro">
-                    {if $site.contact_content|default:''}
-                    <div class="conh">
-                        {$site.contact_content}
-                    </div>
-                    {/if}
-
                     <div class="conh">
                         <form action="/contactsave.html" method="POST" data-role="inquiry-form" onsubmit="return jsSubmit(this);">
                         <input type="hidden" id="subject" name="subject" value="{$preset_translations.can_you_provide_me_a_quote}">
@@ -86,7 +85,7 @@
             </div>
         </div>
         <div class="cb_10"></div>
-
+    {/if}
     </div>
 
     <div class="cb"></div>
