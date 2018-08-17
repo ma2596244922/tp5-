@@ -76,4 +76,4 @@
 .sitemap_box .sm_tit{background: #f1f1f1; width: 100%; line-height: 22px;}
 .sitemap_box .sm_tit a{ font-weight: bold; font-size: 11px; padding-left: 10px; }
 .sitemap_box ul{ margin: 0; padding: 0; float: left; display: inline; margin-left: 10px; line-height: 18px;}
-.sitemap_box ul li{ padding-bottom: 5px;list-style: none; padding-left:  10px; margin: 0;background:url("../images/index_002.gif") no-repeat scroll -215px -321px}
+.sitemap_box ul li{ padding-bottom: 5px;width: 325px;float: left;list-style: none; padding-left:  10px; margin: 0;background:url("../images/index_002.gif") no-repeat scroll -215px -321px}    float: left;

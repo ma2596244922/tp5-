@@ -13,35 +13,32 @@
 <body>
 {include file="sets/m12/common/header.tpl" cur="news"}
 <!-- header -->
-
+<div class="guide_wrap"><a href="/">{$preset_translations.home}</a>{$preset_translations.news}</div>
 <div class="main_wrap">
-    <div class="guide_wrap"><a href="/" class="h">{$preset_translations.home}</a>{$preset_translations.news}</div>
     <div class="sider_wrap fl">
         {include file="sets/m12/common/left.tpl"}
         <div class="cb_10"></div>
     </div>
 
-    <div class="main_right_wrap_box">
-        <div class="main_right_wrap">
-            <div class="main_right_box">
+    <div class="content_wrap">
+        <div class="main_right_box">
 
-                <div class="title_wrap"><h1>{$preset_translations.company_news}</h1></div>
-                <div class="box_content">
-                    <div class="news_li">
-                        <ul>
-                            {foreach $news as $n}
-                            <li><h2><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}"> {$n.caption}</a></h2><span>{$n.created}</span></li>
-                            {foreachelse}
-                                <p><i></i>{$preset_translations.the_user_has_not_provide_such_information}.</p>
-                            {/foreach}
-                        </ul>
-                    </div>
-                    <div class="cb_10"></div>
-                    {include file="sets/m12/common/pager_news.tpl"}
+            <div class="title"><h1>{$preset_translations.company_news}</h1></div>
+            <div class="box_content">
+                <div class="news_li">
+                    <ul>
+                        {foreach $news as $n}
+                        <li><h2><a href="{$n|url:'enterprise_url_news'}" title="{$n.caption}"> {$n.caption}</a></h2><span>{$n.created}</span></li>
+                        {foreachelse}
+                            <p><i></i>{$preset_translations.the_user_has_not_provide_such_information}.</p>
+                        {/foreach}
+                    </ul>
                 </div>
                 <div class="cb_10"></div>
-
+                {include file="sets/m12/common/pager_news.tpl"}
             </div>
+            <div class="cb_10"></div>
+
         </div>
     </div>
 

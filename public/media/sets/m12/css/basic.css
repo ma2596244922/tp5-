@@ -19,7 +19,7 @@ body{ background: url(../images/bg_001.gif) repeat-y 50% 0;}
 .mt_5{ margin-top: 5px;}
 
 
-.header,.main_wrap,.footer_wrap{ width: 970px; margin: 0 auto;}
+.header,.main_wrap,.footer_wrap{ width: 970px; margin: 0 auto; padding-bottom: 10px;}
 .head{ height: 85px; width: 100%; background: url(../images/index_001.gif) 0 0;}
 .head table{width:100%;}
 .guide_wrap{ height: 24px; width: 950px; margin: 0 auto; margin-top: 3px; line-height: 24px;}
@@ -74,7 +74,7 @@ body{ background: url(../images/bg_001.gif) repeat-y 50% 0;}
 .search_wrap{width:246px; height: 20px; background: url(../images/index_search.gif) 0 0;}
 
 .content_wrap{ width: 710px; float: right; display: inline; margin-right: 10px; overflow: hidden;}
-.footer_wrap table{ line-height: 20px; background: url(../images/index_001.gif) 0 -208px;width: 950px; margin: 0 auto;table-layout: fixed; border:#cacaca solid 1px;}
+.footer_wrap table{ line-height: 20px; width: 950px; margin: 0 auto;table-layout: fixed; border:#cacaca solid 1px;}
 .footer_wrap table td{ padding: 6px; font-size: 11px;}
 .footer_wrap table td b{ display: block;  }
 .footer_wrap table td strong{font-weight:normal; display: block; }

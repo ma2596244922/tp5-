@@ -14,17 +14,17 @@
 {include file="sets/m12/common/header.tpl" cur="sitemap"}
 <!-- header -->
 
+<div class="guide_wrap"><a href="/">{$preset_translations.home}</a>{$preset_translations.site_map}</div>
 <div class="main_wrap">
-    <div class="guide_wrap"><a href="/" class="h">{$preset_translations.home}</a>{$preset_translations.site_map}</div>
     <div class="sider_wrap fl">
         {include file="sets/m12/common/left.tpl"}
         <div class="cb_10"></div>
     </div>
-    <div class="main_right_wrap_box">
+    <div class="content_wrap">
         <div class="main_right_wrap">
-            <div class="main_right_box">
+
                 <div class="content_box">
-                    <div class="title_wrap">Company</div>
+                    <div class="title">Company</div>
                     <div class="box_content">
                         <table width="100%" cellspacing="0" cellpadding="0" class="sitemap_list">
                             <tbody>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="cb_10"></div>
                 <div class="content_box">
-                    <div class="title_wrap"><h1>{$preset_translations.all_products} Page {$page_no}</h1></div>
+                    <div class="title"><h1>{$preset_translations.all_products} Page {$page_no}</h1></div>
                     <div class="box_content">
                         <div class="cb_10"></div>
                         <div class="sitemap_cat_list">
@@ -85,7 +85,6 @@
                     </div>
                 </div>
 
-            </div>
         </div>
     </div>
 

@@ -14,18 +14,19 @@
 {include file="sets/m12/common/header.tpl" cur="news"}
 <!-- header -->
 
+<div class="guide_wrap"><a href="/">{$preset_translations.home}</a> <a href="/news">{$preset_translations.news}</a> <span>{$news.caption}</span> </div>
+
 <div class="main_wrap">
-    <div class="guide_wrap"><a href="/" class="h">{$preset_translations.home}</a> <a href="/news">{$preset_translations.news}</a> <span>{$news.caption}</span> </div>
     <div class="sider_wrap fl">
         {include file="sets/m12/common/left.tpl"}
         <div class="cb_10"></div>
     </div>
 
-    <div class="main_right_wrap_box">
+    <div class="content_wrap">
         <div class="main_right_wrap">
             <div class="main_right_box">
 
-                <div class="title_wrap">{$preset_translations.company_news}</div>
+                
                 <div class="box_content">
                         <div class="news_title"><h1>{$news.caption}</h1></div>
                         <div class="cb"></div>
