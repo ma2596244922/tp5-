@@ -48,6 +48,25 @@ function enterprise_admin_fei_action_get_url_of_keyword($site, $langCode)
     return $retval;
 }
 
+/**
+ * Save Group
+ */
+function enterprise_admin_fei_action_save_group($site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+    $groupName = timandes_get_post_data('name');
+
+    if (!$groupName)
+        throw new \RuntimeException('请输入分组名称', 10001);
+
+    $id = enterprise_admin_save_group($langCode, 0, $groupName, $userSiteId);
+
+    return array(
+            'id' => $id,
+            'name' => $groupName,
+        );
+}
+
 function enterprise_admin_fei_route($siteId, $platform, $locale, $langCode, $originalDomainSuffix, $currentDomainSuffix)
 {
     // Current User
@@ -81,6 +100,8 @@ retry:
 
     $action = timandes_get_query_data('action');
     switch ($action) {
+        case 'save_group':
+            return enterprise_admin_fei_action_save_group($site, $langCode);
         default:
             return enterprise_admin_fei_action_get_url_of_keyword($site, $langCode);
     }

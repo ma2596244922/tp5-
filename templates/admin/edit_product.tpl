@@ -26,6 +26,10 @@
 
     <link rel="stylesheet" href="media/css/DT_bootstrap.css" />
 
+    <link rel="stylesheet" type="text/css" href="media/css/jquery-ui-1.10.1.custom.min.css"/>
+
+    <link href="media/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
+
     <!-- END PAGE LEVEL STYLES -->
 
     <link rel="shortcut icon" href="media/image/favicon.ico" />
@@ -176,7 +180,14 @@
 
                                         <div class="controls">
 
-                                            <select class="span6 m-wrap" multiple="multiple" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
+                                            <a class="btn green" href="#new-group-dlg" data-toggle="modal">
+                                                新分组
+                                                <i class="icon-plus"></i>
+                                            </a>
+
+                                            <div class="space10"></div>
+
+                                            <select class="span6 m-wrap" multiple="multiple" id="select-group-id" name="group_id" data-placeholder="请选择产品分组" tabindex="1">
 {section name=i loop=$groups}{assign var="gid" value={$groups[i].id|default:$groups[i].group_id}}
                                                 <option value="{$gid}"{if isset($product.group_id) && $product.group_id==$gid} selected="selected"{/if}>{$groups[i].name}</option>
 {/section}
@@ -499,6 +510,40 @@
 
     <!-- END FOOTER -->
 
+    <!-- BEGIN DLG -->
+
+    <div id="new-group-dlg" class="modal hide fade" tabindex="-1" data-focus-on="input:first">
+
+        <div class="modal-header">
+
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+
+            <h3>创建分组</h3>
+
+        </div>
+
+        <div class="modal-body">
+
+            <p>名称</p>
+
+            <input type="text" class="m-wrap" id="new-group-dlg-name" />
+
+            <span class="help-inline">请输入英文分组名称</span>
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button type="button" data-dismiss="modal" class="btn">取消</button>
+
+            <button type="button" class="btn red" id="new-group-dlg-create">创建</button>
+
+        </div>
+
+    </div>
+
+    <!-- END DLG -->
+
     <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 
     <!-- BEGIN CORE PLUGINS -->
@@ -521,11 +566,21 @@
 
     <script src="ckeditor/adapters/jquery.js" type="text/javascript" ></script>
 
+    <script src="media/js/bootstrap-modal.js" type="text/javascript" ></script>
+
+    <script src="media/js/bootstrap-modalmanager.js" type="text/javascript" ></script>
+
     <!-- END PAGE LEVEL PLUGINS -->
 
     <script src="media/js/app.js"></script>      
 
     <script src="media/js/table-editable.js"></script>    
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+    <script src="media/js/ui-modals.js"></script>
+
+    <!-- END PAGE LEVEL SCRIPTS -->
 
     <script>{literal}
 
@@ -567,6 +622,47 @@
 
             $("#input-payment-terms").select2({
                 tags: ['L/C', 'D/A', 'D/P', 'T/T', 'Western Union', 'MoneyGram']
+            });
+
+            $("#new-group-dlg-create").click(function() {
+                $(this).prop('disabled', true);
+
+                var groupName = $('#new-group-dlg-name').val();
+                if (!groupName) {
+                    $(this).prop('disabled', false);
+                    return;
+                }
+
+                var url = 'fei.php?action=save_group';
+                var me = this;
+                var postData = 'name=' + encodeURIComponent(groupName);
+                $.ajax({
+                    'url': url,
+                    'method': 'POST',
+                    'dataType': 'json',
+                    'data': postData,
+                    'success': function(data) {
+                        if ('code' in data) {
+                            alert('发生错误：' + data.message);
+                            return;
+                        }
+                        
+                        var option = $('<option>');
+                        option.attr('value', data.id);
+                        option.text(data.name);
+
+                        $('#select-group-id').append(option).val(data.id);
+
+                        $('#new-group-dlg-name').val('');
+                        $('#new-group-dlg').modal('hide');
+                    },
+                    'error': function(jqXHR, testStatus, errorThrown) {
+                        alert(errorThrown);
+                    },
+                    'complete': function() {
+                        $(me).prop('disabled', false);
+                    }
+                });
             });
         });
 
