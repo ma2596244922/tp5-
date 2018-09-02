@@ -1,4 +1,4 @@
-{if $smarty.get.product_id|default:''}{assign var=page_title value="修改产品信息"}{else}{assign var=page_title value="发布新产品"}{/if}<!DOCTYPE html>
+{if $smarty.get.product_id|default:''}{assign var=page_title value="修改产品信息"}{else}{assign var=page_title value="发布新产品"}{/if}{assign var="total_pics" value="5"}<!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 
@@ -44,7 +44,7 @@
 
     <!-- BEGIN HEADER -->
 
-{include file="admin/common/header.tpl"}
+{include file="admin/common/header.tpl" page_name="edit_product"}
 
     <!-- END HEADER -->
 {if $tpl_style|default:'default'=='tight'}
@@ -56,7 +56,7 @@
 
         <!-- BEGIN SIDEBAR -->
 
-{include file="admin/common/sidebar.tpl" page_name="product"}
+{include file="admin/common/sidebar.tpl" page_name="edit_product"}
 
         <!-- END SIDEBAR -->
 
@@ -202,7 +202,7 @@
                                         <label class="control-label">图片</label>
 
                                         <div class="controls">
-{for $i=0 to 4}
+{for $i=0 to $total_pics-1}
                                             <div class="fileupload fileupload-{if isset($product_images[$i])}exists{else}new{/if} pull-left" data-provides="fileupload" style="margin-left: 5px;">
 
                                                 <input type="hidden" name="file{$i}" value="{$product_images[$i]|default:''}">
@@ -612,7 +612,7 @@
 
             $('#textarea-summary').ckeditor();
 
-            $('#textarea-description').ckeditor({
+            var ckEditorDescription = $('#textarea-description').ckeditor({
                 filebrowserUploadUrl: '?action=upload_image'
             });
 
@@ -664,6 +664,135 @@
                     }
                 });
             });
+
+/* {{{ Indicators */
+            Vue.component('indicator-item', {
+                'props': [
+                    'label', 'percentage', 'attr_class'
+                ],
+                'computed': {
+                    'attr_style': function() {
+                        return 'width: ' + this.percentage + '%;';
+                    }
+                },
+                'template': '<li><a href="javascript:;"><span class="task"><span class="desc">{{ label }}</span><span class="percent">{{ percentage }}%</span></span><span v-bind:class="attr_class"><span v-bind:style="attr_style" class="bar"></span></span></a></li>'
+            });
+
+            var liProductIndicators = new Vue({
+                'el': '#product-indicators',
+                'data': {
+                    'indicators': {
+                        "basic": {
+                            "label": "基本信息",
+                            "percentage": 30,
+                            "attr_class": "progress progress-success"
+                        },
+                        "pic": {
+                            "label": "产品图片",
+                            "percentage": 65,
+                            "attr_class": "progress progress-danger progress-striped active"
+                        },
+                        "attr": {
+                            "label": "产品属性",
+                            "percentage": 98,
+                            "attr_class": "progress progress-success",
+                        },
+                        "trade": {
+                            "label": "交易信息",
+                            "percentage": 10,
+                            "attr_class": "progress progress-warning progress-striped"
+                        },
+                        "desc": {
+                            "label": "产品描述",
+                            "percentage": "58",
+                            "attr_class": "progress progress-info"
+                        }
+                    }
+                },
+                'computed': {
+                    'badges': function() {
+                        var retval = 0;
+                        for (var name in this.indicators) {
+                            var indicator = this.indicators[name];
+                            if (indicator.percentage >= 100)
+                                retval++;
+                        }
+
+                        return retval;
+                    },
+                    'integrityPercentage': function() {
+                        var totalIndicators = 0;
+                        for (var name in this.indicators)
+                            totalIndicators++;
+                        return parseInt(this.badges / totalIndicators * 100);
+                    }
+                }
+            });
+
+            var indicatorSources = {
+                "basic": ["caption"],
+                "pic": [function() {
+                    return ($('input[type=file]').filter(function() {
+                        var name = $(this).attr('name');
+                        return ($('input[name=' + name + ']').val()?true:false);
+                    }).length?true:false);
+                }],
+                "attr": [function() {
+                    var nodes = dataTable.fnGetNodes();
+                    return (nodes.length?true:false);
+                }],
+                "trade": ["min_order_quantity", "price"],
+                "desc": [function() {
+                    return (ckEditorDescription.editor.getData()?true:false);
+                }]
+            }
+
+            var calculateIndicator = function(name, metas) {
+                var acc = 0;
+
+                for (var idx in metas) {
+                    var meta = metas[idx];
+                    if (typeof(meta) == 'function')
+                        var r = meta.apply();
+                    else {
+                        var selector = 'input[name=' + meta + ']';
+                        var r = ($(selector).val()?true:false);
+                    }
+
+                    if (r)
+                        acc++;
+                }
+
+                var retval = parseInt(acc / metas.length * 100);
+                console.log('Indicator #' + name + '=' + retval);
+                return retval;
+            };
+
+            var recalculateIndicators = function() {
+                for (var name in indicatorSources) {
+                    var elementMetas = indicatorSources[name];
+                    liProductIndicators.$data.indicators[name]['percentage'] = calculateIndicator(name, elementMetas);
+                }
+
+                console.log('All indicators have been calculated');
+                return false;
+            };
+
+            $('#form-edit-product input').on('blur', function() {
+                return recalculateIndicators.apply(this);
+            });
+            ckEditorDescription.editor.on('blur', function() {
+                return recalculateIndicators.apply(this);
+            });
+            dataTable.on('saved deleted', function() {
+                return recalculateIndicators.apply(this);
+            });
+            $('[data-provides="fileupload"]').on('change', function() {
+                return recalculateIndicators.apply(this);
+            });
+
+            recalculateIndicators.apply();
+/* }}} */
         });
 
     </script>{/literal}

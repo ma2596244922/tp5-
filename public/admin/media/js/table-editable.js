@@ -31,6 +31,7 @@ var TableEditable = function () {
                 oTable.fnUpdate('<a class="edit" href="">修改</a>', nRow, 2, false);
                 oTable.fnUpdate('<a class="delete" href="">删除</a>', nRow, 3, false);
                 oTable.fnDraw();
+                oTable.trigger('saved');
             }
 
             function cancelEditRow(oTable, nRow) {
@@ -91,6 +92,7 @@ var TableEditable = function () {
 
                 var nRow = $(this).parents('tr')[0];
                 oTable.fnDeleteRow(nRow);
+                oTable.trigger('deleted');
             });
 
             $('#sample_editable_1 a.cancel').live('click', function (e) {

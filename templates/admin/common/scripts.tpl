@@ -24,7 +24,7 @@
 
     <script src="media/js/jquery.uniform.min.js" type="text/javascript" ></script>
 
-    <script type="text/javascript" src="/media/vue/2.5.13/vue.min.js"></script>
+    <script type="text/javascript" src="/media/vue/2.5.17/vue.min.js"></script>
 
     <script type="text/javascript">
         $('[data-role="btn-delete"]').click(function() {
