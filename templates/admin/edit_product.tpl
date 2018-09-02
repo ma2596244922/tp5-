@@ -451,7 +451,8 @@
                                         </div>
 
                                     </div>
-{if $user.advanced}
+{if $user.advanced
+        && $tpl_style|default:'default'=='default'}
                                     <div class="control-group">
 
                                         <label class="control-label">嵌入视频代码</label>
