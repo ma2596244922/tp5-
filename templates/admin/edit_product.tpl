@@ -34,6 +34,10 @@
 
     <link rel="shortcut icon" href="media/image/favicon.ico" />
 
+    <style type="text/css">{literal}
+    .navbar .pull-right>li>.dropdown-menu:before,.navbar .nav>li>.dropdown-menu.pull-right:before{left: 0;right: 0;}
+    {/literal}</style>
+
 </head>
 
 <!-- END HEAD -->

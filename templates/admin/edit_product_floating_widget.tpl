@@ -2,7 +2,7 @@
 
                     <li class="dropdown open" id="product-indicators">
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="dropdown-toggle">
 
                             <i class="icon-tasks"></i>
 
@@ -10,7 +10,7 @@
 
                         </a>
 
-                        <ul class="dropdown-menu extended tasks">
+                        <ul class="dropdown-menu extended tasks" style="right: inherit;">
 
                             <li>
 

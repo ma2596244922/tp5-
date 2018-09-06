@@ -29,9 +29,6 @@
                 <!-- BEGIN TOP NAVIGATION MENU -->
 
                 <ul class="nav pull-right">
-{if $page_name|default:''=='edit_product'}
-    {-include file="admin/edit_product_floating_widget.tpl"}
-{/if}
 {if $user.advanced && !$oms_site.enable_translator}
                     <!-- BEGIN LANG DROPDOWN -->
 
@@ -90,7 +87,9 @@
                     </li>
 
                     <!-- END USER LOGIN DROPDOWN -->
-
+{if $page_name|default:''=='edit_product'}
+    {-include file="admin/edit_product_floating_widget.tpl"}
+{/if}
                 </ul>
 
                 <!-- END TOP NAVIGATION MENU --> 
