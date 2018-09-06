@@ -1,3 +1,16 @@
+-- 2018-9-6
+CREATE TABLE `enterprise_index_contents`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '关键词ID',
+  `site_id` int(10) UNSIGNED NOT NULL COMMENT '站点ID',
+  `lang` varchar(10) NOT NULL DEFAULT '' COMMENT '语种标志',
+  `title` varchar(200) NOT NULL COMMENT '标题',
+  `content` text NOT NULL COMMENT '正文',
+  `created` datetime(0) NOT NULL COMMENT '创建时间',
+  `updated` datetime(0) NOT NULL COMMENT '最近修改时间',
+  `deleted` tinyint(4) NOT NULL COMMENT '已删除？',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_get_by_site`(`site_id`, `lang`) USING BTREE
+) ENGINE = InnoDB DEFAULT CHARSET=utf8  ROW_FORMAT=COMPRESSED COMMENT = '首页文本段落表';
 -- 2018-8-2
 ALTER TABLE `enterprise_sites` ADD COLUMN `blog_site` tinyint NOT NULL DEFAULT '0' COMMENT '是否博客站点（0/1）';
 ALTER TABLE `enterprise_sites` ADD COLUMN `disable_auto_summary` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用自动产品描述摘要(0/1)';

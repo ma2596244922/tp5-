@@ -129,6 +129,17 @@
    <div class="fl-clr"></div> 
 </div>
 <!--content-->
+
+<!--index_content-->
+{if $index_content|default:[] && $index_content.title}
+    <div class="all-categories customer">
+        <div class="title"><em><h2>{$index_content.title}</h2></em></div>
+        <div class="gjc_div_box">
+            {$index_content.content}
+        </div>
+    </div>
+{/if}
+
 <div class="service-box">
     <div class="service-list fl-clr">
 {foreach $groups as $group}{if $group.cnt<=0}{continue}{/if}{if $group@index==2&&$main_products|default:[]}{break}{/if}{if $group@index>=3}{break}{/if}

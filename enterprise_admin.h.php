@@ -5295,6 +5295,53 @@ function enterprise_admin_action_delete_index_keyword($smarty, $site, $langCode)
 /* }}} */
 
 
+
+/* {{{ IndexContent */
+
+/**
+ * IndexContent
+ */
+function enterprise_admin_action_index_content($smarty, $site, $langCode)
+{
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $indexContent = enterprise_get_index_content($userSiteId, $langCode);
+    $smarty->assign('index_content', $indexContent);
+
+    //enterprise_assign_index_content($smarty, 'index_content', $userSiteId, $langCode);
+    
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        return $smarty->display($GLOBALS['gsAdminTemplateDir'] . '/index_content.tpl');
+    }
+
+    // Save
+    $title = timandes_get_post_data('title');
+    $content = timandes_get_post_data('content', 'xss_clean, remove_n_r, trim');
+    $values = array(
+            'updated' => date('Y-m-d H:i:s'),
+            'site_id' => $userSiteId,
+            'lang' => $langCode,
+            'title' => $title,
+            'content' => $content,
+        );
+
+    $indexContentDAO = new \enterprise\daos\IndexContent();
+
+    if($indexContent){
+        $condition = "`site_id`={$userSiteId} AND `lang`='{$langCode}'";
+        $indexContentDAO->updateBy($condition, $values);
+    }else{
+        $values['created'] = $values['updated'];
+        $indexContentDAO->insert($values);
+    }
+    enterprise_admin_display_success_msg($smarty, '保存成功', '?action=index_content', '首页文本段落');
+
+}
+
+/* }}} */
+
+
 /* {{{ Keyword */
 
 /**

@@ -244,6 +244,8 @@ retry:
                     return enterprise_admin_action_edit_index_keyword($smarty, $site, $langCode);
                 case 'delete_index_keyword':
                     return enterprise_admin_action_delete_index_keyword($smarty, $site, $langCode);
+                case 'index_content':
+                    return enterprise_admin_action_index_content($smarty, $site, $langCode);
                 case 'main_product':
                     return enterprise_admin_action_main_product($smarty);
                 case 'edit_main_product':

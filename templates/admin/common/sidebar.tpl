@@ -143,7 +143,7 @@
 
                 </li>
 
-                <li{if $page_name=='index_products' || $page_name=='user_voice' || $page_name=='index_keyword'} class="active"{/if}>
+                <li{if in_array($page_name,['index_products','index_products','user_voice','index_keyword','index_content'])} class="active"{/if}>
 
                     <a href="javascript:;">
 
@@ -207,6 +207,21 @@
 
                         </li>
     {-/if}
+
+    {-if $user.advanced || $site_enabled_functions.index_content|default:''}
+                        <li class="start{if $page_name=='index_content'} active{/if}">
+
+                            <a href="?action=index_content">
+
+                            <i class="icon-key"></i> 
+
+                            <span class="title">首页文本段落</span>
+
+                            </a>
+
+                        </li>
+    {-/if}
+
                     </ul>
 
                 </li>

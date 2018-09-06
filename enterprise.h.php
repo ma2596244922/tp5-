@@ -2907,6 +2907,9 @@ function enterprise_action_sets_home_proc($smarty, $site, $userAgent, $platform,
     // Index Keyword
     enterprise_assign_index_keyword_list($smarty, 'index_keywords', $siteId, $langCode, 1, 24);
 
+    // Index Content
+    enterprise_assign_index_content($smarty, 'index_content', $siteId, $langCode);
+
     return $smarty->fetch($tplPath);
 }
 
@@ -3755,6 +3758,39 @@ function enterprise_get_index_keyword_info($userVoiceId, $langCode = 'en')
     }*/
 
     return $userVoice;
+}
+
+/* }}} */
+
+
+/* {{{ IndexContent */
+
+/**
+ * Assign IndexContent
+ *
+ * @return string Condition
+ */
+function enterprise_assign_index_content($smarty, $var, $siteId, $langCode = 'en')
+{
+    $siteId = (int)$siteId;
+
+    $indexContent = enterprise_get_index_content($siteId, $langCode);
+
+    $smarty->assign($var, $indexContent);
+
+    return $condition;
+}
+
+/**
+ * Get IndexContent info
+ */
+function enterprise_get_index_content($siteId, $langCode)
+{
+    $siteId = (int)$siteId;
+    $indexContentDAO = new \enterprise\daos\IndexContent();
+    $condition = "`site_id`={$siteId} AND `lang`='{$langCode}'";
+    $indexContent = $indexContentDAO->getOneBy($condition);
+    return $indexContent;
 }
 
 /* }}} */

@@ -17,6 +17,7 @@ define('ENTERPRISE_ADVANCED_FUNCTIONS', array (
         'product_tdk' => 'TDK自行设计',
         'main_product' => '全局主推产品',
         'index_keyword' => '首页关键词',
+        'index_content' => '首页文本段落',
         'keyword' => '关键词列表',
         'hide' => '屏蔽配置',
         'hide_track' => '屏蔽记录',
