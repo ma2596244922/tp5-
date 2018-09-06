@@ -40,8 +40,72 @@ class Corporation extends \crawler\daos\AbstractDAO
             'qc_profile' => 'text',
             'slogan' => 'text',
             'overseas_offices' => 'tinyint',
+            'main_market_flags' => 'int',
         );
 
+/* {{{ Main Market */
+    const MAIN_MARKET_NORTH_AMERICA     = 1;
+    const MAIN_MARKET_SOUTH_AMERICA     = 2;
+    const MAIN_MARKET_EASTERN_EUROPE    = 4;
+    const MAIN_MARKET_SOUTHEAST_ASIA    = 8;
+    const MAIN_MARKET_AFRICA            = 16;
+    const MAIN_MARKET_OCEANIA           = 32;
+    const MAIN_MARKET_MID_EAST          = 64;
+    const MAIN_MARKET_EASTERN_ASIA      = 128;
+    const MAIN_MARKET_WESTERN_EUROPE    = 256;
+    const MAIN_MARKET_CENTRAL_AMERICA   = 512;
+    const MAIN_MARKET_NORTHERN_EUROPE   = 1024;
+    const MAIN_MARKET_SOUTHERN_EUROPE   = 2048;
+    const MAIN_MARKET_SOUTH_ASIA        = 4096;
+    const MAIN_MARKET_DOMESTIC_MARKET   = 8192;
+
+    const MAIN_MARKET_ARRAY             = -1;
+    const MAIN_MARKET_VALUE             = 0;
+    const MAIN_MARKET_LABEL              = 1;
+
+    public static function getMainMarketOptions()
+    {
+        return [
+                self::MAIN_MARKET_NORTH_AMERICA  => 'North America',
+                self::MAIN_MARKET_SOUTH_AMERICA  => 'South America',
+                self::MAIN_MARKET_EASTERN_EUROPE => 'Eastern Europe',
+                self::MAIN_MARKET_SOUTHEAST_ASIA => 'Southeast Asia',
+                self::MAIN_MARKET_AFRICA         => 'Africa',
+                self::MAIN_MARKET_OCEANIA        => 'Oceania',
+                self::MAIN_MARKET_MID_EAST       => 'Mid East',
+                self::MAIN_MARKET_EASTERN_ASIA   => 'Eastern Asia',
+                self::MAIN_MARKET_WESTERN_EUROPE => 'Western Europe',
+                self::MAIN_MARKET_CENTRAL_AMERICA=> 'Central America',
+                self::MAIN_MARKET_NORTHERN_EUROPE=> 'Northern Europe',
+                self::MAIN_MARKET_SOUTHERN_EUROPE=> 'Southern Europe',
+                self::MAIN_MARKET_SOUTH_ASIA     => 'South Asia',
+                self::MAIN_MARKET_DOMESTIC_MARKET=> 'Domestic Market',
+            ];
+    }
+
+    public static function getMainMarketSelections($flags, $component = self::MAIN_MARKET_VALUE)
+    {
+        $options = self::getMainMarketOptions();
+        $retval = [];
+        foreach ($options as $value => $label) {
+            if ($flags & $value) {
+                switch ($component) {
+                    case self::MAIN_MARKET_ARRAY:
+                        $retval[$value] = $label;
+                        break;
+                    case self::MAIN_MARKET_LABEL:
+                        $retval[] = $label;
+                        break;
+                    default:
+                        $retval[] = $value;
+                        break;
+                }
+            }
+        }
+        return $retval;
+    }
+
+/* }}} */
     public function getTableName()
     {
         return 'enterprise_corporations';

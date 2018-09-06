@@ -28,7 +28,7 @@
         <h2 class="title-t">{$preset_translations.company_details}</h2>
         <ul class="about-info">
             <li><span class="t">{$preset_translations.business_type}</span>{$corporation.business_type}</li>
-            <li><span class="t">{$preset_translations.main_market}</span>{$corporation.main_market}</li>
+            <li><span class="t">{$preset_translations.main_market}</span>{$corporation_main_market}</li>
             <li><span class="t">{$preset_translations.brands}</span>{$corporation.brands}</li>
             <li><span class="t">{$preset_translations.no_of_employees}</span>{$corporation.no_of_employees}</li>
             <li><span class="t">{$preset_translations.annual_sales}</span>{$corporation.annual_sales}</li>

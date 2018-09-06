@@ -195,6 +195,22 @@
 
                                                                 <input type="text" name="main_market" class="m-wrap span8" value="{$corporation.main_market}" />
 
+                                                                <div class="controls" id="checkbox-group-main-market">
+
+                                                                    <label class="checkbox" v-for="(label, value) in mainMarketOptions">
+
+                                                                        <input type="checkbox" name="main_market_selections[]" v-bind:value="value" v-model="mainMarketSelections" />{{ label }}
+
+                                                                    </label>
+
+                                                                    <label class="checkbox">
+
+                                                                        <input type="checkbox" v-model="allChecked" v-on:click="toggleAll" />全部
+
+                                                                    </label>
+
+                                                                </div>
+
                                                                 <label class="control-label">Brands</label>
 
                                                                 <input type="text" name="brands" class="m-wrap span8" value="{$corporation.brands}" />
@@ -355,7 +371,10 @@
 
     <!-- END PAGE LEVEL SCRIPTS -->
 
-    <script>{literal}
+    <script>
+        var mainMarketOptions = {$main_market_options|json_encode};
+        var mainMarketSelections = {$main_market_selections|json_encode};
+{literal}
 
         jQuery(document).ready(function() {       
 
@@ -382,6 +401,50 @@
                 }
            }
            $('#multi-select-group-id').multiSelect(options);
+
+           var checkboxGroupMainMarket = new Vue({
+                'el': '#checkbox-group-main-market',
+                'data': {
+                    'mainMarketOptions': mainMarketOptions,
+                    'mainMarketSelections': mainMarketSelections
+                },
+                'computed': {
+                    'allChecked': function() {
+                        for (var value in this.mainMarketOptions) {
+                            if (!this.valueInSelection(value))
+                                return false;
+                        }console.log('all checked');
+
+                        return true;
+                    }
+                },
+                'updated': function() {
+                    $.uniform.update();
+                },
+                'mounted': function() {
+                    $(this.$options.el + ' input[type="checkbox"]').uniform();
+                },
+                'methods': {
+                    'valueInSelection': function(value) {
+                        for (var i=0; i<this.mainMarketSelections.length; ++i) {
+                            if (this.mainMarketSelections[i] == value)
+                                return true;
+                        }
+
+                        return false;
+                    },
+                    'toggleAll': function() {
+                        var selections = [];
+
+                        if (!this.allChecked) {
+                            for (var value in this.mainMarketOptions)
+                                selections.push(value);
+                        }
+
+                        this.mainMarketSelections = selections;
+                    }
+                }
+           });
         });
 
     </script>{/literal}

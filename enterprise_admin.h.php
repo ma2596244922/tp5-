@@ -496,10 +496,16 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
     $hiddenGroupIdMapping = enterprise_extract_hidden_groups($site);
     $smarty->assign('hidden_groups', $hiddenGroupIdMapping);
 
+    $smarty->assign('main_market_options', \enterprise\daos\Corporation::getMainMarketOptions());
+
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
         enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type=0);
-        enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
+
+        $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+        $smarty->assign('corporation', $corporation);
+
+        $smarty->assign('main_market_selections', \enterprise\daos\Corporation::getMainMarketSelections($corporation['main_market_flags']));
         return $smarty->display($tplPath);
     }
 
@@ -533,6 +539,7 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
     $gUrlPrefix = timandes_get_post_data('gurl_prefix');
     $defaultLangCode = timandes_get_post_data('default_lang_code');
     $roughHiddenGroupIdArray = timandes_get_post_data('hidden_group_id_array');
+    $mainMarketSelections = timandes_get_post_data('main_market_selections');
 
     if (!$defaultLangCode)
         $defaultLangCode = ENTERPRISE_DEFAULT_LANG_CODE;
@@ -572,6 +579,9 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
         $values['factory_address'] = $factoryAddress;
         $values['business_type'] = $businessType;
         $values['main_market'] = $mainMarket;
+        $values['main_market_flags'] = array_reduce($mainMarketSelections, function($sum, $selection) {
+            return $sum + $selection;
+        });
         $values['brands'] = $brands;
         $values['no_of_employees'] = $noOfEmployees;
         $values['annual_sales'] = $annualSales;
@@ -610,7 +620,12 @@ function enterprise_admin_action_info($smarty, $site, $langCode)
             );
         $langCorporationDAO->update($userSiteId, $values);
     }
-    enterprise_assign_corporation_info($smarty, 'corporation', $userSiteId, $langCode);
+
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+    $smarty->assign('corporation', $corporation);
+
+    $smarty->assign('main_market_selections', \enterprise\daos\Corporation::getMainMarketSelections($corporation['main_market_flags']));
+
     enterprise_assign_photo_list($smarty, 'photos', $userSiteId, $type=0);
 
     if ($langCode == 'en')

@@ -49,7 +49,7 @@
                             <tbody>
                                 <tr><th>{$preset_translations.address}:</th><td>{$corporation.address}</td></tr>
                                 <tr style="text-align: left;"><th>{$preset_translations.business_type}:</th><td>{$corporation.business_type}</td></tr>
-                                <tr style="text-align: left;"><th>{$preset_translations.main_market}:</th><td>{$corporation.main_market}</td></tr>
+                                <tr style="text-align: left;"><th>{$preset_translations.main_market}:</th><td>{$corporation_main_market}</td></tr>
                                 <tr style="text-align: left;"><th>{$preset_translations.brands}:</th><td>{$corporation.brands}</td></tr>
                                 <tr style="text-align: left;"><th>{$preset_translations.no_of_employees}:</th><td>{$corporation.no_of_employees}</td></tr>
                                 <tr style="text-align: left;"><th>{$preset_translations.annual_sales}:</th><td>{$corporation.annual_sales}</td></tr>

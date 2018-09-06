@@ -11,6 +11,8 @@ CREATE TABLE `enterprise_index_contents`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_get_by_site`(`site_id`, `lang`) USING BTREE
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8  ROW_FORMAT=COMPRESSED COMMENT = '首页文本段落表';
+-- 2018-9-3
+ALTER TABLE `enterprise_corporations` ADD COLUMN `main_market_flags` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '主要市场（替代`main_market`）';
 -- 2018-8-2
 ALTER TABLE `enterprise_sites` ADD COLUMN `blog_site` tinyint NOT NULL DEFAULT '0' COMMENT '是否博客站点（0/1）';
 ALTER TABLE `enterprise_sites` ADD COLUMN `disable_auto_summary` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否禁用自动产品描述摘要(0/1)';

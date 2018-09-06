@@ -1006,7 +1006,7 @@ body {
             <li><i class="i1"></i>{$corporation.address}</li>
             <li><i class="i2"></i>{$corporation.no_of_employees}</li>
             <li><i class="i3"></i>{$corporation.annual_sales}</li>
-            <li><i class="i4"></i>{$corporation.main_market}</li>
+            <li><i class="i4"></i>{$corporation_main_market}</li>
         </ul>
     </section>
     <section class="hot-products">

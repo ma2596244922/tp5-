@@ -198,6 +198,7 @@ CREATE TABLE `enterprise_corporations` (
   `slogan` varchar(100) NOT NULL DEFAULT '' COMMENT '口号',
   `updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近修改时间',
   `overseas_offices` tinyint NOT NULL DEFAULT '0' COMMENT '海外办事处(0/1)',
+  `main_market_flags` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '主要市场（替代`main_market`）',
   PRIMARY KEY (`site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='公司表';
 

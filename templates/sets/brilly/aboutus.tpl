@@ -43,7 +43,7 @@
               <div class="content cur Right_ma_ul">
                 <ul>
                     <li><label>{$preset_translations.business_type}</label>:<span>{$corporation.business_type}</span></li>
-                    <li><label>{$preset_translations.main_market}</label>:<span>{$corporation.main_market}</span></li>
+                    <li><label>{$preset_translations.main_market}</label>:<span>{$corporation_main_market}</span></li>
                     <li><label>{$preset_translations.brands}</label>:<span>{$corporation.brands}</span></li>
                     <li><label>{$preset_translations.no_of_employees}</label>:<span>{$corporation.no_of_employees}</span></li>
                     <li><label>{$preset_translations.annual_sales}</label>:<span>{$corporation.annual_sales}</span></li>

@@ -71,7 +71,7 @@
                         </li>
                         <li>
                             <label>{$preset_translations.main_market}</label>
-                            <span>{$corporation.main_market}</span>
+                            <span>{$corporation_main_market}</span>
                         </li>
                     </ul>
                     <div class="contact-btn fl-clr">

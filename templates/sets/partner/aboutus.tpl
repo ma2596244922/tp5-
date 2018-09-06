@@ -32,7 +32,7 @@
                 <span>{$preset_translations.company_details}</span>
                 <ul>
                     <li>{$preset_translations.business_type}:{$corporation.business_type}</li>
-                    <li>{$preset_translations.main_market}:{$corporation.main_market}</li>
+                    <li>{$preset_translations.main_market}:{$corporation_main_market}</li>
                     <li>{$preset_translations.brands}:{$corporation.brands}</li>
                     <li>{$preset_translations.no_of_employees}:{$corporation.no_of_employees}</li>
                     <li>{$preset_translations.annual_sales}:{$corporation.annual_sales}</li>

@@ -1970,6 +1970,13 @@ function enterprise_action_sets_common_proc($smarty, $site, $langCode, $currentD
     $corporationSlogan = ($corporation['slogan']?$corporation['slogan']:'This is a verified supplier can provide quality products and have passed the Business License Check.');
     $smarty->assign('corporation_slogan', $corporationSlogan);
 
+    // + Main Market
+    if (!empty($corporation['main_market_flags']))
+        $corporationMainMarket = implode(', ', \enterprise\daos\Corporation::getMainMarketSelections($corporation['main_market_flags'], \enterprise\daos\Corporation::MAIN_MARKET_LABEL));
+    else
+        $corporationMainMarket = $corporation['main_market'];
+    $smarty->assign('corporation_main_market', $corporationMainMarket);
+
     // Groups
     enterprise_assign_group_list_ex($smarty, 'groups', $siteId, $langCode, null, '', true, $appendFirstProductsToGroups, $maxAppendedProductsToGroups);
 
