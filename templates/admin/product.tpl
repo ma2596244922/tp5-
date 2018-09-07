@@ -158,6 +158,9 @@
     {-if $user.advanced || $site_enabled_functions.replace_keywords|default:''}
                                         <a href="?action=replace_keywords" class="btn normal">批量替换关键词</a>
     {-/if}
+    {-if $user.advanced || $site_enabled_functions.insert_keylinks|default:''}
+                                        <a href="?action=insert_keylinks" class="btn normal">批量设置关联链接</a>
+    {-/if}
     {-if $user.advanced || $site_enabled_functions.replace_terms|default:''}
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
     {-/if}

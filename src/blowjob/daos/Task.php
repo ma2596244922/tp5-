@@ -32,6 +32,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_REPLACE_DESC_PIC = 60;
     /** @var int 删除空标题产品 */
     const TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS = 70;
+    /** @var int 批量设置内容关联链接  */
+    const TYPE_INSERT_KEYLINKS = 80;
 
     protected $_fields = array(
             'site_id' => 'int',
@@ -130,6 +132,8 @@ class Task extends \crawler\daos\AbstractDAO
                 return '描述图片替换';
             case self::TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS:
                 return '删除空标题产品';
+            case self::TYPE_INSERT_KEYLINKS:
+                return '批量设置内容关联链接';
             default:
                 return '未知';
         }

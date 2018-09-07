@@ -3104,6 +3104,127 @@ function enterprise_admin_action_replace_keywords($smarty, $site, $langCode)
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
 }
 
+
+/**
+ * Insert keylinks proc
+ */
+function enterprise_admin_insert_keylinks_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id']??null;
+
+    $keywords = $taskDetails['keywords'];
+    $keylinks = $taskDetails['keylinks'];
+    $type = $taskDetails['type'];
+    $groupIdArray = $taskDetails['group_id_array']??[];
+
+    $keywords_array = explode("\n", $keywords);
+    $keywords_array = array_unique($keywords_array);
+    $words = [];
+    foreach ($keywords_array as $word) {
+        $word = trim($word);
+        $words[] = $word;
+    }
+
+    $keylinks_array = explode("\n", $keylinks);
+    $keylinks_array = array_unique($keylinks_array);
+    $links = [];
+    foreach ($keylinks_array as $link) {
+        $link = trim($link);
+        $links[] = $link;
+    }
+
+    if ($groupId < 0)
+        $groupId = null;
+
+    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
+
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`tags`, `description`, `specifications`');
+    elseif ($type == 3) {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`tags`, `description`, `specifications`');
+    }
+
+    foreach ($generator as $product) {
+        $values = array();
+
+        $data = $product['description'];
+        foreach($words as $k=>$v) {
+            $quote = str_replace(array("'", '-'), array("\'", '\-'), preg_quote($v));
+ 
+            if(isset($links[$k])) $data = preg_replace('\'(?!((<.*?)|(<a.*?)|(<strong.*?)))('.$quote.')(?!(([^<>]*?)>)|([^>]*?</a>)|([^>]*?</strong>))\'si', '<a href="'.$links[$k].'" target="_blank">'.$v.'</a>', $data, -1);
+
+            if($data == '') $data = $product['description'];
+        }
+        
+        // Description
+        $values['description'] = $data;
+        
+        // Update
+        if ($values) {
+            $values['updated'] = date('Y-m-d H:i:s');
+            $productDAO->update($product['id'], $values);
+        }
+    }
+}
+
+/**
+ * Insert Keylinks
+ */
+function enterprise_admin_action_insert_keylinks($smarty, $site, $langCode)
+{
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/insert_keylinks.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+    // Save
+    $keywords = timandes_get_post_data('keywords', 'xss_clean');
+    $keylinks = timandes_get_post_data('keylinks', 'xss_clean');
+    $background = (int)timandes_get_post_data('background');
+
+    $type = (int)timandes_get_post_data('type');
+    $groupIdArray = timandes_get_post_data('group_id_array');
+
+    $typeRange = array(3, 1);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的类型");
+    if (!$keywords)
+        throw new \UnderflowException("关键词不能为空");
+    if (!$keylinks)
+        throw new \UnderflowException("URL不能为空");
+    if ($type == 3) {
+        if (!$groupIdArray)
+            throw new \UnexpectedValueException("请选择分组");
+    }
+
+    $taskDetails = array(
+            'keywords' => $keywords,
+            'keylinks' => $keylinks,
+            'group_id_array' => $groupIdArray,
+            'lang_code' => $langCode,
+            'type' => $type,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_KEYLINKS, $taskDetails);
+    } else {
+        enterprise_admin_insert_keylinks_proc($userSiteId, $taskDetails);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
 /**
  * Replace terms proc
  */

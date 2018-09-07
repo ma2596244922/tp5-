@@ -165,6 +165,8 @@ retry:
                     return enterprise_admin_action_replace_desc_pic($smarty, $site, $langCode);
                 case 'replace_keywords':
                     return enterprise_admin_action_replace_keywords($smarty, $site, $langCode);
+                case 'insert_keylinks':
+                    return enterprise_admin_action_insert_keylinks($smarty, $site, $langCode);
                 case 'contact':
                     return enterprise_admin_action_contact($smarty);
                 case 'edit_contact':
