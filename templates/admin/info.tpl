@@ -194,7 +194,7 @@
                                                                 <label class="control-label">Main Market</label>
 
                                                                 <input type="text" name="main_market" class="m-wrap span8" value="{$corporation.main_market}" />
-
+{literal}
                                                                 <div class="controls" id="checkbox-group-main-market">
 
                                                                     <label class="checkbox" v-for="(label, value) in mainMarketOptions">
@@ -210,7 +210,7 @@
                                                                     </label>
 
                                                                 </div>
-
+{/literal}
                                                                 <label class="control-label">Brands</label>
 
                                                                 <input type="text" name="brands" class="m-wrap span8" value="{$corporation.brands}" />

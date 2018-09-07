@@ -1,5 +1,5 @@
                     <!-- BEGIN TODO DROPDOWN -->
-
+{literal}
                     <li class="dropdown open" id="product-indicators">
 
                         <a href="#" class="dropdown-toggle">
@@ -33,5 +33,5 @@
                         </ul>
 
                     </li>
-
+{/literal}
                     <!-- END TODO DROPDOWN -->
