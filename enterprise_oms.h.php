@@ -26,6 +26,7 @@ define('ENTERPRISE_ADVANCED_FUNCTIONS', array (
         'insert_keywords' => '批量插入关键词',
         'replace_keywords' => '批量替换关键词',
         'insert_keylinks' => '批量设置内容关联链接',
+        'cleanup_content' => '清理内容',
         'replace_terms' => '批量设置商务条款',
         'remove_empty_caption_products' => '删除空标题产品',
         'replace_desc_pic' => '描述图片替换',

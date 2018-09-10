@@ -68,6 +68,7 @@ function proc_enterprise_task()
             \blowjob\daos\Task::TYPE_REPLACE_DESC_PIC,
             \blowjob\daos\Task::TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS,
             \blowjob\daos\Task::TYPE_INSERT_KEYLINKS,
+            \blowjob\daos\Task::TYPE_CLEANUP_CONTENT,
         );
 
     $taskDAO = new \blowjob\daos\Task();
@@ -144,6 +145,13 @@ function proc_enterprise_task()
                 $siteId = $task['site_id'];
                 $details = json_decode($task['details'], true);
                 enterprise_admin_insert_keylinks_proc($siteId, $details);
+
+                $processed = true;
+                break;
+            case \blowjob\daos\Task::TYPE_CLEANUP_CONTENT:
+                $siteId = $task['site_id'];
+                $details = json_decode($task['details'], true);
+                enterprise_admin_cleanup_content_proc($siteId, $details);
 
                 $processed = true;
                 break;

@@ -167,6 +167,8 @@ retry:
                     return enterprise_admin_action_replace_keywords($smarty, $site, $langCode);
                 case 'insert_keylinks':
                     return enterprise_admin_action_insert_keylinks($smarty, $site, $langCode);
+                case 'cleanup_content':
+                    return enterprise_admin_action_cleanup_content($smarty, $site, $langCode);
                 case 'contact':
                     return enterprise_admin_action_contact($smarty);
                 case 'edit_contact':

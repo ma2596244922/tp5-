@@ -161,6 +161,9 @@
     {-if $user.advanced || $site_enabled_functions.insert_keylinks|default:''}
                                         <a href="?action=insert_keylinks" class="btn normal">批量设置关联链接</a>
     {-/if}
+    {-if $user.advanced || $site_enabled_functions.cleanup_content|default:''}
+                                        <a href="?action=cleanup_content" class="btn normal">清理内容</a>
+    {-/if}
     {-if $user.advanced || $site_enabled_functions.replace_terms|default:''}
                                         <a href="?action=replace_terms" class="btn normal">批量设置商务条款</a>
     {-/if}

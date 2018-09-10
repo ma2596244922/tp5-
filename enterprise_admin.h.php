@@ -3137,8 +3137,6 @@ function enterprise_admin_insert_keylinks_proc($userSiteId, $taskDetails)
     if ($groupId < 0)
         $groupId = null;
 
-    $corporation = enterprise_get_corporation_info($userSiteId, $langCode);
-
     if ($langCode == 'en')
         $productDAO = new \enterprise\daos\Product();
     else
@@ -3221,6 +3219,111 @@ function enterprise_admin_action_insert_keylinks($smarty, $site, $langCode)
         enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_INSERT_KEYLINKS, $taskDetails);
     } else {
         enterprise_admin_insert_keylinks_proc($userSiteId, $taskDetails);
+    }
+
+    enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
+}
+
+
+/**
+ * Cleanup for content proc
+ */
+function enterprise_admin_cleanup_content_proc($userSiteId, $taskDetails)
+{
+    $langCode = $taskDetails['lang_code'];
+    $groupId = $taskDetails['group_id']??null;
+    $cleanup_type = $taskDetails['cleanup_type'];
+    $type = $taskDetails['type'];
+    $groupIdArray = $taskDetails['group_id_array']??[];
+
+    if ($groupId < 0)
+        $groupId = null;
+
+    if ($langCode == 'en')
+        $productDAO = new \enterprise\daos\Product();
+    else
+        $productDAO = new \enterprise\daos\LangProduct($langCode);
+
+    if ($type == 1)
+        $generator = enterprise_admin_get_group_products_generator($userSiteId, $langCode, $groupId, '`tags`, `description`, `specifications`');
+    elseif ($type == 3) {
+        $groupIdArray = array_unique($groupIdArray);
+        $generator = enterprise_admin_get_multi_group_products_generator($userSiteId, $langCode, $groupIdArray, '`tags`, `description`, `specifications`');
+    }
+
+    foreach ($generator as $product) {
+        $values = array();
+
+        $data = $product['description'];
+        if(in_array('1', $cleanup_type)) {//清理链接
+            $data = preg_replace_callback(
+                "/<a[^>]*>(.*?)<\/a>/is", 
+                function ($matches) {
+                    return strtolower($matches[1]);
+                },
+                $data
+            );
+        }
+
+        if(in_array('2', $cleanup_type)) {//清理图片
+            $data=preg_replace("/<\s*img\s+[^>]*?src\s*=\s*(\'|\")(.*?)\\1[^>]*?\/?\s*>/i", " ", $data);
+        }
+
+        // Description
+        $values['description'] = $data;
+        
+        // Update
+        if ($values) {
+            $values['updated'] = date('Y-m-d H:i:s');
+            $productDAO->update($product['id'], $values);
+        }
+    }
+}
+
+/**
+ * Cleanup for content
+ */
+function enterprise_admin_action_cleanup_content($smarty, $site, $langCode)
+{
+    $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/cleanup_content.tpl';
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        enterprise_admin_assign_group_list_ex($smarty, 'groups', $userSiteId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
+    // Save
+    $cleanup_type = timandes_get_post_data('cleanup_type');
+    $type = (int)timandes_get_post_data('type');
+    $groupIdArray = timandes_get_post_data('group_id_array');
+    $background = (int)timandes_get_post_data('background');
+
+    if (!$cleanup_type || !is_array($cleanup_type))
+        throw new \UnderflowException("请选择清理类型");
+    foreach ($cleanup_type as $key => $v) {
+        if (!in_array($v, array('1', '2'))) throw new \RangeException("非法的清理类型");
+    }
+    $typeRange = array(3, 1);
+    if (!in_array($type, $typeRange))
+        throw new \RangeException("非法的数据来源");
+    if ($type == 3) {
+        if (!$groupIdArray)
+            throw new \UnexpectedValueException("请选择分组");
+    }
+
+    $taskDetails = array(
+            'cleanup_type' => $cleanup_type,
+            'group_id_array' => $groupIdArray,
+            'lang_code' => $langCode,
+            'type' => $type,
+        );
+    if ($background) {
+        enterprise_admin_create_task($userSiteId, \blowjob\daos\Task::TYPE_CLEANUP_CONTENT, $taskDetails);
+    } else {
+        enterprise_admin_cleanup_content_proc($userSiteId, $taskDetails);
     }
 
     enterprise_admin_display_success_msg($smarty, '操作成功', '?action=product', '产品管理');
