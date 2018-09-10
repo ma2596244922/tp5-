@@ -3159,7 +3159,7 @@ function enterprise_admin_insert_keylinks_proc($userSiteId, $taskDetails)
             //$quote = str_replace(array("'", '-'), array("\'", '\-'), preg_quote($v));
             $quote = str_replace(array("'"), array("\'"), preg_quote($v));
  
-            if(isset($links[$k])) $data = preg_replace('\'(?!((<.*?)|(<a.*?)|(<strong.*?)))('.$quote.')(?!(([^<>]*?)>)|([^>]*?</a>)|([^>]*?</strong>))\'si', '<a href="'.$links[$k].'" target="_blank">'.$v.'</a>', $data, -1);
+            if(isset($links[$k])) $data = preg_replace('\'(?!((<.*?)|(<a.*?)|(<strong.*?)))('.$quote.')(?!(([^<>]*?)>)|([^>]*?</a>)|([^>]*?</strong>))\'si', '<a href="'.$links[$k].'" target="_blank">'.$v.'</a>', $data, 1);
 
             if($data == '') $data = $product['description'];
         }
