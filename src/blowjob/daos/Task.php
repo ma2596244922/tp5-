@@ -34,6 +34,8 @@ class Task extends \crawler\daos\AbstractDAO
     const TYPE_REMOVE_EMPTY_CAPTION_PRODUCTS = 70;
     /** @var int 批量设置内容关联链接  */
     const TYPE_INSERT_KEYLINKS = 80;
+    /** @var int 批量清理内容  */
+    const TYPE_CLEANUP_CONTENT = 90;
 
     protected $_fields = array(
             'site_id' => 'int',
@@ -134,6 +136,8 @@ class Task extends \crawler\daos\AbstractDAO
                 return '删除空标题产品';
             case self::TYPE_INSERT_KEYLINKS:
                 return '批量设置内容关联链接';
+            case self::TYPE_CLEANUP_CONTENT:
+                return '批量清理内容';
             default:
                 return '未知';
         }
