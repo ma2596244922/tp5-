@@ -24,6 +24,7 @@
         <div class="content_left">
             {include file="sets/june-sky/common/product_left.tpl"}
         </div>
+
         <div class="content_right">
             <div class="section">
                 <span class="gorth2">{$preset_translations.site_map}</span>
@@ -55,6 +56,7 @@
                                         {-assign var="total_items" value=$total_items+1}
                                         {-if $total_items==2}
                                     </tr>
+                                    {**}
                                     <tr>
                                         {-/if}
                                         {-if $total_items==4}

@@ -12,7 +12,7 @@
 
 <body>
 <div class="content">
-    <div class="container">
+ {**}   <div class="container">
 {include file="sets/trade/common/logobar.tpl" page_name="product_list"}
         <!--header-->
 {include file="sets/trade/common/navbar.tpl"}
@@ -37,6 +37,7 @@
             </div>
             <!--left-content-->
             <div class="right-content">
+
 {include file="sets/trade/product/list.tpl"}
                 <!--products-box-->
 {include file="sets/trade/product/pager.tpl"}

@@ -146,7 +146,7 @@ strong{ font-weight: normal;}
 .product-all .product-intro .msg-detail .contact-btn{ position:absolute; bottom:4px;}
 .product-all .product-intro .msg-detail .contact-btn a{ width:140px; height:32px; text-align:center; line-height:32px; background:#6c7c93; display:block; border-radius:3px; color:#fff; font-size:14px;}
 .product-all .product-intro .msg-detail .contact-btn a:hover{ background:#617084;}
-/*	分组说明结束	*/
+/*	分组说明结束*/
 .wzrt{float:right; color:#696969; font-size:14px; font-family:Arial; height:25px; line-height:25px; margin-top:15px; text-transform:uppercase}
 .product_ul{width:952px; overflow:hidden; margin-left:-25px}
 .product_ul *{overflow:hidden}

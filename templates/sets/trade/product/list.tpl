@@ -29,7 +29,7 @@
     {-foreach $product_desc as $k => $meta}
         {-if $total_items>=4}{break}{/if}
         {-if $product.$k|default:$meta.default}
-            {-if $total_items==0}
+            {-if $total_items==0}{**}
                                         <tr>
             {-/if}
                                             <td><label>{$meta.label}</label><i>{$product.$k|default:$meta.default}</i></td>

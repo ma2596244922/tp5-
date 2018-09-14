@@ -17,6 +17,7 @@
         <div class="fl-bold">{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.products}{-/if}</div>
     </div>
 </div>
+{**}
 <div class="con_0">
     <div class="con bw_1190 fl-clr">
         <div class="content_left">
