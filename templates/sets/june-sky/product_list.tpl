@@ -24,6 +24,12 @@
         </div>
         <div class="content_right">
             <div class="section"> <span class="gorth2">{-if $group|default:[]}<h1>{$group.name}</h1>{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}&nbsp;({$total_products})</span></div>
+            <div class="right-content">
+{include file="sets/june-sky/common/list.tpl"}
+                <!--products-box-->
+<!--{include file="sets/june-sky/common/pager.tpl"}-->
+                <!--view-page-->
+            </div>
             <ul class="product_ul fl-clr">
                 {foreach $products as $product}
                 <li> <a href="{$product|url:'enterprise_url_product'}" title="{$product.caption}"> <img src="{$product.head_image_id|url:'enterprise_url_image':$product.caption:'c'}" alt="{$product.caption}" title="{$product.caption}" width="250" height="250"> </a>
