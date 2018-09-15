@@ -12,7 +12,7 @@
 
 <body>
 <div class="content">
- {**}   <div class="container">
+   <div class="container">
 {include file="sets/trade/common/logobar.tpl" page_name="product_list"}
         <!--header-->
 {include file="sets/trade/common/navbar.tpl"}
