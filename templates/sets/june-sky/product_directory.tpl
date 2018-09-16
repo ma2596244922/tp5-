@@ -30,6 +30,7 @@
                 <span class="gorth2">{$preset_translations.site_map}</span>
             </div>
             {*分组说明*}>
+            <div class="red"></div>
             <div class="product-all{if !$products|default:[]} quality-none{/if}">
                     {-if $group|default:[]&&$group.desc|default:''}
                     <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$group.desc}</div>
@@ -74,6 +75,7 @@
                     {/foreach}
                 </div>
             </div>
+            {*分组说明结束*}
             <ul class="cp_dt fl-clr">
                 {foreach $products as $product}
                 <li>
