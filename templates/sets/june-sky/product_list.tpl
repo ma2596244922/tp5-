@@ -26,7 +26,7 @@
         <div class="content_right">
             <div class="section"> <span class="gorth2">{-if $group|default:[]}<h1>{$group.name}</h1>{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}&nbsp;({$total_products})</span></div>
             <div class="right-content">
-                <div class="intro-txt" style="padding-top: 15px; padding-left: ;eft: 15px;border-bottom: solid 1px #ddd;padding-bottom: 15px;">{$group.desc}</div>
+{include file="sets/june-sky/common/list.tpl"}
                 <!--products-box-->
 <!--{include file="sets/june-sky/common/pager.tpl"}-->
                 <!--view-page-->
