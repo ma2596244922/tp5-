@@ -32,7 +32,11 @@
             <div class="main_right_box">
 
                 <div class="title_wrap"><h1 style="color: #FF6000;font-size: 14px;display: inherit;">{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}</h1>  <span>({$total_products})</span> </div>
-               
+                <div class="right-content">
+                    {include file="sets/june-sky/common/list.tpl"}
+                    <!--products-box-->
+                    <!--view-page-->
+                </div>
                     <div class="cb"></div>
                     {foreach $products as $product}
                     {assign var="products_info" value=enterprise_get_product_info($product.id,$default_lang_code) }
