@@ -25,6 +25,11 @@
                     <input type="button" class="search_b" onclick="SearchProducts()"/>
                 </div>
             </div>
+            <div class="right-content">
+                {include file="sets/june-sky/common/list.tpl"}
+                <!--products-box-->
+                <!--view-page-->
+            </div>
             <div class="cb_10"></div>
             {foreach $products as $product}
             <div class="prolist_wrap">
