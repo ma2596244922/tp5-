@@ -58,6 +58,11 @@
                     {-/if}
                 </span>
             </div>
+            <div class="right-content">
+                {include file="sets/june-sky/common/list.tpl"}
+                <!--products-box-->
+                <!--view-page-->
+            </div>
             <ul class="cp_dt fl-clr">
                 {foreach $products as $product}
                 <li><a href="{$product|url:'enterprise_url_product'}" title="{$product.caption|escape}" target="_blank"><span></span>{$product.caption|escape}</a></li>
