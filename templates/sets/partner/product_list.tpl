@@ -22,6 +22,11 @@
             <h1>{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}</h1>
             <i></i>
         </div>
+        <div class="right-content">
+            {include file="sets/partner/common/list.tpl"}
+            <!--products-box-->
+            <!--view-page-->
+        </div>
         <div class="product-list">
             <ul class="fl-clr">
                 {foreach $products as $product}
