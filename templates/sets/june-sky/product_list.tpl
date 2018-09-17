@@ -28,7 +28,6 @@
             <div class="right-content">
 {include file="sets/june-sky/common/list.tpl"}
                 <!--products-box-->
-<!--{include file="sets/june-sky/common/pager.tpl"}-->
                 <!--view-page-->
             </div>
             <ul class="product_ul fl-clr">
