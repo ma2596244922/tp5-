@@ -50,6 +50,11 @@
           <h2 class="Til">{$preset_translations.all_products}</h2>
 {-/if}
           <div class="clear">&nbsp;</div>
+          <div class="right-content">
+            {include file="sets/june-sky/common/list.tpl"}
+            <!--products-box-->
+            <!--view-page-->
+          </div>
           <ul class="PicTextList Many">
 {foreach $products as $product}
             <li>

@@ -439,3 +439,31 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 .Shop.Content.noRoute {padding-top: 10px; margin-top:0}
 
 
+/*	分组说明	*/
+.product-all .product-intro{ height:160px; border-bottom:solid 1px #ddd; padding:24px;}
+.product-all .product-intro:hover{ background:#f9f9f9;}
+.product-all .product-intro:last-child{ border-bottom:none;}
+.product-all .product-intro .left-img{ float:left; position:relative; width:160px; height:160px; }
+.product-all .product-intro .left-img img{ width:160px; height:160px;border-radius:3px;}
+.product-all .product-intro .left-img a.add-basket{ width:25px; height:25px; display:block; background-position:0 -71px; position:absolute; bottom:0; right:0; border-radius:3px 0 0 0; border:none;}
+.product-all .product-intro .left-img a.current{ background-position:-33px -37px;}
+.product-all .product-intro .left-img a.add-success{ background-position:-103px -37px;}
+.product-all .product-intro .left-img a.delete{ background-position:-70px -37px;}
+.product-all .product-intro .msg-detail{ float:left; margin-left:14px; position:relative; height:160px; width:525px;}
+.product-all .product-intro .msg-detail span a{ font-size:18px; color:#333; line-height:24px;}
+.product-all .product-intro .msg-detail span a:hover{ text-decoration:underline;}
+.product-all .product-intro .msg-detail ul{ margin-top:5px; padding:0;}
+.product-all .product-intro .msg-detail table{margin-top:5px;}
+.product-all .product-intro .msg-detail ul li{ line-height:24px; font-size:12px; color:#333; width:auto; float:none; margin:0;}
+.product-all .product-intro .msg-detail ul.list2 li{ width:240px; line-height:24px; font-size:12px; color:#333; float:left; margin:3px 20px 3px 0; }
+.product-all .product-intro .msg-detail ul li label{ color:#999; margin-right:12px;}
+.product-all .product-intro .msg-detail ul.list2 li label{ display:block; float:left; line-height:18px;vertical-align:top;}
+.product-all .product-intro .msg-detail ul.list2 li i{ display:block; float:left; font-style:normal; width:170px;line-height:18px;}
+.product-all .product-intro .msg-detail table td{ width:240px; line-height:24px; font-size:12px; color:#333; float:left; margin:3px 20px 3px 0; }
+.product-all .product-intro .msg-detail table td label{ color:#999; margin-right:12px;}
+.product-all .product-intro .msg-detail table td label{ display:block; float:left; line-height:18px;vertical-align:top;}
+.product-all .product-intro .msg-detail table td i{ /*display:block; float:left; */font-style:normal; width:164px;line-height:18px;}
+.product-all .product-intro .msg-detail .contact-btn{ position:absolute; bottom:4px;}
+.product-all .product-intro .msg-detail .contact-btn a{ width:140px; height:32px; text-align:center; line-height:32px; background:#6c7c93; display:block; border-radius:3px; color:#fff; font-size:14px;}
+.product-all .product-intro .msg-detail .contact-btn a:hover{ background:#617084;}
+/*	分组说明结束 */
