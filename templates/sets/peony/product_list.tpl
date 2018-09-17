@@ -46,6 +46,11 @@
 {-/if}
                 <a href="/contactnow.html" data-scode="" rel="nofollow" target="_blank" title="{$preset_translations.contact_now}">{$preset_translations.contact_now}</a>
             </div>
+            <div class="right-content">
+                {include file="sets/peony/common/list.tpl"}
+                <!--products-box-->
+                <!--view-page-->
+            </div>
             <ul class="fl-clr product-img">
 {foreach $products as $product}
                 <li>

@@ -51,7 +51,7 @@
 {-/if}
           <div class="clear">&nbsp;</div>
           <div class="right-content">
-            {include file="sets/june-sky/common/list.tpl"}
+            {include file="sets/brilly/common/list.tpl"}
             <!--products-box-->
             <!--view-page-->
           </div>

@@ -29,7 +29,7 @@
         <div class="content_box">
             <div class="box_title"><h1>{-if $group|default:[]}{$group.name}{-elseif $phrase|default:''}{$phrase}{-else}{$preset_translations.all_products}{-/if}</h1></div>
             <div class="right-content">
-                {include file="sets/june-sky/common/list.tpl"}
+                {include file="sets/june/common/list.tpl"}
                 <!--products-box-->
                 <!--view-page-->
             </div>
