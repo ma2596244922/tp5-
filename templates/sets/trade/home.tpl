@@ -162,7 +162,6 @@
             <dt>{$preset_translations.about_us}</dt>
             <dd><a href="/aboutus.html" rel="nofollow">{$preset_translations.company_profile}</a></dd>
             <dd><a href="/contactus.html" rel="nofollow">{$preset_translations.contact_info}</a></dd>
-            <dd><a href="/directory.html" rel="nofollow">{$preset_translations.site_map}</a></dd>
         </dl>
     </div>
 </div>
