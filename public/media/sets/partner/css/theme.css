@@ -329,7 +329,6 @@ position: absolute; left: 44%; top: -10px;}
 .categories .see-more i{ display:inline-block; width:10px; height:10px; background: url(/media/sets/june/product-icon.png) 0 0 no-repeat;background-position:-62px -231px;margin-left:6px;}
 .categories .see-more i.less{ background-position:-83px -235px;vertical-align: -4px;}
 /*	分组说明	*/
-/*测试*/
 .product-all .product-intro{ height:160px; border-bottom:solid 1px #ddd; padding:24px;}
 .product-all .product-intro:hover{ background:#f9f9f9;}
 .product-all .product-intro:last-child{ border-bottom:none;}
