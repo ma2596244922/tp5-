@@ -16,7 +16,6 @@
                         {-elseif $keyword|default:[]&&$keyword.desc|default:''}
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$keyword.desc}</div>
                         {-else}
-                        <div>{$keyword}这是最后一个</div>
                         {-/if}
 {foreach $products as $product}
                         <div class="product-intro">
