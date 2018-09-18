@@ -14,7 +14,7 @@
 {-if $group|default:[]&&$group.desc|default:''}
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$group.desc}</div>
                         {-elseif $keywords[i].has_desc}
-                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$keywords[i].has_desc}</div>
+                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$keywords[i]}</div>
                         {-/if}
 {foreach $products as $product}
                         <div class="product-intro">
