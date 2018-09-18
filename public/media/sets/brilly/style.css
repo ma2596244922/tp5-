@@ -378,7 +378,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
     .Shop .Request table td .typeIn>* {width: 635px;}
 
   .CompanyProfile {overflow: hidden;background:#FAFAFA;margin-bottom: 10px;font-size: 12px;}
-    .CompanyProfile .Left {width: 940px;background: #FFF;margin-bottom: 0;}
+    .CompanyProfile .Left {width: 100%;background: #FFF;margin-bottom: 0;}
       .CompanyProfile .Left img.fl  {width: 360px;height: 180px;margin-bottom: 44px;margin-left: 35px;border:1px solid #F5F5F5;}
       .CompanyProfile .Left .info {margin-left: 415px;padding-right: 85px;}
         .CompanyProfile .Left .info h1  {font-size: 16px;font-weight: normal;line-height: 28px;margin-top: 10px;margin-bottom: 5px;}
