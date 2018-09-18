@@ -440,6 +440,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 
 
 /*	分组说明	*/
+.product-all {border-bottom: 1px solid #ddd;padding-bottom: 24px;margin-bottom: 24px}
 .product-all .product-intro{ height:160px; border-bottom:solid 1px #ddd; padding:24px;}
 .product-all .product-intro:hover{ background:#f9f9f9;}
 .product-all .product-intro:last-child{ border-bottom:none;}
@@ -466,4 +467,5 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 .product-all .product-intro .msg-detail .contact-btn{ position:absolute; bottom:4px;}
 .product-all .product-intro .msg-detail .contact-btn a{ width:140px; height:32px; text-align:center; line-height:32px; background:#6c7c93; display:block; border-radius:3px; color:#fff; font-size:14px;}
 .product-all .product-intro .msg-detail .contact-btn a:hover{ background:#617084;}
+
 /*	分组说明结束 */

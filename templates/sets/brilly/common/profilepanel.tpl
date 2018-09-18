@@ -11,21 +11,5 @@
             </dd>
           </dl>
       </div>
-{if $contacts[0]|default:[]}
-      <div class="Right">
-        <img src="/media/sets/trade/default_photo.jpg"  alt="" title="">
-        <table>
-        {-foreach $contacts[0] as $f => $v}
-            {-if isset($contact_desc.$f) && $contacts[0].$f}
-                    <li><label></label></li>
-          <tr>
-            <th>{$preset_translations.{$contact_desc.$f}|default:{$contact_desc.$f}}</th>
-            <td>{$v}</td>
-          </tr>
-            {-/if}
-        {-/foreach}
-        </table>
-        <a href="/contactnow.html" class="btn" rel="nofollow" style="margin:30px auto 0 auto;">{$preset_translations.send_inquiry}</a>
-      </div>
-{/if}
+
     </div>
