@@ -5712,7 +5712,6 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
     $tplPath = $GLOBALS['gsAdminTemplateDir'] . '/edit_keyword.tpl';
 
     $keywordId = (int)timandes_get_query_data('keyword_id');
-    print_r($keywordId);
     $smarty->assign('keyword_id', $keywordId);
 
     $userSiteId = (int)timandes_get_session_data('user_site_id');
