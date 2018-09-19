@@ -2720,7 +2720,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
 
-    return $smarty->fetch($tplPath);    
+    return $smarty->fetch($tplPath);
 }
 
 /**
@@ -3230,6 +3230,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
     foreach ($products as $p) {
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $retval[] = $p;
+        print_r($retval);
     }
     return $retval;
 }
