@@ -2697,7 +2697,6 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
 
     // Site
     $smarty->assign('site', $site);
-    print_r($site);
 
     $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
 
@@ -2710,6 +2709,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
 
     $totalKeywords = $keywordDAO->countBy($condition);
     $smarty->assign('total_keywords', $totalKeywords);
+    print_r($totalKeywords);
     $smarty->assign('page_size', $pageSize);
     $smarty->assign('page_no', $pageNo);
     $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
