@@ -14,7 +14,7 @@
 {-if $group|default:[]&&$group.desc|default:''}
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$group.desc}</div>
                         {-elseif $keyword|default:[]&&$keyword.desc|default:''}
-                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$ Contacts.keyword.desc}</div>
+                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$ keyword.desc}</div>
                         {-else}
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">最下面逻辑{$group}{$keyword.desc}</div>
                         {-/if}
