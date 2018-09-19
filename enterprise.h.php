@@ -2680,10 +2680,8 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
 {
     $pageSize = 120;
     $siteId = $site['site_id'];
+    var_dump($site);
 
-    $keywordId = (int)timandes_get_query_data('keyword_id');
-    $smarty->assign('keyword_id', $keywordId);
-    enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
     $templateName = $site['template'];
 
     $tplFile = 'keyword_list.tpl';
