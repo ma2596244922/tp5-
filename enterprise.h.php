@@ -2693,6 +2693,10 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     if (!$smarty->templateExists($tplPath))
         return null;
 
+    //Keyword
+    $keywordId = (int)timandes_get_query_data('keyword_id');
+    print_r($keywordId);
+
     // Site
     $smarty->assign('site', $site);
 
@@ -2704,7 +2708,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
         $keywordDAO = new \enterprise\daos\Keyword();
     else
         $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
-    print_r($keywordDAO);
+
     $totalKeywords = $keywordDAO->countBy($condition);
     $smarty->assign('total_keywords', $totalKeywords);
     $smarty->assign('page_size', $pageSize);
