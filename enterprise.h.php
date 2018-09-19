@@ -2713,7 +2713,6 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $smarty->assign('page_no', $pageNo);
     $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
-    print_r($firstChar);
     $smarty->assign('first_char', $firstChar);
 
     // TDK
