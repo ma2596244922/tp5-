@@ -2682,7 +2682,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $siteId = $site['site_id'];
 
     $templateName = $site['template'];
-    print_r($langCode);
+
     $tplFile = 'keyword_list.tpl';
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
@@ -2704,6 +2704,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
         $keywordDAO = new \enterprise\daos\Keyword();
     else
         $keywordDAO = new \enterprise\daos\LangKeyword($langCode);
+    print_r($keywordDAO);
     $totalKeywords = $keywordDAO->countBy($condition);
     $smarty->assign('total_keywords', $totalKeywords);
     $smarty->assign('page_size', $pageSize);
