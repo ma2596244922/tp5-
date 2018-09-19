@@ -2676,7 +2676,7 @@ function enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $co
  *
  * @return string
  */
-function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
+function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode=="en", $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
 {
     $pageSize = 120;
     $siteId = $site['site_id'];
@@ -2743,21 +2743,6 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
-
-    //keyword
-    $keywordId = (int)timandes_get_query_data('keyword_id');
-    $smarty->assign('keyword_id', $keywordId);
-
-    $submitButton = timandes_get_post_data('submit');
-    if (!$submitButton) {// No form data
-        // Editing?
-        if ($keywordId)
-            enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
-
-        return $smarty->display($tplPath);
-    }
-    var_dump($tplPath);
-    var_dump($smarty);
 
     // TDK
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
