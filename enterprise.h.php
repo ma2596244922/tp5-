@@ -3231,7 +3231,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $retval[] = $p;
     }
-    print_r($retval);
+    print_r($products);
     return $retval;
 }
 
