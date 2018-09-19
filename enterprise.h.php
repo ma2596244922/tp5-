@@ -2684,10 +2684,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $templateName = $site['template'];
     echo "这是templateName内容";
     print_r($templateName);
-    echo "这是smarty内容";
-    print_r($smarty);
-    echo "这是langCode内容";
-    print_r($langCode);
+   
     $tplFile = 'keyword_list.tpl';
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
@@ -2697,8 +2694,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
         $tplPath = 'sets/mobile/' . $tplFile;
     if (!$smarty->templateExists($tplPath))
         return null;
-    echo "这是tplPath内容";
-    print_r($tplPath);
+
     // Site
     $smarty->assign('site', $site);
 
