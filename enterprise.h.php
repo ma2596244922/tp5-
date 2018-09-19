@@ -2718,10 +2718,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $smarty->assign('first_char', $firstChar);
 
 
-    $keywordId = (int)timandes_get_query_data('keyword_id');
-    $smarty->assign('keyword_id', $keywordId);
-    $keyword=enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
-    var_dump($keyword);
+    
     // TDK
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
