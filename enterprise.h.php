@@ -2546,6 +2546,8 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     $corporation = $smarty->getTemplateVars('corporation');
     $phrase = $smarty->getTemplateVars('phrase');
+    $phrase=enterprise_assign_keyword_info($smarty, 'phrase', $phrase, $langCode);
+    var_dump($phrase);
     $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
 
     // TDK
