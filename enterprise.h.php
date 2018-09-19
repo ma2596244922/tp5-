@@ -69,6 +69,8 @@ define('ENTERPRISE_MAX_INDEX_PRODUCTS', 20);
 /** @var int 产品列表页面默认每页产品数 */
 define('ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE', 20);
 
+require_once __DIR__ . '/enterprise_product.h.php';
+
 /** @var array Product Desc Mapping */
 $productDescMapping = array(// Key 'label' is deprecated.
         'place_of_origin' => array(
@@ -2745,8 +2747,6 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
     //keyword
     $keywordId = (int)timandes_get_query_data('keyword_id');
     $smarty->assign('keyword_id', $keywordId);
-
-    $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $submitButton = timandes_get_post_data('submit');
     if (!$submitButton) {// No form data
