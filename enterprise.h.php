@@ -2682,8 +2682,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $siteId = $site['site_id'];
 
     $templateName = $site['template'];
-    print_r($site);
-
+    print_r($smarty);
     $tplFile = 'keyword_list.tpl';
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
