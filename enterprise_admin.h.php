@@ -5608,7 +5608,7 @@ function enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, $keyw
         $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
     } else
         $alphabet = null;
-
+    print_r($alphabet);
     // LangKeywordDAO
     $langKeywordDAO = (($langCode!='en')?new \enterprise\daos\LangKeyword($langCode):null);
 
