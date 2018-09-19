@@ -3230,8 +3230,8 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
     foreach ($products as $p) {
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $retval[] = $p;
-        print_r($retval);
     }
+    print_r($retval);
     return $retval;
 }
 
