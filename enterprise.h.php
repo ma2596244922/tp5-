@@ -3183,7 +3183,6 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
-    print_r($siteId);
     if ($langCode == 'en')
         $tablePrefix = '';
     else
@@ -3193,7 +3192,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
     if (null !== $groupId) {
         $groupIdCondition = enterprise_filter_2_sql_condition($tablePrefix, $groupId, $extraValues);
     }
-
+    print_r($groupIdCondition);
     if ($additionalConditions)
         $additionalConditions = ' AND ' . $additionalConditions;
 
