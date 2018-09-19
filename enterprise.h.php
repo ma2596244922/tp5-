@@ -2676,12 +2676,13 @@ function enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $co
  *
  * @return string
  */
-function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode="en", $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
+function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $platform, $langCode, $originalDomainSuffix, $currentDomainSuffix, $firstChar, $pageNo = 1)
 {
     $pageSize = 120;
     $siteId = $site['site_id'];
 
     $templateName = $site['template'];
+    var_dump($templateName);
     $tplFile = 'keyword_list.tpl';
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
