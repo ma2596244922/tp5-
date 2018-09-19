@@ -3183,7 +3183,7 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
 {
     $siteId = (int)$siteId;
     $start = ($pageNo - 1) * $pageSize;
-
+    print_r($siteId);
     if ($langCode == 'en')
         $tablePrefix = '';
     else
@@ -3231,18 +3231,6 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $retval[] = $p;
     }
-    print_r($condition);
-    echo "condition显示<br/>";
-    print_r($fields);
-    echo "fields<br/>";
-    print_r($orderBy);
-    echo "orderBy<br/>";
-    print_r($pageSize);
-    echo "pageSize<br/>";
-    print_r($start);
-    echo "start<br/>";
-    print_r($forceIndex);
-    echo "forceIndex<br/>";
     return $retval;
 }
 
