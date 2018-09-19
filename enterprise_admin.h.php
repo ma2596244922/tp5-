@@ -5727,7 +5727,6 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
 
     // Save
     $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
-    
     enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, null, $desc);
 
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词列表');
