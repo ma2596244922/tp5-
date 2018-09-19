@@ -2710,8 +2710,8 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $totalKeywords = $keywordDAO->countBy($condition);
     $smarty->assign('total_keywords', $totalKeywords);
     $smarty->assign('page_size', $pageSize);
-    print_r($pageSize);
     $smarty->assign('page_no', $pageNo);
+    print_r($pageNo);
     $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
