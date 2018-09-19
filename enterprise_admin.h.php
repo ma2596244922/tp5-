@@ -5717,7 +5717,7 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $submitButton = timandes_get_post_data('submit');
-    print_r($submitButton);
+    var_dump($submitButton);
     if (!$submitButton) {// No form data
         // Editing?
         if ($keywordId) 
