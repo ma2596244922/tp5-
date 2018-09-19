@@ -2693,10 +2693,11 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     if (!$smarty->templateExists($tplPath))
         return null;
 
-  
+
 
     // Site
     $smarty->assign('site', $site);
+    print_r($site);
 
     $alphabet = (array_key_exists($firstChar, KEYWORD_ALPHABET)?KEYWORD_ALPHABET[$firstChar]:0);
 
