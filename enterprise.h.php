@@ -2720,8 +2720,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
 
-    return $smarty->fetch($tplPath);
-    print_r($tplPath);
+    return $smarty->fetch($tplPath);    
 }
 
 /**
