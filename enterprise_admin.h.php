@@ -5717,7 +5717,7 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
     $userSiteId = (int)timandes_get_session_data('user_site_id');
 
     $submitButton = timandes_get_post_data('submit');
-    var_dump($submitButton);
+
     if (!$submitButton) {// No form data
         // Editing?
         if ($keywordId) 
@@ -5729,7 +5729,7 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
     // Save
     $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
     enterprise_admin_save_keyword($userSiteId, $langCode, $keywordId, null, $desc);
-
+    var_dump($desc);
     enterprise_admin_display_success_msg($smarty, '保存成功', '?action=keyword', '关键词列表');
 }
 
