@@ -5724,7 +5724,7 @@ function enterprise_admin_action_edit_keyword($smarty, $site, $langCode)
 
         return $smarty->display($tplPath);
     }
-    print_r($keyword);
+
     // Save
     $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
 
