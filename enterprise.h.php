@@ -3232,17 +3232,17 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $retval[] = $p;
     }
     print_r($condition);
-    echo "condition显示<hr>";
+    echo "condition显示<br/>";
     print_r($fields);
-    echo "$fields<hr>";
+    echo "fields<br/>";
     print_r($orderBy);
-    echo "orderBy<hr>";
+    echo "orderBy<br/>";
     print_r($pageSize);
-    echo "pageSize<hr>";
+    echo "pageSize<br/>";
     print_r($start);
-    echo "start<hr>";
+    echo "start<br/>";
     print_r($forceIndex);
-    echo "forceIndex<hr>";
+    echo "forceIndex<br/>";
     return $retval;
 }
 
