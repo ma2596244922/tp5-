@@ -2711,12 +2711,11 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $smarty->assign('total_keywords', $totalKeywords);
     $smarty->assign('page_size', $pageSize);
     $smarty->assign('page_no', $pageNo);
-    print_r($pageNo);
     $pagerInfo = enterprise_pager_calculate_key_infos($totalKeywords, $pageSize, $pageNo);
     $smarty->assign('pager_info', $pagerInfo);
 
     $smarty->assign('first_char', $firstChar);
-
+    print_r($firstChar);
     // TDK
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
