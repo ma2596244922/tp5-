@@ -2741,6 +2741,20 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
+    //keyword
+    $keywordId = (int)timandes_get_query_data('keyword_id');
+    $smarty->assign('keyword_id', $keywordId);
+
+    $userSiteId = (int)timandes_get_session_data('user_site_id');
+
+    $submitButton = timandes_get_post_data('submit');
+    if (!$submitButton) {// No form data
+        // Editing?
+        if ($keywordId)
+            enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
+
+        return $smarty->display($tplPath);
+    }
 
     // TDK
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
