@@ -2694,7 +2694,9 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
         return null;
 
     //Keyword
-    $keywordId = (int)timandes_get_query_data('keyword_id');
+//    $keywordId = (int)timandes_get_query_data('keyword_id');
+    $keywordId = 8;
+    $smarty->assign('keyword_id', $keywordId);
     print_r($keywordId);
 
     // Site
@@ -2721,7 +2723,8 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     // TDK
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
-
+    enterprise_assign_keyword_info($smarty, 'keyword', $keywordId, $langCode);
+   
     return $smarty->fetch($tplPath);
 }
 
