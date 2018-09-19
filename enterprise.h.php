@@ -2723,7 +2723,7 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $corporation = $smarty->getTemplateVars('corporation');
     enterprise_assign_tdk_of_keyword_list($smarty, $firstChar, $pageNo, $corporation, $site, $langCode);
     $desc = timandes_get_post_data('desc', 'xss_clean_4_site_owner, remove_n_r, trim');
-  
+
     return $smarty->fetch($tplPath);
 }
 
