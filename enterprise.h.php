@@ -2741,6 +2741,7 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 
     $corporation = $smarty->getTemplateVars('corporation');
     $groups = $smarty->getTemplateVars('groups');
+
     //keyword
     $keywordId = (int)timandes_get_query_data('keyword_id');
     $smarty->assign('keyword_id', $keywordId);
@@ -2755,6 +2756,8 @@ function enterprise_action_sets_quality_proc($smarty, $site, $userAgent, $platfo
 
         return $smarty->display($tplPath);
     }
+    var_dump($tplPath);
+    var_dump($smarty);
 
     // TDK
     $presetTranslations = enterprise_get_preset_translations($smarty, $langCode);
