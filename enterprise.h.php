@@ -2682,11 +2682,14 @@ function enterprise_action_sets_keyword_list_proc($smarty, $site, $userAgent, $p
     $siteId = $site['site_id'];
 
     $templateName = $site['template'];
-    var_dump($templateName);
+    print_r($templateName);
+    print_r($smarty);
+    print_r($langCode);
     $tplFile = 'keyword_list.tpl';
 
     if ($platform == ENTERPRISE_PLATFORM_PC)
         $tplPath = 'sets/' . $templateName . '/' . $tplFile;
+    print_r($tplPath);
     else
         $tplPath = 'sets/mobile/' . $tplFile;
     if (!$smarty->templateExists($tplPath))
