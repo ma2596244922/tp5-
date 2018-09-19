@@ -3231,7 +3231,18 @@ function enterprise_get_product_list($siteId, $langCode = 'en', $groupId = null,
         $p['group'] = enterprise_get_group_info($p['group_id'], $langCode, true);
         $retval[] = $p;
     }
-    print_r($products);
+    print_r($condition);
+    echo "condition显示<hr>";
+    print_r($fields);
+    echo "$fields<hr>";
+    print_r($orderBy);
+    echo "orderBy<hr>";
+    print_r($pageSize);
+    echo "pageSize<hr>";
+    print_r($start);
+    echo "start<hr>";
+    print_r($forceIndex);
+    echo "forceIndex<hr>";
     return $retval;
 }
 
