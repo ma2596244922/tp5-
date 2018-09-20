@@ -2546,10 +2546,15 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
 
     $corporation = $smarty->getTemplateVars('corporation');
     $phrase = $smarty->getTemplateVars('phrase');
-    $phrase=enterprise_assign_keyword_info($smarty, 'phrase', $phrase, $langCode);
-    var_dump($phrase);
+    if($phrase) {
+        $keywordDAO = new \enterprise\daos\Keyword();
+        $condition= "'keyword'=".$phrase;
+        $keyword = $keywordDAO->getOneBy($condition);
+        $smarty->assign('keyword',$keyword);
+    }
     $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
 
+    var_dump($keyword);
     // TDK
     enterprise_assign_tdk_of_product_list($smarty, $corporation, $pageNo, $langCode, $groupId, $group, $phrase, $tplFile);
 
