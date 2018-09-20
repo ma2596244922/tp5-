@@ -2549,7 +2549,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
     $phrase = $smarty->getTemplateVars('phrase');
     if($phrase) {
         $keywordDAO = new \enterprise\daos\Keyword();
-        $condition= "'keyword'='".$phrase."'";
+        $condition= "`keyword`='".$phrase."'";
         $keyword = $keywordDAO->getOneBy($condition);
         var_dump($keyword);
         $smarty->assign('keyword',$keyword);
