@@ -2554,7 +2554,6 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         if($keyword['deleted']=="0"){
             $smarty->assign('keyword',$keyword);
         }
-        var_dump($phrase);
     }
     $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
 
