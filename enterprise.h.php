@@ -2551,8 +2551,12 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $keywordDAO = new \enterprise\daos\Keyword();
         $condition= "`keyword`='".$phrase."'";
         $keyword = $keywordDAO->getOneBy($condition);
-        var_dump($keyword);
-        $smarty->assign('keyword',$keyword);
+        if($keyword.deleted=="0"){
+            $smarty->assign('keyword',$keyword);
+        }else{
+
+        }
+
     }
     $group = (($groupId && !is_array($groupId))?$smarty->getTemplateVars('group'):null);
 
