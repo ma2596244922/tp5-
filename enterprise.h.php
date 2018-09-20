@@ -2551,7 +2551,7 @@ function enterprise_action_sets_product_list_proc($smarty, $site, $userAgent, $p
         $keywordDAO = new \enterprise\daos\Keyword();
         $condition= "`keyword`='".$phrase."'";
         $keyword = $keywordDAO->getOneBy($condition);
-        if($keyword['deleted']){
+        if($keyword['deleted']=="1"){
             $smarty->assign('keyword',$keyword);
         }
 
