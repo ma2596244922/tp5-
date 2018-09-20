@@ -70,6 +70,7 @@ define('ENTERPRISE_MAX_INDEX_PRODUCTS', 20);
 define('ENTERPRISE_PRODUCT_LIST_DEFAULT_PAGE_SIZE', 20);
 
 require_once __DIR__ . '/enterprise_product.h.php';
+require_once __DIR__ . '/Keyword.php';
 
 /** @var array Product Desc Mapping */
 $productDescMapping = array(// Key 'label' is deprecated.
