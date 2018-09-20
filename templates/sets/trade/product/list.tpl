@@ -16,7 +16,6 @@
                         {-elseif $keyword|default:[]&&$keyword.desc|default:''}
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$keyword.desc}</div>
                         {-else}
-                        <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">最下面逻辑{$group}</div>
                         {-/if}
 {foreach $products as $product}
                         <div class="product-intro">
@@ -53,7 +52,7 @@
                             </div>
                         </div>
 {foreachelse}
-                        <p><i></i>Sorry! No matches were found{if $phrase|default:''} for "{$phrase}"{/if}.</p>
+                        <p style="text-align: center"><i></i>Sorry! No matches were found{if $phrase|default:''} for "{$phrase}"{/if}.</p>
 {/foreach}
                     </div>
                 </div>
