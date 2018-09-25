@@ -6,24 +6,20 @@
 <title>{$title|default:''}</title>
 <meta name="keywords" content="{$keywords|default:''|escape}" />
 <meta name="description" content="{$description|default:''|escape}" />
-    {include file="sets/partner/common/styles.tpl"}
+    {include file="sets/trade/common/definitions.tpl"}
+    <link type="text/css" rel="stylesheet" href="/media/sets/msma/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="/media/sets/msma/css/shop.css" />
+    {include file="sets/msma/common/styles.tpl"}
 </head>
 
 <body>
-<div class="content content-map">
+{include file="sets/msma/common/logobar.tpl"}
+<div class="content">
     <div class="container">
-        {include file="sets/partner/common/header.tpl"}
-        <!-- header -->
-        {include file="sets/partner/common/navbar.tpl"}
-        <!-- nav -->
-        {include file="sets/partner/common/banner.tpl"}
-        <!--nav-->
+
         <div class="crumb">
-            <p>
-                <a href="/">{$preset_translations.home}</a>&gt;
-                <span>{$first_char} Keyword List</span>
-            </p>
-{include file="sets/trade/common/lang_sites.tpl"}
+            <p><a href="/">{$preset_translations.home}</a>&gt;<span>{$corporation.name}</span></p>
+            {include file="sets/trade/common/lang_sites.tpl"}
         </div>
         <!--crumb-->
         <div class="product-map">
@@ -62,8 +58,8 @@
     <!--container-->
 </div>
 <!--content-->
-{include file="sets/partner/common/footer.tpl"}
-
-{include file="sets/partner/common/scripts.tpl"}
+{include file="sets/trade/common/footer.tpl"}
+{include file="sets/trade/common/navbar.tpl" position="fixed"}
+{include file="sets/trade/common/shopscripts.tpl"}
 </body>
 </html>

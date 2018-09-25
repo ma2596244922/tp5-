@@ -11,7 +11,7 @@
 .gjc_div_box .cur{ height:auto;}
 .slide-mor a { color:#acacac;   display:block;text-align:center;  margin: 30px auto 0 auto ;    }
 .slide-mor a:hover { color:#525355; }
-.zimu_div { width:100%; margin:0 auto; background:#29282e;line-height:50px; padding-top: 14px; }
+.zimu_div { width:100%; margin:0 auto; background:#f0f0f0;line-height:50px; padding-top: 14px; }
 .zimu_div ul { width:980px;  margin:0 auto; border-top: solid 1px #787b80; }
 .zimu_div ul li { float: left; width: 36px;}
 .zimu_div ul li a { color: #787b80;}

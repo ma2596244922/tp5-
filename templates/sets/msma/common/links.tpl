@@ -24,5 +24,5 @@
         <!--**dl1**-->
       
     </div>
-
+    {include file="sets/msma/common/alphabet.tpl"}
 </div>
