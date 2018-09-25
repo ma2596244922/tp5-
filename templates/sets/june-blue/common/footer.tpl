@@ -1,4 +1,5 @@
 <div class="footer_wrap">
+    {include file="sets/june-blue/common/alphabet.tpl"}
     <div class="footer_text">
         <a href="/">{$preset_translations.home}</a>
         <a href="/products.html" title="{$preset_translations.products}">{$preset_translations.products}</a>
