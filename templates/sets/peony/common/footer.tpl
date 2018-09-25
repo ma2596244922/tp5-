@@ -30,6 +30,7 @@
                 </ul>
             </div>
         </div>
+        {include file="sets/peony/common/alphabet.tpl"}
         <div class="copyright">
 {include file="sets/trade/common/copyright.tpl"}
         </div>
