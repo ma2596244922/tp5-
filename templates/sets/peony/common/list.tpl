@@ -7,5 +7,4 @@
                         <div class="intro-txt" style="padding-top: 15px; padding-left: 15px;">{$keyword.desc}</div>
                         {-else}
                         {-/if}
-                        {foreach $products as $product}
                     </div>
