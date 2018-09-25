@@ -20,6 +20,7 @@
                 {/foreach}
             </dl>
         </div>
+        {include file="sets/june-sky/common/alphabet.tpl"}
         <p class="zhichi">Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'}<span class="company-name">{$corporation.name}</span> {$preset_translations.all_rights_reserved}</p>
     </div>
     
