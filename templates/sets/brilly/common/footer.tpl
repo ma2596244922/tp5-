@@ -1,3 +1,4 @@
+{include file="sets/brilly/common/alphabet.tpl"}
 <div class="Footer">
   <div class="Page">
     <p class="fl">
