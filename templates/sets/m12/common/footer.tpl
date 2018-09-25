@@ -23,5 +23,6 @@
         </tr>
     </table>
     <div class="cb"></div>
+    {include file="sets/m12/common/alphabet.tpl"}
 </div>
 <div class="footer_copyright">Copyright © {$site.start_year} - {$smarty.now|date_format:'%Y'} <span class="company-name">{$corporation.name}</span> {$preset_translations.all_rights_reserved} <a href="/directory.html" title="{$preset_translations.site_map}">{$preset_translations.site_map}</a></div>
