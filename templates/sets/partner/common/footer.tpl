@@ -37,6 +37,7 @@
         </div>
     </div>
 </div>
+{include file="sets/partner/common/alphabet.tpl"}
 <!-- footer -->
 <div class="copyright">
     <p>© {$site.start_year} - {$smarty.now|date_format:'%Y'}
