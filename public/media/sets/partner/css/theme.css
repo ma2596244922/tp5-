@@ -187,7 +187,7 @@ input[type="password"] {
 .content{ width: 1190px; margin:0 auto 50px; }
 .content .left-content{ width:890px; float: left; margin-top: 45px; }
 .content .left-content .product-list{ margin: 25px 0 0 -14px;}
-.product-list ul li{ width:200px; float: left; margin: 0 14px 20px 8px; }
+/*.product-list ul li{ width:200px; float: left; margin: 0 14px 20px 8px; }*/
 .product-list ul li img{ width: 200px; height: 200px; display: block; margin-bottom: 8px;}
 .product-list ul li span{ width: 200px; height: 40px; display: block;}
 .product-list ul li span a{font-size: 12px;font-style: normal; line-height: 20px; color: #333; width: 200px; display: block; margin: 0 auto; max-height: 40px; word-wrap: break-word;text-overflow: -o-ellipsis-lastline;
