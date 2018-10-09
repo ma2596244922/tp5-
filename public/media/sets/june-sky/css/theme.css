@@ -828,13 +828,13 @@ border-radius: 20px;-moz-border-radius: 20px; -webkit-border-radius: 20px; text-
 .select-flag .selectMenu a img{ margin-right:8px;vertical-align: -1px;}
 
 /*面包屑导航*/
-.crumb{ width:1190px; height:40px; line-height:40px;}
+.crumb{ width:1190px; height:40px; line-height:40px; margin:0 auto;}
 .crumb p{ font-size:12px; color:#999; float:left; width:1190px;display:inline-block;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow:hidden;}
 .crumb p a{ color:#999; margin:0 4px;}
 .crumb p a:hover{ color:#333;}
 
 /*words-number*/
-.product-map{ width:1190px; border:solid 1px #ddd; border-radius:3px; background:#fff; margin-bottom:10px;}
+.product-map{ width:1190px; border:solid 1px #ddd; border-radius:3px; background:#fff; margin-bottom:30px; margin:0 auto;}
 .product-map .title{ height:72px; border-bottom:solid 1px #ddd; background:#f9f9f9; font-size:20px; color:#333; font-weight:bold; padding-left:24px; width:1166px; line-height:72px;}
 .product-map .title h1,.product-map .title h2{ font-weight:bold; display:inline;}
 .product-map .title span{ width:4px; height:18px; display:inline-block; background:#6c7c93; border-radius:3px; margin:28px 9px 0 0; vertical-align:-1px;}
