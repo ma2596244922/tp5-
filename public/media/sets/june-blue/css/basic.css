@@ -79,8 +79,8 @@ h2{font-weight:normal;font-size:12px; padding: 0; margin: 0;}
 
 .footer_wrap{border-top:#dcdcdc solid 1px;}
 .footer_line{ width: 100%; height: 50px; margin-top: 20px; text-align: center;}
-.footer_text{ font-size: 12px; height: 16px; line-height: 16px; margin-top: 10px; text-align: center; background-color:#212025; padding-top:31px;}
-.footer_text a{ font-size: 11px; padding: 0px 25px; color: #666; border-right: #d1d1d1 solid 1px;}
+.footer_text{ font-size: 12px; height: 16px; line-height: 16px; text-align: center; background-color:#212025; padding-top:31px;}
+.footer_text a{ font-size: 11px; padding: 0px 25px; color: #666; border-right: #434249 solid 1px;}
 
 .footer_cy{ width: 100%; color: #666; font-size: 10px; line-height: 30px; text-align: center; background-color:#212025; padding:20px 0 0 0;}
 .iphone_wrap{ padding-left: 38px; height: 22px; line-height: 22px; background: url(../images/index_002.gif) no-repeat 0 -199px;}
