@@ -16,3 +16,7 @@
 .zimu_div ul li { float: left; width: 36px;}
 .zimu_div ul li a { color: #787b80;}
 .zimu_div ul li a:hover {color: #b0b3ba }
+
+.footer_copyright{ background-color:#212025; padding:36px 0; text-align:center; color:#979da4;}
+.footer_copyright a{ color:#23c783;}
+.footer_copyright a:hover{ color:#fff;}
