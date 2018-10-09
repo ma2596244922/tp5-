@@ -816,7 +816,7 @@ border-radius: 20px;-moz-border-radius: 20px; -webkit-border-radius: 20px; text-
 .lang-select .lang-inner ul li a{ color:#666;}
 .lang-select .lang-inner ul li a:hover{ color:#6c7c93;}
 
-.select-flag{ float:right; width:118px; position:absolute; right:0; top:15px; }
+.select-flag{ float:right; width:118px; position:absolute; right:0; top:0px; }
 .select-flag.current{ right:0; top:15px;}
 .select-flag .select-box{ width:118px; height:40px; margin-bottom:-5px;}
 .select-flag .select-box span{ font-size:12px; color:#333; line-height:initial;}
@@ -826,3 +826,21 @@ border-radius: 20px;-moz-border-radius: 20px; -webkit-border-radius: 20px; text-
 .select-flag .selectMenu a{ height:22px; width:110px; display:block; overflow: hidden; line-height:22px; color:#666666; padding-left:8px; font-size:12px;}
 .select-flag .selectMenu a:hover{ color:#6c7c93; background: #f5f5f5;}
 .select-flag .selectMenu a img{ margin-right:8px;vertical-align: -1px;}
+
+/*面包屑导航*/
+.crumb{ width:1190px; height:40px; line-height:40px;}
+.crumb p{ font-size:12px; color:#999; float:left; width:1190px;display:inline-block;white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow:hidden;}
+.crumb p a{ color:#999; margin:0 4px;}
+.crumb p a:hover{ color:#333;}
+
+/*words-number*/
+.product-map{ width:1190px; border:solid 1px #ddd; border-radius:3px; background:#fff; margin-bottom:10px;}
+.product-map .title{ height:72px; border-bottom:solid 1px #ddd; background:#f9f9f9; font-size:20px; color:#333; font-weight:bold; padding-left:24px; width:1166px; line-height:72px;}
+.product-map .title h1,.product-map .title h2{ font-weight:bold; display:inline;}
+.product-map .title span{ width:4px; height:18px; display:inline-block; background:#6c7c93; border-radius:3px; margin:28px 9px 0 0; vertical-align:-1px;}
+.product-list{ padding-top:15px;}
+.product-list ul{ margin-bottom:30px;}
+.product-list ul li{ width:555px; float:left; margin:0 15px; line-height:26px; height:26px; font-size:14px;display: block;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;-o-text-overflow: ellipsis;overflow: hidden;}
+.product-list ul li a{ color:#666;}
+.product-list ul li a:hover{ color:#333; text-decoration:underline;}
+.product-list ul li em{ width:4px; height:4px; display:inline-block; border:solid 1px #949494; border-radius:50px; vertical-align:1px; margin-right:8px;}
