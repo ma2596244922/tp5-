@@ -69,6 +69,17 @@ input[type="password"] {
 .crumb p a{ color:#999; margin:0 4px;}
 .crumb p a:hover{ color:#333;}
 
+.product-map{ width:1190px; border:solid 1px #ddd; border-radius:3px; background:#fff; margin-bottom:10px;}
+.product-map .title{ height:72px; border-bottom:solid 1px #ddd; background:#f9f9f9; font-size:20px; color:#333; font-weight:bold; padding-left:24px; width:1166px; line-height:72px;}
+.product-map .title h1,.product-map .title h2{ font-weight:bold; display:inline;}
+.product-map .title span{ width:4px; height:18px; display:inline-block; background:#6c7c93; border-radius:3px; margin:28px 9px 0 0; vertical-align:-1px;}
+.product-list{ padding-top:15px;}
+.product-list ul{ margin-bottom:30px;}
+.product-list ul li{ width:555px; float:left; margin:0 15px; line-height:26px; height:26px; font-size:14px;display: block;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;-o-text-overflow: ellipsis;overflow: hidden;}
+.product-list ul li a{ color:#666;}
+.product-list ul li a:hover{ color:#333; text-decoration:underline;}
+.product-list ul li em{ width:4px; height:4px; display:inline-block; border:solid 1px #949494; border-radius:50px; vertical-align:1px; margin-right:8px;}
+
 /*banner*/
 .slideBox{  width: 100%; height:540px;overflow:hidden; position:relative;}
 .slideBox .bd{ width: 1920px; height:540px; position: absolute; left: 50%; margin-left: -960px; }
