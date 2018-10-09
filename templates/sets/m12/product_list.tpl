@@ -29,6 +29,7 @@
                 {include file="sets/m12/common/list.tpl"}
                 <!--products-box-->
                 <!--view-page-->
+				<!--测试-->
             </div>
             <div class="cb_10"></div>
             {foreach $products as $product}
