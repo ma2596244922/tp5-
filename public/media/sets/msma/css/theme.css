@@ -32,7 +32,7 @@ src:
 
 /*gonggong*/
 .ym_header {background:#fff none repeat scroll 0 0;height: 110px; width: 100%;}
-.ym_nav,.ym_container,.ym_con_pic { width:980px; margin:0 auto;}
+.ym_nav,.ym_container,.ym_con_pic { width:980px; margin:0 auto; overflow:hidden;}
 .ym_nav_logo { width:180px; height:62px; margin-top: 24px; float: left;}
 .ym_nav_menus { float:left; margin-left:120px}
 .ym_nav_menus>li {  display: block;float: left; margin-left: 35px; }
@@ -81,6 +81,7 @@ top: 170px;display: block;width: 38px;height: 38px;line-height: 38px;text-align:
 .ym_mian_list h1 { width:980px; text-align:center; font-size: 30px;  line-height: 24px; padding:80px 0 13px 0; color:#464646; text-transform: uppercase; }
 .ym_mian_list p { width:980px; text-align:center; color: #888;    font-size: 16px; }
 .ym_con_pic .icon-xiangyoujiantou { font-size:12px; margin-right:10px;}
+.ym_con_pic .l1{ float:none; text-align:center;}
 .ym_mian_ul { width:300px; float:left; margin-top:70px; padding-right:24px; }
 .ym_mian_ul li { width:300px; text-overflow:ellipsis;overflow:hidden;white-space:nowrap; line-height:36px;}
 .ym_mian_ul li a { color:#888; }
@@ -90,7 +91,7 @@ top: 170px;display: block;width: 38px;height: 38px;line-height: 38px;text-align:
 .ym_bbs_a:hover { background-color:#e2441a;}
 .ym_bbs h1 {  text-transform: uppercase; margin:10px 0 10px 0 ; }
 .ym_bbs p { color: #888;    font-size: 16px; margin-bottom:30px;}
-.ym_end_menu { height:240px; border-top: 1px solid #f0f0f0; width:100%; padding-top:50px; }
+.ym_end_menu { height:240px; border-top: 1px solid #f0f0f0; width:100%; padding-top:50px; background:#3F4145;}
 .ym_end_menu_dl1 { width:280px; float:left; margin-right:50px;}
 .ym_end_menu_dl1 dt,.ym_end_menu_dl2 dt,.ym_end_menu_dl3 dt { color: #505050;    font-size: 14px;    font-weight: 700;    margin-bottom: 25px;    text-transform: uppercase; letter-spacing: 1px }
 .ym_end_menu_dl1 dd,.ym_end_menu_dl2 dd a  { color: #a3a3a3;    font-size: 14px;    line-height: 24px; }
@@ -107,7 +108,7 @@ top: 170px;display: block;width: 38px;height: 38px;line-height: 38px;text-align:
 .ym_end_menu_dd1 { height:116px; overflow:hidden;}
 .ym_end_menu_dd { padding-top:50px;}
 .ym_end_menu_dd a { float:left}
-.ym_footer { width:100%; height:56px; line-height:56px; background:#f8f8f8; font-size:12px; color:#999;}
+.ym_footer { width:100%; height:56px; line-height:56px; background:#333; font-size:12px; color:#999;}
 
 
 /*nie ye xiu gai css-products*/
