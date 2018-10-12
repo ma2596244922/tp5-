@@ -469,3 +469,13 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
 .product-all .product-intro .msg-detail .contact-btn a:hover{ background:#617084;}
 
 /*	分组说明结束 */
+
+.product-map{ margin:8px 0 6px 0; background-color:#fff; border:solid 1px #ddd; border-radius:3px;}
+.product-map .title{ height:72px; border-bottom:solid 1px #ddd; background:#f9f9f9; font-size:10px; color:#333; font-weight:bold; padding-left:24px; line-height:72px; width:1163px;}
+.product-map .title span{ width:4px; height:18px; display:inline-block; border-radius:3px; margin:28px 9px 0 0; vertical-align:-1px; background:#6c7c93;}
+.product-map h1{ display:inline;}
+.product-list{padding-top:15px;}
+.product-list ul{margin-bottom:30px; overflow:hidden;}
+.product-list ul li{ width:500px; float:left; margin:0 15px; line-height:26px; height:26px; font-size:14px; display:block; overflow:hidden;white-space:nowrap; text-overflow:ellipsis;}
+.product-list ul li em{ width:4px; height:4px; display:inline-block; border:solid 1px #949494; border-radius:50px; vertical-align:1px; margin-right:8px;}
+.product-list ul li a{ color:#666;}
