@@ -187,6 +187,6 @@ h2{font-weight:normal;font-size:12px; padding: 0; margin: 0;}
 .product-map h1{ display:inline; font-weight:bold; font-size:2em;}
 .product-list{padding-top:15px;}
 .product-list ul{margin-bottom:30px; overflow:hidden;}
-.product-list ul li{ width:450px; float:left; margin:0 15px; line-height:26px; height:26px; font-size:14px; display:block; overflow:hidden;white-space:nowrap; text-overflow:ellipsis;}
+.product-list ul li{ width:410px; float:left; margin:0 15px; line-height:26px; height:26px; font-size:14px; display:block; overflow:hidden;white-space:nowrap; text-overflow:ellipsis;}
 .product-list ul li em{ width:4px; height:4px; display:inline-block; border:solid 1px #949494; border-radius:50px; vertical-align:1px; margin-right:8px;}
 .product-list ul li a{ color:#666;}
