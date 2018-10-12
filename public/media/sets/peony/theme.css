@@ -709,8 +709,8 @@ h1, h2 {display: inline;}
 .product-all .product-intro .msg-detail .contact-btn a{ width:140px; height:32px; text-align:center; line-height:32px; background:#6c7c93; display:block; border-radius:3px; color:#fff; font-size:14px;}
 .product-all .product-intro .msg-detail .contact-btn a:hover{ background:#617084;}
 /*	分组说明结束 */
-.foot ul{ float:left;}
-.foot{ overflow:hidden;}
-.foot ul li{ float:left; color:#999;}
-.foot ul li a{ color:#999;}
-.foot p{ float:right;}
+.foot ul{ float:left; overflow:hidden;}
+.foot{ overflow:hidden; padding:20px 0;}
+.foot ul li{ float:left; color:#999; font-size:12px; padding:0 3px;}
+.foot ul li a{ color:#999; float:left; padding-right:4px;}
+.foot p{ float:right; color:#999; font-size:12px;}
