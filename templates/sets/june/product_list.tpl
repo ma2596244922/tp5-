@@ -4,7 +4,7 @@
     {$site.common_head_fragment}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     {include file="sets/june/common/tdk.tpl"}
-    {include file="sets/trade/common/definitions.tpl" page_name="product_list"}
+    <!--{include file="sets/trade/common/definitions.tpl" page_name="product_list"}-->
     {include file="sets/june/common/styles.tpl"}
     <link href="/media/sets/june/color7/css/products.css" rel="stylesheet" type="text/css" />
 </head>
