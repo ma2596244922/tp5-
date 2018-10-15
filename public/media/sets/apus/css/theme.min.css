@@ -274,16 +274,17 @@ body {
 }
 .left_nav li {
 	border-top: 1px solid #eee;
-	width:328px;
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow:ellipsis; 
+	
 }
 .left_nav li .t {
 	height: 45px;
 	line-height: 45px;
 	position: relative;
-	padding: 0 17px
+	padding: 0 17px;
+	width:238px;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis; 
 }
 .left_nav li .t i {
 	position: absolute;
