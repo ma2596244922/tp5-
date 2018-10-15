@@ -6,8 +6,9 @@
 <title>{$title|default:''}</title>
 <meta name="keywords" content="{$keywords|default:''|escape}" />
 <meta name="description" content="{$description|default:''|escape}" />
-{include file="sets/trade/common/definitions.tpl" page_name="keyword_list"}
-{include file="sets/trade/common/shopstyles.tpl"}
+<!--{include file="sets/trade/common/definitions.tpl" page_name="keyword_list"}
+{include file="sets/trade/common/shopstyles.tpl"}-->
+{include file="sets/m12/common/styles.tpl"}
 </head>
 
 <body>

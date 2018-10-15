@@ -295,7 +295,7 @@ body {
 .left_nav li .t a {
 	color: #333;
 	display:block;
-	width:225px;
+	width:181px;
 	overflow:hidden;
 	white-space: nowrap;
 	text-overflow:ellipsis; 
