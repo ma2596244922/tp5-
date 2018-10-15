@@ -281,10 +281,7 @@ body {
 	line-height: 45px;
 	position: relative;
 	padding: 0 17px;
-	width:238px;
-	overflow:hidden;
-	white-space: nowrap;
-	text-overflow:ellipsis; 
+	
 }
 .left_nav li .t i {
 	position: absolute;
@@ -296,7 +293,12 @@ body {
 	cursor: pointer
 }
 .left_nav li .t a {
-	color: #333
+	color: #333;
+	display:block;
+	width:225px;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis; 
 }
 .left_nav li .t:hover i, .left_nav li .t.hover i {
 	background: url(../img/ioc_la.png) no-repeat 0 center
