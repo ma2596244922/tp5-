@@ -120,10 +120,10 @@
                         <label class="col-lg-1 control-label">开启幻灯：</label>
                         <div class="col-lg-4">
                             <label class="radio-inline">
-                                <input type="radio" name="enable_mobile_sites" value="0"{if $site.enable_slide|default:'1'=='0'} checked{/if}>关闭
+                                <input type="radio" name="enable_slide" value="0"{if $site.enable_slide|default:'1'=='0'} checked{/if}>关闭
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="enable_mobile_sites" value="1"{if $site.enable_slide|default:'1'=='1'} checked{/if}>开启
+                                <input type="radio" name="enable_slide" value="1"{if $site.enable_slide|default:'1'=='1'} checked{/if}>开启
                             </label>
                         </div>
                     </div>
