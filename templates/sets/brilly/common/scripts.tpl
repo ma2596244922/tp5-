@@ -33,8 +33,8 @@
   $("#request_email,#request_con").each(function(i,e){
     $(e).blur(function(){
       var s = rules[i].start()
-      if(s!==true){
-        $(this).prev('.msg').html(s).show().parent().addClass('error')
+      if(s==true){
+        $(this).prev('.msg').html(s).show().parent().removeClass('error')
       }
     })
   });
