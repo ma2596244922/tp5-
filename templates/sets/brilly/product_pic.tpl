@@ -38,7 +38,7 @@
       <div class="Right">
         <div class="ConBox ProductInfo">
           <div class="clear">&nbsp;</div>
-          <h1 class="Til"><a href="">{$product.caption}</a></h1>
+          <h1 class="Til" id="tianjia"><a href="">{$product.caption}</a></h1>
           <div class="clear"></div>
           <div class="pics PL" style="width:600px; float:none; margin:0 auto">
             <ul class="picsList PL_List" >
