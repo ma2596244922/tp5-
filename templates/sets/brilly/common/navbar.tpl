@@ -2,7 +2,7 @@
   <div class="Page">
     <ul class="Navs fl tc">
       <li class="fb"><a href="/">{$preset_translations.home}</a></li>
-      <li class="subList">
+      <li class="subList" style="overflow-y:scroll; height:240px;">
         <a href="/products.html">{$preset_translations.products}</a><i class="icon arrow_down3"></i>
         <div class="subNav">
 {foreach $groups as $group}
