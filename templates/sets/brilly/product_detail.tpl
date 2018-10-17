@@ -43,7 +43,7 @@
     {-assign var="caption_html_element" value="h1"}
     {-assign var="model_number_html_element" value="h2"}
 {-/if}
-          <{$caption_html_element} class="Til">{$product.caption}</{$caption_html_element}>
+          <{$caption_html_element} class="Til" id="tianjia">{$product.caption}</{$caption_html_element}>
           <div class="clear"></div>
           <div class="pics PL">
             <ul class="picsList PL_List">
