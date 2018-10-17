@@ -42,8 +42,8 @@
             <th><span>*</span>{$preset_translations.message}</th>
             <td>
               <div class="typeIn typeIn2">
-                <div class="msg"></div>
-                <textarea id="request_con" maxlength="500" autocomplete="off" name="message" placeholder="{$preset_translations.placeholder_of_inquiry_message}"></textarea>
+                <div class="msg">{$preset_translations.placeholder_of_inquiry_message}</div>
+                <textarea id="request_con" maxlength="500" autocomplete="off" name="message"></textarea>
               </div>
             </td>
           </tr>
