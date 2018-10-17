@@ -1,6 +1,6 @@
         <div class="ConBox">
           <div class="clear">&nbsp;</div>
-          <h2 class="Til" id="tianjia">{$preset_translations.about_us}</h2>
+          <h2 class="Til">{$preset_translations.about_us}</h2>
           <div class="clear">&nbsp;</div>
           <ul class="TextList">
             <li><a href="/aboutus.html">{$preset_translations.company_profile}</a></li>

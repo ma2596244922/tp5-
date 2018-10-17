@@ -35,7 +35,7 @@
       <div class="Right">
         <div class="ConBox ProductIntro" style="margin-top: 0;">
           <div class="clear">&nbsp;</div>
-          <h2 class="Til" id="tianjia">{$preset_translations.all_products} Page {$page_no}</h2>
+          <h2 class="Til" id="">{$preset_translations.all_products} Page {$page_no}</h2>
           <div class="clear"></div>
           <dl>
             <dd>

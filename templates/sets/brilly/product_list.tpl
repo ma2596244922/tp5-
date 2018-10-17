@@ -43,7 +43,7 @@
         <div class="ConBox">
           <div class="clear">&nbsp;</div>
 {-if $group|default:[]}
-          <h1 class="Til" id="tianjia">{$group.name}</h1>
+          <h1 class="Til" id="">{$group.name}</h1>
 {-elseif $phrase|default:''}
           <h1 class="Til">{$phrase}</h1>
 {-else}

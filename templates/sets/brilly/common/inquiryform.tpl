@@ -1,6 +1,6 @@
     <div class="ConBox Request">
       <div class="clear">&nbsp;</div>
-      <h2 class="Til">{$preset_translations.send_inquiry}</h2>
+      <h2 class="Til" id="tianjia">{$preset_translations.send_inquiry}</h2>
       <div class="clear"></div>
       <div class="noPic">
         <form action="/contactsave.html" method="POST" data-role="inquiry-form">
