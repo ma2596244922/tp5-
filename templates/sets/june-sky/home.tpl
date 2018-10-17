@@ -11,6 +11,7 @@
 <body>
     
     {include file="sets/june-sky/common/header.tpl" cur="home"}
+    {if $site.enable_slide|default:'0'}
     <div class="index_show">
         <div id="wowslider-container">
             <div class="ws_images">
@@ -35,6 +36,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     <div class="con_0">
         <!--产品分类 begin-->
