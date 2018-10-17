@@ -7,7 +7,7 @@
 
 <script type="text/javascript">{literal}
 (function(){
-  $("#quickSelect").mouseenter(function(e){
+  $("#quickSelect").click(function(e){
     $(this).children('dd').show()
   }).click(function(e){
     if(e.target.tagName != 'P') return false;
