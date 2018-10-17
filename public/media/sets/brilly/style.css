@@ -166,7 +166,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
       .Request table th,.Request table td {padding-bottom: 20px;vertical-align: top;}
         .Request .typeIn  {height: 30px;position: relative;line-height: 30px;background: #FFF;}
         .Request .typeIn2 {height: 140px;}
-        .Request .typeIn .msg  {z-index: 1;color: #CCC;background: #FFF;}
+        .Request .typeIn .msg  {z-index: 1;color: #757575;background: #FFF;}
         .Request .typeIn.error .msg  {color: #D72323;text-align: right;}
         .Request .typeIn.error *  {border-color: #D41313;}
         .Request .typeIn>*  {padding:0 15px;width: 680px;position: absolute;z-index: 2;background:none;border:1px solid #DDD;line-height: 28px;height: 28px;}
@@ -240,7 +240,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
         .ConBox.Request table th span {position: absolute;left: -10px;top:2px;color: #d41313;}
         .ConBox.Request table td .typeIn>*  {width: 635px;}
       .ConBox.Request .pic img  {height: 100%;}
-      .ConBox.Request .quickSelect  {line-height: 28px;border:1px solid #DDD;width: 665px;text-indent: 15px;color:#CCC;position: relative;background-color: #FFF;}
+      .ConBox.Request .quickSelect  {line-height: 28px;border:1px solid #DDD;width: 665px;text-indent: 15px;color:#757575;position: relative;background-color: #FFF;}
         .ConBox.Request .quickSelect dt.cur {color:#414141;}
         .ConBox.Request .quickSelect dd {position: absolute;top:-1px;left: -1px;right: -1px;z-index: 10;background-color: #FFF;border:1px solid #DDD;line-height: 30px;box-shadow: 1px 2px 3px #999;display: none;}
           .ConBox.Request .quickSelect dd p:hover {cursor: pointer;background-color: #F5F5F5;color: #414141;}
