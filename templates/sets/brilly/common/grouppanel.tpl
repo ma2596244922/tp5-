@@ -1,6 +1,6 @@
         <div class="ConBox">
           <div class="clear">&nbsp;</div>
-          <h2 class="Til">{$preset_translations.product_groups}</h2>
+          <h2 class="Til" id="tianjia">{$preset_translations.product_groups}</h2>
           <div class="clear">&nbsp;</div>
           <ul class="TextList">
 {foreach $groups as $g}{assign var="gid" value={$g.id|default:$g.group_id}}

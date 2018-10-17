@@ -1,6 +1,6 @@
         <div class="ConBox">
           <div class="clear">&nbsp;</div>
-          <h2 class="Til">Related Products</h2>
+          <h2 class="Til" id="tianjia">Related Products</h2>
           <ul class="PicTextList Type2">
 {foreach $latest_products as $product}{if $product@index>=3}{break}{/if}
             <li>
