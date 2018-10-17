@@ -42,7 +42,7 @@
             <th><span>*</span>{$preset_translations.message}</th>
             <td>
               <div class="typeIn typeIn2">
-              	<div>I want to buy <script>
+              	<div style="border:0;">I want to buy <script>
 x=document.getElementById("tianjia");
 document.write("<span>"+ x.innerHTML+ "</span>");
 </script></div>

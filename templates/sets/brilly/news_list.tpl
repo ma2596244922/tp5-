@@ -31,7 +31,7 @@
       </div>
       <div class="Right News">
         <div class="ListTitle ConBox">
-          <h1>{$preset_translations.company_news}</h1>
+          <h1 id="tianjia">{$preset_translations.company_news}</h1>
           <p>Show all the company news and by the news you'll find more details about our company.</p>
         </div>
         <ul class="ItemList">
