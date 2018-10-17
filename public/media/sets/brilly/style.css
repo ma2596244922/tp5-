@@ -165,7 +165,7 @@ i.icon  {background: url(/media/sets/brilly/icons.png) no-repeat;display: block;
       .Request table th {font-weight: normal;width: 80px;text-align: left;line-height: 30px;}
       .Request table th,.Request table td {padding-bottom: 20px;vertical-align: top;}
         .Request .typeIn  {height: 30px;position: relative;line-height: 30px;background: #FFF;}
-        .Request .typeIn2 {height: 140px;}
+        .Request .typeIn2 {height: 170px;}
         .Request .typeIn .msg  {z-index: 1;color: #757575;background: #FFF;}
         .Request .typeIn.error .msg  {color: #D72323;text-align: right;}
         .Request .typeIn.error *  {border-color: #D41313;}
