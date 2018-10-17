@@ -10,6 +10,8 @@
 
 <body>
 {include file="sets/msma/common/logobar.tpl"}
+
+{if $site.enable_slide|default:'0'}
 <!--********************banner********************-->
 <div id="banner">
   <a class="arrow-left" href="#"><i class="iconfont icon-arrow-left-circle"></i></a> 
@@ -38,6 +40,7 @@
 <div id="bannerpagination" class="pagination"></div>
 </div>
 <!--********************banner********************-->
+{/if}
 
 <!--********************ym_container********************-->
 <div class="ym_container">

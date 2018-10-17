@@ -37,6 +37,7 @@ class Site extends \crawler\daos\AbstractDAO
             'common_bg_image' => 'int',
             'enable_inquiry_checking' => 'tinyint',
             'enable_mobile_sites' => 'tinyint',
+            'enable_slide' => 'tinyint',
             'enable_https' => 'tinyint',
             'offline' => 'tinyint',
             'purl_prefix' => 'text',

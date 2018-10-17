@@ -16,11 +16,13 @@
 {include file="sets/brilly/common/navbar.tpl"}
 <div class="Content Shop noRoute">
   <div class="Page">
+    {if $site.enable_slide|default:'0'}
     <div class="ConBox Banner">
 {foreach $banners as $banner}{if $banner@index>0}{continue}{/if}
       <a href="{$banner.link}" title="{$banner.desc}" target="_blank"><img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}"></a>
 {/foreach}
     </div>
+    {/if}
     <div class="ConBox">
       <div class="clear">&nbsp;</div>
       <h2 class="Til">{$preset_translations.featured_products}</h2>

@@ -14,6 +14,7 @@
 {include file="sets/june-blue/common/header.tpl" cur="home"}
 
 <div class="main_wrap">
+    {if $site.enable_slide|default:'0'}
     <div class="swiper-container company-photo">
         <div class="swiper-wrapper">
             {foreach $banners as $banner}
@@ -22,6 +23,7 @@
         </div>
         <div class="swiper-pagination"></div>
     </div>
+    {/if}
 
     <div class="sider_wrap">
         {include file="sets/june-blue/common/left.tpl"}

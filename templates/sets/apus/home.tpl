@@ -10,11 +10,16 @@
 
 {include file="sets/apus/common/header.tpl"}
 
+
+{if $site.enable_slide|default:'0'}
 <div style="height:258px; display:block">
     {foreach $banners as $banner}{if $banner@index>=1} break{/if}
     <img src="{$banner.uri|url:'enterprise_url_photo'}" alt="{$banner.desc}">
     {/foreach}
 </div>
+{/if}
+
+
 <div class="place bw_1190" id="place">
     <div class="here fl-left">
         <span><a href="/" title="{$preset_translations.home}">{$preset_translations.home}</a>&nbsp;&gt;&nbsp;</span>

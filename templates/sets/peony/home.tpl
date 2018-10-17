@@ -13,6 +13,7 @@
 {include file="sets/peony/common/navbar.tpl" page_name="home"}
     <!--nav-->
 <!--nav-->
+{if $site.enable_slide|default:'0'}
 <div class="banner-block fl-clr">
     <div class="banner" id="banner"> 
         <div class="inner">
@@ -36,6 +37,7 @@
     <!--banner-right-->
 </div>
 <!--banner-block-->
+{/if}
 <div class="high-quality">
     <div class="title"><span>Our High Quality Products</span><a href="/products.html" class="more-btn">More</a></div>
     <ul>

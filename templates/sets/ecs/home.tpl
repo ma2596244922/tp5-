@@ -37,6 +37,7 @@
 <div class="content">
 {include file="sets/ecs/common/navbar.tpl"}
     <!--nav-->
+    {if $site.enable_slide|default:'0'}
     <div class="banner" id="banner">
         <div class="inner">
 {foreach $banners as $banner}
@@ -49,6 +50,7 @@
 {/foreach}
         </ul>
     </div>
+    {/if}
     <!--banner-->
     <div class="all-categories">
         <div class="title"><em><h2>{$preset_translations.all_categories}</h2></em><span><a href="/news">{$preset_translations.view_all}&nbsp;&nbsp;&gt;</a></span></div>

@@ -15,6 +15,7 @@
 <!-- header -->
 {include file="sets/partner/common/navbar.tpl"}
 <!-- nav -->
+{if $site.enable_slide|default:'0'}
 <div class="banner-slide">
     <div id="slideBox" class="slideBox">
         <div class="bd">
@@ -32,6 +33,7 @@
     </div>
 </div>
 <!--banner-slide-->
+{/if}
 <div class="main-category">
     <div class="h2-title">
         <h2>Main Products</h2>

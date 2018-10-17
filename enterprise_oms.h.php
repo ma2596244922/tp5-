@@ -1008,6 +1008,7 @@ function enterprise_oms_action_client_info($smarty)
     $industryId = (int)timandes_get_post_data('industry_id');
     $type = (int)timandes_get_post_data('type');
     $enable_mobile_sites = (int)timandes_get_post_data('enable_mobile_sites');
+    $enable_slide = (int)timandes_get_post_data('enable_slide');
     $offline = (int)timandes_get_post_data('offline');
     $csr = timandes_get_post_data('csr');
     $key = timandes_get_post_data('key');
@@ -1046,6 +1047,7 @@ function enterprise_oms_action_client_info($smarty)
     $values = array(
             'enable_inquiry_checking' => $enable_inquiry_checking,
             'enable_mobile_sites' => $enable_mobile_sites,
+            'enable_slide' => $enable_slide,
             'enable_https' => $enable_https,
             'offline' => $offline,
             'template' => $template,
