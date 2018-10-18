@@ -1,1 +1,0 @@
-        <link type="text/css" rel="stylesheet" href="/media/sets/mobile/shop-index.css">

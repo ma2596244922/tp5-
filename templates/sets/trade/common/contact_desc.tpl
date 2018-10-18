@@ -1,1 +1,0 @@
-{append var=contact_desc value="Phone" index="tel" scope="global"}

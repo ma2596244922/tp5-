@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="keywords" content="{$data[0]['type']}" />
+    <meta name="description" content="{$data[0]['type']} Web sites under category" />
+    <link rel="stylesheet" href="__STATIC__/css/index/index.css">
+    <script type="text/javascript" src="__STATIC__/js/home/home.js"></script>
+</head>
+<body>
+<!--header-->
+{include file="public/reception/header"/}
+<!--end header-->
+<!--content-->
+<div class="content_add"><a href="{:url('index/index/add_site')}">Add your website</a></div>
+<div class="content">
+
+    <div class="classify">
+        <ul>
+            <li class="classify_line">search result</li>
+        </ul>
+    </div>
+    <div class="classify_site">
+        <ul>
+            {volist name="data" id="vo"}
+                <li><a href="{$vo.site}">{$vo.name}</a></li>
+            {/volist}
+        </ul>
+    </div>
+
+
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/reception/foot"/}
+<!--end foot-->
+</body>
+</html>

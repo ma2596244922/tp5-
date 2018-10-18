@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div style="padding-top: 20px;margin-left: 35px;float: left">
+    <form action="{:url('index/admin/manage_grouping')}" method="post">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">分组名称</td>
+                <td><input type="text" value="" name="name"></td>
+            </tr>
+            <tr>
+                <td class="table_left">...</td>
+                <td><input type="text" value="" name="site"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="button"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div class="right">
+    <h1 style="text-align: center">所有分组</h1>
+    <table border="1" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="right_id">id</th>
+            <th class="right_name">分组名称</th>
+            <th class="right_site">...</th>
+            <th class="right_judge">操作</th>
+        </tr>
+        {foreach name="type" item="vo"}
+        <tr>
+            <td class="right_id">{$vo.id}</td>
+            <td class="right_name">{$vo.type}</td>
+            <td class="right_site">...</td>
+            <td class="right_judge" style="width: 12%;"><a href="{:url('index/admin/edit')}?id={$vo.id}">编辑分组</a>&nbsp;&nbsp;&nbsp;<a href="{:url('index/admin/edit')}?id={$vo.id}">删除</a></td>
+        </tr>
+        {/foreach}
+    </table>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

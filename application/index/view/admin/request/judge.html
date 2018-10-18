@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="right">
+    <form action="{:url('index/admin/submit')}" method="post">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">网站名称</td>
+                <td><input type="text" value="{$data[0]['name']}" name="name"></td>
+            </tr>
+            <tr>
+                <td class="table_left">网站链接</td>
+                <td><input type="text" value="{$data[0]['site']}" name="site"></td>
+            </tr>
+            <tr>
+                <td class="table_left">网站类别</td>
+                <td>
+                    <select name="category">
+                        {foreach name="type" item="vo"}
+                        <option value ="{$vo.id}">{$vo.type}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="table_left">审核</td>
+                <td><input type="radio" name="checked" value="0" checked="checked" />已审核<input type="radio" name="checked" value="1" />未审核</td>
+            </tr>
+            <input type="hidden" value="{$data[0]['id']}" name="id">
+            <tr>
+                <td colspan="2" class="button"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="right">
+
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">磁盘总大小</td>
+                <td>{$disk[0]}GB</td>
+            </tr>
+            <tr>
+                <td class="table_left">剩余磁盘大小</td>
+                <td>{$disk[1]}GB</td>
+            </tr>
+        </table>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

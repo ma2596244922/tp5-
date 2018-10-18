@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="right">
+    <form action="{:url('index/admin/alter')}" method="post">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">账号</td>
+                <td><input type="text" value="{$Think.session.name}" name="user"></td>
+            </tr>
+            <tr>
+                <td class="table_left">密码</td>
+                <td><input type="password" value="{$Think.session.password}" name="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2" class="button"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="keywords" content="cheap web hosting, cheap webhosting, web site hosting,low cost web hosting, affordable web hosting, domain hosting, business web hosting, reseler web hosting, ecommerce hosting, virtual dedicated server, virtual private server, managed dedicated server, domain name, domain registration, web design, cheap domain registration, Cpanel 6, shared hosting" />
+    <meta name="description" content="Provides Web Hosting and Domain Registration Service at Affordable Prices. We also offer Reseller Hosting, Virtual Private Server, Managed Dedicated Server and Web Site Development." />
+    <link rel="stylesheet" href="__STATIC__/css/index/index.css">
+    <link rel="stylesheet" href="__STATIC__/css/index/add_site.css">
+    <script type="text/javascript" src="__STATIC__/js/home/home.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.0.min.js"></script>
+</head>
+<body onload="document.getElementById('name').focus()">
+<!--header-->
+{include file="public/reception/header"/}
+<!--end header-->
+<!--content-->
+<div class="content_add"><a href="{:url('index/index/add_site')}">Add your website</a></div>
+<div class="content">
+    <form action="{:url('index/index/audit')}" method="post" onsubmit="return checkIP();">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td class="content_one">Web site name</td>
+                <td><input type="text" name="name" id="name" placeholder="Please enter your website name"  onblur="Check();" onkeyup="checkLength(this);"></td>
+            </tr>
+            <tr>
+                <td>Web site address</td>
+                <td><input type="text" name="site" id="site"  onblur="Site();" placeholder="Please enter your website address"></td>
+            </tr>
+            <tr>
+                <td>Site type</td>
+                <td>
+                    <select name="category" style="width: 400px">
+                        {foreach name="type" item="vo"}
+                        <option value ="{$vo.id}">{$vo.type}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+
+                <td colspan="2" class="submit"><input type="submit" value="Submit an application"></td>
+            </tr>
+        </table>
+
+    </form>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/reception/foot"/}
+<!--end foot-->
+</body>
+</html>

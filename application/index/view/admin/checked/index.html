@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="add"><a href="{:url('index/admin/add_site')}">添加新网址</a></div>
+<div class="right">
+    <table border="1" cellpadding="0" cellspacing="0">
+        <tr>
+            <th class="right_id">id</th>
+            <th class="right_name">网站名称</th>
+            <th class="right_site">网站地址</th>
+            <th class="right_site">网站类别</th>
+            <th class="right_judge">审核状态</th>
+            <th class="right_judge">操作</th>
+        </tr>
+        {foreach name="data" item="vo"}
+        <tr>
+            <td class="right_id">{$vo.id}</td>
+            <td>{$vo.name}</td>
+            <td>{$vo.site}</td>
+            <td>{$vo.type }</td>
+            <td class="right_judge"><a href="{:url('index/admin/judge')}?id={$vo.id}">{if condition="$vo['judge'] eq 0"}已审核{else /}未审核{/if}</a></td>
+            <td class="right_judge"><a href="{:url('index/admin/delete_request')}?id={$vo.id}">删除</a></td>
+        </tr>
+        {/foreach}
+    </table>
+    {$data->render()}
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

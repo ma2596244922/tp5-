@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="right">
+    <form action="{:url('index/admin/add_manage')}" method="post">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">网站名称</td>
+                <td><input type="text" placeholder="请输入网站名称" name="name"></td>
+            </tr>
+            <tr>
+                <td class="table_left">网站链接</td>
+                <td><input type="text" placeholder="网站链接"  name="site"></td>
+            </tr>
+            <tr>
+                <td class="table_left">网站类别</td>
+                <td>
+                    <select name="category">
+                        {foreach name="type" item="vo"}
+                        <option value ="{$vo.id}">{$vo.type}</option>
+                        {/foreach}
+                    </select>
+                </td>
+            </tr>
+            <input type="hidden" value="0" name="checked">
+            <tr>
+                <td colspan="2" class="button"><input type="submit" value="添加"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>

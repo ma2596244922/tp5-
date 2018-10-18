@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/index.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/admin/request.css" />
+</head>
+<body>
+<!--header-->
+{include file="public/admin/header"/}
+<!--end header-->
+<!--content-->
+<div class="right">
+    <form action="{:url('index/admin/submit_grouping')}" method="post">
+        <table border="1" cellpadding="10" cellspacing="0">
+            <tr>
+                <td class="table_left">分组名称</td>
+                <td><input type="text" value="{$type[0]['type']}" name="name"></td>
+            </tr>
+            <tr>
+                <td class="table_left">...</td>
+                <td><input type="text" value="" name="site"></td>
+            </tr>
+
+            <input type="hidden" value="{$type[0]['id']}" name="id">
+            <tr>
+                <td colspan="2" class="button"><input type="submit" value="提交"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<!--end content-->
+<!--foot-->
+{include file="public/admin/foot"/}
+<!--end foot-->
+</body>
+</html>
